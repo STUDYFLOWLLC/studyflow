@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col justify-between w-full h-screen bg-stone-100">
       <HomeHeader />
-      <HomeBody2 />
+      <HomeBody />
       <HomeFooter />
     </div>
   )
