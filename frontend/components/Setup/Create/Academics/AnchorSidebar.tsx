@@ -6,7 +6,7 @@ export default function AnchorSidebar() {
   useEffect(() => {
     setTargetOffset(100)
   }, [])
-  
+
   return (
     <Anchor style={{ paddingTop: '20px' }} targetOffset={targetOffset}>
       <Anchor.Link href="#create-account" title="Create your account" />

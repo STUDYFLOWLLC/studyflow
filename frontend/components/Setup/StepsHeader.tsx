@@ -3,11 +3,11 @@ import { Layout, Steps, Divider } from 'antd'
 import { BookOutlined, RocketOutlined, TeamOutlined } from '@ant-design/icons'
 
 interface StepsConfig {
-  currentStep: number;
-  changeStep(newStep: number): any;
+  currentStep: number
+  changeStep(newStep: number): any
 }
 
-const StepsHeader = ({ currentStep, changeStep }: StepsConfig) =>  {
+const StepsHeader = ({ currentStep, changeStep }: StepsConfig) => {
   return (
     <Layout.Header className="bg-slate-50 mt-4">
       <Steps

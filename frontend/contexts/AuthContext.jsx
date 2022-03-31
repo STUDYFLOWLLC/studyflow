@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react"
-import { auth, googleProvider } from "../firebase"
+import React, { useContext, useState, useEffect } from 'react'
+import { auth, googleProvider } from '../firebase'
 
 const AuthContext = React.createContext()
 
@@ -37,7 +37,7 @@ export default function AuthProvider({ children }) {
 
   function updateDisplayName(newDisplayName) {
     return currentUser.updateProfile({
-      displayName: newDisplayName,
+      displayName: newDisplayName
     })
   }
 
@@ -47,7 +47,7 @@ export default function AuthProvider({ children }) {
 
   function updatePhotoURL(url) {
     return currentUser.updateProfile({
-      photoURL: url,
+      photoURL: url
     })
   }
 
@@ -60,7 +60,7 @@ export default function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = auth.onAuthStateChanged(async user => {
       await setCurrentUser(user)
       setLoading(false)
     })
@@ -80,7 +80,7 @@ export default function AuthProvider({ children }) {
     updatePassword,
     updatePhotoURL,
     deleteUser,
-    reauthenticate,
+    reauthenticate
   }
 
   return (

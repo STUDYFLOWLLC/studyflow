@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Select, Modal, Row, Col, Statistic, Typography } from 'antd'
 
 interface Course {
-    School: string;
-    Term: string;
-    Code: string;
-    Title: string;
-    Instructor: string;
+  School: string
+  Term: string
+  Code: string
+  Title: string
+  Instructor: string
 }
 
 export default function ClassSearch() {
@@ -49,7 +49,7 @@ export default function ClassSearch() {
       Code: 'AAS 4550',
       Title: 'Race and the University',
       Instructor: 'Derek Chang (dsc37)'
-    },
+    }
   ]
 
   const handleSubmit = () => {
