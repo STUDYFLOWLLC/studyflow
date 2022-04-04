@@ -1,32 +1,17 @@
 import { makeExecutableSchema } from "@graphql-tools/schema"
 import type { GraphQLContext } from "./context"
-import { Link, Comment, prisma } from "@prisma/client"
+import { Users, Visibility } from "@prisma/client"
 
 const typeDefinitions = /* GraphQL */ `
   type Query {
-    info: String!
-    feed: [Link!]!
-    link(id: ID!): Link
-    comment(id: ID!): Comment
+    users: Users!
   }
 
   type Mutation {
-    postLink(url: String!, description: String!): Link!
-    postCommentOnLink(linkId: ID!, body: String!): Comment!
-  }
-
-  type Link {
-    id: ID!
-    description: String!
-    url: String!
-    comments: [Comment!]!
-  }
-
-  type Comment {
-    id: ID!
-    body: String!
-    linkId: String!
-    link: Link
+    createUser(
+      Email: String!, UID: String!, DisplayName: String!, 
+      ProfilePictureLink: String?, DefaultVisibility: Visbility?
+    ) : Users!
   }
 `
 
@@ -106,5 +91,5 @@ const resolvers = {
 
 export const schema = makeExecutableSchema({
   resolvers: [resolvers],
-  typeDefs: [typeDefinitions],
+  typeDefs: [typeDefinitions, Users],
 })

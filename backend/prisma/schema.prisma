@@ -10,17 +10,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Link {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  description String
-  url         String
-  comments    Comment[]
+enum Visibility {
+  HIDDEN
+  PRIVATE
+  PUBLIC
 }
 
-model Comment {
-  id        Int      @id @default(autoincrement())
-  body      String
-  link      Link?    @relation(fields: [linkId], references: [id])
-  linkId    Int?
+model Users {
+  UserID BigInt @id @default(autoincrement())
+  Email String 
+  UID String
+  DisplayName String
+  ProfilePictureLInk String ?
+  DefaultVisibility Visibility ?
 }
