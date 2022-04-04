@@ -16,11 +16,22 @@ enum Visibility {
   PUBLIC
 }
 
-model Users {
-  UserID BigInt @id @default(autoincrement())
-  Email String 
-  UID String
-  DisplayName String
-  ProfilePictureLInk String ?
-  DefaultVisibility Visibility ?
+model User {
+  UserID             Int     @id @default(autoincrement())
+  Email              String
+  UID                String?
+  DisplayName        String?
+  ProfilePictureLink String?
+  //DefaultVisibility  Visibility?
+  Flows              Flow[]
+}
+
+model Flow {
+  FlowID        Int         @id @default(autoincrement())
+  CreatedTime   DateTime    @default(now())
+  CreatedByUser User?       @relation(fields: [CreatedById], references: [UserID])
+  CreatedById   Int?
+  Title         String?
+  Body          String?
+  Visibility    Visibility?
 }
