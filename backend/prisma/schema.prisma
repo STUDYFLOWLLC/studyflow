@@ -5,6 +5,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "./generated/type-graphql"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -16,22 +21,33 @@ enum Visibility {
   PUBLIC
 }
 
+//holds user information
 model User {
-  UserID             Int     @id @default(autoincrement())
+  UserID             Int         @id @default(autoincrement())
   Email              String
   UID                String?
   DisplayName        String?
   ProfilePictureLink String?
-  //DefaultVisibility  Visibility?
+  DefaultVisibility  Visibility?
   Flows              Flow[]
 }
 
 model Flow {
-  FlowID        Int         @id @default(autoincrement())
-  CreatedTime   DateTime    @default(now())
-  CreatedByUser User?       @relation(fields: [CreatedById], references: [UserID])
-  CreatedById   Int?
-  Title         String?
-  Body          String?
-  Visibility    Visibility?
+  FlowID      Int         @id @default(autoincrement())
+  CreatedTime DateTime    @default(now())
+  FK_User     User?       @relation(fields: [FK_UserID], references: [UserID])
+  FK_UserID   Int?
+  Title       String?
+  Body        String?
+  Visibility  Visibility?
+  Tags        FlowTag[]
+}
+
+//tags for flows (Homework, Lecture, Recitation)
+model FlowTag {
+  FlowTagID  BigInt  @id @default(autoincrement())
+  Def        Boolean
+  Title      String
+  Flow       Flow?   @relation(fields: [FlowFlowID], references: [FlowID])
+  FlowFlowID Int?
 }

@@ -1,17 +1,19 @@
+import { User } from "nexus-prisma"
 import { mutationType, objectType, queryType } from "nexus"
-//import { Visibility } from "./Enums"
 
 //TODO: implement visibility enum
 
-export const User = objectType({
-    name: "User",
-    definition(t) {
-        t.model.UserID()
-        t.model.Email()
-        t.model.UID()
-        t.model.DisplayName()
-        t.model.ProfilePictureLink()
-        /* t.model.Flows()
+export const UserModel = objectType({
+  name: User.$name,
+  definition(t) {
+    t.field(User.UserID)
+    t.field(User.Email)
+    t.field(User.UID)
+    t.field(User.DisplayName)
+    t.field(User.ProfilePictureLink)
+    t.field(User.DefaultVisibility)
+    t.field(User.Flows)
+    /* t.model.Flows()
         t.list.field("Flows", {
             type: "Flow",
             resolve(parent, args, context) {
@@ -20,25 +22,20 @@ export const User = objectType({
                     .Flows()
             }
         }) */
-    }
+  },
 })
 
 export const UserQuery = queryType({
-    definition(t) {
-        t.crud.user()
-        t.crud.users({
-            ordering: true
-        })
-        t.crud.flow()
-        t.crud.flows({
-            filtering: true
-        })
-    }
+  definition(t) {
+    t.list.field("users", {
+      type: "User",
+      resolve(_, __, context) {
+        return context.prisma.user.findMany()
+      },
+    })
+  },
 })
 
 export const UserMutation = mutationType({
-    definition(t) {
-        t.crud.createOneUser()
-        t.crud.deleteOneUser()
-    }
+  definition(t) {},
 })

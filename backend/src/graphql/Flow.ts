@@ -1,14 +1,15 @@
+import { Flow } from "nexus-prisma"
 import { objectType } from "nexus"
 
-export const Flow = objectType({
-    name: "Flow",
-    definition(t) {
-        t.model.FlowID()
-        t.model.CreatedTime()
-        t.model.CreatedByUser()
-        t.model.CreatedById()
-        t.model.Title()
-        t.model.Body()
-        t.model.Visibility()
-    }
+export const FlowModel = objectType({
+  name: "Flow",
+  definition(t) {
+    t.field(Flow.FlowID)
+    t.field(Flow.CreatedTime)
+    t.field(Flow.CreatedByUser)
+    t.field(Flow.CreatedById)
+    t.field(Flow.Title)
+    t.field(Flow.Body)
+    t.field(Flow.Visibility)
+  },
 })
