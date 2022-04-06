@@ -38,6 +38,7 @@ model User {
 
 model CourseOnUser {
   CourseOnUserID Int     @id @default(autoincrement())
+  HOLDER         String? //This is used to avoid updateMany (bug?) error message. Happens in join tables with only id/fks
   FK_User        User?   @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
   FK_UserID      Int?
   FK_Course      Course? @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
@@ -87,6 +88,7 @@ model Flow {
 //creates many-to-many for tags and flows (flows can be related to many tags, and tags can be related to many flows)
 model FlowTagOnFlow {
   FlowTagOnFlowID Int      @id @default(autoincrement())
+  HOLDER          String? //This is used to avoid updateMany (bug?) error message. Happens in join tables with only id/fks
   FK_Flow         Flow?    @relation(fields: [FK_FlowID], references: [FlowID], onDelete: Cascade, onUpdate: Cascade)
   FK_FlowID       Int?
   FK_FlowTag      FlowTag? @relation(fields: [FK_FlowTagID], references: [FlowTagID], onDelete: Cascade, onUpdate: Cascade)
