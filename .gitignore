@@ -13,6 +13,9 @@
 /frontend/.next/
 /frontend/out/
 
+#generated 
+/backend/prisma/generated/type-graphql
+
 # production
 /frontend/build
 
