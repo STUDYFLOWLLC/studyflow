@@ -114,6 +114,7 @@ model FlashCardStack {
   FK_User          User?       @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID        Int?
   FK_Flashcards    FlashCard[]
+  Title            String?     @default("Untitled")
 }
 
 model FlashCard {
