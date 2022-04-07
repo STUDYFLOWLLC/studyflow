@@ -1,4 +1,4 @@
 node_modules
 build
 prisma/generated
-# Keep environment variables out of version control
+.next/cache
