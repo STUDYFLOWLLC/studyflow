@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "./generated/type-graphql"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Visibility {
+  HIDDEN
+  PRIVATE
+  PUBLIC
+}
+
+//holds user information. STANDARD: NULL IS A DELETED USER
+model User {
+  UserID             Int              @id @default(autoincrement())
+  CreatedTime        DateTime         @default(now())
+  Email              String
+  UID                String?
+  DisplayName        String?
+  ProfilePictureLink String?
+  DefaultVisibility  Visibility?
+  FK_Courses         CourseOnUser[]
+  FK_Flows           Flow[]
+  FK_FlowTags        FlowTag[]
+  FK_FlashCardStacks FlashCardStack[]
+}
+
+model CourseOnUser {
+  CourseOnUserID Int     @id @default(autoincrement())
+  HOLDER         String? //This is used to avoid updateMany (bug?) error message. Happens in join tables with only id/fks
+  FK_User        User?   @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserID      Int?
+  FK_Course      Course? @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
+  FK_CourseID    Int?
+}
+
+model Course {
+  CourseID      Int            @id @default(autoincrement())
+  CreatedTime   DateTime       @default(now())
+  FK_School     School?        @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
+  FK_SchoolID   Int?
+  FK_Professors Professor[]
+  FK_Users      CourseOnUser[]
+  IsOfficial    Boolean        @default(false)
+  Code          String?
+  Title         String?
+  Term          String?
+}
+
+model School {
+  SchoolID        Int      @id @default(autoincrement())
+  FK_Course       Course[]
+  Name            String
+  HasClassSupport Boolean
+}
+
+model Professor {
+  ProfessorID Int     @id @default(autoincrement())
+  FK_Course   Course? @relation(fields: [FK_CourseID], references: [CourseID], onDelete: SetNull, onUpdate: Cascade)
+  FK_CourseID Int?
+  Name        String
+}
+
+model Flow {
+  FlowID             Int              @id @default(autoincrement())
+  CreatedTime        DateTime         @default(now())
+  FK_User            User?            @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID          Int?
+  FK_Tags            FlowTagOnFlow[]
+  FK_FlashCardStacks FlashCardStack[]
+  Title              String?
+  Body               String?
+  Visibility         Visibility?
+
+}
+
+//creates many-to-many for tags and flows (flows can be related to many tags, and tags can be related to many flows)
+model FlowTagOnFlow {
+  FlowTagOnFlowID Int      @id @default(autoincrement())
+  HOLDER          String? //This is used to avoid updateMany (bug?) error message. Happens in join tables with only id/fks
+  FK_Flow         Flow?    @relation(fields: [FK_FlowID], references: [FlowID], onDelete: Cascade, onUpdate: Cascade)
+  FK_FlowID       Int?
+  FK_FlowTag      FlowTag? @relation(fields: [FK_FlowTagID], references: [FlowTagID], onDelete: Cascade, onUpdate: Cascade)
+  FK_FlowTagID    Int?
+}
+
+//tags for flows (Homework, Lecture, Recitation)
+model FlowTag {
+  FlowTagID   Int             @id @default(autoincrement())
+  CreatedTime DateTime        @default(now())
+  FK_User     User?           @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID   Int?
+  FK_Flows    FlowTagOnFlow[]
+  Public      Boolean         @default(false)
+  Name        String
+}
+
+model FlashCardStack {
+  FlashCardStackID Int         @id @default(autoincrement())
+  CreatedTime      DateTime    @default(now())
+  FK_Flow          Flow?       @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlowID        Int?
+  FK_User          User?       @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID        Int?
+  FK_Flashcards    FlashCard[]
+  Title            String?     @default("Untitled")
+}
+
+model FlashCard {
+  FlashCardID         Int             @id @default(autoincrement())
+  CreatedTime         DateTime        @default(now())
+  FK_FlashCardStack   FlashCardStack? @relation(fields: [FK_FlashCardStackID], references: [FlashCardStackID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashCardStackID Int?
+  Position            Int
+  Front               String?
+  Back                String?
+}
