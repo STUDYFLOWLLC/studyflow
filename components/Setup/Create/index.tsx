@@ -1,6 +1,5 @@
 import React from 'react'
 import Academics from 'components/Setup/Create/Academics'
-import Configure from 'components/Setup/Create/Configure'
 import AnchorSidebar from 'components/Setup/Create/Academics/AnchorSidebar'
 import CreateAccount from 'components/Setup/Create/CreateAccount'
 

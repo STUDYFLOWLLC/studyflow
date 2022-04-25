@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Layout, Typography } from 'antd'
-import { useAuth } from 'contexts/AuthContext'
 import ClassSearchBox from 'components/Setup/Create/Academics/ClassSearchBox'
 import SchoolSearchBox from 'components/Setup/Create/Academics/SchoolSearchBox'
 import TermInformation from 'components/Setup/Create/Academics/TermInformation'
 
 export default function Academics() {
-  const { currentUser } = useAuth()
   const [current, setCurrent] = useState(0)
   const [selectedSchool, setSelectedSchool] = useState('')
   const [termInfo, setTermInfo] = useState([])
@@ -16,11 +14,7 @@ export default function Academics() {
       <div className="bg-white d-flex">
         <div className="w-100 overflow-y d-flex flex-column justify-content-center">
           <Typography.Title id="academics" level={2}>
-            {currentUser ? (
-              <span>Academics</span>
-            ) : (
-              <span className="text-muted">Academics</span>
-            )}
+            <span>Academics</span>
           </Typography.Title>
           <SchoolSearchBox
             current={current}

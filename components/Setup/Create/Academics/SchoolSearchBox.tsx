@@ -1,5 +1,4 @@
 import React from 'react'
-import { useAuth } from 'contexts/AuthContext'
 import { Typography } from 'antd'
 import SchoolSearchBar from 'components/Setup/Create/Academics/SchoolSearchBar'
 
@@ -10,7 +9,6 @@ export default function SchoolSearchBox({
   setSelectedSchool,
   setTermInfo
 }) {
-  const { currentUser } = useAuth()
   const passSchoolEntry = () => {
     setCurrent(2)
     setSelectedSchool('LATER')
