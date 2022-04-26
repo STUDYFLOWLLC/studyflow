@@ -1,4 +1,4 @@
-import { ClockIcon, HomeIcon, ViewListIcon } from '@heroicons/react/outline'
+import { HomeIcon, UserGroupIcon, ViewListIcon } from '@heroicons/react/outline'
 
 export default function MainNavs() {
   const navigation = [
@@ -10,7 +10,13 @@ export default function MainNavs() {
       keyboard: 'T',
       current: false
     },
-    { name: 'Recent', href: '#', icon: ClockIcon, keyboard: '', current: false }
+    {
+      name: 'Community',
+      href: '#',
+      icon: UserGroupIcon,
+      keyboard: 'C',
+      current: false
+    }
   ]
 
   function classNames(...classes) {
@@ -43,7 +49,11 @@ export default function MainNavs() {
             />
             {item.name}
           </div>
-          {item.keyboard ? <kbd className="kbd kbd-sm">T</kbd> : <span></span>}
+          {item.keyboard ? (
+            <kbd className="kbd kbd-xs w-5">{item.keyboard}</kbd>
+          ) : (
+            <span></span>
+          )}
         </a>
       ))}
     </div>

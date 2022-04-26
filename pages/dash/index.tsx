@@ -1,3 +1,4 @@
+import CMDPalette from 'components/CMDPalette'
 import DashBar from 'components/Dashbar'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import FlowList from 'components/Dashboard/FlowList'
@@ -25,6 +26,7 @@ export default function Example() {
         </main>
       </div>
       <Taskover />
+      <CMDPalette />
     </div>
   )
 }

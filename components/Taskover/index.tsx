@@ -5,8 +5,8 @@ import { Fragment, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 export default function Example() {
-  const [open, setOpen] = useState(true)
-  useHotkeys('t', () => setOpen(!open), [open])
+  const [open, setOpen] = useState(false)
+  useHotkeys('n', () => setOpen(!open), [open])
 
   return (
     <Transition.Root show={open} as={Fragment}>

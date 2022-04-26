@@ -1,6 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { MenuAlt1Icon, XIcon } from '@heroicons/react/outline'
-import CourseNavs from 'components/Dashbar/CourseNavs'
 import MainNavs from 'components/DashBar/MainNavs'
 import DashSearch from 'components/DashHeadSmall/DashSearchSmall'
 import SmallProfileButton from 'components/DashHeadSmall/SmallProfileButton'
@@ -67,7 +66,7 @@ export default function index() {
               <div className="mt-5 flex-1 h-0 overflow-y-auto">
                 <nav className="px-2">
                   <MainNavs />
-                  <CourseNavs />
+                  {/* <CourseNavs /> */}
                 </nav>
               </div>
             </div>
