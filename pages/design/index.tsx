@@ -1,9 +1,9 @@
-import React from 'react'
-import Spinner from 'components/Design/Spin'
-import FlashCard from 'components/Design/FlashCard'
-import BreadCrumb from 'components/Design/BreadCrumb'
-import ToastTester from 'components/Design/ToastTester'
 import AppleButton from 'components/Auth/AppleButton'
+import BreadCrumb from 'components/Design/BreadCrumb'
+import FlashCard from 'components/Design/FlashCard'
+import Spinner from 'components/Design/Spin'
+import SVG from 'components/Design/SVG'
+import ToastTester from 'components/Design/ToastTester'
 
 export default function index() {
   return (
@@ -13,6 +13,7 @@ export default function index() {
       <BreadCrumb />
       <ToastTester />
       <AppleButton />
+      <SVG />
     </div>
   )
 }

@@ -1,8 +1,8 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { ChakraProvider } from '@chakra-ui/react'
-import { extendTheme } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { SessionProvider } from 'next-auth/react'
+import type { AppProps } from 'next/app'
+import '../styles/globals.css'
+import '../styles/transition.css'
 
 const colors = {
   brand: {

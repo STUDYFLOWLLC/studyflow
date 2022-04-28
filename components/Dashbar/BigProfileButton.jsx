@@ -1,18 +1,6 @@
-import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import {
-  ClockIcon,
-  HomeIcon,
-  MenuAlt1Icon,
-  ViewListIcon,
-  XIcon
-} from '@heroicons/react/outline'
-import {
-  ChevronRightIcon,
-  DotsVerticalIcon,
-  SearchIcon,
-  SelectorIcon
-} from '@heroicons/react/solid'
+import { SelectorIcon } from '@heroicons/react/solid'
+import { Fragment } from 'react'
 
 export default function BigProfileButton() {
   function classNames(...classes) {
@@ -20,9 +8,9 @@ export default function BigProfileButton() {
   }
 
   return (
-    <Menu as="div" className="px-3 mt-1 relative inline-block text-left">
+    <Menu as="div" className="px-2 mt-1 relative inline-block text-left">
       <div>
-        <Menu.Button className="group w-full bg-gray-100 rounded-md px-3.5 py-2 text-sm text-left font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-rose-400">
+        <Menu.Button className="group w-full bg-gray-100 rounded-md pl-2 pr-1 py-2 text-sm text-left font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-rose-400">
           <span className="flex w-full justify-between items-center">
             <span className="flex min-w-0 items-center justify-between space-x-3">
               <img

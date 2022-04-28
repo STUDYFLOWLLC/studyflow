@@ -16,7 +16,7 @@ export default function Example() {
   return (
     <div className="min-h-full">
       <DashBar searchValue={searchValue} setSearchValue={setSearchValue} />
-      <div className="lg:pl-64 flex flex-col">
+      <div className="lg:pl-56 flex flex-col">
         <DashHeadSmall />
         <main className="flex-1">
           <DashHeadBig />

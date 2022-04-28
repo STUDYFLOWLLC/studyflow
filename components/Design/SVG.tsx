@@ -1,0 +1,34 @@
+import Image from 'next/image'
+import logo from '../../images/logoanimated.svg'
+
+export default function SVG() {
+  return (
+    <div>
+      <Image src={logo} />
+      {/* <svg
+        width="128"
+        height="128"
+        data-name="Layer 1"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <link rel="stylesheet" href="styles/transition.css" type="text/css" />
+        <path
+          fill-opacity="0"
+          stroke="#74C2C5"
+          stroke-width="1"
+          d="M22 30h-5a7.008 7.008 0 0 1-7-7 6.683 6.683 0 0 1 2.024-4.697A6.793 6.793 0 0 0 10.01 18C5.043 18.047 4 24.551 4 30H2c0-11.51 4.345-13.966 7.99-14a10.072 10.072 0 0 1 4.48 1.117 1 1 0 0 1 .06 1.73A4.877 4.877 0 0 0 17 28h5ZM17 8h2v8h-2z"
+          className="svg-elem-1"
+          style={{ fill: 'transparent' }}
+        ></path>
+        <path
+          fill-opacity="0"
+          stroke="#74C2C5"
+          stroke-width="1"
+          d="M28 5.414 26.586 4l-2.262 2.262A9.95 9.95 0 0 0 19 4.05V2h-2v2.05A10.013 10.013 0 0 0 8 14h2a8 8 0 1 1 8 8v2a9.993 9.993 0 0 0 7.738-16.324Z"
+          className="svg-elem-2"
+          style={{ fill: 'transparent' }}
+        ></path>
+      </svg> */}
+    </div>
+  )
+}

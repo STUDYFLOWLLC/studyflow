@@ -50,10 +50,8 @@ export default function MainNavs() {
             {item.name}
           </div>
           {item.keyboard ? (
-            <kbd className="kbd kbd-xs w-5">{item.keyboard}</kbd>
-          ) : (
-            <span></span>
-          )}
+            <kbd className="kbd kbd-xs w-5 text-stone-600">{item.keyboard}</kbd>
+          ) : null}
         </a>
       ))}
     </div>
