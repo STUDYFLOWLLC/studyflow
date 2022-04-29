@@ -1,3 +1,4 @@
+import { useAuth } from 'contexts/AuthContext'
 import logo from 'images/wave.svg'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -8,8 +9,9 @@ import GoogleButton from './GoogleButton'
 
 export default function Login() {
   const [loading, setLoading] = useState(false)
-  const [email, setEmail] = useState('hello')
-  const [succeed, setSucceed] = useState(true)
+  const [email, setEmail] = useState('')
+  const [succeed, setSucceed] = useState(false)
+  const { user } = useAuth()
 
   const isValidEmail = (email: string): boolean => {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {

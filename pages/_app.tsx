@@ -1,6 +1,8 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import { SessionProvider } from 'next-auth/react'
+import AuthProvider from 'contexts/AuthContext'
+import { request } from 'graphql-request'
 import type { AppProps } from 'next/app'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { SWRConfig } from 'swr'
 import '../styles/globals.css'
 import '../styles/transition.css'
 
@@ -12,16 +14,16 @@ const colors = {
   }
 }
 
-const theme = extendTheme({ colors })
+const fetcher = query => request('/api/graphql', query)
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <>
-      <ChakraProvider theme={theme}>
-        <SessionProvider session={session}>
+      <SWRConfig value={{ fetcher: fetcher }}>
+        <AuthProvider>
           <Component {...pageProps} />
-        </SessionProvider>
-      </ChakraProvider>
+        </AuthProvider>
+      </SWRConfig>
     </>
   )
 }

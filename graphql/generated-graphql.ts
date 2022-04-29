@@ -4495,17 +4495,16 @@ export type StringWithAggregatesFilter = {
 
 export type User = {
   __typename?: 'User';
-  CreatedTime: Scalars['DateTime'];
   DefaultVisibility?: Maybe<Visibility>;
-  DisplayName?: Maybe<Scalars['String']>;
-  Email: Scalars['String'];
   FK_Courses: Array<CourseOnUser>;
   FK_FlashCardStacks: Array<FlashCardStack>;
   FK_FlowTags: Array<FlowTag>;
   FK_Flows: Array<Flow>;
   ProfilePictureLink?: Maybe<Scalars['String']>;
-  UID?: Maybe<Scalars['String']>;
+  SetupComplete: Scalars['Boolean'];
+  SupabaseID: Scalars['String'];
   UserID: Scalars['Int'];
+  Username?: Maybe<Scalars['String']>;
   _count?: Maybe<UserCount>;
 };
 
@@ -4568,47 +4567,43 @@ export type UserCount = {
 
 export type UserCountAggregate = {
   __typename?: 'UserCountAggregate';
-  CreatedTime: Scalars['Int'];
   DefaultVisibility: Scalars['Int'];
-  DisplayName: Scalars['Int'];
-  Email: Scalars['Int'];
   ProfilePictureLink: Scalars['Int'];
-  UID: Scalars['Int'];
+  SetupComplete: Scalars['Int'];
+  SupabaseID: Scalars['Int'];
   UserID: Scalars['Int'];
+  Username: Scalars['Int'];
   _all: Scalars['Int'];
 };
 
 export type UserCountOrderByAggregateInput = {
-  CreatedTime?: InputMaybe<SortOrder>;
   DefaultVisibility?: InputMaybe<SortOrder>;
-  DisplayName?: InputMaybe<SortOrder>;
-  Email?: InputMaybe<SortOrder>;
   ProfilePictureLink?: InputMaybe<SortOrder>;
-  UID?: InputMaybe<SortOrder>;
+  SetupComplete?: InputMaybe<SortOrder>;
+  SupabaseID?: InputMaybe<SortOrder>;
   UserID?: InputMaybe<SortOrder>;
+  Username?: InputMaybe<SortOrder>;
 };
 
 export type UserCreateInput = {
-  CreatedTime?: InputMaybe<Scalars['DateTime']>;
   DefaultVisibility?: InputMaybe<Visibility>;
-  DisplayName?: InputMaybe<Scalars['String']>;
-  Email: Scalars['String'];
   FK_Courses?: InputMaybe<CourseOnUserCreateNestedManyWithoutFk_UserInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackCreateNestedManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagCreateNestedManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowCreateNestedManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<Scalars['String']>;
-  UID?: InputMaybe<Scalars['String']>;
+  SetupComplete?: InputMaybe<Scalars['Boolean']>;
+  SupabaseID: Scalars['String'];
+  Username?: InputMaybe<Scalars['String']>;
 };
 
 export type UserCreateManyInput = {
-  CreatedTime?: InputMaybe<Scalars['DateTime']>;
   DefaultVisibility?: InputMaybe<Visibility>;
-  DisplayName?: InputMaybe<Scalars['String']>;
-  Email: Scalars['String'];
   ProfilePictureLink?: InputMaybe<Scalars['String']>;
-  UID?: InputMaybe<Scalars['String']>;
+  SetupComplete?: InputMaybe<Scalars['Boolean']>;
+  SupabaseID: Scalars['String'];
   UserID?: InputMaybe<Scalars['Int']>;
+  Username?: InputMaybe<Scalars['String']>;
 };
 
 export type UserCreateNestedOneWithoutFk_CoursesInput = {
@@ -4656,62 +4651,57 @@ export type UserCreateOrConnectWithoutFk_FlowsInput = {
 };
 
 export type UserCreateWithoutFk_CoursesInput = {
-  CreatedTime?: InputMaybe<Scalars['DateTime']>;
   DefaultVisibility?: InputMaybe<Visibility>;
-  DisplayName?: InputMaybe<Scalars['String']>;
-  Email: Scalars['String'];
   FK_FlashCardStacks?: InputMaybe<FlashCardStackCreateNestedManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagCreateNestedManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowCreateNestedManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<Scalars['String']>;
-  UID?: InputMaybe<Scalars['String']>;
+  SetupComplete?: InputMaybe<Scalars['Boolean']>;
+  SupabaseID: Scalars['String'];
+  Username?: InputMaybe<Scalars['String']>;
 };
 
 export type UserCreateWithoutFk_FlashCardStacksInput = {
-  CreatedTime?: InputMaybe<Scalars['DateTime']>;
   DefaultVisibility?: InputMaybe<Visibility>;
-  DisplayName?: InputMaybe<Scalars['String']>;
-  Email: Scalars['String'];
   FK_Courses?: InputMaybe<CourseOnUserCreateNestedManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagCreateNestedManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowCreateNestedManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<Scalars['String']>;
-  UID?: InputMaybe<Scalars['String']>;
+  SetupComplete?: InputMaybe<Scalars['Boolean']>;
+  SupabaseID: Scalars['String'];
+  Username?: InputMaybe<Scalars['String']>;
 };
 
 export type UserCreateWithoutFk_FlowTagsInput = {
-  CreatedTime?: InputMaybe<Scalars['DateTime']>;
   DefaultVisibility?: InputMaybe<Visibility>;
-  DisplayName?: InputMaybe<Scalars['String']>;
-  Email: Scalars['String'];
   FK_Courses?: InputMaybe<CourseOnUserCreateNestedManyWithoutFk_UserInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackCreateNestedManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowCreateNestedManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<Scalars['String']>;
-  UID?: InputMaybe<Scalars['String']>;
+  SetupComplete?: InputMaybe<Scalars['Boolean']>;
+  SupabaseID: Scalars['String'];
+  Username?: InputMaybe<Scalars['String']>;
 };
 
 export type UserCreateWithoutFk_FlowsInput = {
-  CreatedTime?: InputMaybe<Scalars['DateTime']>;
   DefaultVisibility?: InputMaybe<Visibility>;
-  DisplayName?: InputMaybe<Scalars['String']>;
-  Email: Scalars['String'];
   FK_Courses?: InputMaybe<CourseOnUserCreateNestedManyWithoutFk_UserInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackCreateNestedManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagCreateNestedManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<Scalars['String']>;
-  UID?: InputMaybe<Scalars['String']>;
+  SetupComplete?: InputMaybe<Scalars['Boolean']>;
+  SupabaseID: Scalars['String'];
+  Username?: InputMaybe<Scalars['String']>;
 };
 
 export type UserGroupBy = {
   __typename?: 'UserGroupBy';
-  CreatedTime: Scalars['DateTime'];
   DefaultVisibility?: Maybe<Visibility>;
-  DisplayName?: Maybe<Scalars['String']>;
-  Email: Scalars['String'];
   ProfilePictureLink?: Maybe<Scalars['String']>;
-  UID?: Maybe<Scalars['String']>;
+  SetupComplete: Scalars['Boolean'];
+  SupabaseID: Scalars['String'];
   UserID: Scalars['Int'];
+  Username?: Maybe<Scalars['String']>;
   _avg?: Maybe<UserAvgAggregate>;
   _count?: Maybe<UserCountAggregate>;
   _max?: Maybe<UserMaxAggregate>;
@@ -4721,54 +4711,49 @@ export type UserGroupBy = {
 
 export type UserMaxAggregate = {
   __typename?: 'UserMaxAggregate';
-  CreatedTime?: Maybe<Scalars['DateTime']>;
   DefaultVisibility?: Maybe<Visibility>;
-  DisplayName?: Maybe<Scalars['String']>;
-  Email?: Maybe<Scalars['String']>;
   ProfilePictureLink?: Maybe<Scalars['String']>;
-  UID?: Maybe<Scalars['String']>;
+  SetupComplete?: Maybe<Scalars['Boolean']>;
+  SupabaseID?: Maybe<Scalars['String']>;
   UserID?: Maybe<Scalars['Int']>;
+  Username?: Maybe<Scalars['String']>;
 };
 
 export type UserMaxOrderByAggregateInput = {
-  CreatedTime?: InputMaybe<SortOrder>;
   DefaultVisibility?: InputMaybe<SortOrder>;
-  DisplayName?: InputMaybe<SortOrder>;
-  Email?: InputMaybe<SortOrder>;
   ProfilePictureLink?: InputMaybe<SortOrder>;
-  UID?: InputMaybe<SortOrder>;
+  SetupComplete?: InputMaybe<SortOrder>;
+  SupabaseID?: InputMaybe<SortOrder>;
   UserID?: InputMaybe<SortOrder>;
+  Username?: InputMaybe<SortOrder>;
 };
 
 export type UserMinAggregate = {
   __typename?: 'UserMinAggregate';
-  CreatedTime?: Maybe<Scalars['DateTime']>;
   DefaultVisibility?: Maybe<Visibility>;
-  DisplayName?: Maybe<Scalars['String']>;
-  Email?: Maybe<Scalars['String']>;
   ProfilePictureLink?: Maybe<Scalars['String']>;
-  UID?: Maybe<Scalars['String']>;
+  SetupComplete?: Maybe<Scalars['Boolean']>;
+  SupabaseID?: Maybe<Scalars['String']>;
   UserID?: Maybe<Scalars['Int']>;
+  Username?: Maybe<Scalars['String']>;
 };
 
 export type UserMinOrderByAggregateInput = {
-  CreatedTime?: InputMaybe<SortOrder>;
   DefaultVisibility?: InputMaybe<SortOrder>;
-  DisplayName?: InputMaybe<SortOrder>;
-  Email?: InputMaybe<SortOrder>;
   ProfilePictureLink?: InputMaybe<SortOrder>;
-  UID?: InputMaybe<SortOrder>;
+  SetupComplete?: InputMaybe<SortOrder>;
+  SupabaseID?: InputMaybe<SortOrder>;
   UserID?: InputMaybe<SortOrder>;
+  Username?: InputMaybe<SortOrder>;
 };
 
 export type UserOrderByWithAggregationInput = {
-  CreatedTime?: InputMaybe<SortOrder>;
   DefaultVisibility?: InputMaybe<SortOrder>;
-  DisplayName?: InputMaybe<SortOrder>;
-  Email?: InputMaybe<SortOrder>;
   ProfilePictureLink?: InputMaybe<SortOrder>;
-  UID?: InputMaybe<SortOrder>;
+  SetupComplete?: InputMaybe<SortOrder>;
+  SupabaseID?: InputMaybe<SortOrder>;
   UserID?: InputMaybe<SortOrder>;
+  Username?: InputMaybe<SortOrder>;
   _avg?: InputMaybe<UserAvgOrderByAggregateInput>;
   _count?: InputMaybe<UserCountOrderByAggregateInput>;
   _max?: InputMaybe<UserMaxOrderByAggregateInput>;
@@ -4777,17 +4762,16 @@ export type UserOrderByWithAggregationInput = {
 };
 
 export type UserOrderByWithRelationInput = {
-  CreatedTime?: InputMaybe<SortOrder>;
   DefaultVisibility?: InputMaybe<SortOrder>;
-  DisplayName?: InputMaybe<SortOrder>;
-  Email?: InputMaybe<SortOrder>;
   FK_Courses?: InputMaybe<CourseOnUserOrderByRelationAggregateInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackOrderByRelationAggregateInput>;
   FK_FlowTags?: InputMaybe<FlowTagOrderByRelationAggregateInput>;
   FK_Flows?: InputMaybe<FlowOrderByRelationAggregateInput>;
   ProfilePictureLink?: InputMaybe<SortOrder>;
-  UID?: InputMaybe<SortOrder>;
+  SetupComplete?: InputMaybe<SortOrder>;
+  SupabaseID?: InputMaybe<SortOrder>;
   UserID?: InputMaybe<SortOrder>;
+  Username?: InputMaybe<SortOrder>;
 };
 
 export type UserRelationFilter = {
@@ -4796,26 +4780,24 @@ export type UserRelationFilter = {
 };
 
 export enum UserScalarFieldEnum {
-  CreatedTime = 'CreatedTime',
   DefaultVisibility = 'DefaultVisibility',
-  DisplayName = 'DisplayName',
-  Email = 'Email',
   ProfilePictureLink = 'ProfilePictureLink',
-  Uid = 'UID',
-  UserId = 'UserID'
+  SetupComplete = 'SetupComplete',
+  SupabaseId = 'SupabaseID',
+  UserId = 'UserID',
+  Username = 'Username'
 }
 
 export type UserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
-  CreatedTime?: InputMaybe<DateTimeWithAggregatesFilter>;
   DefaultVisibility?: InputMaybe<EnumVisibilityNullableWithAggregatesFilter>;
-  DisplayName?: InputMaybe<StringNullableWithAggregatesFilter>;
-  Email?: InputMaybe<StringWithAggregatesFilter>;
   NOT?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
   OR?: InputMaybe<Array<UserScalarWhereWithAggregatesInput>>;
   ProfilePictureLink?: InputMaybe<StringNullableWithAggregatesFilter>;
-  UID?: InputMaybe<StringNullableWithAggregatesFilter>;
+  SetupComplete?: InputMaybe<BoolWithAggregatesFilter>;
+  SupabaseID?: InputMaybe<StringWithAggregatesFilter>;
   UserID?: InputMaybe<IntWithAggregatesFilter>;
+  Username?: InputMaybe<StringNullableWithAggregatesFilter>;
 };
 
 export type UserSumAggregate = {
@@ -4828,25 +4810,23 @@ export type UserSumOrderByAggregateInput = {
 };
 
 export type UserUpdateInput = {
-  CreatedTime?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   DefaultVisibility?: InputMaybe<NullableEnumVisibilityFieldUpdateOperationsInput>;
-  DisplayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  Email?: InputMaybe<StringFieldUpdateOperationsInput>;
   FK_Courses?: InputMaybe<CourseOnUserUpdateManyWithoutFk_UserInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackUpdateManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagUpdateManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowUpdateManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  UID?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  SetupComplete?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  SupabaseID?: InputMaybe<StringFieldUpdateOperationsInput>;
+  Username?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateManyMutationInput = {
-  CreatedTime?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   DefaultVisibility?: InputMaybe<NullableEnumVisibilityFieldUpdateOperationsInput>;
-  DisplayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  Email?: InputMaybe<StringFieldUpdateOperationsInput>;
   ProfilePictureLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  UID?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  SetupComplete?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  SupabaseID?: InputMaybe<StringFieldUpdateOperationsInput>;
+  Username?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateOneWithoutFk_CoursesInput = {
@@ -4890,51 +4870,47 @@ export type UserUpdateOneWithoutFk_FlowsInput = {
 };
 
 export type UserUpdateWithoutFk_CoursesInput = {
-  CreatedTime?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   DefaultVisibility?: InputMaybe<NullableEnumVisibilityFieldUpdateOperationsInput>;
-  DisplayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  Email?: InputMaybe<StringFieldUpdateOperationsInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackUpdateManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagUpdateManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowUpdateManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  UID?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  SetupComplete?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  SupabaseID?: InputMaybe<StringFieldUpdateOperationsInput>;
+  Username?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutFk_FlashCardStacksInput = {
-  CreatedTime?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   DefaultVisibility?: InputMaybe<NullableEnumVisibilityFieldUpdateOperationsInput>;
-  DisplayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  Email?: InputMaybe<StringFieldUpdateOperationsInput>;
   FK_Courses?: InputMaybe<CourseOnUserUpdateManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagUpdateManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowUpdateManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  UID?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  SetupComplete?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  SupabaseID?: InputMaybe<StringFieldUpdateOperationsInput>;
+  Username?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutFk_FlowTagsInput = {
-  CreatedTime?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   DefaultVisibility?: InputMaybe<NullableEnumVisibilityFieldUpdateOperationsInput>;
-  DisplayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  Email?: InputMaybe<StringFieldUpdateOperationsInput>;
   FK_Courses?: InputMaybe<CourseOnUserUpdateManyWithoutFk_UserInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackUpdateManyWithoutFk_UserInput>;
   FK_Flows?: InputMaybe<FlowUpdateManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  UID?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  SetupComplete?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  SupabaseID?: InputMaybe<StringFieldUpdateOperationsInput>;
+  Username?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateWithoutFk_FlowsInput = {
-  CreatedTime?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   DefaultVisibility?: InputMaybe<NullableEnumVisibilityFieldUpdateOperationsInput>;
-  DisplayName?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  Email?: InputMaybe<StringFieldUpdateOperationsInput>;
   FK_Courses?: InputMaybe<CourseOnUserUpdateManyWithoutFk_UserInput>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackUpdateManyWithoutFk_UserInput>;
   FK_FlowTags?: InputMaybe<FlowTagUpdateManyWithoutFk_UserInput>;
   ProfilePictureLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  UID?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  SetupComplete?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  SupabaseID?: InputMaybe<StringFieldUpdateOperationsInput>;
+  Username?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type UserUpsertWithoutFk_CoursesInput = {
@@ -4959,10 +4935,7 @@ export type UserUpsertWithoutFk_FlowsInput = {
 
 export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
-  CreatedTime?: InputMaybe<DateTimeFilter>;
   DefaultVisibility?: InputMaybe<EnumVisibilityNullableFilter>;
-  DisplayName?: InputMaybe<StringNullableFilter>;
-  Email?: InputMaybe<StringFilter>;
   FK_Courses?: InputMaybe<CourseOnUserListRelationFilter>;
   FK_FlashCardStacks?: InputMaybe<FlashCardStackListRelationFilter>;
   FK_FlowTags?: InputMaybe<FlowTagListRelationFilter>;
@@ -4970,8 +4943,10 @@ export type UserWhereInput = {
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   ProfilePictureLink?: InputMaybe<StringNullableFilter>;
-  UID?: InputMaybe<StringNullableFilter>;
+  SetupComplete?: InputMaybe<BoolFilter>;
+  SupabaseID?: InputMaybe<StringFilter>;
   UserID?: InputMaybe<IntFilter>;
+  Username?: InputMaybe<StringNullableFilter>;
 };
 
 export type UserWhereUniqueInput = {
