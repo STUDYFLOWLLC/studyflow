@@ -1,4 +1,5 @@
 import { HomeIcon, UserGroupIcon, ViewListIcon } from '@heroicons/react/outline'
+import classnames from 'classnames'
 
 export default function MainNavs() {
   const navigation = [
@@ -8,42 +9,38 @@ export default function MainNavs() {
       href: '#',
       icon: ViewListIcon,
       keyboard: 'T',
-      current: false
+      current: false,
     },
     {
       name: 'Community',
       href: '#',
       icon: UserGroupIcon,
       keyboard: 'C',
-      current: false
-    }
+      current: false,
+    },
   ]
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
 
   return (
     <div className="space-y-1">
-      {navigation.map(item => (
+      {navigation.map((item) => (
         <a
           key={item.name}
           href={item.href}
-          className={classNames(
+          className={classnames(
             item.current
               ? 'bg-gray-200 text-gray-900'
               : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
-            'group flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md'
+            'group flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md',
           )}
           aria-current={item.current ? 'page' : undefined}
         >
           <div className="flex">
             <item.icon
-              className={classNames(
+              className={classnames(
                 item.current
                   ? 'text-gray-500'
                   : 'text-gray-400 group-hover:text-gray-500',
-                'mr-3 flex-shrink-0 h-6 w-6'
+                'mr-3 flex-shrink-0 h-6 w-6',
               )}
               aria-hidden="true"
             />

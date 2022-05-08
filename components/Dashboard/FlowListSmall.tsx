@@ -1,18 +1,5 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-  ClockIcon,
-  HomeIcon,
-  MenuAlt1Icon,
-  ViewListIcon,
-  XIcon
-} from '@heroicons/react/outline'
-import {
-  ChevronRightIcon,
-  DotsVerticalIcon,
-  SearchIcon,
-  SelectorIcon
-} from '@heroicons/react/solid'
+import { ChevronRightIcon } from '@heroicons/react/solid'
+import classnames from 'classnames'
 
 export default function FlowListSmall() {
   const projects = [
@@ -26,38 +13,34 @@ export default function FlowListSmall() {
           name: 'Dries Vincent',
           handle: 'driesvincent',
           imageUrl:
-            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Lindsay Walton',
           handle: 'lindsaywalton',
           imageUrl:
-            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Courtney Henry',
           handle: 'courtneyhenry',
           imageUrl:
-            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Tom Cook',
           handle: 'tomcook',
           imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-        }
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
       ],
       totalMembers: 12,
       lastUpdated: 'March 17, 2020',
       pinned: true,
-      bgColorClass: 'bg-pink-600'
-    }
+      bgColorClass: 'bg-pink-600',
+    },
     // More projects...
   ]
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
 
   return (
     <div className="mt-10 sm:hidden">
@@ -66,11 +49,8 @@ export default function FlowListSmall() {
           Recent Flows
         </h2>
       </div>
-      <ul
-        role="list"
-        className="mt-3 border-t border-gray-200 divide-y divide-gray-100"
-      >
-        {projects.map(project => (
+      <ul className="mt-3 border-t border-gray-200 divide-y divide-gray-100">
+        {projects.map((project) => (
           <li key={project.id}>
             <a
               href="#"
@@ -78,9 +58,9 @@ export default function FlowListSmall() {
             >
               <span className="flex items-center truncate space-x-3">
                 <span
-                  className={classNames(
+                  className={classnames(
                     project.bgColorClass,
-                    'w-2.5 h-2.5 flex-shrink-0 rounded-full'
+                    'w-2.5 h-2.5 flex-shrink-0 rounded-full',
                   )}
                   aria-hidden="true"
                 />

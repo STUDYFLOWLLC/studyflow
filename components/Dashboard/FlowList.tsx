@@ -1,18 +1,4 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-  ClockIcon,
-  HomeIcon,
-  MenuAlt1Icon,
-  ViewListIcon,
-  XIcon
-} from '@heroicons/react/outline'
-import {
-  ChevronRightIcon,
-  DotsVerticalIcon,
-  SearchIcon,
-  SelectorIcon
-} from '@heroicons/react/solid'
+import classnames from 'classnames'
 
 export default function FlowList() {
   const projects = [
@@ -26,38 +12,34 @@ export default function FlowList() {
           name: 'Dries Vincent',
           handle: 'driesvincent',
           imageUrl:
-            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Lindsay Walton',
           handle: 'lindsaywalton',
           imageUrl:
-            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Courtney Henry',
           handle: 'courtneyhenry',
           imageUrl:
-            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Tom Cook',
           handle: 'tomcook',
           imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-        }
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
       ],
       totalMembers: 12,
       lastUpdated: 'March 17, 2020',
       pinned: true,
-      bgColorClass: 'bg-pink-600'
-    }
+      bgColorClass: 'bg-pink-600',
+    },
     // More projects...
   ]
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
 
   return (
     <div className="hidden mt-8 sm:block">
@@ -74,18 +56,18 @@ export default function FlowList() {
               <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Last updated
               </th>
-              <th className="pr-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider" />
+              <p className="pr-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider" />
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
-            {projects.map(project => (
+            {projects.map((project) => (
               <tr key={project.id}>
                 <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
                   <div className="flex items-center space-x-3 lg:pl-2">
                     <div
-                      className={classNames(
+                      className={classnames(
                         project.bgColorClass,
-                        'flex-shrink-0 w-2.5 h-2.5 rounded-full'
+                        'flex-shrink-0 w-2.5 h-2.5 rounded-full',
                       )}
                       aria-hidden="true"
                     />
@@ -102,7 +84,7 @@ export default function FlowList() {
                 <td className="px-6 py-3 text-sm text-gray-500 font-medium">
                   <div className="flex items-center space-x-2">
                     <div className="flex flex-shrink-0 -space-x-1">
-                      {project.members.map(member => (
+                      {project.members.map((member) => (
                         <img
                           key={member.handle}
                           className="max-w-none h-6 w-6 rounded-full ring-2 ring-white"

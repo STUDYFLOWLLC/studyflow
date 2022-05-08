@@ -108,10 +108,24 @@ type Course {
   Code: String
   CourseID: Int!
   CreatedTime: DateTime!
-  FK_Professors(cursor: ProfessorWhereUniqueInput, distinct: [ProfessorScalarFieldEnum!], orderBy: [ProfessorOrderByWithRelationInput!], skip: Int, take: Int, where: ProfessorWhereInput): [Professor!]!
+  FK_Professors(
+    cursor: ProfessorWhereUniqueInput
+    distinct: [ProfessorScalarFieldEnum!]
+    orderBy: [ProfessorOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: ProfessorWhereInput
+  ): [Professor!]!
   FK_School: School
   FK_SchoolID: Int
-  FK_Users(cursor: CourseOnUserWhereUniqueInput, distinct: [CourseOnUserScalarFieldEnum!], orderBy: [CourseOnUserOrderByWithRelationInput!], skip: Int, take: Int, where: CourseOnUserWhereInput): [CourseOnUser!]!
+  FK_Users(
+    cursor: CourseOnUserWhereUniqueInput
+    distinct: [CourseOnUserScalarFieldEnum!]
+    orderBy: [CourseOnUserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseOnUserWhereInput
+  ): [CourseOnUser!]!
   IsOfficial: Boolean!
   Term: String
   Title: String
@@ -1097,7 +1111,14 @@ input FlashCardScalarWhereWithAggregatesInput {
 
 type FlashCardStack {
   CreatedTime: DateTime!
-  FK_Flashcards(cursor: FlashCardWhereUniqueInput, distinct: [FlashCardScalarFieldEnum!], orderBy: [FlashCardOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardWhereInput): [FlashCard!]!
+  FK_Flashcards(
+    cursor: FlashCardWhereUniqueInput
+    distinct: [FlashCardScalarFieldEnum!]
+    orderBy: [FlashCardOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardWhereInput
+  ): [FlashCard!]!
   FK_Flow: Flow
   FK_FlowID: Int
   FK_User: User
@@ -1573,8 +1594,22 @@ input FlashCardWhereUniqueInput {
 type Flow {
   Body: String
   CreatedTime: DateTime!
-  FK_FlashCardStacks(cursor: FlashCardStackWhereUniqueInput, distinct: [FlashCardStackScalarFieldEnum!], orderBy: [FlashCardStackOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardStackWhereInput): [FlashCardStack!]!
-  FK_Tags(cursor: FlowTagOnFlowWhereUniqueInput, distinct: [FlowTagOnFlowScalarFieldEnum!], orderBy: [FlowTagOnFlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagOnFlowWhereInput): [FlowTagOnFlow!]!
+  FK_FlashCardStacks(
+    cursor: FlashCardStackWhereUniqueInput
+    distinct: [FlashCardStackScalarFieldEnum!]
+    orderBy: [FlashCardStackOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardStackWhereInput
+  ): [FlashCardStack!]!
+  FK_Tags(
+    cursor: FlowTagOnFlowWhereUniqueInput
+    distinct: [FlowTagOnFlowScalarFieldEnum!]
+    orderBy: [FlowTagOnFlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagOnFlowWhereInput
+  ): [FlowTagOnFlow!]!
   FK_User: User
   FK_UserID: Int
   FlowID: Int!
@@ -1846,7 +1881,14 @@ input FlowSumOrderByAggregateInput {
 
 type FlowTag {
   CreatedTime: DateTime!
-  FK_Flows(cursor: FlowTagOnFlowWhereUniqueInput, distinct: [FlowTagOnFlowScalarFieldEnum!], orderBy: [FlowTagOnFlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagOnFlowWhereInput): [FlowTagOnFlow!]!
+  FK_Flows(
+    cursor: FlowTagOnFlowWhereUniqueInput
+    distinct: [FlowTagOnFlowScalarFieldEnum!]
+    orderBy: [FlowTagOnFlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagOnFlowWhereInput
+  ): [FlowTagOnFlow!]!
   FK_User: User
   FK_UserID: Int
   FlowTagID: Int!
@@ -2668,16 +2710,46 @@ type Mutation {
   createFlow(data: FlowCreateInput!): Flow!
   createFlowTag(data: FlowTagCreateInput!): FlowTag!
   createFlowTagOnFlow(data: FlowTagOnFlowCreateInput!): FlowTagOnFlow!
-  createManyCourse(data: [CourseCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyCourseOnUser(data: [CourseOnUserCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyFlashCard(data: [FlashCardCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyFlashCardStack(data: [FlashCardStackCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyFlow(data: [FlowCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyFlowTag(data: [FlowTagCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyFlowTagOnFlow(data: [FlowTagOnFlowCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyProfessor(data: [ProfessorCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManySchool(data: [SchoolCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyUser(data: [UserCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  createManyCourse(
+    data: [CourseCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyCourseOnUser(
+    data: [CourseOnUserCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyFlashCard(
+    data: [FlashCardCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyFlashCardStack(
+    data: [FlashCardStackCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyFlow(
+    data: [FlowCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyFlowTag(
+    data: [FlowTagCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyFlowTagOnFlow(
+    data: [FlowTagOnFlowCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyProfessor(
+    data: [ProfessorCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManySchool(
+    data: [SchoolCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
+  createManyUser(
+    data: [UserCreateManyInput!]!
+    skipDuplicates: Boolean
+  ): AffectedRowsOutput!
   createProfessor(data: ProfessorCreateInput!): Professor!
   createSchool(data: SchoolCreateInput!): School!
   createUser(data: UserCreateInput!): User!
@@ -2702,35 +2774,123 @@ type Mutation {
   deleteSchool(where: SchoolWhereUniqueInput!): School
   deleteUser(where: UserWhereUniqueInput!): User
   updateCourse(data: CourseUpdateInput!, where: CourseWhereUniqueInput!): Course
-  updateCourseOnUser(data: CourseOnUserUpdateInput!, where: CourseOnUserWhereUniqueInput!): CourseOnUser
-  updateFlashCard(data: FlashCardUpdateInput!, where: FlashCardWhereUniqueInput!): FlashCard
-  updateFlashCardStack(data: FlashCardStackUpdateInput!, where: FlashCardStackWhereUniqueInput!): FlashCardStack
+  updateCourseOnUser(
+    data: CourseOnUserUpdateInput!
+    where: CourseOnUserWhereUniqueInput!
+  ): CourseOnUser
+  updateFlashCard(
+    data: FlashCardUpdateInput!
+    where: FlashCardWhereUniqueInput!
+  ): FlashCard
+  updateFlashCardStack(
+    data: FlashCardStackUpdateInput!
+    where: FlashCardStackWhereUniqueInput!
+  ): FlashCardStack
   updateFlow(data: FlowUpdateInput!, where: FlowWhereUniqueInput!): Flow
-  updateFlowTag(data: FlowTagUpdateInput!, where: FlowTagWhereUniqueInput!): FlowTag
-  updateFlowTagOnFlow(data: FlowTagOnFlowUpdateInput!, where: FlowTagOnFlowWhereUniqueInput!): FlowTagOnFlow
-  updateManyCourse(data: CourseUpdateManyMutationInput!, where: CourseWhereInput): AffectedRowsOutput!
-  updateManyCourseOnUser(data: CourseOnUserUpdateManyMutationInput!, where: CourseOnUserWhereInput): AffectedRowsOutput!
-  updateManyFlashCard(data: FlashCardUpdateManyMutationInput!, where: FlashCardWhereInput): AffectedRowsOutput!
-  updateManyFlashCardStack(data: FlashCardStackUpdateManyMutationInput!, where: FlashCardStackWhereInput): AffectedRowsOutput!
-  updateManyFlow(data: FlowUpdateManyMutationInput!, where: FlowWhereInput): AffectedRowsOutput!
-  updateManyFlowTag(data: FlowTagUpdateManyMutationInput!, where: FlowTagWhereInput): AffectedRowsOutput!
-  updateManyFlowTagOnFlow(data: FlowTagOnFlowUpdateManyMutationInput!, where: FlowTagOnFlowWhereInput): AffectedRowsOutput!
-  updateManyProfessor(data: ProfessorUpdateManyMutationInput!, where: ProfessorWhereInput): AffectedRowsOutput!
-  updateManySchool(data: SchoolUpdateManyMutationInput!, where: SchoolWhereInput): AffectedRowsOutput!
-  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
-  updateProfessor(data: ProfessorUpdateInput!, where: ProfessorWhereUniqueInput!): Professor
+  updateFlowTag(
+    data: FlowTagUpdateInput!
+    where: FlowTagWhereUniqueInput!
+  ): FlowTag
+  updateFlowTagOnFlow(
+    data: FlowTagOnFlowUpdateInput!
+    where: FlowTagOnFlowWhereUniqueInput!
+  ): FlowTagOnFlow
+  updateManyCourse(
+    data: CourseUpdateManyMutationInput!
+    where: CourseWhereInput
+  ): AffectedRowsOutput!
+  updateManyCourseOnUser(
+    data: CourseOnUserUpdateManyMutationInput!
+    where: CourseOnUserWhereInput
+  ): AffectedRowsOutput!
+  updateManyFlashCard(
+    data: FlashCardUpdateManyMutationInput!
+    where: FlashCardWhereInput
+  ): AffectedRowsOutput!
+  updateManyFlashCardStack(
+    data: FlashCardStackUpdateManyMutationInput!
+    where: FlashCardStackWhereInput
+  ): AffectedRowsOutput!
+  updateManyFlow(
+    data: FlowUpdateManyMutationInput!
+    where: FlowWhereInput
+  ): AffectedRowsOutput!
+  updateManyFlowTag(
+    data: FlowTagUpdateManyMutationInput!
+    where: FlowTagWhereInput
+  ): AffectedRowsOutput!
+  updateManyFlowTagOnFlow(
+    data: FlowTagOnFlowUpdateManyMutationInput!
+    where: FlowTagOnFlowWhereInput
+  ): AffectedRowsOutput!
+  updateManyProfessor(
+    data: ProfessorUpdateManyMutationInput!
+    where: ProfessorWhereInput
+  ): AffectedRowsOutput!
+  updateManySchool(
+    data: SchoolUpdateManyMutationInput!
+    where: SchoolWhereInput
+  ): AffectedRowsOutput!
+  updateManyUser(
+    data: UserUpdateManyMutationInput!
+    where: UserWhereInput
+  ): AffectedRowsOutput!
+  updateProfessor(
+    data: ProfessorUpdateInput!
+    where: ProfessorWhereUniqueInput!
+  ): Professor
   updateSchool(data: SchoolUpdateInput!, where: SchoolWhereUniqueInput!): School
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  upsertCourse(create: CourseCreateInput!, update: CourseUpdateInput!, where: CourseWhereUniqueInput!): Course!
-  upsertCourseOnUser(create: CourseOnUserCreateInput!, update: CourseOnUserUpdateInput!, where: CourseOnUserWhereUniqueInput!): CourseOnUser!
-  upsertFlashCard(create: FlashCardCreateInput!, update: FlashCardUpdateInput!, where: FlashCardWhereUniqueInput!): FlashCard!
-  upsertFlashCardStack(create: FlashCardStackCreateInput!, update: FlashCardStackUpdateInput!, where: FlashCardStackWhereUniqueInput!): FlashCardStack!
-  upsertFlow(create: FlowCreateInput!, update: FlowUpdateInput!, where: FlowWhereUniqueInput!): Flow!
-  upsertFlowTag(create: FlowTagCreateInput!, update: FlowTagUpdateInput!, where: FlowTagWhereUniqueInput!): FlowTag!
-  upsertFlowTagOnFlow(create: FlowTagOnFlowCreateInput!, update: FlowTagOnFlowUpdateInput!, where: FlowTagOnFlowWhereUniqueInput!): FlowTagOnFlow!
-  upsertProfessor(create: ProfessorCreateInput!, update: ProfessorUpdateInput!, where: ProfessorWhereUniqueInput!): Professor!
-  upsertSchool(create: SchoolCreateInput!, update: SchoolUpdateInput!, where: SchoolWhereUniqueInput!): School!
-  upsertUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  upsertCourse(
+    create: CourseCreateInput!
+    update: CourseUpdateInput!
+    where: CourseWhereUniqueInput!
+  ): Course!
+  upsertCourseOnUser(
+    create: CourseOnUserCreateInput!
+    update: CourseOnUserUpdateInput!
+    where: CourseOnUserWhereUniqueInput!
+  ): CourseOnUser!
+  upsertFlashCard(
+    create: FlashCardCreateInput!
+    update: FlashCardUpdateInput!
+    where: FlashCardWhereUniqueInput!
+  ): FlashCard!
+  upsertFlashCardStack(
+    create: FlashCardStackCreateInput!
+    update: FlashCardStackUpdateInput!
+    where: FlashCardStackWhereUniqueInput!
+  ): FlashCardStack!
+  upsertFlow(
+    create: FlowCreateInput!
+    update: FlowUpdateInput!
+    where: FlowWhereUniqueInput!
+  ): Flow!
+  upsertFlowTag(
+    create: FlowTagCreateInput!
+    update: FlowTagUpdateInput!
+    where: FlowTagWhereUniqueInput!
+  ): FlowTag!
+  upsertFlowTagOnFlow(
+    create: FlowTagOnFlowCreateInput!
+    update: FlowTagOnFlowUpdateInput!
+    where: FlowTagOnFlowWhereUniqueInput!
+  ): FlowTagOnFlow!
+  upsertProfessor(
+    create: ProfessorCreateInput!
+    update: ProfessorUpdateInput!
+    where: ProfessorWhereUniqueInput!
+  ): Professor!
+  upsertSchool(
+    create: SchoolCreateInput!
+    update: SchoolUpdateInput!
+    where: SchoolWhereUniqueInput!
+  ): School!
+  upsertUser(
+    create: UserCreateInput!
+    update: UserUpdateInput!
+    where: UserWhereUniqueInput!
+  ): User!
 }
 
 input NestedBoolFilter {
@@ -3156,56 +3316,326 @@ input ProfessorWhereUniqueInput {
 }
 
 type Query {
-  aggregateCourse(cursor: CourseWhereUniqueInput, orderBy: [CourseOrderByWithRelationInput!], skip: Int, take: Int, where: CourseWhereInput): AggregateCourse!
-  aggregateCourseOnUser(cursor: CourseOnUserWhereUniqueInput, orderBy: [CourseOnUserOrderByWithRelationInput!], skip: Int, take: Int, where: CourseOnUserWhereInput): AggregateCourseOnUser!
-  aggregateFlashCard(cursor: FlashCardWhereUniqueInput, orderBy: [FlashCardOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardWhereInput): AggregateFlashCard!
-  aggregateFlashCardStack(cursor: FlashCardStackWhereUniqueInput, orderBy: [FlashCardStackOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardStackWhereInput): AggregateFlashCardStack!
-  aggregateFlow(cursor: FlowWhereUniqueInput, orderBy: [FlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowWhereInput): AggregateFlow!
-  aggregateFlowTag(cursor: FlowTagWhereUniqueInput, orderBy: [FlowTagOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagWhereInput): AggregateFlowTag!
-  aggregateFlowTagOnFlow(cursor: FlowTagOnFlowWhereUniqueInput, orderBy: [FlowTagOnFlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagOnFlowWhereInput): AggregateFlowTagOnFlow!
-  aggregateProfessor(cursor: ProfessorWhereUniqueInput, orderBy: [ProfessorOrderByWithRelationInput!], skip: Int, take: Int, where: ProfessorWhereInput): AggregateProfessor!
-  aggregateSchool(cursor: SchoolWhereUniqueInput, orderBy: [SchoolOrderByWithRelationInput!], skip: Int, take: Int, where: SchoolWhereInput): AggregateSchool!
-  aggregateUser(cursor: UserWhereUniqueInput, orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
+  aggregateCourse(
+    cursor: CourseWhereUniqueInput
+    orderBy: [CourseOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseWhereInput
+  ): AggregateCourse!
+  aggregateCourseOnUser(
+    cursor: CourseOnUserWhereUniqueInput
+    orderBy: [CourseOnUserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseOnUserWhereInput
+  ): AggregateCourseOnUser!
+  aggregateFlashCard(
+    cursor: FlashCardWhereUniqueInput
+    orderBy: [FlashCardOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardWhereInput
+  ): AggregateFlashCard!
+  aggregateFlashCardStack(
+    cursor: FlashCardStackWhereUniqueInput
+    orderBy: [FlashCardStackOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardStackWhereInput
+  ): AggregateFlashCardStack!
+  aggregateFlow(
+    cursor: FlowWhereUniqueInput
+    orderBy: [FlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowWhereInput
+  ): AggregateFlow!
+  aggregateFlowTag(
+    cursor: FlowTagWhereUniqueInput
+    orderBy: [FlowTagOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagWhereInput
+  ): AggregateFlowTag!
+  aggregateFlowTagOnFlow(
+    cursor: FlowTagOnFlowWhereUniqueInput
+    orderBy: [FlowTagOnFlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagOnFlowWhereInput
+  ): AggregateFlowTagOnFlow!
+  aggregateProfessor(
+    cursor: ProfessorWhereUniqueInput
+    orderBy: [ProfessorOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: ProfessorWhereInput
+  ): AggregateProfessor!
+  aggregateSchool(
+    cursor: SchoolWhereUniqueInput
+    orderBy: [SchoolOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: SchoolWhereInput
+  ): AggregateSchool!
+  aggregateUser(
+    cursor: UserWhereUniqueInput
+    orderBy: [UserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: UserWhereInput
+  ): AggregateUser!
   course(where: CourseWhereUniqueInput!): Course
   courseOnUser(where: CourseOnUserWhereUniqueInput!): CourseOnUser
-  courseOnUsers(cursor: CourseOnUserWhereUniqueInput, distinct: [CourseOnUserScalarFieldEnum!], orderBy: [CourseOnUserOrderByWithRelationInput!], skip: Int, take: Int, where: CourseOnUserWhereInput): [CourseOnUser!]!
-  courses(cursor: CourseWhereUniqueInput, distinct: [CourseScalarFieldEnum!], orderBy: [CourseOrderByWithRelationInput!], skip: Int, take: Int, where: CourseWhereInput): [Course!]!
-  findFirstCourse(cursor: CourseWhereUniqueInput, distinct: [CourseScalarFieldEnum!], orderBy: [CourseOrderByWithRelationInput!], skip: Int, take: Int, where: CourseWhereInput): Course
-  findFirstCourseOnUser(cursor: CourseOnUserWhereUniqueInput, distinct: [CourseOnUserScalarFieldEnum!], orderBy: [CourseOnUserOrderByWithRelationInput!], skip: Int, take: Int, where: CourseOnUserWhereInput): CourseOnUser
-  findFirstFlashCard(cursor: FlashCardWhereUniqueInput, distinct: [FlashCardScalarFieldEnum!], orderBy: [FlashCardOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardWhereInput): FlashCard
-  findFirstFlashCardStack(cursor: FlashCardStackWhereUniqueInput, distinct: [FlashCardStackScalarFieldEnum!], orderBy: [FlashCardStackOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardStackWhereInput): FlashCardStack
-  findFirstFlow(cursor: FlowWhereUniqueInput, distinct: [FlowScalarFieldEnum!], orderBy: [FlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowWhereInput): Flow
-  findFirstFlowTag(cursor: FlowTagWhereUniqueInput, distinct: [FlowTagScalarFieldEnum!], orderBy: [FlowTagOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagWhereInput): FlowTag
-  findFirstFlowTagOnFlow(cursor: FlowTagOnFlowWhereUniqueInput, distinct: [FlowTagOnFlowScalarFieldEnum!], orderBy: [FlowTagOnFlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagOnFlowWhereInput): FlowTagOnFlow
-  findFirstProfessor(cursor: ProfessorWhereUniqueInput, distinct: [ProfessorScalarFieldEnum!], orderBy: [ProfessorOrderByWithRelationInput!], skip: Int, take: Int, where: ProfessorWhereInput): Professor
-  findFirstSchool(cursor: SchoolWhereUniqueInput, distinct: [SchoolScalarFieldEnum!], orderBy: [SchoolOrderByWithRelationInput!], skip: Int, take: Int, where: SchoolWhereInput): School
-  findFirstUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
+  courseOnUsers(
+    cursor: CourseOnUserWhereUniqueInput
+    distinct: [CourseOnUserScalarFieldEnum!]
+    orderBy: [CourseOnUserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseOnUserWhereInput
+  ): [CourseOnUser!]!
+  courses(
+    cursor: CourseWhereUniqueInput
+    distinct: [CourseScalarFieldEnum!]
+    orderBy: [CourseOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseWhereInput
+  ): [Course!]!
+  findFirstCourse(
+    cursor: CourseWhereUniqueInput
+    distinct: [CourseScalarFieldEnum!]
+    orderBy: [CourseOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseWhereInput
+  ): Course
+  findFirstCourseOnUser(
+    cursor: CourseOnUserWhereUniqueInput
+    distinct: [CourseOnUserScalarFieldEnum!]
+    orderBy: [CourseOnUserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseOnUserWhereInput
+  ): CourseOnUser
+  findFirstFlashCard(
+    cursor: FlashCardWhereUniqueInput
+    distinct: [FlashCardScalarFieldEnum!]
+    orderBy: [FlashCardOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardWhereInput
+  ): FlashCard
+  findFirstFlashCardStack(
+    cursor: FlashCardStackWhereUniqueInput
+    distinct: [FlashCardStackScalarFieldEnum!]
+    orderBy: [FlashCardStackOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardStackWhereInput
+  ): FlashCardStack
+  findFirstFlow(
+    cursor: FlowWhereUniqueInput
+    distinct: [FlowScalarFieldEnum!]
+    orderBy: [FlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowWhereInput
+  ): Flow
+  findFirstFlowTag(
+    cursor: FlowTagWhereUniqueInput
+    distinct: [FlowTagScalarFieldEnum!]
+    orderBy: [FlowTagOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagWhereInput
+  ): FlowTag
+  findFirstFlowTagOnFlow(
+    cursor: FlowTagOnFlowWhereUniqueInput
+    distinct: [FlowTagOnFlowScalarFieldEnum!]
+    orderBy: [FlowTagOnFlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagOnFlowWhereInput
+  ): FlowTagOnFlow
+  findFirstProfessor(
+    cursor: ProfessorWhereUniqueInput
+    distinct: [ProfessorScalarFieldEnum!]
+    orderBy: [ProfessorOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: ProfessorWhereInput
+  ): Professor
+  findFirstSchool(
+    cursor: SchoolWhereUniqueInput
+    distinct: [SchoolScalarFieldEnum!]
+    orderBy: [SchoolOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: SchoolWhereInput
+  ): School
+  findFirstUser(
+    cursor: UserWhereUniqueInput
+    distinct: [UserScalarFieldEnum!]
+    orderBy: [UserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: UserWhereInput
+  ): User
   flashCard(where: FlashCardWhereUniqueInput!): FlashCard
   flashCardStack(where: FlashCardStackWhereUniqueInput!): FlashCardStack
-  flashCardStacks(cursor: FlashCardStackWhereUniqueInput, distinct: [FlashCardStackScalarFieldEnum!], orderBy: [FlashCardStackOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardStackWhereInput): [FlashCardStack!]!
-  flashCards(cursor: FlashCardWhereUniqueInput, distinct: [FlashCardScalarFieldEnum!], orderBy: [FlashCardOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardWhereInput): [FlashCard!]!
+  flashCardStacks(
+    cursor: FlashCardStackWhereUniqueInput
+    distinct: [FlashCardStackScalarFieldEnum!]
+    orderBy: [FlashCardStackOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardStackWhereInput
+  ): [FlashCardStack!]!
+  flashCards(
+    cursor: FlashCardWhereUniqueInput
+    distinct: [FlashCardScalarFieldEnum!]
+    orderBy: [FlashCardOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardWhereInput
+  ): [FlashCard!]!
   flow(where: FlowWhereUniqueInput!): Flow
   flowTag(where: FlowTagWhereUniqueInput!): FlowTag
   flowTagOnFlow(where: FlowTagOnFlowWhereUniqueInput!): FlowTagOnFlow
-  flowTagOnFlows(cursor: FlowTagOnFlowWhereUniqueInput, distinct: [FlowTagOnFlowScalarFieldEnum!], orderBy: [FlowTagOnFlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagOnFlowWhereInput): [FlowTagOnFlow!]!
-  flowTags(cursor: FlowTagWhereUniqueInput, distinct: [FlowTagScalarFieldEnum!], orderBy: [FlowTagOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagWhereInput): [FlowTag!]!
-  flows(cursor: FlowWhereUniqueInput, distinct: [FlowScalarFieldEnum!], orderBy: [FlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowWhereInput): [Flow!]!
-  groupByCourse(by: [CourseScalarFieldEnum!]!, having: CourseScalarWhereWithAggregatesInput, orderBy: [CourseOrderByWithAggregationInput!], skip: Int, take: Int, where: CourseWhereInput): [CourseGroupBy!]!
-  groupByCourseOnUser(by: [CourseOnUserScalarFieldEnum!]!, having: CourseOnUserScalarWhereWithAggregatesInput, orderBy: [CourseOnUserOrderByWithAggregationInput!], skip: Int, take: Int, where: CourseOnUserWhereInput): [CourseOnUserGroupBy!]!
-  groupByFlashCard(by: [FlashCardScalarFieldEnum!]!, having: FlashCardScalarWhereWithAggregatesInput, orderBy: [FlashCardOrderByWithAggregationInput!], skip: Int, take: Int, where: FlashCardWhereInput): [FlashCardGroupBy!]!
-  groupByFlashCardStack(by: [FlashCardStackScalarFieldEnum!]!, having: FlashCardStackScalarWhereWithAggregatesInput, orderBy: [FlashCardStackOrderByWithAggregationInput!], skip: Int, take: Int, where: FlashCardStackWhereInput): [FlashCardStackGroupBy!]!
-  groupByFlow(by: [FlowScalarFieldEnum!]!, having: FlowScalarWhereWithAggregatesInput, orderBy: [FlowOrderByWithAggregationInput!], skip: Int, take: Int, where: FlowWhereInput): [FlowGroupBy!]!
-  groupByFlowTag(by: [FlowTagScalarFieldEnum!]!, having: FlowTagScalarWhereWithAggregatesInput, orderBy: [FlowTagOrderByWithAggregationInput!], skip: Int, take: Int, where: FlowTagWhereInput): [FlowTagGroupBy!]!
-  groupByFlowTagOnFlow(by: [FlowTagOnFlowScalarFieldEnum!]!, having: FlowTagOnFlowScalarWhereWithAggregatesInput, orderBy: [FlowTagOnFlowOrderByWithAggregationInput!], skip: Int, take: Int, where: FlowTagOnFlowWhereInput): [FlowTagOnFlowGroupBy!]!
-  groupByProfessor(by: [ProfessorScalarFieldEnum!]!, having: ProfessorScalarWhereWithAggregatesInput, orderBy: [ProfessorOrderByWithAggregationInput!], skip: Int, take: Int, where: ProfessorWhereInput): [ProfessorGroupBy!]!
-  groupBySchool(by: [SchoolScalarFieldEnum!]!, having: SchoolScalarWhereWithAggregatesInput, orderBy: [SchoolOrderByWithAggregationInput!], skip: Int, take: Int, where: SchoolWhereInput): [SchoolGroupBy!]!
-  groupByUser(by: [UserScalarFieldEnum!]!, having: UserScalarWhereWithAggregatesInput, orderBy: [UserOrderByWithAggregationInput!], skip: Int, take: Int, where: UserWhereInput): [UserGroupBy!]!
+  flowTagOnFlows(
+    cursor: FlowTagOnFlowWhereUniqueInput
+    distinct: [FlowTagOnFlowScalarFieldEnum!]
+    orderBy: [FlowTagOnFlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagOnFlowWhereInput
+  ): [FlowTagOnFlow!]!
+  flowTags(
+    cursor: FlowTagWhereUniqueInput
+    distinct: [FlowTagScalarFieldEnum!]
+    orderBy: [FlowTagOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagWhereInput
+  ): [FlowTag!]!
+  flows(
+    cursor: FlowWhereUniqueInput
+    distinct: [FlowScalarFieldEnum!]
+    orderBy: [FlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowWhereInput
+  ): [Flow!]!
+  groupByCourse(
+    by: [CourseScalarFieldEnum!]!
+    having: CourseScalarWhereWithAggregatesInput
+    orderBy: [CourseOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: CourseWhereInput
+  ): [CourseGroupBy!]!
+  groupByCourseOnUser(
+    by: [CourseOnUserScalarFieldEnum!]!
+    having: CourseOnUserScalarWhereWithAggregatesInput
+    orderBy: [CourseOnUserOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: CourseOnUserWhereInput
+  ): [CourseOnUserGroupBy!]!
+  groupByFlashCard(
+    by: [FlashCardScalarFieldEnum!]!
+    having: FlashCardScalarWhereWithAggregatesInput
+    orderBy: [FlashCardOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardWhereInput
+  ): [FlashCardGroupBy!]!
+  groupByFlashCardStack(
+    by: [FlashCardStackScalarFieldEnum!]!
+    having: FlashCardStackScalarWhereWithAggregatesInput
+    orderBy: [FlashCardStackOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardStackWhereInput
+  ): [FlashCardStackGroupBy!]!
+  groupByFlow(
+    by: [FlowScalarFieldEnum!]!
+    having: FlowScalarWhereWithAggregatesInput
+    orderBy: [FlowOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: FlowWhereInput
+  ): [FlowGroupBy!]!
+  groupByFlowTag(
+    by: [FlowTagScalarFieldEnum!]!
+    having: FlowTagScalarWhereWithAggregatesInput
+    orderBy: [FlowTagOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagWhereInput
+  ): [FlowTagGroupBy!]!
+  groupByFlowTagOnFlow(
+    by: [FlowTagOnFlowScalarFieldEnum!]!
+    having: FlowTagOnFlowScalarWhereWithAggregatesInput
+    orderBy: [FlowTagOnFlowOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagOnFlowWhereInput
+  ): [FlowTagOnFlowGroupBy!]!
+  groupByProfessor(
+    by: [ProfessorScalarFieldEnum!]!
+    having: ProfessorScalarWhereWithAggregatesInput
+    orderBy: [ProfessorOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: ProfessorWhereInput
+  ): [ProfessorGroupBy!]!
+  groupBySchool(
+    by: [SchoolScalarFieldEnum!]!
+    having: SchoolScalarWhereWithAggregatesInput
+    orderBy: [SchoolOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: SchoolWhereInput
+  ): [SchoolGroupBy!]!
+  groupByUser(
+    by: [UserScalarFieldEnum!]!
+    having: UserScalarWhereWithAggregatesInput
+    orderBy: [UserOrderByWithAggregationInput!]
+    skip: Int
+    take: Int
+    where: UserWhereInput
+  ): [UserGroupBy!]!
   professor(where: ProfessorWhereUniqueInput!): Professor
-  professors(cursor: ProfessorWhereUniqueInput, distinct: [ProfessorScalarFieldEnum!], orderBy: [ProfessorOrderByWithRelationInput!], skip: Int, take: Int, where: ProfessorWhereInput): [Professor!]!
+  professors(
+    cursor: ProfessorWhereUniqueInput
+    distinct: [ProfessorScalarFieldEnum!]
+    orderBy: [ProfessorOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: ProfessorWhereInput
+  ): [Professor!]!
   school(where: SchoolWhereUniqueInput!): School
-  schools(cursor: SchoolWhereUniqueInput, distinct: [SchoolScalarFieldEnum!], orderBy: [SchoolOrderByWithRelationInput!], skip: Int, take: Int, where: SchoolWhereInput): [School!]!
+  schools(
+    cursor: SchoolWhereUniqueInput
+    distinct: [SchoolScalarFieldEnum!]
+    orderBy: [SchoolOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: SchoolWhereInput
+  ): [School!]!
   user(where: UserWhereUniqueInput!): User
-  users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
+  users(
+    cursor: UserWhereUniqueInput
+    distinct: [UserScalarFieldEnum!]
+    orderBy: [UserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: UserWhereInput
+  ): [User!]!
 }
 
 enum QueryMode {
@@ -3214,7 +3644,14 @@ enum QueryMode {
 }
 
 type School {
-  FK_Course(cursor: CourseWhereUniqueInput, distinct: [CourseScalarFieldEnum!], orderBy: [CourseOrderByWithRelationInput!], skip: Int, take: Int, where: CourseWhereInput): [Course!]!
+  FK_Course(
+    cursor: CourseWhereUniqueInput
+    distinct: [CourseScalarFieldEnum!]
+    orderBy: [CourseOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseWhereInput
+  ): [Course!]!
   HasClassSupport: Boolean!
   Name: String!
   SchoolID: Int!
@@ -3480,10 +3917,38 @@ type User {
   DefaultVisibility: Visibility
   DisplayName: String
   Email: String!
-  FK_Courses(cursor: CourseOnUserWhereUniqueInput, distinct: [CourseOnUserScalarFieldEnum!], orderBy: [CourseOnUserOrderByWithRelationInput!], skip: Int, take: Int, where: CourseOnUserWhereInput): [CourseOnUser!]!
-  FK_FlashCardStacks(cursor: FlashCardStackWhereUniqueInput, distinct: [FlashCardStackScalarFieldEnum!], orderBy: [FlashCardStackOrderByWithRelationInput!], skip: Int, take: Int, where: FlashCardStackWhereInput): [FlashCardStack!]!
-  FK_FlowTags(cursor: FlowTagWhereUniqueInput, distinct: [FlowTagScalarFieldEnum!], orderBy: [FlowTagOrderByWithRelationInput!], skip: Int, take: Int, where: FlowTagWhereInput): [FlowTag!]!
-  FK_Flows(cursor: FlowWhereUniqueInput, distinct: [FlowScalarFieldEnum!], orderBy: [FlowOrderByWithRelationInput!], skip: Int, take: Int, where: FlowWhereInput): [Flow!]!
+  FK_Courses(
+    cursor: CourseOnUserWhereUniqueInput
+    distinct: [CourseOnUserScalarFieldEnum!]
+    orderBy: [CourseOnUserOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: CourseOnUserWhereInput
+  ): [CourseOnUser!]!
+  FK_FlashCardStacks(
+    cursor: FlashCardStackWhereUniqueInput
+    distinct: [FlashCardStackScalarFieldEnum!]
+    orderBy: [FlashCardStackOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlashCardStackWhereInput
+  ): [FlashCardStack!]!
+  FK_FlowTags(
+    cursor: FlowTagWhereUniqueInput
+    distinct: [FlowTagScalarFieldEnum!]
+    orderBy: [FlowTagOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowTagWhereInput
+  ): [FlowTag!]!
+  FK_Flows(
+    cursor: FlowWhereUniqueInput
+    distinct: [FlowScalarFieldEnum!]
+    orderBy: [FlowOrderByWithRelationInput!]
+    skip: Int
+    take: Int
+    where: FlowWhereInput
+  ): [Flow!]!
   ProfilePictureLink: String
   UID: String
   UserID: Int!

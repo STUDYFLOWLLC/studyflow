@@ -10,12 +10,14 @@ const menu = (
   </Menu>
 )
 
-export default () => (
-  <Breadcrumb>
-    <Breadcrumb.Item>Home</Breadcrumb.Item>
-    <Breadcrumb.Item overlay={menu}>
-      <a href="">MATH2210</a>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>9.1 CHANGE OF BASIS</Breadcrumb.Item>
-  </Breadcrumb>
-)
+export default function BreadCrumb() {
+  return (
+    <Breadcrumb>
+      <Breadcrumb.Item>Home</Breadcrumb.Item>
+      <Breadcrumb.Item overlay={menu}>
+        <a href="">MATH2210</a>
+      </Breadcrumb.Item>
+      <Breadcrumb.Item>9.1 CHANGE OF BASIS</Breadcrumb.Item>
+    </Breadcrumb>
+  )
+}

@@ -1,12 +1,15 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { SearchIcon } from '@heroicons/react/solid'
 import { Dispatch, SetStateAction } from 'react'
 
-interface DashProps {
+interface Props {
   searchValue: string
   setSearchValue: Dispatch<SetStateAction<string>>
 }
 
-export default function DashSearch(props: DashProps) {
+export default function DashSearch(props: Props) {
+  const { searchValue, setSearchValue } = props
+
   return (
     <div className="px-3 mt-5">
       <label htmlFor="search" className="sr-only">
@@ -26,9 +29,10 @@ export default function DashSearch(props: DashProps) {
           type="text"
           name="Search"
           id="search"
-          className="h-10 block focus:ring-rose-400 focus:border-rose-400 w-full pl-9 sm:text-sm border-gray-300 rounded-md"
+          className="h-10 block focus:ring-primary-400 focus:border-primary-400 w-full pl-9 sm:text-sm border-gray-300 rounded-md"
           placeholder="Search for a flow"
-          onChange={e => props.setSearchValue(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value)}
+          value={searchValue}
         />
       </div>
     </div>

@@ -1,10 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { MenuAlt1Icon, XIcon } from '@heroicons/react/outline'
+import CourseNavs from 'components/Dashbar/CourseNavs'
 import MainNavs from 'components/Dashbar/MainNavs'
-import {
-  default as CourseNavs,
-  default as DashSearch
-} from 'components/DashHeadSmall/DashSearchSmall'
 import SmallProfileButton from 'components/DashHeadSmall/SmallProfileButton'
 import { Fragment, useState } from 'react'
 
@@ -89,7 +86,7 @@ export default function index() {
           <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
         </button>
         <div className="flex-1 flex justify-between px-4 sm:px-6 lg:px-8">
-          <DashSearch />
+          {/* <DashSearch /> */}
           <div className="flex items-center">
             {/* Profile dropdown */}
             <SmallProfileButton />

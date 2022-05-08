@@ -1,14 +1,15 @@
 import useSWR from 'swr'
 import { fetcherWithVaribles } from './fetchers'
 
-export default function useUserDetails(supabaseId: string) {
+export default function useUserDetails(supabaseId: string | undefined) {
+  const supabaseIdReal = supabaseId === undefined ? '' : supabaseId
   const variables = {
     where: {
       SupabaseID: {
-        equals: supabaseId
-      }
+        equals: supabaseIdReal,
+      },
     },
-    take: 1
+    take: 1,
   }
 
   const { data, error } = useSWR(
@@ -20,24 +21,24 @@ export default function useUserDetails(supabaseId: string) {
             ProfilePictureLink
             DefaultVisibility
           }
-        }      
+        }
     `,
-      variables
+      variables,
     ],
-    fetcherWithVaribles
+    fetcherWithVaribles,
   )
 
   if (data) {
     return {
       userDetails: data.users[0],
       isLoading: !error && !data,
-      isError: error
+      isError: error,
     }
   }
 
   return {
     userDetails: data,
     isLoading: !error && !data,
-    isError: error
+    isError: error,
   }
 }

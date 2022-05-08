@@ -16,14 +16,18 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "paths": {
+      "contexts/*": ["contexts/*"],
+      "components/*": ["components/*"],
+      "images/*": ["images/*"]
+    },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "components/Design/SVG.tsx"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "**/graphql",
+    "**/components/CMDPalette/index.tsx"
+  ]
 }

@@ -1,19 +1,7 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-  ClockIcon,
-  HomeIcon,
-  MenuAlt1Icon,
-  ViewListIcon,
-  XIcon
-} from '@heroicons/react/outline'
-import {
-  ChevronRightIcon,
-  DotsVerticalIcon,
-  SearchIcon,
-  SelectorIcon
-} from '@heroicons/react/solid'
-import Dashbar from 'components/Dashbar'
+import { Menu, Transition } from '@headlessui/react'
+import { DotsVerticalIcon } from '@heroicons/react/solid'
+import classnames from 'classnames'
+import { Fragment } from 'react'
 
 export default function Pinned() {
   const projects = [
@@ -27,56 +15,51 @@ export default function Pinned() {
           name: 'Dries Vincent',
           handle: 'driesvincent',
           imageUrl:
-            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Lindsay Walton',
           handle: 'lindsaywalton',
           imageUrl:
-            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Courtney Henry',
           handle: 'courtneyhenry',
           imageUrl:
-            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         {
           name: 'Tom Cook',
           handle: 'tomcook',
           imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-        }
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
       ],
       totalMembers: 12,
       lastUpdated: 'March 17, 2020',
       pinned: true,
-      bgColorClass: 'bg-pink-600'
-    }
+      bgColorClass: 'bg-pink-600',
+    },
     // More projects...
   ]
-  const pinnedProjects = projects.filter(project => project.pinned)
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
+  const pinnedProjects = projects.filter((project) => project.pinned)
+
   return (
     <div className="px-4 mt-6 sm:px-6 lg:px-8">
       <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">
         Open Assignments
       </h2>
-      <ul
-        role="list"
-        className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3"
-      >
-        {pinnedProjects.map(project => (
+      <ul className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">
+        {pinnedProjects.map((project) => (
           <li
             key={project.id}
             className="relative col-span-1 flex shadow-sm rounded-md"
           >
             <div
-              className={classNames(
+              className={classnames(
                 project.bgColorClass,
-                'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md'
+                'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md',
               )}
             >
               {project.initials}
@@ -111,11 +94,11 @@ export default function Pinned() {
                         {({ active }) => (
                           <a
                             href="#"
-                            className={classNames(
+                            className={classnames(
                               active
                                 ? 'bg-gray-100 text-gray-900'
                                 : 'text-gray-700',
-                              'block px-4 py-2 text-sm'
+                              'block px-4 py-2 text-sm',
                             )}
                           >
                             View
@@ -128,11 +111,11 @@ export default function Pinned() {
                         {({ active }) => (
                           <a
                             href="#"
-                            className={classNames(
+                            className={classnames(
                               active
                                 ? 'bg-gray-100 text-gray-900'
                                 : 'text-gray-700',
-                              'block px-4 py-2 text-sm'
+                              'block px-4 py-2 text-sm',
                             )}
                           >
                             Removed from pinned
@@ -143,11 +126,11 @@ export default function Pinned() {
                         {({ active }) => (
                           <a
                             href="#"
-                            className={classNames(
+                            className={classnames(
                               active
                                 ? 'bg-gray-100 text-gray-900'
                                 : 'text-gray-700',
-                              'block px-4 py-2 text-sm'
+                              'block px-4 py-2 text-sm',
                             )}
                           >
                             Share

@@ -1,4 +1,4 @@
-import BigProfileButton from 'components/Dashbar/BigProfileButton'
+import BigProfileButton from 'components/buttons/BigProfileButton'
 import CoursesNav from 'components/Dashbar/CourseNavs'
 import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
@@ -16,7 +16,11 @@ export default function index(props: DashProps) {
       <LogoHeader />
       <div className="mt-6 h-0 flex-1 flex flex-col overflow-y-auto">
         {/* User account dropdown */}
-        <BigProfileButton />
+        <BigProfileButton
+          name="Jessy Schwartz"
+          username="jschrawtz"
+          pfpLink="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+        />
         {/* Sidebar Search */}
         <DashSearch
           searchValue={props.searchValue}

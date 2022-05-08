@@ -1,26 +1,31 @@
-function withOpacity(variableName) {
-  return ({ opacityValue }) => {
-    if (opacityValue !== undefined) {
-      return `rgba(var(${variableName}), ${opacityValue})`
-    }
-    return `rgb(var(${variableName}))`
-  }
-}
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable global-require */
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
   important: true,
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}'
+    './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
       fontFamily: {
-        main: ['IBM Plex Sans']
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+      animation: {
+        'spin-fast': 'spin 0.4s linear infinite',
       },
       colors: {
         primary: {
+          400: '#63CBFB',
+          500: '#49C2FA',
+          // primary: withOpacity('--color-primary'),
+          // a11y: withOpacity('--color-a11y')
+        },
+        flowdark: '#20293A',
+        primaryOld: {
           800: '#2B6466',
           750: '#327477',
           700: '#398588',
@@ -35,7 +40,7 @@ module.exports = {
           250: '#9FD5D7',
           200: '#A8D9DA',
           150: '#B0DDDE',
-          100: '#B9E0E2'
+          100: '#B9E0E2',
           // primary: withOpacity('--color-primary'),
           // a11y: withOpacity('--color-a11y')
         },
@@ -48,9 +53,9 @@ module.exports = {
           400: '#EBC7D7',
           300: '#ECCCDA',
           200: '#EED0DD',
-          100: '#F0D4E0'
-        }
-      }
+          100: '#F0D4E0',
+        },
+      },
       // textColor: {
       //   primary: {
       //     800: '#2B6466',
@@ -211,10 +216,10 @@ module.exports = {
       //     100: '#F0D4E0'
       //   }
       // }
-    }
+    },
   },
   plugins: [require('@tailwindcss/forms'), require('daisyui')],
   variants: {
-    width: ['responsive', 'hover', 'focus']
-  }
+    width: ['responsive', 'hover', 'focus'],
+  },
 }

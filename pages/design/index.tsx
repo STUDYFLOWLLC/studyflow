@@ -1,19 +1,19 @@
-import AppleButton from 'components/Auth/AppleButton'
+/* eslint-disable import/no-unresolved */
+
+import AppleButton from 'components/buttons/AppleButton'
 import BreadCrumb from 'components/Design/BreadCrumb'
-import FlashCard from 'components/Design/FlashCard'
-import Spinner from 'components/Design/Spin'
-import SVG from 'components/Design/SVG'
 import ToastTester from 'components/Design/ToastTester'
+import FlashCard from 'components/flowparts/FlashCard'
+import MainSpinner from 'components/spinners/MainSpinner'
 
 export default function index() {
   return (
     <div className="p-4">
-      <Spinner />
-      <FlashCard />
+      <FlashCard front="" back="" />
       <BreadCrumb />
       <ToastTester />
       <AppleButton />
-      <SVG />
+      <MainSpinner />
     </div>
   )
 }

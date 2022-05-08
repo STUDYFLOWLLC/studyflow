@@ -1,4 +1,3 @@
-import React from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 
 export default function ToastTester() {
@@ -6,7 +5,9 @@ export default function ToastTester() {
 
   return (
     <div>
-      <button onClick={notify}>Make me a toast</button>
+      <button type="submit" onClick={notify} onKeyDown={notify}>
+        Make me a toast
+      </button>
       <Toaster />
     </div>
   )

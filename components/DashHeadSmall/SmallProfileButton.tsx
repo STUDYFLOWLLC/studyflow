@@ -1,23 +1,8 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-  ClockIcon,
-  HomeIcon,
-  MenuAlt1Icon,
-  ViewListIcon,
-  XIcon
-} from '@heroicons/react/outline'
-import {
-  ChevronRightIcon,
-  DotsVerticalIcon,
-  SearchIcon,
-  SelectorIcon
-} from '@heroicons/react/solid'
+import { Menu, Transition } from '@headlessui/react'
+import classnames from 'classnames'
+import { Fragment } from 'react'
 
 export default function SmallProfileButton() {
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
   return (
     <Menu as="div" className="ml-3 relative">
       <div>
@@ -45,9 +30,9 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classNames(
+                  className={classnames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 py-2 text-sm',
                   )}
                 >
                   View profile
@@ -58,9 +43,9 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classNames(
+                  className={classnames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 py-2 text-sm',
                   )}
                 >
                   Settings
@@ -71,9 +56,9 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classNames(
+                  className={classnames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 py-2 text-sm',
                   )}
                 >
                   Notifications
@@ -86,9 +71,9 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classNames(
+                  className={classnames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 py-2 text-sm',
                   )}
                 >
                   Get desktop app
@@ -99,9 +84,9 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classNames(
+                  className={classnames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 py-2 text-sm',
                   )}
                 >
                   Support
@@ -114,9 +99,9 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classNames(
+                  className={classnames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 py-2 text-sm',
                   )}
                 >
                   Logout
