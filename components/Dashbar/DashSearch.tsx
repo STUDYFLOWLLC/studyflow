@@ -29,8 +29,8 @@ export default function DashSearch(props: Props) {
           type="text"
           name="Search"
           id="search"
-          className="h-10 block focus:ring-primary-400 focus:border-primary-400 w-full pl-9 sm:text-sm border-gray-300 rounded-md"
-          placeholder="Search for a flow"
+          className="h-10 block focus:ring-primary focus:border-primary w-full pl-9 sm:text-sm border-gray-300 rounded-md"
+          placeholder="Flow Search"
           onChange={(e) => setSearchValue(e.target.value)}
           value={searchValue}
         />

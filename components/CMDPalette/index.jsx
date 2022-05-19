@@ -146,7 +146,7 @@ export default function Example() {
                           className={({ active }) =>
                             classnames(
                               'flex cursor-default select-none items-center rounded-md px-3 py-2',
-                              active && 'bg-primary-400 text-white',
+                              { 'bg-primary-400 text-white': active },
                             )
                           }
                         >
@@ -155,7 +155,8 @@ export default function Example() {
                               <FolderIcon
                                 className={classnames(
                                   'h-6 w-6 flex-none',
-                                  active ? 'text-white' : 'text-gray-400',
+                                  { 'text-white': active },
+                                  { 'text-gray-400': !active },
                                 )}
                                 aria-hidden="true"
                               />

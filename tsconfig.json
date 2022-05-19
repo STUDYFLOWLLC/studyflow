@@ -24,7 +24,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/CMDPalette/index.jsx"
+  ],
   "exclude": [
     "node_modules",
     "**/graphql",

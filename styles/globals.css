@@ -28,6 +28,15 @@ a {
   box-sizing: border-box;
 }
 
-.btn {
-  @apply rounded-md py-3 px-3 text-xs cursor-pointer tracking-wider;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --my-color: #252b30;
+  }
+}
+
+.container {
+  background: lightblue;
+  cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png')
+      39 39,
+    auto;
 }

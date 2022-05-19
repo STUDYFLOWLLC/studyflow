@@ -1,21 +1,32 @@
-import { PlusIcon } from '@heroicons/react/outline'
+import { PlusCircleIcon } from '@heroicons/react/outline'
 import CourseLine from 'components/Dashbar/CourseLine'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
+
+interface Props {
+  loading: boolean
+}
 
 export interface CourseDisplay {
   name: string
   href: string
   bgColorClass: string
+  loading: boolean
 }
 
-export default function CourseNavs() {
+export default function CourseNavs(props: Props) {
+  const { loading } = props
   const [teams, setTeams] = useState<CourseDisplay[]>([
-    { name: 'MATH2210', href: '#', bgColorClass: 'bg-indigo-500' },
-    { name: 'CS2100', href: '#', bgColorClass: 'bg-green-500' },
-    { name: 'CS2800', href: '#', bgColorClass: 'bg-orange-500' },
-    { name: 'COGST1101', href: '#', bgColorClass: 'bg-blue-500' },
-    { name: 'BIOEE1780', href: '#', bgColorClass: 'bg-yellow-500' },
+    {
+      name: 'Linear Algebra',
+      href: '#',
+      bgColorClass: 'bg-indigo-500',
+      loading,
+    },
+    { name: '2110', href: '#', bgColorClass: 'bg-green-500', loading },
+    { name: 'Discrete', href: '#', bgColorClass: 'bg-orange-500', loading },
+    { name: 'Cog Sci', href: '#', bgColorClass: 'bg-blue-500', loading },
+    { name: 'Bio', href: '#', bgColorClass: 'bg-yellow-500', loading },
   ])
 
   const reorder = (
@@ -60,12 +71,17 @@ export default function CourseNavs() {
   })
 
   return (
-    <div className="mt-8">
-      <div className="w-100 flex self-center justify-between">
-        <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-          Courses
-        </p>
-        <PlusIcon className="w-3.5 mb-.5 text-gray-500 cursor-pointer" />
+    <div className="mt-6">
+      <div className="w-100 flex items-center justify-between">
+        <div>
+          <p className="px-2 text-xs font-semibold text-gray-500 tracking-wider">
+            Courses
+          </p>
+        </div>
+        <PlusCircleIcon
+          className="text-gray-500 cursor-pointer"
+          style={{ width: '1.125rem' }}
+        />
       </div>
 
       {isBrowser ? (
@@ -78,7 +94,12 @@ export default function CourseNavs() {
                 ref={provided.innerRef}
               >
                 {teams.map((course, index) => (
-                  <CourseLine key={course.name} index={index} course={course} />
+                  <CourseLine
+                    key={course.name}
+                    index={index}
+                    course={course}
+                    loading={loading}
+                  />
                 ))}
                 {provided.placeholder}
               </div>

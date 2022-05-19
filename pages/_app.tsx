@@ -7,6 +7,7 @@ import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import 'react-loading-skeleton/dist/skeleton.css'
+import 'styles/flashcard.css'
 import { SWRConfig } from 'swr'
 import '../styles/globals.css'
 import '../styles/transition.css'
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <title>Studyflow</title>
       </Head>
-      <ThemeProvider enableSystem attribute="class">
+      <ThemeProvider defaultTheme="system" enableSystem enableColorScheme>
         <SWRConfig value={{ fetcher }}>
           <UserProvider supabaseClient={supabaseClient}>
             <AuthProvider>

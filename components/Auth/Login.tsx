@@ -1,20 +1,32 @@
 /* eslint-disable no-shadow */
+import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import AppleButton from 'components/buttons/AppleButton'
 import GoogleButton from 'components/buttons/GoogleButton'
-import { useAuth } from 'contexts/AuthContext'
+import SpinnerPage from 'components/spinners/SpinnerPage'
 import logo from 'images/wave.svg'
 import wavesbg from 'images/wavesbg.svg'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
-
 import { supabase } from 'utils/supabase'
 
 export default function Login() {
-  const [loading, setLoading] = useState(false)
-  const [email, setEmail] = useState('')
+  const router = useRouter()
+  const { user } = useUser()
+  const [loading, setLoading] = useState(true)
   const [succeed, setSucceed] = useState(false)
-  const { user, signInWithGoogle } = useAuth()
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    ;(async () => {
+      if (user) router.push('/dash')
+      // eslint-disable-next-line no-promise-executor-return
+      await new Promise((r) => setTimeout(r, 500))
+      setLoading(false)
+    })()
+  }, [user])
 
   const isValidEmail = (email: string): boolean => {
     // eslint-disable-next-line no-useless-escape
@@ -42,6 +54,8 @@ export default function Login() {
     }
   }
 
+  if (loading) return <SpinnerPage />
+
   return (
     <div className="min-h-full flex">
       <Toaster position="top-center" reverseOrder={false} />
@@ -54,7 +68,10 @@ export default function Login() {
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <Image width={48} height={48} src={logo} alt="Workflow" />
-            <h2 className="mt-3 text-3xl font-extrabold text-gray-900">
+            <h2
+              onClick={() => supabaseClient.auth.signOut()}
+              className="mt-3 text-3xl font-extrabold text-gray-900"
+            >
               Welcome to Studyflow
             </h2>
           </div>

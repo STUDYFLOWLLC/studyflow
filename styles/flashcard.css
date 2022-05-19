@@ -1,0 +1,42 @@
+.card {
+  transform-style: preserve-3d;
+  transition: 175ms;
+  transform: perspective(1000px) rotateY(var(--rotate-y, 0))
+    translateY(var(--translate-y, 0));
+}
+
+.card:hover {
+  --translate-y: -2px;
+}
+
+.card.flip {
+  --rotate-y: -180deg;
+}
+
+.card .front {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.card .back {
+  position: absolute;
+  backface-visibility: visible;
+}
+
+.deck {
+  will-change: transform;
+}
+
+.deck > div {
+  touch-action: none;
+  background-color: white;
+}
+
+.flashcard-holder {
+  width: 800px;
+  height: 500px;
+  background-color: white;
+  border: 2px solid orange;
+  overflow: hidden !important;
+  z-index: 10;
+}

@@ -1,21 +1,43 @@
-import { HomeIcon, UserGroupIcon, ViewListIcon } from '@heroicons/react/outline'
+import {
+  CalendarIcon,
+  CheckCircleIcon,
+  HomeIcon,
+  StarIcon,
+  UserGroupIcon,
+} from '@heroicons/react/outline'
 import classnames from 'classnames'
+import { useTheme } from 'next-themes'
 
 export default function MainNavs() {
+  const { theme, setTheme } = useTheme()
   const navigation = [
-    { name: 'Home', href: '#', icon: HomeIcon, keyboard: '', current: true },
+    { name: 'Home', href: '#', icon: HomeIcon, keyboard: 'H', current: true },
+    {
+      name: 'Favorites',
+      href: '#',
+      icon: StarIcon,
+      keyboard: 'F',
+      current: false,
+    },
     {
       name: 'Tasks',
       href: '#',
-      icon: ViewListIcon,
+      icon: CheckCircleIcon,
       keyboard: 'T',
       current: false,
     },
     {
-      name: 'Community',
+      name: 'Calendar',
+      href: '#',
+      icon: CalendarIcon,
+      keyboard: 'C',
+      current: false,
+    },
+    {
+      name: 'Social',
       href: '#',
       icon: UserGroupIcon,
-      keyboard: 'C',
+      keyboard: 'S',
       current: false,
     },
   ]
@@ -23,33 +45,36 @@ export default function MainNavs() {
   return (
     <div className="space-y-1">
       {navigation.map((item) => (
-        <a
+        <div
           key={item.name}
-          href={item.href}
           className={classnames(
-            item.current
-              ? 'bg-gray-200 text-gray-900'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
-            'group flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md',
+            {
+              'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
+                !item.current && theme === 'light',
+            },
+            { 'hover:bg-slate-700': !item.current && theme === 'dark' },
+            { 'bg-gray-200': item.current && theme === 'light' },
+            { 'bg-slate-600': item.current && theme === 'dark' },
+            'group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
           )}
           aria-current={item.current ? 'page' : undefined}
         >
-          <div className="flex">
+          <div className="flex items-center">
             <item.icon
               className={classnames(
                 item.current
                   ? 'text-gray-500'
                   : 'text-gray-400 group-hover:text-gray-500',
-                'mr-3 flex-shrink-0 h-6 w-6',
+                'mr-3 flex-shrink-0 h-4 w-4',
               )}
               aria-hidden="true"
             />
-            {item.name}
+            <span className="text-sm font-medium">{item.name}</span>
           </div>
-          {item.keyboard ? (
-            <kbd className="kbd kbd-xs w-5 text-stone-600">{item.keyboard}</kbd>
-          ) : null}
-        </a>
+          {/* {item.keyboard && (
+            <kbd className="kbd kbd-xs w-5 text-xs">{item.keyboard}</kbd>
+          )} */}
+        </div>
       ))}
     </div>
   )
