@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { SearchIcon } from '@heroicons/react/solid'
+import classnames from 'classnames'
+import { useTheme } from 'next-themes'
 import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
@@ -8,6 +10,7 @@ interface Props {
 }
 
 export default function DashSearch(props: Props) {
+  const { theme } = useTheme()
   const { searchValue, setSearchValue } = props
 
   return (
@@ -29,7 +32,11 @@ export default function DashSearch(props: Props) {
           type="text"
           name="Search"
           id="search"
-          className="h-10 block focus:ring-primary focus:border-primary w-full pl-9 sm:text-sm border-gray-300 rounded-md"
+          className={classnames(
+            { 'border-gray-300': theme === 'light' },
+            { 'bg-base-200': theme === 'dark' },
+            'h-10 block focus:ring-primary focus:border-primary w-full pl-9 sm:text-sm rounded-md',
+          )}
           placeholder="Flow Search"
           onChange={(e) => setSearchValue(e.target.value)}
           value={searchValue}

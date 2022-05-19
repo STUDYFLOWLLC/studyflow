@@ -1,6 +1,9 @@
 import classnames from 'classnames'
+import { useTheme } from 'next-themes'
 
 export default function FlowList() {
+  const { theme } = useTheme()
+
   const projects = [
     {
       id: 1,
@@ -43,7 +46,12 @@ export default function FlowList() {
 
   return (
     <div className="hidden mt-8 sm:block">
-      <div className="align-middle inline-block min-w-full border-b border-gray-200">
+      <div
+        className={classnames(
+          { 'border-gray-200': theme === 'light' },
+          'align-middle inline-block min-w-full border-b',
+        )}
+      >
         <table className="min-w-full">
           <thead>
             <tr className="border-t border-gray-200">

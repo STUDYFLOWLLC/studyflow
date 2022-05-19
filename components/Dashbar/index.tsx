@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import classnames from 'classnames'
 import BigProfileButton from 'components/buttons/BigProfileButton'
 import CoursesNav from 'components/Dashbar/CourseNavs'
@@ -45,11 +46,7 @@ export default function index(props: DashProps) {
           loading={loading}
         />
         {/* Sidebar Search */}
-        <DashSearch
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          loading={loading}
-        />
+        <DashSearch searchValue={searchValue} setSearchValue={setSearchValue} />
         {/* Navigation */}
         <nav className="px-3 mt-6">
           <MainNavs />
