@@ -1,9 +1,11 @@
 import { Menu, Transition } from '@headlessui/react'
 import { DotsVerticalIcon } from '@heroicons/react/solid'
 import classnames from 'classnames'
+import { useTheme } from 'next-themes'
 import { Fragment } from 'react'
 
 export default function Pinned() {
+  const { theme } = useTheme()
   const projects = [
     {
       id: 1,
@@ -47,7 +49,12 @@ export default function Pinned() {
 
   return (
     <div className="px-4 mt-6 sm:px-6 lg:px-8">
-      <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">
+      <h2
+        className={classnames(
+          { 'text-gray-500': theme === 'light' },
+          'text-xs font-medium uppercase tracking-wide',
+        )}
+      >
         Open Assignments
       </h2>
       <ul className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">

@@ -33,7 +33,7 @@ export default function DashSearch(props: Props) {
           name="Search"
           id="search"
           className={classnames(
-            { 'border-gray-300': theme === 'light' },
+            { 'border-gray-300': theme !== 'dark' },
             { 'bg-base-200': theme === 'dark' },
             'h-10 block focus:ring-primary focus:border-primary w-full pl-9 sm:text-sm rounded-md',
           )}

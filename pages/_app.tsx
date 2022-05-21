@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { UserProvider } from '@supabase/supabase-auth-helpers/react'
-import AuthProvider from 'contexts/AuthContext'
 import { request } from 'graphql-request'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
@@ -21,12 +20,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <title>Studyflow</title>
       </Head>
-      <ThemeProvider defaultTheme="system" enableSystem enableColorScheme>
+      <ThemeProvider defaultTheme="system" enableSystem>
         <SWRConfig value={{ fetcher }}>
           <UserProvider supabaseClient={supabaseClient}>
-            <AuthProvider>
-              <Component {...pageProps} />
-            </AuthProvider>
+            <Component {...pageProps} />
           </UserProvider>
         </SWRConfig>
       </ThemeProvider>

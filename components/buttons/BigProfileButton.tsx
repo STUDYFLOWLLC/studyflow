@@ -17,6 +17,13 @@ export default function BigProfileButton(props: Props) {
   const { theme, setTheme } = useTheme()
   const { name, username, pfpLink, loading } = props
 
+  console.log(
+    classnames(
+      { '#ebebeb': theme === 'light' },
+      { '#202020': theme === 'dark' },
+    ),
+  )
+
   return (
     <Menu as="div" className="px-2 mt-1 relative inline-block text-left">
       <div>
@@ -85,7 +92,7 @@ export default function BigProfileButton(props: Props) {
         <Menu.Items
           className={classnames(
             { 'bg-white divide-gray-200': theme === 'light' },
-            { 'bg-slate-700 divide-slate-800': theme === 'dark' },
+            { 'bg-slate-700 divide-gray-200': theme === 'dark' },
             'z-10 mx-3 origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 divide-y  focus:outline-none',
           )}
         >

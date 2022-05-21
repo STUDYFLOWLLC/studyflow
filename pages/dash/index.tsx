@@ -8,8 +8,6 @@ import Pinned from 'components/Dashboard/Pinned'
 import DashHeadSmall from 'components/DashHeadSmall'
 import Taskover from 'components/Taskover'
 import useUserDetails from 'hooks/useUserDetails'
-import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 interface Props {
@@ -17,8 +15,6 @@ interface Props {
 }
 
 export default function Example({ user }: Props) {
-  const { theme, setTheme } = useTheme()
-  const router = useRouter()
   const { userDetails, isLoading, isError } = useUserDetails(user.email)
 
   const [searchValue, setSearchValue] = useState('')

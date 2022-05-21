@@ -19,7 +19,7 @@ export default function CMDEntry(props: QuickAction) {
       className={({ active }) =>
         classnames(
           'flex cursor-default select-none items-center rounded-md px-3 py-2',
-          active && 'bg-primary-400 text-white',
+          active && 'bg-primary text-white',
         )
       }
     >
@@ -33,14 +33,7 @@ export default function CMDEntry(props: QuickAction) {
             aria-hidden="true"
           />
           <span className="ml-3 flex-auto truncate">{name}</span>
-          <span
-            className={classnames(
-              'ml-3 flex-none text-xs font-semibold',
-              active ? 'text-primary-100' : 'text-gray-400',
-            )}
-          >
-            <kbd className="w-5 kbd kbd-xs text-stone-500">{shortcut}</kbd>
-          </span>
+          <kbd className="w-5 kbd kbd-xs">{shortcut}</kbd>
         </>
       )}
     </Combobox.Option>

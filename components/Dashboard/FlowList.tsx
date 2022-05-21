@@ -7,39 +7,43 @@ export default function FlowList() {
   const projects = [
     {
       id: 1,
-      title: 'GraphQL API',
+      title: 'L24 THREADS AND CONCURRENCY',
       initials: 'GA',
-      team: 'Engineering',
-      members: [
-        {
-          name: 'Dries Vincent',
-          handle: 'driesvincent',
-          imageUrl:
-            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-          name: 'Lindsay Walton',
-          handle: 'lindsaywalton',
-          imageUrl:
-            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-          name: 'Courtney Henry',
-          handle: 'courtneyhenry',
-          imageUrl:
-            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-          name: 'Tom Cook',
-          handle: 'tomcook',
-          imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-      ],
-      totalMembers: 12,
-      lastUpdated: 'March 17, 2020',
-      pinned: true,
-      bgColorClass: 'bg-pink-600',
+      team: 'CS2110',
+      nextReview: 'Today',
+      created: 'April 26, 2022',
+      pinned: false,
+      bgColorClass: 'bg-green-500',
+    },
+    {
+      id: 2,
+      title: '8.1 ORTHOGONAL COMPLEMENTS AND PROJECTIONS',
+      initials: 'GA',
+      team: 'MATH2210',
+      nextReview: 'Today',
+      created: 'April 25, 2022',
+      pinned: false,
+      bgColorClass: 'bg-indigo-500',
+    },
+    {
+      id: 3,
+      title: '9.1 THE MATRIX OF A LINEAR TRANSFORMATION',
+      initials: 'GA',
+      team: 'MATH2210',
+      nextReview: 'in three days',
+      created: 'April 23, 2022',
+      pinned: false,
+      bgColorClass: 'bg-indigo-500',
+    },
+    {
+      id: 1,
+      title: 'L23 HASHSETS',
+      initials: 'GA',
+      team: 'CS2110',
+      nextReview: 'Today',
+      created: 'April 21, 2022',
+      pinned: false,
+      bgColorClass: 'bg-green-500',
     },
     // More projects...
   ]
@@ -54,23 +58,64 @@ export default function FlowList() {
       >
         <table className="min-w-full">
           <thead>
-            <tr className="border-t border-gray-200">
-              <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <tr
+              className={classnames(
+                { 'border-gray-200': theme === 'light' },
+                'border-t',
+              )}
+            >
+              <th
+                className={classnames(
+                  {
+                    'border-gray-200 bg-gray-50 text-gray-500':
+                      theme === 'light',
+                  },
+                  'px-6 py-3 border-b text-left text-xs font-medium uppercase tracking-wider',
+                )}
+              >
                 <span className="lg:pl-2">Recent Flows</span>
               </th>
-              <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Members
+              <th
+                className={classnames(
+                  {
+                    'border-gray-200 bg-gray-50 text-gray-500':
+                      theme === 'light',
+                  },
+                  'hidden md:table-cell px-6 py-3 border-b text-center text-xs font-medium uppercase tracking-wider',
+                )}
+              >
+                Created
               </th>
-              <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Last updated
+              <th
+                className={classnames(
+                  {
+                    'border-gray-200 bg-gray-50 text-gray-500':
+                      theme === 'light',
+                  },
+                  'hidden md:table-cell px-6 py-3 border-b text-xs font-medium uppercase tracking-wider text-right',
+                )}
+              >
+                Review
               </th>
-              <p className="pr-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider" />
+              <p
+                className={classnames(
+                  {
+                    'border-gray-200 bg-gray-50 text-gray-500':
+                      theme === 'light',
+                  },
+                  'md:table-cell pr-6 py-3 border-b text-right text-xs font-medium  uppercase tracking-wider',
+                )}
+              />{' '}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
+          <tbody
+            className={classnames({
+              'bg-white divide-y divide-gray-100': theme === 'light',
+            })}
+          >
             {projects.map((project) => (
               <tr key={project.id}>
-                <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium">
                   <div className="flex items-center space-x-3 lg:pl-2">
                     <div
                       className={classnames(
@@ -89,31 +134,25 @@ export default function FlowList() {
                     </a>
                   </div>
                 </td>
-                <td className="px-6 py-3 text-sm text-gray-500 font-medium">
-                  <div className="flex items-center space-x-2">
-                    <div className="flex flex-shrink-0 -space-x-1">
-                      {project.members.map((member) => (
-                        <img
-                          key={member.handle}
-                          className="max-w-none h-6 w-6 rounded-full ring-2 ring-white"
-                          src={member.imageUrl}
-                          alt={member.name}
-                        />
-                      ))}
-                    </div>
-                    {project.totalMembers > project.members.length ? (
-                      <span className="flex-shrink-0 text-xs leading-5 font-medium">
-                        +{project.totalMembers - project.members.length}
-                      </span>
-                    ) : null}
-                  </div>
+                <td
+                  className={classnames(
+                    { 'text-gray-500': theme === 'light' },
+                    'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
+                  )}
+                >
+                  {project.created}
                 </td>
-                <td className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
-                  {project.lastUpdated}
+                <td
+                  className={classnames(
+                    { 'text-gray-500': theme === 'light' },
+                    'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
+                  )}
+                >
+                  {project.nextReview}
                 </td>
-                <td className="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-                  <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                    Edit
+                <td className="px-12 py-3 text-right text-sm font-medium">
+                  <a href="#" className="text-primary">
+                    Open
                   </a>
                 </td>
               </tr>

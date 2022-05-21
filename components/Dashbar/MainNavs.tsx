@@ -50,10 +50,10 @@ export default function MainNavs() {
           className={classnames(
             {
               'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
-                !item.current && theme === 'light',
+                !item.current && theme !== 'dark',
             },
             { 'hover:bg-slate-700': !item.current && theme === 'dark' },
-            { 'bg-gray-200': item.current && theme === 'light' },
+            { 'bg-gray-200': item.current && theme !== 'dark' },
             { 'bg-slate-600': item.current && theme === 'dark' },
             'group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
           )}

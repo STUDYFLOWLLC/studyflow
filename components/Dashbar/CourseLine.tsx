@@ -26,10 +26,10 @@ export default function CourseLine(props: Props) {
           className={classnames(
             {
               'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
-                !current && theme === 'light',
+                !current && theme !== 'dark',
             },
             { 'hover:bg-slate-700': !current && theme === 'dark' },
-            { 'bg-gray-200': current && theme === 'light' },
+            { 'bg-gray-200': current && theme !== 'dark' },
             { 'bg-slate-600': current && theme === 'dark' },
             'group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
           )}
@@ -38,13 +38,17 @@ export default function CourseLine(props: Props) {
             className="flex self-center items-center"
             style={{ marginLeft: '0.15rem' }}
           >
-            <span
-              className={classnames(
-                course.bgColorClass,
-                'w-2.5 h-2.5 mr-4 rounded-full',
-              )}
-              style={{ marginRight: '1.125rem' }}
-            />
+            {!loading ? (
+              <span
+                className={classnames(
+                  course.bgColorClass,
+                  'w-2.5 h-2.5 mr-4 mt-0.5 rounded-full',
+                )}
+                style={{ marginRight: '1.125rem' }}
+              />
+            ) : (
+              <Skeleton className="w-2.5 h-2.5 mr-4" circle />
+            )}
             {!loading ? <span>{course.name}</span> : <Skeleton width={150} />}
           </div>
 
