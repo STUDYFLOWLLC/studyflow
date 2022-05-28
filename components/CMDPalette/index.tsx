@@ -62,7 +62,7 @@ export default function CMDPalette() {
   const router = useRouter()
 
   useHotkeys(
-    'cmd+k',
+    'cmd+k, ctrl+k',
     (e) => {
       e.preventDefault()
       setOpen(!open)
