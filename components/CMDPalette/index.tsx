@@ -58,14 +58,10 @@ const quickActions = [
 export default function CMDPalette() {
   const router = useRouter()
   const { theme, setTheme } = useTheme()
-  
+
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
-
-  useEffect(() => setMounted(true), [])
-
-  if (!mounted) return null
 
   useHotkeys(
     'cmd+k, ctrl+k',
@@ -78,6 +74,10 @@ export default function CMDPalette() {
     },
     [open],
   )
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   const filteredProjects =
     query === ''

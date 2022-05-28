@@ -22,11 +22,6 @@ export default function index(props: DashProps) {
 
   const [mounted, setMounted] = useState(false)
 
-  useEffect(() => setMounted(true), [])
-
-  if (!mounted) return null
-  
-
   useHotkeys(
     'cmd+l, ctrl+l',
     (e) => {
@@ -38,6 +33,10 @@ export default function index(props: DashProps) {
     },
     [theme],
   )
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <div
