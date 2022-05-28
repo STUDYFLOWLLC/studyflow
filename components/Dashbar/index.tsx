@@ -20,7 +20,7 @@ export default function index(props: DashProps) {
   const { searchValue, setSearchValue, loading } = props
 
   useHotkeys(
-    'cmd+l',
+    'cmd+l, ctrl+l',
     (e) => {
       e.preventDefault()
       theme === 'light' ? setTheme('dark') : setTheme('light')
