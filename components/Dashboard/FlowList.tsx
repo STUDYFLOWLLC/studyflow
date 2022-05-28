@@ -1,5 +1,8 @@
+import { ArrowsExpandIcon } from '@heroicons/react/outline'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
+import { useState } from 'react'
+import { animated, useSpring } from 'react-spring'
 
 export default function FlowList() {
   const { theme } = useTheme()
@@ -48,6 +51,26 @@ export default function FlowList() {
     // More projects...
   ]
 
+  const [show, setShow] = useState(false)
+
+  const openTextAnimationProps = useSpring({
+    transform: show ? 'translateX(-10px)' : 'translateX(0px)',
+    from: {
+      transform: 'translateX(0px)',
+    },
+    config: {
+      friction: 20,
+      tension: 300,
+    },
+  })
+
+  const openIconAnimationProps = useSpring({
+    opacity: show ? 1 : 0,
+    from: {
+      opacity: 0,
+    },
+  })
+
   return (
     <div className="hidden mt-8 sm:block">
       <div
@@ -92,10 +115,10 @@ export default function FlowList() {
                     'border-gray-200 bg-gray-50 text-gray-500':
                       theme === 'light',
                   },
-                  'hidden md:table-cell px-6 py-3 border-b text-xs font-medium uppercase tracking-wider text-right',
+                  'hidden md:table-cell px-3 py-3 border-b text-xs font-medium uppercase tracking-wider text-right',
                 )}
               >
-                Review
+                Next Review
               </th>
               <p
                 className={classnames(
@@ -150,10 +173,20 @@ export default function FlowList() {
                 >
                   {project.nextReview}
                 </td>
-                <td className="px-12 py-3 text-right text-sm font-medium">
-                  <a href="#" className="text-primary">
-                    Open
-                  </a>
+
+                <td
+                  onMouseOver={() => setShow(true)}
+                  onFocus={() => setShow(true)}
+                  className="relative items-center px-6 py-3 text-right text-sm font-medium cursor-pointer"
+                >
+                  <animated.div style={{ ...openTextAnimationProps }}>
+                    <a href="#" className="text-primary">
+                      Open
+                    </a>
+                  </animated.div>
+                  <animated.div style={{ ...openIconAnimationProps }}>
+                    <ArrowsExpandIcon className="absolute top-3 right-3 w-4 mt-0.5 ml-1" />
+                  </animated.div>
                 </td>
               </tr>
             ))}

@@ -2,10 +2,10 @@ import { User, withAuthRequired } from '@supabase/supabase-auth-helpers/nextjs'
 import CMDPalette from 'components/CMDPalette'
 import DashBar from 'components/Dashbar'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
-import FlowList from 'components/Dashboard/FlowList'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
 import Pinned from 'components/Dashboard/Pinned'
 import DashHeadSmall from 'components/DashHeadSmall'
+import FlowTable from 'components/FlowTable'
 import Taskover from 'components/Taskover'
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
@@ -35,7 +35,7 @@ export default function Example({ user }: Props) {
           <DashHeadBig />
           <Pinned />
           <FlowListSmall />
-          <FlowList />
+          <FlowTable />
         </main>
       </div>
       <Taskover />

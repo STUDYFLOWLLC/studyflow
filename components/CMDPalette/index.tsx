@@ -123,7 +123,7 @@ export default function CMDPalette() {
                 aria-hidden="true"
               />
               <Combobox.Input
-                className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+                className="h-12 w-full border-0 bg-transparent pl-11 pr-4 focus:ring-0 sm:text-sm"
                 placeholder="Search..."
                 onChange={(event) => setQuery(event.target.value)}
               />

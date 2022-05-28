@@ -34,7 +34,7 @@ export default function index(props: DashProps) {
   return (
     <div
       className={classnames(
-        { 'bg-slate-100': theme !== 'dark' },
+        { 'bg-slate-100': theme === 'light' },
         { 'bg-base-200': theme === 'dark' },
         'hidden lg:flex lg:flex-col lg:w-56 lg:fixed lg:inset-y-0 lg:pt-5 lg:pb-4',
       )}

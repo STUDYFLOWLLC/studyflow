@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable global-require */
+// #49C2FA
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
     themes: [
       {
         light: {
-          primary: '#49C2FA',
+          primary: '#6ce8dc',
           secondary: '#EE81C3',
           'secondary-focus': '#ED54A8',
           accent: '#F4BB77',
@@ -27,7 +28,7 @@ module.exports = {
       },
       {
         dark: {
-          primary: '#49C2FA',
+          primary: '#6ce8dc',
           secondary: '#EE81C3',
           'secondary-focus': '#ED54A8',
           accent: '#F4BB77',
