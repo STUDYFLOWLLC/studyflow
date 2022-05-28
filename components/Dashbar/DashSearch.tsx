@@ -2,7 +2,7 @@
 import { SearchIcon } from '@heroicons/react/solid'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 interface Props {
   searchValue: string
@@ -10,8 +10,16 @@ interface Props {
 }
 
 export default function DashSearch(props: Props) {
-  const { theme } = useTheme()
   const { searchValue, setSearchValue } = props
+
+  const { theme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+  
 
   return (
     <div className="px-3 mt-5">

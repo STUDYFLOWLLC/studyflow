@@ -5,7 +5,7 @@ import CoursesNav from 'components/Dashbar/CourseNavs'
 import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
 import { useTheme } from 'next-themes'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import DashSearch from './DashSearch'
 
@@ -16,8 +16,16 @@ interface DashProps {
 }
 
 export default function index(props: DashProps) {
-  const { theme, setTheme } = useTheme()
   const { searchValue, setSearchValue, loading } = props
+
+  const { theme, setTheme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+  
 
   useHotkeys(
     'cmd+l, ctrl+l',

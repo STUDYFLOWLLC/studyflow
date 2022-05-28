@@ -1,7 +1,14 @@
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 export default function FourOFour() {
   const { theme, setTheme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <div className=" min-h-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">

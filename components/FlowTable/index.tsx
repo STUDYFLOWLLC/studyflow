@@ -1,52 +1,59 @@
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import FlowTableLine from './FlowTableLine'
+
+const flows = [
+  {
+    id: '1',
+    title: 'L24 THREADS AND CONCURRENCY',
+    initials: 'GA',
+    course: 'CS2110',
+    nextReview: 'Today',
+    created: 'April 26, 2022',
+    pinned: false,
+    bgColorClass: 'bg-green-500',
+  },
+  {
+    id: '2',
+    title: '8.1 ORTHOGONAL COMPLEMENTS AND PROJECTIONS',
+    initials: 'GA',
+    course: 'MATH2210',
+    nextReview: 'Today',
+    created: 'April 25, 2022',
+    pinned: false,
+    bgColorClass: 'bg-indigo-500',
+  },
+  {
+    id: '3',
+    title: '9.1 THE MATRIX OF A LINEAR TRANSFORMATION',
+    initials: 'GA',
+    course: 'MATH2210',
+    nextReview: 'in three days',
+    created: 'April 23, 2022',
+    pinned: false,
+    bgColorClass: 'bg-indigo-500',
+  },
+  {
+    id: '4',
+    title: 'L23 HASHSETS',
+    initials: 'GA',
+    course: 'CS2110',
+    nextReview: 'Today',
+    created: 'April 21, 2022',
+    pinned: false,
+    bgColorClass: 'bg-green-500',
+  },
+]
 
 export default function FlowList() {
   const { theme } = useTheme()
 
-  const flows = [
-    {
-      id: '1',
-      title: 'L24 THREADS AND CONCURRENCY',
-      initials: 'GA',
-      course: 'CS2110',
-      nextReview: 'Today',
-      created: 'April 26, 2022',
-      pinned: false,
-      bgColorClass: 'bg-green-500',
-    },
-    {
-      id: '2',
-      title: '8.1 ORTHOGONAL COMPLEMENTS AND PROJECTIONS',
-      initials: 'GA',
-      course: 'MATH2210',
-      nextReview: 'Today',
-      created: 'April 25, 2022',
-      pinned: false,
-      bgColorClass: 'bg-indigo-500',
-    },
-    {
-      id: '3',
-      title: '9.1 THE MATRIX OF A LINEAR TRANSFORMATION',
-      initials: 'GA',
-      course: 'MATH2210',
-      nextReview: 'in three days',
-      created: 'April 23, 2022',
-      pinned: false,
-      bgColorClass: 'bg-indigo-500',
-    },
-    {
-      id: '4',
-      title: 'L23 HASHSETS',
-      initials: 'GA',
-      course: 'CS2110',
-      nextReview: 'Today',
-      created: 'April 21, 2022',
-      pinned: false,
-      bgColorClass: 'bg-green-500',
-    },
-  ]
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <div className="hidden mt-8 sm:block">
