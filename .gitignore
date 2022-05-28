@@ -1,4 +1,4 @@
 node_modules
 build
 prisma/generated
-.next/cache
+.next
