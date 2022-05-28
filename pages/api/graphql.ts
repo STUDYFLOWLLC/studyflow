@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { ApolloServer } from 'apollo-server-micro'
 import { MicroRequest } from 'apollo-server-micro/dist/types'
 import { createContext } from 'graphql/context'
@@ -5,7 +6,6 @@ import { ServerResponse } from 'http'
 import Cors from 'micro-cors'
 import path from 'path'
 import { resolvers } from 'prisma/generated/type-graphql'
-import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
 
 const buildServer = async () => {
