@@ -1,57 +1,62 @@
 import { ArrowsExpandIcon } from '@heroicons/react/outline'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
+
+const projects = [
+  {
+    id: 1,
+    title: 'L24 THREADS AND CONCURRENCY',
+    initials: 'GA',
+    team: 'CS2110',
+    nextReview: 'Today',
+    created: 'April 26, 2022',
+    pinned: false,
+    bgColorClass: 'bg-green-500',
+  },
+  {
+    id: 2,
+    title: '8.1 ORTHOGONAL COMPLEMENTS AND PROJECTIONS',
+    initials: 'GA',
+    team: 'MATH2210',
+    nextReview: 'Today',
+    created: 'April 25, 2022',
+    pinned: false,
+    bgColorClass: 'bg-indigo-500',
+  },
+  {
+    id: 3,
+    title: '9.1 THE MATRIX OF A LINEAR TRANSFORMATION',
+    initials: 'GA',
+    team: 'MATH2210',
+    nextReview: 'in three days',
+    created: 'April 23, 2022',
+    pinned: false,
+    bgColorClass: 'bg-indigo-500',
+  },
+  {
+    id: 1,
+    title: 'L23 HASHSETS',
+    initials: 'GA',
+    team: 'CS2110',
+    nextReview: 'Today',
+    created: 'April 21, 2022',
+    pinned: false,
+    bgColorClass: 'bg-green-500',
+  },
+  // More projects...
+]
 
 export default function FlowList() {
   const { theme } = useTheme()
 
-  const projects = [
-    {
-      id: 1,
-      title: 'L24 THREADS AND CONCURRENCY',
-      initials: 'GA',
-      team: 'CS2110',
-      nextReview: 'Today',
-      created: 'April 26, 2022',
-      pinned: false,
-      bgColorClass: 'bg-green-500',
-    },
-    {
-      id: 2,
-      title: '8.1 ORTHOGONAL COMPLEMENTS AND PROJECTIONS',
-      initials: 'GA',
-      team: 'MATH2210',
-      nextReview: 'Today',
-      created: 'April 25, 2022',
-      pinned: false,
-      bgColorClass: 'bg-indigo-500',
-    },
-    {
-      id: 3,
-      title: '9.1 THE MATRIX OF A LINEAR TRANSFORMATION',
-      initials: 'GA',
-      team: 'MATH2210',
-      nextReview: 'in three days',
-      created: 'April 23, 2022',
-      pinned: false,
-      bgColorClass: 'bg-indigo-500',
-    },
-    {
-      id: 1,
-      title: 'L23 HASHSETS',
-      initials: 'GA',
-      team: 'CS2110',
-      nextReview: 'Today',
-      created: 'April 21, 2022',
-      pinned: false,
-      bgColorClass: 'bg-green-500',
-    },
-    // More projects...
-  ]
-
+  const [mounted, setMounted] = useState(false)
   const [show, setShow] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   const openTextAnimationProps = useSpring({
     transform: show ? 'translateX(-10px)' : 'translateX(0px)',

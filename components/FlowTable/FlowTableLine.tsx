@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import OpenFancy from 'components/FlowTable/OpenFancy'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 
 interface Props {
@@ -26,7 +26,12 @@ export default function FlowTableLine(props: Props) {
   } = props
   const { theme } = useTheme()
 
+  const [mounted, setMounted] = useState(false)
   const [showOpenIcon, setShowOpenIcon] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <tr>

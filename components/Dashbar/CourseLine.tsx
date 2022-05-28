@@ -1,6 +1,7 @@
 import classnames from 'classnames'
 import { CourseDisplay } from 'components/Dashbar/CourseNavs'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import Skeleton from 'react-loading-skeleton'
 
@@ -12,8 +13,15 @@ interface Props {
 }
 
 export default function CourseLine(props: Props) {
-  const { theme, setTheme } = useTheme()
   const { index, course, current, loading } = props
+  
+  const { theme, setTheme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <Draggable key={course.name} draggableId={course.name} index={index}>

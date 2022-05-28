@@ -1,6 +1,7 @@
 import { Menu } from '@headlessui/react'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 interface Props {
   active: boolean
@@ -10,7 +11,14 @@ interface Props {
 
 export default function BigProfileButtonMenuItem(props: Props) {
   const { active, name, href } = props
+  
   const { theme, setTheme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <Menu.Item>

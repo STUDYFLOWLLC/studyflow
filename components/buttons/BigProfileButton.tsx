@@ -2,7 +2,7 @@ import { Menu, Transition } from '@headlessui/react'
 import { SelectorIcon } from '@heroicons/react/solid'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import BigProfileButtonMenuItem from './BigProfileButtonMenuItem'
 
@@ -14,15 +14,15 @@ export interface Props {
 }
 
 export default function BigProfileButton(props: Props) {
-  const { theme, setTheme } = useTheme()
   const { name, username, pfpLink, loading } = props
 
-  console.log(
-    classnames(
-      { '#ebebeb': theme === 'light' },
-      { '#202020': theme === 'dark' },
-    ),
-  )
+  const { theme, setTheme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <Menu as="div" className="px-2 mt-1 relative inline-block text-left">

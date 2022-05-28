@@ -14,7 +14,7 @@ import classnames from 'classnames'
 import CMDEntry from 'components/CMDPalette/CMDEntry'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 const projects = [
@@ -56,10 +56,12 @@ const quickActions = [
 ]
 
 export default function CMDPalette() {
-  const [open, setOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
-  const [query, setQuery] = useState('')
   const router = useRouter()
+  const { theme, setTheme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
 
   useHotkeys(
     'cmd+k, ctrl+k',
@@ -72,6 +74,10 @@ export default function CMDPalette() {
     },
     [open],
   )
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   const filteredProjects =
     query === ''
