@@ -10,12 +10,7 @@ import { useState } from 'react'
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
 
-export default function Flashcard({
-  front,
-  back,
-  flipped,
-  status,
-}: FlashcardProps) {
+export default function Flashcard({ front, back, status }: FlashcardProps) {
   const [flip, setFlip] = useState(false)
   const [showBack, setShowBack] = useState(false)
 

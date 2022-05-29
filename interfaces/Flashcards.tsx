@@ -8,7 +8,6 @@ export enum FlashcardStatus {
 export interface FlashcardProps {
   front: string
   back: string
-  flipped: boolean
   status: FlashcardStatus
 }
 

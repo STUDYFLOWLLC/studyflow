@@ -16,19 +16,16 @@ export default function index() {
     {
       front: 'front1',
       back: 'back1',
-      flipped: false,
       status: FlashcardStatus.right,
     },
     {
       front: 'front2',
       back: 'back2',
-      flipped: false,
       status: FlashcardStatus.wrong,
     },
     {
       front: 'front3',
       back: 'back3',
-      flipped: false,
       status: FlashcardStatus.neutral,
     },
   ]
@@ -38,7 +35,7 @@ export default function index() {
       <ToastTester />
       <AppleButton />
       <MainSpinner />
-      <FlashCard3 front="front" back="back" />
+      <FlashCard3 front="front" back="back" status={FlashcardStatus.neutral} />
       <button
         type="button"
         className="btn btn-primary"

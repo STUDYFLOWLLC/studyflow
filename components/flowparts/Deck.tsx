@@ -154,7 +154,7 @@ export default function Deck({ cards }: DeckProps) {
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
     <div className="bg-white">
-      {props.map(({ x, y, rot, scale, zIndex }, i) => (
+      {props.map(({ x, y, rot, scale }, i) => (
         <animated.div
           className="w-96 h-48 deck absolute flex items-start justify-center"
           key={i}
@@ -165,13 +165,12 @@ export default function Deck({ cards }: DeckProps) {
             {...bind(i)}
             style={{
               transform: interpolate([rot, scale], trans),
-              zIndex,
             }}
           >
             <FlashCard3
               front={cards[cards.length - 1 - i].front}
               back={cards[cards.length - 1 - i].back}
-              flipped={cards[cards.length - 1 - i].flipped}
+              // flipped={cards[cards.length - 1 - i].flipped}
               status={cards[cards.length - 1 - i].status}
             />{' '}
           </animated.div>

@@ -32,10 +32,10 @@ export default function CourseLine({ index, course, current, loading }: Props) {
           className={classnames(
             {
               'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
-                !current && theme !== 'dark',
+                !current && theme === 'light',
             },
             { 'hover:bg-slate-700': !current && theme === 'dark' },
-            { 'bg-gray-200': current && theme !== 'dark' },
+            { 'bg-gray-200': current && theme === 'light' },
             { 'bg-slate-600': current && theme === 'dark' },
             'group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
           )}

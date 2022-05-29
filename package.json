@@ -53,6 +53,7 @@
     "react-hotkeys-hook": "^3.4.4",
     "react-icons": "^4.3.1",
     "react-loading-skeleton": "^3.1.0",
+    "react-query": "^3.39.1",
     "react-spring": "^9.4.5",
     "reflect-metadata": "^0.1.13",
     "swr": "^1.2.2",
