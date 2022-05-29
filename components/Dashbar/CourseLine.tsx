@@ -12,9 +12,7 @@ interface Props {
   loading: boolean
 }
 
-export default function CourseLine(props: Props) {
-  const { index, course, current, loading } = props
-  
+export default function CourseLine({ index, course, current, loading }: Props) {
   const { theme, setTheme } = useTheme()
 
   const [mounted, setMounted] = useState(false)

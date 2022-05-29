@@ -15,9 +15,11 @@ interface DashProps {
   loading: boolean
 }
 
-export default function index(props: DashProps) {
-  const { searchValue, setSearchValue, loading } = props
-
+export default function index({
+  searchValue,
+  setSearchValue,
+  loading,
+}: DashProps) {
   const { theme, setTheme } = useTheme()
 
   const [mounted, setMounted] = useState(false)

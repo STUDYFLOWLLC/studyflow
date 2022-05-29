@@ -14,16 +14,15 @@ interface Props {
   nextReview: string
 }
 
-export default function FlowTableLine(props: Props) {
-  const {
-    loading,
-    flowID,
-    bgColorClass,
-    title,
-    course,
-    createdDate,
-    nextReview,
-  } = props
+export default function FlowTableLine({
+  loading,
+  flowID,
+  bgColorClass,
+  title,
+  course,
+  createdDate,
+  nextReview,
+}: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
