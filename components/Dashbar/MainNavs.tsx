@@ -10,7 +10,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, keyboard: 'H', current: true },
+  { name: 'Dash', href: '#', icon: HomeIcon, keyboard: 'D', current: true },
   {
     name: 'Favorites',
     href: '#',
