@@ -9,9 +9,12 @@ export interface QuickAction {
   url: string
 }
 
-export default function CMDEntry(props: QuickAction) {
-  const { CmdIcon, name, shortcut, url } = props
-
+export default function CMDEntry({
+  CmdIcon,
+  name,
+  shortcut,
+  url,
+}: QuickAction) {
   return (
     <Combobox.Option
       key={shortcut}

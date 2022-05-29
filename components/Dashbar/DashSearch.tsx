@@ -9,9 +9,7 @@ interface Props {
   setSearchValue: Dispatch<SetStateAction<string>>
 }
 
-export default function DashSearch(props: Props) {
-  const { searchValue, setSearchValue } = props
-
+export default function DashSearch({ searchValue, setSearchValue }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -19,7 +17,6 @@ export default function DashSearch(props: Props) {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
-  
 
   return (
     <div className="px-3 mt-5">

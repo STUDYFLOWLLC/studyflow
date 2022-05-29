@@ -9,9 +9,11 @@ interface Props {
   href: string
 }
 
-export default function BigProfileButtonMenuItem(props: Props) {
-  const { active, name, href } = props
-  
+export default function BigProfileButtonMenuItem({
+  active,
+  name,
+  href,
+}: Props) {
   const { theme, setTheme } = useTheme()
 
   const [mounted, setMounted] = useState(false)

@@ -13,9 +13,12 @@ export interface Props {
   loading: boolean
 }
 
-export default function BigProfileButton(props: Props) {
-  const { name, username, pfpLink, loading } = props
-
+export default function BigProfileButton({
+  name,
+  username,
+  pfpLink,
+  loading,
+}: Props) {
   const { theme, setTheme } = useTheme()
 
   const [mounted, setMounted] = useState(false)

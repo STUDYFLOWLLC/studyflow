@@ -14,8 +14,7 @@ export interface CourseDisplay {
   loading: boolean
 }
 
-export default function CourseNavs(props: Props) {
-  const { loading } = props
+export default function CourseNavs({ loading }: Props) {
   const [teams, setTeams] = useState<CourseDisplay[]>([
     {
       name: 'Linear Algebra',

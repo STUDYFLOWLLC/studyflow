@@ -9,9 +9,11 @@ interface Props {
   setShowOpenIcon: Dispatch<SetStateAction<boolean>>
 }
 
-export default function OpenFancy(props: Props) {
-  const { loading, showOpenIcon, setShowOpenIcon } = props
-
+export default function OpenFancy({
+  loading,
+  showOpenIcon,
+  setShowOpenIcon,
+}: Props) {
   const openTextAnimationProps = useSpring({
     transform: showOpenIcon ? 'translateX(-8px)' : 'translateX(0px)',
     from: {

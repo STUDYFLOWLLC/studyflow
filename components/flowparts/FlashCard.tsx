@@ -7,9 +7,9 @@ interface Props {
   back: string
 }
 
-export default function FlashCard(props: Props) {
-  const { front, back } = props
+export default function FlashCard({ front, back }: Props) {
   const [flipped, setFlipped] = useState(false)
+
   useHotkeys('up', () => setFlipped(true))
   useHotkeys('down', () => setFlipped(false))
 
