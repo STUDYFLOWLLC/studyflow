@@ -12,7 +12,8 @@
     "generate-graphql": "graphql-codegen --config codegen.yml",
     "generate-all": "npx prisma generate && npm run generate-codegen",
     "storybook": "start-storybook -p 3001",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -92,7 +93,7 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-storybook": "^0.5.11",
-    "husky": "^7.0.4",
+    "husky": "^8.0.0",
     "prettier": "^2.6.2",
     "prisma": "~3.11.0",
     "ts-node": "^10.7.0",
