@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { EyeIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
-import { AiFillEye } from 'react-icons/ai'
 
 interface PseudoProps {
   title: string
@@ -41,7 +41,7 @@ const PseudoCard = ({
         {subtitle} | {date}
       </span>
       <span className="flex items-center">
-        <AiFillEye className="mx-1" /> {views}
+        <EyeIcon className="mx-1" /> {views}
       </span>
     </div>
     <div className="text-center text-blue-400 underline cursor-pointer">

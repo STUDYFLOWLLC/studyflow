@@ -1,7 +1,6 @@
 /* eslint-disable import/no-unresolved */
 
 import AppleButton from 'components/buttons/AppleButton'
-import BreadCrumb from 'components/Design/BreadCrumb'
 import ToastTester from 'components/Design/ToastTester'
 import Deck from 'components/flowparts/Deck'
 import FlashCard3 from 'components/flowparts/FlashCard3'
@@ -32,7 +31,6 @@ export default function index() {
 
   return (
     <div className="p-4">
-      <BreadCrumb />
       <ToastTester />
       <AppleButton />
       <MainSpinner />
