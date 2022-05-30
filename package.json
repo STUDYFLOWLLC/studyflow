@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "npx prettier -- --write . --ignore-unknown",
+    "prettier": "npx prettier --write .",
     "checkall": "yarn tsc --noEmit && yarn lint . && yarn prettier",
     "generate-graphql": "graphql-codegen --config codegen.yml",
     "generate-all": "npx prisma generate && npm run generate-codegen",
