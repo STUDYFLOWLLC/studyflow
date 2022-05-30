@@ -1,29 +1,11 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { GraphQLClient } from 'graphql-request';
+import * as Dom from 'graphql-request/dist/types.dom';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-
-function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      ...requestInit,
-      body: JSON.stringify({ query, variables }),
-    });
-
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  }
-}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -4967,23 +4949,24 @@ export type ExampleQueryQueryVariables = Exact<{
 export type ExampleQueryQuery = { __typename?: 'Query', user?: { __typename?: 'User', UserID: number } | null };
 
 
-export const ExampleQueryDocument = `
+export const ExampleQueryDocument = gql`
     query ExampleQuery($where: UserWhereUniqueInput!) {
   user(where: $where) {
     UserID
   }
 }
     `;
-export const useExampleQueryQuery = <
-      TData = ExampleQueryQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: ExampleQueryQueryVariables,
-      options?: UseQueryOptions<ExampleQueryQuery, TError, TData>
-    ) =>
-    useQuery<ExampleQueryQuery, TError, TData>(
-      ['ExampleQuery', variables],
-      fetcher<ExampleQueryQuery, ExampleQueryQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, ExampleQueryDocument, variables),
-      options
-    );
+
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
+
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+  return {
+    ExampleQuery(variables: ExampleQueryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ExampleQueryQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ExampleQueryQuery>(ExampleQueryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ExampleQuery', 'query');
+    }
+  };
+}
+export type Sdk = ReturnType<typeof getSdk>;
