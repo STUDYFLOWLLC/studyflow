@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-expressions, no-console */
 import { Combobox, Dialog, Transition } from '@headlessui/react'
 import {
   DocumentAddIcon,
@@ -12,9 +12,9 @@ import { SearchIcon } from '@heroicons/react/solid'
 import classnames from 'classnames'
 // import { QuickAction } from 'components/CMDPalette/CMDEntry'
 import CMDEntry from 'components/CMDPalette/CMDEntry'
+import { QuickAction } from 'interfaces/CMDPalette'
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 const projects = [
@@ -38,30 +38,44 @@ const recent = [projects[0]]
 //   { name: 'Add hashtag...', CmdIcon: HashtagIcon, shortcut: 'H', url: '#' },
 //   { name: 'Add label...', CmdIcon: TagIcon, shortcut: 'L', url: '#' },
 // ]
-const quickActions = [
+const quickActions: QuickAction[] = [
   {
     name: 'Add new file...',
     CmdIcon: DocumentAddIcon,
     shortcut: 'N',
     url: '#',
+    action: () => console.log('add new file action'),
   },
   {
     name: 'Add new folder...',
     CmdIcon: FolderAddIcon,
     shortcut: 'F',
     url: '#',
+    action: () => console.log('add new folder tes'),
   },
-  { name: 'Add hashtag...', CmdIcon: HashtagIcon, shortcut: 'H', url: '#' },
-  { name: 'Add label...', CmdIcon: TagIcon, shortcut: 'L', url: '#' },
+  {
+    name: 'Add hashtag...',
+    CmdIcon: HashtagIcon,
+    shortcut: 'H',
+    url: '#',
+    action: () => console.log('add hashtag test'),
+  },
+  {
+    name: 'Add label...',
+    CmdIcon: TagIcon,
+    shortcut: 'L',
+    url: '#',
+    action: () => console.log('add label test'),
+  },
 ]
 
 export default function CMDPalette() {
-  const router = useRouter()
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [selectedAction, setSelectedAction] = useState<QuickAction>()
 
   useHotkeys(
     'cmd+k, ctrl+k',
@@ -121,7 +135,11 @@ export default function CMDPalette() {
               { 'bg-base-200': theme === 'dark' },
               'mx-auto max-w-2xl transform divide-y divide-gray-100 overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
             )}
-            onChange={(item) => router.push(item.url)}
+            value={selectedAction}
+            onChange={(item: QuickAction) => {
+              setSelectedAction(item)
+              item.action()
+            }}
           >
             <div className="flex">
               <SearchIcon
@@ -131,7 +149,9 @@ export default function CMDPalette() {
               <Combobox.Input
                 className="h-12 w-full border-0 bg-transparent pl-11 pr-4 focus:ring-0 sm:text-sm"
                 placeholder="Search..."
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event: {
+                  target: { value: SetStateAction<string> }
+                }) => setQuery(event.target.value)}
               />
               <kbd
                 onClick={() => setOpen(!open)}
@@ -202,6 +222,7 @@ export default function CMDPalette() {
                           name={action.name}
                           shortcut={action.shortcut}
                           url=""
+                          action={action.action}
                         />
                       ))}
                     </ul>

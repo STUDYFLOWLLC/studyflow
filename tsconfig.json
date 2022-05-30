@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "lib": ["dom", "dom.iterable", "esnext", "es2018",
-      "esnext.asynciterable"],
+    "lib": ["dom", "dom.iterable", "esnext", "es2018", "esnext.asynciterable"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -25,15 +24,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "components/CMDPalette/index.jsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/graphql",
-    "**/components/CMDPalette/index.tsx"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "graphql", "pages/api"]
 }

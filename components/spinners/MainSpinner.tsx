@@ -1,10 +1,4 @@
-import { useEffect } from 'react'
-import { themeChange } from 'theme-change'
-
 export default function MainSpinner() {
-  useEffect(() => {
-    themeChange(false)
-  })
   return (
     <svg
       role="status"

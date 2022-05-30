@@ -1,24 +1,18 @@
 import { Combobox } from '@headlessui/react'
 import classnames from 'classnames'
-import { SVGProps } from 'react'
-
-export interface QuickAction {
-  name: string
-  CmdIcon: (props: SVGProps<SVGSVGElement>) => JSX.Element
-  shortcut: string
-  url: string
-}
+import { QuickAction } from 'interfaces/CMDPalette'
 
 export default function CMDEntry({
   CmdIcon,
   name,
   shortcut,
   url,
+  action,
 }: QuickAction) {
   return (
     <Combobox.Option
       key={shortcut}
-      value={props}
+      value={{ CmdIcon, name, shortcut, url, action }}
       className={({ active }) =>
         classnames(
           'flex cursor-default select-none items-center rounded-md px-3 py-2',

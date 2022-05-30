@@ -20,7 +20,9 @@ interface Props {
 export default function Example({ user }: Props) {
   const { theme } = useTheme()
 
+  /* eslint-disable */
   const { userDetails, isLoading, isError } = useUserDetails(user.email)
+  /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [searchValue, setSearchValue] = useState('')
 

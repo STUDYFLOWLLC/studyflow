@@ -14,6 +14,18 @@ export interface CourseDisplay {
   loading: boolean
 }
 
+const reorder = (
+  list: CourseDisplay[],
+  startIndex: number,
+  endIndex: number,
+) => {
+  const result = Array.from(list)
+  const [removed] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
+
+  return result
+}
+
 export default function CourseNavs({ loading }: Props) {
   const [teams, setTeams] = useState<CourseDisplay[]>([
     {
@@ -27,18 +39,7 @@ export default function CourseNavs({ loading }: Props) {
     { name: 'Cog Sci', href: '#', bgColorClass: 'bg-blue-500', loading },
     { name: 'Bio', href: '#', bgColorClass: 'bg-yellow-500', loading },
   ])
-
-  const reorder = (
-    list: CourseDisplay[],
-    startIndex: number,
-    endIndex: number,
-  ) => {
-    const result = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-
-    return result
-  }
+  const [mounted, setMounted] = useState(false)
 
   const onEnd = (result: DropResult) => {
     const { destination, source } = result
@@ -63,11 +64,7 @@ export default function CourseNavs({ loading }: Props) {
     setTeams(newTeams)
   }
 
-  const [isBrowser, setIsBrowser] = useState(false)
-
-  useEffect(() => {
-    setIsBrowser(process.browser)
-  })
+  useEffect(() => setMounted(true), [])
 
   return (
     <div className="mt-6">
@@ -83,7 +80,7 @@ export default function CourseNavs({ loading }: Props) {
         />
       </div>
 
-      {isBrowser ? (
+      {mounted && (
         <DragDropContext onDragEnd={onEnd}>
           <Droppable droppableId="courses">
             {(provided) => (
@@ -98,6 +95,7 @@ export default function CourseNavs({ loading }: Props) {
                     index={index}
                     course={course}
                     loading={loading}
+                    current={false}
                   />
                 ))}
                 {provided.placeholder}
@@ -105,7 +103,7 @@ export default function CourseNavs({ loading }: Props) {
             )}
           </Droppable>
         </DragDropContext>
-      ) : null}
+      )}
     </div>
   )
 }

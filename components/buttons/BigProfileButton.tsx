@@ -19,7 +19,7 @@ export default function BigProfileButton({
   pfpLink,
   loading,
 }: Props) {
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
 
@@ -100,24 +100,16 @@ export default function BigProfileButton({
           )}
         >
           <div className="py-1">
-            <BigProfileButtonMenuItem
-              name="View Profile"
-              active={false}
-              href="#"
-            />
-            <BigProfileButtonMenuItem name="Settings" active={false} href="#" />
-            <BigProfileButtonMenuItem name="Dark" active={false} href="#" />
+            <BigProfileButtonMenuItem name="View Profile" href="#" />
+            <BigProfileButtonMenuItem name="Settings" href="#" />
+            <BigProfileButtonMenuItem name="Dark" href="#" />
           </div>
           <div className="py-1">
-            <BigProfileButtonMenuItem
-              name="Get Desktop App"
-              active={false}
-              href="#"
-            />
-            <BigProfileButtonMenuItem name="Support" active={false} href="#" />
+            <BigProfileButtonMenuItem name="Get Desktop App" href="#" />
+            <BigProfileButtonMenuItem name="Support" href="#" />
           </div>
           <div className="py-1">
-            <BigProfileButtonMenuItem name="Logout" active={false} href="#" />
+            <BigProfileButtonMenuItem name="Logout" href="#" />
           </div>
         </Menu.Items>
       </Transition>

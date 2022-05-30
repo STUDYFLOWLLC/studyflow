@@ -33,7 +33,7 @@ export default function FlowTableLine({
   if (!mounted) return null
 
   return (
-    <tr>
+    <tr id={flowID}>
       <td
         onMouseOver={() => setShowOpenIcon(true)}
         onMouseLeave={() => setShowOpenIcon(false)}

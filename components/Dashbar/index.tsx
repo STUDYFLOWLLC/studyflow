@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import classnames from 'classnames'
 import BigProfileButton from 'components/buttons/BigProfileButton'
-import CoursesNav from 'components/Dashbar/CourseNavs'
+import CourseNavs from 'components/Dashbar/CourseNavs'
 import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
 import { useTheme } from 'next-themes'
@@ -59,7 +59,7 @@ export default function index({
         <DashSearch searchValue={searchValue} setSearchValue={setSearchValue} />
         <nav className="px-3 mt-6">
           <MainNavs />
-          <CoursesNav loading={loading} />
+          <CourseNavs loading={loading} />
         </nav>
       </div>
     </div>

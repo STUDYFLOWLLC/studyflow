@@ -1,5 +1,4 @@
 /* eslint-disable no-shadow */
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import AppleButton from 'components/buttons/AppleButton'
 import GoogleButton from 'components/buttons/GoogleButton'
@@ -68,10 +67,7 @@ export default function Login() {
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <Image width={48} height={48} src={logo} alt="Workflow" />
-            <h2
-              onClick={() => supabaseClient.auth.signOut()}
-              className="mt-3 text-3xl font-extrabold text-gray-900"
-            >
+            <h2 className="mt-3 text-3xl font-extrabold text-gray-900">
               Welcome to Studyflow
             </h2>
           </div>
