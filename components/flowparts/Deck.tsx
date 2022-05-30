@@ -1,4 +1,4 @@
-/* eslint-disable no-promise-executor-return */
+/* eslint-disable no-promise-executor-return, no-nested-ternary, react/no-array-index-key, arrow-body-style */
 import { createUseGesture, dragAction } from '@use-gesture/react'
 import FlashCard3 from 'components/flowparts/FlashCard3'
 import { DeckProps } from 'interfaces/Flashcards'
@@ -7,11 +7,8 @@ import { toast } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { animated, to as interpolate, useSprings } from 'react-spring'
 
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
-
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i: number) => {
-  console.log('to')
   return {
     x: 0,
     y: i * -4,
@@ -20,18 +17,7 @@ const to = (i: number) => {
     delay: i * 100,
   }
 }
-const to2 = (i: number) => {
-  console.log('to')
-  return {
-    x: 50,
-    y: i * -4,
-    scale: 1,
-    rot: -10 + Math.random() * 20,
-    delay: i * 100,
-  }
-}
-const from = (_i: number) => {
-  console.log('from')
+const from = () => {
   return { x: 50, rot: 0, scale: 1.1, y: -75 }
 }
 
@@ -44,14 +30,13 @@ export default function Deck({ cards }: DeckProps) {
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out]
   const [props, api] = useSprings(cards.length, (i) => ({
     ...to(i),
-    from: from(i),
+    from: from(),
   })) // Create a bunch of springs using the helpers above
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const useGesture = createUseGesture([dragAction])
   const bind = useGesture({
     onDragEnd: () => {
-      console.log('test')
-      // api.start((i) => to(i))
+      api.start((i) => to(i))
     },
     onDrag: ({
       args: [index],

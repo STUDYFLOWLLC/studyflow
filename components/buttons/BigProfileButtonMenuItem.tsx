@@ -1,20 +1,21 @@
+/* eslint-disable react/no-unused-prop-types */
+
 import { Menu } from '@headlessui/react'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 interface Props {
-  active: boolean
   name: string
   href: string
 }
 
-export default function BigProfileButtonMenuItem({
-  active,
-  name,
-  href,
-}: Props) {
-  const { theme, setTheme } = useTheme()
+interface MenuItemProps {
+  active: boolean
+}
+
+export default function BigProfileButtonMenuItem({ name, href }: Props) {
+  const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
 
@@ -24,7 +25,7 @@ export default function BigProfileButtonMenuItem({
 
   return (
     <Menu.Item>
-      {({ active }) => (
+      {({ active }: MenuItemProps) => (
         <a
           href={href}
           className={classnames(

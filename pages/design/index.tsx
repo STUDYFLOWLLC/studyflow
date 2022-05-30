@@ -9,26 +9,27 @@ import MainSpinner from 'components/spinners/MainSpinner'
 import { FlashcardProps, FlashcardStatus } from 'interfaces/Flashcards'
 import { useTheme } from 'next-themes'
 
+const cards: FlashcardProps[] = [
+  {
+    front: 'front1',
+    back: 'back1',
+    status: FlashcardStatus.right,
+  },
+  {
+    front: 'front2',
+    back: 'back2',
+    status: FlashcardStatus.wrong,
+  },
+  {
+    front: 'front3',
+    back: 'back3',
+    status: FlashcardStatus.neutral,
+  },
+]
+
 export default function index() {
-  const { resolvedTheme, setTheme } = useTheme()
-  console.log(FlashcardStatus.right)
-  const cards: FlashcardProps[] = [
-    {
-      front: 'front1',
-      back: 'back1',
-      status: FlashcardStatus.right,
-    },
-    {
-      front: 'front2',
-      back: 'back2',
-      status: FlashcardStatus.wrong,
-    },
-    {
-      front: 'front3',
-      back: 'back3',
-      status: FlashcardStatus.neutral,
-    },
-  ]
+  const { setTheme } = useTheme()
+
   return (
     <div className="p-4">
       <BreadCrumb />

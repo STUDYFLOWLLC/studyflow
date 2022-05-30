@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function CourseLine({ index, course, current, loading }: Props) {
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-expressions, no-console */
 import { Combobox, Dialog, Transition } from '@headlessui/react'
 import {
   DocumentAddIcon,
@@ -14,7 +14,6 @@ import classnames from 'classnames'
 import CMDEntry from 'components/CMDPalette/CMDEntry'
 import { QuickAction } from 'interfaces/CMDPalette'
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
 import { Fragment, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
@@ -71,8 +70,7 @@ const quickActions: QuickAction[] = [
 ]
 
 export default function CMDPalette() {
-  const router = useRouter()
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
