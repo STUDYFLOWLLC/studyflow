@@ -1,15 +1,11 @@
-export enum sizes {
-  small,
-  medium,
-  large,
-}
+import { SpinnerSizes } from 'interfaces/Loading'
 
 interface Props {
-  size?: sizes
+  size?: SpinnerSizes
 }
 
 export default function MainSpinner({ size }: Props) {
-  if (size === sizes.medium) {
+  if (size === SpinnerSizes.medium) {
     return (
       <svg
         role="status"
@@ -30,7 +26,7 @@ export default function MainSpinner({ size }: Props) {
     )
   }
 
-  if (size === sizes.small) {
+  if (size === SpinnerSizes.small) {
     return (
       <svg
         role="status"
