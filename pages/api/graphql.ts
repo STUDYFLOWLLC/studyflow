@@ -8,21 +8,6 @@ import path from 'path'
 import { resolvers } from 'prisma/generated/type-graphql'
 import { buildSchema } from 'type-graphql'
 
-const buildServer = async () => {
-  const schema = await buildSchema({
-    resolvers,
-    emitSchemaFile: path.resolve(__dirname, './generated-schema.graphql'),
-    validate: false,
-  })
-
-  const apolloServer = new ApolloServer({
-    schema,
-    context: createContext,
-  })
-
-  return apolloServer
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cors = new (Cors as any)({
   origin: 'https://studio.apollographql.com',
@@ -35,7 +20,20 @@ export default cors(async (req: MicroRequest, res: ServerResponse) => {
     return false
   }
 
-  const apolloServer = await buildServer()
+  const schema = await buildSchema({
+    resolvers,
+    emitSchemaFile: path.resolve(
+      __dirname,
+      '../graphql/generated-schema.graphql',
+    ),
+    validate: false,
+  })
+
+  const apolloServer = new ApolloServer({
+    schema,
+    context: createContext,
+  })
+
   await apolloServer.start()
   return apolloServer.createHandler({ path: '/api/graphql' })(req, res)
 })
