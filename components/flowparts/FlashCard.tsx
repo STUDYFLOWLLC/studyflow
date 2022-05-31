@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { animated as a, useSpring } from 'react-spring'
+import { animated as a, useSpring } from '@react-spring/web'
 
 interface Props {
   front: string

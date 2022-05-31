@@ -1,7 +1,7 @@
 import { ArrowsExpandIcon } from '@heroicons/react/outline'
 import { Dispatch, SetStateAction } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import { animated, useSpring } from 'react-spring'
+import { animated, useSpring } from '@react-spring/web'
 
 interface Props {
   loading: boolean
