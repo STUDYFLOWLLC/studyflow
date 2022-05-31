@@ -2,7 +2,7 @@ import { ArrowsExpandIcon } from '@heroicons/react/outline'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import { animated, useSpring } from 'react-spring'
+import { animated, useSpring } from '@react-spring/web'
 
 const projects = [
   {

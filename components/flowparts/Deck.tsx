@@ -5,7 +5,7 @@ import { DeckProps } from 'interfaces/Flashcards'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { animated, to as interpolate, useSprings } from 'react-spring'
+import { animated, to as interpolate, useSprings } from '@react-spring/web'
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i: number) => {
