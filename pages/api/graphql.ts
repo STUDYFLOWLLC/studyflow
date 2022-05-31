@@ -22,10 +22,7 @@ export default cors(async (req: MicroRequest, res: ServerResponse) => {
 
   const schema = await buildSchema({
     resolvers,
-    emitSchemaFile: path.resolve(
-      __dirname,
-      '../graphql/generated-schema.graphql',
-    ),
+    emitSchemaFile: path.resolve(__dirname, './generated-schema.graphql'),
     validate: false,
   })
 
