@@ -1,4 +1,4 @@
-import { User, withAuthRequired } from '@supabase/supabase-auth-helpers/nextjs'
+import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classnames from 'classnames'
 import CMDPalette from 'components/CMDPalette'
 import DashBar from 'components/Dashbar'
@@ -66,4 +66,4 @@ export default function Example({ user }: Props) {
   )
 }
 
-export const getServerSideProps = withAuthRequired({ redirectTo: '/login' })
+export const getServerSideProps = withPageAuth({ redirectTo: '/login' })
