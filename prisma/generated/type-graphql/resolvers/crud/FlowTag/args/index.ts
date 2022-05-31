@@ -1,0 +1,12 @@
+export { AggregateFlowTagArgs } from "./AggregateFlowTagArgs";
+export { CreateFlowTagArgs } from "./CreateFlowTagArgs";
+export { CreateManyFlowTagArgs } from "./CreateManyFlowTagArgs";
+export { DeleteFlowTagArgs } from "./DeleteFlowTagArgs";
+export { DeleteManyFlowTagArgs } from "./DeleteManyFlowTagArgs";
+export { FindFirstFlowTagArgs } from "./FindFirstFlowTagArgs";
+export { FindManyFlowTagArgs } from "./FindManyFlowTagArgs";
+export { FindUniqueFlowTagArgs } from "./FindUniqueFlowTagArgs";
+export { GroupByFlowTagArgs } from "./GroupByFlowTagArgs";
+export { UpdateFlowTagArgs } from "./UpdateFlowTagArgs";
+export { UpdateManyFlowTagArgs } from "./UpdateManyFlowTagArgs";
+export { UpsertFlowTagArgs } from "./UpsertFlowTagArgs";

@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { ApolloServer, Config } from 'apollo-server-micro'
+import { ApolloServer } from 'apollo-server-micro'
 import { MicroRequest } from 'apollo-server-micro/dist/types'
 import { createContext } from 'graphql/context'
 import { ServerResponse } from 'http'
@@ -18,13 +18,7 @@ const buildServer = async () => {
   const apolloServer = new ApolloServer({
     schema,
     context: createContext,
-    cors: {
-      origin: [
-        'https://studyflow.vercel.app',
-        'https://studio.apollographql.com',
-      ],
-    },
-  } as Config)
+  })
 
   return apolloServer
 }

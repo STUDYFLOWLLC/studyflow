@@ -1,0 +1,10 @@
+export { CourseCrudResolver } from "./Course/CourseCrudResolver";
+export { CourseOnUserCrudResolver } from "./CourseOnUser/CourseOnUserCrudResolver";
+export { FlashCardCrudResolver } from "./FlashCard/FlashCardCrudResolver";
+export { FlashCardStackCrudResolver } from "./FlashCardStack/FlashCardStackCrudResolver";
+export { FlowCrudResolver } from "./Flow/FlowCrudResolver";
+export { FlowTagCrudResolver } from "./FlowTag/FlowTagCrudResolver";
+export { FlowTagOnFlowCrudResolver } from "./FlowTagOnFlow/FlowTagOnFlowCrudResolver";
+export { ProfessorCrudResolver } from "./Professor/ProfessorCrudResolver";
+export { SchoolCrudResolver } from "./School/SchoolCrudResolver";
+export { UserCrudResolver } from "./User/UserCrudResolver";
