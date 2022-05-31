@@ -1,4 +1,4 @@
-enum sizes {
+export enum sizes {
   small,
   medium,
   large,
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function MainSpinner({ size }: Props) {
-  if (size === undefined || size === sizes.medium) {
+  if (size === sizes.medium) {
     return (
       <svg
         role="status"
@@ -51,8 +51,8 @@ export default function MainSpinner({ size }: Props) {
     )
   }
 
-  if (size === sizes.large) {
-    ;<svg
+  return (
+    <svg
       role="status"
       className="w-16 h-16 text-gray-200 animate-spin-fast fill-primary"
       viewBox="0 0 100 101"
@@ -68,5 +68,5 @@ export default function MainSpinner({ size }: Props) {
         fill="currentFill"
       />
     </svg>
-  }
+  )
 }

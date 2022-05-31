@@ -34,6 +34,8 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/function-component-definition': 'off',
+    'no-shadow': 'off',
+    'react/require-default-props': 'off',
     'react/jsx-filename-extension': [
       1,
       { extensions: ['.js', '.jsx', '.tsx'] },
