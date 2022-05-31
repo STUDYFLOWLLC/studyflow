@@ -1,3 +1,4 @@
+// MAKE SURE THAT import 'reflect-metadata' IS AT THE TOP!
 import 'reflect-metadata'
 import { ApolloServer } from 'apollo-server-micro'
 import { MicroRequest } from 'apollo-server-micro/dist/types'
@@ -8,7 +9,15 @@ import path from 'path'
 import { resolvers } from 'prisma/generated/type-graphql'
 import { buildSchema } from 'type-graphql'
 
-const buildServer = async () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const cors = new (Cors as any)()
+
+export default cors(async (req: MicroRequest, res: ServerResponse) => {
+  if (req.method === 'OPTIONS') {
+    res.end()
+    return false
+  }
+
   const schema = await buildSchema({
     resolvers,
     emitSchemaFile: path.resolve(__dirname, './generated-schema.graphql'),
@@ -20,19 +29,6 @@ const buildServer = async () => {
     context: createContext,
   })
 
-  return apolloServer
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const cors = new (Cors as any)()
-
-export default cors(async (req: MicroRequest, res: ServerResponse) => {
-  if (req.method === 'OPTIONS') {
-    res.end()
-    return false
-  }
-
-  const apolloServer = await buildServer()
   await apolloServer.start()
   await apolloServer.createHandler({ path: '/api/graphql' })(req, res)
 })
