@@ -24,7 +24,10 @@ const buildServer = async () => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const cors = new (Cors as any)()
+const cors = new (Cors as any)({
+  origin: 'https://studio.apollographql.com',
+  allowCredentials: true,
+})
 
 export default cors(async (req: MicroRequest, res: ServerResponse) => {
   if (req.method === 'OPTIONS') {
