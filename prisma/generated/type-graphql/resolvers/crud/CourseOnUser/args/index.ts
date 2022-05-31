@@ -1,0 +1,12 @@
+export { AggregateCourseOnUserArgs } from "./AggregateCourseOnUserArgs";
+export { CreateCourseOnUserArgs } from "./CreateCourseOnUserArgs";
+export { CreateManyCourseOnUserArgs } from "./CreateManyCourseOnUserArgs";
+export { DeleteCourseOnUserArgs } from "./DeleteCourseOnUserArgs";
+export { DeleteManyCourseOnUserArgs } from "./DeleteManyCourseOnUserArgs";
+export { FindFirstCourseOnUserArgs } from "./FindFirstCourseOnUserArgs";
+export { FindManyCourseOnUserArgs } from "./FindManyCourseOnUserArgs";
+export { FindUniqueCourseOnUserArgs } from "./FindUniqueCourseOnUserArgs";
+export { GroupByCourseOnUserArgs } from "./GroupByCourseOnUserArgs";
+export { UpdateCourseOnUserArgs } from "./UpdateCourseOnUserArgs";
+export { UpdateManyCourseOnUserArgs } from "./UpdateManyCourseOnUserArgs";
+export { UpsertCourseOnUserArgs } from "./UpsertCourseOnUserArgs";

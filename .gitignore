@@ -1,6 +1,5 @@
 node_modules
 build
-prisma/generated
 .next
 *.log
 tsconfig.tsbuildinfo
