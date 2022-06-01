@@ -50,7 +50,7 @@ export default function MainSpinner({ size }: Props) {
   return (
     <svg
       role="status"
-      className="w-16 h-16 text-gray-200 animate-spin-fast fill-primary"
+      className="w-12 h-12 text-gray-200 animate-spin-fast fill-primary"
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

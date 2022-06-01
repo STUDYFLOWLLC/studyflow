@@ -16,10 +16,9 @@ export default function SchoolSearch() {
   const { user } = useUser()
 
   const { schools, isLoading, isError } = useSchools()
-  console.log(user)
+  /* eslint-disable */
   const { userDetails } = useUserDetails(user?.id)
-
-  console.log(userDetails)
+  /* eslint-enable */
 
   const [mounted, setMounted] = useState(false)
   const [query, setQuery] = useState('')
@@ -73,6 +72,7 @@ export default function SchoolSearch() {
               setQuery(e.target.value)
             }}
             displayValue={() => selectedSchool}
+            value={query}
             placeholder="Enter your school"
             autoFocus
           />

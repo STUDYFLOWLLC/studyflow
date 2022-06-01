@@ -67,18 +67,16 @@ export default function Login() {
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <Image width={48} height={48} src={logo} alt="Workflow" />
-            <h2 className="mt-3 text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-3 text-2xl sm:text-3xl font-extrabold text-gray-900">
               Welcome to Studyflow
             </h2>
           </div>
 
           <div className="mt-4 w-full">
             <div>
-              <div>
-                <div className="mt-1 flex flex-col items-center">
-                  <AppleButton />
-                  <GoogleButton />
-                </div>
+              <div className="mt-1 flex flex-col justify-center items-center">
+                <AppleButton />
+                <GoogleButton />
               </div>
 
               <div className="mt-6 relative">
@@ -122,10 +120,10 @@ export default function Login() {
                     </div>
                   </div>
 
-                  <div>
+                  <div className="flex justify-center">
                     <button
                       type="submit"
-                      className="h-12 w-full flex justify-center py-2 px-4 rounded-md text-sm font-medium text-white bg-primary-400 hover:bg-primary-500 items-center"
+                      className="mx-auto h-12 w-4/5 btn btn-primary"
                     >
                       <span className="w-full text-center text-base">
                         Continue

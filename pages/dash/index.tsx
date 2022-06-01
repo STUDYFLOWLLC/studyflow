@@ -18,7 +18,7 @@ interface Props {
   user: User
 }
 
-export default function Example({ user }: Props) {
+export default function Dash({ user }: Props) {
   const { theme } = useTheme()
   const router = useRouter()
 
@@ -32,7 +32,13 @@ export default function Example({ user }: Props) {
 
   if (!mounted) return null
   if (isError) return <p>error</p>
-  if (userDetails && userDetails.length === 0) router.push('/setup')
+
+  if (
+    userDetails &&
+    (userDetails.profileCreated === false ||
+      userDetails.setupComplete === false)
+  )
+    router.push('/setup')
 
   return (
     <SkeletonTheme

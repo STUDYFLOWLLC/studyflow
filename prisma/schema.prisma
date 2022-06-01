@@ -28,7 +28,7 @@ model User {
   SetupComplete      Boolean          @default(false)
   SupabaseID         String
   Email              String           @unique
-  Name               String
+  Name               String?
   Username           String?
   ProfilePictureLink String?
   DefaultVisibility  Visibility?
