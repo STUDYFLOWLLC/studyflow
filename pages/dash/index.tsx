@@ -10,6 +10,7 @@ import FlowTable from 'components/FlowTable'
 import Taskover from 'components/Taskover'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SkeletonTheme } from 'react-loading-skeleton'
 
@@ -19,9 +20,10 @@ interface Props {
 
 export default function Example({ user }: Props) {
   const { theme } = useTheme()
+  const router = useRouter()
 
   /* eslint-disable */
-  const { userDetails, isLoading, isError } = useUserDetails(user.email)
+  const { userDetails, isLoading, isError } = useUserDetails(user.id)
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [searchValue, setSearchValue] = useState('')
@@ -29,9 +31,8 @@ export default function Example({ user }: Props) {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
-
   if (isError) return <p>error</p>
-  // if (userDetails === undefined) router.push('/setup')
+  if (userDetails && userDetails.length === 0) router.push('/setup')
 
   return (
     <SkeletonTheme

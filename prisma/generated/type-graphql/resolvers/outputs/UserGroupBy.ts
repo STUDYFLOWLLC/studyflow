@@ -18,6 +18,11 @@ export class UserGroupBy {
   })
   UserID!: number;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  CreatedTime!: Date;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
@@ -27,6 +32,16 @@ export class UserGroupBy {
     nullable: false
   })
   SupabaseID!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Email!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Name!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

@@ -24,7 +24,7 @@ export class FlashCardStackUpdateWithoutFK_UserInput {
   @TypeGraphQL.Field(_type => FlashCardUpdateManyWithoutFK_FlashCardStackInput, {
     nullable: true
   })
-  FK_Flashcards?: FlashCardUpdateManyWithoutFK_FlashCardStackInput | undefined;
+  FlashCards?: FlashCardUpdateManyWithoutFK_FlashCardStackInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true

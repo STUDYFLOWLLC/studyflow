@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { fetcherWithVaribles } from './fetchers'
+import { fetcherWithVariables } from './fetchers'
 
 export default function useUserDetails(supabaseId: string | undefined) {
   const supabaseIdReal = supabaseId === undefined ? '' : supabaseId
@@ -25,12 +25,12 @@ export default function useUserDetails(supabaseId: string | undefined) {
     `,
       variables,
     ],
-    fetcherWithVaribles,
+    fetcherWithVariables,
   )
 
   if (data) {
     return {
-      userDetails: data.users[0],
+      userDetails: data.users,
       isLoading: !error && !data,
       isError: error,
     }

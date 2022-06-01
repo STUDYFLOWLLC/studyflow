@@ -24,8 +24,11 @@ enum Visibility {
 //holds user information. STANDARD: NULL IS A DELETED USER
 model User {
   UserID             Int              @id @default(autoincrement())
+  CreatedTime        DateTime         @default(now())
   SetupComplete      Boolean          @default(false)
   SupabaseID         String
+  Email              String           @unique
+  Name               String
   Username           String?
   ProfilePictureLink String?
   DefaultVisibility  Visibility?
@@ -111,7 +114,7 @@ model FlashCardStack {
   FK_FlowID        Int?
   FK_User          User?       @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID        Int?
-  FK_Flashcards    FlashCard[]
+  FlashCards       FlashCard[]
   Title            String?     @default("Untitled")
 }
 

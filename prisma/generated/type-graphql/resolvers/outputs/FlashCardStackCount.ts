@@ -10,5 +10,5 @@ export class FlashCardStackCount {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  FK_Flashcards!: number;
+  FlashCards!: number;
 }
