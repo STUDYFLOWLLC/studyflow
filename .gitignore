@@ -4,3 +4,4 @@ build
 .vercel
 *.log
 tsconfig.tsbuildinfo
+.eslintcache
