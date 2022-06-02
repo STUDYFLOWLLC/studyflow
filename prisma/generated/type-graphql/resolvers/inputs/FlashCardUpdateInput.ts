@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { FlashCardStackUpdateOneWithoutFK_FlashcardsInput } from "../inputs/FlashCardStackUpdateOneWithoutFK_FlashcardsInput";
+import { FlashCardStackUpdateOneWithoutFlashCardsInput } from "../inputs/FlashCardStackUpdateOneWithoutFlashCardsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 
@@ -16,10 +16,10 @@ export class FlashCardUpdateInput {
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackUpdateOneWithoutFK_FlashcardsInput, {
+  @TypeGraphQL.Field(_type => FlashCardStackUpdateOneWithoutFlashCardsInput, {
     nullable: true
   })
-  FK_FlashCardStack?: FlashCardStackUpdateOneWithoutFK_FlashcardsInput | undefined;
+  FK_FlashCardStack?: FlashCardStackUpdateOneWithoutFlashCardsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true

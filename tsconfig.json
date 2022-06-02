@@ -25,5 +25,5 @@
     "experimentalDecorators": true
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "graphql", "pages/api"]
+  "exclude": ["node_modules", "graphql", "pages/api", "prisma/generated"]
 }

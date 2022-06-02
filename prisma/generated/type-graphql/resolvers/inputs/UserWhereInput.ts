@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { CourseOnUserListRelationFilter } from "../inputs/CourseOnUserListRelationFilter";
+import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
 import { FlashCardStackListRelationFilter } from "../inputs/FlashCardStackListRelationFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
@@ -36,6 +37,11 @@ export class UserWhereInput {
   })
   UserID?: IntFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
+  CreatedTime?: DateTimeFilter | undefined;
+
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
@@ -45,6 +51,16 @@ export class UserWhereInput {
     nullable: true
   })
   SupabaseID?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  Email?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  Name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true

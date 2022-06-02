@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardStackCreateNestedOneWithoutFK_FlashcardsInput } from "../inputs/FlashCardStackCreateNestedOneWithoutFK_FlashcardsInput";
+import { FlashCardStackCreateNestedOneWithoutFlashCardsInput } from "../inputs/FlashCardStackCreateNestedOneWithoutFlashCardsInput";
 
 @TypeGraphQL.InputType("FlashCardCreateInput", {
   isAbstract: true
@@ -13,10 +13,10 @@ export class FlashCardCreateInput {
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackCreateNestedOneWithoutFK_FlashcardsInput, {
+  @TypeGraphQL.Field(_type => FlashCardStackCreateNestedOneWithoutFlashCardsInput, {
     nullable: true
   })
-  FK_FlashCardStack?: FlashCardStackCreateNestedOneWithoutFK_FlashcardsInput | undefined;
+  FK_FlashCardStack?: FlashCardStackCreateNestedOneWithoutFlashCardsInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

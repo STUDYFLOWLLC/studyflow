@@ -5,10 +5,10 @@ import { DecimalJSScalar } from "../../scalars";
 import { FlowCreateNestedOneWithoutFK_FlashCardStacksInput } from "../inputs/FlowCreateNestedOneWithoutFK_FlashCardStacksInput";
 import { UserCreateNestedOneWithoutFK_FlashCardStacksInput } from "../inputs/UserCreateNestedOneWithoutFK_FlashCardStacksInput";
 
-@TypeGraphQL.InputType("FlashCardStackCreateWithoutFK_FlashcardsInput", {
+@TypeGraphQL.InputType("FlashCardStackCreateWithoutFlashCardsInput", {
   isAbstract: true
 })
-export class FlashCardStackCreateWithoutFK_FlashcardsInput {
+export class FlashCardStackCreateWithoutFlashCardsInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })

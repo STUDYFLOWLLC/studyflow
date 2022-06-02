@@ -1,18 +1,33 @@
 import { Combobox } from '@headlessui/react'
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import { CheckIcon } from '@heroicons/react/solid'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
+import LoadWithText from 'components/spinners/LoadWithText'
 import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
-import useSchools from 'hooks/useSchools'
-import { useState } from 'react'
-import Skeleton from 'react-loading-skeleton'
+import useSchools from 'hooks/setup/useSchools'
+import useUserDetails from 'hooks/useUserDetails'
+import { SpinnerSizes } from 'interfaces/Loading'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 export default function SchoolSearch() {
+  const { theme } = useTheme()
+  const { user } = useUser()
+
+  const { schools, isLoading, isError } = useSchools()
+  /* eslint-disable */
+  const { userDetails } = useUserDetails(user?.id)
+  /* eslint-enable */
+
+  const [mounted, setMounted] = useState(false)
+  const [query, setQuery] = useState('')
   const [selectedSchool, setSelectedSchool] = useState('')
   const [filteredSchools, setFilteredSchools] = useState<
     Fuse.FuseResult<School>[]
   >([])
-  const { schools, isLoading, isError } = useSchools()
+
+  useEffect(() => setMounted(true), [])
 
   const filterSchools = (schoolsArray: School[], searchVal: string) => {
     if (schoolsArray.length === 0) return
@@ -26,48 +41,72 @@ export default function SchoolSearch() {
     setFilteredSchools(schoolsFuse.search(searchVal).splice(0, 10))
   }
 
-  if (isLoading)
-    return (
-      <div className="w-64 h-16">
-        <p className="block text-sm font-medium text-gray-700">
-          Enter School Name
-        </p>
-        <Skeleton height={32} />
-      </div>
-    )
+  if (!mounted) return null
 
   if (isError) return <div />
 
   return (
     <Combobox
-      className="w-64"
+      className="w-96 pt-10"
       as="div"
       value={selectedSchool}
       onChange={setSelectedSchool}
     >
-      <Combobox.Label className="w-48 block text-sm font-medium text-gray-700">
-        Enter School Name
-      </Combobox.Label>
-      <div className="relative mt-1">
-        <Combobox.Input
-          className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-primary-600 focus:outline-none focus:ring-1 focus:ring-primary-600 sm:text-sm"
-          onChange={(e) => filterSchools(schools, e.target.value)}
-          displayValue={() => selectedSchool}
-        />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-          <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </Combobox.Button>
+      <div className="prose">
+        <h1 className="text-center text-decoration-line: underline decoration-primary decoration-4">
+          School
+        </h1>
+      </div>
 
+      <div className="relative mt-1 h-20 w-96">
+        {!isLoading ? (
+          <Combobox.Input
+            className={classnames(
+              { 'border-gray-300': theme === 'light' },
+              { 'bg-base-100': theme === 'dark' },
+              'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-2xl',
+            )}
+            onChange={(e: { target: { value: string } }) => {
+              if (e.target.value === '') setSelectedSchool('')
+              filterSchools(schools, e.target.value)
+              setQuery(e.target.value)
+            }}
+            displayValue={() => selectedSchool}
+            value={query}
+            placeholder="Enter your school"
+            autoFocus
+          />
+        ) : (
+          <LoadWithText
+            size={SpinnerSizes.small}
+            text="Loading 1903 colleges and universities "
+          />
+        )}
         {filteredSchools.length > 0 && (
-          <Combobox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Combobox.Options
+            className={classnames(
+              {
+                'bg-gray-100': theme === 'light',
+              },
+              { 'bg-slate-700': theme === 'dark' },
+              'absolute z-10 mt-1 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+            )}
+          >
             {filteredSchools.map((school) => (
               <Combobox.Option
                 key={school.item.SchoolID}
                 value={school.item.Name}
                 className={({ active }) =>
                   classnames(
-                    'relative cursor-default select-none py-2 pl-3 pr-9',
-                    active ? 'bg-primary-400 text-white' : 'text-gray-900',
+                    {
+                      'bg-primary text-gray-100': active && theme === 'light',
+                    },
+                    {
+                      'bg-primary text-slate-700': active && theme === 'dark',
+                    },
+                    { 'text-gray-700': !active && theme === 'light' },
+                    { 'bg-slate-700': !active && theme === 'dark' },
+                    'relative cursor-default select-none py-2 pl-3 pr-9 text-lg',
                   )
                 }
                 onSelect={() => {

@@ -35,7 +35,7 @@ export class FlashCardStack {
   })
   FK_UserID?: number | null;
 
-  FK_Flashcards?: FlashCard[];
+  FlashCards?: FlashCard[];
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

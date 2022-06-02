@@ -3,7 +3,7 @@ import { FlashCard } from "../../../models/FlashCard";
 import { FlashCardStack } from "../../../models/FlashCardStack";
 import { Flow } from "../../../models/Flow";
 import { User } from "../../../models/User";
-import { FlashCardStackFK_FlashcardsArgs } from "./args/FlashCardStackFK_FlashcardsArgs";
+import { FlashCardStackFlashCardsArgs } from "./args/FlashCardStackFlashCardsArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => FlashCardStack)
@@ -33,11 +33,11 @@ export class FlashCardStackRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => [FlashCard], {
     nullable: false
   })
-  async FK_Flashcards(@TypeGraphQL.Root() flashCardStack: FlashCardStack, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlashCardStackFK_FlashcardsArgs): Promise<FlashCard[]> {
+  async FlashCards(@TypeGraphQL.Root() flashCardStack: FlashCardStack, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlashCardStackFlashCardsArgs): Promise<FlashCard[]> {
     return getPrismaFromContext(ctx).flashCardStack.findUnique({
       where: {
         FlashCardStackID: flashCardStack.FlashCardStackID,
       },
-    }).FK_Flashcards(args);
+    }).FlashCards(args);
   }
 }

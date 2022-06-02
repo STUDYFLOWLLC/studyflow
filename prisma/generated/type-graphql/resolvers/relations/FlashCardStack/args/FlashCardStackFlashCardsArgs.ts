@@ -6,7 +6,7 @@ import { FlashCardWhereUniqueInput } from "../../../inputs/FlashCardWhereUniqueI
 import { FlashCardScalarFieldEnum } from "../../../../enums/FlashCardScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class FlashCardStackFK_FlashcardsArgs {
+export class FlashCardStackFlashCardsArgs {
   @TypeGraphQL.Field(_type => FlashCardWhereInput, {
     nullable: true
   })

@@ -7,10 +7,10 @@ import { FlowUpdateOneWithoutFK_FlashCardStacksInput } from "../inputs/FlowUpdat
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { UserUpdateOneWithoutFK_FlashCardStacksInput } from "../inputs/UserUpdateOneWithoutFK_FlashCardStacksInput";
 
-@TypeGraphQL.InputType("FlashCardStackUpdateWithoutFK_FlashcardsInput", {
+@TypeGraphQL.InputType("FlashCardStackUpdateWithoutFlashCardsInput", {
   isAbstract: true
 })
-export class FlashCardStackUpdateWithoutFK_FlashcardsInput {
+export class FlashCardStackUpdateWithoutFlashCardsInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })

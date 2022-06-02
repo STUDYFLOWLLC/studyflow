@@ -11,6 +11,11 @@ import { Visibility } from "../../enums/Visibility";
   isAbstract: true
 })
 export class UserCreateWithoutFK_FlowsInput {
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  CreatedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
@@ -20,6 +25,16 @@ export class UserCreateWithoutFK_FlowsInput {
     nullable: false
   })
   SupabaseID!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Email!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

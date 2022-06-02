@@ -12,6 +12,11 @@ import { Visibility } from "../../enums/Visibility";
   isAbstract: true
 })
 export class UserCreateInput {
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  CreatedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
@@ -21,6 +26,16 @@ export class UserCreateInput {
     nullable: false
   })
   SupabaseID!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Email!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

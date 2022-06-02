@@ -22,7 +22,7 @@ export class FlashCardStackCreateWithoutFK_FlowInput {
   @TypeGraphQL.Field(_type => FlashCardCreateNestedManyWithoutFK_FlashCardStackInput, {
     nullable: true
   })
-  FK_Flashcards?: FlashCardCreateNestedManyWithoutFK_FlashCardStackInput | undefined;
+  FlashCards?: FlashCardCreateNestedManyWithoutFK_FlashCardStackInput | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

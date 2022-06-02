@@ -13,6 +13,11 @@ export class UserMinAggregate {
   })
   UserID!: number | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  CreatedTime!: Date | null;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
@@ -22,6 +27,16 @@ export class UserMinAggregate {
     nullable: true
   })
   SupabaseID!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Name!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

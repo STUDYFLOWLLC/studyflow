@@ -62,7 +62,7 @@ export class FlashCardStackWhereInput {
   @TypeGraphQL.Field(_type => FlashCardListRelationFilter, {
     nullable: true
   })
-  FK_Flashcards?: FlashCardListRelationFilter | undefined;
+  FlashCards?: FlashCardListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true

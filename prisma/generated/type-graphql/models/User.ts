@@ -18,6 +18,11 @@ export class User {
   })
   UserID!: number;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  CreatedTime!: Date;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
@@ -27,6 +32,16 @@ export class User {
     nullable: false
   })
   SupabaseID!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Email!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Name?: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

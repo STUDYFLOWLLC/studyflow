@@ -44,7 +44,7 @@ export class FlashCardStackOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => FlashCardOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Flashcards?: FlashCardOrderByRelationAggregateInput | undefined;
+  FlashCards?: FlashCardOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
