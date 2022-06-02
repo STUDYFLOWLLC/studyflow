@@ -1,11 +1,12 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
+import IncompleteProfile from 'components/Setup/CreateProfile/IncompleteProfile'
+import SetupHeader from 'components/Setup/Header'
 import LoadWithText from 'components/spinners/LoadWithText'
 import setBasicProfile from 'hooks/setup/setBasicProfile'
 import useUserDetails from 'hooks/useUserDetails'
 import { SpinnerSizes } from 'interfaces/Loading'
 import { Dispatch, SetStateAction } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
-import IncompleteProfile from './IncompleteProfile'
 
 interface Props {
   user: User
@@ -27,21 +28,24 @@ export default function CreateProfile({ user, setStep }: Props) {
     return <IncompleteProfile user={user} setStep={setStep} />
 
   return (
-    <div>
-      <Toaster position="top-center" reverseOrder={false} />
-      <div className="prose">
-        <h1 className="mb-8 text-center text-decoration-line: underline decoration-primary decoration-4">
-          Profile
-        </h1>
+    <div className="w-full flex flex-col items-center">
+      <SetupHeader />
+      <div>
+        <Toaster position="top-center" reverseOrder={false} />
+        <div className="prose">
+          <h1 className="mb-8 text-center text-decoration-line: underline decoration-primary decoration-4">
+            Profile
+          </h1>
+        </div>
+        <LoadWithText
+          text={
+            isLoading
+              ? 'Loading your details...'
+              : `Welcome, ${user.user_metadata.name}! Creating your profile...`
+          }
+          size={SpinnerSizes.large}
+        />
       </div>
-      <LoadWithText
-        text={
-          isLoading
-            ? 'Loading your details...'
-            : `Welcome, ${user.user_metadata.name}! Creating your profile...`
-        }
-        size={SpinnerSizes.large}
-      />
     </div>
   )
 }

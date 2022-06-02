@@ -1,6 +1,6 @@
 import { User } from '@supabase/supabase-js'
-import InputName from 'components/Setup/Profile/InputName'
-import InputUsername from 'components/Setup/Profile/InputUsername'
+import InputName from 'components/Setup/CreateProfile/InputName'
+import InputUsername from 'components/Setup/CreateProfile/InputUsername'
 import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import {
   mutateName,

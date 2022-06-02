@@ -16,9 +16,6 @@ export default function useSchools(): SchoolExport {
               SchoolID
               Name
               HasClassSupport
-              FK_Course {
-                Code
-              }
             }
           }
     `,
