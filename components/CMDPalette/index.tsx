@@ -12,10 +12,10 @@ import { SearchIcon } from '@heroicons/react/solid'
 import classnames from 'classnames'
 // import { QuickAction } from 'components/CMDPalette/CMDEntry'
 import CMDEntry from 'components/CMDPalette/CMDEntry'
-import { QuickAction } from 'interfaces/CMDPalette'
 import { useTheme } from 'next-themes'
 import { Fragment, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { QuickAction } from 'types/CMDPalette'
 
 const projects = [
   { id: 1, name: 'Workflow Inc. / Website Redesign', url: '#' },

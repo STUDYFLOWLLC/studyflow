@@ -1,11 +1,11 @@
 /* eslint-disable no-promise-executor-return, no-nested-ternary, react/no-array-index-key, arrow-body-style */
+import { animated, to as interpolate, useSprings } from '@react-spring/web'
 import { createUseGesture, dragAction } from '@use-gesture/react'
 import FlashCard3 from 'components/flowparts/FlashCard3'
-import { DeckProps } from 'interfaces/Flashcards'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { animated, to as interpolate, useSprings } from '@react-spring/web'
+import { DeckProps } from 'types/Flashcards'
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i: number) => {

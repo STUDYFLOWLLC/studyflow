@@ -5,8 +5,8 @@ import {
   XCircleIcon,
 } from '@heroicons/react/solid'
 import classnames from 'classnames'
-import { FlashcardProps, FlashcardStatus } from 'interfaces/Flashcards'
 import { useState } from 'react'
+import { FlashcardProps, FlashcardStatus } from 'types/Flashcards'
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
 

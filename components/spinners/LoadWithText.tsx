@@ -1,5 +1,5 @@
 import MainSpinner from 'components/spinners/MainSpinner'
-import { SpinnerSizes } from 'interfaces/Loading'
+import { SpinnerSizes } from 'types/Loading'
 
 interface Props {
   size: SpinnerSizes

@@ -7,9 +7,9 @@ import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
 import useSchools from 'hooks/setup/useSchools'
 import useUserDetails from 'hooks/useUserDetails'
-import { SpinnerSizes } from 'interfaces/Loading'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { SpinnerSizes } from 'types/Loading'
 
 export default function SchoolSearch() {
   const { theme } = useTheme()
