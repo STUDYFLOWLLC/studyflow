@@ -1,4 +1,4 @@
-import SchoolSearch from 'components/Forms/SchoolSearch'
+import SchoolSearch from 'components/Forms/School/SchoolSearch'
 import SetupHeader from 'components/Setup/Header'
 import SetupStepTitle from '../SetupStepTitle'
 
