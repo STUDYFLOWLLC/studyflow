@@ -65,14 +65,14 @@ model Term {
 }
 
 model CourseOnTerm {
-  CreatedTime DateTime @default(now())
-  FK_Course   Course   @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
-  FK_CourseID Int
-  FK_Term     Term     @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
-  FK_TermID   Int
-  FK_Flows    Flow[]
+  CourseOnTermID Int      @id @default(autoincrement())
+  CreatedTime    DateTime @default(now())
+  FK_Course      Course   @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
+  FK_CourseID    Int
+  FK_Term        Term     @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
+  FK_TermID      Int
+  FK_Flows       Flow[]
 
-  @@id([FK_CourseID, FK_TermID])
 }
 
 model School {
@@ -85,43 +85,42 @@ model School {
 }
 
 model Course {
-  CourseID         Int                  @id @default(autoincrement())
-  CreatedTime      DateTime             @default(now())
-  FK_School        School?              @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
+  CourseID         Int                   @id @default(autoincrement())
+  CreatedTime      DateTime              @default(now())
+  FK_School        School?               @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
   FK_SchoolID      Int?
-  FK_Professors    ProfessorsOnCourse[]
+  FK_Professors    ProfessorsOnCourses[]
   FK_TermsOnCourse CourseOnTerm[]
-  IsOfficial       Boolean              @default(false)
+  IsOfficial       Boolean               @default(false)
   Code             String?
   Title            String?
 }
 
 model Professor {
-  ProfessorID Int                  @id @default(autoincrement())
-  FK_Courses  ProfessorsOnCourse[]
+  ProfessorID Int                   @id @default(autoincrement())
+  FK_Courses  ProfessorsOnCourses[]
   Name        String
 }
 
-model ProfessorsOnCourse {
-  CreatedTime    DateTime  @default(now())
-  FK_Course      Course    @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
-  FK_CourseID    Int
-  FK_Professor   Professor @relation(fields: [FK_ProfessorID], references: [ProfessorID], onDelete: Cascade, onUpdate: Cascade)
-  FK_ProfessorID Int
-
-  @@id([FK_CourseID, FK_ProfessorID])
+model ProfessorsOnCourses {
+  ProfessorsOnCoursesID Int       @id @default(autoincrement())
+  CreatedTime           DateTime  @default(now())
+  FK_Course             Course    @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
+  FK_CourseID           Int
+  FK_Professor          Professor @relation(fields: [FK_ProfessorID], references: [ProfessorID], onDelete: Cascade, onUpdate: Cascade)
+  FK_ProfessorID        Int
 }
 
 model Flow {
-  FlowID                     Int              @id @default(autoincrement())
-  CreatedTime                DateTime         @default(now())
+  FlowID             Int              @id @default(autoincrement())
+  CreatedTime        DateTime         @default(now())
   //FK_Tags            FlowTagOnFlow[]
-  FK_FlashCardStacks         FlashCardStack[]
-  Title                      String?
-  Body                       String?
-  Visibility                 Visibility?
-  CourseOnTerm               CourseOnTerm?    @relation(fields: [courseOnTermCourseOnTermID], references: [CourseOnTermID])
-  courseOnTermCourseOnTermID Int?
+  FK_FlashCardStacks FlashCardStack[]
+  Title              String?
+  Body               String?
+  Visibility         Visibility?
+  FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
+  FK_CourseOnTermID  Int?
 }
 
 //creates many-to-many for tags and flows (flows can be related to many tags, and tags can be related to many flows)
