@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { CourseListRelationFilter } from "../inputs/CourseListRelationFilter";
+import { EnumTermTypeNullableFilter } from "../inputs/EnumTermTypeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
 
@@ -45,4 +46,9 @@ export class SchoolWhereInput {
     nullable: true
   })
   HasClassSupport?: BoolFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumTermTypeNullableFilter, {
+    nullable: true
+  })
+  TermType?: EnumTermTypeNullableFilter | undefined;
 }

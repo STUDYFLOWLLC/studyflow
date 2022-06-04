@@ -28,4 +28,9 @@ export class SchoolOrderByWithRelationInput {
     nullable: true
   })
   HasClassSupport?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  TermType?: "asc" | "desc" | undefined;
 }

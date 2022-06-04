@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
+import { NullableEnumTermTypeFieldUpdateOperationsInput } from "../inputs/NullableEnumTermTypeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("SchoolUpdateWithoutFK_CourseInput", {
@@ -18,4 +19,9 @@ export class SchoolUpdateWithoutFK_CourseInput {
     nullable: true
   })
   HasClassSupport?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableEnumTermTypeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  TermType?: NullableEnumTermTypeFieldUpdateOperationsInput | undefined;
 }

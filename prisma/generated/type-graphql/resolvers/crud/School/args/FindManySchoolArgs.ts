@@ -35,5 +35,5 @@ export class FindManySchoolArgs {
   @TypeGraphQL.Field(_type => [SchoolScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"SchoolID" | "Name" | "HasClassSupport"> | undefined;
+  distinct?: Array<"SchoolID" | "Name" | "HasClassSupport" | "TermType"> | undefined;
 }

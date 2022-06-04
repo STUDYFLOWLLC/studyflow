@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseCreateNestedManyWithoutFK_SchoolInput } from "../inputs/CourseCreateNestedManyWithoutFK_SchoolInput";
+import { TermType } from "../../enums/TermType";
 
 @TypeGraphQL.InputType("SchoolCreateInput", {
   isAbstract: true
@@ -22,4 +23,9 @@ export class SchoolCreateInput {
     nullable: false
   })
   HasClassSupport!: boolean;
+
+  @TypeGraphQL.Field(_type => TermType, {
+    nullable: true
+  })
+  TermType?: "QUARTER" | "TRIMESTER" | "SEMESTER" | "SUMMER" | undefined;
 }
