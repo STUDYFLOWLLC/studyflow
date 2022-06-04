@@ -85,10 +85,11 @@ model Course {
 }
 
 model School {
-  SchoolID        Int      @id @default(autoincrement())
+  SchoolID        Int       @id @default(autoincrement())
   FK_Course       Course[]
   Name            String
   HasClassSupport Boolean
+  TermType        TermType?
 }
 
 model Professor {
