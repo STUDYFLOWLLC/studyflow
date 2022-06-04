@@ -5,8 +5,8 @@ import ToastTester from 'components/Design/ToastTester'
 import Deck from 'components/flowparts/Deck'
 import FlashCard3 from 'components/flowparts/FlashCard3'
 import MainSpinner from 'components/spinners/MainSpinner'
-import { FlashcardProps, FlashcardStatus } from 'interfaces/Flashcards'
 import { useTheme } from 'next-themes'
+import { FlashcardProps, FlashcardStatus } from 'types/Flashcards'
 
 const cards: FlashcardProps[] = [
   {

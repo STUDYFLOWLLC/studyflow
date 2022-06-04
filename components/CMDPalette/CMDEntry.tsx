@@ -1,6 +1,6 @@
 import { Combobox } from '@headlessui/react'
 import classnames from 'classnames'
-import { QuickAction } from 'interfaces/CMDPalette'
+import { QuickAction } from 'types/CMDPalette'
 
 export default function CMDEntry({
   CmdIcon,

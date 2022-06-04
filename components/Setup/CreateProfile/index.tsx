@@ -4,9 +4,9 @@ import SetupHeader from 'components/Setup/Header'
 import LoadWithText from 'components/spinners/LoadWithText'
 import setBasicProfile from 'hooks/setup/setBasicProfile'
 import useUserDetails from 'hooks/useUserDetails'
-import { SpinnerSizes } from 'interfaces/Loading'
 import { Dispatch, SetStateAction } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { SpinnerSizes } from 'types/Loading'
 
 interface Props {
   user: User

@@ -1,6 +1,6 @@
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import CreateProfile from 'components/Setup/CreateProfile'
-import EnterEducation from 'components/setup/EnterEducation'
+import EnterEducation from 'components/Setup/EnterEducation'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'

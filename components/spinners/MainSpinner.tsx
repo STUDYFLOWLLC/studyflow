@@ -1,4 +1,4 @@
-import { SpinnerSizes } from 'interfaces/Loading'
+import { SpinnerSizes } from 'types/Loading'
 
 interface Props {
   size?: SpinnerSizes

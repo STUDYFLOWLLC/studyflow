@@ -21,43 +21,67 @@ enum Visibility {
   PUBLIC
 }
 
+enum TermType {
+  QUARTER
+  TRIMESTER
+  SEMESTER
+  SUMMER
+}
+
+enum FlowType {
+  LECTURE
+  ASSIGNMENT
+  NOTE
+  EXAM
+}
+
 //holds user information. STANDARD: NULL IS A DELETED USER
 model User {
-  UserID             Int              @id @default(autoincrement())
-  CreatedTime        DateTime         @default(now())
-  SetupComplete      Boolean          @default(false)
+  UserID             Int         @id @default(autoincrement())
+  CreatedTime        DateTime    @default(now())
+  SetupComplete      Boolean     @default(false)
   SupabaseID         String
-  Email              String           @unique
+  Email              String      @unique
   Name               String?
   Username           String?
   ProfilePictureLink String?
   DefaultVisibility  Visibility?
-  FK_Courses         CourseOnUser[]
-  FK_Flows           Flow[]
-  FK_FlowTags        FlowTag[]
-  FK_FlashCardStacks FlashCardStack[]
+  FK_Terms           Term[]
+  //FK_FlowTags       FlowTag[]
 }
 
-model CourseOnUser {
-  CourseOnUserID Int     @id @default(autoincrement())
-  HOLDER         String? //This is used to avoid updateMany (bug?) error message. Happens in join tables with only id/fks
-  FK_User        User?   @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
-  FK_UserID      Int?
-  FK_Course      Course? @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
+model Term {
+  TermID          Int            @id @default(autoincrement())
+  CreatedTime     DateTime       @default(now())
+  TermType        TermType
+  TermName        String?
+  TermStartDate   DateTime
+  TermEndDate     DateTime
+  FK_User         User?          @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserID       Int?
+  FK_CourseOnTerm CourseOnTerm[]
+}
+
+model CourseOnTerm {
+  CourseOnTermID Int      @id @default(autoincrement())
+  CreatedTime    DateTime @default(now())
+  FK_Course      Course?  @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
   FK_CourseID    Int?
+  FK_Term        Term?    @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
+  FK_TermID      Int?
+  FK_Flows       Flow[]
 }
 
 model Course {
-  CourseID      Int            @id @default(autoincrement())
-  CreatedTime   DateTime       @default(now())
-  FK_School     School?        @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
-  FK_SchoolID   Int?
-  FK_Professors Professor[]
-  FK_Users      CourseOnUser[]
-  IsOfficial    Boolean        @default(false)
-  Code          String?
-  Title         String?
-  Term          String?
+  CourseID         Int            @id @default(autoincrement())
+  CreatedTime      DateTime       @default(now())
+  FK_School        School?        @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
+  FK_SchoolID      Int?
+  FK_Professors    Professor[]
+  FK_TermsOnCourse CourseOnTerm[]
+  IsOfficial       Boolean        @default(false)
+  Code             String?
+  Title            String?
 }
 
 model School {
@@ -75,45 +99,45 @@ model Professor {
 }
 
 model Flow {
-  FlowID             Int              @id @default(autoincrement())
-  CreatedTime        DateTime         @default(now())
-  FK_User            User?            @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
-  FK_UserID          Int?
-  FK_Tags            FlowTagOnFlow[]
-  FK_FlashCardStacks FlashCardStack[]
-  Title              String?
-  Body               String?
-  Visibility         Visibility?
+  FlowID                     Int              @id @default(autoincrement())
+  CreatedTime                DateTime         @default(now())
+  //FK_Tags            FlowTagOnFlow[]
+  FK_FlashCardStacks         FlashCardStack[]
+  Title                      String?
+  Body                       String?
+  Visibility                 Visibility?
+  CourseOnTerm               CourseOnTerm?    @relation(fields: [courseOnTermCourseOnTermID], references: [CourseOnTermID])
+  courseOnTermCourseOnTermID Int?
 }
 
 //creates many-to-many for tags and flows (flows can be related to many tags, and tags can be related to many flows)
-model FlowTagOnFlow {
-  FlowTagOnFlowID Int      @id @default(autoincrement())
-  HOLDER          String? //This is used to avoid updateMany (bug?) error message. Happens in join tables with only id/fks
-  FK_Flow         Flow?    @relation(fields: [FK_FlowID], references: [FlowID], onDelete: Cascade, onUpdate: Cascade)
-  FK_FlowID       Int?
-  FK_FlowTag      FlowTag? @relation(fields: [FK_FlowTagID], references: [FlowTagID], onDelete: Cascade, onUpdate: Cascade)
-  FK_FlowTagID    Int?
-}
+//model FlowTagOnFlow {
+//  FlowTagOnFlowID Int      @id @default(autoincrement())
+// HOLDER          String? //This is used to avoid updateMany (bug?) error message. Happens in join tables with only id/fks
+//  FK_Flow         Flow?    @relation(fields: [FK_FlowID], references: [FlowID], onDelete: Cascade, onUpdate: Cascade)
+// FK_FlowID       Int?
+// FK_FlowTag      FlowTag? @relation(fields: [FK_FlowTagID], references: [FlowTagID], onDelete: Cascade, onUpdate: Cascade)
+//  FK_FlowTagID    Int?
+//}
 
 //tags for flows (Homework, Lecture, Recitation)
-model FlowTag {
-  FlowTagID   Int             @id @default(autoincrement())
-  CreatedTime DateTime        @default(now())
-  FK_User     User?           @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
-  FK_UserID   Int?
-  FK_Flows    FlowTagOnFlow[]
-  Public      Boolean         @default(false)
-  Name        String
-}
+//model FlowTag {
+//  FlowTagID   Int             @id @default(autoincrement())
+//  CreatedTime DateTime        @default(now())
+//  FK_User     User?           @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+// FK_UserID   Int?
+// FK_Flows    FlowTagOnFlow[]
+//  Public      Boolean         @default(false)
+// Name        String
+// Term        Term?           @relation(fields: [termTermID], references: [TermID])
+// termTermID  Int?
+//}
 
 model FlashCardStack {
   FlashCardStackID Int         @id @default(autoincrement())
   CreatedTime      DateTime    @default(now())
   FK_Flow          Flow?       @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
   FK_FlowID        Int?
-  FK_User          User?       @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
-  FK_UserID        Int?
   FlashCards       FlashCard[]
   Title            String?     @default("Untitled")
 }
