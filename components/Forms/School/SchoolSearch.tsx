@@ -6,21 +6,22 @@ import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
 import useSchools from 'hooks/setup/useSchools'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 import SchoolInput from './SchoolInput'
 
 interface Props {
-  selectedSchool: string
-  setSelectedSchool: (school: string) => void
+  selectedSchool: School
+  setSelectedSchool: Dispatch<SetStateAction<School>>
+  updateSchoolinDB: (school: School) => void
 }
 
 export default function SchoolSearch({
   selectedSchool,
   setSelectedSchool,
+  updateSchoolinDB,
 }: Props) {
   const { theme } = useTheme()
-
   const { schools, isLoading, isError } = useSchools()
 
   const [mounted, setMounted] = useState(false)
@@ -51,7 +52,7 @@ export default function SchoolSearch({
       className="w-96"
       as="div"
       value={selectedSchool}
-      onChange={setSelectedSchool}
+      onChange={(value: School) => updateSchoolinDB(value)}
     >
       <div className="relative mt-1 w-96">
         {!isLoading ? (
@@ -64,7 +65,7 @@ export default function SchoolSearch({
         ) : (
           <LoadWithText
             size={SpinnerSizes.small}
-            text="Loading 1903 colleges and universities "
+            text="Loading 1903 colleges and universities"
           />
         )}
         {filteredSchools.length > 0 && (
@@ -78,13 +79,7 @@ export default function SchoolSearch({
             )}
           >
             {filteredSchools.map((school) => (
-              <SchoolEntry
-                key={school.item.SchoolID}
-                school={school}
-                schools={schools}
-                filterSchools={filterSchools}
-                setSelectedSchool={setSelectedSchool}
-              />
+              <SchoolEntry key={school.item.SchoolID} school={school} />
             ))}
           </Combobox.Options>
         )}

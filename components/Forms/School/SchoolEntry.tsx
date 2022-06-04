@@ -6,21 +6,13 @@ import classnames from 'classnames'
 import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
 import { useTheme } from 'next-themes'
-import { Dispatch, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props {
   school: Fuse.FuseResult<School>
-  schools: School[]
-  filterSchools: (schoolsArray: School[], seachVal: string) => void
-  setSelectedSchool: Dispatch<any>
 }
 
-export default function SchoolEntry({
-  school,
-  schools,
-  filterSchools,
-  setSelectedSchool,
-}: Props) {
+export default function SchoolEntry({ school }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -31,7 +23,7 @@ export default function SchoolEntry({
 
   return (
     <Combobox.Option
-      value={school.item.Name}
+      value={school.item}
       className={({ active }) =>
         classnames(
           {
@@ -45,10 +37,6 @@ export default function SchoolEntry({
           'relative cursor-default select-none py-2 pl-3 pr-9 text-lg',
         )
       }
-      onSelect={() => {
-        filterSchools(schools, school.item.Name)
-        setSelectedSchool(school.item.Name)
-      }}
     >
       {({ active, selected }) => (
         <>
@@ -62,10 +50,7 @@ export default function SchoolEntry({
               {school.item.Name}
             </span>
             {school.item.HasClassSupport && (
-              <BadgeCheckIcon
-                className="h-5 w-5 text-green-400"
-                aria-hidden="true"
-              />
+              <BadgeCheckIcon className="h-5 w-5" aria-hidden="true" />
             )}
           </div>
 

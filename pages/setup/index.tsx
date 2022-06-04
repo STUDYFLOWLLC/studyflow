@@ -33,7 +33,7 @@ export default function index({ user }: Props) {
 
   if (!userDetails) return <CreateProfile user={user} />
 
-  if (userDetails.username !== null) return <EnterEducation />
+  if (userDetails.username !== null) return <EnterEducation user={user} />
 }
 
 export const getServerSideProps = withPageAuth({ redirectTo: '/login' })
