@@ -5,6 +5,7 @@ import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import { School } from 'graphql/generated-graphql'
 import setUserSchool from 'hooks/setup/setUserSchool'
 import { useState } from 'react'
+import SchoolDisplay from './SchoolDisplay'
 
 interface Props {
   user: User
@@ -31,6 +32,7 @@ export default function index({ user }: Props) {
         selectedSchool={selectedSchool}
         updateSchoolinDB={updateSchoolinDB}
       />
+      <SchoolDisplay selectedSchool={selectedSchool} />
     </div>
   )
 }
