@@ -21,6 +21,11 @@ export class Professor {
   })
   Name!: string;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email?: string | null;
+
   @TypeGraphQL.Field(_type => ProfessorCount, {
     nullable: true
   })

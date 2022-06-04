@@ -2,7 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 
 export enum ProfessorScalarFieldEnum {
   ProfessorID = "ProfessorID",
-  Name = "Name"
+  Name = "Name",
+  Email = "Email"
 }
 TypeGraphQL.registerEnumType(ProfessorScalarFieldEnum, {
   name: "ProfessorScalarFieldEnum",

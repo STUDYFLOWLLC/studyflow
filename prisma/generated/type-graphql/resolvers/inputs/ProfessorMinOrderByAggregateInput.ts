@@ -17,4 +17,9 @@ export class ProfessorMinOrderByAggregateInput {
     nullable: true
   })
   Name?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  Email?: "asc" | "desc" | undefined;
 }

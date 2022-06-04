@@ -16,4 +16,9 @@ export class ProfessorMinAggregate {
     nullable: true
   })
   Name!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email!: string | null;
 }

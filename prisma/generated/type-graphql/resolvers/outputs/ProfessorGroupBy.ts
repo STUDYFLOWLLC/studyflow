@@ -22,6 +22,11 @@ export class ProfessorGroupBy {
   })
   Name!: string;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email!: string | null;
+
   @TypeGraphQL.Field(_type => ProfessorCountAggregate, {
     nullable: true
   })

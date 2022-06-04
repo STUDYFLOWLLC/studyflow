@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { IntFilter } from "../inputs/IntFilter";
 import { ProfessorsOnCoursesListRelationFilter } from "../inputs/ProfessorsOnCoursesListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
 @TypeGraphQL.InputType("ProfessorWhereInput", {
   isAbstract: true
@@ -39,4 +40,9 @@ export class ProfessorWhereInput {
     nullable: true
   })
   Name?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  Email?: StringNullableFilter | undefined;
 }

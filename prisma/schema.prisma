@@ -100,6 +100,7 @@ model Professor {
   ProfessorID Int                   @id @default(autoincrement())
   FK_Courses  ProfessorsOnCourses[]
   Name        String
+  Email       String?
 }
 
 model ProfessorsOnCourses {

@@ -11,4 +11,9 @@ export class ProfessorCreateWithoutFK_CoursesInput {
     nullable: false
   })
   Name!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email?: string | undefined;
 }

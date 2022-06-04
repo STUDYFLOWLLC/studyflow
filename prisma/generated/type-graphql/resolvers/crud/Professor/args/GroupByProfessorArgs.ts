@@ -20,7 +20,7 @@ export class GroupByProfessorArgs {
   @TypeGraphQL.Field(_type => [ProfessorScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"ProfessorID" | "Name">;
+  by!: Array<"ProfessorID" | "Name" | "Email">;
 
   @TypeGraphQL.Field(_type => ProfessorScalarWhereWithAggregatesInput, {
     nullable: true

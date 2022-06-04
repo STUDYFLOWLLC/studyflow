@@ -16,4 +16,9 @@ export class ProfessorCreateManyInput {
     nullable: false
   })
   Name!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email?: string | undefined;
 }
