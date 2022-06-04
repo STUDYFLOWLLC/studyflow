@@ -7,7 +7,7 @@ import { CourseOnTermListRelationFilter } from "../inputs/CourseOnTermListRelati
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
-import { ProfessorListRelationFilter } from "../inputs/ProfessorListRelationFilter";
+import { ProfessorsOnCoursesListRelationFilter } from "../inputs/ProfessorsOnCoursesListRelationFilter";
 import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -50,10 +50,10 @@ export class CourseWhereInput {
   })
   FK_SchoolID?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorListRelationFilter, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesListRelationFilter, {
     nullable: true
   })
-  FK_Professors?: ProfessorListRelationFilter | undefined;
+  FK_Professors?: ProfessorsOnCoursesListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermListRelationFilter, {
     nullable: true

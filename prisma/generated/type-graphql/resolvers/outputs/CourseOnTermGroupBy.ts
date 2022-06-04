@@ -23,14 +23,14 @@ export class CourseOnTermGroupBy {
   CreatedTime!: Date;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: false
   })
-  FK_CourseID!: number | null;
+  FK_CourseID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: false
   })
-  FK_TermID!: number | null;
+  FK_TermID!: number;
 
   @TypeGraphQL.Field(_type => CourseOnTermCountAggregate, {
     nullable: true

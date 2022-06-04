@@ -41,7 +41,7 @@ export class FlowGroupBy {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  courseOnTermCourseOnTermID!: number | null;
+  FK_CourseOnTermID!: number | null;
 
   @TypeGraphQL.Field(_type => FlowCountAggregate, {
     nullable: true

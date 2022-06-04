@@ -4,7 +4,6 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
-import { IntNullableFilter } from "../inputs/IntNullableFilter";
 
 @TypeGraphQL.InputType("CourseOnTermScalarWhereInput", {
   isAbstract: true
@@ -35,13 +34,13 @@ export class CourseOnTermScalarWhereInput {
   })
   CreatedTime?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  FK_CourseID?: IntNullableFilter | undefined;
+  FK_CourseID?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  FK_TermID?: IntNullableFilter | undefined;
+  FK_TermID?: IntFilter | undefined;
 }

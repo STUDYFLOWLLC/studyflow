@@ -36,5 +36,5 @@ export class FlowCreateManyInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  courseOnTermCourseOnTermID?: number | undefined;
+  FK_CourseOnTermID?: number | undefined;
 }

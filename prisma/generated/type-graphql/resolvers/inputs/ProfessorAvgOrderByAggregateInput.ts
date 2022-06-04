@@ -12,9 +12,4 @@ export class ProfessorAvgOrderByAggregateInput {
     nullable: true
   })
   ProfessorID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_CourseID?: "asc" | "desc" | undefined;
 }

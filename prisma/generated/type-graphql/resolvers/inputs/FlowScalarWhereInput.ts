@@ -55,5 +55,5 @@ export class FlowScalarWhereInput {
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  courseOnTermCourseOnTermID?: IntNullableFilter | undefined;
+  FK_CourseOnTermID?: IntNullableFilter | undefined;
 }

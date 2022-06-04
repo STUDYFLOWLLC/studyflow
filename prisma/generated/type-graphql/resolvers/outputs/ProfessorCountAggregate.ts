@@ -15,11 +15,6 @@ export class ProfessorCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  FK_CourseID!: number;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
   Name!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

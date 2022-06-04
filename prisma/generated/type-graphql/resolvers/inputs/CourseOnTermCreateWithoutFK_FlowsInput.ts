@@ -15,12 +15,12 @@ export class CourseOnTermCreateWithoutFK_FlowsInput {
   CreatedTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => CourseCreateNestedOneWithoutFK_TermsOnCourseInput, {
-    nullable: true
+    nullable: false
   })
-  FK_Course?: CourseCreateNestedOneWithoutFK_TermsOnCourseInput | undefined;
+  FK_Course!: CourseCreateNestedOneWithoutFK_TermsOnCourseInput;
 
   @TypeGraphQL.Field(_type => TermCreateNestedOneWithoutFK_CourseOnTermInput, {
-    nullable: true
+    nullable: false
   })
-  FK_Term?: TermCreateNestedOneWithoutFK_CourseOnTermInput | undefined;
+  FK_Term!: TermCreateNestedOneWithoutFK_CourseOnTermInput;
 }

@@ -16,10 +16,5 @@ export class ProfessorCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_CourseID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   Name?: "asc" | "desc" | undefined;
 }

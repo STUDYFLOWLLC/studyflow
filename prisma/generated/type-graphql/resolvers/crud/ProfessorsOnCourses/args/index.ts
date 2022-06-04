@@ -1,0 +1,12 @@
+export { AggregateProfessorsOnCoursesArgs } from "./AggregateProfessorsOnCoursesArgs";
+export { CreateManyProfessorsOnCoursesArgs } from "./CreateManyProfessorsOnCoursesArgs";
+export { CreateProfessorsOnCoursesArgs } from "./CreateProfessorsOnCoursesArgs";
+export { DeleteManyProfessorsOnCoursesArgs } from "./DeleteManyProfessorsOnCoursesArgs";
+export { DeleteProfessorsOnCoursesArgs } from "./DeleteProfessorsOnCoursesArgs";
+export { FindFirstProfessorsOnCoursesArgs } from "./FindFirstProfessorsOnCoursesArgs";
+export { FindManyProfessorsOnCoursesArgs } from "./FindManyProfessorsOnCoursesArgs";
+export { FindUniqueProfessorsOnCoursesArgs } from "./FindUniqueProfessorsOnCoursesArgs";
+export { GroupByProfessorsOnCoursesArgs } from "./GroupByProfessorsOnCoursesArgs";
+export { UpdateManyProfessorsOnCoursesArgs } from "./UpdateManyProfessorsOnCoursesArgs";
+export { UpdateProfessorsOnCoursesArgs } from "./UpdateProfessorsOnCoursesArgs";
+export { UpsertProfessorsOnCoursesArgs } from "./UpsertProfessorsOnCoursesArgs";

@@ -18,7 +18,7 @@ export class CourseOnTermCreateManyFK_TermInput {
   CreatedTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: false
   })
-  FK_CourseID?: number | undefined;
+  FK_CourseID!: number;
 }

@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { ProfessorUpdateManyWithoutFK_CourseInput } from "../inputs/ProfessorUpdateManyWithoutFK_CourseInput";
+import { ProfessorsOnCoursesUpdateManyWithoutFK_CourseInput } from "../inputs/ProfessorsOnCoursesUpdateManyWithoutFK_CourseInput";
 import { SchoolUpdateOneWithoutFK_CourseInput } from "../inputs/SchoolUpdateOneWithoutFK_CourseInput";
 
 @TypeGraphQL.InputType("CourseUpdateWithoutFK_TermsOnCourseInput", {
@@ -22,10 +22,10 @@ export class CourseUpdateWithoutFK_TermsOnCourseInput {
   })
   FK_School?: SchoolUpdateOneWithoutFK_CourseInput | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorUpdateManyWithoutFK_CourseInput, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesUpdateManyWithoutFK_CourseInput, {
     nullable: true
   })
-  FK_Professors?: ProfessorUpdateManyWithoutFK_CourseInput | undefined;
+  FK_Professors?: ProfessorsOnCoursesUpdateManyWithoutFK_CourseInput | undefined;
 
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true

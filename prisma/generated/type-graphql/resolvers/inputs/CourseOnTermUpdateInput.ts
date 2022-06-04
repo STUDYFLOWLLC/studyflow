@@ -2,10 +2,10 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseUpdateOneWithoutFK_TermsOnCourseInput } from "../inputs/CourseUpdateOneWithoutFK_TermsOnCourseInput";
+import { CourseUpdateOneRequiredWithoutFK_TermsOnCourseInput } from "../inputs/CourseUpdateOneRequiredWithoutFK_TermsOnCourseInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { FlowUpdateManyWithoutCourseOnTermInput } from "../inputs/FlowUpdateManyWithoutCourseOnTermInput";
-import { TermUpdateOneWithoutFK_CourseOnTermInput } from "../inputs/TermUpdateOneWithoutFK_CourseOnTermInput";
+import { FlowUpdateManyWithoutFK_CourseOnTermInput } from "../inputs/FlowUpdateManyWithoutFK_CourseOnTermInput";
+import { TermUpdateOneRequiredWithoutFK_CourseOnTermInput } from "../inputs/TermUpdateOneRequiredWithoutFK_CourseOnTermInput";
 
 @TypeGraphQL.InputType("CourseOnTermUpdateInput", {
   isAbstract: true
@@ -16,18 +16,18 @@ export class CourseOnTermUpdateInput {
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => CourseUpdateOneWithoutFK_TermsOnCourseInput, {
+  @TypeGraphQL.Field(_type => CourseUpdateOneRequiredWithoutFK_TermsOnCourseInput, {
     nullable: true
   })
-  FK_Course?: CourseUpdateOneWithoutFK_TermsOnCourseInput | undefined;
+  FK_Course?: CourseUpdateOneRequiredWithoutFK_TermsOnCourseInput | undefined;
 
-  @TypeGraphQL.Field(_type => TermUpdateOneWithoutFK_CourseOnTermInput, {
+  @TypeGraphQL.Field(_type => TermUpdateOneRequiredWithoutFK_CourseOnTermInput, {
     nullable: true
   })
-  FK_Term?: TermUpdateOneWithoutFK_CourseOnTermInput | undefined;
+  FK_Term?: TermUpdateOneRequiredWithoutFK_CourseOnTermInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlowUpdateManyWithoutCourseOnTermInput, {
+  @TypeGraphQL.Field(_type => FlowUpdateManyWithoutFK_CourseOnTermInput, {
     nullable: true
   })
-  FK_Flows?: FlowUpdateManyWithoutCourseOnTermInput | undefined;
+  FK_Flows?: FlowUpdateManyWithoutFK_CourseOnTermInput | undefined;
 }

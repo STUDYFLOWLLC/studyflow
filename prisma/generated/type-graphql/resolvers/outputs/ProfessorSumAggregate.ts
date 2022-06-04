@@ -11,9 +11,4 @@ export class ProfessorSumAggregate {
     nullable: true
   })
   ProfessorID!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_CourseID!: number | null;
 }

@@ -21,11 +21,11 @@ export class FlowRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => CourseOnTerm, {
     nullable: true
   })
-  async CourseOnTerm(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any): Promise<CourseOnTerm | null> {
+  async FK_CourseOnTerm(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any): Promise<CourseOnTerm | null> {
     return getPrismaFromContext(ctx).flow.findUnique({
       where: {
         FlowID: flow.FlowID,
       },
-    }).CourseOnTerm({});
+    }).FK_CourseOnTerm({});
   }
 }

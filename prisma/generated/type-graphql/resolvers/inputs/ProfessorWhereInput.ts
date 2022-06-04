@@ -2,9 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseRelationFilter } from "../inputs/CourseRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
-import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { ProfessorsOnCoursesListRelationFilter } from "../inputs/ProfessorsOnCoursesListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 
 @TypeGraphQL.InputType("ProfessorWhereInput", {
@@ -31,15 +30,10 @@ export class ProfessorWhereInput {
   })
   ProfessorID?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => CourseRelationFilter, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesListRelationFilter, {
     nullable: true
   })
-  FK_Course?: CourseRelationFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  FK_CourseID?: IntNullableFilter | undefined;
+  FK_Courses?: ProfessorsOnCoursesListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true

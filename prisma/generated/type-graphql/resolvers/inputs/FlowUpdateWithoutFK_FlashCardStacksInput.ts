@@ -34,5 +34,5 @@ export class FlowUpdateWithoutFK_FlashCardStacksInput {
   @TypeGraphQL.Field(_type => CourseOnTermUpdateOneWithoutFK_FlowsInput, {
     nullable: true
   })
-  CourseOnTerm?: CourseOnTermUpdateOneWithoutFK_FlowsInput | undefined;
+  FK_CourseOnTerm?: CourseOnTermUpdateOneWithoutFK_FlowsInput | undefined;
 }

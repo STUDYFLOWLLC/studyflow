@@ -9,9 +9,9 @@ import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRel
 @TypeGraphQL.Resolver(_of => CourseOnTerm)
 export class CourseOnTermRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => Course, {
-    nullable: true
+    nullable: false
   })
-  async FK_Course(@TypeGraphQL.Root() courseOnTerm: CourseOnTerm, @TypeGraphQL.Ctx() ctx: any): Promise<Course | null> {
+  async FK_Course(@TypeGraphQL.Root() courseOnTerm: CourseOnTerm, @TypeGraphQL.Ctx() ctx: any): Promise<Course> {
     return getPrismaFromContext(ctx).courseOnTerm.findUnique({
       where: {
         CourseOnTermID: courseOnTerm.CourseOnTermID,
@@ -20,9 +20,9 @@ export class CourseOnTermRelationsResolver {
   }
 
   @TypeGraphQL.FieldResolver(_type => Term, {
-    nullable: true
+    nullable: false
   })
-  async FK_Term(@TypeGraphQL.Root() courseOnTerm: CourseOnTerm, @TypeGraphQL.Ctx() ctx: any): Promise<Term | null> {
+  async FK_Term(@TypeGraphQL.Root() courseOnTerm: CourseOnTerm, @TypeGraphQL.Ctx() ctx: any): Promise<Term> {
     return getPrismaFromContext(ctx).courseOnTerm.findUnique({
       where: {
         CourseOnTermID: courseOnTerm.CourseOnTermID,

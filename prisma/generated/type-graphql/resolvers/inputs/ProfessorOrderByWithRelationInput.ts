@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseOrderByWithRelationInput } from "../inputs/CourseOrderByWithRelationInput";
+import { ProfessorsOnCoursesOrderByRelationAggregateInput } from "../inputs/ProfessorsOnCoursesOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("ProfessorOrderByWithRelationInput", {
@@ -14,15 +14,10 @@ export class ProfessorOrderByWithRelationInput {
   })
   ProfessorID?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOrderByWithRelationInput, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Course?: CourseOrderByWithRelationInput | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_CourseID?: "asc" | "desc" | undefined;
+  FK_Courses?: ProfessorsOnCoursesOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

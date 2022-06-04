@@ -62,10 +62,10 @@ export class FlowWhereInput {
   @TypeGraphQL.Field(_type => CourseOnTermRelationFilter, {
     nullable: true
   })
-  CourseOnTerm?: CourseOnTermRelationFilter | undefined;
+  FK_CourseOnTerm?: CourseOnTermRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  courseOnTermCourseOnTermID?: IntNullableFilter | undefined;
+  FK_CourseOnTermID?: IntNullableFilter | undefined;
 }

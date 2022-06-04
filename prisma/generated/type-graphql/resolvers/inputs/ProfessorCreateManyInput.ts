@@ -12,11 +12,6 @@ export class ProfessorCreateManyInput {
   })
   ProfessorID?: number | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_CourseID?: number | undefined;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })

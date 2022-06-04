@@ -1,26 +1,26 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { ProfessorOrderByWithRelationInput } from "../../../inputs/ProfessorOrderByWithRelationInput";
-import { ProfessorWhereInput } from "../../../inputs/ProfessorWhereInput";
-import { ProfessorWhereUniqueInput } from "../../../inputs/ProfessorWhereUniqueInput";
-import { ProfessorScalarFieldEnum } from "../../../../enums/ProfessorScalarFieldEnum";
+import { ProfessorsOnCoursesOrderByWithRelationInput } from "../../../inputs/ProfessorsOnCoursesOrderByWithRelationInput";
+import { ProfessorsOnCoursesWhereInput } from "../../../inputs/ProfessorsOnCoursesWhereInput";
+import { ProfessorsOnCoursesWhereUniqueInput } from "../../../inputs/ProfessorsOnCoursesWhereUniqueInput";
+import { ProfessorsOnCoursesScalarFieldEnum } from "../../../../enums/ProfessorsOnCoursesScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class CourseFK_ProfessorsArgs {
-  @TypeGraphQL.Field(_type => ProfessorWhereInput, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesWhereInput, {
     nullable: true
   })
-  where?: ProfessorWhereInput | undefined;
+  where?: ProfessorsOnCoursesWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => [ProfessorOrderByWithRelationInput], {
+  @TypeGraphQL.Field(_type => [ProfessorsOnCoursesOrderByWithRelationInput], {
     nullable: true
   })
-  orderBy?: ProfessorOrderByWithRelationInput[] | undefined;
+  orderBy?: ProfessorsOnCoursesOrderByWithRelationInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorWhereUniqueInput, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesWhereUniqueInput, {
     nullable: true
   })
-  cursor?: ProfessorWhereUniqueInput | undefined;
+  cursor?: ProfessorsOnCoursesWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -32,8 +32,8 @@ export class CourseFK_ProfessorsArgs {
   })
   skip?: number | undefined;
 
-  @TypeGraphQL.Field(_type => [ProfessorScalarFieldEnum], {
+  @TypeGraphQL.Field(_type => [ProfessorsOnCoursesScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"ProfessorID" | "FK_CourseID" | "Name"> | undefined;
+  distinct?: Array<"ProfessorsOnCoursesID" | "CreatedTime" | "FK_CourseID" | "FK_ProfessorID"> | undefined;
 }

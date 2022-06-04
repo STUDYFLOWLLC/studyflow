@@ -43,10 +43,10 @@ export class FlowOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => CourseOnTermOrderByWithRelationInput, {
     nullable: true
   })
-  CourseOnTerm?: CourseOnTermOrderByWithRelationInput | undefined;
+  FK_CourseOnTerm?: CourseOnTermOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  courseOnTermCourseOnTermID?: "asc" | "desc" | undefined;
+  FK_CourseOnTermID?: "asc" | "desc" | undefined;
 }

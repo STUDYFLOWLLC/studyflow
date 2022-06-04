@@ -21,19 +21,19 @@ export class CourseOnTerm {
   })
   CreatedTime!: Date;
 
-  FK_Course?: Course | null;
+  FK_Course?: Course;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: false
   })
-  FK_CourseID?: number | null;
+  FK_CourseID!: number;
 
-  FK_Term?: Term | null;
+  FK_Term?: Term;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
+    nullable: false
   })
-  FK_TermID?: number | null;
+  FK_TermID!: number;
 
   FK_Flows?: Flow[];
 

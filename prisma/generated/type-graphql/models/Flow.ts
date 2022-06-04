@@ -38,12 +38,12 @@ export class Flow {
   })
   Visibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
 
-  CourseOnTerm?: CourseOnTerm | null;
+  FK_CourseOnTerm?: CourseOnTerm | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  courseOnTermCourseOnTermID?: number | null;
+  FK_CourseOnTermID?: number | null;
 
   @TypeGraphQL.Field(_type => FlowCount, {
     nullable: true

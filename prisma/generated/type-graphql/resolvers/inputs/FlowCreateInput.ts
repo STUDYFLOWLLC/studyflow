@@ -38,5 +38,5 @@ export class FlowCreateInput {
   @TypeGraphQL.Field(_type => CourseOnTermCreateNestedOneWithoutFK_FlowsInput, {
     nullable: true
   })
-  CourseOnTerm?: CourseOnTermCreateNestedOneWithoutFK_FlowsInput | undefined;
+  FK_CourseOnTerm?: CourseOnTermCreateNestedOneWithoutFK_FlowsInput | undefined;
 }

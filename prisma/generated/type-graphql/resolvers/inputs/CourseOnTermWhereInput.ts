@@ -6,7 +6,6 @@ import { CourseRelationFilter } from "../inputs/CourseRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
-import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { TermRelationFilter } from "../inputs/TermRelationFilter";
 
 @TypeGraphQL.InputType("CourseOnTermWhereInput", {
@@ -43,20 +42,20 @@ export class CourseOnTermWhereInput {
   })
   FK_Course?: CourseRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  FK_CourseID?: IntNullableFilter | undefined;
+  FK_CourseID?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => TermRelationFilter, {
     nullable: true
   })
   FK_Term?: TermRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  FK_TermID?: IntNullableFilter | undefined;
+  FK_TermID?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => FlowListRelationFilter, {
     nullable: true

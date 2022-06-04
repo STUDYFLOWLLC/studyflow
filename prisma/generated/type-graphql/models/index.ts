@@ -4,6 +4,7 @@ export { FlashCard } from "./FlashCard";
 export { FlashCardStack } from "./FlashCardStack";
 export { Flow } from "./Flow";
 export { Professor } from "./Professor";
+export { ProfessorsOnCourses } from "./ProfessorsOnCourses";
 export { School } from "./School";
 export { Term } from "./Term";
 export { User } from "./User";

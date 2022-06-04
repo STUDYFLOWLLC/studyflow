@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { ProfessorCreateNestedManyWithoutFK_CourseInput } from "../inputs/ProfessorCreateNestedManyWithoutFK_CourseInput";
+import { ProfessorsOnCoursesCreateNestedManyWithoutFK_CourseInput } from "../inputs/ProfessorsOnCoursesCreateNestedManyWithoutFK_CourseInput";
 import { SchoolCreateNestedOneWithoutFK_CourseInput } from "../inputs/SchoolCreateNestedOneWithoutFK_CourseInput";
 
 @TypeGraphQL.InputType("CourseCreateWithoutFK_TermsOnCourseInput", {
@@ -19,10 +19,10 @@ export class CourseCreateWithoutFK_TermsOnCourseInput {
   })
   FK_School?: SchoolCreateNestedOneWithoutFK_CourseInput | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorCreateNestedManyWithoutFK_CourseInput, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesCreateNestedManyWithoutFK_CourseInput, {
     nullable: true
   })
-  FK_Professors?: ProfessorCreateNestedManyWithoutFK_CourseInput | undefined;
+  FK_Professors?: ProfessorsOnCoursesCreateNestedManyWithoutFK_CourseInput | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true

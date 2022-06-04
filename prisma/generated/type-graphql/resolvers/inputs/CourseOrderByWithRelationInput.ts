@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermOrderByRelationAggregateInput } from "../inputs/CourseOnTermOrderByRelationAggregateInput";
-import { ProfessorOrderByRelationAggregateInput } from "../inputs/ProfessorOrderByRelationAggregateInput";
+import { ProfessorsOnCoursesOrderByRelationAggregateInput } from "../inputs/ProfessorsOnCoursesOrderByRelationAggregateInput";
 import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -31,10 +31,10 @@ export class CourseOrderByWithRelationInput {
   })
   FK_SchoolID?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorOrderByRelationAggregateInput, {
+  @TypeGraphQL.Field(_type => ProfessorsOnCoursesOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Professors?: ProfessorOrderByRelationAggregateInput | undefined;
+  FK_Professors?: ProfessorsOnCoursesOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermOrderByRelationAggregateInput, {
     nullable: true

@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseCreateNestedOneWithoutFK_TermsOnCourseInput } from "../inputs/CourseCreateNestedOneWithoutFK_TermsOnCourseInput";
-import { FlowCreateNestedManyWithoutCourseOnTermInput } from "../inputs/FlowCreateNestedManyWithoutCourseOnTermInput";
+import { FlowCreateNestedManyWithoutFK_CourseOnTermInput } from "../inputs/FlowCreateNestedManyWithoutFK_CourseOnTermInput";
 
 @TypeGraphQL.InputType("CourseOnTermCreateWithoutFK_TermInput", {
   isAbstract: true
@@ -15,12 +15,12 @@ export class CourseOnTermCreateWithoutFK_TermInput {
   CreatedTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => CourseCreateNestedOneWithoutFK_TermsOnCourseInput, {
-    nullable: true
+    nullable: false
   })
-  FK_Course?: CourseCreateNestedOneWithoutFK_TermsOnCourseInput | undefined;
+  FK_Course!: CourseCreateNestedOneWithoutFK_TermsOnCourseInput;
 
-  @TypeGraphQL.Field(_type => FlowCreateNestedManyWithoutCourseOnTermInput, {
+  @TypeGraphQL.Field(_type => FlowCreateNestedManyWithoutFK_CourseOnTermInput, {
     nullable: true
   })
-  FK_Flows?: FlowCreateNestedManyWithoutCourseOnTermInput | undefined;
+  FK_Flows?: FlowCreateNestedManyWithoutFK_CourseOnTermInput | undefined;
 }

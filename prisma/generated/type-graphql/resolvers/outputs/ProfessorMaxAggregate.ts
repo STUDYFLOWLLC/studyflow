@@ -12,11 +12,6 @@ export class ProfessorMaxAggregate {
   })
   ProfessorID!: number | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_CourseID!: number | null;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
