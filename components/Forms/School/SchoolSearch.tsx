@@ -6,19 +6,17 @@ import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
 import useSchools from 'hooks/setup/useSchools'
 import { useTheme } from 'next-themes'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 import SchoolInput from './SchoolInput'
 
 interface Props {
   selectedSchool: School
-  setSelectedSchool: Dispatch<SetStateAction<School>>
   updateSchoolinDB: (school: School) => void
 }
 
 export default function SchoolSearch({
   selectedSchool,
-  setSelectedSchool,
   updateSchoolinDB,
 }: Props) {
   const { theme } = useTheme()

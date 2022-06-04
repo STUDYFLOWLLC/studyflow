@@ -29,7 +29,6 @@ export default function index({ user }: Props) {
       <SetupStepTitle title="Education" />
       <SchoolSearch
         selectedSchool={selectedSchool}
-        setSelectedSchool={setSelectedSchool}
         updateSchoolinDB={updateSchoolinDB}
       />
     </div>
