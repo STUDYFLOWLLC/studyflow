@@ -21,11 +21,6 @@ export class FlowMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_UserID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   Title?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
@@ -37,4 +32,9 @@ export class FlowMinOrderByAggregateInput {
     nullable: true
   })
   Visibility?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  courseOnTermCourseOnTermID?: "asc" | "desc" | undefined;
 }

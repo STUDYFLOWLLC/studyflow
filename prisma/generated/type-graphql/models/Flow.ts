@@ -2,9 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
+import { CourseOnTerm } from "../models/CourseOnTerm";
 import { FlashCardStack } from "../models/FlashCardStack";
-import { FlowTagOnFlow } from "../models/FlowTagOnFlow";
-import { User } from "../models/User";
 import { Visibility } from "../enums/Visibility";
 import { FlowCount } from "../resolvers/outputs/FlowCount";
 
@@ -22,15 +21,6 @@ export class Flow {
   })
   CreatedTime!: Date;
 
-  FK_User?: User | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_UserID?: number | null;
-
-  FK_Tags?: FlowTagOnFlow[];
-
   FK_FlashCardStacks?: FlashCardStack[];
 
   @TypeGraphQL.Field(_type => String, {
@@ -47,6 +37,13 @@ export class Flow {
     nullable: true
   })
   Visibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
+  CourseOnTerm?: CourseOnTerm | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  courseOnTermCourseOnTermID?: number | null;
 
   @TypeGraphQL.Field(_type => FlowCount, {
     nullable: true

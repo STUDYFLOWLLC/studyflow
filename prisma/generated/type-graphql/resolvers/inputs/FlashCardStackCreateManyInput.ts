@@ -22,11 +22,6 @@ export class FlashCardStackCreateManyInput {
   })
   FK_FlowID?: number | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_UserID?: number | undefined;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })

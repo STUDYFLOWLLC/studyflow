@@ -17,9 +17,4 @@ export class FlashCardStackSumOrderByAggregateInput {
     nullable: true
   })
   FK_FlowID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_UserID?: "asc" | "desc" | undefined;
 }

@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { CourseOnUser } from "../models/CourseOnUser";
+import { CourseOnTerm } from "../models/CourseOnTerm";
 import { Professor } from "../models/Professor";
 import { School } from "../models/School";
 import { CourseCount } from "../resolvers/outputs/CourseCount";
@@ -30,7 +30,7 @@ export class Course {
 
   FK_Professors?: Professor[];
 
-  FK_Users?: CourseOnUser[];
+  FK_TermsOnCourse?: CourseOnTerm[];
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
@@ -46,11 +46,6 @@ export class Course {
     nullable: true
   })
   Title?: string | null;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Term?: string | null;
 
   @TypeGraphQL.Field(_type => CourseCount, {
     nullable: true

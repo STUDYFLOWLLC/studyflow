@@ -43,11 +43,6 @@ export class CourseOrderByWithAggregationInput {
   })
   Title?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  Term?: "asc" | "desc" | undefined;
-
   @TypeGraphQL.Field(_type => CourseCountOrderByAggregateInput, {
     nullable: true
   })

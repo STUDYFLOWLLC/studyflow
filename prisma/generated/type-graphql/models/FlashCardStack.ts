@@ -4,7 +4,6 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { FlashCard } from "../models/FlashCard";
 import { Flow } from "../models/Flow";
-import { User } from "../models/User";
 import { FlashCardStackCount } from "../resolvers/outputs/FlashCardStackCount";
 
 @TypeGraphQL.ObjectType("FlashCardStack", {
@@ -27,13 +26,6 @@ export class FlashCardStack {
     nullable: true
   })
   FK_FlowID?: number | null;
-
-  FK_User?: User | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_UserID?: number | null;
 
   FlashCards?: FlashCard[];
 

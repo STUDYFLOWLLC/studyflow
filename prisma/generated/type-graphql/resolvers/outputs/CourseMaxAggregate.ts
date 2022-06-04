@@ -36,9 +36,4 @@ export class CourseMaxAggregate {
     nullable: true
   })
   Title!: string | null;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Term!: string | null;
 }

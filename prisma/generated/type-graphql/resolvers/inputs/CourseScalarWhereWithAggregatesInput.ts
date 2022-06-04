@@ -56,9 +56,4 @@ export class CourseScalarWhereWithAggregatesInput {
     nullable: true
   })
   Title?: StringNullableWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  Term?: StringNullableWithAggregatesFilter | undefined;
 }

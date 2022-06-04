@@ -16,5 +16,5 @@ export class FlowAvgOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_UserID?: "asc" | "desc" | undefined;
+  courseOnTermCourseOnTermID?: "asc" | "desc" | undefined;
 }

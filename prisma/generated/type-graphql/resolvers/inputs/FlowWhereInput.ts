@@ -2,14 +2,13 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CourseOnTermRelationFilter } from "../inputs/CourseOnTermRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
 import { FlashCardStackListRelationFilter } from "../inputs/FlashCardStackListRelationFilter";
-import { FlowTagOnFlowListRelationFilter } from "../inputs/FlowTagOnFlowListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
-import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("FlowWhereInput", {
   isAbstract: true
@@ -40,21 +39,6 @@ export class FlowWhereInput {
   })
   CreatedTime?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => UserRelationFilter, {
-    nullable: true
-  })
-  FK_User?: UserRelationFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  FK_UserID?: IntNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => FlowTagOnFlowListRelationFilter, {
-    nullable: true
-  })
-  FK_Tags?: FlowTagOnFlowListRelationFilter | undefined;
-
   @TypeGraphQL.Field(_type => FlashCardStackListRelationFilter, {
     nullable: true
   })
@@ -74,4 +58,14 @@ export class FlowWhereInput {
     nullable: true
   })
   Visibility?: EnumVisibilityNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermRelationFilter, {
+    nullable: true
+  })
+  CourseOnTerm?: CourseOnTermRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  courseOnTermCourseOnTermID?: IntNullableFilter | undefined;
 }

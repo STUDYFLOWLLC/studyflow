@@ -35,5 +35,5 @@ export class FindFirstCourseArgs {
   @TypeGraphQL.Field(_type => [CourseScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"CourseID" | "CreatedTime" | "FK_SchoolID" | "IsOfficial" | "Code" | "Title" | "Term"> | undefined;
+  distinct?: Array<"CourseID" | "CreatedTime" | "FK_SchoolID" | "IsOfficial" | "Code" | "Title"> | undefined;
 }

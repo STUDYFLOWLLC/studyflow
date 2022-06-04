@@ -36,9 +36,4 @@ export class CourseCreateManyInput {
     nullable: true
   })
   Title?: string | undefined;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Term?: string | undefined;
 }

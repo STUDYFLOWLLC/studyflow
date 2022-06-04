@@ -42,11 +42,6 @@ export class CourseGroupBy {
   })
   Title!: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Term!: string | null;
-
   @TypeGraphQL.Field(_type => CourseCountAggregate, {
     nullable: true
   })

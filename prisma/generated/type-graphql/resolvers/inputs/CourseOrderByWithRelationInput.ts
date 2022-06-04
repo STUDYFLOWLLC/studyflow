@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseOnUserOrderByRelationAggregateInput } from "../inputs/CourseOnUserOrderByRelationAggregateInput";
+import { CourseOnTermOrderByRelationAggregateInput } from "../inputs/CourseOnTermOrderByRelationAggregateInput";
 import { ProfessorOrderByRelationAggregateInput } from "../inputs/ProfessorOrderByRelationAggregateInput";
 import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -36,10 +36,10 @@ export class CourseOrderByWithRelationInput {
   })
   FK_Professors?: ProfessorOrderByRelationAggregateInput | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOnUserOrderByRelationAggregateInput, {
+  @TypeGraphQL.Field(_type => CourseOnTermOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Users?: CourseOnUserOrderByRelationAggregateInput | undefined;
+  FK_TermsOnCourse?: CourseOnTermOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -55,9 +55,4 @@ export class CourseOrderByWithRelationInput {
     nullable: true
   })
   Title?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  Term?: "asc" | "desc" | undefined;
 }

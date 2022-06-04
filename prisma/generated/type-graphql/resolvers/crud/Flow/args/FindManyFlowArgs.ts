@@ -35,5 +35,5 @@ export class FindManyFlowArgs {
   @TypeGraphQL.Field(_type => [FlowScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"FlowID" | "CreatedTime" | "FK_UserID" | "Title" | "Body" | "Visibility"> | undefined;
+  distinct?: Array<"FlowID" | "CreatedTime" | "Title" | "Body" | "Visibility" | "courseOnTermCourseOnTermID"> | undefined;
 }

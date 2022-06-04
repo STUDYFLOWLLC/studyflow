@@ -8,7 +8,6 @@ import { FlowRelationFilter } from "../inputs/FlowRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
-import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("FlashCardStackWhereInput", {
   isAbstract: true
@@ -48,16 +47,6 @@ export class FlashCardStackWhereInput {
     nullable: true
   })
   FK_FlowID?: IntNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => UserRelationFilter, {
-    nullable: true
-  })
-  FK_User?: UserRelationFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  FK_UserID?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FlashCardListRelationFilter, {
     nullable: true

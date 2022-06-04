@@ -15,5 +15,5 @@ export class FlowSumAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  FK_UserID!: number | null;
+  courseOnTermCourseOnTermID!: number | null;
 }

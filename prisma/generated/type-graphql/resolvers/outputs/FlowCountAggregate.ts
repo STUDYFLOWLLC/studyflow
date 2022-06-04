@@ -20,11 +20,6 @@ export class FlowCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  FK_UserID!: number;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
   Title!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
@@ -36,6 +31,11 @@ export class FlowCountAggregate {
     nullable: false
   })
   Visibility!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  courseOnTermCourseOnTermID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

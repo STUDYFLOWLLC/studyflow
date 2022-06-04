@@ -5,7 +5,6 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { FlowUpdateOneWithoutFK_FlashCardStacksInput } from "../inputs/FlowUpdateOneWithoutFK_FlashCardStacksInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { UserUpdateOneWithoutFK_FlashCardStacksInput } from "../inputs/UserUpdateOneWithoutFK_FlashCardStacksInput";
 
 @TypeGraphQL.InputType("FlashCardStackUpdateWithoutFlashCardsInput", {
   isAbstract: true
@@ -20,11 +19,6 @@ export class FlashCardStackUpdateWithoutFlashCardsInput {
     nullable: true
   })
   FK_Flow?: FlowUpdateOneWithoutFK_FlashCardStacksInput | undefined;
-
-  @TypeGraphQL.Field(_type => UserUpdateOneWithoutFK_FlashCardStacksInput, {
-    nullable: true
-  })
-  FK_User?: UserUpdateOneWithoutFK_FlashCardStacksInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true

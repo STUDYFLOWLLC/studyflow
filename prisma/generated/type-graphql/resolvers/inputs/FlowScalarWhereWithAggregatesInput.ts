@@ -37,11 +37,6 @@ export class FlowScalarWhereWithAggregatesInput {
   })
   CreatedTime?: DateTimeWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  FK_UserID?: IntNullableWithAggregatesFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
@@ -56,4 +51,9 @@ export class FlowScalarWhereWithAggregatesInput {
     nullable: true
   })
   Visibility?: EnumVisibilityNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  courseOnTermCourseOnTermID?: IntNullableWithAggregatesFilter | undefined;
 }

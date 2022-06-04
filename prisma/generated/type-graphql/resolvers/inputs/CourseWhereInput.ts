@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
-import { CourseOnUserListRelationFilter } from "../inputs/CourseOnUserListRelationFilter";
+import { CourseOnTermListRelationFilter } from "../inputs/CourseOnTermListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
@@ -55,10 +55,10 @@ export class CourseWhereInput {
   })
   FK_Professors?: ProfessorListRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOnUserListRelationFilter, {
+  @TypeGraphQL.Field(_type => CourseOnTermListRelationFilter, {
     nullable: true
   })
-  FK_Users?: CourseOnUserListRelationFilter | undefined;
+  FK_TermsOnCourse?: CourseOnTermListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
@@ -74,9 +74,4 @@ export class CourseWhereInput {
     nullable: true
   })
   Title?: StringNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
-  })
-  Term?: StringNullableFilter | undefined;
 }

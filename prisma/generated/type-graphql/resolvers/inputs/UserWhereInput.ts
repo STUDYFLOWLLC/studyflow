@@ -3,15 +3,12 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
-import { CourseOnUserListRelationFilter } from "../inputs/CourseOnUserListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
-import { FlashCardStackListRelationFilter } from "../inputs/FlashCardStackListRelationFilter";
-import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
-import { FlowTagListRelationFilter } from "../inputs/FlowTagListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
+import { TermListRelationFilter } from "../inputs/TermListRelationFilter";
 
 @TypeGraphQL.InputType("UserWhereInput", {
   isAbstract: true
@@ -77,23 +74,8 @@ export class UserWhereInput {
   })
   DefaultVisibility?: EnumVisibilityNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOnUserListRelationFilter, {
+  @TypeGraphQL.Field(_type => TermListRelationFilter, {
     nullable: true
   })
-  FK_Courses?: CourseOnUserListRelationFilter | undefined;
-
-  @TypeGraphQL.Field(_type => FlowListRelationFilter, {
-    nullable: true
-  })
-  FK_Flows?: FlowListRelationFilter | undefined;
-
-  @TypeGraphQL.Field(_type => FlowTagListRelationFilter, {
-    nullable: true
-  })
-  FK_FlowTags?: FlowTagListRelationFilter | undefined;
-
-  @TypeGraphQL.Field(_type => FlashCardStackListRelationFilter, {
-    nullable: true
-  })
-  FK_FlashCardStacks?: FlashCardStackListRelationFilter | undefined;
+  FK_Terms?: TermListRelationFilter | undefined;
 }

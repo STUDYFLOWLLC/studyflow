@@ -2,10 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { CourseOnUser } from "../models/CourseOnUser";
-import { FlashCardStack } from "../models/FlashCardStack";
-import { Flow } from "../models/Flow";
-import { FlowTag } from "../models/FlowTag";
+import { Term } from "../models/Term";
 import { Visibility } from "../enums/Visibility";
 import { UserCount } from "../resolvers/outputs/UserCount";
 
@@ -58,13 +55,7 @@ export class User {
   })
   DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
 
-  FK_Courses?: CourseOnUser[];
-
-  FK_Flows?: Flow[];
-
-  FK_FlowTags?: FlowTag[];
-
-  FK_FlashCardStacks?: FlashCardStack[];
+  FK_Terms?: Term[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

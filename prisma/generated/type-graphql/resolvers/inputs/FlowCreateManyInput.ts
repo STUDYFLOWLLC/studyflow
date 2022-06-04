@@ -18,11 +18,6 @@ export class FlowCreateManyInput {
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_UserID?: number | undefined;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
@@ -37,4 +32,9 @@ export class FlowCreateManyInput {
     nullable: true
   })
   Visibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  courseOnTermCourseOnTermID?: number | undefined;
 }

@@ -1,10 +1,10 @@
 import * as TypeGraphQL from "type-graphql";
 import { Course } from "../../../models/Course";
-import { CourseOnUser } from "../../../models/CourseOnUser";
+import { CourseOnTerm } from "../../../models/CourseOnTerm";
 import { Professor } from "../../../models/Professor";
 import { School } from "../../../models/School";
 import { CourseFK_ProfessorsArgs } from "./args/CourseFK_ProfessorsArgs";
-import { CourseFK_UsersArgs } from "./args/CourseFK_UsersArgs";
+import { CourseFK_TermsOnCourseArgs } from "./args/CourseFK_TermsOnCourseArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Course)
@@ -31,14 +31,14 @@ export class CourseRelationsResolver {
     }).FK_Professors(args);
   }
 
-  @TypeGraphQL.FieldResolver(_type => [CourseOnUser], {
+  @TypeGraphQL.FieldResolver(_type => [CourseOnTerm], {
     nullable: false
   })
-  async FK_Users(@TypeGraphQL.Root() course: Course, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CourseFK_UsersArgs): Promise<CourseOnUser[]> {
+  async FK_TermsOnCourse(@TypeGraphQL.Root() course: Course, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CourseFK_TermsOnCourseArgs): Promise<CourseOnTerm[]> {
     return getPrismaFromContext(ctx).course.findUnique({
       where: {
         CourseID: course.CourseID,
       },
-    }).FK_Users(args);
+    }).FK_TermsOnCourse(args);
   }
 }

@@ -41,11 +41,6 @@ export class FlashCardStackScalarWhereWithAggregatesInput {
   })
   FK_FlowID?: IntNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  FK_UserID?: IntNullableWithAggregatesFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })

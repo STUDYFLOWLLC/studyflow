@@ -23,11 +23,6 @@ export class FlowGroupBy {
   })
   CreatedTime!: Date;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_UserID!: number | null;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
@@ -42,6 +37,11 @@ export class FlowGroupBy {
     nullable: true
   })
   Visibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  courseOnTermCourseOnTermID!: number | null;
 
   @TypeGraphQL.Field(_type => FlowCountAggregate, {
     nullable: true

@@ -56,9 +56,4 @@ export class CourseScalarWhereInput {
     nullable: true
   })
   Title?: StringNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
-  })
-  Term?: StringNullableFilter | undefined;
 }

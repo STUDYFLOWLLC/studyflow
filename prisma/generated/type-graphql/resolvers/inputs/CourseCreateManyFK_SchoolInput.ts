@@ -31,9 +31,4 @@ export class CourseCreateManyFK_SchoolInput {
     nullable: true
   })
   Title?: string | undefined;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Term?: string | undefined;
 }

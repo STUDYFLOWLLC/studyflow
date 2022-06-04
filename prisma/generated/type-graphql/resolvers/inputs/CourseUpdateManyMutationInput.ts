@@ -29,9 +29,4 @@ export class CourseUpdateManyMutationInput {
     nullable: true
   })
   Title?: NullableStringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  Term?: NullableStringFieldUpdateOperationsInput | undefined;
 }

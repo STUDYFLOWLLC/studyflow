@@ -6,8 +6,7 @@ export enum CourseScalarFieldEnum {
   FK_SchoolID = "FK_SchoolID",
   IsOfficial = "IsOfficial",
   Code = "Code",
-  Title = "Title",
-  Term = "Term"
+  Title = "Title"
 }
 TypeGraphQL.registerEnumType(CourseScalarFieldEnum, {
   name: "CourseScalarFieldEnum",
