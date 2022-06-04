@@ -65,13 +65,14 @@ model Term {
 }
 
 model CourseOnTerm {
-  CourseOnTermID Int      @id @default(autoincrement())
-  CreatedTime    DateTime @default(now())
-  FK_Course      Course?  @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
-  FK_CourseID    Int?
-  FK_Term        Term?    @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
-  FK_TermID      Int?
-  FK_Flows       Flow[]
+  CreatedTime DateTime @default(now())
+  FK_Course   Course   @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
+  FK_CourseID Int
+  FK_Term     Term     @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
+  FK_TermID   Int
+  FK_Flows    Flow[]
+
+  @@id([FK_CourseID, FK_TermID])
 }
 
 model School {
