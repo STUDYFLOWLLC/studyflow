@@ -1,28 +1,29 @@
 import { Combobox } from '@headlessui/react'
-import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import SchoolEntry from 'components/Forms/School/SchoolEntry'
 import LoadWithText from 'components/spinners/LoadWithText'
 import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
 import useSchools from 'hooks/setup/useSchools'
-import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
+import SchoolInput from './SchoolInput'
 
-export default function SchoolSearch() {
+interface Props {
+  selectedSchool: string
+  setSelectedSchool: (school: string) => void
+}
+
+export default function SchoolSearch({
+  selectedSchool,
+  setSelectedSchool,
+}: Props) {
   const { theme } = useTheme()
-  const { user } = useUser()
 
   const { schools, isLoading, isError } = useSchools()
-  /* eslint-disable */
-  const { userDetails } = useUserDetails(user?.id)
-  /* eslint-enable */
 
   const [mounted, setMounted] = useState(false)
-  const [query, setQuery] = useState('')
-  const [selectedSchool, setSelectedSchool] = useState('')
   const [filteredSchools, setFilteredSchools] = useState<
     Fuse.FuseResult<School>[]
   >([])
@@ -54,21 +55,11 @@ export default function SchoolSearch() {
     >
       <div className="relative mt-1 w-96">
         {!isLoading ? (
-          <Combobox.Input
-            className={classnames(
-              { 'border-gray-300': theme === 'light' },
-              { 'bg-base-100': theme === 'dark' },
-              'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-2xl',
-            )}
-            onChange={(e: { target: { value: string } }) => {
-              if (e.target.value === '') setSelectedSchool('')
-              filterSchools(schools, e.target.value)
-              setQuery(e.target.value)
-            }}
-            displayValue={() => selectedSchool}
-            value={query}
-            placeholder="Enter your school"
-            autoFocus
+          <SchoolInput
+            schools={schools}
+            selectedSchool={selectedSchool}
+            setSelectedSchool={setSelectedSchool}
+            filterSchools={filterSchools}
           />
         ) : (
           <LoadWithText
