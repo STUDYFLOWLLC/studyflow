@@ -5,7 +5,7 @@ import SetupStepTitle from '../SetupStepTitle'
 export default function index() {
   return (
     <div className="w-full flex flex-col items-center">
-      <SetupHeader />
+      <SetupHeader step={1} />
       <SetupStepTitle title="Education" />
       <SchoolSearch />
     </div>

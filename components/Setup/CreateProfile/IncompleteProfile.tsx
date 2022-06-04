@@ -7,16 +7,15 @@ import {
   mutateProfilePictureLink,
   mutateUsername,
 } from 'hooks/setup/mutateUser'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
 import InputProfilePicture from './InputProfilePicture'
 
 interface Props {
   user: User
-  setStep: Dispatch<SetStateAction<number>>
 }
 
-export default function IncompleteProfile({ user, setStep }: Props) {
+export default function IncompleteProfile({ user }: Props) {
   const [name, setName] = useState(user.user_metadata.name)
   const [username, setUsername] = useState('')
   const [tempPFPLink, setTempPFPLink] = useState('')
@@ -35,7 +34,6 @@ export default function IncompleteProfile({ user, setStep }: Props) {
       user.user_metadata.email,
       `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${tempPFPLink}`,
     )
-    setStep(1)
   }
 
   return (

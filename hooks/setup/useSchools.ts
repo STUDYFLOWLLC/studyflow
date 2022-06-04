@@ -1,5 +1,5 @@
+import { gql } from 'graphql-request'
 import { School } from 'graphql/generated-graphql'
-import { fetcher } from 'hooks/fetchers'
 import useSWR from 'swr'
 
 interface SchoolExport {
@@ -10,16 +10,15 @@ interface SchoolExport {
 
 export default function useSchools(): SchoolExport {
   const { data, error } = useSWR(
-    `
-        query Schools {
-            schools {
-              SchoolID
-              Name
-              HasClassSupport
-            }
-          }
+    gql`
+      query Schools {
+        schools {
+          SchoolID
+          Name
+          HasClassSupport
+        }
+      }
     `,
-    fetcher,
   )
 
   if (data) {
