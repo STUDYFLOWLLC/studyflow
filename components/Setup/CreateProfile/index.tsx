@@ -1,6 +1,7 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import IncompleteProfile from 'components/Setup/CreateProfile/IncompleteProfile'
 import SetupHeader from 'components/Setup/Header'
+import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import LoadWithText from 'components/spinners/LoadWithText'
 import setBasicProfile from 'hooks/setup/setBasicProfile'
 import useUserDetails from 'hooks/useUserDetails'
@@ -32,11 +33,7 @@ export default function CreateProfile({ user, setStep }: Props) {
       <SetupHeader />
       <div>
         <Toaster position="top-center" reverseOrder={false} />
-        <div className="prose">
-          <h1 className="mb-8 text-center text-decoration-line: underline decoration-primary decoration-4">
-            Profile
-          </h1>
-        </div>
+        <SetupStepTitle title="Profile" />
         <LoadWithText
           text={
             isLoading

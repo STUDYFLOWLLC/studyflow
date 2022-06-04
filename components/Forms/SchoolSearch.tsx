@@ -47,17 +47,11 @@ export default function SchoolSearch() {
 
   return (
     <Combobox
-      className="w-96 pt-10"
+      className="w-96"
       as="div"
       value={selectedSchool}
       onChange={setSelectedSchool}
     >
-      <div className="prose">
-        <h1 className="text-center text-decoration-line: underline decoration-primary decoration-4">
-          School
-        </h1>
-      </div>
-
       <div className="relative mt-1 h-20 w-96">
         {!isLoading ? (
           <Combobox.Input
