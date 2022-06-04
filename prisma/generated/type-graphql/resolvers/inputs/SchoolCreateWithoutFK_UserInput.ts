@@ -2,13 +2,13 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { UserCreateNestedManyWithoutFK_SchoolInput } from "../inputs/UserCreateNestedManyWithoutFK_SchoolInput";
+import { CourseCreateNestedManyWithoutFK_SchoolInput } from "../inputs/CourseCreateNestedManyWithoutFK_SchoolInput";
 import { TermType } from "../../enums/TermType";
 
-@TypeGraphQL.InputType("SchoolCreateWithoutFK_CourseInput", {
+@TypeGraphQL.InputType("SchoolCreateWithoutFK_UserInput", {
   isAbstract: true
 })
-export class SchoolCreateWithoutFK_CourseInput {
+export class SchoolCreateWithoutFK_UserInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
@@ -24,8 +24,8 @@ export class SchoolCreateWithoutFK_CourseInput {
   })
   TermType?: "QUARTER" | "TRIMESTER" | "SEMESTER" | "SUMMER" | undefined;
 
-  @TypeGraphQL.Field(_type => UserCreateNestedManyWithoutFK_SchoolInput, {
+  @TypeGraphQL.Field(_type => CourseCreateNestedManyWithoutFK_SchoolInput, {
     nullable: true
   })
-  FK_User?: UserCreateNestedManyWithoutFK_SchoolInput | undefined;
+  FK_Course?: CourseCreateNestedManyWithoutFK_SchoolInput | undefined;
 }

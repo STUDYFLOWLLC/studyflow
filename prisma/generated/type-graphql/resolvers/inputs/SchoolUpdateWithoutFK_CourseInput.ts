@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { NullableEnumTermTypeFieldUpdateOperationsInput } from "../inputs/NullableEnumTermTypeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { UserUpdateManyWithoutFK_SchoolInput } from "../inputs/UserUpdateManyWithoutFK_SchoolInput";
 
 @TypeGraphQL.InputType("SchoolUpdateWithoutFK_CourseInput", {
   isAbstract: true
@@ -24,4 +25,9 @@ export class SchoolUpdateWithoutFK_CourseInput {
     nullable: true
   })
   TermType?: NullableEnumTermTypeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserUpdateManyWithoutFK_SchoolInput, {
+    nullable: true
+  })
+  FK_User?: UserUpdateManyWithoutFK_SchoolInput | undefined;
 }

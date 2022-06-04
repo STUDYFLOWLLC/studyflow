@@ -6,12 +6,11 @@ import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperati
 import { CourseUpdateManyWithoutFK_SchoolInput } from "../inputs/CourseUpdateManyWithoutFK_SchoolInput";
 import { NullableEnumTermTypeFieldUpdateOperationsInput } from "../inputs/NullableEnumTermTypeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { UserUpdateManyWithoutFK_SchoolInput } from "../inputs/UserUpdateManyWithoutFK_SchoolInput";
 
-@TypeGraphQL.InputType("SchoolUpdateInput", {
+@TypeGraphQL.InputType("SchoolUpdateWithoutFK_UserInput", {
   isAbstract: true
 })
-export class SchoolUpdateInput {
+export class SchoolUpdateWithoutFK_UserInput {
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -31,9 +30,4 @@ export class SchoolUpdateInput {
     nullable: true
   })
   FK_Course?: CourseUpdateManyWithoutFK_SchoolInput | undefined;
-
-  @TypeGraphQL.Field(_type => UserUpdateManyWithoutFK_SchoolInput, {
-    nullable: true
-  })
-  FK_User?: UserUpdateManyWithoutFK_SchoolInput | undefined;
 }

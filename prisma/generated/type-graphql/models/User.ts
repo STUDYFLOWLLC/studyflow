@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
+import { School } from "../models/School";
 import { Term } from "../models/Term";
 import { Visibility } from "../enums/Visibility";
 import { UserCount } from "../resolvers/outputs/UserCount";
@@ -54,6 +55,13 @@ export class User {
     nullable: true
   })
   DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
+  FK_School?: School | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_SchoolID?: number | null;
 
   FK_Terms?: Term[];
 

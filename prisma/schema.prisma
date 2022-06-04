@@ -46,6 +46,8 @@ model User {
   Username           String?
   ProfilePictureLink String?
   DefaultVisibility  Visibility?
+  FK_School          School?     @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
+  FK_SchoolID        Int?
   FK_Terms           Term[]
   //FK_FlowTags       FlowTag[]
 }
@@ -86,10 +88,11 @@ model Course {
 
 model School {
   SchoolID        Int       @id @default(autoincrement())
-  FK_Course       Course[]
   Name            String
   HasClassSupport Boolean
   TermType        TermType?
+  FK_Course       Course[]
+  FK_User         User[]
 }
 
 model Professor {

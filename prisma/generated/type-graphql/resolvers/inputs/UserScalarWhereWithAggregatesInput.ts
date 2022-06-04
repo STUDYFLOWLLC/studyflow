@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { EnumVisibilityNullableWithAggregatesFilter } from "../inputs/EnumVisibilityNullableWithAggregatesFilter";
+import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
@@ -72,4 +73,9 @@ export class UserScalarWhereWithAggregatesInput {
     nullable: true
   })
   DefaultVisibility?: EnumVisibilityNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  FK_SchoolID?: IntNullableWithAggregatesFilter | undefined;
 }

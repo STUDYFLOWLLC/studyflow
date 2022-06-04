@@ -6,13 +6,13 @@ import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperati
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { TermUpdateManyWithoutFK_UserInput } from "../inputs/TermUpdateManyWithoutFK_UserInput";
 
-@TypeGraphQL.InputType("UserUpdateWithoutFK_TermsInput", {
+@TypeGraphQL.InputType("UserUpdateWithoutFK_SchoolInput", {
   isAbstract: true
 })
-export class UserUpdateWithoutFK_TermsInput {
+export class UserUpdateWithoutFK_SchoolInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -53,8 +53,8 @@ export class UserUpdateWithoutFK_TermsInput {
   })
   DefaultVisibility?: NullableEnumVisibilityFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => SchoolUpdateOneWithoutFK_UserInput, {
+  @TypeGraphQL.Field(_type => TermUpdateManyWithoutFK_UserInput, {
     nullable: true
   })
-  FK_School?: SchoolUpdateOneWithoutFK_UserInput | undefined;
+  FK_Terms?: TermUpdateManyWithoutFK_UserInput | undefined;
 }

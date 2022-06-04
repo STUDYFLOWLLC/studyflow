@@ -6,7 +6,7 @@ import { UserWhereUniqueInput } from "../../../inputs/UserWhereUniqueInput";
 import { UserScalarFieldEnum } from "../../../../enums/UserScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class FindManyUserArgs {
+export class SchoolFK_UserArgs {
   @TypeGraphQL.Field(_type => UserWhereInput, {
     nullable: true
   })

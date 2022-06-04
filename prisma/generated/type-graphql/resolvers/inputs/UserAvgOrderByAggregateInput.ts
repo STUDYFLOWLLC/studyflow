@@ -12,4 +12,9 @@ export class UserAvgOrderByAggregateInput {
     nullable: true
   })
   UserID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_SchoolID?: "asc" | "desc" | undefined;
 }

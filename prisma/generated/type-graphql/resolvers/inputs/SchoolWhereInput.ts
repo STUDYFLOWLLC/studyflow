@@ -7,6 +7,7 @@ import { CourseListRelationFilter } from "../inputs/CourseListRelationFilter";
 import { EnumTermTypeNullableFilter } from "../inputs/EnumTermTypeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { UserListRelationFilter } from "../inputs/UserListRelationFilter";
 
 @TypeGraphQL.InputType("SchoolWhereInput", {
   isAbstract: true
@@ -32,11 +33,6 @@ export class SchoolWhereInput {
   })
   SchoolID?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => CourseListRelationFilter, {
-    nullable: true
-  })
-  FK_Course?: CourseListRelationFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
@@ -51,4 +47,14 @@ export class SchoolWhereInput {
     nullable: true
   })
   TermType?: EnumTermTypeNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CourseListRelationFilter, {
+    nullable: true
+  })
+  FK_Course?: CourseListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => UserListRelationFilter, {
+    nullable: true
+  })
+  FK_User?: UserListRelationFilter | undefined;
 }

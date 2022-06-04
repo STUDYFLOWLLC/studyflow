@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { SchoolCreateNestedOneWithoutFK_UserInput } from "../inputs/SchoolCreateNestedOneWithoutFK_UserInput";
 import { TermCreateNestedManyWithoutFK_UserInput } from "../inputs/TermCreateNestedManyWithoutFK_UserInput";
 import { Visibility } from "../../enums/Visibility";
 
@@ -48,6 +49,11 @@ export class UserCreateInput {
     nullable: true
   })
   DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
+  @TypeGraphQL.Field(_type => SchoolCreateNestedOneWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_School?: SchoolCreateNestedOneWithoutFK_UserInput | undefined;
 
   @TypeGraphQL.Field(_type => TermCreateNestedManyWithoutFK_UserInput, {
     nullable: true

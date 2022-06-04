@@ -4,17 +4,12 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType("UserSumOrderByAggregateInput", {
+@TypeGraphQL.InputType("UserOrderByRelationAggregateInput", {
   isAbstract: true
 })
-export class UserSumOrderByAggregateInput {
+export class UserOrderByRelationAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UserID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_SchoolID?: "asc" | "desc" | undefined;
+  _count?: "asc" | "desc" | undefined;
 }

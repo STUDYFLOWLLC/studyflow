@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
 import { TermOrderByRelationAggregateInput } from "../inputs/TermOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -53,6 +54,16 @@ export class UserOrderByWithRelationInput {
     nullable: true
   })
   DefaultVisibility?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SchoolOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_School?: SchoolOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_SchoolID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => TermOrderByRelationAggregateInput, {
     nullable: true

@@ -7,29 +7,27 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
-import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
-import { TermListRelationFilter } from "../inputs/TermListRelationFilter";
 
-@TypeGraphQL.InputType("UserWhereInput", {
+@TypeGraphQL.InputType("UserScalarWhereInput", {
   isAbstract: true
 })
-export class UserWhereInput {
-  @TypeGraphQL.Field(_type => [UserWhereInput], {
+export class UserScalarWhereInput {
+  @TypeGraphQL.Field(_type => [UserScalarWhereInput], {
     nullable: true
   })
-  AND?: UserWhereInput[] | undefined;
+  AND?: UserScalarWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [UserWhereInput], {
+  @TypeGraphQL.Field(_type => [UserScalarWhereInput], {
     nullable: true
   })
-  OR?: UserWhereInput[] | undefined;
+  OR?: UserScalarWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [UserWhereInput], {
+  @TypeGraphQL.Field(_type => [UserScalarWhereInput], {
     nullable: true
   })
-  NOT?: UserWhereInput[] | undefined;
+  NOT?: UserScalarWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
@@ -76,18 +74,8 @@ export class UserWhereInput {
   })
   DefaultVisibility?: EnumVisibilityNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => SchoolRelationFilter, {
-    nullable: true
-  })
-  FK_School?: SchoolRelationFilter | undefined;
-
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
   FK_SchoolID?: IntNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => TermListRelationFilter, {
-    nullable: true
-  })
-  FK_Terms?: TermListRelationFilter | undefined;
 }

@@ -58,6 +58,11 @@ export class UserGroupBy {
   })
   DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_SchoolID!: number | null;
+
   @TypeGraphQL.Field(_type => UserCountAggregate, {
     nullable: true
   })
