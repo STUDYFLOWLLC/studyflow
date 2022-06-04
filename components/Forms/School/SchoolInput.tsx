@@ -2,19 +2,17 @@ import { Combobox } from '@headlessui/react'
 import classnames from 'classnames'
 import { School } from 'graphql/generated-graphql'
 import { useTheme } from 'next-themes'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props {
   schools: School[]
   selectedSchool: School
-  setSelectedSchool: Dispatch<SetStateAction<School>>
   filterSchools: (schoolsArray: School[], searchVal: string) => void
 }
 
 export default function SchoolInput({
   schools,
   selectedSchool,
-  setSelectedSchool,
   filterSchools,
 }: Props) {
   const { theme } = useTheme()

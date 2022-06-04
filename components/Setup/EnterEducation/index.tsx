@@ -19,7 +19,6 @@ export default function index({ user }: Props) {
   })
 
   const updateSchoolinDB = (school: School) => {
-    console.log('go')
     setSelectedSchool(school)
     setUserSchool(user.email || '', school.SchoolID)
   }

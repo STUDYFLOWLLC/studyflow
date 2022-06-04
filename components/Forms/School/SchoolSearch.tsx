@@ -59,7 +59,6 @@ export default function SchoolSearch({
           <SchoolInput
             schools={schools}
             selectedSchool={selectedSchool}
-            setSelectedSchool={setSelectedSchool}
             filterSchools={filterSchools}
           />
         ) : (
