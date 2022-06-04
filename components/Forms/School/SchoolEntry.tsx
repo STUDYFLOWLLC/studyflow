@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react/self-closing-comp */
 
 import { Combobox } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/outline'
+import { BadgeCheckIcon, CheckIcon } from '@heroicons/react/outline'
 import classnames from 'classnames'
 import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
@@ -52,7 +52,7 @@ export default function SchoolEntry({
     >
       {({ active, selected }) => (
         <>
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <span
               className={classnames(
                 'ml-3 truncate',
@@ -61,6 +61,12 @@ export default function SchoolEntry({
             >
               {school.item.Name}
             </span>
+            {school.item.HasClassSupport && (
+              <BadgeCheckIcon
+                className="h-5 w-5 text-green-400"
+                aria-hidden="true"
+              />
+            )}
           </div>
 
           {selected && (
