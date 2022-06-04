@@ -1,7 +1,7 @@
 import { Combobox } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
+import SchoolEntry from 'components/Forms/School/SchoolEntry'
 import LoadWithText from 'components/spinners/LoadWithText'
 import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
@@ -52,7 +52,7 @@ export default function SchoolSearch() {
       value={selectedSchool}
       onChange={setSelectedSchool}
     >
-      <div className="relative mt-1 h-20 w-96">
+      <div className="relative mt-1 w-96">
         {!isLoading ? (
           <Combobox.Input
             className={classnames(
@@ -83,57 +83,17 @@ export default function SchoolSearch() {
                 'bg-gray-100': theme === 'light',
               },
               { 'bg-slate-700': theme === 'dark' },
-              'absolute z-10 mt-1 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+              'absolute z-10 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
             )}
           >
             {filteredSchools.map((school) => (
-              <Combobox.Option
+              <SchoolEntry
                 key={school.item.SchoolID}
-                value={school.item.Name}
-                className={({ active }) =>
-                  classnames(
-                    {
-                      'bg-primary text-gray-100': active && theme === 'light',
-                    },
-                    {
-                      'bg-primary text-slate-700': active && theme === 'dark',
-                    },
-                    { 'text-gray-700': !active && theme === 'light' },
-                    { 'bg-slate-700': !active && theme === 'dark' },
-                    'relative cursor-default select-none py-2 pl-3 pr-9 text-lg',
-                  )
-                }
-                onSelect={() => {
-                  filterSchools(schools, school.item.Name)
-                  setSelectedSchool(school.item.Name)
-                }}
-              >
-                {({ active, selected }) => (
-                  <>
-                    <div className="flex items-center">
-                      <span
-                        className={classnames(
-                          'ml-3 truncate',
-                          selected ? 'font-semibold' : '',
-                        )}
-                      >
-                        {school.item.Name}
-                      </span>
-                    </div>
-
-                    {selected && (
-                      <span
-                        className={classnames(
-                          'absolute inset-y-0 right-0 flex items-center pr-4',
-                          active ? 'text-white' : 'text-primary-600',
-                        )}
-                      >
-                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    )}
-                  </>
-                )}
-              </Combobox.Option>
+                school={school}
+                schools={schools}
+                filterSchools={filterSchools}
+                setSelectedSchool={setSelectedSchool}
+              />
             ))}
           </Combobox.Options>
         )}
