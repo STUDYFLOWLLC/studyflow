@@ -76,12 +76,13 @@ model CourseOnTerm {
 }
 
 model School {
-  SchoolID        Int       @id @default(autoincrement())
+  SchoolID        Int         @id @default(autoincrement())
   Name            String
   HasClassSupport Boolean
   TermType        TermType?
   FK_Course       Course[]
   FK_User         User[]
+  FK_Professor    Professor[]
 }
 
 model Course {
@@ -100,6 +101,8 @@ model Course {
 model Professor {
   ProfessorID Int      @id @default(autoincrement())
   FK_Courses  Course[]
+  FK_School   School?  @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
+  FK_SchoolID Int?
   Name        String
   Email       String?
 }
