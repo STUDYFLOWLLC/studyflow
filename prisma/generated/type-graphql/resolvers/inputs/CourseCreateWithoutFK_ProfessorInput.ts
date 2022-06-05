@@ -3,21 +3,21 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermCreateNestedManyWithoutFK_CourseInput } from "../inputs/CourseOnTermCreateNestedManyWithoutFK_CourseInput";
-import { ProfessorCreateNestedOneWithoutFK_CoursesInput } from "../inputs/ProfessorCreateNestedOneWithoutFK_CoursesInput";
+import { SchoolCreateNestedOneWithoutFK_CourseInput } from "../inputs/SchoolCreateNestedOneWithoutFK_CourseInput";
 
-@TypeGraphQL.InputType("CourseCreateWithoutFK_SchoolInput", {
+@TypeGraphQL.InputType("CourseCreateWithoutFK_ProfessorInput", {
   isAbstract: true
 })
-export class CourseCreateWithoutFK_SchoolInput {
+export class CourseCreateWithoutFK_ProfessorInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorCreateNestedOneWithoutFK_CoursesInput, {
+  @TypeGraphQL.Field(_type => SchoolCreateNestedOneWithoutFK_CourseInput, {
     nullable: true
   })
-  FK_Professor?: ProfessorCreateNestedOneWithoutFK_CoursesInput | undefined;
+  FK_School?: SchoolCreateNestedOneWithoutFK_CourseInput | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermCreateNestedManyWithoutFK_CourseInput, {
     nullable: true

@@ -8,15 +8,20 @@ interface Props {
   selectedSchool: School
 }
 export default function SchoolDisplay({ selectedSchool }: Props) {
+  if (!selectedSchool.Name) return null
+
   const { theme } = useTheme()
+  /* const { courseCount, courseCountLoading, courseCountError } = useCourseCount(
+    selectedSchool.SchoolID
+  ) */
+
+  // console.log(courseCount)
 
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
-
-  if (!selectedSchool.Name) return null
 
   return (
     <div

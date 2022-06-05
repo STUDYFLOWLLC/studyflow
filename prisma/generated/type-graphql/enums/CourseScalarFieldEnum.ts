@@ -4,6 +4,7 @@ export enum CourseScalarFieldEnum {
   CourseID = "CourseID",
   CreatedTime = "CreatedTime",
   FK_SchoolID = "FK_SchoolID",
+  FK_ProfessorID = "FK_ProfessorID",
   IsOfficial = "IsOfficial",
   Code = "Code",
   Title = "Title"

@@ -4,7 +4,6 @@ export { FlashCardCrudResolver } from "./FlashCard/FlashCardCrudResolver";
 export { FlashCardStackCrudResolver } from "./FlashCardStack/FlashCardStackCrudResolver";
 export { FlowCrudResolver } from "./Flow/FlowCrudResolver";
 export { ProfessorCrudResolver } from "./Professor/ProfessorCrudResolver";
-export { ProfessorsOnCoursesCrudResolver } from "./ProfessorsOnCourses/ProfessorsOnCoursesCrudResolver";
 export { SchoolCrudResolver } from "./School/SchoolCrudResolver";
 export { TermCrudResolver } from "./Term/TermCrudResolver";
 export { UserCrudResolver } from "./User/UserCrudResolver";

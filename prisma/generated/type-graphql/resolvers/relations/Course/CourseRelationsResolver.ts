@@ -1,9 +1,8 @@
 import * as TypeGraphQL from "type-graphql";
 import { Course } from "../../../models/Course";
 import { CourseOnTerm } from "../../../models/CourseOnTerm";
-import { ProfessorsOnCourses } from "../../../models/ProfessorsOnCourses";
+import { Professor } from "../../../models/Professor";
 import { School } from "../../../models/School";
-import { CourseFK_ProfessorsArgs } from "./args/CourseFK_ProfessorsArgs";
 import { CourseFK_TermsOnCourseArgs } from "./args/CourseFK_TermsOnCourseArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -20,15 +19,15 @@ export class CourseRelationsResolver {
     }).FK_School({});
   }
 
-  @TypeGraphQL.FieldResolver(_type => [ProfessorsOnCourses], {
-    nullable: false
+  @TypeGraphQL.FieldResolver(_type => Professor, {
+    nullable: true
   })
-  async FK_Professors(@TypeGraphQL.Root() course: Course, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CourseFK_ProfessorsArgs): Promise<ProfessorsOnCourses[]> {
+  async FK_Professor(@TypeGraphQL.Root() course: Course, @TypeGraphQL.Ctx() ctx: any): Promise<Professor | null> {
     return getPrismaFromContext(ctx).course.findUnique({
       where: {
         CourseID: course.CourseID,
       },
-    }).FK_Professors(args);
+    }).FK_Professor({});
   }
 
   @TypeGraphQL.FieldResolver(_type => [CourseOnTerm], {

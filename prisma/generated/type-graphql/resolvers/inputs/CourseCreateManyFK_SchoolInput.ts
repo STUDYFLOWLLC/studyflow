@@ -17,6 +17,11 @@ export class CourseCreateManyFK_SchoolInput {
   })
   CreatedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID?: number | undefined;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })

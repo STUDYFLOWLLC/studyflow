@@ -5,7 +5,6 @@ export { FlashCardStackScalarFieldEnum } from "./FlashCardStackScalarFieldEnum";
 export { FlowScalarFieldEnum } from "./FlowScalarFieldEnum";
 export { FlowType } from "./FlowType";
 export { ProfessorScalarFieldEnum } from "./ProfessorScalarFieldEnum";
-export { ProfessorsOnCoursesScalarFieldEnum } from "./ProfessorsOnCoursesScalarFieldEnum";
 export { QueryMode } from "./QueryMode";
 export { SchoolScalarFieldEnum } from "./SchoolScalarFieldEnum";
 export { SortOrder } from "./SortOrder";

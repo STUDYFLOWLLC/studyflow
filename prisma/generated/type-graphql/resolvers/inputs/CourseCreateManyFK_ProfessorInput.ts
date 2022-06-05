@@ -3,42 +3,37 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.ObjectType("CourseMaxAggregate", {
+@TypeGraphQL.InputType("CourseCreateManyFK_ProfessorInput", {
   isAbstract: true
 })
-export class CourseMaxAggregate {
+export class CourseCreateManyFK_ProfessorInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  CourseID!: number | null;
+  CourseID?: number | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  CreatedTime!: Date | null;
+  CreatedTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  FK_SchoolID!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_ProfessorID!: number | null;
+  FK_SchoolID?: number | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
-  IsOfficial!: boolean | null;
+  IsOfficial?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  Code!: string | null;
+  Code?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  Title!: string | null;
+  Title?: string | undefined;
 }

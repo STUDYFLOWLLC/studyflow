@@ -22,6 +22,11 @@ export class CourseCreateManyInput {
   })
   FK_SchoolID?: number | undefined;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID?: number | undefined;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })

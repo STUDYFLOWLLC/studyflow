@@ -42,6 +42,11 @@ export class CourseScalarWhereInput {
   })
   FK_SchoolID?: IntNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  FK_ProfessorID?: IntNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })

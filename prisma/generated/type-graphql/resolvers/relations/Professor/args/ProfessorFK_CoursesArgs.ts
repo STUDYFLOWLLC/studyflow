@@ -1,26 +1,26 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { ProfessorsOnCoursesOrderByWithRelationInput } from "../../../inputs/ProfessorsOnCoursesOrderByWithRelationInput";
-import { ProfessorsOnCoursesWhereInput } from "../../../inputs/ProfessorsOnCoursesWhereInput";
-import { ProfessorsOnCoursesWhereUniqueInput } from "../../../inputs/ProfessorsOnCoursesWhereUniqueInput";
-import { ProfessorsOnCoursesScalarFieldEnum } from "../../../../enums/ProfessorsOnCoursesScalarFieldEnum";
+import { CourseOrderByWithRelationInput } from "../../../inputs/CourseOrderByWithRelationInput";
+import { CourseWhereInput } from "../../../inputs/CourseWhereInput";
+import { CourseWhereUniqueInput } from "../../../inputs/CourseWhereUniqueInput";
+import { CourseScalarFieldEnum } from "../../../../enums/CourseScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
 export class ProfessorFK_CoursesArgs {
-  @TypeGraphQL.Field(_type => ProfessorsOnCoursesWhereInput, {
+  @TypeGraphQL.Field(_type => CourseWhereInput, {
     nullable: true
   })
-  where?: ProfessorsOnCoursesWhereInput | undefined;
+  where?: CourseWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => [ProfessorsOnCoursesOrderByWithRelationInput], {
+  @TypeGraphQL.Field(_type => [CourseOrderByWithRelationInput], {
     nullable: true
   })
-  orderBy?: ProfessorsOnCoursesOrderByWithRelationInput[] | undefined;
+  orderBy?: CourseOrderByWithRelationInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorsOnCoursesWhereUniqueInput, {
+  @TypeGraphQL.Field(_type => CourseWhereUniqueInput, {
     nullable: true
   })
-  cursor?: ProfessorsOnCoursesWhereUniqueInput | undefined;
+  cursor?: CourseWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -32,8 +32,8 @@ export class ProfessorFK_CoursesArgs {
   })
   skip?: number | undefined;
 
-  @TypeGraphQL.Field(_type => [ProfessorsOnCoursesScalarFieldEnum], {
+  @TypeGraphQL.Field(_type => [CourseScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"ProfessorsOnCoursesID" | "CreatedTime" | "FK_CourseID" | "FK_ProfessorID"> | undefined;
+  distinct?: Array<"CourseID" | "CreatedTime" | "FK_SchoolID" | "FK_ProfessorID" | "IsOfficial" | "Code" | "Title"> | undefined;
 }

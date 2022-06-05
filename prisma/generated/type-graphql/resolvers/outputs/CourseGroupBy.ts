@@ -27,6 +27,11 @@ export class CourseGroupBy {
   })
   FK_SchoolID!: number | null;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID!: number | null;
+
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })

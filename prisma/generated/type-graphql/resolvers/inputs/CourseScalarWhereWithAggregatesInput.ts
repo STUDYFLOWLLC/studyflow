@@ -42,6 +42,11 @@ export class CourseScalarWhereWithAggregatesInput {
   })
   FK_SchoolID?: IntNullableWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  FK_ProfessorID?: IntNullableWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })

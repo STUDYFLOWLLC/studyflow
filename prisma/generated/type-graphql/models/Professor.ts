@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { ProfessorsOnCourses } from "../models/ProfessorsOnCourses";
+import { Course } from "../models/Course";
 import { ProfessorCount } from "../resolvers/outputs/ProfessorCount";
 
 @TypeGraphQL.ObjectType("Professor", {
@@ -14,7 +14,7 @@ export class Professor {
   })
   ProfessorID!: number;
 
-  FK_Courses?: ProfessorsOnCourses[];
+  FK_Courses?: Course[];
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

@@ -26,6 +26,11 @@ export class CourseMaxOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  FK_ProfessorID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   IsOfficial?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

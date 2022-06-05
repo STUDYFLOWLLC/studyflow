@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { CourseOnTerm } from "../models/CourseOnTerm";
-import { ProfessorsOnCourses } from "../models/ProfessorsOnCourses";
+import { Professor } from "../models/Professor";
 import { School } from "../models/School";
 import { CourseCount } from "../resolvers/outputs/CourseCount";
 
@@ -28,7 +28,12 @@ export class Course {
   })
   FK_SchoolID?: number | null;
 
-  FK_Professors?: ProfessorsOnCourses[];
+  FK_Professor?: Professor | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID?: number | null;
 
   FK_TermsOnCourse?: CourseOnTerm[];
 
