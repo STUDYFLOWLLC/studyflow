@@ -1,12 +1,12 @@
 import { gql } from 'graphql-request'
 import useSWR from 'swr'
 
-export default function useCourseCount(SchoolID: number) {
+export default function useProfessorCount(SchoolID: number) {
   const query = gql`
-    query Query($where: CourseWhereInput) {
-      aggregateCourse(where: $where) {
+    query Query($where: ProfessorWhereInput) {
+      aggregateProfessor(where: $where) {
         _count {
-          CourseID
+          ProfessorID
         }
       }
     }
@@ -24,15 +24,15 @@ export default function useCourseCount(SchoolID: number) {
 
   if (data) {
     return {
-      courseCount: data.aggregateCourse._count.CourseID,
-      courseCountLoading: false,
-      courseCountError: error,
+      professorCount: data.aggregateProfessor._count.ProfessorID,
+      professorCountLoading: false,
+      professorCountError: error,
     }
   }
 
   return {
-    courseCount: 0,
-    courseCountLoading: !error && !data,
-    courseCountError: error,
+    professorCount: 0,
+    professorCountLoading: !error && !data,
+    professorCountError: error,
   }
 }

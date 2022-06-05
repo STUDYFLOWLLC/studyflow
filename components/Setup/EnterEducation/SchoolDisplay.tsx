@@ -1,6 +1,8 @@
 import { BadgeCheckIcon } from '@heroicons/react/outline'
 import classnames from 'classnames'
 import { School } from 'graphql/generated-graphql'
+import useCourseCount from 'hooks/school/useCourseCount'
+import useProfessorCount from 'hooks/school/useProfessorCount'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
@@ -11,11 +13,11 @@ export default function SchoolDisplay({ selectedSchool }: Props) {
   if (!selectedSchool.Name) return null
 
   const { theme } = useTheme()
-  /* const { courseCount, courseCountLoading, courseCountError } = useCourseCount(
-    selectedSchool.SchoolID
-  ) */
-
-  // console.log(courseCount)
+  const { courseCount, courseCountLoading, courseCountError } = useCourseCount(
+    selectedSchool.SchoolID,
+  )
+  const { professorCount, professorCountLoading, professorCountError } =
+    useProfessorCount(selectedSchool.SchoolID)
 
   const [mounted, setMounted] = useState(false)
 
