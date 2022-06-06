@@ -5,8 +5,6 @@ export enum TermScalarFieldEnum {
   CreatedTime = "CreatedTime",
   TermType = "TermType",
   TermName = "TermName",
-  TermStartDate = "TermStartDate",
-  TermEndDate = "TermEndDate",
   FK_UserID = "FK_UserID",
   FK_SchoolID = "FK_SchoolID"
 }

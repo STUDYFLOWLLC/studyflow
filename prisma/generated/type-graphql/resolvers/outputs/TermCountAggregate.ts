@@ -30,16 +30,6 @@ export class TermCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  TermStartDate!: number;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  TermEndDate!: number;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
   FK_UserID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

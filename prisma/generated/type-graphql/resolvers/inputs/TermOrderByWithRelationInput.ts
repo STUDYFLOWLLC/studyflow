@@ -31,16 +31,6 @@ export class TermOrderByWithRelationInput {
   })
   TermName?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  TermStartDate?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  TermEndDate?: "asc" | "desc" | undefined;
-
   @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
     nullable: true
   })

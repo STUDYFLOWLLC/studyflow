@@ -47,16 +47,6 @@ export class TermScalarWhereWithAggregatesInput {
   })
   TermName?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
-  })
-  TermStartDate?: DateTimeWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
-  })
-  TermEndDate?: DateTimeWithAggregatesFilter | undefined;
-
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })

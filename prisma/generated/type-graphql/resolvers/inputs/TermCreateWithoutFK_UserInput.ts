@@ -25,16 +25,6 @@ export class TermCreateWithoutFK_UserInput {
   })
   TermName?: string | undefined;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  TermStartDate!: Date;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  TermEndDate!: Date;
-
   @TypeGraphQL.Field(_type => SchoolCreateNestedOneWithoutTermInput, {
     nullable: true
   })

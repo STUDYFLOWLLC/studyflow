@@ -9,8 +9,6 @@ export default function setUserSchool(email: string, schoolID: number) {
     }
   `
 
-  console.log('go')
-
   const variables = {
     data: {
       FK_School: {

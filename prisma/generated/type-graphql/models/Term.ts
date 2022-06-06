@@ -32,16 +32,6 @@ export class Term {
   })
   TermName?: string | null;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  TermStartDate!: Date;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  TermEndDate!: Date;
-
   FK_User?: User | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

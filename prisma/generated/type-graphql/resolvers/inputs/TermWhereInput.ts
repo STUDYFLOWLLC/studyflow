@@ -50,16 +50,6 @@ export class TermWhereInput {
   })
   TermName?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
-  })
-  TermStartDate?: DateTimeFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
-  })
-  TermEndDate?: DateTimeFilter | undefined;
-
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true
   })

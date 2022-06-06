@@ -57,8 +57,6 @@ model Term {
   CreatedTime     DateTime       @default(now())
   TermType        TermType
   TermName        String?
-  TermStartDate   DateTime
-  TermEndDate     DateTime
   FK_User         User?          @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
   FK_UserID       Int?
   FK_School       School?        @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)

@@ -28,16 +28,6 @@ export class TermMinAggregate {
   })
   TermName!: string | null;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  TermStartDate!: Date | null;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  TermEndDate!: Date | null;
-
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
