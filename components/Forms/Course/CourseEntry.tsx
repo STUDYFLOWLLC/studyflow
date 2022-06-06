@@ -3,14 +3,15 @@
 import { Combobox } from '@headlessui/react'
 import { BadgeCheckIcon, CheckIcon } from '@heroicons/react/outline'
 import classnames from 'classnames'
+import { CourseHit } from 'components/Forms/Course/CourseSearch'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 interface Props {
-  school: any
+  course: CourseHit
 }
 
-export default function SchoolEntry({ school }: Props) {
+export default function CourseEntry({ course }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -19,9 +20,16 @@ export default function SchoolEntry({ school }: Props) {
 
   if (!mounted) return null
 
+  const shorten = (str: string, maxLength: number) => {
+    if (str.length > maxLength) {
+      return str.substr(0, maxLength) + '...'
+    }
+    return str
+  }
+
   return (
     <Combobox.Option
-      value={school}
+      value={course}
       className={({ active }) =>
         classnames(
           {
@@ -32,24 +40,34 @@ export default function SchoolEntry({ school }: Props) {
           },
           { 'text-gray-700': !active && theme === 'light' },
           { 'bg-slate-700': !active && theme === 'dark' },
-          'relative cursor-default select-none py-2 pl-3 pr-9 text-lg',
+          'w-full relative cursor-default select-none py-2 pl-3 pr-9 text-lg',
         )
       }
     >
       {({ active, selected }) => (
         <>
-          <div className="flex items-center justify-between">
-            <span
-              className={classnames(
-                'ml-3 truncate',
-                selected ? 'font-semibold' : '',
+          <div className="sm:ml-4">
+            <div className="flex items-center justify-between">
+              <span
+                className={classnames(
+                  'truncate',
+                  selected ? 'font-semibold' : '',
+                )}
+              >
+                {course.Title}
+              </span>
+              {course.IsOfficial && (
+                <BadgeCheckIcon className="h-5 w-5" aria-hidden="true" />
               )}
-            >
-              {school.Name}
-            </span>
-            {school.HasClassSupport && (
-              <BadgeCheckIcon className="h-5 w-5" aria-hidden="true" />
-            )}
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm">{shorten(course.Code, 9)}</span>
+              <span className="text-sm">
+                {course.FK_Professor
+                  ? shorten(course.FK_Professor.Name || '', 8)
+                  : 'No Prof'}
+              </span>
+            </div>
           </div>
 
           {selected && (

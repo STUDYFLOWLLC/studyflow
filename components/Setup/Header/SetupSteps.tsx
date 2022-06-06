@@ -19,7 +19,6 @@ export default function SetupSteps({ step }: Props) {
         <UserIcon
           className={classNames(
             { 'text-primary': step === 0 },
-            { 'text-green-400': step > 0 },
             'w-6 tooltip tooltip-bottom',
           )}
         />
@@ -33,7 +32,6 @@ export default function SetupSteps({ step }: Props) {
         <AcademicCapIcon
           className={classNames(
             { 'text-primary': step === 1 },
-            { 'text-green-400': step > 1 },
             'w-6 tooltip tooltip-bottom',
           )}
         />
@@ -45,7 +43,6 @@ export default function SetupSteps({ step }: Props) {
         <UserGroupIcon
           className={classNames(
             { 'text-primary': step === 2 },
-            { 'text-green-400': step > 2 },
             'w-6 tooltip tooltip-bottom',
           )}
         />

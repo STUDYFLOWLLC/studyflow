@@ -10,7 +10,7 @@ interface Props {
   setQuery: (query: string) => void
 }
 
-export default function SchoolInput({
+export default function CourseInput({
   selectedSchool,
   query,
   setQuery,
@@ -28,14 +28,13 @@ export default function SchoolInput({
       className={classnames(
         { 'border-gray-300': theme === 'light' },
         { 'bg-base-100': theme === 'dark' },
-        'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-2xl',
+        'w-full text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0 rounded-md text-md',
       )}
       onChange={(e: { target: { value: string } }) => {
         setQuery(e.target.value)
       }}
-      displayValue={() => selectedSchool.Name}
       value={query}
-      placeholder="Enter your school"
+      placeholder="Course Title/Code/Prof"
       autoFocus
     />
   )

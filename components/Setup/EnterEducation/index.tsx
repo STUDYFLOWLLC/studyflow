@@ -1,11 +1,11 @@
 import { User } from '@supabase/supabase-auth-helpers/react'
 import SchoolSearch from 'components/Forms/School/SchoolSearch'
+import SchoolDisplay from 'components/Setup/EnterEducation/SchoolDisplay'
 import SetupHeader from 'components/Setup/Header'
 import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import { School } from 'graphql/generated-graphql'
 import setUserSchool from 'hooks/setup/setUserSchool'
 import { useState } from 'react'
-import SchoolDisplay from './SchoolDisplay'
 
 interface Props {
   user: User

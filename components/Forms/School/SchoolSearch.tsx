@@ -1,13 +1,12 @@
+/* eslint-disable no-explicit-any */
+
 import { Combobox } from '@headlessui/react'
+import algoliasearch from 'algoliasearch/lite'
 import classnames from 'classnames'
 import SchoolEntry from 'components/Forms/School/SchoolEntry'
-import LoadWithText from 'components/spinners/LoadWithText'
-import Fuse from 'fuse.js'
 import { School } from 'graphql/generated-graphql'
-import useSchools from 'hooks/setup/useSchools'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import { SpinnerSizes } from 'types/Loading'
 import SchoolInput from './SchoolInput'
 
 interface Props {
@@ -15,35 +14,34 @@ interface Props {
   updateSchoolinDB: (school: School) => void
 }
 
+const searchClient = algoliasearch(
+  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || '',
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY || '',
+)
+const index = searchClient.initIndex('Schools')
+
 export default function SchoolSearch({
   selectedSchool,
   updateSchoolinDB,
 }: Props) {
   const { theme } = useTheme()
-  const { schools, isLoading, isError } = useSchools()
 
   const [mounted, setMounted] = useState(false)
-  const [filteredSchools, setFilteredSchools] = useState<
-    Fuse.FuseResult<School>[]
-  >([])
+  const [query, setQuery] = useState('')
+  const [hits, setHits] = useState<any>([])
 
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    filterSchools()
+  }, [query])
 
-  const filterSchools = (schoolsArray: School[], searchVal: string) => {
-    if (schoolsArray.length === 0) return
-
-    const searchOptions = {
-      includeScore: true,
-      keys: ['Name'],
-    }
-
-    const schoolsFuse = new Fuse(schoolsArray, searchOptions)
-    setFilteredSchools(schoolsFuse.search(searchVal).splice(0, 10))
+  const filterSchools = async () => {
+    const result = await index.search(query)
+    const hitsTemp = result.hits
+    setHits(hitsTemp)
   }
 
   if (!mounted) return null
-
-  if (isError) return <div />
 
   return (
     <Combobox
@@ -53,19 +51,12 @@ export default function SchoolSearch({
       onChange={(value: School) => updateSchoolinDB(value)}
     >
       <div className="relative mt-1 w-96">
-        {!isLoading ? (
-          <SchoolInput
-            schools={schools}
-            selectedSchool={selectedSchool}
-            filterSchools={filterSchools}
-          />
-        ) : (
-          <LoadWithText
-            size={SpinnerSizes.small}
-            text="Loading 1903 colleges and universities"
-          />
-        )}
-        {filteredSchools.length > 0 && (
+        <SchoolInput
+          selectedSchool={selectedSchool}
+          query={query}
+          setQuery={setQuery}
+        />
+        {hits.length > 0 && (
           <Combobox.Options
             className={classnames(
               {
@@ -75,8 +66,8 @@ export default function SchoolSearch({
               'absolute z-10 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
             )}
           >
-            {filteredSchools.map((school) => (
-              <SchoolEntry key={school.item.SchoolID} school={school} />
+            {hits.slice(0, 5).map((school: any) => (
+              <SchoolEntry key={school.SchoolID} school={school} />
             ))}
           </Combobox.Options>
         )}

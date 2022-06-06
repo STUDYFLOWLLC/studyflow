@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request'
-import useSWR, { mutate } from 'swr'
+import useSWR, { mutate, useSWRConfig } from 'swr'
 
 export default function useUserDetails(supabaseId: string | undefined) {
   const supabaseIdReal = supabaseId === undefined ? '' : supabaseId
@@ -29,10 +29,14 @@ export default function useUserDetails(supabaseId: string | undefined) {
               }
             }
           `,
-          variables,
+          JSON.stringify(variables),
         ]
       : null,
   )
+
+  const { cache } = useSWRConfig()
+
+  console.log(cache)
 
   if (data && data.users[0] === undefined) {
     return {
