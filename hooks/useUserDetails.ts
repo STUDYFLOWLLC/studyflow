@@ -26,6 +26,10 @@ export default function useUserDetails(supabaseId: string | undefined) {
                 CreatedTime
                 Email
                 Name
+                FK_Terms {
+                  TermType
+                  TermName
+                }
               }
             }
           `,

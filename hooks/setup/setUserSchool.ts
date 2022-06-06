@@ -1,6 +1,6 @@
 import { gql, request } from 'graphql-request'
 
-export default function setUserSchool(email: string, schoolID: number) {
+export default async function setUserSchool(email: string, schoolID: number) {
   const query = gql`
     mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
       updateUser(data: $data, where: $where) {
@@ -22,5 +22,6 @@ export default function setUserSchool(email: string, schoolID: number) {
     },
   }
 
-  request('/api/graphql', query, variables)
+  const data = await request('/api/graphql', query, variables)
+  return data
 }

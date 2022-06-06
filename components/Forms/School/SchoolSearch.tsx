@@ -1,10 +1,10 @@
 /* eslint-disable no-explicit-any */
 
 import { Combobox } from '@headlessui/react'
+import { School } from '@prisma/client'
 import algoliasearch from 'algoliasearch/lite'
 import classnames from 'classnames'
 import SchoolEntry from 'components/Forms/School/SchoolEntry'
-import { School } from 'graphql/generated-graphql'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import SchoolInput from './SchoolInput'

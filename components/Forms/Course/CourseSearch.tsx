@@ -1,11 +1,11 @@
 /* eslint-disable no-explicit-any */
 
 import { Combobox } from '@headlessui/react'
+import { School } from '@prisma/client'
 import algoliasearch, { SearchIndex } from 'algoliasearch/lite'
 import classnames from 'classnames'
 import CourseEntry from 'components/Forms/Course/CourseEntry'
 import CourseInput from 'components/Forms/Course/CourseInput'
-import { School } from 'graphql/generated-graphql'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
@@ -76,11 +76,7 @@ export default function CourseSearch({ selectedSchool }: Props) {
       onChange={(value: School) => console.log('change')}
     >
       <div className="relative mt-1">
-        <CourseInput
-          selectedSchool={selectedSchool}
-          query={query}
-          setQuery={setQuery}
-        />
+        <CourseInput query={query} setQuery={setQuery} />
         {hits.length > 0 && (
           <Combobox.Options
             className={classnames(
@@ -92,7 +88,7 @@ export default function CourseSearch({ selectedSchool }: Props) {
             )}
           >
             {hits.slice(0, 5).map((course: any) => (
-              <CourseEntry key={course.courseID} course={course} />
+              <CourseEntry key={course.CourseID} course={course} />
             ))}
           </Combobox.Options>
         )}

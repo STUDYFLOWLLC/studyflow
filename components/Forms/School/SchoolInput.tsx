@@ -1,6 +1,6 @@
 import { Combobox } from '@headlessui/react'
+import { School } from '@prisma/client'
 import classnames from 'classnames'
-import { School } from 'graphql/generated-graphql'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 

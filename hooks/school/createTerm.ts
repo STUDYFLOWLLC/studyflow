@@ -1,11 +1,9 @@
 import { TermType } from '@prisma/client'
 import { gql, request } from 'graphql-request'
 
-export default function setUserSchool(
+export default async function createTerm(
   termType: TermType,
   termName: string,
-  termStartDate: Date,
-  termEndDate: Date,
   email: string,
   schoolID: number,
 ) {
@@ -21,8 +19,6 @@ export default function setUserSchool(
     data: {
       TermType: termType,
       TermName: termName,
-      TermStartDate: termStartDate,
-      TermEndDate: termEndDate,
       FK_User: {
         connect: {
           Email: email,
@@ -36,5 +32,6 @@ export default function setUserSchool(
     },
   }
 
-  request('/api/graphql', query, variables)
+  const data = await request('/api/graphql', query, variables)
+  return data
 }

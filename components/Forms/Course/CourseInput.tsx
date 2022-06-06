@@ -1,20 +1,14 @@
 import { Combobox } from '@headlessui/react'
 import classnames from 'classnames'
-import { School } from 'graphql/generated-graphql'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 interface Props {
-  selectedSchool: School
   query: string
   setQuery: (query: string) => void
 }
 
-export default function CourseInput({
-  selectedSchool,
-  query,
-  setQuery,
-}: Props) {
+export default function CourseInput({ query, setQuery }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)

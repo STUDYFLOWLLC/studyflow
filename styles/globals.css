@@ -11,11 +11,11 @@ body {
 }
 
 ::selection {
-  background: #49c2fa; /* WebKit/Blink Browsers */
+  background: #58e5d7; /* WebKit/Blink Browsers */
   color: white;
 }
 ::-moz-selection {
-  background: #49c2fa; /* Gecko Browsers */
+  background: #58e5d7; /* Gecko Browsers */
   color: white;
 }
 
