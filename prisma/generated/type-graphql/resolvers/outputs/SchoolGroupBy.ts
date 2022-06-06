@@ -28,6 +28,11 @@ export class SchoolGroupBy {
   })
   HasClassSupport!: boolean;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  SearchIndex!: string | null;
+
   @TypeGraphQL.Field(_type => TermType, {
     nullable: true
   })

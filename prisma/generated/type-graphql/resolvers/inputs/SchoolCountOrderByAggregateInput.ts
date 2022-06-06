@@ -26,5 +26,10 @@ export class SchoolCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  SearchIndex?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   TermType?: "asc" | "desc" | undefined;
 }

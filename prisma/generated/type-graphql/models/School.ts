@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Course } from "../models/Course";
 import { Professor } from "../models/Professor";
+import { Term } from "../models/Term";
 import { User } from "../models/User";
 import { TermType } from "../enums/TermType";
 import { SchoolCount } from "../resolvers/outputs/SchoolCount";
@@ -27,6 +28,11 @@ export class School {
   })
   HasClassSupport!: boolean;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  SearchIndex?: string | null;
+
   @TypeGraphQL.Field(_type => TermType, {
     nullable: true
   })
@@ -37,6 +43,8 @@ export class School {
   FK_User?: User[];
 
   FK_Professor?: Professor[];
+
+  Term?: Term[];
 
   @TypeGraphQL.Field(_type => SchoolCount, {
     nullable: true

@@ -5,7 +5,9 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { CourseUpdateManyWithoutFK_SchoolInput } from "../inputs/CourseUpdateManyWithoutFK_SchoolInput";
 import { NullableEnumTermTypeFieldUpdateOperationsInput } from "../inputs/NullableEnumTermTypeFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { TermUpdateManyWithoutFK_SchoolInput } from "../inputs/TermUpdateManyWithoutFK_SchoolInput";
 import { UserUpdateManyWithoutFK_SchoolInput } from "../inputs/UserUpdateManyWithoutFK_SchoolInput";
 
 @TypeGraphQL.InputType("SchoolUpdateWithoutFK_ProfessorInput", {
@@ -22,6 +24,11 @@ export class SchoolUpdateWithoutFK_ProfessorInput {
   })
   HasClassSupport?: BoolFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  SearchIndex?: NullableStringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => NullableEnumTermTypeFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -36,4 +43,9 @@ export class SchoolUpdateWithoutFK_ProfessorInput {
     nullable: true
   })
   FK_User?: UserUpdateManyWithoutFK_SchoolInput | undefined;
+
+  @TypeGraphQL.Field(_type => TermUpdateManyWithoutFK_SchoolInput, {
+    nullable: true
+  })
+  Term?: TermUpdateManyWithoutFK_SchoolInput | undefined;
 }

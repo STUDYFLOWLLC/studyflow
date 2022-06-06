@@ -61,6 +61,8 @@ model Term {
   TermEndDate     DateTime
   FK_User         User?          @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
   FK_UserID       Int?
+  FK_School       School?        @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
+  FK_SchoolID     Int?
   FK_CourseOnTerm CourseOnTerm[]
 }
 
@@ -79,10 +81,12 @@ model School {
   SchoolID        Int         @id @default(autoincrement())
   Name            String
   HasClassSupport Boolean
+  SearchIndex     String?
   TermType        TermType?
   FK_Course       Course[]
   FK_User         User[]
   FK_Professor    Professor[]
+  Term            Term[]
 }
 
 model Course {

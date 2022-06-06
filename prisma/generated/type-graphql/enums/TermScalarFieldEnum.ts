@@ -7,7 +7,8 @@ export enum TermScalarFieldEnum {
   TermName = "TermName",
   TermStartDate = "TermStartDate",
   TermEndDate = "TermEndDate",
-  FK_UserID = "FK_UserID"
+  FK_UserID = "FK_UserID",
+  FK_SchoolID = "FK_SchoolID"
 }
 TypeGraphQL.registerEnumType(TermScalarFieldEnum, {
   name: "TermScalarFieldEnum",

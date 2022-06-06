@@ -35,5 +35,5 @@ export class FindManyTermArgs {
   @TypeGraphQL.Field(_type => [TermScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"TermID" | "CreatedTime" | "TermType" | "TermName" | "TermStartDate" | "TermEndDate" | "FK_UserID"> | undefined;
+  distinct?: Array<"TermID" | "CreatedTime" | "TermType" | "TermName" | "TermStartDate" | "TermEndDate" | "FK_UserID" | "FK_SchoolID"> | undefined;
 }

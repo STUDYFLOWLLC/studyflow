@@ -42,4 +42,9 @@ export class TermMaxAggregate {
     nullable: true
   })
   FK_UserID!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_SchoolID!: number | null;
 }

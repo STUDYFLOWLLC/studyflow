@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { SchoolCreateNestedOneWithoutTermInput } from "../inputs/SchoolCreateNestedOneWithoutTermInput";
 import { UserCreateNestedOneWithoutFK_TermsInput } from "../inputs/UserCreateNestedOneWithoutFK_TermsInput";
 import { TermType } from "../../enums/TermType";
 
@@ -38,4 +39,9 @@ export class TermCreateWithoutFK_CourseOnTermInput {
     nullable: true
   })
   FK_User?: UserCreateNestedOneWithoutFK_TermsInput | undefined;
+
+  @TypeGraphQL.Field(_type => SchoolCreateNestedOneWithoutTermInput, {
+    nullable: true
+  })
+  FK_School?: SchoolCreateNestedOneWithoutTermInput | undefined;
 }

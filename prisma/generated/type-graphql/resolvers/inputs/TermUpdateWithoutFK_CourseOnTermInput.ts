@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumTermTypeFieldUpdateOperationsInput } from "../inputs/EnumTermTypeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { SchoolUpdateOneWithoutTermInput } from "../inputs/SchoolUpdateOneWithoutTermInput";
 import { UserUpdateOneWithoutFK_TermsInput } from "../inputs/UserUpdateOneWithoutFK_TermsInput";
 
 @TypeGraphQL.InputType("TermUpdateWithoutFK_CourseOnTermInput", {
@@ -40,4 +41,9 @@ export class TermUpdateWithoutFK_CourseOnTermInput {
     nullable: true
   })
   FK_User?: UserUpdateOneWithoutFK_TermsInput | undefined;
+
+  @TypeGraphQL.Field(_type => SchoolUpdateOneWithoutTermInput, {
+    nullable: true
+  })
+  FK_School?: SchoolUpdateOneWithoutTermInput | undefined;
 }

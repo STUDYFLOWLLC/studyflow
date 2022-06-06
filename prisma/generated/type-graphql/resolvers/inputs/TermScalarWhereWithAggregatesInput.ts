@@ -61,4 +61,9 @@ export class TermScalarWhereWithAggregatesInput {
     nullable: true
   })
   FK_UserID?: IntNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  FK_SchoolID?: IntNullableWithAggregatesFilter | undefined;
 }

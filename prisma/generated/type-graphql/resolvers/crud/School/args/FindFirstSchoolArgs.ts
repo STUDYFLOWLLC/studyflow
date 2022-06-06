@@ -35,5 +35,5 @@ export class FindFirstSchoolArgs {
   @TypeGraphQL.Field(_type => [SchoolScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"SchoolID" | "Name" | "HasClassSupport" | "TermType"> | undefined;
+  distinct?: Array<"SchoolID" | "Name" | "HasClassSupport" | "SearchIndex" | "TermType"> | undefined;
 }

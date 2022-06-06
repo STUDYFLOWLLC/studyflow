@@ -6,6 +6,7 @@ import { CourseOnTermUpdateManyWithoutFK_TermInput } from "../inputs/CourseOnTer
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumTermTypeFieldUpdateOperationsInput } from "../inputs/EnumTermTypeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { SchoolUpdateOneWithoutTermInput } from "../inputs/SchoolUpdateOneWithoutTermInput";
 import { UserUpdateOneWithoutFK_TermsInput } from "../inputs/UserUpdateOneWithoutFK_TermsInput";
 
 @TypeGraphQL.InputType("TermUpdateInput", {
@@ -41,6 +42,11 @@ export class TermUpdateInput {
     nullable: true
   })
   FK_User?: UserUpdateOneWithoutFK_TermsInput | undefined;
+
+  @TypeGraphQL.Field(_type => SchoolUpdateOneWithoutTermInput, {
+    nullable: true
+  })
+  FK_School?: SchoolUpdateOneWithoutTermInput | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermUpdateManyWithoutFK_TermInput, {
     nullable: true

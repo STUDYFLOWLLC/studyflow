@@ -61,4 +61,9 @@ export class TermScalarWhereInput {
     nullable: true
   })
   FK_UserID?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  FK_SchoolID?: IntNullableFilter | undefined;
 }

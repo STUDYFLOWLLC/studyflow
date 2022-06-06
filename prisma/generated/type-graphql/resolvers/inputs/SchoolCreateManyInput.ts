@@ -23,6 +23,11 @@ export class SchoolCreateManyInput {
   })
   HasClassSupport!: boolean;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  SearchIndex?: string | undefined;
+
   @TypeGraphQL.Field(_type => TermType, {
     nullable: true
   })

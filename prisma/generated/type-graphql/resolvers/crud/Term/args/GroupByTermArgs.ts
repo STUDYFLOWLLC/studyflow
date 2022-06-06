@@ -20,7 +20,7 @@ export class GroupByTermArgs {
   @TypeGraphQL.Field(_type => [TermScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"TermID" | "CreatedTime" | "TermType" | "TermName" | "TermStartDate" | "TermEndDate" | "FK_UserID">;
+  by!: Array<"TermID" | "CreatedTime" | "TermType" | "TermName" | "TermStartDate" | "TermEndDate" | "FK_UserID" | "FK_SchoolID">;
 
   @TypeGraphQL.Field(_type => TermScalarWhereWithAggregatesInput, {
     nullable: true

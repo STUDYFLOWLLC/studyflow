@@ -23,6 +23,11 @@ export class SchoolMaxAggregate {
   })
   HasClassSupport!: boolean | null;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  SearchIndex!: string | null;
+
   @TypeGraphQL.Field(_type => TermType, {
     nullable: true
   })

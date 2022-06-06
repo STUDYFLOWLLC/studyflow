@@ -42,4 +42,9 @@ export class TermCountOrderByAggregateInput {
     nullable: true
   })
   FK_UserID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_SchoolID?: "asc" | "desc" | undefined;
 }

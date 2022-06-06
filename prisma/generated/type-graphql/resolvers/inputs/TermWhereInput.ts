@@ -7,6 +7,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumTermTypeFilter } from "../inputs/EnumTermTypeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
@@ -68,6 +69,16 @@ export class TermWhereInput {
     nullable: true
   })
   FK_UserID?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => SchoolRelationFilter, {
+    nullable: true
+  })
+  FK_School?: SchoolRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  FK_SchoolID?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermListRelationFilter, {
     nullable: true
