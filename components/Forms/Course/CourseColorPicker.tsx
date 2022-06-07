@@ -45,6 +45,7 @@ export default function CourseColorPicker({
             ' ring-offset-1 w-5 h-5 m-2 rounded-full cursor-pointer',
           )}
           onClick={() => setSelectedColor(color)}
+          onKeyDown={() => setSelectedColor(color)}
         />
       ))}
     </div>

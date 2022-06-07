@@ -29,6 +29,7 @@ export default function useUserDetails(supabaseId: string | undefined) {
                 FK_Terms {
                   TermType
                   TermName
+                  TermID
                 }
               }
             }

@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import { CourseHit } from 'components/Forms/Course/CourseSearch'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import shorten from 'utils/shorten'
 
 interface Props {
   course: CourseHit
@@ -19,13 +20,6 @@ export default function CourseEntry({ course }: Props) {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
-
-  const shorten = (str: string, maxLength: number) => {
-    if (str.length > maxLength) {
-      return str.substring(0, maxLength).trim() + '..'
-    }
-    return str
-  }
 
   return (
     <Combobox.Option

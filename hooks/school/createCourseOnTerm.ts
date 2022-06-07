@@ -1,15 +1,14 @@
-import { TermType } from '@prisma/client'
 import { gql, request } from 'graphql-request'
 
-export default async function createTerm(
-  termType: TermType,
-  termName: string,
-  email: string,
-  schoolID: number,
+export default async function createCourseOnTerm(
+  color: string,
+  courseID: number,
+  termID: number,
+  nickname?: string,
 ) {
   const query = gql`
-    mutation Mutation($data: TermCreateInput!) {
-      createTerm(data: $data) {
+    mutation Mutation($data: TermUpdateInput!, $where: TermWhereUniqueInput!) {
+      updateTerm(data: $data, where: $where) {
         TermID
       }
     }
@@ -17,18 +16,22 @@ export default async function createTerm(
 
   const variables = {
     data: {
-      TermType: termType,
-      TermName: termName,
-      FK_User: {
-        connect: {
-          Email: email,
-        },
+      FK_CourseOnTerm: {
+        create: [
+          {
+            Color: color,
+            Nickname: nickname,
+            FK_Course: {
+              connect: {
+                CourseID: courseID,
+              },
+            },
+          },
+        ],
       },
-      FK_School: {
-        connect: {
-          SchoolID: schoolID,
-        },
-      },
+    },
+    where: {
+      TermID: termID,
     },
   }
 

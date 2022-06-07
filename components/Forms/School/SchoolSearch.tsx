@@ -1,4 +1,4 @@
-/* eslint-disable no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Combobox } from '@headlessui/react'
 import { School } from '@prisma/client'
@@ -30,16 +30,16 @@ export default function SchoolSearch({
   const [query, setQuery] = useState('')
   const [hits, setHits] = useState<any>([])
 
-  useEffect(() => {
-    setMounted(true)
-    filterSchools()
-  }, [query])
-
   const filterSchools = async () => {
     const result = await index.search(query)
     const hitsTemp = result.hits
     setHits(hitsTemp)
   }
+
+  useEffect(() => {
+    setMounted(true)
+    filterSchools()
+  }, [query])
 
   if (!mounted) return null
 

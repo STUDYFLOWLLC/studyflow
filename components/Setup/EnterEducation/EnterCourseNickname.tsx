@@ -21,7 +21,7 @@ export default function EnterCourseNickname({ nickname, setNickname }: Props) {
       className={classnames(
         { 'border-gray-300': theme === 'light' },
         { 'bg-base-100': theme === 'dark' },
-        'w-full sm:w-4/5 mx-auto text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0 rounded-md text-md',
+        'w-full sm:w-2/3 mx-auto text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0 rounded-md text-md',
       )}
       onChange={(e: { target: { value: string } }) => {
         setNickname(e.target.value)
