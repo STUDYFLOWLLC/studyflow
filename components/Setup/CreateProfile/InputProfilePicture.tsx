@@ -30,8 +30,9 @@ export default function InputProfilePicture({
     const { data, error } = await supabase.storage
       .from('pfp')
       .upload(`${user.id}/${avatarFile.name}`, avatarFile)
-    if (error)
+    if (error) {
       toast.error('File Upload Failed. Continue in setup and upload later.')
+    }
     if (data) setTempPFPLink(data.Key)
   }
 

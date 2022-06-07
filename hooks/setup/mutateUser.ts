@@ -1,6 +1,6 @@
 import { gql, request } from 'graphql-request'
 
-export function mutateName(email: string, name: string) {
+export async function mutateName(email: string, name: string) {
   const query = gql`
     mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
       updateUser(data: $data, where: $where) {
@@ -20,10 +20,11 @@ export function mutateName(email: string, name: string) {
     },
   }
 
-  request('/api/graphql', query, variables)
+  const data = await request('/api/graphql', query, variables)
+  return data
 }
 
-export function mutateUsername(email: string, username: string) {
+export async function mutateUsername(email: string, username: string) {
   const query = gql`
     mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
       updateUser(data: $data, where: $where) {
@@ -43,10 +44,11 @@ export function mutateUsername(email: string, username: string) {
     },
   }
 
-  request('/api/graphql', query, variables)
+  const data = await request('/api/graphql', query, variables)
+  return data
 }
 
-export function mutateProfilePictureLink(email: string, link: string) {
+export async function mutateProfilePictureLink(email: string, link: string) {
   const query = gql`
     mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
       updateUser(data: $data, where: $where) {
@@ -66,5 +68,6 @@ export function mutateProfilePictureLink(email: string, link: string) {
     },
   }
 
-  request('/api/graphql', query, variables)
+  const data = await request('/api/graphql', query, variables)
+  return data
 }
