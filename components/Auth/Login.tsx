@@ -18,9 +18,7 @@ export default function Login() {
   const { theme, setTheme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
-  const [loading, setLoading] = useState(true)
   const [succeed, setSucceed] = useState(false)
-  const [email, setEmail] = useState('')
 
   useEffect(() => {
     setMounted(true)
@@ -28,7 +26,6 @@ export default function Login() {
       if (user) router.push('/dash')
       // eslint-disable-next-line no-promise-executor-return
       await new Promise((r) => setTimeout(r, 500))
-      setLoading(false)
     })()
   }, [user])
 
@@ -64,14 +61,7 @@ export default function Login() {
             <ProviderButtonGroup />
             <OrLine succeed={succeed} />
           </div>
-          <EmailLogin
-            email={email}
-            setEmail={setEmail}
-            succeed={succeed}
-            setSucceed={setSucceed}
-            loading={loading}
-            setLoading={setLoading}
-          />
+          <EmailLogin succeed={succeed} setSucceed={setSucceed} />
         </div>
       </div>
     </div>

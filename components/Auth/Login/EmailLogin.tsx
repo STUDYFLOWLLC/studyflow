@@ -8,24 +8,15 @@ import isValidEmail from 'utils/isValidEmail'
 import { supabase } from 'utils/supabase'
 
 interface Props {
-  email: string
-  setEmail: (email: string) => void
   succeed: boolean
   setSucceed: Dispatch<React.SetStateAction<boolean>>
-  loading: boolean
-  setLoading: Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function EmailLogin({
-  email,
-  setEmail,
-  succeed,
-  setSucceed,
-  loading,
-  setLoading,
-}: Props) {
+export default function EmailLogin({ succeed, setSucceed }: Props) {
   const { theme } = useTheme()
 
+  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
