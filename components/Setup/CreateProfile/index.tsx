@@ -20,18 +20,14 @@ export default function CreateProfile({ user }: Props) {
 
   if (isError) toast.error('Could not create profile. Refresh and try again.')
 
-  console.log(userDetails)
-
   const createProfile = async () => {
-    const data = await setBasicProfile(
-      user.id,
-      user.email || user.user_metadata.email,
-    )
+    await setBasicProfile(user.id, user.email || user.user_metadata.email)
     mutateUserDetails({
       ...userDetails,
       Email: user.email || user.user_metadata.email,
       profileCreated: true,
     })
+    setTempCreated(true)
   }
 
   if (!isLoading && userDetails && userDetails.profileCreated === false) {

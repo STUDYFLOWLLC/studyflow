@@ -16,8 +16,6 @@ export default function index({ user }: Props) {
   const { userDetails } = useUserDetails(user.id)
   const [mounted, setMounted] = useState(false)
 
-  console.log(userDetails)
-
   useHotkeys(
     'cmd+l, ctrl+l',
     (e) => {

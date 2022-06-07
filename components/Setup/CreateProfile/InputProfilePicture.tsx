@@ -31,7 +31,6 @@ export default function InputProfilePicture({
       .from('pfp')
       .upload(`${user.id}/${avatarFile.name}`, avatarFile)
     if (error) {
-      console.log(error)
       toast.error('File Upload Failed. Continue in setup and upload later.')
     }
     if (data) setTempPFPLink(data.Key)
