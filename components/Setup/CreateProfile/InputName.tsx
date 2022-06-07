@@ -30,17 +30,18 @@ export default function InputName({ user, name, setName }: Props) {
         className={classnames(
           { 'border-gray-300': theme === 'light' },
           { 'bg-base-100': theme === 'dark' },
-          'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-2xl',
+          'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  w-full rounded-md text-2xl',
         )}
         defaultValue={user.user_metadata.name}
         value={name}
-        onChange={(e) => setName(e.target.value.trim())}
+        onChange={(e) => setName(e.target.value)}
         onBlur={() => {
-          if (name.length < 3) {
+          if (name && name.length < 3) {
             toast.error('Name must be at least 3 characters')
             setName(user.user_metadata.name)
           }
         }}
+        placeholder="Studyflow Fan"
       ></input>
     </>
   )

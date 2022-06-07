@@ -16,8 +16,8 @@ export default function useUserDetails(supabaseId: string | undefined) {
     supabaseId
       ? [
           gql`
-            query UserDetails($where: UserWhereInput, $take: Int) {
-              users(where: $where, take: $take) {
+            query Query($where: UserWhereInput) {
+              findFirstUser(where: $where) {
                 Username
                 ProfilePictureLink
                 DefaultVisibility
@@ -39,7 +39,7 @@ export default function useUserDetails(supabaseId: string | undefined) {
       : null,
   )
 
-  if (data && data.users[0] === undefined) {
+  if (data && data.findFirstUser === null) {
     return {
       userDetails: {
         profileCreated: false,
@@ -50,9 +50,9 @@ export default function useUserDetails(supabaseId: string | undefined) {
     }
   }
 
-  if (data) {
+  if (data && data.findFirstUser) {
     return {
-      userDetails: data.users[0],
+      userDetails: data.findFirstUser,
       isLoading: !error && !data,
       isError: error,
       mutateUserDetails: mutate,

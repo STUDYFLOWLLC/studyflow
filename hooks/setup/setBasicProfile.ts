@@ -1,6 +1,9 @@
 import { gql, request } from 'graphql-request'
 
-export default function setBasicProfile(SupabaseID: string, email: string) {
+export default async function setBasicProfile(
+  SupabaseID: string,
+  email: string,
+) {
   const query = gql`
     mutation Mutation($data: UserCreateInput!) {
       createUser(data: $data) {
@@ -16,5 +19,6 @@ export default function setBasicProfile(SupabaseID: string, email: string) {
     },
   }
 
-  request('/api/graphql', query, variables)
+  const data = await request('/api/graphql', query, variables)
+  return data
 }

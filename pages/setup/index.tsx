@@ -16,6 +16,8 @@ export default function index({ user }: Props) {
   const { userDetails } = useUserDetails(user.id)
   const [mounted, setMounted] = useState(false)
 
+  console.log(userDetails)
+
   useHotkeys(
     'cmd+l, ctrl+l',
     (e) => {
@@ -31,9 +33,13 @@ export default function index({ user }: Props) {
 
   if (!mounted) return null
 
-  if (!userDetails) return <CreateProfile user={user} />
+  if (!userDetails || !userDetails.Username)
+    return <CreateProfile user={user} />
 
-  if (userDetails.username !== null) return <EnterEducation user={user} />
+  if (userDetails.profileCreated !== false && userDetails.Username !== null)
+    return <EnterEducation user={user} />
+
+  return <p>Profile setup complete</p>
 }
 
 export const getServerSideProps = withPageAuth({ redirectTo: '/login' })
