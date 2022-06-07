@@ -51,20 +51,24 @@ export default function IncompleteProfile({ user }: Props) {
 
     if (nameData?.updateUser?.UserID && usernameData.updateUser?.UserID) {
       toast.success('Profile updated!')
-      mutateUserDetails({ ...userDetails, Username: username })
+      mutateUserDetails({
+        ...userDetails,
+        Username: username,
+        profileCreated: true,
+      })
     }
 
     setSubmitting(false)
   }
 
   return (
-    <div className="w-full flex flex-col items-center mt-4 p-4">
+    <div className="mx-auto w-5/6 sm:w-full flex flex-col items-center mt-4 sm:p-4">
       <Toaster position="top-center" reverseOrder={false} />
       <SetupStepTitle title="Me" />
       {submitting ? (
         <MainSpinner size={SpinnerSizes.medium} />
       ) : (
-        <div className="w-96 flex flex-col items-center">
+        <div className="mx-auto flex flex-col items-center">
           <InputName user={user} name={name} setName={setName} />
           <InputUsername username={username} setUsername={setUsername} />
           <InputProfilePicture
