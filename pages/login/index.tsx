@@ -56,12 +56,14 @@ export default function Login() {
       <LoginImage />
       <div className="flex-1 flex flex-col justify-center py-12 sm:px-6 xl:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96 pb-36 xl:pb-0">
-          <LoginHeader />
-          <div className="mt-4 w-full">
-            <ProviderButtonGroup />
-            <OrLine succeed={succeed} />
+          <div className="w-5/6 sm:w-full mx-auto">
+            <LoginHeader />
+            <div className="mt-4 w-full">
+              <ProviderButtonGroup />
+              <OrLine succeed={succeed} />
+            </div>
+            <EmailLogin succeed={succeed} setSucceed={setSucceed} />
           </div>
-          <EmailLogin succeed={succeed} setSucceed={setSucceed} />
         </div>
       </div>
     </div>
