@@ -22,6 +22,7 @@ export default function index({ user }: Props) {
     Name: '',
     HasClassSupport: false,
     TermType: TermType.SEMESTER,
+    SearchIndex: '',
   })
 
   const updateSchoolinDB = async (school: School) => {
