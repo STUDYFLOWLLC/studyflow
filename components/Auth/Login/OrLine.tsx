@@ -26,7 +26,7 @@ export default function OrLine({ succeed }: Props) {
             className={classNames(
               { 'bg-white text-gray-500': theme === 'light' },
               { 'bg-base-100 text-gray-300': theme === 'dark' },
-              '  px-4 text-base',
+              'z-10 px-4 text-base',
             )}
           >
             Or
