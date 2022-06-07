@@ -50,7 +50,7 @@ export default function SchoolSearch({
       value={selectedSchool}
       onChange={(value: School) => updateSchoolinDB(value)}
     >
-      <div className="relative mt-1 w-96">
+      <div className="relative mt-1">
         <SchoolInput
           selectedSchool={selectedSchool}
           query={query}
@@ -63,7 +63,7 @@ export default function SchoolSearch({
                 'bg-gray-100': theme === 'light',
               },
               { 'bg-slate-700': theme === 'dark' },
-              'absolute z-10 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+              'absolute right-12 sm:right-0 z-10 w-3/4 sm:w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
             )}
           >
             {hits.slice(0, 5).map((school: any) => (
