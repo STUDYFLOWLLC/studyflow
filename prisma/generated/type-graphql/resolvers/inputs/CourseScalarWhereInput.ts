@@ -6,6 +6,7 @@ import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
 @TypeGraphQL.InputType("CourseScalarWhereInput", {
@@ -37,15 +38,15 @@ export class CourseScalarWhereInput {
   })
   CreatedTime?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  FK_SchoolID?: IntNullableFilter | undefined;
-
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
   IsOfficial?: BoolFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  Term?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
@@ -57,8 +58,13 @@ export class CourseScalarWhereInput {
   })
   Title?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  Term?: StringNullableFilter | undefined;
+  FK_SchoolID?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  FK_ProfessorID?: IntNullableFilter | undefined;
 }

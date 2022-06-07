@@ -10,10 +10,5 @@ export class CourseCount {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  FK_Professors!: number;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  FK_Users!: number;
+  FK_TermsOnCourse!: number;
 }

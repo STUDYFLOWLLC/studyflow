@@ -2,10 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseOnUserOrderByRelationAggregateInput } from "../inputs/CourseOnUserOrderByRelationAggregateInput";
-import { FlashCardStackOrderByRelationAggregateInput } from "../inputs/FlashCardStackOrderByRelationAggregateInput";
-import { FlowOrderByRelationAggregateInput } from "../inputs/FlowOrderByRelationAggregateInput";
-import { FlowTagOrderByRelationAggregateInput } from "../inputs/FlowTagOrderByRelationAggregateInput";
+import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
+import { TermOrderByRelationAggregateInput } from "../inputs/TermOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("UserOrderByWithRelationInput", {
@@ -57,23 +55,18 @@ export class UserOrderByWithRelationInput {
   })
   DefaultVisibility?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOnUserOrderByRelationAggregateInput, {
+  @TypeGraphQL.Field(_type => SchoolOrderByWithRelationInput, {
     nullable: true
   })
-  FK_Courses?: CourseOnUserOrderByRelationAggregateInput | undefined;
+  FK_School?: SchoolOrderByWithRelationInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlowOrderByRelationAggregateInput, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_Flows?: FlowOrderByRelationAggregateInput | undefined;
+  FK_SchoolID?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => FlowTagOrderByRelationAggregateInput, {
+  @TypeGraphQL.Field(_type => TermOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_FlowTags?: FlowTagOrderByRelationAggregateInput | undefined;
-
-  @TypeGraphQL.Field(_type => FlashCardStackOrderByRelationAggregateInput, {
-    nullable: true
-  })
-  FK_FlashCardStacks?: FlashCardStackOrderByRelationAggregateInput | undefined;
+  FK_Terms?: TermOrderByRelationAggregateInput | undefined;
 }

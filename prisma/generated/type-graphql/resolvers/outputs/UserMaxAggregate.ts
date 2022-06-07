@@ -52,4 +52,9 @@ export class UserMaxAggregate {
     nullable: true
   })
   DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_SchoolID!: number | null;
 }

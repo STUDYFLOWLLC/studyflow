@@ -25,6 +25,11 @@ export class CourseCreateManyFK_SchoolInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
+  Term?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
   Code?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
@@ -32,8 +37,8 @@ export class CourseCreateManyFK_SchoolInput {
   })
   Title?: string | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  Term?: string | undefined;
+  FK_ProfessorID?: number | undefined;
 }

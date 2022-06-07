@@ -36,7 +36,7 @@ export default function Dash({ user }: Props) {
   if (
     userDetails &&
     (userDetails.profileCreated === false ||
-      userDetails.setupComplete === false)
+      userDetails.SetupComplete === false)
   )
     router.push('/setup')
 
@@ -55,7 +55,7 @@ export default function Dash({ user }: Props) {
         <DashBar
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          loading={isLoading}
+          loading={!userDetails}
         />
         <div className="lg:pl-56 flex flex-col">
           <DashHeadSmall />

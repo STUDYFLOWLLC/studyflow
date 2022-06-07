@@ -3,14 +3,12 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { CourseOnUserUpdateManyWithoutFK_UserInput } from "../inputs/CourseOnUserUpdateManyWithoutFK_UserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { FlashCardStackUpdateManyWithoutFK_UserInput } from "../inputs/FlashCardStackUpdateManyWithoutFK_UserInput";
-import { FlowTagUpdateManyWithoutFK_UserInput } from "../inputs/FlowTagUpdateManyWithoutFK_UserInput";
-import { FlowUpdateManyWithoutFK_UserInput } from "../inputs/FlowUpdateManyWithoutFK_UserInput";
 import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { TermUpdateManyWithoutFK_UserInput } from "../inputs/TermUpdateManyWithoutFK_UserInput";
 
 @TypeGraphQL.InputType("UserUpdateInput", {
   isAbstract: true
@@ -56,23 +54,13 @@ export class UserUpdateInput {
   })
   DefaultVisibility?: NullableEnumVisibilityFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOnUserUpdateManyWithoutFK_UserInput, {
+  @TypeGraphQL.Field(_type => SchoolUpdateOneWithoutFK_UserInput, {
     nullable: true
   })
-  FK_Courses?: CourseOnUserUpdateManyWithoutFK_UserInput | undefined;
+  FK_School?: SchoolUpdateOneWithoutFK_UserInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlowUpdateManyWithoutFK_UserInput, {
+  @TypeGraphQL.Field(_type => TermUpdateManyWithoutFK_UserInput, {
     nullable: true
   })
-  FK_Flows?: FlowUpdateManyWithoutFK_UserInput | undefined;
-
-  @TypeGraphQL.Field(_type => FlowTagUpdateManyWithoutFK_UserInput, {
-    nullable: true
-  })
-  FK_FlowTags?: FlowTagUpdateManyWithoutFK_UserInput | undefined;
-
-  @TypeGraphQL.Field(_type => FlashCardStackUpdateManyWithoutFK_UserInput, {
-    nullable: true
-  })
-  FK_FlashCardStacks?: FlashCardStackUpdateManyWithoutFK_UserInput | undefined;
+  FK_Terms?: TermUpdateManyWithoutFK_UserInput | undefined;
 }

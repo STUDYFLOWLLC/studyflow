@@ -2,7 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseOrderByWithRelationInput } from "../inputs/CourseOrderByWithRelationInput";
+import { CourseOrderByRelationAggregateInput } from "../inputs/CourseOrderByRelationAggregateInput";
+import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("ProfessorOrderByWithRelationInput", {
@@ -14,18 +15,28 @@ export class ProfessorOrderByWithRelationInput {
   })
   ProfessorID?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOrderByWithRelationInput, {
+  @TypeGraphQL.Field(_type => CourseOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Course?: CourseOrderByWithRelationInput | undefined;
+  FK_Courses?: CourseOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => SchoolOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_School?: SchoolOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_CourseID?: "asc" | "desc" | undefined;
+  FK_SchoolID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
   Name?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  Email?: "asc" | "desc" | undefined;
 }

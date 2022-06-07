@@ -37,11 +37,6 @@ export class FlowScalarWhereInput {
   })
   CreatedTime?: DateTimeFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  FK_UserID?: IntNullableFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
@@ -56,4 +51,9 @@ export class FlowScalarWhereInput {
     nullable: true
   })
   Visibility?: EnumVisibilityNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  FK_CourseOnTermID?: IntNullableFilter | undefined;
 }

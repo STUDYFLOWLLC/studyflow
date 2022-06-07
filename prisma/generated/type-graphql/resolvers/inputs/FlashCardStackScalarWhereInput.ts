@@ -41,11 +41,6 @@ export class FlashCardStackScalarWhereInput {
   })
   FK_FlowID?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
-    nullable: true
-  })
-  FK_UserID?: IntNullableFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })

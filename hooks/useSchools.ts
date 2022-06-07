@@ -1,6 +1,5 @@
 import { School } from 'graphql/generated-graphql'
 import useSWR from 'swr'
-import { fetcher } from './fetchers'
 
 interface SchoolExport {
   schools: [School]
@@ -16,13 +15,13 @@ export default function useSchools(): SchoolExport {
               SchoolID
               Name
               HasClassSupport
+              TermType
               FK_Course {
                 Code
               }
             }
           }
     `,
-    fetcher,
   )
 
   if (data) {

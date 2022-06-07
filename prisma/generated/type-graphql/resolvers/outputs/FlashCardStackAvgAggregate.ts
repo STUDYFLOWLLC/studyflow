@@ -16,9 +16,4 @@ export class FlashCardStackAvgAggregate {
     nullable: true
   })
   FK_FlowID!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
-  })
-  FK_UserID!: number | null;
 }

@@ -3,6 +3,10 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Course } from "../models/Course";
+import { Professor } from "../models/Professor";
+import { Term } from "../models/Term";
+import { User } from "../models/User";
+import { TermType } from "../enums/TermType";
 import { SchoolCount } from "../resolvers/outputs/SchoolCount";
 
 @TypeGraphQL.ObjectType("School", {
@@ -14,8 +18,6 @@ export class School {
   })
   SchoolID!: number;
 
-  FK_Course?: Course[];
-
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
@@ -25,6 +27,24 @@ export class School {
     nullable: false
   })
   HasClassSupport!: boolean;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  SearchIndex?: string | null;
+
+  @TypeGraphQL.Field(_type => TermType, {
+    nullable: true
+  })
+  TermType?: "QUARTER" | "TRIMESTER" | "SEMESTER" | "SUMMER" | null;
+
+  FK_Course?: Course[];
+
+  FK_User?: User[];
+
+  FK_Professor?: Professor[];
+
+  Term?: Term[];
 
   @TypeGraphQL.Field(_type => SchoolCount, {
     nullable: true

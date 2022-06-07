@@ -58,6 +58,11 @@ export class UserOrderByWithAggregationInput {
   })
   DefaultVisibility?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_SchoolID?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => UserCountOrderByAggregateInput, {
     nullable: true
   })

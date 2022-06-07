@@ -20,7 +20,7 @@ export class GroupByFlashCardStackArgs {
   @TypeGraphQL.Field(_type => [FlashCardStackScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"FlashCardStackID" | "CreatedTime" | "FK_FlowID" | "FK_UserID" | "Title">;
+  by!: Array<"FlashCardStackID" | "CreatedTime" | "FK_FlowID" | "Title">;
 
   @TypeGraphQL.Field(_type => FlashCardStackScalarWhereWithAggregatesInput, {
     nullable: true

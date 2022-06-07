@@ -7,6 +7,7 @@ import { SchoolCountAggregate } from "../outputs/SchoolCountAggregate";
 import { SchoolMaxAggregate } from "../outputs/SchoolMaxAggregate";
 import { SchoolMinAggregate } from "../outputs/SchoolMinAggregate";
 import { SchoolSumAggregate } from "../outputs/SchoolSumAggregate";
+import { TermType } from "../../enums/TermType";
 
 @TypeGraphQL.ObjectType("SchoolGroupBy", {
   isAbstract: true
@@ -26,6 +27,16 @@ export class SchoolGroupBy {
     nullable: false
   })
   HasClassSupport!: boolean;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  SearchIndex!: string | null;
+
+  @TypeGraphQL.Field(_type => TermType, {
+    nullable: true
+  })
+  TermType!: "QUARTER" | "TRIMESTER" | "SEMESTER" | "SUMMER" | null;
 
   @TypeGraphQL.Field(_type => SchoolCountAggregate, {
     nullable: true

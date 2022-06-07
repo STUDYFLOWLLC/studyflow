@@ -10,10 +10,5 @@ export class FlowCount {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  FK_Tags!: number;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
   FK_FlashCardStacks!: number;
 }

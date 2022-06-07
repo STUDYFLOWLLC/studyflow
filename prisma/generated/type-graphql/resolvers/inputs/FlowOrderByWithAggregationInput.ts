@@ -26,11 +26,6 @@ export class FlowOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_UserID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   Title?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
@@ -42,6 +37,11 @@ export class FlowOrderByWithAggregationInput {
     nullable: true
   })
   Visibility?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_CourseOnTermID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => FlowCountOrderByAggregateInput, {
     nullable: true

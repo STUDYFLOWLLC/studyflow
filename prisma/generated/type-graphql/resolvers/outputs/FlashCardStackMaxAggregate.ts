@@ -22,11 +22,6 @@ export class FlashCardStackMaxAggregate {
   })
   FK_FlowID!: number | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_UserID!: number | null;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })

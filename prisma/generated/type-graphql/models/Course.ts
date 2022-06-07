@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { CourseOnUser } from "../models/CourseOnUser";
+import { CourseOnTerm } from "../models/CourseOnTerm";
 import { Professor } from "../models/Professor";
 import { School } from "../models/School";
 import { CourseCount } from "../resolvers/outputs/CourseCount";
@@ -21,21 +21,15 @@ export class Course {
   })
   CreatedTime!: Date;
 
-  FK_School?: School | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_SchoolID?: number | null;
-
-  FK_Professors?: Professor[];
-
-  FK_Users?: CourseOnUser[];
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
   IsOfficial!: boolean;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Term!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -47,10 +41,21 @@ export class Course {
   })
   Title?: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
+  FK_School?: School | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  Term?: string | null;
+  FK_SchoolID?: number | null;
+
+  FK_Professor?: Professor | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID?: number | null;
+
+  FK_TermsOnCourse?: CourseOnTerm[];
 
   @TypeGraphQL.Field(_type => CourseCount, {
     nullable: true

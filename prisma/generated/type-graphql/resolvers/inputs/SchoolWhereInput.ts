@@ -4,8 +4,13 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { CourseListRelationFilter } from "../inputs/CourseListRelationFilter";
+import { EnumTermTypeNullableFilter } from "../inputs/EnumTermTypeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { ProfessorListRelationFilter } from "../inputs/ProfessorListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
+import { TermListRelationFilter } from "../inputs/TermListRelationFilter";
+import { UserListRelationFilter } from "../inputs/UserListRelationFilter";
 
 @TypeGraphQL.InputType("SchoolWhereInput", {
   isAbstract: true
@@ -31,11 +36,6 @@ export class SchoolWhereInput {
   })
   SchoolID?: IntFilter | undefined;
 
-  @TypeGraphQL.Field(_type => CourseListRelationFilter, {
-    nullable: true
-  })
-  FK_Course?: CourseListRelationFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
@@ -45,4 +45,34 @@ export class SchoolWhereInput {
     nullable: true
   })
   HasClassSupport?: BoolFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  SearchIndex?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumTermTypeNullableFilter, {
+    nullable: true
+  })
+  TermType?: EnumTermTypeNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CourseListRelationFilter, {
+    nullable: true
+  })
+  FK_Course?: CourseListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => UserListRelationFilter, {
+    nullable: true
+  })
+  FK_User?: UserListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => ProfessorListRelationFilter, {
+    nullable: true
+  })
+  FK_Professor?: ProfessorListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => TermListRelationFilter, {
+    nullable: true
+  })
+  Term?: TermListRelationFilter | undefined;
 }

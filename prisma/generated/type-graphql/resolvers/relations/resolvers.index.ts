@@ -1,10 +1,9 @@
 export { CourseRelationsResolver } from "./Course/CourseRelationsResolver";
-export { CourseOnUserRelationsResolver } from "./CourseOnUser/CourseOnUserRelationsResolver";
+export { CourseOnTermRelationsResolver } from "./CourseOnTerm/CourseOnTermRelationsResolver";
 export { FlashCardRelationsResolver } from "./FlashCard/FlashCardRelationsResolver";
 export { FlashCardStackRelationsResolver } from "./FlashCardStack/FlashCardStackRelationsResolver";
 export { FlowRelationsResolver } from "./Flow/FlowRelationsResolver";
-export { FlowTagRelationsResolver } from "./FlowTag/FlowTagRelationsResolver";
-export { FlowTagOnFlowRelationsResolver } from "./FlowTagOnFlow/FlowTagOnFlowRelationsResolver";
 export { ProfessorRelationsResolver } from "./Professor/ProfessorRelationsResolver";
 export { SchoolRelationsResolver } from "./School/SchoolRelationsResolver";
+export { TermRelationsResolver } from "./Term/TermRelationsResolver";
 export { UserRelationsResolver } from "./User/UserRelationsResolver";

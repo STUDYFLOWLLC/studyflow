@@ -2,8 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseOnUserOrderByRelationAggregateInput } from "../inputs/CourseOnUserOrderByRelationAggregateInput";
-import { ProfessorOrderByRelationAggregateInput } from "../inputs/ProfessorOrderByRelationAggregateInput";
+import { CourseOnTermOrderByRelationAggregateInput } from "../inputs/CourseOnTermOrderByRelationAggregateInput";
+import { ProfessorOrderByWithRelationInput } from "../inputs/ProfessorOrderByWithRelationInput";
 import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -21,30 +21,15 @@ export class CourseOrderByWithRelationInput {
   })
   CreatedTime?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SchoolOrderByWithRelationInput, {
-    nullable: true
-  })
-  FK_School?: SchoolOrderByWithRelationInput | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_SchoolID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => ProfessorOrderByRelationAggregateInput, {
-    nullable: true
-  })
-  FK_Professors?: ProfessorOrderByRelationAggregateInput | undefined;
-
-  @TypeGraphQL.Field(_type => CourseOnUserOrderByRelationAggregateInput, {
-    nullable: true
-  })
-  FK_Users?: CourseOnUserOrderByRelationAggregateInput | undefined;
-
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
   IsOfficial?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  Term?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -56,8 +41,28 @@ export class CourseOrderByWithRelationInput {
   })
   Title?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SchoolOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_School?: SchoolOrderByWithRelationInput | undefined;
+
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  Term?: "asc" | "desc" | undefined;
+  FK_SchoolID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => ProfessorOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_Professor?: ProfessorOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_ProfessorID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_TermsOnCourse?: CourseOnTermOrderByRelationAggregateInput | undefined;
 }

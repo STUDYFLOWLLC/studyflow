@@ -2,9 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CourseOnTermOrderByWithRelationInput } from "../inputs/CourseOnTermOrderByWithRelationInput";
 import { FlashCardStackOrderByRelationAggregateInput } from "../inputs/FlashCardStackOrderByRelationAggregateInput";
-import { FlowTagOnFlowOrderByRelationAggregateInput } from "../inputs/FlowTagOnFlowOrderByRelationAggregateInput";
-import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("FlowOrderByWithRelationInput", {
@@ -20,21 +19,6 @@ export class FlowOrderByWithRelationInput {
     nullable: true
   })
   CreatedTime?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
-    nullable: true
-  })
-  FK_User?: UserOrderByWithRelationInput | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_UserID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => FlowTagOnFlowOrderByRelationAggregateInput, {
-    nullable: true
-  })
-  FK_Tags?: FlowTagOnFlowOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => FlashCardStackOrderByRelationAggregateInput, {
     nullable: true
@@ -55,4 +39,14 @@ export class FlowOrderByWithRelationInput {
     nullable: true
   })
   Visibility?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_CourseOnTerm?: CourseOnTermOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_CourseOnTermID?: "asc" | "desc" | undefined;
 }

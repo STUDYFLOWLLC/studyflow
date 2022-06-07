@@ -3,10 +3,11 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { CourseOnUserUpdateManyWithoutFK_CourseInput } from "../inputs/CourseOnUserUpdateManyWithoutFK_CourseInput";
+import { CourseOnTermUpdateManyWithoutFK_CourseInput } from "../inputs/CourseOnTermUpdateManyWithoutFK_CourseInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
-import { ProfessorUpdateManyWithoutFK_CourseInput } from "../inputs/ProfessorUpdateManyWithoutFK_CourseInput";
+import { ProfessorUpdateOneWithoutFK_CoursesInput } from "../inputs/ProfessorUpdateOneWithoutFK_CoursesInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("CourseUpdateWithoutFK_SchoolInput", {
   isAbstract: true
@@ -17,20 +18,15 @@ export class CourseUpdateWithoutFK_SchoolInput {
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorUpdateManyWithoutFK_CourseInput, {
-    nullable: true
-  })
-  FK_Professors?: ProfessorUpdateManyWithoutFK_CourseInput | undefined;
-
-  @TypeGraphQL.Field(_type => CourseOnUserUpdateManyWithoutFK_CourseInput, {
-    nullable: true
-  })
-  FK_Users?: CourseOnUserUpdateManyWithoutFK_CourseInput | undefined;
-
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
   IsOfficial?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Term?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
     nullable: true
@@ -42,8 +38,13 @@ export class CourseUpdateWithoutFK_SchoolInput {
   })
   Title?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => ProfessorUpdateOneWithoutFK_CoursesInput, {
     nullable: true
   })
-  Term?: NullableStringFieldUpdateOperationsInput | undefined;
+  FK_Professor?: ProfessorUpdateOneWithoutFK_CoursesInput | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermUpdateManyWithoutFK_CourseInput, {
+    nullable: true
+  })
+  FK_TermsOnCourse?: CourseOnTermUpdateManyWithoutFK_CourseInput | undefined;
 }

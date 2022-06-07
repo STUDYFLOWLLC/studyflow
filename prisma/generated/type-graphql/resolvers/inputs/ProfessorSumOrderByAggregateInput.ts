@@ -16,5 +16,5 @@ export class ProfessorSumOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_CourseID?: "asc" | "desc" | undefined;
+  FK_SchoolID?: "asc" | "desc" | undefined;
 }

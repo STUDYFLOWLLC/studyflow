@@ -52,4 +52,9 @@ export class UserMinOrderByAggregateInput {
     nullable: true
   })
   DefaultVisibility?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_SchoolID?: "asc" | "desc" | undefined;
 }

@@ -18,11 +18,6 @@ export class FlowMaxAggregate {
   })
   CreatedTime!: Date | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_UserID!: number | null;
-
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
@@ -37,4 +32,9 @@ export class FlowMaxAggregate {
     nullable: true
   })
   Visibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_CourseOnTermID!: number | null;
 }

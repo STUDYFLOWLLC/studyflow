@@ -1,11 +1,15 @@
 import SetupHeaderText from 'components/Setup/Header/SetupHeaderText'
 import SetupSteps from 'components/Setup/Header/SetupSteps'
 
-export default function SetupHeader() {
+interface Props {
+  step: number
+}
+
+export default function SetupHeader({ step }: Props) {
   return (
     <div className="w-full flex items-center justify-center">
       <SetupHeaderText />
-      <SetupSteps step={0} />
+      <SetupSteps step={step} />
     </div>
   )
 }

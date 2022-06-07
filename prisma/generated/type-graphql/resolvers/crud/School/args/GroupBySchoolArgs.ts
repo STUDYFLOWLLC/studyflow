@@ -20,7 +20,7 @@ export class GroupBySchoolArgs {
   @TypeGraphQL.Field(_type => [SchoolScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"SchoolID" | "Name" | "HasClassSupport">;
+  by!: Array<"SchoolID" | "Name" | "HasClassSupport" | "SearchIndex" | "TermType">;
 
   @TypeGraphQL.Field(_type => SchoolScalarWhereWithAggregatesInput, {
     nullable: true

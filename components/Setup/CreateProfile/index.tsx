@@ -1,18 +1,17 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import IncompleteProfile from 'components/Setup/CreateProfile/IncompleteProfile'
 import SetupHeader from 'components/Setup/Header'
+import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import LoadWithText from 'components/spinners/LoadWithText'
 import setBasicProfile from 'hooks/setup/setBasicProfile'
 import useUserDetails from 'hooks/useUserDetails'
-import { Dispatch, SetStateAction } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { SpinnerSizes } from 'types/Loading'
 
 interface Props {
   user: User
-  setStep: Dispatch<SetStateAction<number>>
 }
-export default function CreateProfile({ user, setStep }: Props) {
+export default function CreateProfile({ user }: Props) {
   const { userDetails, isLoading, isError, mutateUserDetails } = useUserDetails(
     user.id,
   )
@@ -25,18 +24,14 @@ export default function CreateProfile({ user, setStep }: Props) {
   }
 
   if (!isLoading && userDetails && userDetails.profileCreated === undefined)
-    return <IncompleteProfile user={user} setStep={setStep} />
+    return <IncompleteProfile user={user} />
 
   return (
     <div className="w-full flex flex-col items-center">
-      <SetupHeader />
+      <SetupHeader step={0} />
       <div>
         <Toaster position="top-center" reverseOrder={false} />
-        <div className="prose">
-          <h1 className="mb-8 text-center text-decoration-line: underline decoration-primary decoration-4">
-            Profile
-          </h1>
-        </div>
+        <SetupStepTitle title="Profile" />
         <LoadWithText
           text={
             isLoading

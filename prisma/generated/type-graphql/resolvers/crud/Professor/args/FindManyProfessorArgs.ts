@@ -35,5 +35,5 @@ export class FindManyProfessorArgs {
   @TypeGraphQL.Field(_type => [ProfessorScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"ProfessorID" | "FK_CourseID" | "Name"> | undefined;
+  distinct?: Array<"ProfessorID" | "FK_SchoolID" | "Name" | "Email"> | undefined;
 }

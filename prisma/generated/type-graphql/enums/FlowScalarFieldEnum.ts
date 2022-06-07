@@ -3,10 +3,10 @@ import * as TypeGraphQL from "type-graphql";
 export enum FlowScalarFieldEnum {
   FlowID = "FlowID",
   CreatedTime = "CreatedTime",
-  FK_UserID = "FK_UserID",
   Title = "Title",
   Body = "Body",
-  Visibility = "Visibility"
+  Visibility = "Visibility",
+  FK_CourseOnTermID = "FK_CourseOnTermID"
 }
 TypeGraphQL.registerEnumType(FlowScalarFieldEnum, {
   name: "FlowScalarFieldEnum",

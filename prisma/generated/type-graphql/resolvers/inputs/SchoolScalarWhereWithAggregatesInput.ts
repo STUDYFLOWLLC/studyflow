@@ -3,7 +3,9 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
+import { EnumTermTypeNullableWithAggregatesFilter } from "../inputs/EnumTermTypeNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
+import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
 
 @TypeGraphQL.InputType("SchoolScalarWhereWithAggregatesInput", {
@@ -39,4 +41,14 @@ export class SchoolScalarWhereWithAggregatesInput {
     nullable: true
   })
   HasClassSupport?: BoolWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  SearchIndex?: StringNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumTermTypeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  TermType?: EnumTermTypeNullableWithAggregatesFilter | undefined;
 }

@@ -22,15 +22,15 @@ export class CourseGroupBy {
   })
   CreatedTime!: Date;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_SchoolID!: number | null;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
   IsOfficial!: boolean;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Term!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -42,10 +42,15 @@ export class CourseGroupBy {
   })
   Title!: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  Term!: string | null;
+  FK_SchoolID!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID!: number | null;
 
   @TypeGraphQL.Field(_type => CourseCountAggregate, {
     nullable: true

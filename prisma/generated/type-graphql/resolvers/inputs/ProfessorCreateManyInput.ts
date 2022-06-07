@@ -15,10 +15,15 @@ export class ProfessorCreateManyInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  FK_CourseID?: number | undefined;
+  FK_SchoolID?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   Name!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email?: string | undefined;
 }

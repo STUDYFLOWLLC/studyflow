@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "FK_SchoolID" INTEGER;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_FK_SchoolID_fkey" FOREIGN KEY ("FK_SchoolID") REFERENCES "School"("SchoolID") ON DELETE CASCADE ON UPDATE CASCADE;

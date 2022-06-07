@@ -21,12 +21,17 @@ export class ProfessorOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_CourseID?: "asc" | "desc" | undefined;
+  FK_SchoolID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
   Name?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  Email?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => ProfessorCountOrderByAggregateInput, {
     nullable: true

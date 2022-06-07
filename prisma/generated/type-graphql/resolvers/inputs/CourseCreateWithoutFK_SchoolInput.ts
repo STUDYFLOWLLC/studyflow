@@ -2,8 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseOnUserCreateNestedManyWithoutFK_CourseInput } from "../inputs/CourseOnUserCreateNestedManyWithoutFK_CourseInput";
-import { ProfessorCreateNestedManyWithoutFK_CourseInput } from "../inputs/ProfessorCreateNestedManyWithoutFK_CourseInput";
+import { CourseOnTermCreateNestedManyWithoutFK_CourseInput } from "../inputs/CourseOnTermCreateNestedManyWithoutFK_CourseInput";
+import { ProfessorCreateNestedOneWithoutFK_CoursesInput } from "../inputs/ProfessorCreateNestedOneWithoutFK_CoursesInput";
 
 @TypeGraphQL.InputType("CourseCreateWithoutFK_SchoolInput", {
   isAbstract: true
@@ -14,20 +14,15 @@ export class CourseCreateWithoutFK_SchoolInput {
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => ProfessorCreateNestedManyWithoutFK_CourseInput, {
-    nullable: true
-  })
-  FK_Professors?: ProfessorCreateNestedManyWithoutFK_CourseInput | undefined;
-
-  @TypeGraphQL.Field(_type => CourseOnUserCreateNestedManyWithoutFK_CourseInput, {
-    nullable: true
-  })
-  FK_Users?: CourseOnUserCreateNestedManyWithoutFK_CourseInput | undefined;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
   IsOfficial?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Term?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -39,8 +34,13 @@ export class CourseCreateWithoutFK_SchoolInput {
   })
   Title?: string | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => ProfessorCreateNestedOneWithoutFK_CoursesInput, {
     nullable: true
   })
-  Term?: string | undefined;
+  FK_Professor?: ProfessorCreateNestedOneWithoutFK_CoursesInput | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermCreateNestedManyWithoutFK_CourseInput, {
+    nullable: true
+  })
+  FK_TermsOnCourse?: CourseOnTermCreateNestedManyWithoutFK_CourseInput | undefined;
 }

@@ -17,15 +17,15 @@ export class CourseCreateManyInput {
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_SchoolID?: number | undefined;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
   IsOfficial?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Term?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -37,8 +37,13 @@ export class CourseCreateManyInput {
   })
   Title?: string | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  Term?: string | undefined;
+  FK_SchoolID?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID?: number | undefined;
 }

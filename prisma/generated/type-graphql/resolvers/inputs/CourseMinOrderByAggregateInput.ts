@@ -21,12 +21,12 @@ export class CourseMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_SchoolID?: "asc" | "desc" | undefined;
+  IsOfficial?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  IsOfficial?: "asc" | "desc" | undefined;
+  Term?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -41,5 +41,10 @@ export class CourseMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  Term?: "asc" | "desc" | undefined;
+  FK_SchoolID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_ProfessorID?: "asc" | "desc" | undefined;
 }

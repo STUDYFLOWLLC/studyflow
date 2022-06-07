@@ -2,10 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { CourseOnUserCreateNestedManyWithoutFK_UserInput } from "../inputs/CourseOnUserCreateNestedManyWithoutFK_UserInput";
-import { FlashCardStackCreateNestedManyWithoutFK_UserInput } from "../inputs/FlashCardStackCreateNestedManyWithoutFK_UserInput";
-import { FlowCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowCreateNestedManyWithoutFK_UserInput";
-import { FlowTagCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowTagCreateNestedManyWithoutFK_UserInput";
+import { SchoolCreateNestedOneWithoutFK_UserInput } from "../inputs/SchoolCreateNestedOneWithoutFK_UserInput";
+import { TermCreateNestedManyWithoutFK_UserInput } from "../inputs/TermCreateNestedManyWithoutFK_UserInput";
 import { Visibility } from "../../enums/Visibility";
 
 @TypeGraphQL.InputType("UserCreateInput", {
@@ -52,23 +50,13 @@ export class UserCreateInput {
   })
   DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOnUserCreateNestedManyWithoutFK_UserInput, {
+  @TypeGraphQL.Field(_type => SchoolCreateNestedOneWithoutFK_UserInput, {
     nullable: true
   })
-  FK_Courses?: CourseOnUserCreateNestedManyWithoutFK_UserInput | undefined;
+  FK_School?: SchoolCreateNestedOneWithoutFK_UserInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlowCreateNestedManyWithoutFK_UserInput, {
+  @TypeGraphQL.Field(_type => TermCreateNestedManyWithoutFK_UserInput, {
     nullable: true
   })
-  FK_Flows?: FlowCreateNestedManyWithoutFK_UserInput | undefined;
-
-  @TypeGraphQL.Field(_type => FlowTagCreateNestedManyWithoutFK_UserInput, {
-    nullable: true
-  })
-  FK_FlowTags?: FlowTagCreateNestedManyWithoutFK_UserInput | undefined;
-
-  @TypeGraphQL.Field(_type => FlashCardStackCreateNestedManyWithoutFK_UserInput, {
-    nullable: true
-  })
-  FK_FlashCardStacks?: FlashCardStackCreateNestedManyWithoutFK_UserInput | undefined;
+  FK_Terms?: TermCreateNestedManyWithoutFK_UserInput | undefined;
 }

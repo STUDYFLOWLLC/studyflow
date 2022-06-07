@@ -15,10 +15,15 @@ export class ProfessorMaxAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  FK_CourseID!: number | null;
+  FK_SchoolID!: number | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   Name!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Email!: string | null;
 }

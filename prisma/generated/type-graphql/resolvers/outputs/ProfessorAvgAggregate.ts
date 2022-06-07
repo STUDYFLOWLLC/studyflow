@@ -15,5 +15,5 @@ export class ProfessorAvgAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
-  FK_CourseID!: number | null;
+  FK_SchoolID!: number | null;
 }

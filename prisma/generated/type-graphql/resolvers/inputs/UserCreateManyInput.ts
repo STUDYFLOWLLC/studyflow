@@ -52,4 +52,9 @@ export class UserCreateManyInput {
     nullable: true
   })
   DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_SchoolID?: number | undefined;
 }

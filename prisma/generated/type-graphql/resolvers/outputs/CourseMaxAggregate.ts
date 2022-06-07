@@ -17,15 +17,15 @@ export class CourseMaxAggregate {
   })
   CreatedTime!: Date | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_SchoolID!: number | null;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
   IsOfficial!: boolean | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Term!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -37,8 +37,13 @@ export class CourseMaxAggregate {
   })
   Title!: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  Term!: string | null;
+  FK_SchoolID!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_ProfessorID!: number | null;
 }
