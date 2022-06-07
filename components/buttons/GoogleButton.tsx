@@ -27,7 +27,7 @@ export default function GoogleButton() {
           },
         )
       }
-      className="flex h-12 cursor-pointer items-center ring-1 ring-gray-200 hover:bg-gray-50 w-72  text-black font-semibold py-2 px-4 rounded-lg text-base"
+      className="bg-white flex h-12 cursor-pointer items-center ring-1 ring-gray-200 hover:bg-gray-50 w-72  text-black font-semibold py-2 px-4 rounded-lg text-base"
     >
       <div className="absolute mt-1 ml-0.5">
         <Image src={googlerainbow} />
