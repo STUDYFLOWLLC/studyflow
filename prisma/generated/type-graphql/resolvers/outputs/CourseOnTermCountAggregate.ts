@@ -20,6 +20,16 @@ export class CourseOnTermCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  Color!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  Nickname!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_CourseID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

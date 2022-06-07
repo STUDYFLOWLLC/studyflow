@@ -14,6 +14,16 @@ export class CourseOnTermCreateWithoutFK_TermInput {
   })
   CreatedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Color?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Nickname?: string | undefined;
+
   @TypeGraphQL.Field(_type => CourseCreateNestedOneWithoutFK_TermsOnCourseInput, {
     nullable: false
   })

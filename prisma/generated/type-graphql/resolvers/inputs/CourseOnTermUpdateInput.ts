@@ -5,6 +5,8 @@ import { DecimalJSScalar } from "../../scalars";
 import { CourseUpdateOneRequiredWithoutFK_TermsOnCourseInput } from "../inputs/CourseUpdateOneRequiredWithoutFK_TermsOnCourseInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { FlowUpdateManyWithoutFK_CourseOnTermInput } from "../inputs/FlowUpdateManyWithoutFK_CourseOnTermInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TermUpdateOneRequiredWithoutFK_CourseOnTermInput } from "../inputs/TermUpdateOneRequiredWithoutFK_CourseOnTermInput";
 
 @TypeGraphQL.InputType("CourseOnTermUpdateInput", {
@@ -15,6 +17,16 @@ export class CourseOnTermUpdateInput {
     nullable: true
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Color?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Nickname?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => CourseUpdateOneRequiredWithoutFK_TermsOnCourseInput, {
     nullable: true

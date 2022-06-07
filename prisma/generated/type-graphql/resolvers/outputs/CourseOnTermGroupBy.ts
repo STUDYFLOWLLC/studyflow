@@ -22,6 +22,16 @@ export class CourseOnTermGroupBy {
   })
   CreatedTime!: Date;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Color!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Nickname!: string | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })

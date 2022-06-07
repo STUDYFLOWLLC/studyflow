@@ -17,6 +17,16 @@ export class CourseOnTermMinAggregate {
   })
   CreatedTime!: Date | null;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Color!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Nickname!: string | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

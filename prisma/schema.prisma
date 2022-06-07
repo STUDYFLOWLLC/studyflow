@@ -74,7 +74,6 @@ model CourseOnTerm {
   FK_Term        Term     @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
   FK_TermID      Int
   FK_Flows       Flow[]
-
 }
 
 model School {

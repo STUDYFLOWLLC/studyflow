@@ -4,6 +4,8 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { FlowUpdateManyWithoutFK_CourseOnTermInput } from "../inputs/FlowUpdateManyWithoutFK_CourseOnTermInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TermUpdateOneRequiredWithoutFK_CourseOnTermInput } from "../inputs/TermUpdateOneRequiredWithoutFK_CourseOnTermInput";
 
 @TypeGraphQL.InputType("CourseOnTermUpdateWithoutFK_CourseInput", {
@@ -14,6 +16,16 @@ export class CourseOnTermUpdateWithoutFK_CourseInput {
     nullable: true
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Color?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Nickname?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => TermUpdateOneRequiredWithoutFK_CourseOnTermInput, {
     nullable: true

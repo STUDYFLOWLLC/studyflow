@@ -21,6 +21,16 @@ export class CourseOnTerm {
   })
   CreatedTime!: Date;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Color!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Nickname?: string | null;
+
   FK_Course?: Course;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

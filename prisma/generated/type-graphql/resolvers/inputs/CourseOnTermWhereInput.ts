@@ -6,6 +6,8 @@ import { CourseRelationFilter } from "../inputs/CourseRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TermRelationFilter } from "../inputs/TermRelationFilter";
 
 @TypeGraphQL.InputType("CourseOnTermWhereInput", {
@@ -36,6 +38,16 @@ export class CourseOnTermWhereInput {
     nullable: true
   })
   CreatedTime?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  Color?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  Nickname?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => CourseRelationFilter, {
     nullable: true

@@ -17,6 +17,16 @@ export class CourseOnTermCreateManyInput {
   })
   CreatedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Color?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Nickname?: string | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
