@@ -1,7 +1,7 @@
 import { School } from '@prisma/client'
 import { User } from '@supabase/supabase-js'
 import classnames from 'classnames'
-import CourseSearch from 'components/Forms/Course/CourseSearch'
+import AddCourse from 'components/Setup/EnterEducation/AddCourse'
 import SchoolInfo from 'components/Setup/EnterEducation/SchoolInfo'
 import TermCreate from 'components/Setup/EnterEducation/TermCreate'
 import useUserDetails from 'hooks/useUserDetails'
@@ -26,8 +26,6 @@ export default function SchoolDisplay({ user, selectedSchool }: Props) {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
-
-  console.log(userDetails)
 
   return (
     <SkeletonTheme
@@ -59,11 +57,9 @@ export default function SchoolDisplay({ user, selectedSchool }: Props) {
             />
           </div>
         )}
-        <p className="w-full text-left pl-2 mt-2">
-          Add courses to {userDetails.FK_Terms[0]?.TermName}{' '}
-          {userDetails.FK_Terms[0]?.TermType}
-        </p>
-        <CourseSearch selectedSchool={selectedSchool} />
+        {(hasCreatedTerm || userDetails.FK_Terms.length !== 0) && (
+          <AddCourse user={user} selectedSchool={selectedSchool} />
+        )}
       </div>
     </SkeletonTheme>
   )

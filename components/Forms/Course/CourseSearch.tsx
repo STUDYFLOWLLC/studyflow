@@ -7,9 +7,11 @@ import classnames from 'classnames'
 import CourseEntry from 'components/Forms/Course/CourseEntry'
 import CourseInput from 'components/Forms/Course/CourseInput'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 interface Props {
+  selectedCourse: CourseHit
+  setSelectedCourse: Dispatch<SetStateAction<CourseHit>>
   selectedSchool: School
 }
 
@@ -26,7 +28,11 @@ export interface CourseHit {
   IsOfficial: boolean
 }
 
-export default function CourseSearch({ selectedSchool }: Props) {
+export default function CourseSearch({
+  selectedCourse,
+  setSelectedCourse,
+  selectedSchool,
+}: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -72,11 +78,16 @@ export default function CourseSearch({ selectedSchool }: Props) {
     <Combobox
       className="w-5/6"
       as="div"
-      value={selectedSchool}
-      onChange={(value: School) => console.log('change')}
+      value={selectedCourse}
+      onChange={(value: CourseHit) => setSelectedCourse(value)}
     >
       <div className="relative mt-1">
-        <CourseInput query={query} setQuery={setQuery} />
+        <CourseInput
+          selectedCourse={selectedCourse}
+          setSelectedCourse={setSelectedCourse}
+          query={query}
+          setQuery={setQuery}
+        />
         {hits.length > 0 && (
           <Combobox.Options
             className={classnames(

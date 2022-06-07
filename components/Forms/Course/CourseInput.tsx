@@ -1,14 +1,22 @@
 import { Combobox } from '@headlessui/react'
 import classnames from 'classnames'
+import { CourseHit } from 'components/Forms/Course/CourseSearch'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 interface Props {
+  selectedCourse: CourseHit
+  setSelectedCourse: Dispatch<SetStateAction<CourseHit>>
   query: string
   setQuery: (query: string) => void
 }
 
-export default function CourseInput({ query, setQuery }: Props) {
+export default function CourseInput({
+  selectedCourse,
+  setSelectedCourse,
+  query,
+  setQuery,
+}: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -26,7 +34,17 @@ export default function CourseInput({ query, setQuery }: Props) {
       )}
       onChange={(e: { target: { value: string } }) => {
         setQuery(e.target.value)
+        if (query === '')
+          setSelectedCourse({
+            Code: '',
+            CourseID: 0,
+            Title: '',
+            Term: '',
+            FK_SchoolID: 0,
+            IsOfficial: false,
+          })
       }}
+      displayValue={() => selectedCourse?.Title || query}
       value={query}
       placeholder="Course Title/Code/Prof"
       autoFocus

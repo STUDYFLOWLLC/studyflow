@@ -22,7 +22,7 @@ export default function CourseEntry({ course }: Props) {
 
   const shorten = (str: string, maxLength: number) => {
     if (str.length > maxLength) {
-      return str.substr(0, maxLength) + '...'
+      return str.substring(0, maxLength).trim() + '..'
     }
     return str
   }
@@ -40,7 +40,7 @@ export default function CourseEntry({ course }: Props) {
           },
           { 'text-gray-700': !active && theme === 'light' },
           { 'bg-slate-700': !active && theme === 'dark' },
-          'w-full relative cursor-default select-none py-2 pl-3 pr-9 text-lg',
+          'w-full relative cursor-default select-none py-2 pl-3 pr-3 text-lg',
         )
       }
     >
@@ -54,17 +54,17 @@ export default function CourseEntry({ course }: Props) {
                   selected ? 'font-semibold' : '',
                 )}
               >
-                {course.Title}
+                {shorten(course.Title, 21)}
               </span>
               {course.IsOfficial && (
                 <BadgeCheckIcon className="h-5 w-5" aria-hidden="true" />
               )}
             </div>
             <div className="flex justify-between">
-              <span className="text-sm">{shorten(course.Code, 9)}</span>
+              <span className="text-sm">{shorten(course.Code, 10)}</span>
               <span className="text-sm">
                 {course.FK_Professor
-                  ? shorten(course.FK_Professor.Name || '', 8)
+                  ? shorten(course.FK_Professor.Name || '', 12)
                   : 'No Prof'}
               </span>
             </div>

@@ -65,6 +65,7 @@ export default function TermCreate({
             setTermTypeNative={setTermTypeNative}
           />
           <label>Term name</label>
+          <label className="text-sm">Used to organize your dashboard. </label>
           <input
             className={classNames(
               { 'bg-base-100': theme === 'dark' },
