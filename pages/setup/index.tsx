@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SpinnerSizes } from 'types/Loading'
-import { SetupSteps } from 'types/SetupSteps'
+import setupRedirectHandler from 'utils/setupRedirectHandler'
 
 interface Props {
   user: User
@@ -30,25 +30,16 @@ export default function index({ user }: Props) {
     },
     [theme],
   )
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
+  }, [userDetailsLoading])
 
   if (!mounted) return null
 
-  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.PROFILE)
-    router.push('/setup/profile')
-
-  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.EDUCATION)
-    router.push('/setup/education')
-
-  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.COMMUNITY)
-    router.push('/setup/community')
-
-  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.COMPLETE)
-    router.push('/dash')
-
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center">
-      <div className="w-72 sm:w-96 mx-auto">
+      <div className="w-72 sm:w-96 mx-auto mb-24 sm:mb-36">
         <LoadWithText text="Welcome to Studyflow!" size={SpinnerSizes.medium} />
       </div>
     </div>
