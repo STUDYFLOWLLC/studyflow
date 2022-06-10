@@ -9,6 +9,7 @@ import {
   mutateUsername,
 } from 'hooks/setup/mutateUser'
 import useUserDetails from 'hooks/useUserDetails'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
 import { SpinnerSizes } from 'types/Loading'
@@ -19,6 +20,8 @@ interface Props {
 }
 
 export default function IncompleteProfile({ user }: Props) {
+  const router = useRouter()
+
   const { userDetails, mutateUserDetails } = useUserDetails(user.id)
   const [submitting, setSubmitting] = useState(false)
   const [name, setName] = useState(user.user_metadata.name || '')
@@ -54,8 +57,9 @@ export default function IncompleteProfile({ user }: Props) {
       mutateUserDetails({
         ...userDetails,
         Username: username,
-        profileCreated: true,
+        Name: name.trim(),
       })
+      router.push('/setup/education')
     }
 
     setSubmitting(false)

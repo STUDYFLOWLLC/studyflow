@@ -57,7 +57,7 @@ export default function profile({ user }: Props) {
     createBasicProfile()
   }
 
-  if (userDetails && !userDetails.profileCreated)
+  if (!userDetailsLoading && !userDetails.Username)
     return <IncompleteProfile user={user} />
 
   return (

@@ -1,10 +1,12 @@
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
-import CreateProfile from 'components/Setup/CreateProfile'
-import EnterEducation from 'components/Setup/EnterEducation'
+import LoadWithText from 'components/spinners/LoadWithText'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { SpinnerSizes } from 'types/Loading'
+import { SetupSteps } from 'types/SetupSteps'
 
 interface Props {
   user: User
@@ -12,8 +14,9 @@ interface Props {
 
 export default function index({ user }: Props) {
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
 
-  const { userDetails } = useUserDetails(user.id)
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
   const [mounted, setMounted] = useState(false)
 
   useHotkeys(
@@ -31,13 +34,25 @@ export default function index({ user }: Props) {
 
   if (!mounted) return null
 
-  if (!userDetails || !userDetails.Username)
-    return <CreateProfile user={user} />
+  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.PROFILE)
+    router.push('/setup/profile')
 
-  if (userDetails.profileCreated !== false && userDetails.Username !== null)
-    return <EnterEducation user={user} />
+  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.EDUCATION)
+    router.push('/setup/education')
 
-  return <p>Profile setup complete</p>
+  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.COMMUNITY)
+    router.push('/setup/community')
+
+  if (!userDetailsLoading && userDetails.SetupStep === SetupSteps.COMPLETE)
+    router.push('/dash')
+
+  return (
+    <div className="w-screen h-screen flex flex-col items-center justify-center">
+      <div className="w-72 sm:w-96 mx-auto">
+        <LoadWithText text="Welcome to Studyflow!" size={SpinnerSizes.medium} />
+      </div>
+    </div>
+  )
 }
 
 export const getServerSideProps = withPageAuth({ redirectTo: '/login' })
