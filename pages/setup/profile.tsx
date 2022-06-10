@@ -6,10 +6,12 @@ import LoadWithText from 'components/spinners/LoadWithText'
 import setBasicProfile from 'hooks/setup/setBasicProfile'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { NextRouter, useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SpinnerSizes } from 'types/Loading'
+import setupRedirectHandler from 'utils/setupRedirectHandler'
 
 interface Props {
   user: User
@@ -17,6 +19,7 @@ interface Props {
 
 export default function profile({ user }: Props) {
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
 
   const {
     userDetails,
@@ -34,6 +37,15 @@ export default function profile({ user }: Props) {
     await setBasicProfile(user.id, user.email || user.user_metadata.email)
   }
 
+  const redirectHandler = (
+    router: NextRouter,
+    email: string | undefined,
+    username: string | undefined,
+  ) => {
+    if (email && username)
+      setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
+  }
+
   useHotkeys(
     'cmd+l, ctrl+l',
     (e) => {
@@ -46,7 +58,10 @@ export default function profile({ user }: Props) {
     [theme],
   )
 
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    redirectHandler(router, userDetails?.Email, userDetails?.Username)
+  }, [userDetails, userDetailsLoading])
 
   if (!mounted) return null
 
