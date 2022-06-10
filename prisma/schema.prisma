@@ -46,7 +46,7 @@ enum FlowType {
 model User {
   UserID             Int         @id @default(autoincrement())
   CreatedTime        DateTime    @default(now())
-  setupStep          SetupStep   @default(PROFILE)
+  SetupStep          SetupStep   @default(PROFILE)
   SupabaseID         String
   Email              String      @unique
   Name               String?
