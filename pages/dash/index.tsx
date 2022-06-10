@@ -13,6 +13,7 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SkeletonTheme } from 'react-loading-skeleton'
+import { SetupSteps } from 'types/SetupSteps'
 
 interface Props {
   user: User
@@ -23,7 +24,9 @@ export default function Dash({ user }: Props) {
   const router = useRouter()
 
   /* eslint-disable */
-  const { userDetails, isLoading, isError } = useUserDetails(user.id)
+  const { userDetails, userDetailsLoading, userDetailsError } = useUserDetails(
+    user.id,
+  )
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [searchValue, setSearchValue] = useState('')
@@ -31,13 +34,9 @@ export default function Dash({ user }: Props) {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
-  if (isError) return <p>error</p>
+  if (userDetailsError) return <p>error</p>
 
-  if (
-    userDetails &&
-    (userDetails.profileCreated === false ||
-      userDetails.SetupComplete === false)
-  )
+  if (!userDetailsLoading && userDetails.SetupStep !== SetupSteps.COMPLETE)
     router.push('/setup')
 
   return (
