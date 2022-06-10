@@ -1,15 +1,14 @@
 import { gql } from 'graphql-request'
 import useSWR, { mutate } from 'swr'
+import { SetupSteps } from 'types/SetupSteps'
 
-export default function useUserDetails(supabaseId: string | undefined) {
-  const supabaseIdReal = supabaseId === undefined ? '' : supabaseId
+export default function useUserDetails(supabaseId: string) {
   const variables = {
     where: {
       SupabaseID: {
-        equals: supabaseIdReal,
+        equals: supabaseId,
       },
     },
-    take: 1,
   }
 
   const { data, error } = useSWR(
@@ -22,7 +21,7 @@ export default function useUserDetails(supabaseId: string | undefined) {
                 ProfilePictureLink
                 DefaultVisibility
                 SupabaseID
-                SetupComplete
+                SetupStep
                 CreatedTime
                 Email
                 Name
@@ -39,30 +38,30 @@ export default function useUserDetails(supabaseId: string | undefined) {
       : null,
   )
 
-  if (data && data.findFirstUser === null) {
+  if (data && data.findFirstUser) {
     return {
-      userDetails: {
-        profileCreated: false,
-      },
-      isLoading: !error && !data,
-      isError: error,
+      userDetails: data.findFirstUser,
+      userDetailsLoading: false,
+      userDetailsError: error,
       mutateUserDetails: mutate,
     }
   }
 
-  if (data && data.findFirstUser) {
+  if (data && data.findFirstUser === null) {
     return {
-      userDetails: data.findFirstUser,
-      isLoading: !error && !data,
-      isError: error,
+      userDetails: {
+        SetupStep: SetupSteps.PROFILE,
+      },
+      userDetailsLoading: false,
+      userDetailsError: error,
       mutateUserDetails: mutate,
     }
   }
 
   return {
     userDetails: data,
-    isLoading: !error && !data,
-    isError: error,
+    userDetailsLoading: !data && !error,
+    userDetailsError: error,
     mutateUserDetails: mutate,
   }
 }
