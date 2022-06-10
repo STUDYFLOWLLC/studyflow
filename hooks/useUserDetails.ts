@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request'
-import useSWR, { mutate } from 'swr'
+import useSWR from 'swr'
 import { SetupSteps } from 'types/SetupSteps'
 
 export default function useUserDetails(supabaseId: string) {
@@ -11,7 +11,7 @@ export default function useUserDetails(supabaseId: string) {
     },
   }
 
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     supabaseId
       ? [
           gql`
@@ -25,6 +25,7 @@ export default function useUserDetails(supabaseId: string) {
                 CreatedTime
                 Email
                 Name
+                FK_SchoolID
                 FK_Terms {
                   TermType
                   TermName
@@ -41,7 +42,7 @@ export default function useUserDetails(supabaseId: string) {
   if (data && data.findFirstUser) {
     return {
       userDetails: data.findFirstUser,
-      userDetailsLoading: false,
+      userDetailsLoading: !data && !error,
       userDetailsError: error,
       mutateUserDetails: mutate,
     }
@@ -52,7 +53,7 @@ export default function useUserDetails(supabaseId: string) {
       userDetails: {
         SetupStep: SetupSteps.PROFILE,
       },
-      userDetailsLoading: false,
+      userDetailsLoading: !data && !error,
       userDetailsError: error,
       mutateUserDetails: mutate,
     }
