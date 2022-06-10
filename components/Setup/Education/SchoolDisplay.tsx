@@ -1,9 +1,9 @@
 import { School } from '@prisma/client'
 import { User } from '@supabase/supabase-js'
 import classnames from 'classnames'
-import AddCourse from 'components/Setup/EnterEducation/AddCourse'
-import SchoolInfo from 'components/Setup/EnterEducation/SchoolInfo'
-import TermCreate from 'components/Setup/EnterEducation/TermCreate'
+import AddCourse from 'components/Setup/Education/AddCourse'
+import SchoolInfo from 'components/Setup/Education/SchoolInfo'
+import TermCreate from 'components/Setup/Education/TermCreate'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
@@ -47,7 +47,7 @@ export default function SchoolDisplay({ user, selectedSchool }: Props) {
       >
         <SchoolInfo selectedSchool={selectedSchool} />
         {((!selectedSchool && !hasCreatedTerm) ||
-          userDetails.FK_Terms.length === 0) && (
+          (userDetails && userDetails.FK_Terms.length === 0)) && (
           <div className="w-full pl-2 mt-2">
             <p className="w-full text-left text-lg">1. Create a term</p>
             <TermCreate
@@ -57,9 +57,10 @@ export default function SchoolDisplay({ user, selectedSchool }: Props) {
             />
           </div>
         )}
-        {(hasCreatedTerm || userDetails.FK_Terms.length !== 0) && (
-          <AddCourse user={user} selectedSchool={selectedSchool} />
-        )}
+        {userDetails &&
+          (hasCreatedTerm || userDetails.FK_Terms.length !== 0) && (
+            <AddCourse user={user} selectedSchool={selectedSchool} />
+          )}
       </div>
     </SkeletonTheme>
   )

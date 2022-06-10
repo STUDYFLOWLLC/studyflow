@@ -1,6 +1,6 @@
 import classnames from 'classnames'
 import { CourseHit } from 'components/Forms/Course/CourseSearch'
-import EnterCourseNickname from 'components/Setup/EnterEducation/EnterCourseNickname'
+import EnterCourseNickname from 'components/Setup/Education/EnterCourseNickname'
 import { Dispatch, SetStateAction } from 'react'
 import shorten from 'utils/shorten'
 

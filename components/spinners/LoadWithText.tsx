@@ -16,8 +16,8 @@ export default function LoadWithText({ size, text }: Props) {
     )
   }
   return (
-    <div className="flex mt-4">
-      <p className="text-lg mr-4">{text}</p>
+    <div className="flex flex-col align-middle items-center justify-center mt-4">
+      <p className="mr-4 mb-4 text-xl">{text}</p>
       <MainSpinner size={size} />
     </div>
   )

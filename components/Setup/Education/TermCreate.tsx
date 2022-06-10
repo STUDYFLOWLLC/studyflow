@@ -1,7 +1,7 @@
 import { School, TermType } from '@prisma/client'
 import { User } from '@supabase/supabase-js'
 import classNames from 'classnames'
-import SelectTermType from 'components/Setup/EnterEducation/SelectTermType'
+import SelectTermType from 'components/Setup/Education/SelectTermType'
 import MainSpinner from 'components/spinners/MainSpinner'
 import createTerm from 'hooks/school/createTerm'
 import useUserDetails from 'hooks/useUserDetails'
