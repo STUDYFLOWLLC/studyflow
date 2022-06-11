@@ -6,12 +6,16 @@ import SchoolDisplay from 'components/Setup/Education/SchoolDisplay'
 import SetupHeader from 'components/Setup/Header'
 import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import MainSpinner from 'components/spinners/MainSpinner'
+import useSchoolDetails from 'hooks/school/useSchoolDetails'
 import setUserSchool from 'hooks/setup/setUserSchool'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SpinnerSizes } from 'types/Loading'
+import setupRedirectHandler from 'utils/setupRedirectHandler'
 
 interface Props {
   user: User
@@ -19,6 +23,10 @@ interface Props {
 
 export default function index({ user }: Props) {
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
+
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { schoolDetails } = useSchoolDetails(userDetails?.FK_SchoolID)
 
   const [mounted, setMounted] = useState(false)
   const [settingSchool, setSettingSchool] = useState(false)
@@ -54,7 +62,10 @@ export default function index({ user }: Props) {
     [theme],
   )
 
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
+  }, [userDetails, userDetailsLoading])
 
   if (!mounted) return null
 
@@ -68,14 +79,21 @@ export default function index({ user }: Props) {
           <MainSpinner size={SpinnerSizes.medium} />
         </div>
       )}
-      {!showSchoolDetails && !settingSchool && (
-        <SchoolSearch
-          selectedSchool={selectedSchool}
-          updateSchoolinDB={updateSchoolinDB}
+      {!userDetailsLoading &&
+        !userDetails.FK_SchoolID &&
+        !showSchoolDetails &&
+        !settingSchool && (
+          <SchoolSearch
+            selectedSchool={selectedSchool}
+            updateSchoolinDB={updateSchoolinDB}
+          />
+        )}
+      {((!userDetailsLoading && userDetails.FK_SchoolID) ||
+        showSchoolDetails) && (
+        <SchoolDisplay
+          user={user}
+          selectedSchool={schoolDetails || selectedSchool}
         />
-      )}
-      {showSchoolDetails && (
-        <SchoolDisplay user={user} selectedSchool={selectedSchool} />
       )}
     </div>
   )
