@@ -1,10 +1,12 @@
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
-import CreateProfile from 'components/Setup/CreateProfile'
-import EnterEducation from 'components/Setup/EnterEducation'
+import LoadWithText from 'components/spinners/LoadWithText'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { SpinnerSizes } from 'types/Loading'
+import setupRedirectHandler from 'utils/setupRedirectHandler'
 
 interface Props {
   user: User
@@ -12,8 +14,9 @@ interface Props {
 
 export default function index({ user }: Props) {
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
 
-  const { userDetails } = useUserDetails(user.id)
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
   const [mounted, setMounted] = useState(false)
 
   useHotkeys(
@@ -27,17 +30,20 @@ export default function index({ user }: Props) {
     },
     [theme],
   )
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
+  }, [userDetailsLoading])
 
   if (!mounted) return null
 
-  if (!userDetails || !userDetails.Username)
-    return <CreateProfile user={user} />
-
-  if (userDetails.profileCreated !== false && userDetails.Username !== null)
-    return <EnterEducation user={user} />
-
-  return <p>Profile setup complete</p>
+  return (
+    <div className="w-screen h-screen flex flex-col items-center justify-center">
+      <div className="w-72 sm:w-96 mx-auto mb-24 sm:mb-36">
+        <LoadWithText text="Welcome to Studyflow!" size={SpinnerSizes.medium} />
+      </div>
+    </div>
+  )
 }
 
 export const getServerSideProps = withPageAuth({ redirectTo: '/login' })

@@ -1,17 +1,20 @@
 import { User } from '@supabase/supabase-js'
-import InputName from 'components/Setup/CreateProfile/InputName'
-import InputUsername from 'components/Setup/CreateProfile/InputUsername'
+import InputName from 'components/Setup/Profile/InputName'
+import InputUsername from 'components/Setup/Profile/InputUsername'
 import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import MainSpinner from 'components/spinners/MainSpinner'
 import {
   mutateName,
   mutateProfilePictureLink,
+  mutateSetupStep,
   mutateUsername,
 } from 'hooks/setup/mutateUser'
 import useUserDetails from 'hooks/useUserDetails'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
 import { SpinnerSizes } from 'types/Loading'
+import { SetupSteps } from 'types/SetupSteps'
 import InputProfilePicture from './InputProfilePicture'
 
 interface Props {
@@ -19,6 +22,8 @@ interface Props {
 }
 
 export default function IncompleteProfile({ user }: Props) {
+  const router = useRouter()
+
   const { userDetails, mutateUserDetails } = useUserDetails(user.id)
   const [submitting, setSubmitting] = useState(false)
   const [name, setName] = useState(user.user_metadata.name || '')
@@ -44,18 +49,28 @@ export default function IncompleteProfile({ user }: Props) {
       user.email || user.user_metadata.email,
       username,
     )
+    const setupStepData = await mutateSetupStep(
+      user.email || user.user_metadata.email,
+      SetupSteps.EDUCATION,
+    )
     await mutateProfilePictureLink(
       user.email || user.user_metadata.email,
       `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${tempPFPLink}`,
     )
 
-    if (nameData?.updateUser?.UserID && usernameData.updateUser?.UserID) {
+    if (
+      nameData?.updateUser?.UserID &&
+      usernameData.updateUser?.UserID &&
+      setupStepData?.updateUser?.UserID
+    ) {
       toast.success('Profile updated!')
       mutateUserDetails({
         ...userDetails,
         Username: username,
-        profileCreated: true,
+        Name: name.trim(),
+        SetupStep: SetupSteps.EDUCATION,
       })
+      router.push('/setup/education')
     }
 
     setSubmitting(false)

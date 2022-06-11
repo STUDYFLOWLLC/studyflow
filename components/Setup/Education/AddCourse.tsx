@@ -4,8 +4,8 @@ import { School } from '@prisma/client'
 import { User } from '@supabase/supabase-js'
 import CourseColorPicker from 'components/Forms/Course/CourseColorPicker'
 import CourseSearch, { CourseHit } from 'components/Forms/Course/CourseSearch'
-import CourseDisplay from 'components/Setup/EnterEducation/CourseDisplay'
-import SmallCourseDisplay from 'components/Setup/EnterEducation/SmallCourseDisplay'
+import CourseDisplay from 'components/Setup/Education/CourseDisplay'
+import SmallCourseDisplay from 'components/Setup/Education/SmallCourseDisplay'
 import MainSpinner from 'components/spinners/MainSpinner'
 import createCourseOnTerm from 'hooks/school/createCourseOnTerm'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
@@ -21,7 +21,7 @@ interface Props {
 
 const colors = [
   'bg-teal-300',
-  'bg-yellow-200',
+  'bg-yellow-300',
   'bg-purple-200',
   'bg-blue-500',
   'bg-green-300',

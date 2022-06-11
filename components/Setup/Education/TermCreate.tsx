@@ -1,7 +1,7 @@
 import { School, TermType } from '@prisma/client'
 import { User } from '@supabase/supabase-js'
 import classNames from 'classnames'
-import SelectTermType from 'components/Setup/EnterEducation/SelectTermType'
+import SelectTermType from 'components/Setup/Education/SelectTermType'
 import MainSpinner from 'components/spinners/MainSpinner'
 import createTerm from 'hooks/school/createTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -23,7 +23,7 @@ export default function TermCreate({
 }: Props) {
   const { theme } = useTheme()
 
-  const { mutateUserDetails } = useUserDetails(user.id)
+  const { userDetails } = useUserDetails(user.id)
   const [mounted, setMounted] = useState(false)
   const [creating, setCreating] = useState(false)
   const [termTypeNative, setTermTypeNative] = useState<TermType>(
@@ -39,13 +39,12 @@ export default function TermCreate({
       termTypeNative,
       termName,
       user.email || '',
-      selectedSchool.SchoolID,
+      userDetails?.FK_SchoolID || selectedSchool.SchoolID,
     )
     if (data.createTerm.TermID) {
       toast.success('Term Created!')
       setCreating(false)
       setHasCreatedTerm(true)
-      mutateUserDetails(user.id)
     }
   }
 

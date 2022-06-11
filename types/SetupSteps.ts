@@ -1,0 +1,6 @@
+export enum SetupSteps {
+  PROFILE = 'PROFILE',
+  EDUCATION = 'EDUCATION',
+  COMMUNITY = 'COMMUNITY',
+  COMPLETE = 'COMPLETE',
+}

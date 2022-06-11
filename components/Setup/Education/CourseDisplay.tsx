@@ -1,6 +1,6 @@
 import classnames from 'classnames'
 import { CourseHit } from 'components/Forms/Course/CourseSearch'
-import EnterCourseNickname from 'components/Setup/EnterEducation/EnterCourseNickname'
+import EnterCourseNickname from 'components/Setup/Education/EnterCourseNickname'
 import { Dispatch, SetStateAction } from 'react'
 import shorten from 'utils/shorten'
 
@@ -27,7 +27,7 @@ export default function CourseDisplay({
             ' ring-offset-1 w-3 h-3 m-2 rounded-full',
           )}
         />
-        {shorten(nickname || course.Title, 37)}
+        {shorten(nickname || course.Title, 34)}
       </div>
       <div className="sm:px-2 flex w-full justify-between">
         <p>{course.Code}</p>

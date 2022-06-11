@@ -15,6 +15,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SetupStep {
+  PROFILE
+  EDUCATION
+  COMMUNITY
+  COMPLETE
+}
+
 enum Visibility {
   HIDDEN
   PRIVATE
@@ -39,7 +46,7 @@ enum FlowType {
 model User {
   UserID             Int         @id @default(autoincrement())
   CreatedTime        DateTime    @default(now())
-  SetupComplete      Boolean     @default(false)
+  SetupStep          SetupStep   @default(PROFILE)
   SupabaseID         String
   Email              String      @unique
   Name               String?
