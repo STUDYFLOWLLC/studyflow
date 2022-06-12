@@ -13,7 +13,7 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SkeletonTheme } from 'react-loading-skeleton'
-import { SetupSteps } from 'types/SetupSteps'
+import setupRedirectHandler from 'utils/setupRedirectHandler'
 
 interface Props {
   user: User
@@ -31,13 +31,13 @@ export default function Dash({ user }: Props) {
   const [mounted, setMounted] = useState(false)
   const [searchValue, setSearchValue] = useState('')
 
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
+  }, [userDetails, userDetailsLoading])
 
   if (!mounted) return null
   if (userDetailsError) return <p>error</p>
-
-  if (!userDetailsLoading && userDetails.SetupStep !== SetupSteps.COMPLETE)
-    router.push('/setup')
 
   return (
     <SkeletonTheme
