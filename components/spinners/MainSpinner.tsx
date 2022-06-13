@@ -1,3 +1,6 @@
+import classNames from 'classnames'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 
 interface Props {
@@ -5,11 +8,23 @@ interface Props {
 }
 
 export default function MainSpinner({ size }: Props) {
+  const { theme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   if (size === SpinnerSizes.medium) {
     return (
       <svg
         role="status"
-        className="w-12 h-12 text-gray-200 animate-spin-fast fill-primary"
+        className={classNames(
+          { 'text-gray-200': theme === 'light' },
+          { 'text-white': theme === 'dark' },
+          'w-12 h-12  animate-spin-fast fill-primary',
+        )}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +45,11 @@ export default function MainSpinner({ size }: Props) {
     return (
       <svg
         role="status"
-        className="w-6 h-6 text-gray-200 animate-spin-fast fill-primary"
+        className={classNames(
+          { 'text-gray-200': theme === 'light' },
+          { 'text-red': theme === 'dark' },
+          'w-6 h-6  animate-spin-fast fill-primary',
+        )}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +69,11 @@ export default function MainSpinner({ size }: Props) {
   return (
     <svg
       role="status"
-      className="w-12 h-12 text-gray-200 animate-spin-fast fill-primary"
+      className={classNames(
+        { 'text-gray-200': theme === 'light' },
+        { 'text-red': theme === 'dark' },
+        'w-12 h-12  animate-spin-fast fill-primary',
+      )}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
