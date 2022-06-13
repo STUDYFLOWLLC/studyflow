@@ -47,6 +47,7 @@ export default function CourseInput({
       displayValue={() => selectedCourse?.Title || query}
       value={query}
       placeholder="Course Title/Code/Prof"
+      autoComplete="off"
       autoFocus
     />
   )

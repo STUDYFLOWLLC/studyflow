@@ -26,17 +26,20 @@ interface Props {
   selectedCourse: CourseHit
   setSelectedCourse: Dispatch<SetStateAction<CourseHit>>
   selectedSchool: School
+  query: string
+  setQuery: (query: string) => void
 }
 
 export default function CourseSearch({
   selectedCourse,
   setSelectedCourse,
   selectedSchool,
+  query,
+  setQuery,
 }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
-  const [query, setQuery] = useState('')
   const [hits, setHits] = useState<CourseHit[]>([])
 
   let index: SearchIndex

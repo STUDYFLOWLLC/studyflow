@@ -32,7 +32,6 @@ export default function InputName({ user, name, setName }: Props) {
           { 'bg-base-100': theme === 'dark' },
           'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  w-full rounded-md text-2xl',
         )}
-        defaultValue={user.user_metadata.name}
         value={name}
         onChange={(e) => setName(e.target.value)}
         onBlur={() => {

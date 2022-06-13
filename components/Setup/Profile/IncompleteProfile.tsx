@@ -2,7 +2,7 @@ import { User } from '@supabase/supabase-js'
 import InputName from 'components/Setup/Profile/InputName'
 import InputUsername from 'components/Setup/Profile/InputUsername'
 import SetupStepTitle from 'components/Setup/SetupStepTitle'
-import MainSpinner from 'components/spinners/MainSpinner'
+import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import {
   mutateName,
   mutateProfilePictureLink,
@@ -13,7 +13,6 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
-import { SpinnerSizes } from 'types/Loading'
 import { SetupSteps } from 'types/SetupSteps'
 import InputProfilePicture from './InputProfilePicture'
 
@@ -26,21 +25,25 @@ export default function IncompleteProfile({ user }: Props) {
 
   const { userDetails, mutateUserDetails } = useUserDetails(user.id)
   const [submitting, setSubmitting] = useState(false)
-  const [name, setName] = useState(user.user_metadata.name || '')
+  const [name, setName] = useState(user.user_metadata?.name || '')
   const [username, setUsername] = useState('')
   const [tempPFPLink, setTempPFPLink] = useState('')
 
   const submitProfile = async () => {
+    if (submitting) return
     setSubmitting(true)
-    if (name.length < 3)
+    if (name.length < 3) {
+      setSubmitting(false)
       return toast.error('Name must be at least 3 characters.')
+    }
     if (
       !/^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){1,13}[a-zA-Z0-9]$/.test(
         username,
       )
-    )
+    ) {
+      setSubmitting(false)
       return toast.error('Invalid Username')
-
+    }
     const nameData = await mutateName(
       user.email || user.user_metadata.email,
       name.trim(),
@@ -64,14 +67,15 @@ export default function IncompleteProfile({ user }: Props) {
       setupStepData?.updateUser?.UserID
     ) {
       toast.success('Profile updated!')
-      mutateUserDetails({
+      await mutateUserDetails({
         ...userDetails,
         Username: username,
         Name: name.trim(),
         SetupStep: SetupSteps.EDUCATION,
+        mutate: true,
       })
       router.push('/setup/education')
-    }
+    } else toast.error('Something went wrong. Please try again.')
 
     setSubmitting(false)
   }
@@ -80,26 +84,23 @@ export default function IncompleteProfile({ user }: Props) {
     <div className="mx-auto w-5/6 sm:w-full flex flex-col items-center mt-4 sm:p-4">
       <Toaster position="top-center" reverseOrder={false} />
       <SetupStepTitle title="Me" />
-      {submitting ? (
-        <MainSpinner size={SpinnerSizes.medium} />
-      ) : (
-        <div className="mx-auto flex flex-col items-center">
-          <InputName user={user} name={name} setName={setName} />
-          <InputUsername username={username} setUsername={setUsername} />
-          <InputProfilePicture
-            user={user}
-            tempPFPLink={tempPFPLink}
-            setTempPFPLink={setTempPFPLink}
-          />
-          <button
-            type="button"
-            className="btn btn-primary mt-6"
-            onClick={() => submitProfile()}
-          >
-            continue
-          </button>
-        </div>
-      )}
+      <div className="mx-auto flex flex-col items-center">
+        <InputName user={user} name={name} setName={setName} />
+        <InputUsername username={username} setUsername={setUsername} />
+        <InputProfilePicture
+          user={user}
+          tempPFPLink={tempPFPLink}
+          setTempPFPLink={setTempPFPLink}
+        />
+        <button
+          type="button"
+          className="btn btn-primary mt-6"
+          onClick={() => submitProfile()}
+        >
+          continue
+          <ButtonSpinner show={submitting} />
+        </button>
+      </div>
     </div>
   )
 }

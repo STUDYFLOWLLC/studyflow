@@ -11,15 +11,19 @@ body {
 }
 
 ::selection {
-  background: #58e5d7; /* WebKit/Blink Browsers */
+  background: #39d0c0; /* WebKit/Blink Browsers */
   color: white;
 }
 ::-moz-selection {
-  background: #58e5d7; /* Gecko Browsers */
+  background: #39d0c0; /* Gecko Browsers */
   color: white;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.btn {
+  @apply text-lg normal-case text-white;
 }

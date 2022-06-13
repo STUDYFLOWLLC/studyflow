@@ -51,11 +51,14 @@ export default function SchoolSearch({
       onChange={(value: School) => updateSchoolinDB(value)}
     >
       <div className="relative mt-1">
-        <SchoolInput
-          selectedSchool={selectedSchool}
-          query={query}
-          setQuery={setQuery}
-        />
+        <div className="relative">
+          <SchoolInput
+            selectedSchool={selectedSchool}
+            query={query}
+            setQuery={setQuery}
+          />
+        </div>
+
         {hits.length > 0 && (
           <Combobox.Options
             className={classnames(

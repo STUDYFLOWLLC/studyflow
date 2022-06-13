@@ -9,12 +9,15 @@ interface Props {
 
 export default function SmallCourseDisplay({ color, title, nickname }: Props) {
   return (
-    <div className="flex items-center my-2">
+    <div className="flex items-center">
       <div
         key={color}
-        className={classnames(color, ' ring-offset-1 w-3 h-3 m-2 rounded-full')}
+        className={classnames(
+          color,
+          ' ring-offset-1 w-3 h-3 mx-2 rounded-full',
+        )}
       />
-      {shorten(nickname || title, 37)}
+      {shorten(nickname || title, 20)}
     </div>
   )
 }

@@ -37,6 +37,7 @@ export default function SchoolInput({
       value={query}
       placeholder="Enter your school"
       autoFocus
+      autoComplete="off"
     />
   )
 }
