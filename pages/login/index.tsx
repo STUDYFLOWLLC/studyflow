@@ -24,8 +24,6 @@ export default function Login() {
     setMounted(true)
     ;(async () => {
       if (user) router.push('/dash')
-      // eslint-disable-next-line no-promise-executor-return
-      await new Promise((r) => setTimeout(r, 500))
     })()
   }, [user])
 
@@ -55,7 +53,7 @@ export default function Login() {
       <Toaster position="top-center" reverseOrder={false} />
       <LoginImage />
       <div className="flex-1 flex flex-col justify-center py-12 sm:px-6 xl:flex-none lg:px-20 xl:px-24">
-        <div className="mx-auto w-full max-w-sm lg:w-96 pb-36 xl:pb-0">
+        <div className="mx-auto w-full max-w-sm lg:w-96 pb-36 xl:pb-18">
           <div className="w-5/6 sm:w-full mx-auto">
             <LoginHeader />
             <div className="mt-4 w-full">

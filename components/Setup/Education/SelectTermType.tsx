@@ -24,7 +24,9 @@ export default function SelectTermType({
 
   return (
     <>
-      <p>Term Type</p>
+      <p>
+        Term Type <span className="text-red-400">*</span>
+      </p>
       <Listbox value={termTypeNative} onChange={setTermTypeNative}>
         <Listbox.Button
           className={classnames(
