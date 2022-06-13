@@ -39,6 +39,15 @@ export default function useUserDetails(supabaseId: string) {
       : null,
   )
 
+  if (data?.mutate) {
+    return {
+      userDetails: data,
+      userDetailsLoading: false,
+      userDetailsError: null,
+      mutateUserDetails: mutate,
+    }
+  }
+
   if (data && data.findFirstUser) {
     return {
       userDetails: data.findFirstUser,

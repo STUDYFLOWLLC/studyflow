@@ -1,11 +1,23 @@
-import { gql } from 'graphql-request'
-import useSWR from 'swr'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export default function useSchoolDetails(schoolId: number | undefined) {
+import { School, TermType } from '@prisma/client'
+import { gql } from 'graphql-request'
+import useSWR, { KeyedMutator } from 'swr'
+
+interface SchoolDetails {
+  schoolDetails: School
+  schoolDetailsLoading: boolean
+  schoolDetailsError: any
+  mutateSchoolDetails: KeyedMutator<any>
+}
+
+export default function useSchoolDetails(
+  schoolId: number | undefined,
+): SchoolDetails {
   const variables = {
     where: {
       SchoolID: {
-        equals: 1183,
+        equals: schoolId,
       },
     },
   }
@@ -29,7 +41,16 @@ export default function useSchoolDetails(schoolId: number | undefined) {
       : null,
   )
 
-  if (data && data.findFirstSchool) {
+  if (data?.mutate) {
+    return {
+      schoolDetails: data.school,
+      schoolDetailsLoading: false,
+      schoolDetailsError: null,
+      mutateSchoolDetails: mutate,
+    }
+  }
+
+  if (data?.findFirstSchool) {
     return {
       schoolDetails: data.findFirstSchool,
       schoolDetailsLoading: false,
@@ -39,7 +60,13 @@ export default function useSchoolDetails(schoolId: number | undefined) {
   }
 
   return {
-    schoolDetails: data,
+    schoolDetails: {
+      SchoolID: 0,
+      Name: '',
+      HasClassSupport: false,
+      SearchIndex: '',
+      TermType: TermType.SEMESTER,
+    },
     schoolDetailsLoading: !data && !error,
     schoolDetailsError: error,
     mutateSchoolDetails: mutate,
