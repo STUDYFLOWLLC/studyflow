@@ -104,7 +104,7 @@ export default function FlowList() {
               >
                 Next Review
               </th>
-              <p
+              <td
                 className={classnames(
                   {
                     'border-gray-200 bg-gray-50 text-gray-500':
@@ -112,7 +112,7 @@ export default function FlowList() {
                   },
                   'md:table-cell pr-6 py-3 border-b text-right text-xs font-medium  uppercase tracking-wider',
                 )}
-              />{' '}
+              />
             </tr>
           </thead>
           <tbody
