@@ -1,7 +1,7 @@
 import {
   CalendarIcon,
   CheckCircleIcon,
-  HomeIcon,
+  ClipboardListIcon,
   StarIcon,
   UserGroupIcon,
 } from '@heroicons/react/outline'
@@ -10,7 +10,13 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 const navigation = [
-  { name: 'Dash', href: '#', icon: HomeIcon, keyboard: 'D', current: true },
+  {
+    name: 'Dash',
+    href: '#',
+    icon: ClipboardListIcon,
+    keyboard: 'D',
+    current: true,
+  },
   {
     name: 'Favorites',
     href: '#',
