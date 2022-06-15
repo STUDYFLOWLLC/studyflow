@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <title>Studyflow</title>
       </Head>
-      <ThemeProvider defaultTheme="system" enableSystem>
+      <ThemeProvider defaultTheme="light" enableSystem>
         <UserProvider supabaseClient={supabaseClient}>
           <Component {...pageProps} />
         </UserProvider>
