@@ -5,7 +5,7 @@ import {
   StarIcon,
   UserGroupIcon,
 } from '@heroicons/react/outline'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
@@ -61,7 +61,7 @@ export default function MainNavs() {
       {navigation.map((item) => (
         <div
           key={item.name}
-          className={classnames(
+          className={classNames(
             {
               'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
                 !item.current && theme === 'light',
@@ -75,7 +75,7 @@ export default function MainNavs() {
         >
           <div className="flex items-center">
             <item.icon
-              className={classnames(
+              className={classNames(
                 { 'text-gray-500': item.current },
                 { 'text-gray-400 group-hover:text-gray-500': !item.current },
                 'mr-3 flex-shrink-0 h-4 w-4',
