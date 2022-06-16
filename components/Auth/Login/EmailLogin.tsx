@@ -17,12 +17,16 @@ export default function EmailLogin({ succeed, setSucceed }: Props) {
 
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
+  const [emailFocused, setEmailFocused] = useState(false)
+  const [continueWithEmail, setContinueWithEmail] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
   const handleLogin = async (email: string) => {
+    if (!continueWithEmail) return setContinueWithEmail(true)
     try {
+      setContinueWithEmail(true)
       setLoading(true)
       if (!isValidEmail(email)) {
         toast.error('Please enter a valid email address')
@@ -42,7 +46,7 @@ export default function EmailLogin({ succeed, setSucceed }: Props) {
   if (!mounted) return null
 
   return (
-    <div className="mt-4 w-full">
+    <div className={classNames({ 'mt-4': continueWithEmail }, 'w-full')}>
       {!succeed ? (
         <form
           onSubmit={(e) => {
@@ -52,38 +56,56 @@ export default function EmailLogin({ succeed, setSucceed }: Props) {
           method="POST"
           className="space-y-6"
         >
-          <div className="w-full">
-            <div className="w-full">
-              {loading ? (
-                <div className="w-12 mx-auto">
-                  <MainSpinner size={SpinnerSizes.medium} />
-                </div>
-              ) : (
-                <input
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  placeholder="your e-mail"
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading}
-                  className={classNames(
-                    { 'bg-white': theme === 'light' },
-                    {
-                      'bg-base-100 placeholder-gray-400': theme === 'dark',
-                    },
-                    'appearance-none block w-full px-3 py-2 rounded-md  focus:outline-none font-semibold text-lg text-center',
-                  )}
-                />
-              )}
-            </div>
+          <div className="w-full h-full">
+            {continueWithEmail && (
+              <div className="w-full">
+                {loading ? (
+                  <div className="w-12 mx-auto">
+                    <MainSpinner size={SpinnerSizes.medium} />
+                  </div>
+                ) : (
+                  <div>
+                    <input
+                      id="email"
+                      name="email"
+                      autoComplete="email"
+                      placeholder="enter your email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      onFocus={() => setEmailFocused(true)}
+                      onBlur={() => setEmailFocused(false)}
+                      disabled={loading}
+                      className={classNames(
+                        { 'bg-white': theme === 'light' },
+                        {
+                          'bg-base-100 placeholder-gray-400': theme === 'dark',
+                        },
+                        'transition appearance-none block w-full px-3 py-2 rounded-md  focus:outline-none font-medium text-lg text-center',
+                      )}
+                      autoFocus
+                    />
+
+                    <div
+                      className={classNames(
+                        { 'w-4/5': emailFocused },
+                        { 'w-1/3': !emailFocused },
+                        'transition-all h-0.5 bg-primary mx-auto',
+                      )}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="flex justify-center">
             <button
-              type="submit"
+              type="button"
               className="mx-auto h-12 w-4/5 btn btn-primary"
+              onClick={() => handleLogin(email)}
             >
-              <span className="w-full text-center text-base">Continue</span>
+              <span className="w-full text-center text-base">
+                Continue with email
+              </span>
             </button>
           </div>
         </form>

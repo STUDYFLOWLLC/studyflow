@@ -83,7 +83,7 @@ export default function IncompleteProfile({ user }: Props) {
   return (
     <div className="mx-auto w-5/6 sm:w-full flex flex-col items-center mt-4 sm:p-4">
       <Toaster position="top-center" reverseOrder={false} />
-      <SetupStepTitle title="Me" />
+      <SetupStepTitle title="Profile" />
       <div className="mx-auto flex flex-col items-center">
         <InputName user={user} name={name} setName={setName} />
         <InputUsername username={username} setUsername={setUsername} />

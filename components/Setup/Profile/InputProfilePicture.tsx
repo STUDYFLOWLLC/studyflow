@@ -40,7 +40,7 @@ export default function InputProfilePicture({
 
   return (
     <>
-      <div className="mt-4 mb-2 w-full text-left">profile picture</div>
+      <div className="mt-4 mb-2 w-full text-left">Profile Picture</div>
       <div className="w-full flex justify-around">
         <div className="avatar placeholder online">
           <div
