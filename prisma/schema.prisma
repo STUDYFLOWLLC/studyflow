@@ -57,6 +57,7 @@ model User {
   FK_SchoolID        Int?
   FK_Terms           Term[]
   //FK_FlowTags       FlowTag[]
+  Task               Task[]
 }
 
 model Term {
@@ -81,6 +82,7 @@ model CourseOnTerm {
   FK_Term        Term     @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
   FK_TermID      Int
   FK_Flows       Flow[]
+  Task           Task[]
 }
 
 model School {
@@ -129,6 +131,7 @@ model Flow {
   Visibility         Visibility?
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
   FK_CourseOnTermID  Int?
+  Task               Task[]
 }
 
 //creates many-to-many for tags and flows (flows can be related to many tags, and tags can be related to many flows)
@@ -171,4 +174,15 @@ model FlashCard {
   Position            Int
   Front               String?
   Back                String?
+}
+
+model Task {
+  TaskID            Int           @id @default(autoincrement())
+  CreatedTime       DateTime      @default(now())
+  FK_User           User?         @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID         Int?
+  FK_CourseOnTerm   CourseOnTerm? @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
+  FK_CourseOnTermID Int?
+  FK_Flow           Flow?         @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlowID         Int?
 }
