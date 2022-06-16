@@ -57,7 +57,7 @@ model User {
   FK_SchoolID        Int?
   FK_Terms           Term[]
   //FK_FlowTags       FlowTag[]
-  Task               Task[]
+  FK_Task            Task[]
 }
 
 model Term {
@@ -72,17 +72,31 @@ model Term {
   FK_CourseOnTerm CourseOnTerm[]
 }
 
+model Course {
+  CourseID       Int            @id @default(autoincrement())
+  CreatedTime    DateTime       @default(now())
+  IsOfficial     Boolean        @default(false)
+  Term           String         @default("Fall 2022")
+  Code           String?
+  Title          String?
+  FK_School      School?        @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
+  FK_SchoolID    Int?
+  FK_Professor   Professor?     @relation(fields: [FK_ProfessorID], references: [ProfessorID])
+  FK_ProfessorID Int?
+  CourseOnTerm   CourseOnTerm[]
+}
+
 model CourseOnTerm {
   CourseOnTermID Int      @id @default(autoincrement())
   CreatedTime    DateTime @default(now())
   Color          String   @default("bg-teal-300")
   Nickname       String?
-  FK_Course      Course   @relation(fields: [FK_CourseID], references: [CourseID], onDelete: Cascade, onUpdate: Cascade)
-  FK_CourseID    Int
-  FK_Term        Term     @relation(fields: [FK_TermID], references: [TermID], onDelete: Cascade, onUpdate: Cascade)
-  FK_TermID      Int
+  FK_Course      Course?  @relation(fields: [FK_CourseID], references: [CourseID], onDelete: SetNull, onUpdate: Cascade)
+  FK_CourseID    Int?
+  FK_Term        Term?    @relation(fields: [FK_TermID], references: [TermID], onDelete: SetNull, onUpdate: Cascade)
+  FK_TermID      Int?
   FK_Flows       Flow[]
-  Task           Task[]
+  FK_Tasks       Task[]
 }
 
 model School {
@@ -95,21 +109,6 @@ model School {
   FK_User         User[]
   FK_Professor    Professor[]
   Term            Term[]
-}
-
-model Course {
-  CourseID         Int            @id @default(autoincrement())
-  CreatedTime      DateTime       @default(now())
-  IsOfficial       Boolean        @default(false)
-  Term             String         @default("Fall 2022")
-  Code             String?
-  Title            String?
-  FK_School        School?        @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: SetNull, onUpdate: Cascade)
-  FK_SchoolID      Int?
-  FK_Professor     Professor?     @relation(fields: [FK_ProfessorID], references: [ProfessorID])
-  FK_ProfessorID   Int?
-  FK_TermsOnCourse CourseOnTerm[]
-
 }
 
 model Professor {
@@ -131,7 +130,7 @@ model Flow {
   Visibility         Visibility?
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
   FK_CourseOnTermID  Int?
-  Task               Task[]
+  FK_Tasks           Task[]
 }
 
 //creates many-to-many for tags and flows (flows can be related to many tags, and tags can be related to many flows)
@@ -179,10 +178,22 @@ model FlashCard {
 model Task {
   TaskID            Int           @id @default(autoincrement())
   CreatedTime       DateTime      @default(now())
+  Title             String        @default("Untitled")
+  Description       String?
+  DueDate           DateTime?
+  FK_TaskLabel      TaskLabel[]
   FK_User           User?         @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID         Int?
-  FK_CourseOnTerm   CourseOnTerm? @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
-  FK_CourseOnTermID Int?
   FK_Flow           Flow?         @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
   FK_FlowID         Int?
+  FK_CourseOnTerm   CourseOnTerm? @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
+  FK_CourseOnTermID Int?
+}
+
+model TaskLabel {
+  TaskLabelID Int      @id @default(autoincrement())
+  CreatedTime DateTime @default(now())
+  Label       String   @default("Untitled")
+  FK_Task     Task?    @relation(fields: [FK_TaskID], references: [TaskID])
+  FK_TaskID   Int?
 }
