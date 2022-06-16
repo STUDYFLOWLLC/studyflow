@@ -17,6 +17,7 @@ export default function useUserDetails(supabaseId: string) {
           gql`
             query Query($where: UserWhereInput) {
               findFirstUser(where: $where) {
+                UserID
                 Username
                 ProfilePictureLink
                 DefaultVisibility
