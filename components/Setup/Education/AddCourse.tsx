@@ -127,10 +127,7 @@ export default function AddCourse({ user, selectedSchool }: Props) {
   return (
     <>
       <Toaster position="top-center" />
-      <p className="w-full text-left pl-2 mt-2">
-        Add courses to {userDetails.FK_Terms[0]?.TermName}{' '}
-        {userDetails.FK_Terms[0]?.TermType}
-      </p>
+      <p className="w-full text-left text-lg mt-2 font-semibold">Add Courses</p>
       <CourseSearch
         selectedCourse={selectedCourse}
         setSelectedCourse={setSelectedCourse}
@@ -159,8 +156,11 @@ export default function AddCourse({ user, selectedSchool }: Props) {
         Add {nickname || 'Course'}
         <ButtonSpinner show={addingCourse} />
       </button>
+      <div className="w-full transition-all h-0.5 bg-gray-200 mx-auto mt-4" />
 
-      <p className="w-full text-left pl-2 mt-2">Your courses</p>
+      {termDetails.CoursesOnTerm.length !== 0 && (
+        <p className="w-full text-left pl-2 mt-2">Your courses</p>
+      )}
       {!termDetailsLoading && (
         <div
           className="w-full flex flex-wrap px-2 tooltip-bottom tooltip"

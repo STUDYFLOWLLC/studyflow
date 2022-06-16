@@ -30,6 +30,7 @@ export default function SelectTermType({
       <Listbox value={termTypeNative} onChange={setTermTypeNative}>
         <Listbox.Button
           className={classnames(
+            { 'bg-white': theme === 'light' },
             { 'bg-base-100': theme === 'dark' },
             'w-3/4 mx-auto cursor-pointer relative rounded-lg py-1 pl-10 pr-10 text-center shadow-md focus:outline-none text-md',
           )}
@@ -40,7 +41,7 @@ export default function SelectTermType({
           </span>
         </Listbox.Button>
         <div className="relative w-1/2 mx-auto">
-          <Listbox.Options className="absolute z-10 mt-2 rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Listbox.Options className="absolute z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {(Object.keys(TermType) as Array<keyof typeof TermType>).map(
               (type) => (
                 <Listbox.Option
@@ -49,7 +50,7 @@ export default function SelectTermType({
                   className={({ active }) =>
                     classnames(
                       { 'bg-primary text-white': active },
-                      'cursor-pointer select-none py-2 pl-10 pr-10',
+                      'cursor-pointer select-none py-2 pl-10 pr-10 text-md',
                     )
                   }
                 >

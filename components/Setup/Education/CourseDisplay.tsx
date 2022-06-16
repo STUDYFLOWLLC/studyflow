@@ -18,7 +18,7 @@ export default function CourseDisplay({
   setNickname,
 }: Props) {
   return (
-    <div className="w-full sm:ml-4 flex flex-col">
+    <div className="w-full sm:ml-4 flex flex-col mb-3">
       <div className="flex items-center">
         <div
           key={color}

@@ -5,8 +5,7 @@ import SelectTermType from 'components/Setup/Education/SelectTermType'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import createTerm from 'hooks/school/createTerm'
 import useUserDetails from 'hooks/useUserDetails'
-import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface Props {
@@ -15,17 +14,13 @@ interface Props {
 }
 
 export default function TermCreate({ user, selectedSchool }: Props) {
-  const { theme } = useTheme()
-
   const { userDetails, mutateUserDetails } = useUserDetails(user.id)
-  const [mounted, setMounted] = useState(false)
+  const [focused, setFocused] = useState(false)
   const [creating, setCreating] = useState(false)
   const [termTypeNative, setTermTypeNative] = useState<TermType>(
     selectedSchool.TermType || TermType.SEMESTER,
   )
   const [termName, setTermName] = useState('Fall 2022')
-
-  useEffect(() => setMounted(true), [])
 
   const createTermNative = async () => {
     if (!termName || !termTypeNative || creating) return
@@ -43,11 +38,9 @@ export default function TermCreate({ user, selectedSchool }: Props) {
     }
   }
 
-  if (!mounted) return null
-
   return (
-    <div className="w-full pl-2 mt-2">
-      <p className="w-full text-left text-lg">1. Create a term</p>
+    <div className="w-full mt-2">
+      <p className="w-full text-left text-lg font-medium">Create a Term</p>
       <div className="pl-2 w-full flex flex-col">
         <div className="w-full flex flex-col">
           <Toaster position="top-center" />
@@ -59,20 +52,29 @@ export default function TermCreate({ user, selectedSchool }: Props) {
             Term name <span className="text-red-400">*</span>
           </p>
           <p className="text-sm">Used to organize your dashboard. </p>
-          <input
-            className={classNames(
-              { 'bg-base-100': theme === 'dark' },
-              'shadow-md mx-auto w-3/4 text-center outline-none focus:outline-0 focus:ring-0 border-0 h-full rounded-md text-lg',
-            )}
-            onChange={(e: { target: { value: string } }) => {
-              setTermName(e.target.value)
-            }}
-            value={termName}
-            autoFocus
-          />
+          <div>
+            <input
+              className="mt-1 bg-transparent text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-lg"
+              onChange={(e: { target: { value: string } }) => {
+                setTermName(e.target.value)
+              }}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              value={termName}
+              autoFocus
+            />
+            <div
+              className={classNames(
+                { 'w-4/5': focused },
+                { 'w-1/3': !focused },
+                'transition-all h-0.5 bg-primary mx-auto',
+              )}
+            />
+          </div>
+
           <button
             type="button"
-            className="btn btn-sm btn-primary mt-4"
+            className="btn btn-sm btn-primary mt-4 w-4/5 mx-auto"
             onClick={() => createTermNative()}
           >
             Create Term

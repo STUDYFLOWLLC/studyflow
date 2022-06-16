@@ -26,7 +26,7 @@ export default function CourseColorPicker({
       className={classnames(
         { 'border-2 border-gray-300': theme === 'light' },
         { 'bg-base-100': theme === 'dark' },
-        'flex flex-wrap w-48 px-2 py-1 m-2 rounded-md justify-around',
+        'flex flex-wrap w-64 px-2 py-1 m-2 rounded-md justify-around',
       )}
     >
       {colors.map((color) => (
@@ -42,7 +42,7 @@ export default function CourseColorPicker({
                 theme === 'dark' && selectedColor === color,
             },
             color,
-            ' ring-offset-1 w-5 h-5 m-2 rounded-full cursor-pointer',
+            ' ring-offset-1 w-5 h-5 m-1 rounded-full cursor-pointer',
           )}
           onClick={() => setSelectedColor(color)}
           onKeyDown={() => setSelectedColor(color)}
