@@ -22,14 +22,14 @@ interface Props {
 }
 
 const colors = [
-  'bg-teal-300',
-  'bg-yellow-300',
-  'bg-purple-200',
-  'bg-blue-500',
-  'bg-green-300',
   'bg-red-400',
-  'bg-pink-400',
   'bg-orange-400',
+  'bg-yellow-300',
+  'bg-green-300',
+  'bg-teal-300',
+  'bg-blue-500',
+  'bg-purple-200',
+  'bg-pink-400',
 ]
 
 export default function AddCourse({ user, selectedSchool }: Props) {
