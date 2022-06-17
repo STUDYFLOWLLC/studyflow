@@ -16,7 +16,6 @@ export default function TaskHeader({ user, viewing, setViewing }: Props) {
   const { termDetails, termDetailsLoading } = useTermDetails(
     userDetails?.FK_Terms?.[0]?.TermID,
   )
-  console.log(termDetails.CoursesOnTerm[0])
 
   return (
     <div className="text-center mt-6">
