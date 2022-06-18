@@ -7,7 +7,6 @@ interface Props {
 }
 
 export default function DisplayTasks({ user, tasks }: Props) {
-  console.log(tasks)
   return (
     <div>
       <h1>Tasks</h1>
