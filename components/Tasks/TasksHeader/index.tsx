@@ -1,10 +1,10 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
+import Courses from 'components/Tasks/TasksHeader/Courses'
+import Today from 'components/Tasks/TasksHeader/Today'
+import Upcoming from 'components/Tasks/TasksHeader/Upcoming'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useTermDetails from 'hooks/school/useTermDetails'
 import useUserDetails from 'hooks/useUserDetails'
-import Courses from './Courses'
-import Today from './Today'
-import Upcoming from './Upcoming'
 
 interface Props {
   user: User
