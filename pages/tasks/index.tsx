@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import DashBar from 'components/Dashbar'
+import AddTask from 'components/Tasks/AddTask'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
 import TaskHeader from 'components/Tasks/TasksHeader'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
@@ -55,12 +56,16 @@ export default function index({ user }: Props) {
           />
         </div>
       </div>
-      {/* <CreateTask user={user} tasks={tasks} mutateTasks={mutateTasks} /> */}
-      <DisplayTasks
-        user={user}
-        tasksDisplayed={tasksDisplayed(viewing, tasks)}
-        viewing={viewing}
-      />
+
+      <div className="mx-auto w-4/5 border-t border-gray-300 mt-6" />
+      <div className="mx-auto w-8/12 flex flex-col justify-center">
+        <DisplayTasks
+          user={user}
+          tasksDisplayed={tasksDisplayed(viewing, tasks)}
+          viewing={viewing}
+        />
+        <AddTask user={user} tasks={tasks} mutateTasks={mutateTasks} />
+      </div>
     </div>
   )
 }
