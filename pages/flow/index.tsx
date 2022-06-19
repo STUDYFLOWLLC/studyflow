@@ -7,7 +7,7 @@ import FlowProperty from 'components/Flow/FlowProperty'
 import { FlowRet } from 'hooks/flows/getFlowDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import ContentEditable from 'react-contenteditable'
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import { useHotkeys } from 'react-hotkeys-hook'
 import handleTimeStamp from 'utils/handleTimeStamp'
 
@@ -31,6 +31,7 @@ export default function Flow() {
   const { theme, setTheme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
+  const [title, setTitle] = useState(flowy.Title)
   const [text, setText] = useState('')
 
   useEffect(() => setMounted(true), [])
@@ -62,7 +63,8 @@ export default function Flow() {
             <ContentEditable
               tagName="h1"
               className="font-medium m-0 p-0 outline-0"
-              html={flowy.Title}
+              onChange={(e: ContentEditableEvent) => setTitle(e.target.value)}
+              html={title}
             />
             <h3
               className={classNames(
