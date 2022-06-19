@@ -1,7 +1,31 @@
-import { gql } from 'graphql-request'
-import useSWR from 'swr'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export default function useCoursesOnTerm(termID: number) {
+import { gql } from 'graphql-request'
+import useSWR, { KeyedMutator } from 'swr'
+
+export interface CourseOnTerm {
+  CourseOnTermID: number
+  Color: string
+  Nickname: string
+  FK_Course: {
+    Code: string
+    Term: string
+    Title: string
+    FK_Professor: {
+      Name: string
+      Email: string
+    }
+  }
+}
+
+interface Ret {
+  coursesOnTerm: CourseOnTerm[]
+  coursesOnTermLoading: boolean
+  coursesOnTermError: any
+  mutateCoursesOnTerm: KeyedMutator<any>
+}
+
+export default function useCoursesOnTerm(termID: number): Ret {
   const query = gql`
     query Query($where: TermWhereInput) {
       findFirstTerm(where: $where) {
@@ -39,7 +63,7 @@ export default function useCoursesOnTerm(termID: number) {
     data.findFirstTerm.FK_CourseOnTerm.length !== 0
   ) {
     return {
-      coursesOnTerm: data,
+      coursesOnTerm: data.findFirstTerm.FK_CourseOnTerm,
       coursesOnTermLoading: false,
       coursesOnTermError: error,
       mutateCoursesOnTerm: mutate,
@@ -47,7 +71,7 @@ export default function useCoursesOnTerm(termID: number) {
   }
 
   return {
-    coursesOnTerm: data,
+    coursesOnTerm: [] as CourseOnTerm[],
     coursesOnTermLoading: !error && !data,
     coursesOnTermError: error,
     mutateCoursesOnTerm: mutate,
