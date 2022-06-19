@@ -1,19 +1,21 @@
 import FlowBlock from 'components/Flow/FlowBlock'
-import React from 'react'
+import { useState } from 'react'
+import { ContentEditableEvent } from 'react-contenteditable'
 import { Block, BlockTag, Color, RichTextType } from 'types/Flow'
 import { setCaretToEnd } from 'utils/caretHelpers'
+import richTextEditor from 'utils/richTextEditor'
+import useStateCallback from 'utils/useStateCallback'
 import { v4 as uuidv4 } from 'uuid'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Props {}
-interface State {
-  blocks: Block[]
+export interface addDeleteParams {
+  ref: HTMLElement | null
 }
 
 const initialBlock: Block = {
   id: uuidv4(),
+  index: 0,
   tag: BlockTag.PARAGRAPH,
-  paragraph: {
+  p: {
     richText: [
       {
         type: RichTextType.TEXT,
@@ -26,76 +28,114 @@ const initialBlock: Block = {
   },
 }
 
-class FlowPage extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.updatePageHandler = this.updatePageHandler.bind(this)
-    this.addBlockHandler = this.addBlockHandler.bind(this)
-    this.deleteBlockHandler = this.deleteBlockHandler.bind(this)
-    this.state = { blocks: [initialBlock] }
-  }
+const secondBlock: Block = {
+  id: uuidv4(),
+  index: 1,
+  tag: BlockTag.PARAGRAPH,
+  p: {
+    richText: [
+      {
+        type: RichTextType.TEXT,
+        text: {
+          content: 'TESTING2',
+        },
+      },
+    ],
+    color: Color.RED,
+  },
+}
 
-  updatePageHandler(updatedBlock) {
-    const { blocks } = this.state
-    const index = blocks.map((b) => b.id).indexOf(updatedBlock.id)
+export default function FlowPage() {
+  const [blocks, setBlocks] = useStateCallback([initialBlock, secondBlock])
+  const [currentBlock, setCurrentBlock] = useState<Block>(initialBlock)
+
+  const updatePageHandler = (updatedBlock: Block) => {
+    const index = blocks.map((b: Block) => b.id).indexOf(updatedBlock.id)
     const updatedBlocks = [...blocks]
     updatedBlocks[index] = {
       ...updatedBlocks[index],
       tag: updatedBlock.tag,
-      paragraph: updatedBlock.paragraph,
+      p: updatedBlock.p,
     }
-    this.setState({ blocks: updatedBlocks })
+    // this.setState({ blocks: updatedBlocks })
   }
 
-  addBlockHandler(currentBlock) {
-    const newBlock = {
-      id: uuidv4(),
-      tag: BlockTag.PARAGRAPH,
-      paragraph: { richText: [], color: Color.RED },
+  const editCurrentBlock = (e: ContentEditableEvent) => {
+    const currentRichText = currentBlock[currentBlock.tag]?.richText[0]
+    richTextEditor(currentRichText, e.target.value)
+  }
+
+  const changeCurrentBlockTag = (tag: BlockTag) => {
+    currentBlock.tag = tag
+    switch (tag) {
+      case BlockTag.HEADING_1:
+        currentBlock.h1 = currentBlock.p
+        currentBlock.p = undefined
+        break
+      default:
     }
-    const { blocks } = this.state
-    const index = blocks.map((b) => b.id).indexOf(currentBlock.id)
-    const updatedBlocks = [...blocks]
-    updatedBlocks.splice(index + 1, 0, newBlock)
-    this.setState({ blocks: updatedBlocks }, () => {
-      currentBlock.ref.nextElementSibling.focus()
+  }
+
+  const addBlockHandler = ({ ref }: addDeleteParams) => {
+    const tempBlocks = [...blocks]
+    const newBlock: Block = {
+      id: uuidv4(),
+      index: currentBlock.index + 1,
+      tag: BlockTag.PARAGRAPH,
+      p: {
+        richText: [
+          {
+            type: RichTextType.TEXT,
+            text: {
+              content: '',
+            },
+          },
+        ],
+        color: Color.RED,
+      },
+    }
+    tempBlocks.splice(currentBlock.index + 1, 0, newBlock)
+    for (let i = currentBlock.index + 2; i < tempBlocks.length; i += 1) {
+      tempBlocks[i].index += 1
+    }
+    setBlocks(tempBlocks, () => {
+      const next: HTMLElement | null = ref?.nextSibling as HTMLElement
+      if (next) next.focus()
     })
   }
 
-  deleteBlockHandler(currentBlock) {
+  const deleteBlockHandler = ({ ref }: addDeleteParams) => {
     // Only delete the block, if there is a preceding one
-    const previousBlock = currentBlock.ref.previousElementSibling
+    const previousBlock = ref?.previousElementSibling as HTMLElement
     if (previousBlock) {
-      const { blocks } = this.state
-      const index = blocks.map((b) => b.id).indexOf(currentBlock.id)
-      const updatedBlocks = [...blocks]
-      updatedBlocks.splice(index, 1)
-      this.setState({ blocks: updatedBlocks }, () => {
+      const tempBlocks = [...blocks]
+      for (let i = currentBlock.index + 1; i < tempBlocks.length; i += 1) {
+        tempBlocks[i].index -= 1
+      }
+      tempBlocks.splice(currentBlock.index, 1)
+      setBlocks(tempBlocks, () => {
         setCaretToEnd(previousBlock)
         previousBlock.focus()
       })
     }
   }
 
-  render() {
-    const { blocks } = this.state
-    return (
-      <div className="Page">
-        {blocks.map((block) => (
-          <FlowBlock
-            key={block.id}
-            id={block.id}
-            block={block}
-            tag={block.tag}
-            html=""
-            updatePage={this.updatePageHandler}
-            addBlock={this.addBlockHandler}
-            deleteBlock={this.deleteBlockHandler}
-          />
-        ))}
-      </div>
-    )
-  }
+  return (
+    <div>
+      {blocks.map((block: Block) => (
+        <FlowBlock
+          key={block.id}
+          id={block.id}
+          block={block}
+          currentBlock={currentBlock}
+          setCurrentBlock={setCurrentBlock}
+          editBlock={editCurrentBlock}
+          changeBlockTag={changeCurrentBlockTag}
+          updatePage={updatePageHandler}
+          addBlock={addBlockHandler}
+          deleteBlock={deleteBlockHandler}
+        />
+      ))}
+    </div>
+  )
 }
-
-export default FlowPage

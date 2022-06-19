@@ -1,32 +1,51 @@
+/* eslint-disable no-case-declarations */
+import classNames from 'classnames'
 import { matchSorter } from 'match-sorter'
 import React from 'react'
+import { BlockTag } from 'types/Flow'
+
+interface Tag {
+  tag: BlockTag
+  label: string
+}
 
 const MENU_HEIGHT = 150
-const allowedTags = [
+const allowedTags: Tag[] = [
   {
-    id: 'page-title',
-    tag: 'h1',
-    label: 'Page Title',
+    tag: BlockTag.HEADING_1,
+    label: 'Heading 1',
   },
   {
-    id: 'heading',
-    tag: 'h2',
-    label: 'Heading',
+    tag: BlockTag.HEADING_2,
+    label: 'Heading 2',
   },
   {
-    id: 'subheading',
-    tag: 'h3',
-    label: 'Subheading',
+    tag: BlockTag.HEADING_3,
+    label: 'Heading 3',
   },
   {
-    id: 'paragraph',
-    tag: 'p',
-    label: 'Paragraph',
+    tag: BlockTag.PARAGRAPH,
+    label: 'Text',
   },
 ]
 
-class SelectMenu extends React.Component {
-  constructor(props) {
+interface Props {
+  position: {
+    x: number | null | undefined
+    y: number | null | undefined
+  }
+  onSelect: (tag: BlockTag) => void
+  close: () => void
+}
+
+interface State {
+  command: string
+  items: Tag[]
+  selectedItem: number
+}
+
+class SelectMenu extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.keyDownHandler = this.keyDownHandler.bind(this)
     this.state = {
@@ -42,7 +61,7 @@ class SelectMenu extends React.Component {
   }
 
   // Whenever the command changes, look for matching tags in the list
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const { command } = this.state
     if (prevState.command !== command) {
       const items = matchSorter(allowedTags, command, { keys: ['tag'] })
@@ -54,56 +73,61 @@ class SelectMenu extends React.Component {
     document.removeEventListener('keydown', this.keyDownHandler)
   }
 
-  keyDownHandler(e) {
-    const { items } = this.state
-    const selected = this.state.selectedItem
-    const { command } = this.state
+  keyDownHandler(e: { key: string; preventDefault: () => void }) {
+    const { items, selectedItem, command } = this.state
+    const { onSelect, close } = this.props
 
     switch (e.key) {
       case 'Enter':
         e.preventDefault()
-        this.props.onSelect(items[selected].tag)
+        onSelect(items[selectedItem].tag)
         break
       case 'Backspace':
-        if (!command) this.props.close()
+        if (!command) close()
         this.setState({ command: command.substring(0, command.length - 1) })
         break
       case 'ArrowUp':
         e.preventDefault()
-        const prevSelected = selected === 0 ? items.length - 1 : selected - 1
+        const prevSelected =
+          selectedItem === 0 ? items.length - 1 : selectedItem - 1
         this.setState({ selectedItem: prevSelected })
         break
       case 'ArrowDown':
       case 'Tab':
         e.preventDefault()
-        const nextSelected = selected === items.length - 1 ? 0 : selected + 1
+        const nextSelected =
+          selectedItem === items.length - 1 ? 0 : selectedItem + 1
         this.setState({ selectedItem: nextSelected })
         break
       default:
-        this.setState({ command: this.state.command + e.key })
+        this.setState({ command: command + e.key })
         break
     }
   }
 
   render() {
     // Define the absolute position before rendering
-    const { x } = this.props.position
-    const y = this.props.position.y - MENU_HEIGHT
+    const { items } = this.state
+    const { position, onSelect } = this.props
+    const x = position?.x || 0
+    const y = position?.y || 0 - MENU_HEIGHT
+
     const positionAttributes = { top: y, left: x }
 
     return (
       <div className="SelectMenu" style={positionAttributes}>
         <div className="Items">
-          {this.state.items.map((item, key) => {
+          {items.map((item) => {
             const { selectedItem } = this.state
-            const isSelected = this.state.items.indexOf(item) === selectedItem
+            const isSelected = items.indexOf(item) === selectedItem
             return (
               <div
-                className={isSelected ? 'Selected' : null}
-                key={key}
+                className={classNames({ Selected: isSelected })}
+                key={item.label}
                 role="button"
-                tabIndex="0"
-                onClick={() => this.props.onSelect(item.tag)}
+                tabIndex={0}
+                onClick={() => onSelect(item.tag)}
+                onKeyDown={() => onSelect(item.tag)}
               >
                 {item.label}
               </div>

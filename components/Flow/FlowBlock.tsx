@@ -1,26 +1,26 @@
+import classNames from 'classnames'
 import FlowMenu from 'components/Flow/FlowMenu'
+import { addDeleteParams } from 'components/Flow/FlowPage'
 import React from 'react'
-import ContentEditable from 'react-contenteditable'
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import { Block, BlockTag } from 'types/Flow'
 import blockParser from 'utils/blockParser'
 import { getCaretCoordinates, setCaretToEnd } from 'utils/caretHelpers'
-import richTextEditor from 'utils/richTextEditor'
+import richTextParser from 'utils/richTextParser'
 
 interface Props {
   id: string
   block: Block
-  tag: BlockTag
-  html: string
+  editBlock: (e: ContentEditableEvent) => void
+  changeBlockTag: (tag: BlockTag) => void
   updatePage: (block: Block) => void
-  addBlock: (block: Block) => void
-  deleteBlock: (block: Block) => void
+  addBlock: ({ ref }: addDeleteParams) => void
+  deleteBlock: ({ ref }: addDeleteParams) => void
+  currentBlock: Block
+  setCurrentBlock: (block: Block) => void
 }
 interface State {
-  block: Block
   contentEditable: React.RefObject<HTMLElement>
-  htmlBackup: string | null
-  html: string | null
-  tag: BlockTag
   previousKey: string
   selectMenuIsOpen: boolean
   selectMenuPosition: {
@@ -42,11 +42,7 @@ class FlowBlock extends React.Component<Props, State> {
     this.tagSelectionHandler = this.tagSelectionHandler.bind(this)
 
     this.state = {
-      block: props.block,
       contentEditable: React.createRef(),
-      htmlBackup: null, // needed to store the html temporarely
-      html: '',
-      tag: BlockTag.PARAGRAPH,
       previousKey: '',
       selectMenuIsOpen: false,
       selectMenuPosition: {
@@ -56,51 +52,31 @@ class FlowBlock extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount() {
-    const { html, tag } = this.props
-    this.setState({ html, tag })
-  }
+  // componentDidMount() {}
 
   // Update the page component if one of the following is true:
   // 1. user has changed the html content
   // 2. user has changed the tag
-  componentDidUpdate(prevProps, prevState) {
-    const { html, tag } = this.state
-    const htmlChanged = prevState.html !== html
-    const tagChanged = prevState.tag !== tag
-    if (htmlChanged || tagChanged) {
+  componentDidUpdate(prevProps: Props) {
+    const { block } = this.props
+    const tagChanged = prevProps.block.tag !== block.tag
+    if (tagChanged) {
       const { id, updatePage } = this.props
-      const { html, tag } = this.state
-      updatePage({
-        id,
-        html,
-        tag,
-      })
     }
   }
 
-  onChangeHandler(e: { target: { value: any } }) {
-    const { block } = this.state
-    const currentRichText = block.paragraph?.richText[0]
-    const newRichText = richTextEditor(currentRichText, e.target.value)
-    this.setState((prevState) => ({
-      block: {
-        ...prevState.block,
-        paragraph: {
-          richText: [newRichText],
-        },
-      },
-    }))
-    console.log(this.state.block)
+  onChangeHandler(e: ContentEditableEvent) {
+    const { editBlock } = this.props
+    editBlock(e)
   }
 
   onKeyDownHandler(e: { key: string; preventDefault: () => void }) {
+    const { setCurrentBlock, block } = this.props
+    setCurrentBlock(block)
     if (e.key === CMD_KEY) {
       // If the user starts to enter a command, we store a backup copy of
       // the html. We need this to restore a clean version of the content
       // after the content type selection was finished.
-      const { html } = this.state
-      this.setState({ htmlBackup: html })
     }
     if (e.key === 'Enter') {
       // While pressing "Enter" should add a new block to the page, we
@@ -108,23 +84,18 @@ class FlowBlock extends React.Component<Props, State> {
       const { previousKey, selectMenuIsOpen } = this.state
       if (previousKey !== 'Shift' && !selectMenuIsOpen) {
         e.preventDefault()
-        const { addBlock, id } = this.props
+        const { addBlock } = this.props
         const { contentEditable } = this.state
-        addBlock({
-          id,
-          ref: contentEditable.current,
-        })
+        addBlock({ ref: contentEditable.current })
       }
     }
-    const { html } = this.state
-    if (e.key === 'Backspace' && !html) {
+    if (e.key === 'Backspace' && blockParser(block) === '') {
       // If there is no content, we delete the block by pressing "Backspace",
       // just as we would remove a line in a regular text container
       e.preventDefault()
-      const { deleteBlock, id } = this.props
+      const { deleteBlock } = this.props
       const { contentEditable } = this.state
       deleteBlock({
-        id,
         ref: contentEditable.current,
       })
     }
@@ -153,7 +124,6 @@ class FlowBlock extends React.Component<Props, State> {
 
   closeSelectMenuHandler() {
     this.setState({
-      htmlBackup: null,
       selectMenuIsOpen: false,
       selectMenuPosition: { x: null, y: null },
     })
@@ -163,17 +133,17 @@ class FlowBlock extends React.Component<Props, State> {
   // Restore the clean html (without the command), focus the editable
   // with the caret being set to the end, close the select menu
   tagSelectionHandler(tag: BlockTag) {
-    const { htmlBackup, contentEditable } = this.state
-    this.setState({ tag, html: htmlBackup }, () => {
-      setCaretToEnd(contentEditable.current)
-      this.closeSelectMenuHandler()
-    })
+    const { changeBlockTag } = this.props
+    const { contentEditable } = this.state
+    changeBlockTag(tag)
+    setCaretToEnd(contentEditable.current)
+    this.closeSelectMenuHandler()
   }
 
   render() {
-    const { block } = this.state
-    const { selectMenuIsOpen, selectMenuPosition, contentEditable, tag } =
-      this.state
+    const { block, currentBlock, setCurrentBlock } = this.props
+    const { selectMenuIsOpen, selectMenuPosition, contentEditable } = this.state
+
     return (
       <>
         {selectMenuIsOpen && (
@@ -184,14 +154,25 @@ class FlowBlock extends React.Component<Props, State> {
           />
         )}
         <ContentEditable
-          className="outline-none my-2"
+          className={classNames(
+            { 'h-6': block.tag === BlockTag.PARAGRAPH },
+            'outline-none my-2',
+          )}
           innerRef={contentEditable}
           html={blockParser(block)}
-          tagName={tag}
-          placeholder="Type '/' for commands"
+          tagName={block.tag}
+          placeholder={
+            currentBlock.id === block.id ||
+            richTextParser(block[block.tag]?.richText) === ''
+              ? "Type '/' for commands"
+              : ''
+          }
           onChange={this.onChangeHandler}
           onKeyDown={this.onKeyDownHandler}
           onKeyUp={this.onKeyUpHandler}
+          onFocus={() => {
+            setCurrentBlock(block)
+          }}
         />
       </>
     )

@@ -1,5 +1,8 @@
 export enum BlockTag {
   PARAGRAPH = 'p',
+  HEADING_1 = 'h1',
+  HEADING_2 = 'h2',
+  HEADING_3 = 'h3',
 }
 
 export enum Color {
@@ -66,8 +69,27 @@ interface Paragraph {
   color: Color
 }
 
+interface Heading_1 {
+  richText: RichText[]
+  color: Color
+}
+
+interface Heading_2 {
+  richText: RichText[]
+  color: Color
+}
+
+interface Heading_3 {
+  richText: RichText[]
+  color: Color
+}
+
 export interface Block {
   id: string
+  index: number
   tag: BlockTag
-  paragraph?: Paragraph
+  p?: Paragraph
+  h1?: Heading_1
+  h2?: Heading_2
+  h3?: Heading_3
 }
