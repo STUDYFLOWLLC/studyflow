@@ -179,6 +179,7 @@ model Task {
   TaskID            Int           @id @default(autoincrement())
   CreatedTime       DateTime      @default(now())
   Title             String        @default("Untitled")
+  Completed         Boolean       @default(false)
   Description       String?
   DueDate           DateTime?
   FK_TaskLabel      TaskLabel[]

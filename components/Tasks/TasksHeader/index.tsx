@@ -24,8 +24,6 @@ export default function TaskHeader({
     userDetails?.FK_Terms?.[0]?.TermID,
   )
 
-  console.log(coursesOnTerm)
-
   return (
     <div className="flex justify-center mt-6">
       <Today setViewing={setViewing} viewing={viewing} />

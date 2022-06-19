@@ -27,6 +27,7 @@ export default function useTasks(userId: number | undefined): Ret {
         TaskID
         Description
         DueDate
+        Completed
       }
     }
   `

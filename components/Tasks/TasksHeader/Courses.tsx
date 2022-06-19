@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-prop-types */
+
 import { Menu, Transition } from '@headlessui/react'
 import { AcademicCapIcon } from '@heroicons/react/outline'
 import { ChevronUpIcon } from '@heroicons/react/solid'
@@ -9,6 +11,10 @@ interface Props {
   viewing: string
   setViewing: (viewing: string) => void
   coursesOnTerm: CourseOnTerm[]
+}
+
+interface MenuItemProps {
+  active: boolean
 }
 
 export default function Courses({ setViewing, viewing, coursesOnTerm }: Props) {
@@ -73,7 +79,7 @@ export default function Courses({ setViewing, viewing, coursesOnTerm }: Props) {
                           setViewing(course.Nickname || course.FK_Course.Code)
                         }}
                       >
-                        {({ active }) => (
+                        {({ active }: MenuItemProps) => (
                           <div
                             className={classNames(
                               { 'bg-gray-100 text-gray-900': active },
