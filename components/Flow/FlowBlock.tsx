@@ -73,6 +73,24 @@ class FlowBlock extends React.Component<Props, State> {
   onKeyDownHandler(e: { key: string; preventDefault: () => void }) {
     const { setCurrentBlock, block } = this.props
     setCurrentBlock(block)
+    if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      const { contentEditable } = this.state
+      if (contentEditable.current?.previousElementSibling) {
+        setCaretToEnd(
+          contentEditable.current?.previousElementSibling as HTMLElement,
+        )
+      }
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      const { contentEditable } = this.state
+      if (contentEditable.current?.nextElementSibling) {
+        setCaretToEnd(
+          contentEditable.current?.nextElementSibling as HTMLElement,
+        )
+      }
+    }
     if (e.key === CMD_KEY) {
       // If the user starts to enter a command, we store a backup copy of
       // the html. We need this to restore a clean version of the content
