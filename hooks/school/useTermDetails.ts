@@ -27,7 +27,7 @@ export interface CourseOnTermInfo {
   IsOfficial: boolean
   Title: string
   Code: string
-  Term: String
+  Term: string
   ProfessorName?: string
   Email?: string
 }
