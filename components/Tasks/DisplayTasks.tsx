@@ -15,7 +15,10 @@ export default function DisplayTasks({ user, tasksDisplayed, viewing }: Props) {
       <div className="flex justify-center">
         <ul>
           {tasksDisplayed.map((task) => (
-            <li key={task.TaskID}>
+            <li
+              className="border rounded-lg shadow-md m-4 p-2 w-full"
+              key={task.TaskID}
+            >
               <div className="flex">
                 <Checkbox TaskID={task.TaskID} />
                 <div className="flex flex-col">
@@ -24,8 +27,6 @@ export default function DisplayTasks({ user, tasksDisplayed, viewing }: Props) {
                   <div>{task.DueDate}</div>
                 </div>
               </div>
-
-              <div className=" mx-auto border-t border-gray-300 m-6" />
             </li>
           ))}
         </ul>
