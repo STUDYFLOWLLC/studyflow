@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import FlowBlock from 'components/Flow/FlowBlock'
 import { useState } from 'react'
 import { ContentEditableEvent } from 'react-contenteditable'
@@ -65,12 +68,30 @@ export default function FlowPage() {
     richTextEditor(currentRichText, e.target.value)
   }
 
+  const blockCleanupAfterCommand = (block: any) => {
+    const blockRichText = block[block.tag]?.richText
+    const lastSlashIndex =
+      blockRichText[blockRichText.length - 1].text.content.lastIndexOf('/')
+    if (lastSlashIndex === 0) {
+      block[block.tag].richText[
+        block[block.tag].richText.length - 1
+      ].text.content = ''
+    }
+    console.log(
+      block[block.tag].richText[block[block.tag].richText.length - 1].text
+        .content,
+    )
+
+    console.log(block)
+  }
+
   const changeCurrentBlockTag = (tag: BlockTag) => {
     currentBlock.tag = tag
     switch (tag) {
       case BlockTag.HEADING_1:
         currentBlock.h1 = currentBlock.p
         currentBlock.p = undefined
+        blockCleanupAfterCommand(currentBlock)
         break
       default:
     }
@@ -121,7 +142,7 @@ export default function FlowPage() {
   }
 
   return (
-    <div>
+    <div className="prose prose-h1:text-4xl prose-h1:my-4 prose-p:my-2">
       {blocks.map((block: Block) => (
         <FlowBlock
           key={block.id}

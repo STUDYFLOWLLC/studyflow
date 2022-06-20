@@ -47,14 +47,9 @@
   padding: 0.5rem 1rem;
   border-bottom: 1px solid f5f6fb;
 }
-.SelectMenu .Items div[role='button']:hover {
-  background: #f5f6fb;
-  cursor: pointer;
-}
 .SelectMenu .Items div[role='button']:last-of-type {
   border-bottom: none;
 }
-.SelectMenu .Items div[role='button']:hover,
 .SelectMenu .Items div[role='button']:focus {
   background: #f5f6fb;
   cursor: pointer;

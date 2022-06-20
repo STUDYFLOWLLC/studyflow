@@ -25,7 +25,7 @@ export const setCaretToEnd = async (element: HTMLElement | null) => {
   if (!element) return
   const range = document.createRange()
   const selection = window.getSelection()
-  range.setStart(element.childNodes[0].childNodes[0].childNodes[0], 0)
+  range.setStart(element, 0)
   range.collapse(true)
   selection?.removeAllRanges()
   selection?.addRange(range)
