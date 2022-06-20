@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-expressions */
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import BigProfileButton from 'components/buttons/BigProfileButton'
 import CourseNavs from 'components/Dashbar/CourseNavs'
 import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
@@ -21,6 +23,8 @@ export default function index({
   loading,
 }: DashProps) {
   const { theme, setTheme } = useTheme()
+  const { user } = useUser()
+  const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
 
   const [mounted, setMounted] = useState(false)
 
@@ -51,10 +55,10 @@ export default function index({
       <LogoHeader />
       <div className="mt-6 h-0 flex-1 flex flex-col overflow-y-auto">
         <BigProfileButton
-          name="Jessy Scwartz"
-          username="jschrawtz"
-          pfpLink="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-          loading={loading}
+          name={userDetails?.Name}
+          username={userDetails?.Username}
+          pfpLink={userDetails?.ProfilePictureLink}
+          loading={userDetailsLoading}
         />
         <DashSearch searchValue={searchValue} setSearchValue={setSearchValue} />
         <nav className="px-3 mt-6">
