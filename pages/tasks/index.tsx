@@ -47,24 +47,23 @@ export default function index({ user }: Props) {
           setSearchValue={setSearchValue}
           loading={!userDetails}
         />
-        <div className="flex-1">
-          <TaskHeader
-            user={user}
-            viewing={viewing}
-            setViewing={setViewing}
-            coursesOnTerm={coursesOnTerm}
-          />
-        </div>
       </div>
-
-      <div className="mx-auto w-4/5 border-t border-gray-300 mt-6" />
-      <div className="mx-auto w-8/12 flex flex-col justify-center">
-        <DisplayTasks
+      <div className="lg:pl-56 flex flex-col">
+        <TaskHeader
           user={user}
-          tasksDisplayed={tasksDisplayed(viewing, tasks)}
           viewing={viewing}
+          setViewing={setViewing}
+          coursesOnTerm={coursesOnTerm}
         />
-        <AddTask user={user} tasks={tasks} mutateTasks={mutateTasks} />
+        <div className="mx-auto w-4/5 border-t border-gray-300 mt-6" />
+        <div className="mx-auto w-8/12 flex flex-col justify-center">
+          <DisplayTasks
+            user={user}
+            tasksDisplayed={tasksDisplayed(viewing, tasks)}
+            viewing={viewing}
+          />
+          <AddTask user={user} tasks={tasks} mutateTasks={mutateTasks} />
+        </div>
       </div>
     </div>
   )
