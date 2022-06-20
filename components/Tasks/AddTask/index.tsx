@@ -120,9 +120,19 @@ export default function index({ user, tasks, mutateTasks }: Props) {
             </button>
             <button
               type="button"
-              className="px-3.5 py-1.5 flex cursor-pointer transition rounded-md bg-gray-700 hover:bg-black font-medium text-white"
-              onClick={() => addTask()}
-              onKeyDown={() => addTask()}
+              className={classNames(
+                { 'bg-gray-400 cursor-default': !taskName },
+                { 'bg-gray-700 hover:bg-black cursor-pointer': taskName },
+                'px-3.5 py-1.5 flex transition rounded-md  font-medium text-white',
+              )}
+              onClick={() => {
+                addTask()
+                setShowMain(false)
+              }}
+              onKeyDown={() => {
+                addTask()
+                setShowMain(false)
+              }}
             >
               Add task
             </button>
