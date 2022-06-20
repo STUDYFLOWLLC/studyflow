@@ -9,7 +9,6 @@ interface Tag {
   label: string
 }
 
-const MENU_HEIGHT = 150
 const allowedTags: Tag[] = [
   {
     tag: BlockTag.HEADING_1,
@@ -57,6 +56,7 @@ class SelectMenu extends React.Component<Props, State> {
 
   // Attach a key listener to add any given key to the command
   componentDidMount() {
+    document.getElementById('command-menu')?.focus()
     document.addEventListener('keydown', this.keyDownHandler)
   }
 
@@ -110,26 +110,32 @@ class SelectMenu extends React.Component<Props, State> {
     const { items } = this.state
     const { position, onSelect } = this.props
     const x = position?.x || 0
-    const y = position?.y || 0 - MENU_HEIGHT
-
-    const positionAttributes = { top: y, left: x }
 
     return (
-      <div className="SelectMenu" style={positionAttributes}>
-        <div className="Items">
+      <div
+        className="ml-1 rounded-lg absolute bg-slate-50 w-36 p-0 shadow-md z-10 flex flex-col justify-end transition-all duration-500"
+        style={{ left: x !== 0 ? x : undefined }}
+      >
+        <div className="transition-all">
           {items.map((item) => {
             const { selectedItem } = this.state
             const isSelected = items.indexOf(item) === selectedItem
             return (
-              <div
-                className={classNames({ Selected: isSelected })}
-                key={item.label}
-                role="button"
-                tabIndex={0}
-                onClick={() => onSelect(item.tag)}
-                onKeyDown={() => onSelect(item.tag)}
-              >
-                {item.label}
+              <div key={item.label}>
+                <div
+                  className={classNames(
+                    {
+                      'bg-primary bg-opacity-30': isSelected,
+                    },
+                    'px-3 py-1.5 m-0 border-b-2 border-slate-100 first-of-type:rounded-t-lg last-of-type:rounded-b-lg last-of-type:border-none  cursor-pointer font-normal transition-all',
+                  )}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => onSelect(item.tag)}
+                  onKeyDown={() => onSelect(item.tag)}
+                >
+                  {item.label}
+                </div>
               </div>
             )
           })}

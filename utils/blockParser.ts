@@ -16,7 +16,6 @@ export default function blockParser(block: Block) {
     if (richText === '<span></span>') return ''
     html.push(richTextParser(block.h1?.richText))
     html.push('</h1>')
-    console.log(html.join(''))
   }
   return html.join('')
 }
