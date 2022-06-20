@@ -72,7 +72,13 @@ export default function index({
           setShowHideButton={setShowHideButton}
           setShowDashBar={setShowDashBar}
         />
-        <div className="mt-6 flex-1 flex flex-col overflow-y-auto">
+        <div
+          className={classnames(
+            { 'bg-slate-100': theme === 'light' },
+            { 'bg-base-200': theme === 'dark' },
+            'mt-6 flex-1 flex flex-col overflow-y-auto',
+          )}
+        >
           <BigProfileButton
             name={userDetails?.Name}
             username={userDetails?.Username}

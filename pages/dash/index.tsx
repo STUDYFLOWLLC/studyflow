@@ -12,6 +12,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import setupRedirectHandler from 'utils/setupRedirectHandler'
 
@@ -31,6 +32,18 @@ export default function Dash({ user }: Props) {
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
   const [searchValue, setSearchValue] = useState('')
+
+  useHotkeys(
+    'cmd+i, ctrl+i',
+    (e) => {
+      e.preventDefault()
+      setShowDashBar(!showDashBar)
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+    },
+    [showDashBar],
+  )
 
   useEffect(() => {
     setMounted(true)
@@ -54,9 +67,9 @@ export default function Dash({ user }: Props) {
       <div className="min-h-full">
         <DashBar
           showDashBar={showDashBar}
+          setShowDashBar={setShowDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          loading={!userDetails}
         />
 
         <div
@@ -66,7 +79,7 @@ export default function Dash({ user }: Props) {
           )}
         >
           <DashHeadSmall />
-          <main className="flex-1" onClick={() => setShowDashBar(!showDashBar)}>
+          <main className="flex-1">
             <DashHeadBig />
             <Pinned />
             <FlowListSmall />
