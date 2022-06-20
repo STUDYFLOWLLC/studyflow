@@ -69,7 +69,6 @@ export default function index({
       >
         <LogoHeader
           showHideButton={showHideButton}
-          setShowHideButton={setShowHideButton}
           setShowDashBar={setShowDashBar}
         />
         <div className="mt-6 h-full flex-1 flex flex-col overflow-y-auto">
