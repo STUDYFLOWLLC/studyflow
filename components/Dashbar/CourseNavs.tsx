@@ -2,6 +2,7 @@ import { PlusCircleIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import CourseLine from 'components/Dashbar/CourseLine'
+import { mutateCourseOnTermIndex } from 'hooks/school/mutateCourseOnTerm'
 import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
@@ -32,7 +33,7 @@ const fakeCourse: CourseOnTerm = {
 }
 
 const reorder = (
-  list: CourseDisplay[],
+  list: CourseOnTerm[],
   startIndex: number,
   endIndex: number,
 ) => {
@@ -47,44 +48,12 @@ export default function CourseNavs() {
   const { theme } = useTheme()
   const { user, error } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
-    userDetails?.FK_Terms?.[0]?.TermID,
-  )
-  const [teams, setTeams] = useState<CourseDisplay[]>([
-    {
-      name: 'Linear Algebra',
-      href: '#',
-      bgColorClass: 'bg-indigo-500',
-      loading: coursesOnTermLoading,
-    },
-    {
-      name: '2110',
-      href: '#',
-      bgColorClass: 'bg-green-500',
-      loading: coursesOnTermLoading,
-    },
-    {
-      name: 'Discrete',
-      href: '#',
-      bgColorClass: 'bg-orange-500',
-      loading: coursesOnTermLoading,
-    },
-    {
-      name: 'Cog Sci',
-      href: '#',
-      bgColorClass: 'bg-blue-500',
-      loading: coursesOnTermLoading,
-    },
-    {
-      name: 'Bio',
-      href: '#',
-      bgColorClass: 'bg-yellow-500',
-      loading: coursesOnTermLoading,
-    },
-  ])
+  const { coursesOnTerm, coursesOnTermLoading, mutateCoursesOnTerm } =
+    useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
+
   const [mounted, setMounted] = useState(false)
 
-  const onEnd = (result: DropResult) => {
+  const onEnd = async (result: DropResult) => {
     const { destination, source } = result
 
     if (!destination) {
@@ -98,13 +67,33 @@ export default function CourseNavs() {
       return
     }
 
-    const newTeams: CourseDisplay[] = reorder(
-      teams,
+    const newTeams: CourseOnTerm[] = reorder(
+      coursesOnTerm,
       result.source.index,
       result.destination ? result.destination.index : 0,
     )
 
-    setTeams(newTeams)
+    mutateCoursesOnTerm(
+      { coursesOnTerm: newTeams, mutate: true },
+      {
+        revalidate: false,
+      },
+    )
+
+    if (result.destination) {
+      const sourceCourse = coursesOnTerm[result.source.index]
+      const destinationCourse = coursesOnTerm[result.destination?.index || 0]
+      await mutateCourseOnTermIndex(
+        sourceCourse.CourseOnTermID,
+        destinationCourse.Index,
+      )
+      await mutateCourseOnTermIndex(
+        destinationCourse.CourseOnTermID,
+        sourceCourse.Index,
+      )
+    }
+
+    // setTeams(newTeams)
   }
 
   useEffect(() => setMounted(true), [])
