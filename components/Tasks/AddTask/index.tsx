@@ -107,21 +107,38 @@ export default function index({ user, tasks, mutateTasks }: Props) {
               />
             </div>
           </div>
+          <div className="flex justify-end mt-2 space-x-2">
+            <button
+              type="button"
+              className="px-3.5 py-1.5 flex cursor-pointer transition rounded-md bg-gray-100 hover:bg-gray-200 font-medium"
+              onClick={() => {
+                setShowMain(false)
+                setShowAddTask(false)
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className={classNames(
+                { 'bg-gray-400 cursor-default': !taskName },
+                { 'bg-gray-700 hover:bg-black cursor-pointer': taskName },
+                'px-3.5 py-1.5 flex transition rounded-md  font-medium text-white',
+              )}
+              onClick={() => {
+                addTask()
+                setShowMain(false)
+              }}
+              onKeyDown={() => {
+                addTask()
+                setShowMain(false)
+              }}
+            >
+              Add task
+            </button>
+          </div>
         </div>
       )}
     </div>
   )
 }
-
-// {
-//   /* <div className="space-x-2 mt-2 text-right w-1/2 mx-auto">
-//             <span
-//               onClick={() => addTask()}
-//               onKeyDown={() => addTask()}
-//               className="border"
-//             >
-//               Add task
-//             </span>
-//             <span className="border">Cancel</span>
-//           </div> */
-// }
