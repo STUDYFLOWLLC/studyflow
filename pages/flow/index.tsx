@@ -52,7 +52,7 @@ export default function Flow() {
   if (!mounted) return null
 
   return (
-    <div>
+    <div className="w-screen">
       <div className="flex absolute top-2 right-4">
         <EyeIcon className="w-4" />
         <p className="text-gray-400 ml-2">178</p>
