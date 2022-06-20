@@ -86,11 +86,22 @@ export default function FlowPage() {
   }
 
   const changeCurrentBlockTag = (tag: BlockTag) => {
+    const oldTag = currentBlock.tag
     currentBlock.tag = tag
     switch (tag) {
       case BlockTag.HEADING_1:
-        currentBlock.h1 = currentBlock.p
-        currentBlock.p = undefined
+        currentBlock.h1 = currentBlock[oldTag]
+        currentBlock[oldTag] = undefined
+        blockCleanupAfterCommand(currentBlock)
+        break
+      case BlockTag.HEADING_2:
+        currentBlock.h2 = currentBlock[oldTag]
+        currentBlock[oldTag] = undefined
+        blockCleanupAfterCommand(currentBlock)
+        break
+      case BlockTag.HEADING_3:
+        currentBlock.h3 = currentBlock[oldTag]
+        currentBlock[oldTag] = undefined
         blockCleanupAfterCommand(currentBlock)
         break
       default:
@@ -142,7 +153,7 @@ export default function FlowPage() {
   }
 
   return (
-    <div className="prose prose-h1:text-4xl prose-h1:my-4 prose-p:my-2">
+    <div className="max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-semibold prose-h2:text-3xl prose-h2:my-5 prose-h2:font-semibold prose-h3:text-2xl prose-h3:my-4 prose-h3:font-semibold prose-p:my-3 prose-p:text-lg">
       {blocks.map((block: Block) => (
         <FlowBlock
           key={block.id}
