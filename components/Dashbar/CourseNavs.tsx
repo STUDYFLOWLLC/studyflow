@@ -21,6 +21,7 @@ const fakeCourse: CourseOnTerm = {
   CourseOnTermID: 0,
   Color: '',
   Nickname: '',
+  Index: 0,
   FK_Course: {
     Code: '',
     Term: '',
