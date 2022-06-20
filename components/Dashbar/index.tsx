@@ -50,10 +50,10 @@ export default function index({
 
   return (
     <Transition
-      enter="transition ease-in-out duration-500 transform"
+      enter="transition ease-in-out duration-200 transform"
       enterFrom="-translate-x-full"
       enterTo="translate-x-0"
-      leave="transition ease-in-out duration-500 transform"
+      leave="transition ease-in-out duration-200 transform"
       leaveFrom="translate-x-0"
       leaveTo="-translate-x-full"
       show={showDashBar}
