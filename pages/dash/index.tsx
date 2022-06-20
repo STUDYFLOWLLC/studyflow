@@ -73,10 +73,7 @@ export default function Dash({ user }: Props) {
         />
 
         <div
-          className={classNames(
-            { 'lg:pl-56': showDashBar },
-            'flex flex-col transition-all duration-500',
-          )}
+          className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
         >
           <DashHeadSmall />
           <main className="flex-1">
