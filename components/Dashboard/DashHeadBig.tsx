@@ -1,8 +1,19 @@
-export default function DashHeadBig() {
+import HideButton from 'components/Dashbar/HideButton'
+import { Dispatch, SetStateAction } from 'react'
+
+interface Props {
+  showDashBar: boolean
+  setShowDashBar: Dispatch<SetStateAction<boolean>>
+}
+
+export default function DashHeadBig({ showDashBar, setShowDashBar }: Props) {
   return (
-    <div className="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
-      <div className="flex-1 min-w-0">
-        <h1 className="text-lg font-medium leading-6 sm:truncate">Home</h1>
+    <div className="border-b border-gray-200 px-2 py-4 sm:flex sm:items-center sm:justify-between sm:px-4">
+      <div className="min-w-0 flex items-center">
+        {!showDashBar && (
+          <HideButton direction="show" setShowDashBar={setShowDashBar} />
+        )}
+        <h1 className="text-lg font-medium sm:truncate">Home</h1>
       </div>
       <div className="mt-4 flex sm:mt-0 sm:ml-4 items-center">
         <button
