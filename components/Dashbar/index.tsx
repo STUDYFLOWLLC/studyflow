@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-expressions */
+import { Transition } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import BigProfileButton from 'components/buttons/BigProfileButton'
@@ -11,22 +12,25 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import DashSearch from './DashSearch'
 
-interface DashProps {
+interface Props {
+  showDashBar: boolean
+  setShowDashBar: Dispatch<SetStateAction<boolean>>
   searchValue: string
   setSearchValue: Dispatch<SetStateAction<string>>
-  loading: boolean
 }
 
 export default function index({
+  showDashBar,
+  setShowDashBar,
   searchValue,
   setSearchValue,
-  loading,
-}: DashProps) {
+}: Props) {
   const { theme, setTheme } = useTheme()
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
 
   const [mounted, setMounted] = useState(false)
+  const [showHideButton, setShowHideButton] = useState(false)
 
   useHotkeys(
     'cmd+l, ctrl+l',
@@ -45,27 +49,46 @@ export default function index({
   if (!mounted) return null
 
   return (
-    <div
-      className={classnames(
-        { 'bg-slate-100': theme === 'light' },
-        { 'bg-base-200': theme === 'dark' },
-        'hidden lg:flex lg:flex-col lg:w-56 lg:fixed lg:inset-y-0 lg:pt-5 lg:pb-4',
-      )}
+    <Transition
+      enter="transition ease-in-out duration-500 transform"
+      enterFrom="-translate-x-full"
+      enterTo="translate-x-0"
+      leave="transition ease-in-out duration-500 transform"
+      leaveFrom="translate-x-0"
+      leaveTo="-translate-x-full"
+      show={showDashBar}
     >
-      <LogoHeader />
-      <div className="mt-6 h-0 flex-1 flex flex-col overflow-y-auto">
-        <BigProfileButton
-          name={userDetails?.Name}
-          username={userDetails?.Username}
-          pfpLink={userDetails?.ProfilePictureLink}
-          loading={userDetailsLoading}
+      <div
+        className={classnames(
+          { 'bg-slate-100': theme === 'light' },
+          { 'bg-base-200': theme === 'dark' },
+          'hidden lg:flex lg:flex-col lg:w-56 lg:fixed lg:inset-y-0 lg:pt-5 lg:pb-4',
+        )}
+        onMouseEnter={() => setShowHideButton(true)}
+        onMouseLeave={() => setShowHideButton(false)}
+      >
+        <LogoHeader
+          showHideButton={showHideButton}
+          setShowHideButton={setShowHideButton}
+          setShowDashBar={setShowDashBar}
         />
-        <DashSearch searchValue={searchValue} setSearchValue={setSearchValue} />
-        <nav className="px-3 mt-6">
-          <MainNavs />
-          <CourseNavs />
-        </nav>
+        <div className="mt-6 flex-1 flex flex-col overflow-y-auto">
+          <BigProfileButton
+            name={userDetails?.Name}
+            username={userDetails?.Username}
+            pfpLink={userDetails?.ProfilePictureLink}
+            loading={userDetailsLoading}
+          />
+          <DashSearch
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+          <nav className="px-3 mt-6">
+            <MainNavs />
+            <CourseNavs />
+          </nav>
+        </div>
       </div>
-    </div>
+    </Transition>
   )
 }

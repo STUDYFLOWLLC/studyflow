@@ -1,5 +1,5 @@
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import CMDPalette from 'components/CMDPalette'
 import DashBar from 'components/Dashbar'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
@@ -29,6 +29,7 @@ export default function Dash({ user }: Props) {
   )
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
+  const [showDashBar, setShowDashBar] = useState(true)
   const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
@@ -41,24 +42,31 @@ export default function Dash({ user }: Props) {
 
   return (
     <SkeletonTheme
-      baseColor={classnames(
+      baseColor={classNames(
         { '#ebebeb': theme === 'light' },
         { '#202020': theme === 'dark' },
       )}
-      highlightColor={classnames(
+      highlightColor={classNames(
         { '#f5f5f5': theme === 'light' },
         { '#444': theme === 'dark' },
       )}
     >
       <div className="min-h-full">
         <DashBar
+          showDashBar={showDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           loading={!userDetails}
         />
-        <div className="lg:pl-56 flex flex-col">
+
+        <div
+          className={classNames(
+            { 'lg:pl-56': showDashBar },
+            'flex flex-col transition-all duration-500',
+          )}
+        >
           <DashHeadSmall />
-          <main className="flex-1">
+          <main className="flex-1" onClick={() => setShowDashBar(!showDashBar)}>
             <DashHeadBig />
             <Pinned />
             <FlowListSmall />
