@@ -7,7 +7,6 @@ import { Block, BlockTag } from 'types/Flow'
 import blockParser from 'utils/blockParser'
 import { getCaretCoordinates, setCaretToEnd } from 'utils/caretHelpers'
 import determinePlaceholder from 'utils/determinePlaceholder'
-import richTextParser from 'utils/richTextParser'
 
 interface Props {
   id: string
@@ -174,17 +173,20 @@ class FlowBlock extends React.Component<Props, State> {
       <>
         <ContentEditable
           className={classNames(
-            { 'my-2 h-6': block.tag === 'p' },
+            { 'my-3 text-lg': block.tag === 'p' },
             {
-              'text-4xl font-bold my-4': block.tag === BlockTag.HEADING_1,
+              'text-4xl font-semibold my-6 ': block.tag === BlockTag.HEADING_1,
             },
+            { 'text-3xl font-semibold my-5': block.tag === BlockTag.HEADING_2 },
+            { 'text-2xl font-semibold my-4': block.tag === BlockTag.HEADING_3 },
+            { 'h-6': html === '' },
+
             'outline-none',
           )}
           innerRef={contentEditable}
           html={html}
           placeholder={
-            currentBlock.id === block.id ||
-            richTextParser(block[block.tag]?.richText) === ''
+            currentBlock.id === block.id && html === ''
               ? determinePlaceholder(block.tag)
               : ''
           }
