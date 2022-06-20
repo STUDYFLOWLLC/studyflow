@@ -9,7 +9,6 @@ import DashHeadSmall from 'components/DashHeadSmall'
 import FlowTable from 'components/FlowTable'
 import Taskover from 'components/Taskover'
 import useUserDetails from 'hooks/useUserDetails'
-import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
@@ -20,7 +19,6 @@ interface Props {
 }
 
 export default function Dash({ user }: Props) {
-  const { theme } = useTheme()
   const router = useRouter()
 
   /* eslint-disable */
@@ -45,11 +43,9 @@ export default function Dash({ user }: Props) {
   )
 
   useEffect(() => {
-    setMounted(true)
     setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
   }, [userDetails, userDetailsLoading])
 
-  if (!mounted) return null
   if (userDetailsError) return <p>error</p>
 
   return (
