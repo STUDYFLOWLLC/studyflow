@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import classNames from 'classnames'
 import DashBar from 'components/Dashbar'
 import AddTask from 'components/Tasks/AddTask'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
@@ -36,6 +37,7 @@ export default function index({ user }: Props) {
     userDetails?.FK_Terms?.[0]?.TermID,
   )
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const [showDashBar, setShowDashBar] = useState(true)
   const [searchValue, setSearchValue] = useState('')
   const [viewing, setViewing] = useState('Today')
 
@@ -43,12 +45,13 @@ export default function index({ user }: Props) {
     <div>
       <div className="min-h-full">
         <DashBar
+          showDashBar={showDashBar}
+          setShowDashBar={setShowDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          loading={!userDetails}
         />
       </div>
-      <div className="lg:pl-56 flex flex-col">
+      <div className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}>
         <TaskHeader
           user={user}
           viewing={viewing}
