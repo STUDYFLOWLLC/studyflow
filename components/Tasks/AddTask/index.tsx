@@ -83,47 +83,45 @@ export default function index({ user, tasks, mutateTasks }: Props) {
         </div>
       )}
       {showMain && (
-        <div
-          onClick={() => setShowMain(!showMain)}
-          onKeyDown={() => setShowMain(!showMain)}
-          className="flex flex-col justify-center text-center"
-        >
-          <span>+</span>
-          <div>
-            <form className="mt-2 flex flex-col border py-2 px-3 w-1/2 mx-auto">
-              <input
-                onChange={(e) => setTaskName(e.target.value)}
-                className="border-none"
-                type="text"
-                placeholder="Task name"
-              />
+        <div className="">
+          <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
+            <input
+              autoFocus
+              onChange={(e) => setTaskName(e.target.value)}
+              className="border-none focus:ring-0 placeholder:text-gray-400 text-lg font-medium -mb-2"
+              type="text"
+              placeholder="Task name"
+            />
 
-              <input
-                onChange={(e) => setTaskDescription(e.target.value)}
-                className="border-none"
-                type="text"
-                placeholder="Description"
-              />
-
+            <input
+              onChange={(e) => setTaskDescription(e.target.value)}
+              className="border-none focus:ring-0 placeholder:text-gray-400 text-sm mb-2"
+              type="text"
+              placeholder="Description"
+            />
+            <div className="flex">
               <input
                 onChange={(e) => setTaskDueDate(e.target.value)}
-                className="border-none"
+                className="border-none focus:ring-0"
                 type="date"
               />
-            </form>
-          </div>
-          <div className="space-x-2 mt-2 text-right w-1/2 mx-auto">
-            <span
-              onClick={() => addTask()}
-              onKeyDown={() => addTask()}
-              className="border"
-            >
-              Add task
-            </span>
-            <span className="border">Cancel</span>
+            </div>
           </div>
         </div>
       )}
     </div>
   )
 }
+
+// {
+//   /* <div className="space-x-2 mt-2 text-right w-1/2 mx-auto">
+//             <span
+//               onClick={() => addTask()}
+//               onKeyDown={() => addTask()}
+//               className="border"
+//             >
+//               Add task
+//             </span>
+//             <span className="border">Cancel</span>
+//           </div> */
+// }
