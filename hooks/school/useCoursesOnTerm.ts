@@ -22,10 +22,10 @@ interface Ret {
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
   coursesOnTermError: any
-  mutateCoursesOnTerm: KeyedMutator<any>
+  mutateCoursesOnTerm?: KeyedMutator<any>
 }
 
-export default function useCoursesOnTerm(termID: number): Ret {
+export default function useCoursesOnTerm(termID: number | undefined): Ret {
   const query = gql`
     query Query($where: TermWhereInput) {
       findFirstTerm(where: $where) {
