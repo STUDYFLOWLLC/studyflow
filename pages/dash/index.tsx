@@ -13,7 +13,6 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { SkeletonTheme } from 'react-loading-skeleton'
 import setupRedirectHandler from 'utils/setupRedirectHandler'
 
 interface Props {
@@ -54,42 +53,29 @@ export default function Dash({ user }: Props) {
   if (userDetailsError) return <p>error</p>
 
   return (
-    <SkeletonTheme
-      baseColor={classNames(
-        { '#ebebeb': theme === 'light' },
-        { '#202020': theme === 'dark' },
-      )}
-      highlightColor={classNames(
-        { '#f5f5f5': theme === 'light' },
-        { '#444': theme === 'dark' },
-      )}
-    >
-      <div className="min-h-full">
-        <DashBar
-          showDashBar={showDashBar}
-          setShowDashBar={setShowDashBar}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
+    <div className="min-h-full">
+      <DashBar
+        showDashBar={showDashBar}
+        setShowDashBar={setShowDashBar}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
 
-        <div
-          className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
-        >
-          <DashHeadSmall />
-          <main className="flex-1">
-            <DashHeadBig
-              showDashBar={showDashBar}
-              setShowDashBar={setShowDashBar}
-            />
-            <Pinned />
-            <FlowListSmall />
-            <FlowTable />
-          </main>
-        </div>
-        <Taskover />
-        <CMDPalette />
+      <div className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}>
+        <DashHeadSmall />
+        <main className="flex-1">
+          <DashHeadBig
+            showDashBar={showDashBar}
+            setShowDashBar={setShowDashBar}
+          />
+          <Pinned />
+          <FlowListSmall />
+          <FlowTable />
+        </main>
       </div>
-    </SkeletonTheme>
+      <Taskover />
+      <CMDPalette />
+    </div>
   )
 }
 
