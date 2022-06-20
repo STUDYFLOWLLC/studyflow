@@ -2,6 +2,7 @@
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import DashBar from 'components/Dashbar'
+import HideButton from 'components/Dashbar/HideButton'
 import AddTask from 'components/Tasks/AddTask'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
 import TaskHeader from 'components/Tasks/TasksHeader'
@@ -9,6 +10,7 @@ import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks, { Task } from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 interface Props {
   user: User
@@ -41,8 +43,23 @@ export default function index({ user }: Props) {
   const [searchValue, setSearchValue] = useState('')
   const [viewing, setViewing] = useState('Today')
 
+  useHotkeys(
+    'cmd+i, ctrl+i',
+    (e) => {
+      e.preventDefault()
+      setShowDashBar(!showDashBar)
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+    },
+    [showDashBar],
+  )
+
   return (
     <div>
+      {!showDashBar && (
+        <HideButton direction="show" setShowDashBar={setShowDashBar} />
+      )}
       <div className="min-h-full">
         <DashBar
           showDashBar={showDashBar}
