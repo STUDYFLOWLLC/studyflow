@@ -1,30 +1,52 @@
 /* eslint-disable no-case-declarations */
+import { PencilAltIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { matchSorter } from 'match-sorter'
-import React from 'react'
+import React, { SVGProps } from 'react'
 import { BlockTag } from 'types/Flow'
 
 interface Tag {
   tag: BlockTag
+  color: string
+  abbreviation: string
+  icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element
   label: string
+  description: string
+  textSize?: string
 }
 
 const allowedTags: Tag[] = [
   {
     tag: BlockTag.HEADING_1,
+    color: 'bg-pink-400',
+    abbreviation: 'H1',
     label: 'Heading 1',
+    description: 'Big header',
+    textSize: 'text-3xl',
   },
   {
     tag: BlockTag.HEADING_2,
+    color: 'bg-red-400',
+    abbreviation: 'H2',
     label: 'Heading 2',
+    description: 'Medium header',
+    textSize: 'text-2xl',
   },
   {
     tag: BlockTag.HEADING_3,
+    color: 'bg-emerald-400',
+    abbreviation: 'H3',
     label: 'Heading 3',
+    description: 'Small header',
+    textSize: 'text-xl',
   },
   {
     tag: BlockTag.PARAGRAPH,
+    color: 'bg-indigo-400',
+    abbreviation: 'P',
     label: 'Text',
+    icon: PencilAltIcon,
+    description: 'Normal text',
   },
 ]
 
@@ -113,28 +135,56 @@ class SelectMenu extends React.Component<Props, State> {
 
     return (
       <div
-        className="ml-1 rounded-lg absolute bg-slate-50 w-36 p-0 shadow-md z-10 flex flex-col justify-end transition-all duration-500"
+        className="ml-1 rounded-lg absolute bg-slate-50 w-64 p-0 shadow-md z-10 flex flex-col justify-end transition-all duration-500"
         style={{ left: x !== 0 ? x : undefined }}
+        id="command-menu"
       >
-        <div className="transition-all">
-          {items.map((item) => {
+        <div className="transition-all p-2">
+          {items.map((item, index) => {
             const { selectedItem } = this.state
             const isSelected = items.indexOf(item) === selectedItem
             return (
-              <div key={item.label}>
+              <div
+                key={item.label}
+                className={classNames(
+                  { 'bg-primary bg-opacity-30': isSelected },
+                  'flex p-2 rounded',
+                )}
+                role="button"
+                tabIndex={0}
+                onClick={() => onSelect(item.tag)}
+                onKeyDown={() => onSelect(item.tag)}
+                onMouseEnter={() => this.setState({ selectedItem: index })}
+              >
                 <div
                   className={classNames(
-                    {
-                      'bg-primary bg-opacity-30': isSelected,
-                    },
-                    'px-3 py-1.5 m-0 border-b-2 border-slate-100 first-of-type:rounded-t-lg last-of-type:rounded-b-lg last-of-type:border-none  cursor-pointer font-normal transition-all',
+                    'flex h-12 w-12 flex-none items-center justify-center rounded-lg',
+                    item.color,
                   )}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => onSelect(item.tag)}
-                  onKeyDown={() => onSelect(item.tag)}
                 >
-                  {item.label}
+                  {item.icon ? (
+                    <item.icon
+                      className="h-6 w-6 text-white"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <span className={classNames(item.textSize, 'text-white')}>
+                      {item.abbreviation}
+                    </span>
+                  )}
+                </div>
+                <div className="ml-4 flex flex-col">
+                  <span className={classNames('text-lg font-medium')}>
+                    <span>{item.label}</span>
+                  </span>
+                  <span
+                    className={classNames(
+                      'text-sm',
+                      isSelected ? 'text-gray-700' : 'text-gray-500',
+                    )}
+                  >
+                    {item.description}
+                  </span>
                 </div>
               </div>
             )

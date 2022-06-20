@@ -104,6 +104,11 @@ export default function FlowPage() {
         currentBlock[oldTag] = undefined
         blockCleanupAfterCommand(currentBlock)
         break
+      case BlockTag.PARAGRAPH:
+        currentBlock.p = currentBlock[oldTag]
+        currentBlock[oldTag] = undefined
+        blockCleanupAfterCommand(currentBlock)
+        break
       default:
     }
   }

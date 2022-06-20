@@ -78,9 +78,10 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   onKeyDownHandler(e: { key: string; preventDefault: () => void }) {
+    const { selectMenuIsOpen } = this.state
     const { setCurrentBlock, block } = this.props
     setCurrentBlock(block)
-    if (e.key === 'ArrowUp') {
+    if (e.key === 'ArrowUp' && !selectMenuIsOpen) {
       e.preventDefault()
       const { contentEditable } = this.state
       if (contentEditable.current?.previousElementSibling) {
@@ -89,7 +90,7 @@ class FlowBlock extends React.Component<Props, State> {
         )
       }
     }
-    if (e.key === 'ArrowDown') {
+    if (e.key === 'ArrowDown' && !selectMenuIsOpen) {
       e.preventDefault()
       const { contentEditable } = this.state
       if (contentEditable.current?.nextElementSibling) {
