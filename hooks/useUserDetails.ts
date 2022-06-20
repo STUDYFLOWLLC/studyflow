@@ -2,7 +2,7 @@ import { gql } from 'graphql-request'
 import useSWR from 'swr'
 import { SetupSteps } from 'types/SetupSteps'
 
-export default function useUserDetails(supabaseId: string) {
+export default function useUserDetails(supabaseId: string | undefined) {
   const variables = {
     where: {
       SupabaseID: {

@@ -1,5 +1,5 @@
-import classnames from 'classnames'
-import { CourseDisplay } from 'components/Dashbar/CourseNavs'
+import classNames from 'classnames'
+import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
@@ -7,7 +7,7 @@ import Skeleton from 'react-loading-skeleton'
 
 interface Props {
   index: number
-  course: CourseDisplay
+  course: CourseOnTerm
   current: boolean
   loading: boolean
 }
@@ -17,19 +17,25 @@ export default function CourseLine({ index, course, current, loading }: Props) {
 
   const [mounted, setMounted] = useState(false)
 
+  const rand = Math.floor(Math.random() * 100)
+
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
 
   return (
-    <Draggable key={course.name} draggableId={course.name} index={index}>
+    <Draggable
+      key={course.FK_Course.Code || rand.toString()}
+      draggableId={course.FK_Course.Code || rand.toString()}
+      index={index}
+    >
       {(provided) => (
         <div
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           key={index}
-          className={classnames(
+          className={classNames(
             {
               'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
                 !current && theme === 'light',
@@ -46,8 +52,8 @@ export default function CourseLine({ index, course, current, loading }: Props) {
           >
             {!loading ? (
               <span
-                className={classnames(
-                  course.bgColorClass,
+                className={classNames(
+                  course.Color,
                   'w-2.5 h-2.5 mr-4 mt-0.5 rounded-full',
                 )}
                 style={{ marginRight: '1.125rem' }}
@@ -55,7 +61,11 @@ export default function CourseLine({ index, course, current, loading }: Props) {
             ) : (
               <Skeleton className="w-2.5 h-2.5 mr-4" circle />
             )}
-            {!loading ? <span>{course.name}</span> : <Skeleton width={150} />}
+            {!loading ? (
+              <span>{course.Nickname || course.FK_Course.Code}</span>
+            ) : (
+              <Skeleton width={150} />
+            )}
           </div>
 
           {/* <kbd

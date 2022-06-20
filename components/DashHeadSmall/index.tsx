@@ -66,7 +66,7 @@ export default function index() {
               <div className="mt-5 flex-1 h-0 overflow-y-auto">
                 <nav className="px-2">
                   <MainNavs />
-                  <CourseNavs loading={false} />
+                  <CourseNavs />
                 </nav>
               </div>
             </div>

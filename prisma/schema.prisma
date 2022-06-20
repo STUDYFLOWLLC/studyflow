@@ -89,6 +89,7 @@ model Course {
 model CourseOnTerm {
   CourseOnTermID Int      @id @default(autoincrement())
   CreatedTime    DateTime @default(now())
+  Index          Int      @default(autoincrement())
   Color          String   @default("bg-teal-300")
   Nickname       String?
   FK_Course      Course?  @relation(fields: [FK_CourseID], references: [CourseID], onDelete: SetNull, onUpdate: Cascade)

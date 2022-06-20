@@ -7,6 +7,7 @@ export interface CourseOnTerm {
   CourseOnTermID: number
   Color: string
   Nickname: string
+  Index: number
   FK_Course: {
     Code: string
     Term: string
@@ -25,7 +26,7 @@ interface Ret {
   mutateCoursesOnTerm: KeyedMutator<any>
 }
 
-export default function useCoursesOnTerm(termID: number): Ret {
+export default function useCoursesOnTerm(termID: number | undefined): Ret {
   const query = gql`
     query Query($where: TermWhereInput) {
       findFirstTerm(where: $where) {
@@ -33,6 +34,7 @@ export default function useCoursesOnTerm(termID: number): Ret {
           CourseOnTermID
           Color
           Nickname
+          Index
           FK_Course {
             Code
             Term
@@ -57,13 +59,24 @@ export default function useCoursesOnTerm(termID: number): Ret {
 
   const { data, error, mutate } = useSWR([query, variables])
 
+  if (data?.mutate) {
+    return {
+      coursesOnTerm: data.coursesOnTerm,
+      coursesOnTermLoading: false,
+      coursesOnTermError: null,
+      mutateCoursesOnTerm: mutate,
+    }
+  }
+
   if (
     data &&
     data.findFirstTerm &&
     data.findFirstTerm.FK_CourseOnTerm.length !== 0
   ) {
     return {
-      coursesOnTerm: data.findFirstTerm.FK_CourseOnTerm,
+      coursesOnTerm: data.findFirstTerm.FK_CourseOnTerm.sort(
+        (a: CourseOnTerm, b: CourseOnTerm) => (a.Index > b.Index ? 1 : -1),
+      ),
       coursesOnTermLoading: false,
       coursesOnTermError: error,
       mutateCoursesOnTerm: mutate,

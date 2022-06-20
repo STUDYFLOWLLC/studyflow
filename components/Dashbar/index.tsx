@@ -59,7 +59,7 @@ export default function index({
         <DashSearch searchValue={searchValue} setSearchValue={setSearchValue} />
         <nav className="px-3 mt-6">
           <MainNavs />
-          <CourseNavs loading={loading} />
+          <CourseNavs />
         </nav>
       </div>
     </div>

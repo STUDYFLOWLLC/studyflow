@@ -1,11 +1,14 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
+import classNames from 'classnames'
 import CourseLine from 'components/Dashbar/CourseLine'
+import { mutateCourseOnTermIndex } from 'hooks/school/mutateCourseOnTerm'
+import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useUserDetails from 'hooks/useUserDetails'
+import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
-
-interface Props {
-  loading: boolean
-}
+import Skeleton from 'react-loading-skeleton'
 
 export interface CourseDisplay {
   name: string
@@ -14,8 +17,23 @@ export interface CourseDisplay {
   loading: boolean
 }
 
+const fakeCourse: CourseOnTerm = {
+  CourseOnTermID: 0,
+  Color: '',
+  Nickname: '',
+  FK_Course: {
+    Code: '',
+    Term: '',
+    Title: '',
+    FK_Professor: {
+      Name: '',
+      Email: '',
+    },
+  },
+}
+
 const reorder = (
-  list: CourseDisplay[],
+  list: CourseOnTerm[],
   startIndex: number,
   endIndex: number,
 ) => {
@@ -26,22 +44,16 @@ const reorder = (
   return result
 }
 
-export default function CourseNavs({ loading }: Props) {
-  const [teams, setTeams] = useState<CourseDisplay[]>([
-    {
-      name: 'Linear Algebra',
-      href: '#',
-      bgColorClass: 'bg-indigo-500',
-      loading,
-    },
-    { name: '2110', href: '#', bgColorClass: 'bg-green-500', loading },
-    { name: 'Discrete', href: '#', bgColorClass: 'bg-orange-500', loading },
-    { name: 'Cog Sci', href: '#', bgColorClass: 'bg-blue-500', loading },
-    { name: 'Bio', href: '#', bgColorClass: 'bg-yellow-500', loading },
-  ])
+export default function CourseNavs() {
+  const { theme } = useTheme()
+  const { user, error } = useUser()
+  const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
+  const { coursesOnTerm, coursesOnTermLoading, mutateCoursesOnTerm } =
+    useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
+
   const [mounted, setMounted] = useState(false)
 
-  const onEnd = (result: DropResult) => {
+  const onEnd = async (result: DropResult) => {
     const { destination, source } = result
 
     if (!destination) {
@@ -55,16 +67,38 @@ export default function CourseNavs({ loading }: Props) {
       return
     }
 
-    const newTeams: CourseDisplay[] = reorder(
-      teams,
+    const newTeams: CourseOnTerm[] = reorder(
+      coursesOnTerm,
       result.source.index,
       result.destination ? result.destination.index : 0,
     )
 
-    setTeams(newTeams)
+    mutateCoursesOnTerm(
+      { coursesOnTerm: newTeams, mutate: true },
+      {
+        revalidate: false,
+      },
+    )
+
+    if (result.destination) {
+      const sourceCourse = coursesOnTerm[result.source.index]
+      const destinationCourse = coursesOnTerm[result.destination?.index || 0]
+      await mutateCourseOnTermIndex(
+        sourceCourse.CourseOnTermID,
+        destinationCourse.Index,
+      )
+      await mutateCourseOnTermIndex(
+        destinationCourse.CourseOnTermID,
+        sourceCourse.Index,
+      )
+    }
+
+    // setTeams(newTeams)
   }
 
   useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <div className="mt-6">
@@ -79,31 +113,52 @@ export default function CourseNavs({ loading }: Props) {
           style={{ width: '1.125rem' }}
         />
       </div>
+      {coursesOnTermLoading &&
+        [1, 2, 3, 4].map((_) => (
+          <div
+            key={_}
+            className={classNames(
+              {
+                'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
+                  theme === 'light',
+              },
+              { 'hover:bg-slate-700': theme === 'dark' },
+              'mt-1 space-y-1 group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
+            )}
+          >
+            <div
+              className="flex self-center items-center"
+              style={{ marginLeft: '0.15rem' }}
+            >
+              <Skeleton className="w-2.5 h-2.5 mr-4" circle />
+              <Skeleton width={150} />
+            </div>
+          </div>
+        ))}
 
-      {mounted && (
-        <DragDropContext onDragEnd={onEnd}>
-          <Droppable droppableId="courses">
-            {(provided) => (
-              <div
-                className="mt-1 space-y-1"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {teams.map((course, index) => (
+      <DragDropContext onDragEnd={onEnd}>
+        <Droppable droppableId="courses">
+          {(provided) => (
+            <div
+              className="mt-1 space-y-1"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {!coursesOnTermLoading &&
+                coursesOnTerm.map((course, index) => (
                   <CourseLine
-                    key={course.name}
+                    key={course.FK_Course.Code}
                     index={index}
                     course={course}
-                    loading={loading}
+                    loading={userDetailsLoading || coursesOnTermLoading}
                     current={false}
                   />
                 ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      )}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   )
 }
