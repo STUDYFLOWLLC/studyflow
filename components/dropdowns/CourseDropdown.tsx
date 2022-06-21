@@ -3,7 +3,9 @@
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
-import { Fragment, useState } from 'react'
+import MainSpinner from 'components/spinners/MainSpinner'
+import { Fragment } from 'react'
+import { SpinnerSizes } from 'types/Loading'
 import shorten from 'utils/shorten'
 
 export interface Item {
@@ -19,6 +21,7 @@ interface activeProps {
 interface Props {
   title: string
   items: Item[]
+  loading: boolean
   hasGeneral?: boolean
   generalHandler?: (param1?: any, ...params: any[]) => any
 }
@@ -26,26 +29,30 @@ interface Props {
 export default function CourseDropDown({
   title,
   items,
+  loading,
   hasGeneral,
   generalHandler,
 }: Props) {
-  const [animateIcon, setAnimateIcon] = useState(false)
-
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
         <>
           <div>
             <Menu.Button
-              onMouseEnter={() => setAnimateIcon(true)}
-              onMouseLeave={() => setAnimateIcon(false)}
-              className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-0 focus:outline-none"
+              disabled={loading}
+              className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-1 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-0 focus:outline-none"
             >
               {title}
-              <ChevronDownIcon
-                className="-mr-1 ml-2 h-5 w-5"
-                aria-hidden="true"
-              />
+              {loading ? (
+                <div className="-mr-1 ml-2">
+                  <MainSpinner size={SpinnerSizes.small} />
+                </div>
+              ) : (
+                <ChevronDownIcon
+                  className="-mr-1 ml-2 h-5 w-5"
+                  aria-hidden="true"
+                />
+              )}
             </Menu.Button>
           </div>
 
@@ -58,7 +65,7 @@ export default function CourseDropDown({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-top-left absolute left-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               {items.map((item) => (
                 <Menu.Item key={item.name} onClick={() => item.handler()}>
                   {({ active }: activeProps) => (

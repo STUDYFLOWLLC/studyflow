@@ -39,7 +39,7 @@ const dropdownItems: Item[] = [
   {
     color: 'bg-blue-300',
     name: 'CS2110',
-    handler: (t1: 'test') => console.log('Cs2110'),
+    handler: (a: number, b: number, c: number) => console.log('Cs2110'),
   },
 ]
 
@@ -60,7 +60,12 @@ export default function index() {
         switch theme
       </button>
       <div className="pl-32 mb-12 mt-6">
-        <CourseDropDown items={dropdownItems} title="Course" hasGeneral />
+        <CourseDropDown
+          items={dropdownItems}
+          title="Course"
+          hasGeneral
+          loading={false}
+        />
       </div>
       {/* <Deck cards={cards} /> */}
     </div>

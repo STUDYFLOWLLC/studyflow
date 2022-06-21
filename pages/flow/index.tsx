@@ -1,10 +1,12 @@
 // should get flow from server side and render it here
 
 import { CalendarIcon, EyeIcon, FolderOpenIcon } from '@heroicons/react/outline'
+import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import FlowPage from 'components/Flow/FlowPage'
 import FlowProperty from 'components/Flow/FlowProperty'
-import { FlowRet } from 'hooks/flows/getFlowDetails'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
@@ -12,7 +14,8 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import handleTimeStamp from 'utils/handleTimeStamp'
 
 interface Props {
-  flow?: FlowRet
+  // flow?: FlowRet
+  user: User
 }
 
 const flowy = {
@@ -27,8 +30,12 @@ const flowy = {
   },
 }
 
-export default function Flow() {
+export default function Flow({ user }: Props) {
   const { theme, setTheme } = useTheme()
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0]?.TermID,
+  )
 
   const [mounted, setMounted] = useState(false)
   const [title, setTitle] = useState(flowy.Title)
@@ -87,6 +94,8 @@ export default function Flow() {
               Icon={FolderOpenIcon}
               property="Course"
               value={flowy.FK_CourseOnTerm.Nickname}
+              coursesOnTerm={coursesOnTerm}
+              loading={coursesOnTermLoading}
             />
           </div>
         </div>
@@ -106,3 +115,5 @@ export async function getServerSideProps(context: {
 }
 
 */
+
+export const getServerSideProps = withPageAuth({ redirectTo: '/login' })
