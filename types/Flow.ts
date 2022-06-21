@@ -6,6 +6,7 @@ export enum BlockTag {
 }
 
 export enum Color {
+  DEFAULT = '',
   RED = 'text-red-500',
   GREEN = 'text-green-500',
   BLUE = 'text-blue-500',

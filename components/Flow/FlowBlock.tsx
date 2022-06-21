@@ -181,7 +181,7 @@ class FlowBlock extends React.Component<Props, State> {
             { 'text-3xl font-semibold my-5': block.tag === BlockTag.HEADING_2 },
             { 'text-2xl font-semibold my-4': block.tag === BlockTag.HEADING_3 },
             { 'h-6': html === '' },
-
+            block[block.tag]?.color,
             'outline-none',
           )}
           innerRef={contentEditable}
