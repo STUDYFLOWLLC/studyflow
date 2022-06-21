@@ -91,6 +91,7 @@ export default function index({ user }: Props) {
           viewing={viewing}
           setViewing={setViewing}
           coursesOnTerm={coursesOnTerm}
+          coursesOnTermLoading={coursesOnTermLoading}
         />
         <div className="mx-auto w-4/5 border-t border-gray-300 mt-6" />
         <div className="mx-auto w-8/12 flex flex-col justify-center">
