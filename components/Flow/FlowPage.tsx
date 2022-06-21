@@ -27,7 +27,7 @@ const initialBlock: Block = {
         },
       },
     ],
-    color: Color.RED,
+    color: Color.GREEN,
   },
 }
 
@@ -128,7 +128,7 @@ export default function FlowPage() {
             },
           },
         ],
-        color: Color.RED,
+        color: Color.DEFAULT,
       },
     }
     tempBlocks.splice(currentBlock.index + 1, 0, newBlock)

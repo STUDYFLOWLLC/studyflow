@@ -2,7 +2,7 @@
 
 import AppleButton from 'components/buttons/AppleButton'
 import ToastTester from 'components/Design/ToastTester'
-import Deck from 'components/flowparts/Deck'
+import CourseDropDown, { Item } from 'components/dropdowns/CourseDropdown'
 import FlashCard3 from 'components/flowparts/FlashCard3'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { useTheme } from 'next-themes'
@@ -26,6 +26,23 @@ const cards: FlashcardProps[] = [
   },
 ]
 
+const a = 'a'
+const b = 'b'
+const c = 'c'
+
+const dropdownItems: Item[] = [
+  {
+    color: 'bg-red-300',
+    name: 'MATH2210fjdlajflkdsajflk',
+    handler: () => console.log('Math2210'),
+  },
+  {
+    color: 'bg-blue-300',
+    name: 'CS2110',
+    handler: (a: number, b: number, c: number) => console.log('Cs2110'),
+  },
+]
+
 export default function index() {
   const { setTheme } = useTheme()
 
@@ -42,7 +59,15 @@ export default function index() {
       >
         switch theme
       </button>
-      <Deck cards={cards} />
+      <div className="pl-32 mb-12 mt-6">
+        <CourseDropDown
+          items={dropdownItems}
+          title="Course"
+          hasGeneral
+          loading={false}
+        />
+      </div>
+      {/* <Deck cards={cards} /> */}
     </div>
   )
 }

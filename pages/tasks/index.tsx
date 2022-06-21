@@ -82,7 +82,13 @@ export default function index({ user }: Props) {
             tasksDisplayed={tasksDisplayed(viewing, tasks)}
             viewing={viewing}
           />
-          <AddTask user={user} tasks={tasks} mutateTasks={mutateTasks} />
+          <AddTask
+            user={user}
+            tasks={tasks}
+            mutateTasks={mutateTasks}
+            coursesOnTerm={coursesOnTerm}
+            coursesOnTermLoading={coursesOnTermLoading}
+          />
         </div>
       </div>
     </div>

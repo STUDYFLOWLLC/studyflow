@@ -3,6 +3,8 @@
 import { PlusIcon } from '@heroicons/react/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
+import CourseDropDown from 'components/dropdowns/CourseDropdown'
+import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
 import { Task } from 'hooks/tasks/useTasks'
 import { useState } from 'react'
@@ -12,9 +14,17 @@ interface Props {
   user: User
   tasks: Task[]
   mutateTasks: KeyedMutator<any>
+  coursesOnTerm: CourseOnTerm[]
+  coursesOnTermLoading: boolean
 }
 
-export default function index({ user, tasks, mutateTasks }: Props) {
+export default function index({
+  user,
+  tasks,
+  mutateTasks,
+  coursesOnTerm,
+  coursesOnTermLoading,
+}: Props) {
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
   const [taskDueDate, setTaskDueDate] = useState('')
@@ -99,11 +109,21 @@ export default function index({ user, tasks, mutateTasks }: Props) {
               type="text"
               placeholder="Description"
             />
-            <div className="flex">
+            <div className="flex items-center">
               <input
                 onChange={(e) => setTaskDueDate(e.target.value)}
                 className="border-none focus:ring-0"
                 type="date"
+              />
+              <CourseDropDown
+                items={coursesOnTerm.map((course) => ({
+                  color: course.Color,
+                  name: course.Nickname || course.FK_Course.Code,
+                  handler: () => console.log('test'),
+                }))}
+                title="Course"
+                hasGeneral
+                loading={coursesOnTermLoading}
               />
             </div>
           </div>
