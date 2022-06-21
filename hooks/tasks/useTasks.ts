@@ -9,6 +9,7 @@ export interface Task {
   TaskID: number
   Description: string
   DueDate: string
+  Completed: boolean
 }
 
 interface Ret {
