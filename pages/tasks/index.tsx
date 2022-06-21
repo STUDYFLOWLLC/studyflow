@@ -43,6 +43,23 @@ export default function index({ user }: Props) {
   const [searchValue, setSearchValue] = useState('')
   const [viewing, setViewing] = useState('Today')
 
+  const archiveTaskLocal = (TaskID: number) => {
+    mutateTasks(
+      {
+        mutate: true,
+        tasks: tasks.map((task) => {
+          if (task.TaskID === TaskID) {
+            return { ...task, Completed: true }
+          }
+          return task
+        }),
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
+
   useHotkeys(
     'cmd+i, ctrl+i',
     (e) => {
@@ -81,6 +98,7 @@ export default function index({ user }: Props) {
             user={user}
             tasksDisplayed={tasksDisplayed(viewing, tasks)}
             viewing={viewing}
+            archiveTaskLocal={archiveTaskLocal}
           />
           <AddTask
             user={user}

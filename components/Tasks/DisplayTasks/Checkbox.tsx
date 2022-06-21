@@ -1,23 +1,27 @@
 import { CheckIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
-import mutateCompleted from 'hooks/tasks/mutateTask'
+import { archiveTask } from 'hooks/tasks/mutateTask'
 import { useState } from 'react'
 
 interface Props {
   TaskID: number
+  archiveTaskLocal: (TaskID: number) => void
 }
 
-export default function Checkbox({ TaskID }: Props) {
+export default function Checkbox({ TaskID, archiveTaskLocal }: Props) {
   const [completed, setCompleted] = useState(false)
 
   return (
     <div
       onClick={() => {
-        mutateCompleted(TaskID, false)
+        archiveTask(TaskID, true)
         setCompleted(true)
-        setTimeout(() => setCompleted(false), 500)
+        setTimeout(() => {
+          setCompleted(false)
+          archiveTaskLocal(TaskID)
+        }, 400)
       }}
-      onKeyDown={() => mutateCompleted(TaskID, true)}
+      onKeyDown={() => archiveTask(TaskID, true)}
       className={classNames(
         { 'border-transparent bg-gray-500': completed },
         { 'border-2 hover:bg-gray-50': !completed },
