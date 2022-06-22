@@ -1,3 +1,5 @@
+import { SVGProps } from 'react'
+
 export enum BlockTag {
   PARAGRAPH = 'p',
   HEADING_1 = 'h1',
@@ -6,15 +8,18 @@ export enum BlockTag {
 }
 
 export enum Color {
-  DEFAULT = '',
+  DEFAULT = 'text-gray-900',
+  GREY = 'text-slate-500',
   RED = 'text-red-500',
-  GREEN = 'text-green-500',
-  BLUE = 'text-blue-500',
+  ROSE = 'text-rose-400',
+  GREEN = 'text-green-400',
+  LIME = 'text-lime-400',
+  BLUE = 'text-sky-500',
+  CYAN = 'text-cyan-500',
   YELLOW = 'text-yellow-500',
   ORANGE = 'text-orange-500',
   PURPLE = 'text-purple-500',
-  CYAN = 'text-cyan-500',
-  GREY = 'text-gray-500',
+  INDIGO = 'text-indigo-500',
 }
 
 interface Annotation {
@@ -93,4 +98,30 @@ export interface Block {
   h1?: Heading_1
   h2?: Heading_2
   h3?: Heading_3
+}
+
+export interface Command {
+  commandType: 'new' | 'color' | 'turn into'
+  new: boolean
+  type: 'color' | 'tag'
+  label: string
+  description: string
+  abbreviation: string
+  bgColor:
+    | 'bg-gray-900'
+    | 'bg-slate-500'
+    | 'bg-red-500'
+    | 'bg-rose-400'
+    | 'bg-green-400'
+    | 'bg-lime-400'
+    | 'bg-sky-500'
+    | 'bg-cyan-500'
+    | 'bg-yellow-500'
+    | 'bg-orange-500'
+    | 'bg-purple-500'
+    | 'bg-indigo-500'
+  textSize?: string
+  icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element
+  tag?: BlockTag
+  color?: Color
 }
