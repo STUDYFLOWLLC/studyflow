@@ -40,10 +40,6 @@ export default function CourseDropDown({
   setViewing,
   viewingColor,
 }: Props) {
-  const viewingClass: any = {}
-  viewingClass[viewingColor || 'bg-red-200'] =
-    viewing !== 'General' && viewing !== 'Today' && viewing !== 'Upcoming'
-
   return (
     <Menu as="div" className="relative inline-block text-left w-36">
       {({ open }) => (
@@ -59,8 +55,10 @@ export default function CourseDropDown({
                   'hover:bg-gray-50 bg-white':
                     viewing === 'Today' || viewing === 'Upcoming',
                 },
-                viewingColor,
-
+                viewing !== 'General' &&
+                  viewing !== 'Today' &&
+                  viewing !== 'Upcoming' &&
+                  viewingColor,
                 'inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-1 text-sm font-medium text-gray-700 focus:ring-0 focus:outline-none',
               )}
             >
