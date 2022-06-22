@@ -93,7 +93,7 @@ export default function index({
         </div>
       )}
       {showMain && (
-        <div className="">
+        <>
           <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
             <input
               autoFocus
@@ -157,7 +157,7 @@ export default function index({
               Add task
             </button>
           </div>
-        </div>
+        </>
       )}
     </div>
   )
