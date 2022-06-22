@@ -30,6 +30,7 @@
     "algoliasearch": "^4.13.1",
     "apollo-server-micro": "^3.6.7",
     "autoprefixer": "^10.4.4",
+    "chrono-node": "^2.3.8",
     "classnames": "^2.3.1",
     "daisyui": "^2.14.2",
     "eslint-config-airbnb": "^19.0.4",

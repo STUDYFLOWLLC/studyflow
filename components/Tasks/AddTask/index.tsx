@@ -9,6 +9,7 @@ import makeTask from 'hooks/tasks/makeTask'
 import { Task } from 'hooks/tasks/useTasks'
 import { useState } from 'react'
 import { KeyedMutator } from 'swr'
+import dateParser from 'utils/dateParser'
 
 interface Props {
   user: User
@@ -97,7 +98,10 @@ export default function index({
           <input
             type="text"
             autoFocus
-            onChange={(e) => setTaskName(e.target.value)}
+            onChange={(e) => {
+              dateParser(e.target.value)
+              setTaskName(e.target.value)
+            }}
             className="border-none focus:ring-0 placeholder:text-gray-400 text-lg -mb-2 font-medium"
             placeholder="Task name"
           />
