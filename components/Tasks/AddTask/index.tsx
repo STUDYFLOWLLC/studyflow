@@ -93,23 +93,23 @@ export default function index({
         </div>
       )}
       {showMain && (
-        <>
-          <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
-            <input
-              autoFocus
-              onChange={(e) => setTaskName(e.target.value)}
-              className="border-none focus:ring-0 placeholder:text-gray-400 text-lg font-medium -mb-2"
-              type="text"
-              placeholder="Task name"
-            />
-
-            <input
-              onChange={(e) => setTaskDescription(e.target.value)}
-              className="border-none focus:ring-0 placeholder:text-gray-400 text-sm mb-2"
-              type="text"
-              placeholder="Description"
-            />
-            <div className="flex items-center">
+        <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
+          <input
+            type="text"
+            autoFocus
+            onChange={(e) => setTaskName(e.target.value)}
+            className="border-none focus:ring-0 placeholder:text-gray-400 text-lg -mb-2 font-medium"
+            placeholder="Task name"
+          />
+          <textarea
+            rows={2}
+            onChange={(e) => setTaskDescription(e.target.value)}
+            className="border-none focus:ring-0 placeholder:text-gray-400 text-sm -mb-5 resize-none"
+            placeholder="Description"
+          />
+          <div className="w-full border-t border-gray-300 mt-1 mb-1" />
+          <div className="flex justify-between">
+            <span className="flex items-center">
               <input
                 onChange={(e) => setTaskDueDate(e.target.value)}
                 className="border-none focus:ring-0"
@@ -125,39 +125,43 @@ export default function index({
                 hasGeneral
                 loading={coursesOnTermLoading}
               />
-            </div>
+            </span>
+            <span className="flex justify-end space-x-2 items-center">
+              <button
+                type="button"
+                className="px-3.5 py-1.5 items-center cursor-pointer transition rounded-md bg-gray-100 hover:bg-gray-200 font-medium"
+                onClick={() => {
+                  setShowMain(false)
+                  setShowAddTask(false)
+                }}
+              >
+                <div>Cancel</div>
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  { 'bg-gray-400 cursor-default': !taskName },
+                  { 'bg-gray-700 hover:bg-black cursor-pointer': taskName },
+                  'px-3.5 py-1.5 item-center transition rounded-md  font-medium text-white',
+                )}
+                onClick={() => {
+                  if (taskName) {
+                    addTask()
+                    setShowMain(false)
+                  }
+                }}
+                onKeyDown={() => {
+                  if (taskName) {
+                    addTask()
+                    setShowMain(false)
+                  }
+                }}
+              >
+                <div>Add task</div>
+              </button>
+            </span>
           </div>
-          <div className="flex justify-end mt-2 space-x-2">
-            <button
-              type="button"
-              className="px-3.5 py-1.5 flex cursor-pointer transition rounded-md bg-gray-100 hover:bg-gray-200 font-medium"
-              onClick={() => {
-                setShowMain(false)
-                setShowAddTask(false)
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className={classNames(
-                { 'bg-gray-400 cursor-default': !taskName },
-                { 'bg-gray-700 hover:bg-black cursor-pointer': taskName },
-                'px-3.5 py-1.5 flex transition rounded-md  font-medium text-white',
-              )}
-              onClick={() => {
-                addTask()
-                setShowMain(false)
-              }}
-              onKeyDown={() => {
-                addTask()
-                setShowMain(false)
-              }}
-            >
-              Add task
-            </button>
-          </div>
-        </>
+        </div>
       )}
     </div>
   )
