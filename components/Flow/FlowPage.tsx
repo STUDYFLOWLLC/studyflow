@@ -51,6 +51,7 @@ const secondBlock: Block = {
 export default function FlowPage() {
   const [blocks, setBlocks] = useStateCallback([initialBlock, secondBlock])
   const [currentBlock, setCurrentBlock] = useState<Block>(initialBlock)
+  const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
 
   const updatePageHandler = (updatedBlock: Block) => {
     const index = blocks.map((b: Block) => b.id).indexOf(updatedBlock.id)
@@ -63,26 +64,45 @@ export default function FlowPage() {
     // this.setState({ blocks: updatedBlocks })
   }
 
+  const changeBlockColor = (block: Block, color: Color) => {
+    const blockText = block[currentBlock.tag]
+    if (blockText) blockText.color = color
+  }
+
+  const restoreBlockAndChangeColor = (newBlock: Block, color: Color) => {
+    const tempBlocks = [...blocks]
+    tempBlocks[newBlock.index] = newBlock
+    setBlocks(tempBlocks)
+    changeBlockColor(newBlock, color)
+    setCurrentBlock(newBlock)
+    return newBlock
+  }
+
   const editCurrentBlock = (e: ContentEditableEvent) => {
     const currentRichText = currentBlock[currentBlock.tag]?.richText[0]
     richTextEditor(currentRichText, e.target.value)
   }
 
   const blockCleanupAfterCommand = (block: any) => {
-    const blockRichText = block[block.tag]?.richText
-    const lastSlashIndex =
-      blockRichText[blockRichText.length - 1].text.content.lastIndexOf('/')
-    if (lastSlashIndex === 0) {
-      block[block.tag].richText[
-        block[block.tag].richText.length - 1
-      ].text.content = ''
-    }
-    console.log(
-      block[block.tag].richText[block[block.tag].richText.length - 1].text
-        .content,
-    )
+    const blockRichTexts = block[block.tag]?.richText
 
-    console.log(block)
+    if (!blockRichTexts) return
+    const { length } = blockRichTexts
+    const lastRichText = blockRichTexts[length - 1]
+
+    if (!lastRichText?.text?.content) return
+    const lastSlashIndex =
+      blockRichTexts[blockRichTexts.length - 1].text.content.lastIndexOf('/')
+
+    if (lastSlashIndex !== -1) {
+      const sliced = blockRichTexts[length - 1].text.content.substring(
+        0,
+        lastSlashIndex,
+      )
+      blockRichTexts[length - 1].text.content = sliced
+    }
+
+    return block
   }
 
   const changeCurrentBlockTag = (tag: BlockTag) => {
@@ -92,50 +112,57 @@ export default function FlowPage() {
       case BlockTag.HEADING_1:
         currentBlock.h1 = currentBlock[oldTag]
         currentBlock[oldTag] = undefined
-        blockCleanupAfterCommand(currentBlock)
+        // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.HEADING_2:
         currentBlock.h2 = currentBlock[oldTag]
         currentBlock[oldTag] = undefined
-        blockCleanupAfterCommand(currentBlock)
+        // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.HEADING_3:
         currentBlock.h3 = currentBlock[oldTag]
         currentBlock[oldTag] = undefined
-        blockCleanupAfterCommand(currentBlock)
+        // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.PARAGRAPH:
         currentBlock.p = currentBlock[oldTag]
         currentBlock[oldTag] = undefined
-        blockCleanupAfterCommand(currentBlock)
+        // blockCleanupAfterCommand(currentBlock)
         break
       default:
     }
   }
 
-  const addBlockHandler = ({ ref }: addDeleteParams) => {
+  const changeCurrentBlockColor = (color: Color) => {
+    const curr = currentBlock[currentBlock.tag]
+    if (curr) curr.color = color
+  }
+
+  const addBlockHandler = ({ ref }: addDeleteParams, tag: BlockTag) => {
     const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
       index: currentBlock.index + 1,
-      tag: BlockTag.PARAGRAPH,
-      p: {
-        richText: [
-          {
-            type: RichTextType.TEXT,
-            text: {
-              content: '',
-            },
+      tag,
+      p: undefined,
+    }
+    newBlock[tag] = {
+      richText: [
+        {
+          type: RichTextType.TEXT,
+          text: {
+            content: '',
           },
-        ],
-        color: Color.DEFAULT,
-      },
+        },
+      ],
+      color: Color.DEFAULT,
     }
     tempBlocks.splice(currentBlock.index + 1, 0, newBlock)
     for (let i = currentBlock.index + 2; i < tempBlocks.length; i += 1) {
       tempBlocks[i].index += 1
     }
     setBlocks(tempBlocks, () => {
+      setCurrentBlock(newBlock)
       const next: HTMLElement | null = ref?.nextSibling as HTMLElement
       if (next) next.focus()
     })
@@ -158,19 +185,22 @@ export default function FlowPage() {
   }
 
   return (
-    <div className="max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-semibold prose-h2:text-3xl prose-h2:my-5 prose-h2:font-semibold prose-h3:text-2xl prose-h3:my-4 prose-h3:font-semibold prose-p:my-3 prose-p:text-lg">
+    <div className="max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-semibold prose-h1:text-current prose-h2:text-3xl prose-h2:my-5 prose-h2:font-semibold prose-h2:text-current prose-h3:text-2xl prose-h3:my-4 prose-h3:font-semibold prose-h3:text-current prose-p:my-3 prose-p:text-lg prose-p:text-current">
       {blocks.map((block: Block) => (
         <FlowBlock
           key={block.id}
-          id={block.id}
           block={block}
           currentBlock={currentBlock}
           setCurrentBlock={setCurrentBlock}
           editBlock={editCurrentBlock}
           changeBlockTag={changeCurrentBlockTag}
+          changeBlockColor={changeCurrentBlockColor}
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}
+          restoreBlockAndChangeColor={restoreBlockAndChangeColor}
+          currentCaretIndex={currentCaretIndex}
+          setCurrentCaretIndex={setCurrentCaretIndex}
         />
       ))}
     </div>

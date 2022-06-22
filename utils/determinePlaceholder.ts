@@ -11,6 +11,6 @@ export default function determinePlaceholder(tag: BlockTag) {
     case BlockTag.HEADING_3:
       return 'Heading 3'
     default:
-      return "Type '/' for commands"
+      return ''
   }
 }
