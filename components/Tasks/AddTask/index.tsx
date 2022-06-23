@@ -4,6 +4,7 @@ import { PlusIcon } from '@heroicons/react/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CourseDropDown from 'components/dropdowns/CourseDropdown'
+import DateButton from 'components/Tasks/AddTask/DateButton'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
@@ -27,9 +28,8 @@ export default function index({
   coursesOnTermLoading,
 }: Props) {
   const [taskName, setTaskName] = useState('')
-  const [HTML, setHTML] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
-  const [taskDueDate, setTaskDueDate] = useState('')
+  const [taskDueDateExact, setTaskDueDateExact] = useState<Date>()
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
 
@@ -43,7 +43,7 @@ export default function index({
             Title: taskName,
             TaskID: 0,
             Description: taskDescription,
-            DueDate: taskDueDate,
+            DueDate: taskDueDateExact?.toISOString(),
           },
         ],
         mutate: true,
@@ -56,12 +56,10 @@ export default function index({
     const data = makeTask(
       taskName,
       taskDescription,
-      taskDueDate,
+      taskDueDateExact?.toISOString(),
       user.email || user.user_metadata.email,
     )
   }
-
-  console.log(taskName)
 
   return (
     <div>
@@ -98,7 +96,10 @@ export default function index({
       )}
       {showMain && (
         <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
-          <TaskNameInput setTaskName={setTaskName} />
+          <TaskNameInput
+            setTaskName={setTaskName}
+            setTaskDueDateExact={setTaskDueDateExact}
+          />
           <textarea
             rows={2}
             onChange={(e) => setTaskDescription(e.target.value)}
@@ -108,11 +109,16 @@ export default function index({
           <div className="w-full border-t border-gray-300 mt-1 mb-1" />
           <div className="flex justify-between">
             <span className="flex items-center">
-              <input
+              <DateButton
+                taskDueDateExact={taskDueDateExact}
+                setTaskDueDateExact={setTaskDueDateExact}
+              />
+              {/* <input
                 onChange={(e) => setTaskDueDate(e.target.value)}
                 className="border-none focus:ring-0"
+                value={taskDueDate}
                 type="date"
-              />
+              /> */}
               <CourseDropDown
                 items={coursesOnTerm.map((course) => ({
                   color: course.Color,
