@@ -1,12 +1,16 @@
 import { ParsedResult } from 'chrono-node'
 import { removeHTMLTags } from './richTextEditor'
 
-export default function taskParser(text: string, dateResult: ParsedResult[]) {
+export default function taskParser(
+  text: string,
+  dateResult: ParsedResult[],
+  exemptWords: number,
+) {
   if (removeHTMLTags(text) === '') return ''
   const tempText = removeHTMLTags(text)
   const html = []
   html.push('<p>')
-  if (dateResult.length > 0) {
+  if (dateResult.length > 0 + exemptWords) {
     const dateItem = dateResult[dateResult.length - 1]
     const dateText = dateItem.text
     const startIndex = dateItem.index

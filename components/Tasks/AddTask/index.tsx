@@ -103,7 +103,7 @@ export default function index({
           <textarea
             rows={2}
             onChange={(e) => setTaskDescription(e.target.value)}
-            className="border-none focus:ring-0 placeholder:text-gray-400 text-sm -mb-5 resize-none"
+            className="border-none focus:ring-0 placeholder:text-gray-400 text-sm mb-1 resize-none"
             placeholder="Description"
           />
           <div className="w-full border-t border-gray-300 mt-1 mb-1" />
