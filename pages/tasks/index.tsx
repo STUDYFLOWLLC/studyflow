@@ -8,7 +8,6 @@ import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/DashHeadSmall'
 import Taskover from 'components/Taskover'
 import AddTask from 'components/Tasks/AddTask'
-import DisplayTasks from 'components/Tasks/DisplayTasks'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks, { Task } from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
@@ -19,8 +18,8 @@ interface Props {
   user: User
 }
 
-const tasksDisplayed = (viewing: string, tasks: Task[]) => {
-  switch (viewing) {
+const tasksDisplayed = (taskView: string, tasks: Task[]) => {
+  switch (taskView) {
     case 'Today':
       const today = new Date()
       const dd = String(today.getDate()).padStart(2, '0')
@@ -44,7 +43,7 @@ export default function index({ user }: Props) {
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
   const [showDashBar, setShowDashBar] = useState(true)
   const [searchValue, setSearchValue] = useState('')
-  const [viewing, setViewing] = useState('Today')
+  const [taskView, setTaskView] = useState('Today')
 
   const archiveTaskLocal = (TaskID: number) => {
     mutateTasks(
@@ -94,11 +93,11 @@ export default function index({ user }: Props) {
           <DashHeadSmall />
           <main className="flex-1">
             <DashHeadBig
-              pageDisplayed={`Tasks | ${viewing}`}
+              pageDisplayed="TASKS"
               showDashBar={showDashBar}
               setShowDashBar={setShowDashBar}
-              setViewing={setViewing}
-              viewing={viewing}
+              setTaskView={setTaskView}
+              taskView={taskView}
             />
           </main>
         </div>
@@ -106,21 +105,13 @@ export default function index({ user }: Props) {
         <CMDPalette />
       </div>
       <div className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}>
-        {/* <TaskHeader
-          user={user}
-          viewing={viewing}
-          setViewing={setViewing}
-          coursesOnTerm={coursesOnTerm}
-          coursesOnTermLoading={coursesOnTermLoading}
-        />
-        <div className="mx-auto w-4/5 border-t border-gray-300 mt-6" /> */}
         <div className="mx-auto w-8/12 flex flex-col justify-center">
-          <DisplayTasks
+          {/* <DisplayTasks
             user={user}
-            tasksDisplayed={tasksDisplayed(viewing, tasks)}
-            viewing={viewing}
+            tasksDisplayed={tasksDisplayed(taskView, tasks)}
+            taskView={taskView}
             archiveTaskLocal={archiveTaskLocal}
-          />
+          /> */}
           <AddTask
             user={user}
             tasks={tasks}

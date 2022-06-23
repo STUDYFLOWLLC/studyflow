@@ -1,5 +1,5 @@
 import HideButton from 'components/Dashbar/HideButton'
-import TasksDropdown from 'components/Dashboard/TasksDropdown'
+import TasksNavbar from 'components/Dashboard/TasksNavbar'
 import { Dispatch, SetStateAction } from 'react'
 import FlowDropdown from './FlowDropdown'
 
@@ -7,16 +7,16 @@ interface Props {
   showDashBar: boolean
   setShowDashBar: Dispatch<SetStateAction<boolean>>
   pageDisplayed: string
-  viewing?: string
-  setViewing?: (viewing: string) => void
+  taskView?: string
+  setTaskView?: (taskView: string) => void
 }
 
 export default function DashHeadBig({
   showDashBar,
   setShowDashBar,
   pageDisplayed,
-  viewing,
-  setViewing,
+  taskView,
+  setTaskView,
 }: Props) {
   return (
     <div className="border-b border-gray-200 px-2 py-4 sm:flex sm:items-center sm:justify-between sm:px-4">
@@ -25,13 +25,11 @@ export default function DashHeadBig({
           <HideButton direction="show" setShowDashBar={setShowDashBar} />
         )}
         <h1 className="text-lg font-medium sm:truncate">{pageDisplayed}</h1>
+        {taskView && setTaskView && (
+          <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
+        )}
       </div>
       <div className="flex sm:mt-0 sm:ml-4 items-center">
-        {viewing && setViewing ? (
-          <TasksDropdown viewing={viewing} setViewing={setViewing} />
-        ) : (
-          <TasksDropdown />
-        )}
         <FlowDropdown />
       </div>
     </div>
