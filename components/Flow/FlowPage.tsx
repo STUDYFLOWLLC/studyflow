@@ -138,11 +138,15 @@ export default function FlowPage() {
     if (curr) curr.color = color
   }
 
-  const addBlockHandler = ({ ref }: addDeleteParams, tag: BlockTag) => {
+  const addBlockHandler = (
+    beneathIndex: number,
+    ref: HTMLElement | null,
+    tag: BlockTag,
+  ) => {
     const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
-      index: currentBlock.index + 1,
+      index: beneathIndex + 1,
       tag,
       p: undefined,
     }
@@ -157,8 +161,8 @@ export default function FlowPage() {
       ],
       color: Color.DEFAULT,
     }
-    tempBlocks.splice(currentBlock.index + 1, 0, newBlock)
-    for (let i = currentBlock.index + 2; i < tempBlocks.length; i += 1) {
+    tempBlocks.splice(beneathIndex + 1, 0, newBlock)
+    for (let i = beneathIndex + 2; i < tempBlocks.length; i += 1) {
       tempBlocks[i].index += 1
     }
     setBlocks(tempBlocks, () => {

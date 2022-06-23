@@ -14,12 +14,17 @@ import determinePlaceholder from 'utils/determinePlaceholder'
 import { removeHTMLTags } from 'utils/richTextEditor'
 
 interface Props {
+  id: string
   block: Block
   editBlock: (e: ContentEditableEvent) => void
   changeBlockTag: (tag: BlockTag) => void
   changeBlockColor: (color: Color) => void
   updatePage: (block: Block) => void
-  addBlock: ({ ref }: addDeleteParams, tag: BlockTag) => void
+  addBlock: (
+    beneathIndex: number,
+    ref: HTMLElement | null,
+    tag: BlockTag,
+  ) => void
   deleteBlock: ({ ref }: addDeleteParams) => void
   currentBlock: Block
   setCurrentBlock: (block: Block) => void
@@ -38,7 +43,7 @@ interface State {
     y: number | null | undefined
   }
   openedMenuInEmptyBlock: boolean
-  focused: boolean
+  caretIndex: number
 }
 
 const CMD_KEY = '/'
@@ -67,7 +72,7 @@ class FlowBlock extends React.Component<Props, State> {
         y: null,
       },
       openedMenuInEmptyBlock: false,
-      focused: false,
+      caretIndex: 0,
     }
   }
 
@@ -80,10 +85,11 @@ class FlowBlock extends React.Component<Props, State> {
   // 1. user has changed the html content
   // 2. user has changed the tag
   componentDidUpdate(prevProps: Props) {
-    const { block } = this.props
+    const { block, updatePage, currentBlock } = this.props
+    const { contentEditable } = this.state
     const tagChanged = prevProps.block.tag !== block.tag
     if (tagChanged) {
-      const { updatePage } = this.props
+      const { id, updatePage } = this.props
       updatePage(block)
     }
   }
@@ -93,6 +99,7 @@ class FlowBlock extends React.Component<Props, State> {
     const { contentEditable } = this.state
     const caretIndex = getCaretIndex(contentEditable.current)
     setCurrentCaretIndex(caretIndex)
+    this.setState({ caretIndex })
     const { block, editBlock } = this.props
     const stripped = removeHTMLTags(e.target.value)
     if (stripped.charAt(caretIndex - 1) === '/')
@@ -102,21 +109,12 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   onKeyDownHandler(e: { key: string; preventDefault: () => void }) {
-    const { selectMenuIsOpen, contentEditable } = this.state
-    const {
-      setCurrentBlock,
-      block,
-      changeBlockColor,
-      currentCaretIndex,
-      setCurrentCaretIndex,
-    } = this.props
+    const { selectMenuIsOpen, caretIndex } = this.state
+    const { setCurrentBlock, block, changeBlockColor } = this.props
 
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
-      // setCurrentBlock(block)
-      // setCurrentCaretIndex(getCaretIndex(contentEditable.current))
-    }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-      setCurrentCaretIndex(getCaretIndex(contentEditable.current))
+      console.log(`Setting current block to ${block.index}`)
+      setCurrentBlock(block)
     }
     if (e.key === 'ArrowUp' && !selectMenuIsOpen) {
       e.preventDefault()
@@ -124,7 +122,7 @@ class FlowBlock extends React.Component<Props, State> {
       if (contentEditable.current?.previousElementSibling) {
         setCaretToPosition(
           contentEditable.current?.previousElementSibling as HTMLElement,
-          currentCaretIndex,
+          getCaretIndex(contentEditable.current),
         )
       }
     }
@@ -134,7 +132,7 @@ class FlowBlock extends React.Component<Props, State> {
       if (contentEditable.current?.nextElementSibling) {
         setCaretToPosition(
           contentEditable.current?.nextSibling as HTMLElement,
-          currentCaretIndex,
+          getCaretIndex(contentEditable.current),
         )
       }
     }
@@ -149,10 +147,9 @@ class FlowBlock extends React.Component<Props, State> {
       const { previousKey, selectMenuIsOpen } = this.state
       if (previousKey !== 'Shift' && !selectMenuIsOpen) {
         e.preventDefault()
-        setCurrentBlock(block)
         const { addBlock } = this.props
         const { contentEditable } = this.state
-        addBlock({ ref: contentEditable.current }, BlockTag.PARAGRAPH)
+        addBlock(block.index, contentEditable.current, BlockTag.PARAGRAPH)
       }
     }
     if (e.key === 'Backspace' && blockParser(block) === '') {
@@ -216,6 +213,7 @@ class FlowBlock extends React.Component<Props, State> {
     const { block, addBlock } = this.props
     const { contentEditable, openedMenuInEmptyBlock } = this.state
     if (openedMenuInEmptyBlock) return this.tagSelectionHandler(tag)
+    // cleanBlock(block)
     this.setState({ html: blockParser(block) })
     addBlock({ ref: contentEditable.current }, tag)
     this.closeSelectMenuHandler()
@@ -231,15 +229,10 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   render() {
-    const { block, currentBlock, setCurrentCaretIndex, setCurrentBlock } =
+    const { block, currentBlock, setCurrentBlock, setCurrentCaretIndex } =
       this.props
-    const {
-      selectMenuIsOpen,
-      selectMenuPosition,
-      contentEditable,
-      html,
-      focused,
-    } = this.state
+    const { selectMenuIsOpen, selectMenuPosition, contentEditable, html } =
+      this.state
 
     return (
       <>
@@ -260,7 +253,8 @@ class FlowBlock extends React.Component<Props, State> {
           innerRef={contentEditable}
           html={html}
           placeholder={
-            (focused && block.tag === BlockTag.PARAGRAPH) ||
+            (currentBlock.id === block.id &&
+              block.tag === BlockTag.PARAGRAPH) ||
             (html === '' && block.tag !== BlockTag.PARAGRAPH)
               ? determinePlaceholder(block.tag)
               : ''
@@ -269,20 +263,17 @@ class FlowBlock extends React.Component<Props, State> {
           onKeyDown={this.onKeyDownHandler}
           onKeyUp={this.onKeyUpHandler}
           onFocus={() => {
-            this.setState({ focused: true })
             // setCurrentBlock(block)
           }}
-          onBlur={() => {
-            this.setState({ focused: false })
-          }}
           onClick={() => {
+            // setCurrentBlock(block)
             setCurrentCaretIndex(getCaretIndex(contentEditable.current))
           }}
         />
         {selectMenuIsOpen && (
           <FlowMenu
             position={selectMenuPosition}
-            // onTagSelect={this.tagSelectionHandler}
+            onTagSelect={this.tagSelectionHandler}
             onTagSelectNew={this.tagSelectionHandlerNew}
             onColorSelect={this.colorSelectionHandler}
             close={this.closeSelectMenuHandler}
