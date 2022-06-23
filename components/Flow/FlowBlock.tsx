@@ -44,6 +44,7 @@ interface State {
   }
   openedMenuInEmptyBlock: boolean
   caretIndex: number
+  focused: boolean
 }
 
 const CMD_KEY = '/'
@@ -73,6 +74,7 @@ class FlowBlock extends React.Component<Props, State> {
       },
       openedMenuInEmptyBlock: false,
       caretIndex: 0,
+      focused: false,
     }
   }
 
@@ -85,8 +87,8 @@ class FlowBlock extends React.Component<Props, State> {
   // 1. user has changed the html content
   // 2. user has changed the tag
   componentDidUpdate(prevProps: Props) {
-    const { block, updatePage, currentBlock } = this.props
-    const { contentEditable } = this.state
+    const { block, updatePage, currentBlock, currentCaretIndex } = this.props
+    const { contentEditable, focused } = this.state
     const tagChanged = prevProps.block.tag !== block.tag
     if (tagChanged) {
       const { id, updatePage } = this.props
@@ -112,10 +114,8 @@ class FlowBlock extends React.Component<Props, State> {
     const { selectMenuIsOpen, caretIndex } = this.state
     const { setCurrentBlock, block, changeBlockColor } = this.props
 
-    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
-      console.log(`Setting current block to ${block.index}`)
-      setCurrentBlock(block)
-    }
+    this.setState({ focused: true })
+
     if (e.key === 'ArrowUp' && !selectMenuIsOpen) {
       e.preventDefault()
       const { contentEditable } = this.state
@@ -128,13 +128,15 @@ class FlowBlock extends React.Component<Props, State> {
     }
     if (e.key === 'ArrowDown' && !selectMenuIsOpen) {
       e.preventDefault()
-      const { contentEditable } = this.state
-      if (contentEditable.current?.nextElementSibling) {
-        setCaretToPosition(
-          contentEditable.current?.nextSibling as HTMLElement,
-          getCaretIndex(contentEditable.current),
-        )
-      }
+      this.setState({ focused: false }, () => {
+        const { contentEditable } = this.state
+        if (contentEditable.current?.nextElementSibling) {
+          setCaretToPosition(
+            contentEditable.current?.nextSibling as HTMLElement,
+            getCaretIndex(contentEditable.current),
+          )
+        }
+      })
     }
     if (e.key === CMD_KEY) {
       // If the user starts to enter a command, we store a backup copy of
@@ -253,7 +255,7 @@ class FlowBlock extends React.Component<Props, State> {
           innerRef={contentEditable}
           html={html}
           placeholder={
-            (currentBlock.id === block.id &&
+            (block.id === currentBlock.id &&
               block.tag === BlockTag.PARAGRAPH) ||
             (html === '' && block.tag !== BlockTag.PARAGRAPH)
               ? determinePlaceholder(block.tag)
@@ -262,11 +264,17 @@ class FlowBlock extends React.Component<Props, State> {
           onChange={this.onChangeHandler}
           onKeyDown={this.onKeyDownHandler}
           onKeyUp={this.onKeyUpHandler}
-          onFocus={() => {
+          onFocus={(e) => {
+            e.preventDefault()
+            this.setState({ focused: true })
             // setCurrentBlock(block)
           }}
+          onBlur={(e) => {
+            // this.setState({ focused: false })
+          }}
           onClick={() => {
-            // setCurrentBlock(block)
+            this.setState({ focused: true })
+            setCurrentBlock(block)
             setCurrentCaretIndex(getCaretIndex(contentEditable.current))
           }}
         />
