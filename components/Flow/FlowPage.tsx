@@ -172,7 +172,7 @@ export default function FlowPage() {
     })
   }
 
-  const deleteBlockHandler = ({ ref }: addDeleteParams) => {
+  const deleteBlockHandler = (index: number, ref: HTMLElement | null) => {
     // Only delete the block, if there is a preceding one
     const previousBlock = ref?.previousElementSibling as HTMLElement
     if (previousBlock) {
@@ -182,6 +182,7 @@ export default function FlowPage() {
       }
       tempBlocks.splice(currentBlock.index, 1)
       setBlocks(tempBlocks, () => {
+        setCurrentBlock(tempBlocks[index - 1])
         setCaretToEnd(previousBlock)
         previousBlock.focus()
       })
@@ -205,6 +206,12 @@ export default function FlowPage() {
           restoreBlockAndChangeColor={restoreBlockAndChangeColor}
           currentCaretIndex={currentCaretIndex}
           setCurrentCaretIndex={setCurrentCaretIndex}
+          previousBlock={block.index > 0 ? blocks[block.index - 1] : undefined}
+          nextBlock={
+            block.index < blocks.length - 1
+              ? blocks[block.index + 1]
+              : undefined
+          }
         />
       ))}
     </div>
