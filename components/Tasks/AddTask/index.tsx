@@ -3,8 +3,8 @@
 import { PlusIcon } from '@heroicons/react/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
-import CourseDropDown from 'components/dropdowns/CourseDropdown'
-import DateButton from 'components/Tasks/AddTask/DateButton'
+import CourseDropdown from 'components/dropdowns/CourseDropdown'
+import DateDropdown from 'components/dropdowns/DateDropdown'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
@@ -109,17 +109,11 @@ export default function index({
           <div className="w-full border-t border-gray-300 mt-1 mb-1" />
           <div className="flex justify-between">
             <span className="flex items-center">
-              <DateButton
+              <DateDropdown
                 taskDueDateExact={taskDueDateExact}
                 setTaskDueDateExact={setTaskDueDateExact}
               />
-              {/* <input
-                onChange={(e) => setTaskDueDate(e.target.value)}
-                className="border-none focus:ring-0"
-                value={taskDueDate}
-                type="date"
-              /> */}
-              <CourseDropDown
+              <CourseDropdown
                 items={coursesOnTerm.map((course) => ({
                   color: course.Color,
                   name: course.Nickname || course.FK_Course.Code,
