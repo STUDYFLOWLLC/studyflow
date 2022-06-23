@@ -9,6 +9,7 @@ export default function DateButton({
   taskDueDateExact,
   setTaskDueDateExact,
 }: Props) {
+  console.log(taskDueDateExact)
   return (
     <div>
       {taskDueDateExact

@@ -34,7 +34,7 @@ function treatAsUTC(date: Date) {
 function daysBetween(startDate: Date, endDate: Date) {
   const millisecondsPerDay = 24 * 60 * 60 * 1000
 
-  return Math.trunc(
+  return Math.floor(
     (treatAsUTC(endDate).valueOf() - treatAsUTC(startDate).valueOf()) /
       millisecondsPerDay,
   )
@@ -43,8 +43,8 @@ function daysBetween(startDate: Date, endDate: Date) {
 export default function abbreviateDate(date: Date, timezone: string) {
   let retString = ''
   const daysBetweenReal = daysBetween(
-    date,
     changeTimezone(new Date(), timezone),
+    date,
   )
 
   // Today

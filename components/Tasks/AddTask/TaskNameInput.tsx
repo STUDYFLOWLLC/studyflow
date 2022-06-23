@@ -7,7 +7,7 @@ import taskParser from 'utils/taskParser'
 
 interface Props {
   setTaskName: (taskName: string) => void
-  setTaskDueDateExact: (taskDueDateExact: Date) => void
+  setTaskDueDateExact: (taskDueDateExact: Date | undefined) => void
 }
 
 interface State {
@@ -32,6 +32,8 @@ export default class TaskNameInput extends Component<Props, State> {
     const taskDueDate = dateParser(stripped)
     if (taskDueDate.length > 0) {
       setTaskDueDateExact(taskDueDate[taskDueDate.length - 1].date())
+    } else {
+      setTaskDueDateExact(undefined)
     }
     setTaskName(stripped)
     this.setState({

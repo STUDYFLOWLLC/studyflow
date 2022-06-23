@@ -29,7 +29,7 @@ export default function index({
 }: Props) {
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
-  const [taskDueDateExact, setTaskDueDateExact] = useState<Date>()
+  const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>()
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
 
