@@ -32,3 +32,11 @@ a {
   content: attr(placeholder);
   display: block;
 }
+
+.task-name #date {
+  @apply bg-primary/50 rounded px-1.5 py-0.5 cursor-pointer;
+}
+
+.task-name #date:hover {
+  @apply bg-transparent border-2 border-rose-400 rounded px-1.5 py-0.5 cursor-pointer;
+}

@@ -4,12 +4,12 @@ import { PlusIcon } from '@heroicons/react/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CourseDropDown from 'components/dropdowns/CourseDropdown'
+import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
 import { Task } from 'hooks/tasks/useTasks'
 import { useState } from 'react'
 import { KeyedMutator } from 'swr'
-import dateParser from 'utils/dateParser'
 
 interface Props {
   user: User
@@ -27,6 +27,7 @@ export default function index({
   coursesOnTermLoading,
 }: Props) {
   const [taskName, setTaskName] = useState('')
+  const [HTML, setHTML] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
   const [taskDueDate, setTaskDueDate] = useState('')
   const [showMain, setShowMain] = useState(false)
@@ -52,13 +53,15 @@ export default function index({
       },
     )
 
-    const data = await makeTask(
+    const data = makeTask(
       taskName,
       taskDescription,
       taskDueDate,
       user.email || user.user_metadata.email,
     )
   }
+
+  console.log(taskName)
 
   return (
     <div>
@@ -95,16 +98,7 @@ export default function index({
       )}
       {showMain && (
         <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
-          <input
-            type="text"
-            autoFocus
-            onChange={(e) => {
-              dateParser(e.target.value)
-              setTaskName(e.target.value)
-            }}
-            className="border-none focus:ring-0 placeholder:text-gray-400 text-lg -mb-2 font-medium"
-            placeholder="Task name"
-          />
+          <TaskNameInput setTaskName={setTaskName} />
           <textarea
             rows={2}
             onChange={(e) => setTaskDescription(e.target.value)}
@@ -145,7 +139,9 @@ export default function index({
                 type="button"
                 className={classNames(
                   { 'bg-gray-400 cursor-default': !taskName },
-                  { 'bg-gray-700 hover:bg-black cursor-pointer': taskName },
+                  {
+                    'bg-gray-700 hover:bg-black cursor-pointer': taskName,
+                  },
                   'px-3.5 py-1.5 item-center transition rounded-md  font-medium text-white',
                 )}
                 onClick={() => {
