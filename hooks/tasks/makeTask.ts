@@ -3,7 +3,7 @@ import request, { gql } from 'graphql-request'
 export default async function makeTask(
   title: string,
   description: string,
-  dueDate: string,
+  dueDate: string | undefined,
   email: string,
 ) {
   const mutation = gql`
@@ -24,7 +24,7 @@ export default async function makeTask(
         },
       },
       Description: description,
-      DueDate: dueDate,
+      DueDate: dueDate || null,
     },
   }
 

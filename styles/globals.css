@@ -32,3 +32,7 @@ a {
   content: attr(placeholder);
   display: block;
 }
+
+.task-name #date {
+  @apply bg-primary/50 rounded px-1.5 py-0.5 cursor-pointer;
+}

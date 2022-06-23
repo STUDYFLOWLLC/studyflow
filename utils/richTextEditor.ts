@@ -1,7 +1,9 @@
 import { RichText, RichTextType } from 'types/Flow'
+import decodeHtml from 'utils/decodeHTML'
 
-export function removeHTMLTags(html: string) {
-  return html.replace(/<[^>]*>/g, '')
+export function removeHTMLTags(html: string | undefined) {
+  if (!html) return ''
+  return decodeHtml(html.replace(/<[^>]*>/g, ''))
 }
 
 export default function richTextEditor(

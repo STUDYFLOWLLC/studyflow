@@ -1,7 +1,24 @@
 import * as chrono from 'chrono-node'
 
 const custom = chrono.casual.clone()
-const now = new Date()
+
+export function changeTimezone(date: Date, timezone: string) {
+  // suppose the date is 12:00 UTC
+  const invdate = new Date(
+    date.toLocaleString('en-US', {
+      timeZone: timezone,
+    }),
+  )
+
+  // then invdate will be 07:00 in Toronto
+  // and the diff is 5 hours
+  const diff = date.getTime() - invdate.getTime()
+
+  // so 12:00 in Toronto is 17:00 UTC
+  return new Date(date.getTime() - diff) // needs to substract
+}
+
+const now = changeTimezone(new Date(), 'America/Los_Angeles')
 
 // Todo: add valentines day, halloween, thanksgiving, new years, new years eve (with auto next year if already passed)
 custom.parsers.push({
@@ -38,6 +55,17 @@ custom.parsers.push(
     }),
   },
 )
+
+custom.refiners.push({
+  refine: (context, results) => {
+    results.forEach((result) => {
+      result.start.assign('hour', 23)
+      result.start.assign('minute', 59)
+      result.start.assign('second', 59)
+    })
+    return results
+  },
+})
 
 export default function dateParser(date: string): chrono.ParsedResult[] {
   const parsed = custom.parse(date, now, { forwardDate: true })
