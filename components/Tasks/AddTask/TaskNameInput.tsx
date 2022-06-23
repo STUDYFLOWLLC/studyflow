@@ -96,7 +96,7 @@ export default class TaskNameInput extends Component<Props, State> {
         onKeyDown={(e) => this.onKeyDownHandler(e)}
         className={classNames(
           { 'text-gray-400': html === '' },
-          'cursor-text task-name min-h-6 border-none focus:ring-0 text-lg font-medium outline-none mx-2.5 mt-1',
+          'cursor-text block task-name min-h-6 border-none focus:ring-0 text-lg font-medium outline-none mx-2.5 mt-1',
         )}
         placeholder="Task name"
       />
