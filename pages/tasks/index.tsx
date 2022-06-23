@@ -1,11 +1,14 @@
 /* eslint-disable no-case-declarations */
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
+import CMDPalette from 'components/CMDPalette'
 import DashBar from 'components/Dashbar'
 import HideButton from 'components/Dashbar/HideButton'
+import DashHeadBig from 'components/Dashboard/DashHeadBig'
+import DashHeadSmall from 'components/DashHeadSmall'
+import Taskover from 'components/Taskover'
 import AddTask from 'components/Tasks/AddTask'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
-import TaskHeader from 'components/Tasks/TasksHeader'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks, { Task } from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
@@ -84,16 +87,33 @@ export default function index({ user }: Props) {
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />
+
+        <div
+          className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
+        >
+          <DashHeadSmall />
+          <main className="flex-1">
+            <DashHeadBig
+              pageDisplayed={`Tasks | ${viewing}`}
+              showDashBar={showDashBar}
+              setShowDashBar={setShowDashBar}
+              setViewing={setViewing}
+              viewing={viewing}
+            />
+          </main>
+        </div>
+        <Taskover />
+        <CMDPalette />
       </div>
       <div className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}>
-        <TaskHeader
+        {/* <TaskHeader
           user={user}
           viewing={viewing}
           setViewing={setViewing}
           coursesOnTerm={coursesOnTerm}
           coursesOnTermLoading={coursesOnTermLoading}
         />
-        <div className="mx-auto w-4/5 border-t border-gray-300 mt-6" />
+        <div className="mx-auto w-4/5 border-t border-gray-300 mt-6" /> */}
         <div className="mx-auto w-8/12 flex flex-col justify-center">
           <DisplayTasks
             user={user}
