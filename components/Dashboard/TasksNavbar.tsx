@@ -19,29 +19,31 @@ interface Props {
 
 export default function TasksNavbar({ taskView, setTaskView }: Props) {
   return (
-    <div className="flex">
-      <span className="ml-4 mr-2">|</span>
-      {tasksDisplays.map((taskDisplay) => (
-        <span
-          key={taskDisplay}
-          className={classNames(
-            {
-              'border-b-2 border-primary text-black font-medium':
-                taskDisplay === taskView,
-            },
-            {
-              'hover:cursor-pointer hover:text-black text-gray-500 hover:border-b hover:border-gray-300':
-                taskDisplay !== taskView,
-            },
-            'flex mx-3 pb-1',
-          )}
-          onClick={() => setTaskView(taskDisplay)}
-          onKeyDown={() => setTaskView(taskDisplay)}
-        >
-          {tasksDisplaysIcons[tasksDisplays.indexOf(taskDisplay)]}
-          <span>{taskDisplay}</span>
-        </span>
-      ))}
+    <div className="absolute bottom-0">
+      <div className="flex ml-14">
+        <span className="ml-4">|</span>
+        {tasksDisplays.map((taskDisplay) => (
+          <span
+            key={taskDisplay}
+            className={classNames(
+              {
+                'border-b-2 border-primary text-black font-medium':
+                  taskDisplay === taskView,
+              },
+              {
+                'hover:cursor-pointer hover:text-black text-gray-500 hover:border-b-2 hover:border-gray-300':
+                  taskDisplay !== taskView,
+              },
+              'flex mx-3 pb-4 items-center',
+            )}
+            onClick={() => setTaskView(taskDisplay)}
+            onKeyDown={() => setTaskView(taskDisplay)}
+          >
+            {tasksDisplaysIcons[tasksDisplays.indexOf(taskDisplay)]}
+            <span>{taskDisplay}</span>
+          </span>
+        ))}
+      </div>
     </div>
   )
 }
