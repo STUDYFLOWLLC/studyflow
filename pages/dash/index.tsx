@@ -61,6 +61,7 @@ export default function Dash({ user }: Props) {
         <DashHeadSmall />
         <main className="flex-1">
           <DashHeadBig
+            pageDisplayed="Home"
             showDashBar={showDashBar}
             setShowDashBar={setShowDashBar}
           />
