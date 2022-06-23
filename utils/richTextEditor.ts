@@ -1,6 +1,7 @@
 import { RichText, RichTextType } from 'types/Flow'
 
-export function removeHTMLTags(html: string) {
+export function removeHTMLTags(html: string | undefined) {
+  if (!html) return ''
   return html.replace(/<[^>]*>/g, '')
 }
 
