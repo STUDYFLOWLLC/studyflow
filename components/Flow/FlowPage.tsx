@@ -50,8 +50,12 @@ const secondBlock: Block = {
 
 export default function FlowPage() {
   const [blocks, setBlocks] = useStateCallback([initialBlock, secondBlock])
-  const [currentBlock, setCurrentBlock] = useState<Block>(initialBlock)
+  const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
+
+  console.log(`Current Block ${currentBlock.index}`)
+  console.log(`Current Caret Index ${currentCaretIndex}`)
+  console.log('')
 
   const updatePageHandler = (updatedBlock: Block) => {
     const index = blocks.map((b: Block) => b.id).indexOf(updatedBlock.id)
@@ -65,7 +69,8 @@ export default function FlowPage() {
   }
 
   const changeBlockColor = (block: Block, color: Color) => {
-    const blockText = block[currentBlock.tag]
+    const currentBlockReal = currentBlock as Block
+    const blockText = block[currentBlockReal.tag]
     if (blockText) blockText.color = color
   }
 
@@ -138,11 +143,15 @@ export default function FlowPage() {
     if (curr) curr.color = color
   }
 
-  const addBlockHandler = ({ ref }: addDeleteParams, tag: BlockTag) => {
+  const addBlockHandler = (
+    beneathIndex: number,
+    ref: HTMLElement | null,
+    tag: BlockTag,
+  ) => {
     const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
-      index: currentBlock.index + 1,
+      index: beneathIndex + 1,
       tag,
       p: undefined,
     }
@@ -157,18 +166,19 @@ export default function FlowPage() {
       ],
       color: Color.DEFAULT,
     }
-    tempBlocks.splice(currentBlock.index + 1, 0, newBlock)
-    for (let i = currentBlock.index + 2; i < tempBlocks.length; i += 1) {
+    tempBlocks.splice(beneathIndex + 1, 0, newBlock)
+    for (let i = beneathIndex + 2; i < tempBlocks.length; i += 1) {
       tempBlocks[i].index += 1
     }
     setBlocks(tempBlocks, () => {
       setCurrentBlock(newBlock)
+      setCurrentCaretIndex(0)
       const next: HTMLElement | null = ref?.nextSibling as HTMLElement
       if (next) next.focus()
     })
   }
 
-  const deleteBlockHandler = ({ ref }: addDeleteParams) => {
+  const deleteBlockHandler = (index: number, ref: HTMLElement | null) => {
     // Only delete the block, if there is a preceding one
     const previousBlock = ref?.previousElementSibling as HTMLElement
     if (previousBlock) {
@@ -178,6 +188,7 @@ export default function FlowPage() {
       }
       tempBlocks.splice(currentBlock.index, 1)
       setBlocks(tempBlocks, () => {
+        setCurrentBlock(tempBlocks[index - 1])
         setCaretToEnd(previousBlock)
         previousBlock.focus()
       })
@@ -201,6 +212,12 @@ export default function FlowPage() {
           restoreBlockAndChangeColor={restoreBlockAndChangeColor}
           currentCaretIndex={currentCaretIndex}
           setCurrentCaretIndex={setCurrentCaretIndex}
+          previousBlock={block.index > 0 ? blocks[block.index - 1] : undefined}
+          nextBlock={
+            block.index < blocks.length - 1
+              ? blocks[block.index + 1]
+              : undefined
+          }
         />
       ))}
     </div>
