@@ -16,13 +16,12 @@ export default function richTextEditor(
   if (richText.type === RichTextType.TEXT && richText.text) {
     const stripped = removeHTMLTags(newContent)
     const lastStripped = stripped.substring(caretIndex, caretIndex + 1)
-    console.log(lastStripped)
-    console.log(richText.text.content)
-    // if the user deletes the most recent character
+
+    // detect if the user deletes a character
     if (totalLength > stripped.length) {
       const textContent = richText.text.content
-      console.log(textContent)
-      richText.text.content = textContent.substring(0, textContent.length - 1)
+      richText.text.content =
+        textContent.slice(0, caretIndex - 1) + textContent.slice(caretIndex)
     } else {
       richText.text.content =
         richText.text.content.slice(0, caretIndex) +

@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { ContentEditableEvent } from 'react-contenteditable'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Block, BlockTag, Color, RichText, RichTextType } from 'types/Flow'
-import { setCaretToEnd } from 'utils/caretHelpers'
 import getRawTextLength from 'utils/getRawTextLength'
 import richTextEditor from 'utils/richTextEditor'
 import useStateCallback from 'utils/useStateCallback'
@@ -54,6 +53,7 @@ export default function FlowPage() {
   const [blocks, setBlocks] = useStateCallback([initialBlock, secondBlock])
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
+  const [joinDetector, setJoinDetector] = useState(-1)
 
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
@@ -219,11 +219,39 @@ export default function FlowPage() {
       tempBlocks.splice(currentBlock.index, 1)
       setBlocks(tempBlocks, () => {
         setCurrentBlock(tempBlocks[index - 1])
-        setCaretToEnd(previousBlock)
         setCurrentCaretIndex(getRawTextLength(tempBlocks[index - 1]))
         previousBlock.focus()
       })
     }
+  }
+
+  const joinBlocks = (
+    block1: Block,
+    block2: Block,
+    ref: HTMLElement | null,
+  ) => {
+    const previousBlock = ref?.previousElementSibling as HTMLElement
+    if (!previousBlock) return
+
+    const block1RichText = block1[block1.tag]?.richText
+    const block2RichText = block2[block2.tag]?.richText
+    const previousLength = getRawTextLength(block1)
+    if (!block1RichText || !block2RichText) return
+
+    const newBlockRichText = [...block1RichText, ...block2RichText]
+    if (block1[block1.tag]) block1[block1.tag].richText = newBlockRichText
+
+    const tempBlocks = [...blocks]
+    for (let i = currentBlock.index + 1; i < tempBlocks.length; i += 1) {
+      tempBlocks[i].index -= 1
+    }
+    tempBlocks.splice(currentBlock.index, 1)
+
+    setBlocks(tempBlocks, () => {
+      setJoinDetector(block1.index)
+      setCurrentCaretIndex(previousLength)
+      setCurrentBlock(block1)
+    })
   }
 
   const boldHandler = (block: Block) => {
@@ -276,6 +304,7 @@ export default function FlowPage() {
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}
+          joinBlocks={joinBlocks}
           restoreBlockAndChangeColor={restoreBlockAndChangeColor}
           currentCaretIndex={currentCaretIndex}
           setCurrentCaretIndex={setCurrentCaretIndex}
@@ -285,6 +314,8 @@ export default function FlowPage() {
               ? blocks[block.index + 1]
               : undefined
           }
+          joinDetector={joinDetector}
+          setJoinDetector={setJoinDetector}
         />
       ))}
     </div>
