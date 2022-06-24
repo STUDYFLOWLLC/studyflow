@@ -80,10 +80,6 @@ export function setCaretToPosition(
       const text = child.textContent || ''
       const textLength = text.length
       if (charactersProgressed + textLength >= realPosition) {
-        console.log(
-          'Setting caret to position',
-          realPosition - charactersProgressed,
-        )
         range.setStart(child, realPosition - charactersProgressed)
         break
       }
