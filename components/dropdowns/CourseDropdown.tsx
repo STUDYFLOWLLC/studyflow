@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, InboxIcon } from '@heroicons/react/outline'
+import { AcademicCapIcon, InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { Fragment } from 'react'
@@ -40,19 +40,16 @@ export default function CourseDropDown({
           <div>
             <Menu.Button
               disabled={loading}
-              className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-1 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-0 focus:outline-none"
+              className="flex items-center cursor-pointer hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded-md shadow-sm mx-2 text-sm font-medium"
             >
-              {title}
               {loading ? (
-                <div className="-mr-1 ml-2">
+                <div className="h-4 mr-2 w-4">
                   <MainSpinner size={SpinnerSizes.small} />
                 </div>
               ) : (
-                <ChevronDownIcon
-                  className="-mr-1 ml-2 h-5 w-5"
-                  aria-hidden="true"
-                />
+                <AcademicCapIcon className="h-5 mr-1 w-5" aria-hidden="true" />
               )}
+              {title}
             </Menu.Button>
           </div>
 
@@ -65,7 +62,7 @@ export default function CourseDropDown({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-left absolute left-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-top-left absolute left-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               {items.map((item) => (
                 <Menu.Item key={item.name} onClick={() => item.handler()}>
                   {({ active }: activeProps) => (

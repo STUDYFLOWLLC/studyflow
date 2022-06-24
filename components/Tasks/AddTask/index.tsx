@@ -3,8 +3,8 @@
 import { PlusIcon } from '@heroicons/react/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
-import CourseDropDown from 'components/dropdowns/CourseDropdown'
-import DateButton from 'components/Tasks/AddTask/DateButton'
+import CourseDropdown from 'components/dropdowns/CourseDropdown'
+import DateDropdown from 'components/dropdowns/DateDropdown'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
@@ -30,6 +30,8 @@ export default function index({
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
   const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>()
+  const [taskCourse, setTaskCourse] = useState(0)
+  const [courseDropDownTitle, setCourseDropDownTitle] = useState('Course')
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
 
@@ -44,6 +46,7 @@ export default function index({
             TaskID: 0,
             Description: taskDescription,
             DueDate: taskDueDateExact?.toISOString(),
+            FK_CourseOnTermID: taskCourse,
           },
         ],
         mutate: true,
@@ -58,6 +61,7 @@ export default function index({
       taskDescription,
       taskDueDateExact?.toISOString(),
       user.email || user.user_metadata.email,
+      taskCourse,
     )
   }
 
@@ -109,25 +113,28 @@ export default function index({
           <div className="w-full border-t border-gray-300 mt-1 mb-1" />
           <div className="flex justify-between">
             <span className="flex items-center">
-              <DateButton
+              <DateDropdown
                 taskDueDateExact={taskDueDateExact}
                 setTaskDueDateExact={setTaskDueDateExact}
               />
-              {/* <input
-                onChange={(e) => setTaskDueDate(e.target.value)}
-                className="border-none focus:ring-0"
-                value={taskDueDate}
-                type="date"
-              /> */}
-              <CourseDropDown
+              <CourseDropdown
                 items={coursesOnTerm.map((course) => ({
                   color: course.Color,
                   name: course.Nickname || course.FK_Course.Code,
-                  handler: () => console.log('test'),
+                  handler: () => {
+                    setTaskCourse(course.CourseOnTermID)
+                    setCourseDropDownTitle(
+                      course.Nickname || course.FK_Course.Code,
+                    )
+                  },
                 }))}
-                title="Course"
+                title={courseDropDownTitle}
                 hasGeneral
                 loading={coursesOnTermLoading}
+                generalHandler={() => {
+                  setTaskCourse(0)
+                  setCourseDropDownTitle('General')
+                }}
               />
             </span>
             <span className="flex justify-end space-x-2 items-center">
@@ -137,6 +144,9 @@ export default function index({
                 onClick={() => {
                   setShowMain(false)
                   setShowAddTask(false)
+                  setCourseDropDownTitle('Course')
+                  setTaskCourse(0)
+                  setTaskDueDateExact(undefined)
                 }}
               >
                 <div>Cancel</div>
