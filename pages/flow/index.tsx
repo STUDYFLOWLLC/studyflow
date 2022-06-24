@@ -2,9 +2,9 @@
 
 import { CalendarIcon, EyeIcon, FolderOpenIcon } from '@heroicons/react/outline'
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
-import classNames from 'classnames'
 import FlowPage from 'components/Flow/FlowPage'
 import FlowProperty from 'components/Flow/FlowProperty'
+import FlowType from 'components/Flow/FlowType'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
@@ -73,17 +73,8 @@ export default function Flow({ user }: Props) {
               onChange={(e: ContentEditableEvent) => setTitle(e.target.value)}
               html={title}
             />
-            <h3
-              className={classNames(
-                { 'text-stone-500': theme === 'light' },
-                { 'text-gray-400': theme === 'dark' },
-                'font-light m-0 p-0 ml-3',
-              )}
-            >
-              {flowy.Type}
-            </h3>
+            <FlowType type={flowy.Type} />
           </div>
-
           <div className="border-l-2 ml-1 mt-4 p-0 mb-2">
             <FlowProperty
               Icon={CalendarIcon}
