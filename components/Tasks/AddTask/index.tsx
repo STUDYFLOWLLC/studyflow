@@ -71,7 +71,7 @@ export default function index({
         <div
           className={classNames(
             { 'cursor-pointer': showAddTask },
-            'flex mt-3 ml-4',
+            'flex mt-3 m-3',
           )}
           onClick={() => setShowMain(!showMain)}
           onKeyDown={() => setShowMain(!showMain)}
@@ -99,7 +99,7 @@ export default function index({
         </div>
       )}
       {showMain && (
-        <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
+        <div className="mt-3 m-3 border border-gray-400 rounded-md p-1 flex flex-col">
           <TaskNameInput
             setTaskName={setTaskName}
             setTaskDueDateExact={setTaskDueDateExact}
