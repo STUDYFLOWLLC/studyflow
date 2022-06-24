@@ -50,8 +50,12 @@ const secondBlock: Block = {
 
 export default function FlowPage() {
   const [blocks, setBlocks] = useStateCallback([initialBlock, secondBlock])
-  const [currentBlock, setCurrentBlock] = useState<Block>(initialBlock)
+  const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
+
+  console.log(`Current Block ${currentBlock.index}`)
+  console.log(`Current Caret Index ${currentCaretIndex}`)
+  console.log('')
 
   const updatePageHandler = (updatedBlock: Block) => {
     const index = blocks.map((b: Block) => b.id).indexOf(updatedBlock.id)
@@ -65,7 +69,8 @@ export default function FlowPage() {
   }
 
   const changeBlockColor = (block: Block, color: Color) => {
-    const blockText = block[currentBlock.tag]
+    const currentBlockReal = currentBlock as Block
+    const blockText = block[currentBlockReal.tag]
     if (blockText) blockText.color = color
   }
 
@@ -167,6 +172,7 @@ export default function FlowPage() {
     }
     setBlocks(tempBlocks, () => {
       setCurrentBlock(newBlock)
+      setCurrentCaretIndex(0)
       const next: HTMLElement | null = ref?.nextSibling as HTMLElement
       if (next) next.focus()
     })
