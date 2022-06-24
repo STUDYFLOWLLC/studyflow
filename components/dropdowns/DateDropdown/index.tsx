@@ -20,13 +20,11 @@ interface activeProps {
 const itemList = ['Today', 'Tomorrow']
 
 interface Props {
-  generalHandler?: (param1?: any, ...params: any[]) => any
   taskDueDateExact: Date | undefined
   setTaskDueDateExact: (taskDueDateExact: Date) => void
 }
 
 export default function CourseDropDown({
-  generalHandler,
   taskDueDateExact,
   setTaskDueDateExact,
 }: Props) {
@@ -36,7 +34,7 @@ export default function CourseDropDown({
         <>
           <div>
             <Menu.Button className="flex items-center cursor-pointer hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded-md shadow-sm mx-2 text-sm font-medium">
-              <CalendarIcon className="w-4 mr-2" />
+              <CalendarIcon className="w-4 mr-1" />
               {taskDueDateExact
                 ? abbreviateDate(taskDueDateExact, 'America/Los_Angeles')
                 : 'Due date'}
@@ -74,6 +72,9 @@ export default function CourseDropDown({
                   )}
                 </Menu.Item>
               ))}
+              {/* <Menu.Item>
+                {({ active }: activeProps) => <DropdownCalendar />}
+              </Menu.Item> */}
             </Menu.Items>
           </Transition>
         </>

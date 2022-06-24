@@ -5,6 +5,7 @@ export default async function makeTask(
   description: string,
   dueDate: string | undefined,
   email: string,
+  courseOnTermId: number,
 ) {
   const mutation = gql`
     mutation Mutation($data: TaskCreateInput!) {
@@ -24,7 +25,12 @@ export default async function makeTask(
         },
       },
       Description: description,
-      DueDate: dueDate || null,
+      DueDate: dueDate,
+      FK_CourseOnTerm: {
+        connect: {
+          CourseOnTermID: courseOnTermId,
+        },
+      },
     },
   }
 

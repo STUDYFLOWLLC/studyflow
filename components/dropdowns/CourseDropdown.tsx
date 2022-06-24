@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, InboxIcon } from '@heroicons/react/outline'
+import { AcademicCapIcon, InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { Fragment } from 'react'
@@ -42,17 +42,14 @@ export default function CourseDropDown({
               disabled={loading}
               className="flex items-center cursor-pointer hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded-md shadow-sm mx-2 text-sm font-medium"
             >
-              {title}
               {loading ? (
-                <div className="-mr-1 ml-2">
+                <div className="h-4 mr-2 w-4">
                   <MainSpinner size={SpinnerSizes.small} />
                 </div>
               ) : (
-                <ChevronDownIcon
-                  className="-mr-1 ml-2 h-5 w-5"
-                  aria-hidden="true"
-                />
+                <AcademicCapIcon className="h-5 mr-1 w-5" aria-hidden="true" />
               )}
+              {title}
             </Menu.Button>
           </div>
 

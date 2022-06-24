@@ -30,6 +30,8 @@ export default function index({
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
   const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>()
+  const [taskCourse, setTaskCourse] = useState(0)
+  const [courseDropDownTitle, setCourseDropDownTitle] = useState('Course')
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
 
@@ -44,6 +46,7 @@ export default function index({
             TaskID: 0,
             Description: taskDescription,
             DueDate: taskDueDateExact?.toISOString(),
+            FK_CourseOnTermID: taskCourse,
           },
         ],
         mutate: true,
@@ -58,6 +61,7 @@ export default function index({
       taskDescription,
       taskDueDateExact?.toISOString(),
       user.email || user.user_metadata.email,
+      taskCourse,
     )
   }
 
@@ -117,11 +121,20 @@ export default function index({
                 items={coursesOnTerm.map((course) => ({
                   color: course.Color,
                   name: course.Nickname || course.FK_Course.Code,
-                  handler: () => console.log('test'),
+                  handler: () => {
+                    setTaskCourse(course.CourseOnTermID)
+                    setCourseDropDownTitle(
+                      course.Nickname || course.FK_Course.Code,
+                    )
+                  },
                 }))}
-                title="Course"
+                title={courseDropDownTitle}
                 hasGeneral
                 loading={coursesOnTermLoading}
+                generalHandler={() => {
+                  setTaskCourse(0)
+                  setCourseDropDownTitle('General')
+                }}
               />
             </span>
             <span className="flex justify-end space-x-2 items-center">
@@ -131,6 +144,9 @@ export default function index({
                 onClick={() => {
                   setShowMain(false)
                   setShowAddTask(false)
+                  setCourseDropDownTitle('Course')
+                  setTaskCourse(0)
+                  setTaskDueDateExact(undefined)
                 }}
               >
                 <div>Cancel</div>
