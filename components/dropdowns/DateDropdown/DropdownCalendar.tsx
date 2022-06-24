@@ -1,6 +1,4 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Menu, Transition } from '@headlessui/react'
-import { DotsVerticalIcon } from '@heroicons/react/outline'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
 import {
@@ -9,14 +7,26 @@ import {
   endOfMonth,
   endOfWeek,
   format,
+  getDay,
   isEqual,
   isSameMonth,
   isToday,
   parse,
   startOfMonth,
   startOfToday,
+  startOfWeek,
 } from 'date-fns'
-import React, { Fragment } from 'react'
+import React from 'react'
+
+const colStartClasses = [
+  '',
+  'col-start-2',
+  'col-start-3',
+  'col-start-4',
+  'col-start-5',
+  'col-start-6',
+  'col-start-7',
+]
 
 const meetings = [
   {
@@ -32,7 +42,7 @@ const meetings = [
   // More meetings...
 ]
 
-export default function Example() {
+export default function DropdownCalendar() {
   const today = startOfToday()
   const [selectedDate, setSelectedDate] = React.useState(today)
   const [currentMonth, setCurrentMonth] = React.useState(
@@ -41,9 +51,14 @@ export default function Example() {
   const firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
 
   const days = eachDayOfInterval({
-    start: startOfMonth(today),
-    end: endOfWeek(endOfMonth(today)),
+    start: startOfWeek(startOfMonth(firstDayCurrentMonth)),
+    end: endOfWeek(endOfMonth(firstDayCurrentMonth)),
   })
+
+  const previousMonth = () => {
+    const firstDayLastMonth = add(firstDayCurrentMonth, { months: -1 })
+    setCurrentMonth(format(firstDayLastMonth, 'MMM-yyyy'))
+  }
 
   const nextMonth = () => {
     const firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 })
@@ -56,10 +71,11 @@ export default function Example() {
         <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
             <div className="flex items-center">
-              <h2 className="flex-auto font-semibold text-gray-900">
+              <h2 className="flex-auto ml-4 font-semibold text-gray-900">
                 {format(firstDayCurrentMonth, 'MMM yyyy')}
               </h2>
               <button
+                onClick={previousMonth}
                 type="button"
                 className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
               >
@@ -89,7 +105,8 @@ export default function Example() {
                 <div
                   key={day.toString()}
                   className={classNames(
-                    dayIdx > 6 && 'border-t border-gray-200',
+                    dayIdx > 6 && 'border-gray-200',
+                    dayIdx === 0 && colStartClasses[getDay(day)],
                     'py-2',
                   )}
                 >
@@ -103,11 +120,11 @@ export default function Example() {
                         'text-primary',
                       !isEqual(day, selectedDate) &&
                         !isToday(day) &&
-                        isSameMonth(day, today) &&
+                        isSameMonth(day, firstDayCurrentMonth) &&
                         'text-gray-900',
                       !isEqual(day, selectedDate) &&
                         !isToday(day) &&
-                        !isSameMonth(day, today) &&
+                        !isSameMonth(day, firstDayCurrentMonth) &&
                         'text-gray-400',
                       isEqual(day, selectedDate) &&
                         isToday(day) &&
@@ -129,94 +146,6 @@ export default function Example() {
               ))}
             </div>
           </div>
-          <section className="mt-12 md:mt-0 md:pl-14">
-            <h2 className="font-semibold text-gray-900">
-              Schedule for <time dateTime="2022-01-21">January 21, 2022</time>
-            </h2>
-            <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-              {meetings.map((meeting) => (
-                <li
-                  key={meeting.id}
-                  className="group flex items-center space-x-4 rounded-xl py-2 px-4 focus-within:bg-gray-100 hover:bg-gray-100"
-                >
-                  <img
-                    src={meeting.imageUrl}
-                    alt=""
-                    className="h-10 w-10 flex-none rounded-full"
-                  />
-                  <div className="flex-auto">
-                    <p className="text-gray-900">{meeting.name}</p>
-                    <p className="mt-0.5">
-                      <time dateTime={meeting.startDatetime}>
-                        {meeting.start}
-                      </time>{' '}
-                      -{' '}
-                      <time dateTime={meeting.endDatetime}>{meeting.end}</time>
-                    </p>
-                  </div>
-                  <Menu
-                    as="div"
-                    className="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100"
-                  >
-                    <div>
-                      <Menu.Button className="-m-2 flex items-center rounded-full p-1.5 text-gray-500 hover:text-gray-600">
-                        <span className="sr-only">Open options</span>
-                        <DotsVerticalIcon
-                          className="h-6 w-6"
-                          aria-hidden="true"
-                        />
-                      </Menu.Button>
-                    </div>
-
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="focus:outline-none absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div className="py-1">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700',
-                                  'block px-4 py-2 text-sm',
-                                )}
-                              >
-                                Edit
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700',
-                                  'block px-4 py-2 text-sm',
-                                )}
-                              >
-                                Cancel
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </li>
-              ))}
-            </ol>
-          </section>
         </div>
       </div>
     </div>

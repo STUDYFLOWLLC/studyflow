@@ -3,6 +3,7 @@
 import { Menu, Transition } from '@headlessui/react'
 import { CalendarIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import DropdownCalendar from 'components/dropdowns/DateDropdown/DropdownCalendar'
 import { Fragment } from 'react'
 import abbreviateDate from 'utils/abbreviateDate'
 import dateParser from 'utils/dateParser'
@@ -50,7 +51,7 @@ export default function CourseDropDown({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-left absolute right-2 w-56 h-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-top-left absolute right-2 w-72 h-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               {itemList.map((item) => (
                 <Menu.Item key={item}>
                   {({ active }: activeProps) => (
@@ -72,9 +73,11 @@ export default function CourseDropDown({
                   )}
                 </Menu.Item>
               ))}
-              {/* <Menu.Item>
-                {({ active }: activeProps) => <DropdownCalendar />}
-              </Menu.Item> */}
+              <section>
+                <Menu.Item>
+                  {({ active }: activeProps) => <DropdownCalendar />}
+                </Menu.Item>
+              </section>
             </Menu.Items>
           </Transition>
         </>
