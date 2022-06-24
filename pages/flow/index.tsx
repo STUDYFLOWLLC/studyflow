@@ -1,7 +1,8 @@
 // should get flow from server side and render it here
 
-import { CalendarIcon, EyeIcon, FolderOpenIcon } from '@heroicons/react/outline'
+import { CalendarIcon, EyeIcon } from '@heroicons/react/outline'
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import FlowCourse from 'components/Flow/FlowCourse'
 import FlowPage from 'components/Flow/FlowPage'
 import FlowProperty from 'components/Flow/FlowProperty'
 import FlowType from 'components/Flow/FlowType'
@@ -81,11 +82,17 @@ export default function Flow({ user }: Props) {
               property="Date"
               value={handleTimeStamp(flowy.CreatedTime)}
             />
-            <FlowProperty
-              Icon={FolderOpenIcon}
-              property="Course"
-              value={flowy.FK_CourseOnTerm.Nickname}
-              coursesOnTerm={coursesOnTerm}
+            <FlowCourse
+              title="Course"
+              items={
+                coursesOnTerm
+                  ? coursesOnTerm.map((course) => ({
+                      color: course.Color,
+                      name: course.Nickname || course.FK_Course.Code,
+                      handler: () => console.log('test'),
+                    }))
+                  : []
+              }
               loading={coursesOnTermLoading}
             />
           </div>
