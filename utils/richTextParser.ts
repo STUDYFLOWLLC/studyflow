@@ -7,9 +7,15 @@ export default function richTextParser(richTexts: RichText[] | undefined) {
     const html = []
     const richText = richTexts[i]
     if (richText.type === RichTextType.TEXT) {
-      html.push('<span>')
-      html.push(richText.text?.content)
-      html.push('</span>')
+      if (richText.annotations?.bold) {
+        html.push('<strong>')
+        html.push(richText.text?.content)
+        html.push('</strong>')
+      } else {
+        html.push('<span>')
+        html.push(richText.text?.content)
+        html.push('</span>')
+      }
       if (richText.text?.link) {
         html.unshift(`<a href="${richText.text.link.url}" target="_blank">`)
         html.push('</a>')
