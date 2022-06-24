@@ -4,8 +4,10 @@
 import FlowBlock from 'components/Flow/FlowBlock'
 import { useState } from 'react'
 import { ContentEditableEvent } from 'react-contenteditable'
-import { Block, BlockTag, Color, RichTextType } from 'types/Flow'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { Block, BlockTag, Color, RichText, RichTextType } from 'types/Flow'
 import { setCaretToEnd } from 'utils/caretHelpers'
+import getRawTextLength from 'utils/getRawTextLength'
 import richTextEditor from 'utils/richTextEditor'
 import useStateCallback from 'utils/useStateCallback'
 import { v4 as uuidv4 } from 'uuid'
@@ -53,9 +55,25 @@ export default function FlowPage() {
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
 
-  console.log(`Current Block ${currentBlock.index}`)
-  console.log(`Current Caret Index ${currentCaretIndex}`)
-  console.log('')
+  // console.log(`Current Block ${currentBlock.index}`)
+  // console.log(`Current Caret Index ${currentCaretIndex}`)
+  // console.log('')
+
+  // iterate through blocks and find the current block based on caret index
+  const findCurrentRichTextBlock = (): RichText => {
+    let charactersProgressed = 0
+    const blockRichText = currentBlock[currentBlock.tag].richText
+    for (let i = 0; i < blockRichText.length; i += 1) {
+      if (
+        charactersProgressed + blockRichText[i].text.content.length >
+        currentCaretIndex
+      ) {
+        return blockRichText[i]
+      }
+      charactersProgressed += blockRichText[i].text.content.length
+    }
+    return blockRichText[blockRichText.length - 1]
+  }
 
   const updatePageHandler = (updatedBlock: Block) => {
     const index = blocks.map((b: Block) => b.id).indexOf(updatedBlock.id)
@@ -84,8 +102,20 @@ export default function FlowPage() {
   }
 
   const editCurrentBlock = (e: ContentEditableEvent) => {
-    const currentRichText = currentBlock[currentBlock.tag]?.richText[0]
-    richTextEditor(currentRichText, e.target.value)
+    const richText = currentBlock[currentBlock.tag]?.richText
+    if (richText) {
+      let totalRawLength = 0
+      for (let i = 0; i < richText.length; i += 1) {
+        totalRawLength += richText[i].text.content.length
+      }
+      const currentRichText = findCurrentRichTextBlock()
+      richTextEditor(
+        currentRichText,
+        e.target.value,
+        currentCaretIndex,
+        totalRawLength,
+      )
+    }
   }
 
   const blockCleanupAfterCommand = (block: any) => {
@@ -190,10 +220,47 @@ export default function FlowPage() {
       setBlocks(tempBlocks, () => {
         setCurrentBlock(tempBlocks[index - 1])
         setCaretToEnd(previousBlock)
+        setCurrentCaretIndex(getRawTextLength(tempBlocks[index - 1]))
         previousBlock.focus()
       })
     }
   }
+
+  const boldHandler = (block: Block) => {
+    const richText = block[block.tag]?.richText
+    if (richText) {
+      const lastRichText = richText[richText.length - 1]
+      if (!lastRichText.annotations?.bold) {
+        block[block.tag]?.richText.push({
+          type: RichTextType.TEXT,
+          annotations: { bold: true },
+          text: {
+            content: '',
+          },
+        })
+      } else {
+        block[block.tag]?.richText.push({
+          type: RichTextType.TEXT,
+          text: {
+            content: '',
+          },
+        })
+      }
+    }
+  }
+
+  useHotkeys(
+    'cmd+b, ctrl+b',
+    (e) => {
+      e.preventDefault()
+      boldHandler(currentBlock)
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+      enableOnContentEditable: true,
+    },
+    [],
+  )
 
   return (
     <div className="max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-semibold prose-h1:text-current prose-h2:text-3xl prose-h2:my-5 prose-h2:font-semibold prose-h2:text-current prose-h3:text-2xl prose-h3:my-4 prose-h3:font-semibold prose-h3:text-current prose-p:my-3 prose-p:text-lg prose-p:text-current">

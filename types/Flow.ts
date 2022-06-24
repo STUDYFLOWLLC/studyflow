@@ -23,12 +23,12 @@ export enum Color {
 }
 
 interface Annotation {
-  bold: boolean
-  italic: boolean
-  underline: boolean
-  strikethrough: boolean
-  code: boolean
-  color: Color
+  bold?: boolean
+  italic?: boolean
+  underline?: boolean
+  strikethrough?: boolean
+  code?: boolean
+  color?: Color
 }
 
 export enum RichTextType {
