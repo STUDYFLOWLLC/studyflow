@@ -6,7 +6,6 @@ import DashBar from 'components/Dashbar'
 import HideButton from 'components/Dashbar/HideButton'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/DashHeadSmall'
-import DropdownCalendar from 'components/dropdowns/DateDropdown/DropdownCalendar'
 import Taskover from 'components/Taskover'
 import AddTask from 'components/Tasks/AddTask'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
@@ -122,7 +121,6 @@ export default function index({ user }: Props) {
           />
         </div>
       </div>
-      <DropdownCalendar />
     </div>
   )
 }
