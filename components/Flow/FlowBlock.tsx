@@ -55,8 +55,8 @@ class FlowBlock extends React.Component<Props, State> {
     this.onKeyUpHandler = this.onKeyUpHandler.bind(this)
     this.openSelectMenuHandler = this.openSelectMenuHandler.bind(this)
     this.closeSelectMenuHandler = this.closeSelectMenuHandler.bind(this)
+    this.convertTagSelectionHandler = this.convertTagSelectionHandler.bind(this)
     this.tagSelectionHandler = this.tagSelectionHandler.bind(this)
-    this.tagSelectionHandlerNew = this.tagSelectionHandlerNew.bind(this)
     this.colorSelectionHandler = this.colorSelectionHandler.bind(this)
 
     const { block } = props
@@ -220,7 +220,7 @@ class FlowBlock extends React.Component<Props, State> {
 
   // Restore the clean html (without the command), focus the editable
   // with the caret being set to the end, close the select menu
-  tagSelectionHandler(tag: BlockTag) {
+  convertTagSelectionHandler(tag: BlockTag) {
     const { block, changeBlockTag } = this.props
     const { contentEditable } = this.state
     changeBlockTag(tag)
@@ -229,10 +229,10 @@ class FlowBlock extends React.Component<Props, State> {
     contentEditable.current?.focus()
   }
 
-  tagSelectionHandlerNew(tag: BlockTag) {
+  tagSelectionHandler(tag: BlockTag) {
     const { block, addBlock } = this.props
     const { contentEditable, openedMenuInEmptyBlock } = this.state
-    if (openedMenuInEmptyBlock) return this.tagSelectionHandler(tag)
+    if (openedMenuInEmptyBlock) return this.convertTagSelectionHandler(tag)
     // cleanBlock(block)
     this.setState({ html: blockParser(block) })
     this.closeSelectMenuHandler()
@@ -291,7 +291,7 @@ class FlowBlock extends React.Component<Props, State> {
           <FlowMenu
             position={selectMenuPosition}
             // onTagSelect={this.tagSelectionHandler}
-            onTagSelectNew={this.tagSelectionHandlerNew}
+            onTagSelect={this.tagSelectionHandler}
             onColorSelect={this.colorSelectionHandler}
             close={this.closeSelectMenuHandler}
           />

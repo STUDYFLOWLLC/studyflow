@@ -158,8 +158,7 @@ interface Props {
     x: number | null | undefined
     y: number | null | undefined
   }
-  // onTagSelect: (tag: BlockTag) => void
-  onTagSelectNew: (tag: BlockTag) => void
+  onTagSelect: (tag: BlockTag) => void
   onColorSelect: (color: Color) => void
   close: () => void
 }
@@ -203,8 +202,8 @@ class SelectMenu extends React.Component<Props, State> {
   }
 
   selectionHandler(item: Command) {
-    const { onTagSelectNew, onColorSelect } = this.props
-    if (item.tag && item.new) onTagSelectNew(item.tag)
+    const { onTagSelect, onColorSelect } = this.props
+    if (item.tag && item.new) onTagSelect(item.tag)
     else if (item.color) onColorSelect(item.color)
   }
 
