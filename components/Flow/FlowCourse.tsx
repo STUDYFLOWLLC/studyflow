@@ -52,7 +52,7 @@ export default function CourseDropDown({ title, items, loading }: Props) {
           <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
           {title}
           {loading ? (
-            <div className="w-4 my-1">
+            <div className="w-4 mx-1">
               <MainSpinner size={SpinnerSizes.small} />
             </div>
           ) : (
@@ -70,14 +70,29 @@ export default function CourseDropDown({ title, items, loading }: Props) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-left absolute left-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items
+          className={classNames(
+            { ' bg-white ring-black ring-1 ring-opacity-5': theme === 'light' },
+            { 'bg-slate-700': theme === 'dark' },
+            'absolute z-20 left-0 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
+          )}
+        >
           {items.map((item) => (
             <Menu.Item key={item.name} onClick={() => item.handler()}>
               {({ active }: activeProps) => (
                 <div
                   className={classNames(
-                    { 'bg-primary bg-opacity-30 text-gray-900': active },
-                    { 'text-gray-700': !active },
+                    {
+                      'bg-primary bg-opacity-30 text-gray-900':
+                        active && theme === 'light',
+                    },
+                    { 'text-gray-700': !active && theme === 'light' },
+                    {
+                      'bg-slate-600': active && theme === 'dark',
+                    },
+                    {
+                      'bg-slate-700 ': !active && theme === 'dark',
+                    },
                     'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md last-of-type:rounded-b-md',
                   )}
                 >
