@@ -1,7 +1,7 @@
 import {
-  AcademicCapIcon,
   CalendarIcon,
   CollectionIcon,
+  FolderIcon,
 } from '@heroicons/react/outline'
 import classNames from 'classnames'
 
@@ -9,7 +9,7 @@ const tasksDisplays = ['Today', 'Calendar', 'Courses']
 const tasksDisplaysIcons = [
   <CollectionIcon key="collection" className="w-4 mr-1" />,
   <CalendarIcon key="calendar" className="w-4 mr-1" />,
-  <AcademicCapIcon key="academicCap" className="w-4 mr-1" />,
+  <FolderIcon key="folder" className="w-4 mr-1" />,
 ]
 
 interface Props {

@@ -13,20 +13,15 @@ interface Props {
 
 export default function index({ user, taskView, mutateTasks, tasks }: Props) {
   const archiveTaskLocal = (TaskID: number) => {
-    mutateTasks(
-      {
-        mutate: true,
-        tasks: tasks.map((task) => {
-          if (task.TaskID === TaskID) {
-            return { ...task, Completed: true }
-          }
-          return task
-        }),
-      },
-      {
-        revalidate: false,
-      },
-    )
+    mutateTasks({
+      mutate: true,
+      tasks: tasks.map((task) => {
+        if (task.TaskID === TaskID) {
+          return { ...task, Completed: true }
+        }
+        return task
+      }),
+    })
   }
   return (
     <div className="justify-center">

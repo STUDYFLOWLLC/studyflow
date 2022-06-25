@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import { AcademicCapIcon, InboxIcon } from '@heroicons/react/outline'
+import { FolderIcon, InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { Fragment } from 'react'
@@ -47,7 +47,7 @@ export default function CourseDropDown({
                   <MainSpinner size={SpinnerSizes.small} />
                 </div>
               ) : (
-                <AcademicCapIcon className="h-5 mr-1 w-5" aria-hidden="true" />
+                <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
               )}
               {title}
             </Menu.Button>
