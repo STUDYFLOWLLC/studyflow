@@ -10,6 +10,7 @@ export interface Task {
   Description: string
   DueDate: string
   Completed: boolean
+  FK_CourseOnTermID: number
 }
 
 interface Ret {
@@ -29,6 +30,7 @@ export default function useTasks(userId: number | undefined): Ret {
         Description
         DueDate
         Completed
+        FK_CourseOnTermID
       }
     }
   `

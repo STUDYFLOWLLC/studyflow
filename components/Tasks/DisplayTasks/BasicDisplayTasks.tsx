@@ -11,6 +11,10 @@ interface Props {
 }
 
 export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
+  // tasks.map((task) => {
+  //   console.log(task.FK_CourseOnTermID)
+  //   return 0
+  // })
   return (
     <ul>
       <Toaster />
@@ -33,10 +37,12 @@ export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
                   </div>
                   <div className="font-light">{task.Description}</div>
                   {/* <div>{task.DueDate}</div> */}
-                  <div className="flex justify-between">
-                    <DateDisplay />
-                    <CourseDisplay />
-                  </div>
+                  <span className="flex justify-start">
+                    {task.DueDate && <DateDisplay />}
+                  </span>
+                  <span className="flex justify-end mr-1">
+                    <CourseDisplay course={task.FK_CourseOnTermID} />
+                  </span>
                 </div>
               </div>
             </li>
