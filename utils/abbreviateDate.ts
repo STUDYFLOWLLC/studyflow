@@ -1,3 +1,4 @@
+import { differenceInCalendarDays } from 'date-fns'
 import { changeTimezone } from 'utils/dateParser'
 
 const monthAbbreviations = [
@@ -42,10 +43,13 @@ function daysBetween(startDate: Date, endDate: Date) {
 
 export default function abbreviateDate(date: Date, timezone: string) {
   let retString = ''
-  const daysBetweenReal = daysBetween(
-    changeTimezone(new Date(), timezone),
+  let daysBetweenReal = daysBetween(changeTimezone(new Date(), timezone), date)
+  daysBetweenReal = differenceInCalendarDays(
     date,
+    changeTimezone(new Date(), timezone),
   )
+
+  console.log(daysBetweenReal)
 
   // Today
   if (Math.abs(daysBetweenReal) === 0) retString = 'Today'
@@ -57,7 +61,7 @@ export default function abbreviateDate(date: Date, timezone: string) {
   else if (daysBetweenReal < -7 || daysBetweenReal > 14)
     retString = `${monthAbbreviations[date.getMonth()]} ${date.getDate()}`
   // Day of week (future)
-  else if (daysBetweenReal > 1 && daysBetweenReal < 7)
+  else if (daysBetweenReal > 1 && daysBetweenReal <= 7)
     retString = daysOfWeekAbbreviations[date.getDay()]
   // Day of week (future with next)
   else if (daysBetweenReal > 7)

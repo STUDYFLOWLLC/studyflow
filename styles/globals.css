@@ -31,8 +31,6 @@ a {
 [contenteditable='true']:empty:before {
   content: attr(placeholder);
   display: block;
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
 }
 
 .task-name #date {
