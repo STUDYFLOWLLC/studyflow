@@ -33,8 +33,8 @@ interface Props {
   setCurrentCaretIndex: (index: number) => void
   previousBlock: Block | undefined
   nextBlock: Block | undefined
-  joinDetector: number
-  setJoinDetector: (detector: number) => void
+  rerenderDetector: number
+  setRerenderDetector: (detector: number) => void
 }
 interface State {
   contentEditable: React.RefObject<HTMLElement>
@@ -87,17 +87,27 @@ class FlowBlock extends React.Component<Props, State> {
   // 1. user has changed the html content
   // 2. user has changed the tag
   componentDidUpdate(prevProps: Props) {
-    const { block, joinDetector, updatePage, currentCaretIndex } = this.props
+    const {
+      block,
+      rerenderDetector,
+      setRerenderDetector,
+      updatePage,
+      currentCaretIndex,
+      setCurrentCaretIndex,
+    } = this.props
     const { contentEditable } = this.state
     const tagChanged = prevProps.block.tag !== block.tag
 
     // rerender for joinblock and set caret index
     if (
-      prevProps.joinDetector !== joinDetector &&
-      block.index === joinDetector
+      prevProps.rerenderDetector !== rerenderDetector &&
+      block.index === rerenderDetector
     ) {
+      console.log('yoyo')
       this.setState({ html: blockParser(block) }, () => {
         setCaretToPosition(contentEditable.current, currentCaretIndex)
+        setCurrentCaretIndex(currentCaretIndex)
+        setRerenderDetector(-1)
       })
     }
 
@@ -313,6 +323,7 @@ class FlowBlock extends React.Component<Props, State> {
             {
               'h-6 text-opacity-40': html === '' && block[block.tag]?.color,
             },
+            { 'caret-black': block[block.tag]?.color === Color.DEFAULT },
             block[block.tag]?.color,
             'outline-none',
           )}
