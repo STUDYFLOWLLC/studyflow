@@ -1,19 +1,79 @@
-import { TrashIcon } from '@heroicons/react/outline'
+import { ArrowLeftIcon, TrashIcon } from '@heroicons/react/outline'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
+import deleteTask from 'hooks/tasks/deleteTask'
+import useTasks, { Task } from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
-const notify = () => toast('Here is your toast.')
+interface Props {
+  task: Task
+}
 
-export default function DeleteTask() {
-  const [showDeletePrompt, setShowDeletePrompt] = useState(false)
+export default function DeleteTask({ task }: Props) {
+  const user = useUser()
+  const { userDetails } = useUserDetails(user.user?.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+
+  const [canceled, setCanceled] = useState(false)
+
+  const revertTask = () => {
+    setCanceled(true)
+    mutateTasks(
+      {
+        mutate: true,
+        tasks: [
+          tasks.filter((taskMap) => taskMap.TaskID !== task.TaskID),
+          task,
+        ],
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
+
+  const notify = () =>
+    toast.custom(
+      !canceled ? (
+        <div
+          className="flex border bg-red-200 border-transparent p-1 hover:bg-red-400 cursor-pointer rounded-md mb-4"
+          onClick={() => revertTask()}
+          onKeyDown={() => revertTask()}
+        >
+          <span className="mr-1">Undo</span>
+          <ArrowLeftIcon className="w-4" />
+        </div>
+      ) : (
+        <div />
+      ),
+      {
+        duration: 4000,
+        position: 'bottom-right',
+      },
+    )
+
+  const deleteTaskLocal = () => {
+    notify()
+    mutateTasks(
+      {
+        mutate: true,
+        tasks: tasks.filter((taskFilter) => task.TaskID !== taskFilter.TaskID),
+      },
+      {
+        revalidate: false,
+      },
+    )
+    setTimeout(() => {
+      if (!canceled) deleteTask(task.TaskID)
+    }, 4100)
+  }
 
   return (
-    <>
-      <TrashIcon
-        className="w-5 text-gray-400 hover:text-black hover:cursor-pointer"
-        onClick={notify}
-      />
-      <Toaster />
-    </>
+    <TrashIcon
+      onClick={() => deleteTaskLocal()}
+      onKeyDown={() => deleteTaskLocal()}
+      className="w-5 text-gray-400 hover:text-black hover:cursor-pointer"
+    />
   )
 }
