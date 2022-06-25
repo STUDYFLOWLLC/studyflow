@@ -23,13 +23,13 @@ export default function richTextEditor(
       return (
         textContent.slice(0, caretIndex - 1) + textContent.slice(caretIndex)
       )
-    } else {
-      return (
-        textContent.slice(0, caretIndex) +
-        lastStripped +
-        textContent.slice(caretIndex)
-      )
     }
+    return (
+      textContent.slice(0, caretIndex) +
+      lastStripped +
+      textContent.slice(caretIndex)
+    )
+
     // const newRichText: RichText = { ...richText }
     // if (newRichText.text) newRichText.text.content = stripped
     // return newRichText

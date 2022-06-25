@@ -59,19 +59,6 @@ export default function FlowPage() {
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
 
-  // commandHandler.execute(
-  //   'update-property',
-  //   new UpdatePropertyCommand({
-  //     target: currentBlock.p,
-  //     propertyName: 'color',
-  //     newValue: Color.RED,
-  //   }),
-  // )
-  // console.log(currentBlock.p.color)
-  // commandHandler.undo()
-  // console.log(currentBlock.p.color)
-  // commandHandler.redo()
-
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
   // console.log('')

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export class Stack<T> {
   private data: T[] = []
   private top: number = 0
