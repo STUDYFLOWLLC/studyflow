@@ -25,6 +25,7 @@ interface Props {
     tag: BlockTag,
   ) => void
   deleteBlock: (index: number, ref: HTMLElement | null) => void
+  joinBlocks: (block1: Block, block2: Block, ref: HTMLElement | null) => void
   currentBlock: Block
   setCurrentBlock: (block: Block, callback?: () => void) => void
   restoreBlockAndChangeColor: (block: Block, color: Color) => Block
@@ -32,6 +33,8 @@ interface Props {
   setCurrentCaretIndex: (index: number) => void
   previousBlock: Block | undefined
   nextBlock: Block | undefined
+  rerenderDetector: number
+  setRerenderDetector: (detector: number) => void
 }
 interface State {
   contentEditable: React.RefObject<HTMLElement>
@@ -84,8 +87,29 @@ class FlowBlock extends React.Component<Props, State> {
   // 1. user has changed the html content
   // 2. user has changed the tag
   componentDidUpdate(prevProps: Props) {
-    const { block, updatePage } = this.props
+    const {
+      block,
+      rerenderDetector,
+      setRerenderDetector,
+      updatePage,
+      currentCaretIndex,
+      setCurrentCaretIndex,
+    } = this.props
+    const { contentEditable } = this.state
     const tagChanged = prevProps.block.tag !== block.tag
+
+    // rerender for joinblock and set caret index
+    if (
+      prevProps.rerenderDetector !== rerenderDetector &&
+      block.index === rerenderDetector
+    ) {
+      console.log('yoyo')
+      this.setState({ html: blockParser(block) }, () => {
+        setCaretToPosition(contentEditable.current, currentCaretIndex)
+        setCurrentCaretIndex(currentCaretIndex)
+        setRerenderDetector(-1)
+      })
+    }
 
     if (tagChanged) {
       updatePage(block)
@@ -204,6 +228,18 @@ class FlowBlock extends React.Component<Props, State> {
         deleteBlock(block.index, contentEditable.current)
       }
     }
+    // join two blocks
+    if (
+      e.key === 'Backspace' &&
+      blockParser(block) !== '' &&
+      currentCaretIndex === 0
+    ) {
+      e.preventDefault()
+      const { block, previousBlock, joinBlocks } = this.props
+      const { contentEditable } = this.state
+      if (previousBlock)
+        joinBlocks(previousBlock, block, contentEditable.current)
+    }
     // Store the key to detect combinations like "Shift-Enter" later on
     this.setState({ previousKey: e.key })
   }
@@ -287,6 +323,7 @@ class FlowBlock extends React.Component<Props, State> {
             {
               'h-6 text-opacity-40': html === '' && block[block.tag]?.color,
             },
+            { 'caret-black': block[block.tag]?.color === Color.DEFAULT },
             block[block.tag]?.color,
             'outline-none',
           )}

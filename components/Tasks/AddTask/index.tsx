@@ -71,7 +71,7 @@ export default function index({
         <div
           className={classNames(
             { 'cursor-pointer': showAddTask },
-            'flex mt-3 ml-4',
+            'flex mt-3 m-3',
           )}
           onClick={() => setShowMain(!showMain)}
           onKeyDown={() => setShowMain(!showMain)}
@@ -99,19 +99,19 @@ export default function index({
         </div>
       )}
       {showMain && (
-        <div className="mt-3 ml-4 border border-gray-400 rounded-md p-1 flex flex-col">
+        <div className="mt-3 m-3 border border-gray-400 rounded-md p-1 flex flex-col">
           <TaskNameInput
             setTaskName={setTaskName}
             setTaskDueDateExact={setTaskDueDateExact}
           />
           <textarea
-            rows={2}
+            rows={1}
             onChange={(e) => setTaskDescription(e.target.value)}
-            className="border-none focus:ring-0 placeholder:text-gray-400 text-sm mb-1 resize-none"
+            className="border-none focus:ring-0 placeholder:text-gray-400 text-sm resize-none caret-black"
             placeholder="Description"
           />
-          <div className="w-full border-t border-gray-300 mt-1 mb-1" />
-          <div className="flex justify-between">
+          <div className="w-full border-t border-gray-300 mb-1.5" />
+          <div className="flex justify-between mx-1">
             <span className="flex items-center">
               <DateDropdown
                 taskDueDateExact={taskDueDateExact}
@@ -137,7 +137,7 @@ export default function index({
                 }}
               />
             </span>
-            <span className="flex justify-end space-x-2 items-center">
+            <span className="flex space-x-2 items-center">
               <button
                 type="button"
                 className="px-3.5 py-1.5 items-center cursor-pointer transition rounded-md bg-gray-100 hover:bg-gray-200 font-medium"

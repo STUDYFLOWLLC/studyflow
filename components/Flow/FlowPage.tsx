@@ -6,7 +6,8 @@ import { useState } from 'react'
 import { ContentEditableEvent } from 'react-contenteditable'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Block, BlockTag, Color, RichText, RichTextType } from 'types/Flow'
-import { setCaretToEnd } from 'utils/caretHelpers'
+import { CommandHandler } from 'utils/commandPattern/commandHandler'
+import { UpdatePropertyCommand } from 'utils/commandPattern/common/commands/updatePropertyCommand'
 import getRawTextLength from 'utils/getRawTextLength'
 import richTextEditor from 'utils/richTextEditor'
 import useStateCallback from 'utils/useStateCallback'
@@ -50,14 +51,45 @@ const secondBlock: Block = {
   },
 }
 
+const commandHandler = new CommandHandler()
+
 export default function FlowPage() {
   const [blocks, setBlocks] = useStateCallback([initialBlock, secondBlock])
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
+  const [rerenderDetector, setRerenderDetector] = useState(-1)
 
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
   // console.log('')
+
+  const changeCurrentBlockColor = (color: Color) => {
+    const curr = currentBlock[currentBlock.tag]
+    if (curr) curr.color = color
+  }
+
+  const changeBlockColor = (block: Block, color: Color) => {
+    const target = block[block.tag]
+    if (target) {
+      commandHandler.execute(
+        'update-property',
+        new UpdatePropertyCommand({
+          target,
+          propertyName: 'color',
+          newValue: color,
+        }),
+      )
+    }
+  }
+
+  const restoreBlockAndChangeColor = (newBlock: Block, color: Color) => {
+    const tempBlocks = [...blocks]
+    tempBlocks[newBlock.index] = newBlock
+    setBlocks(tempBlocks)
+    changeBlockColor(newBlock, color)
+    setCurrentBlock(newBlock)
+    return newBlock
+  }
 
   // iterate through blocks and find the current block based on caret index
   const findCurrentRichTextBlock = (): RichText => {
@@ -65,7 +97,7 @@ export default function FlowPage() {
     const blockRichText = currentBlock[currentBlock.tag].richText
     for (let i = 0; i < blockRichText.length; i += 1) {
       if (
-        charactersProgressed + blockRichText[i].text.content.length >
+        charactersProgressed + blockRichText[i].text.content.length >=
         currentCaretIndex
       ) {
         return blockRichText[i]
@@ -86,21 +118,6 @@ export default function FlowPage() {
     // this.setState({ blocks: updatedBlocks })
   }
 
-  const changeBlockColor = (block: Block, color: Color) => {
-    const currentBlockReal = currentBlock as Block
-    const blockText = block[currentBlockReal.tag]
-    if (blockText) blockText.color = color
-  }
-
-  const restoreBlockAndChangeColor = (newBlock: Block, color: Color) => {
-    const tempBlocks = [...blocks]
-    tempBlocks[newBlock.index] = newBlock
-    setBlocks(tempBlocks)
-    changeBlockColor(newBlock, color)
-    setCurrentBlock(newBlock)
-    return newBlock
-  }
-
   const editCurrentBlock = (e: ContentEditableEvent) => {
     const richText = currentBlock[currentBlock.tag]?.richText
     if (richText) {
@@ -109,12 +126,22 @@ export default function FlowPage() {
         totalRawLength += richText[i].text.content.length
       }
       const currentRichText = findCurrentRichTextBlock()
-      richTextEditor(
-        currentRichText,
-        e.target.value,
-        currentCaretIndex,
-        totalRawLength,
-      )
+
+      if (currentRichText.text) {
+        commandHandler.execute(
+          'update-property',
+          new UpdatePropertyCommand({
+            target: currentRichText.text,
+            propertyName: 'content',
+            newValue: richTextEditor(
+              currentRichText,
+              e.target.value,
+              currentCaretIndex,
+              totalRawLength,
+            ),
+          }),
+        )
+      }
     }
   }
 
@@ -168,11 +195,6 @@ export default function FlowPage() {
     }
   }
 
-  const changeCurrentBlockColor = (color: Color) => {
-    const curr = currentBlock[currentBlock.tag]
-    if (curr) curr.color = color
-  }
-
   const addBlockHandler = (
     beneathIndex: number,
     ref: HTMLElement | null,
@@ -219,11 +241,43 @@ export default function FlowPage() {
       tempBlocks.splice(currentBlock.index, 1)
       setBlocks(tempBlocks, () => {
         setCurrentBlock(tempBlocks[index - 1])
-        setCaretToEnd(previousBlock)
         setCurrentCaretIndex(getRawTextLength(tempBlocks[index - 1]))
         previousBlock.focus()
       })
     }
+  }
+
+  const joinBlocks = (
+    block1: Block,
+    block2: Block,
+    ref: HTMLElement | null,
+  ) => {
+    const previousBlock = ref?.previousElementSibling as HTMLElement
+    if (!previousBlock) return
+
+    const block1RichText = block1[block1.tag]?.richText
+    const block2RichText = block2[block2.tag]?.richText
+    const previousLength = getRawTextLength(block1)
+    if (!block1RichText || !block2RichText) return
+
+    const newBlockRichText = [...block1RichText, ...block2RichText]
+    if (block1[block1.tag]) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error this shit just doesn't work ignore
+      block1[block1.tag].richText = newBlockRichText
+    }
+
+    const tempBlocks = [...blocks]
+    for (let i = currentBlock.index + 1; i < tempBlocks.length; i += 1) {
+      tempBlocks[i].index -= 1
+    }
+    tempBlocks.splice(currentBlock.index, 1)
+
+    setBlocks(tempBlocks, () => {
+      setRerenderDetector(block1.index)
+      setCurrentCaretIndex(previousLength)
+      setCurrentBlock(block1)
+    })
   }
 
   const boldHandler = (block: Block) => {
@@ -262,6 +316,36 @@ export default function FlowPage() {
     [],
   )
 
+  useHotkeys(
+    'cmd+z, ctrl+z',
+    (e) => {
+      e.preventDefault()
+      const result = commandHandler.undo()
+      console.log(result)
+      setRerenderDetector(currentBlock.index)
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+      enableOnContentEditable: true,
+    },
+    [],
+  )
+
+  useHotkeys(
+    'cmd+shift+z, ctrl+shift+z',
+    (e) => {
+      e.preventDefault()
+      const result = commandHandler.redo()
+      console.log(result)
+      setRerenderDetector(currentBlock.index)
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+      enableOnContentEditable: true,
+    },
+    [],
+  )
+
   return (
     <div className="max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-semibold prose-h1:text-current prose-h2:text-3xl prose-h2:my-5 prose-h2:font-semibold prose-h2:text-current prose-h3:text-2xl prose-h3:my-4 prose-h3:font-semibold prose-h3:text-current prose-p:my-3 prose-p:text-lg prose-p:text-current">
       {blocks.map((block: Block) => (
@@ -276,6 +360,7 @@ export default function FlowPage() {
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}
+          joinBlocks={joinBlocks}
           restoreBlockAndChangeColor={restoreBlockAndChangeColor}
           currentCaretIndex={currentCaretIndex}
           setCurrentCaretIndex={setCurrentCaretIndex}
@@ -285,6 +370,8 @@ export default function FlowPage() {
               ? blocks[block.index + 1]
               : undefined
           }
+          rerenderDetector={rerenderDetector}
+          setRerenderDetector={setRerenderDetector}
         />
       ))}
     </div>

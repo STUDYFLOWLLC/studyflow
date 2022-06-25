@@ -7,6 +7,9 @@ tsconfig.tsbuildinfo
 tsconfig.*
 .eslintcache
 
+# only want one package manger
+yarn.lock
+
 # generated files
 prisma/generated
 

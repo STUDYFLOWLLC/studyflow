@@ -1,43 +1,36 @@
+/* eslint-disable no-case-declarations */
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
-import Checkbox from 'components/Tasks/DisplayTasks/Checkbox'
+import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import { Task } from 'hooks/tasks/useTasks'
+import { KeyedMutator } from 'swr'
 
 interface Props {
   user: User
-  tasksDisplayed: Task[]
-  viewing: string
-  archiveTaskLocal: (TaskID: number) => void
+  taskView: string
+  mutateTasks: KeyedMutator<any>
+  tasks: Task[]
 }
 
-export default function DisplayTasks({
-  user,
-  tasksDisplayed,
-  viewing,
-  archiveTaskLocal,
-}: Props) {
+export default function index({ user, taskView, mutateTasks, tasks }: Props) {
+  const archiveTaskLocal = (TaskID: number) => {
+    mutateTasks(
+      {
+        mutate: true,
+        tasks: tasks.map((task) => {
+          if (task.TaskID === TaskID) {
+            return { ...task, Completed: true }
+          }
+          return task
+        }),
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
   return (
-    <ul>
-      {tasksDisplayed.map(
-        (task) =>
-          !task.Completed && (
-            <li
-              className="border rounded-lg shadow-md m-4 p-2"
-              key={task.TaskID}
-            >
-              <div className="flex">
-                <Checkbox
-                  TaskID={task.TaskID}
-                  archiveTaskLocal={archiveTaskLocal}
-                />
-                <div className="flex flex-col">
-                  <div className="text-lg font-medium">{task.Title}</div>
-                  <div className="font-extralight">{task.Description}</div>
-                  <div>{task.DueDate}</div>
-                </div>
-              </div>
-            </li>
-          ),
-      )}
-    </ul>
+    <div className="justify-center">
+      <BasicDisplayTasks archiveTaskLocal={archiveTaskLocal} tasks={tasks} />
+    </div>
   )
 }
