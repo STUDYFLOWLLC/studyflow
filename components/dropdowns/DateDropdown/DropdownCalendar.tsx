@@ -8,7 +8,6 @@ import {
   endOfWeek,
   format,
   getDay,
-  isEqual,
   isSameMonth,
   isToday,
   parse,
@@ -31,6 +30,15 @@ const colStartClasses = [
 interface Props {
   taskDueDateExact: Date | undefined
   setTaskDueDateExact: (taskDueDateExact: Date | undefined) => void
+}
+
+const sameDate = (date1: Date | undefined, date2: Date | undefined) => {
+  if (!date1 || !date2) return false
+  return (
+    date1.getDate() === date2.getDate() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getFullYear() === date2.getFullYear()
+  )
 }
 
 export default function DropdownCalendar({
@@ -106,27 +114,26 @@ export default function DropdownCalendar({
                   type="button"
                   onClick={() => setTaskDueDateExact(day)}
                   className={classNames(
-                    isEqual(day, taskDueDateExact || -1) && 'text-white',
-                    !isEqual(day, taskDueDateExact || -1) &&
+                    sameDate(day, taskDueDateExact) && 'text-white',
+                    !sameDate(day, taskDueDateExact) &&
                       isToday(day) &&
                       'text-primary',
-                    !isEqual(day, taskDueDateExact || -1) &&
+                    !sameDate(day, taskDueDateExact) &&
                       !isToday(day) &&
                       isSameMonth(day, firstDayCurrentMonth) &&
                       'text-gray-900',
-                    !isEqual(day, taskDueDateExact || -1) &&
+                    !sameDate(day, taskDueDateExact) &&
                       !isToday(day) &&
                       !isSameMonth(day, firstDayCurrentMonth) &&
                       'text-gray-400',
-                    isEqual(day, taskDueDateExact || -1) &&
+                    sameDate(day, taskDueDateExact) &&
                       isToday(day) &&
                       'bg-primary/70',
-                    isEqual(day, taskDueDateExact || -1) &&
+                    sameDate(day, taskDueDateExact) &&
                       !isToday(day) &&
                       'bg-gray-900',
-                    !isEqual(day, taskDueDateExact || -1) &&
-                      'hover:bg-gray-200',
-                    (isEqual(day, taskDueDateExact || -1) || isToday(day)) &&
+                    !sameDate(day, taskDueDateExact) && 'hover:bg-gray-200',
+                    (sameDate(day, taskDueDateExact) || isToday(day)) &&
                       'font-semibold',
                     'mx-auto flex h-8 w-8 items-center justify-center rounded-full',
                   )}
