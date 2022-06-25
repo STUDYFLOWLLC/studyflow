@@ -1,4 +1,7 @@
+import { TrashIcon } from '@heroicons/react/outline'
 import Checkbox from 'components/Tasks/DisplayTasks/Checkbox'
+import CourseDisplay from 'components/Tasks/DisplayTasks/CourseDisplay'
+import DateDisplay from 'components/Tasks/DisplayTasks/DateDisplay'
 import { Task } from 'hooks/tasks/useTasks'
 
 interface Props {
@@ -25,10 +28,17 @@ export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
                   TaskID={task.TaskID}
                   archiveTaskLocal={archiveTaskLocal}
                 />
-                <div className="flex flex-col">
-                  <div className="text-lg font-medium">{task.Title}</div>
-                  <div className="font-extralight">{task.Description}</div>
-                  <div>{task.DueDate}</div>
+                <div className="flex flex-col w-full">
+                  <div className="flex justify-between">
+                    <div className="text-lg font-medium">{task.Title}</div>
+                    <TrashIcon className="w-5 text-gray-400 hover:text-black hover:cursor-pointer" />
+                  </div>
+                  <div className="font-light">{task.Description}</div>
+                  {/* <div>{task.DueDate}</div> */}
+                  <div className="flex justify-between">
+                    <DateDisplay />
+                    <CourseDisplay />
+                  </div>
                 </div>
               </div>
             </li>

@@ -23,9 +23,9 @@ export default function Checkbox({ TaskID, archiveTaskLocal }: Props) {
       }}
       onKeyDown={() => archiveTask(TaskID, true)}
       className={classNames(
-        { 'border-transparent bg-gray-500': completed },
-        { 'border-2 hover:bg-gray-50': !completed },
-        'cursor-pointer w-6 mr-3 mt-0.5 h-6 border-2 rounded-full  transition-all duration-200 ease-in-out',
+        { 'border-transparent bg-gray-700': completed },
+        { 'border-2 hover:bg-gray-100': !completed },
+        'cursor-pointer w-6 mr-3 mt-0.5 h-6 border rounded-full border-gray-400 transition-all duration-200 ease-in-out',
       )}
     >
       <CheckIcon
