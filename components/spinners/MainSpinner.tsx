@@ -48,7 +48,7 @@ export default function MainSpinner({ size }: Props) {
         className={classNames(
           { 'text-gray-200': theme === 'light' },
           { 'text-red': theme === 'dark' },
-          'w-5 h-5  animate-spin-fast fill-primary',
+          'w-4 h-4  animate-spin-fast fill-primary',
         )}
         viewBox="0 0 100 101"
         fill="none"

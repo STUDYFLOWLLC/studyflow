@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import {
-  AcademicCapIcon,
-  ChevronDownIcon,
-  InboxIcon,
-} from '@heroicons/react/outline'
+import { ChevronDownIcon, FolderIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { useTheme } from 'next-themes'
@@ -27,17 +23,9 @@ interface Props {
   title: string
   items: Item[]
   loading: boolean
-  hasGeneral?: boolean
-  generalHandler?: (param1?: any, ...params: any[]) => any
 }
 
-export default function CourseDropDown({
-  title,
-  items,
-  loading,
-  hasGeneral,
-  generalHandler,
-}: Props) {
+export default function CourseDropDown({ title, items, loading }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -61,10 +49,10 @@ export default function CourseDropDown({
             'flex align-middle items-center px-1 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
           )}
         >
-          <AcademicCapIcon className="h-5 mr-1 w-5" aria-hidden="true" />
+          <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
           {title}
           {loading ? (
-            <div className="h-4 ml-2 w-4 mr-1">
+            <div className="w-4 my-1">
               <MainSpinner size={SpinnerSizes.small} />
             </div>
           ) : (
@@ -90,8 +78,7 @@ export default function CourseDropDown({
                   className={classNames(
                     { 'bg-primary bg-opacity-30 text-gray-900': active },
                     { 'text-gray-700': !active },
-                    { 'last-of-type:rounded-b-md': !hasGeneral },
-                    'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md',
+                    'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md last-of-type:rounded-b-md',
                   )}
                 >
                   <div
@@ -107,24 +94,6 @@ export default function CourseDropDown({
               )}
             </Menu.Item>
           ))}
-          {hasGeneral && (
-            <Menu.Item>
-              {({ active }: activeProps) => (
-                <div
-                  className={classNames(
-                    { 'bg-primary bg-opacity-30 text-gray-900': active },
-                    { 'text-gray-700': !active },
-                    'px-1 flex items-center cursor-pointer rounded-b-md',
-                  )}
-                  onClick={() => generalHandler && generalHandler()}
-                  onKeyDown={() => generalHandler && generalHandler()}
-                >
-                  <InboxIcon className="w-4 h-4 mx-1.5" />
-                  <span className="block py-1.5 text-sm">General</span>
-                </div>
-              )}
-            </Menu.Item>
-          )}
         </Menu.Items>
       </Transition>
     </Menu>
