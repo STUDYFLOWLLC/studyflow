@@ -11,26 +11,28 @@ export default function richTextEditor(
   newContent: string,
   caretIndex: number,
   totalLength: number,
-) {
+): string {
   if (!richText) return newContent
   if (richText.type === RichTextType.TEXT && richText.text) {
     const stripped = removeHTMLTags(newContent)
     const lastStripped = stripped.substring(caretIndex, caretIndex + 1)
-    console.log(lastStripped)
-    console.log(richText.text.content)
-    // if the user deletes the most recent character
+    const textContent = richText.text.content.repeat(1)
+
+    // detect if the user deletes a character
     if (totalLength > stripped.length) {
-      const textContent = richText.text.content
-      console.log(textContent)
-      richText.text.content = textContent.substring(0, textContent.length - 1)
-    } else {
-      richText.text.content =
-        richText.text.content.slice(0, caretIndex) +
-        lastStripped +
-        richText.text.content.slice(caretIndex)
+      return (
+        textContent.slice(0, caretIndex - 1) + textContent.slice(caretIndex)
+      )
     }
+    return (
+      textContent.slice(0, caretIndex) +
+      lastStripped +
+      textContent.slice(caretIndex)
+    )
+
     // const newRichText: RichText = { ...richText }
     // if (newRichText.text) newRichText.text.content = stripped
     // return newRichText
   }
+  return ''
 }

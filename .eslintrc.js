@@ -9,7 +9,6 @@ module.exports = {
     'plugin:storybook/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
     'prettier',
