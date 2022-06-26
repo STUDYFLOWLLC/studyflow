@@ -66,13 +66,21 @@ export default function FlowPage() {
 
   const restoreBlockAndChangeColor = (
     commandHandler: CommandHandler,
+    element: HTMLElement | null,
     newBlock: Block,
     color: Color,
   ) => {
     const tempBlocks = [...blocks]
     tempBlocks[newBlock.index] = newBlock
     setBlocks(tempBlocks)
-    changeBlockColor(commandHandler, newBlock, color)
+    changeBlockColor(
+      commandHandler,
+      element,
+      currentCaretIndex,
+      setCurrentCaretIndex,
+      newBlock,
+      color,
+    )
     setCurrentBlock(newBlock)
 
     return newBlock
@@ -124,15 +132,15 @@ export default function FlowPage() {
           new UpdatePropertyWithCaretCommand({
             target: currentRichText.text,
             propertyName: 'content',
-            element,
-            caretIndex: currentCaretIndex,
-            setCaretIndex: setCurrentCaretIndex,
             newValue: richTextEditor(
               currentRichText,
               e.target.value,
               currentCaretIndex,
               totalRawLength,
             ),
+            element,
+            caretIndex: currentCaretIndex,
+            setCaretIndex: setCurrentCaretIndex,
           }),
         )
       }
@@ -350,7 +358,6 @@ export default function FlowPage() {
           setCurrentBlock={setCurrentBlock}
           editBlock={editCurrentBlock}
           changeBlockTag={changeCurrentBlockTag}
-          changeBlockColor={changeBlockColor}
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}
