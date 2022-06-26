@@ -26,8 +26,8 @@ interface activeProps {
 const itemList = ['Today', 'Tomorrow', 'No Date']
 const itemIcons = [
   <CollectionIcon key="collection" className="w-4 mr-1" />,
-  <InboxIcon key="calendar" className="w-4 mr-1" />,
-  <BanIcon key="academicCap" className="w-4 mr-1" />,
+  <InboxIcon key="inbox" className="w-4 mr-1" />,
+  <BanIcon key="ban" className="w-4 mr-1" />,
 ]
 
 interface Props {

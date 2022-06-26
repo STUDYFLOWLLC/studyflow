@@ -2,6 +2,7 @@ node_modules
 build
 .next
 .vercel
+.DS_Store
 *.log
 tsconfig.tsbuildinfo
 tsconfig.*
