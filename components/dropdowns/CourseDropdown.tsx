@@ -64,7 +64,7 @@ export default function CourseDropDown({
           >
             <Menu.Items className="origin-top-left absolute left-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               {items.map((item) => (
-                <Menu.Item key={item.name} onClick={() => item.handler()}>
+                <Menu.Item key={item.name}>
                   {({ active }: activeProps) => (
                     <div
                       className={classNames(
@@ -73,6 +73,8 @@ export default function CourseDropDown({
                         { 'last-of-type:rounded-b-md': !hasGeneral },
                         'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md',
                       )}
+                      onClick={() => item.handler()}
+                      onKeyDown={() => item.handler()}
                     >
                       <div
                         className={classNames(

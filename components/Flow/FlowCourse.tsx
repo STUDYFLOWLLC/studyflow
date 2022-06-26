@@ -78,7 +78,7 @@ export default function CourseDropDown({ title, items, loading }: Props) {
           )}
         >
           {items.map((item) => (
-            <Menu.Item key={item.name} onClick={() => item.handler()}>
+            <Menu.Item key={item.name}>
               {({ active }: activeProps) => (
                 <div
                   className={classNames(
@@ -95,6 +95,8 @@ export default function CourseDropDown({ title, items, loading }: Props) {
                     },
                     'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md last-of-type:rounded-b-md',
                   )}
+                  onClick={() => item.handler()}
+                  onKeyDown={() => item.handler()}
                 >
                   <div
                     className={classNames(
