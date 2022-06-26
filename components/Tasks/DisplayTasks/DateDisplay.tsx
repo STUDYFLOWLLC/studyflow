@@ -7,7 +7,7 @@ interface Props {
 export default function DateDisplay({ date }: Props) {
   const dateObj = new Date(date)
   // console.log(dateObj)
-  console.log(!date)
+  // console.log(!date)
   return (
     // I kind of like it with this text color
     <div className="text-sm">
