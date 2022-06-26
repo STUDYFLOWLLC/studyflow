@@ -225,10 +225,11 @@ export default function FlowPage() {
       tempBlocks[i].index += 1
     }
     setBlocks(tempBlocks, () => {
-      setCurrentBlock(newBlock)
-      setCurrentCaretIndex(0)
-      const next: HTMLElement | null = ref?.nextSibling as HTMLElement
-      if (next) next.focus()
+      setCurrentBlock(newBlock, () => {
+        setCurrentCaretIndex(0)
+        const next: HTMLElement | null = ref?.nextSibling as HTMLElement
+        if (next) next.focus()
+      })
     })
   }
 
@@ -337,7 +338,6 @@ export default function FlowPage() {
     (e) => {
       e.preventDefault()
       const result = commandHandler.redo()
-      console.log(result)
       setRerenderDetector(currentBlock.index)
     },
     {

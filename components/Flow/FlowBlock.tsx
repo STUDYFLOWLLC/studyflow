@@ -111,6 +111,7 @@ class FlowBlock extends React.Component<Props, State> {
       block.index === rerenderDetector
     ) {
       console.log('yoyo')
+
       this.setState({ html: blockParser(block) }, () => {
         setCaretToPosition(contentEditable.current, currentCaretIndex)
         setCurrentCaretIndex(currentCaretIndex)
@@ -128,6 +129,7 @@ class FlowBlock extends React.Component<Props, State> {
     const { contentEditable } = this.state
 
     const caretIndex = getCaretIndex(contentEditable.current)
+    console.log(caretIndex)
     setCurrentCaretIndex(caretIndex)
     const stripped = removeHTMLTags(e.target.value)
     if (stripped.charAt(caretIndex - 1) === '/') {
