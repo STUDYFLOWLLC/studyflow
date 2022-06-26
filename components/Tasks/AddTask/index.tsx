@@ -47,6 +47,15 @@ export default function index({
             Description: taskDescription,
             DueDate: taskDueDateExact?.toISOString(),
             FK_CourseOnTermID: taskCourse,
+            FK_CourseOnTerm: {
+              Color: coursesOnTerm.find(
+                (course) => course.CourseOnTermID === taskCourse,
+              )?.Color,
+              Nickname: courseDropDownTitle,
+              FK_Course: {
+                CourseID: courseDropDownTitle,
+              },
+            },
           },
         ],
         mutate: true,
@@ -164,6 +173,10 @@ export default function index({
                   if (taskName) {
                     addTask()
                     setShowMain(false)
+                    setShowAddTask(false)
+                    setCourseDropDownTitle('Course')
+                    setTaskCourse(0)
+                    setTaskDueDateExact(undefined)
                   }
                 }}
                 onKeyDown={() => {
