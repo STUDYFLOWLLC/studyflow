@@ -1,0 +1,11 @@
+export { CourseRelationsResolver } from "./Course/CourseRelationsResolver";
+export { CourseOnTermRelationsResolver } from "./CourseOnTerm/CourseOnTermRelationsResolver";
+export { FlashCardRelationsResolver } from "./FlashCard/FlashCardRelationsResolver";
+export { FlashCardStackRelationsResolver } from "./FlashCardStack/FlashCardStackRelationsResolver";
+export { FlowRelationsResolver } from "./Flow/FlowRelationsResolver";
+export { ProfessorRelationsResolver } from "./Professor/ProfessorRelationsResolver";
+export { SchoolRelationsResolver } from "./School/SchoolRelationsResolver";
+export { TaskRelationsResolver } from "./Task/TaskRelationsResolver";
+export { TaskLabelRelationsResolver } from "./TaskLabel/TaskLabelRelationsResolver";
+export { TermRelationsResolver } from "./Term/TermRelationsResolver";
+export { UserRelationsResolver } from "./User/UserRelationsResolver";

@@ -10,8 +10,6 @@ tsconfig.*
 # only want one package manger
 yarn.lock
 
-# generated files
-prisma/generated
 
 # PWA files
 **/public/sw.js
