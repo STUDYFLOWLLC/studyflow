@@ -161,10 +161,15 @@ export default function CourseDropDown({
                         'px-1 flex items-center cursor-pointer rounded-b-md',
                       )}
                       onClick={() => {
+                        // eslint-disable-next-line no-unused-expressions
                         generalHandler && generalHandler()
                         setBackgroundColor('')
                       }}
-                      onKeyDown={() => generalHandler && generalHandler()}
+                      onKeyDown={() => {
+                        // eslint-disable-next-line no-unused-expressions
+                        generalHandler && generalHandler()
+                        setBackgroundColor('')
+                      }}
                     >
                       <InboxIcon className="w-4 h-4 mx-1.5" />
                       <span className="block py-1.5 text-sm">General</span>
