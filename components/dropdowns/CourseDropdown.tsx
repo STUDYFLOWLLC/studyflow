@@ -116,7 +116,7 @@ export default function CourseDropDown({
                       <div
                         className={classNames(
                           item.color,
-                          ' ring-offset-1 w-3 h-3 mx-2 rounded-full',
+                          'ring-offset-1 w-3 h-3 mx-2 rounded-full',
                         )}
                       />
                       <span className="block py-2 text-sm">
