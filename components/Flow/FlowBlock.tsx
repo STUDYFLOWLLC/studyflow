@@ -9,15 +9,21 @@ import {
   getCaretIndex,
   setCaretToPosition,
 } from 'utils/caretHelpers'
+import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import determinePlaceholder from 'utils/determinePlaceholder'
 import getRawTextLength from 'utils/getRawTextLength'
 import { removeHTMLTags } from 'utils/richTextEditor'
 
 interface Props {
+  commandHandler: CommandHandler
   block: Block
   editBlock: (e: ContentEditableEvent) => void
   changeBlockTag: (tag: BlockTag) => void
-  changeBlockColor: (color: Color) => void
+  changeBlockColor: (
+    commandHandler: CommandHandler,
+    block: Block,
+    color: Color,
+  ) => void
   updatePage: (block: Block) => void
   addBlock: (
     beneathIndex: number,
@@ -28,7 +34,11 @@ interface Props {
   joinBlocks: (block1: Block, block2: Block, ref: HTMLElement | null) => void
   currentBlock: Block
   setCurrentBlock: (block: Block, callback?: () => void) => void
-  restoreBlockAndChangeColor: (block: Block, color: Color) => Block
+  restoreBlockAndChangeColor: (
+    commandHandler: CommandHandler,
+    block: Block,
+    color: Color,
+  ) => Block
   currentCaretIndex: number
   setCurrentCaretIndex: (index: number) => void
   previousBlock: Block | undefined
@@ -120,8 +130,6 @@ class FlowBlock extends React.Component<Props, State> {
     const { block, editBlock, setCurrentCaretIndex } = this.props
     const { contentEditable } = this.state
 
-    editBlock(e)
-
     const caretIndex = getCaretIndex(contentEditable.current)
     setCurrentCaretIndex(caretIndex)
     const stripped = removeHTMLTags(e.target.value)
@@ -129,11 +137,14 @@ class FlowBlock extends React.Component<Props, State> {
       this.setState({ tempBlock: structuredClone(block) })
     }
 
+    editBlock(e)
+
     this.setState({ html: blockParser(block) })
   }
 
   onKeyDownHandler(e: { key: string; preventDefault: () => void }) {
     const {
+      commandHandler,
       block,
       previousBlock,
       nextBlock,
@@ -221,7 +232,7 @@ class FlowBlock extends React.Component<Props, State> {
       e.preventDefault()
       // dont delete the block if it is colored, set the color to default
       if (block[block.tag]?.color !== Color.DEFAULT) {
-        changeBlockColor(Color.DEFAULT)
+        changeBlockColor(commandHandler, block, Color.DEFAULT)
       } else {
         const { deleteBlock } = this.props
         const { contentEditable } = this.state
@@ -296,12 +307,17 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   colorSelectionHandler(color: Color) {
-    const { restoreBlockAndChangeColor } = this.props
+    const { commandHandler, setCurrentCaretIndex, restoreBlockAndChangeColor } =
+      this.props
     const { contentEditable, tempBlock } = this.state
-    const newBlock = restoreBlockAndChangeColor(tempBlock, color)
+    const newBlock = restoreBlockAndChangeColor(
+      commandHandler,
+      tempBlock,
+      color,
+    )
     this.setState({ html: blockParser(newBlock) })
     this.closeSelectMenuHandler()
-    contentEditable.current?.focus()
+    setCurrentCaretIndex(getCaretIndex(contentEditable.current))
   }
 
   render() {

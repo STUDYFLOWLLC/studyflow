@@ -2,6 +2,7 @@ node_modules
 build
 .next
 .vercel
+.DS_Store
 *.log
 tsconfig.tsbuildinfo
 tsconfig.*
@@ -9,9 +10,6 @@ tsconfig.*
 
 # only want one package manger
 yarn.lock
-
-# generated files
-prisma/generated
 
 # PWA files
 **/public/sw.js
