@@ -11,6 +11,14 @@ export interface Task {
   DueDate: string
   Completed: boolean
   FK_CourseOnTermID: number
+  FK_CourseOnTerm: {
+    CourseOnTermID: number
+    Color: string
+    Nickname: string
+    FK_Course: {
+      Code: string
+    }
+  }
 }
 
 interface Ret {
@@ -28,9 +36,17 @@ export default function useTasks(userId: number | undefined): Ret {
         Title
         TaskID
         Description
-        DueDate
         Completed
+        DueDate
         FK_CourseOnTermID
+        FK_CourseOnTerm {
+          CourseOnTermID
+          Color
+          Nickname
+          FK_Course {
+            Code
+          }
+        }
       }
     }
   `
