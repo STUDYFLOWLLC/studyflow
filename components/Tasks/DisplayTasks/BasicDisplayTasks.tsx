@@ -32,10 +32,11 @@ export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
                     <DeleteTask task={task} />
                   </div>
                   <div className="font-light">{task.Description}</div>
-                  {/* <div>{task.DueDate}</div> */}
                   <div className="flex justify-between">
-                    <DateDisplay />
-                    <CourseDisplay />
+                    <DateDisplay date={task.DueDate} />
+                    <span className="flex justify-end mr-1">
+                      <CourseDisplay courseOnTerm={task.FK_CourseOnTerm} />
+                    </span>
                   </div>
                 </div>
               </div>

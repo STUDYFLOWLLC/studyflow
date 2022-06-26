@@ -73,7 +73,7 @@ export default function DeleteTask({ task }: Props) {
     <TrashIcon
       onClick={() => deleteTaskLocal()}
       onKeyDown={() => deleteTaskLocal()}
-      className="w-5 text-gray-400 hover:text-black hover:cursor-pointer"
+      className="w-5 h-5 text-gray-400 hover:text-black hover:cursor-pointer"
     />
   )
 }
