@@ -36,6 +36,7 @@ export default function index({
   const [showAddTask, setShowAddTask] = useState(false)
 
   const addTask = async () => {
+    // mutate locally
     mutateTasks(
       {
         tasks: [
@@ -48,12 +49,13 @@ export default function index({
             DueDate: taskDueDateExact?.toISOString(),
             FK_CourseOnTermID: taskCourse,
             FK_CourseOnTerm: {
+              CourseOnTermID: taskCourse,
               Color: coursesOnTerm.find(
                 (course) => course.CourseOnTermID === taskCourse,
               )?.Color,
               Nickname: courseDropDownTitle,
               FK_Course: {
-                CourseID: courseDropDownTitle,
+                Code: courseDropDownTitle,
               },
             },
           },
@@ -65,7 +67,18 @@ export default function index({
       },
     )
 
-    const data = makeTask(
+    // reset local state
+    setShowMain(false)
+    setShowAddTask(false)
+    setTaskName('')
+    setTaskDescription('')
+    setTaskDueDateExact(undefined)
+    setCourseDropDownTitle('Course')
+    setTaskCourse(0)
+
+    // TODO: error handling
+    // send to backend
+    makeTask(
       taskName,
       taskDescription,
       taskDueDateExact?.toISOString(),
@@ -153,9 +166,11 @@ export default function index({
                 onClick={() => {
                   setShowMain(false)
                   setShowAddTask(false)
+                  setTaskName('')
+                  setTaskDescription('')
+                  setTaskDueDateExact(undefined)
                   setCourseDropDownTitle('Course')
                   setTaskCourse(0)
-                  setTaskDueDateExact(undefined)
                 }}
               >
                 <div>Cancel</div>
@@ -172,17 +187,11 @@ export default function index({
                 onClick={() => {
                   if (taskName) {
                     addTask()
-                    setShowMain(false)
-                    setShowAddTask(false)
-                    setCourseDropDownTitle('Course')
-                    setTaskCourse(0)
-                    setTaskDueDateExact(undefined)
                   }
                 }}
                 onKeyDown={() => {
                   if (taskName) {
                     addTask()
-                    setShowMain(false)
                   }
                 }}
               >

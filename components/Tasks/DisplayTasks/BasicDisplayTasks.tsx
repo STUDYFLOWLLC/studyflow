@@ -35,7 +35,7 @@ export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
                   <div className="flex justify-between">
                     <DateDisplay date={task.DueDate} />
                     <span className="flex justify-end mr-1">
-                      <CourseDisplay course={task.FK_CourseOnTerm} />
+                      <CourseDisplay courseOnTerm={task.FK_CourseOnTerm} />
                     </span>
                   </div>
                 </div>

@@ -2,7 +2,7 @@ import { FolderIcon, InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 
 interface Props {
-  course?: {
+  courseOnTerm?: {
     CourseOnTermID: number
     Color: string | undefined
     Nickname: string
@@ -12,7 +12,7 @@ interface Props {
   }
 }
 
-export default function DateDisplay({ course }: Props) {
+export default function DateDisplay({ courseOnTerm }: Props) {
   const bgToTextColor = (color: string) => {
     const colorOpacity = parseInt(
       color.substring(color.length - 3, color.length),
@@ -22,20 +22,20 @@ export default function DateDisplay({ course }: Props) {
     return `text-${textColor}-${colorOpacity + 300}`
   }
   // console.log(course?.CourseOnTermID)
-  console.log(course?.Color)
+  console.log(courseOnTerm?.Color)
   // console.log(course?.Nickname)
   return (
     <div className="text-sm">
-      {course?.CourseOnTermID === 0 && (
+      {courseOnTerm?.CourseOnTermID === 0 && (
         <div className="flex">
           <InboxIcon className="w-4 mr-1" />
           <div className="text-sm">General</div>
         </div>
       )}
-      {course?.Color && course?.CourseOnTermID !== 0 && (
-        <div className={classNames(bgToTextColor(course.Color), 'flex')}>
+      {courseOnTerm?.Color && courseOnTerm?.CourseOnTermID !== 0 && (
+        <div className={classNames(bgToTextColor(courseOnTerm.Color), 'flex')}>
           <FolderIcon className="w-4 mr-1" />
-          <div>{course?.Nickname || course?.FK_Course.Code}</div>
+          <div>{courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code}</div>
         </div>
       )}
     </div>
