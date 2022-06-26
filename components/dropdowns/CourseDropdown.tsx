@@ -4,7 +4,8 @@ import { Menu, Transition } from '@headlessui/react'
 import { FolderIcon, InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
-import { Fragment } from 'react'
+import { useTheme } from 'next-themes'
+import { Fragment, useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 import shorten from 'utils/shorten'
 
@@ -33,25 +34,40 @@ export default function CourseDropDown({
   hasGeneral,
   generalHandler,
 }: Props) {
+  const { theme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
         <>
-          <div>
-            <Menu.Button
-              disabled={loading}
-              className="flex items-center cursor-pointer hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded-md shadow-sm mx-2 text-sm font-medium"
-            >
-              {loading ? (
-                <div className="h-4 mr-2 w-4">
-                  <MainSpinner size={SpinnerSizes.small} />
-                </div>
-              ) : (
-                <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
-              )}
-              {title}
-            </Menu.Button>
-          </div>
+          <Menu.Button
+            disabled={loading}
+            className={classNames(
+              {
+                'hover:bg-gray-50 hover:border-gray-300': theme === 'light',
+              },
+              {
+                'border-slate-600 hover:bg-slate-600 hover:border-slate-400':
+                  theme === 'dark',
+              },
+              'flex items-center cursor-pointer px-2 py-1 border rounded-md shadow-sm mx-2 text-sm font-medium',
+            )}
+          >
+            {loading ? (
+              <div className="h-4 mr-2 w-4">
+                <MainSpinner size={SpinnerSizes.small} />
+              </div>
+            ) : (
+              <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
+            )}
+            {title}
+          </Menu.Button>
 
           <Transition
             as={Fragment}
@@ -62,15 +78,36 @@ export default function CourseDropDown({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-left absolute left-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items
+              className={classNames(
+                {
+                  'bg-white ring-black ring-1 ring-opacity-5':
+                    theme === 'light',
+                },
+                { 'bg-slate-700': theme === 'dark' },
+                'absolute z-20 left-0 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
+              )}
+            >
               {items.map((item) => (
                 <Menu.Item key={item.name}>
                   {({ active }: activeProps) => (
                     <div
                       className={classNames(
-                        { 'bg-primary bg-opacity-30 text-gray-900': active },
-                        { 'text-gray-700': !active },
+                        {
+                          'bg-primary bg-opacity-30 text-gray-900':
+                            active && theme === 'light',
+                        },
+                        {
+                          'text-gray-700': !active && theme === 'light',
+                        },
+                        {
+                          'bg-slate-600': active && theme === 'dark',
+                        },
+                        {
+                          'bg-slate-700': !active && theme === 'dark',
+                        },
                         { 'last-of-type:rounded-b-md': !hasGeneral },
+
                         'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md',
                       )}
                       onClick={() => item.handler()}
@@ -94,8 +131,19 @@ export default function CourseDropDown({
                   {({ active }: activeProps) => (
                     <div
                       className={classNames(
-                        { 'bg-primary bg-opacity-30 text-gray-900': active },
-                        { 'text-gray-700': !active },
+                        {
+                          'bg-primary bg-opacity-30 text-gray-900':
+                            active && theme === 'light',
+                        },
+                        {
+                          'text-gray-700': !active && theme === 'light',
+                        },
+                        {
+                          'bg-slate-600': active && theme === 'dark',
+                        },
+                        {
+                          'bg-slate-700': !active && theme === 'dark',
+                        },
                         'px-1 flex items-center cursor-pointer rounded-b-md',
                       )}
                       onClick={() => generalHandler && generalHandler()}
