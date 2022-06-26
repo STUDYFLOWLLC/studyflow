@@ -8,6 +8,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { Block, BlockTag, Color, RichText, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import { UpdatePropertyCommand } from 'utils/commandPattern/common/commands/updatePropertyCommand'
+import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/getRawTextLength'
 import richTextEditor from 'utils/richTextEditor'
 import useStateCallback from 'utils/useStateCallback'
@@ -63,31 +64,17 @@ export default function FlowPage() {
   // console.log(`Current Caret Index ${currentCaretIndex}`)
   // console.log('')
 
-  const changeCurrentBlockColor = (color: Color) => {
-    const curr = currentBlock[currentBlock.tag]
-    if (curr) curr.color = color
-  }
-
-  const changeBlockColor = (block: Block, color: Color) => {
-    const target = block[block.tag]
-    if (target) {
-      commandHandler.execute(
-        'update-property',
-        new UpdatePropertyCommand({
-          target,
-          propertyName: 'color',
-          newValue: color,
-        }),
-      )
-    }
-  }
-
-  const restoreBlockAndChangeColor = (newBlock: Block, color: Color) => {
+  const restoreBlockAndChangeColor = (
+    commandHandler: CommandHandler,
+    newBlock: Block,
+    color: Color,
+  ) => {
     const tempBlocks = [...blocks]
     tempBlocks[newBlock.index] = newBlock
     setBlocks(tempBlocks)
-    changeBlockColor(newBlock, color)
+    changeBlockColor(commandHandler, newBlock, color)
     setCurrentBlock(newBlock)
+
     return newBlock
   }
 
@@ -351,12 +338,13 @@ export default function FlowPage() {
       {blocks.map((block: Block) => (
         <FlowBlock
           key={block.id}
+          commandHandler={commandHandler}
           block={block}
           currentBlock={currentBlock}
           setCurrentBlock={setCurrentBlock}
           editBlock={editCurrentBlock}
           changeBlockTag={changeCurrentBlockTag}
-          changeBlockColor={changeCurrentBlockColor}
+          changeBlockColor={changeBlockColor}
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}

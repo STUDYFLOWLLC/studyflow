@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Command, CommandResult } from 'utils/commandPattern/commandModel'
 
 export interface UpdatePropertyCommandData<TTarget> {
@@ -8,6 +9,7 @@ export interface UpdatePropertyCommandData<TTarget> {
 
 export class UpdatePropertyCommand<TTarget> implements Command {
   private previousValue?: any
+
   public displayName: string
 
   constructor(private commandData: UpdatePropertyCommandData<TTarget>) {
