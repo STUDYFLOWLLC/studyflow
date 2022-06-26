@@ -17,7 +17,7 @@ import { removeHTMLTags } from 'utils/richTextEditor'
 interface Props {
   commandHandler: CommandHandler
   block: Block
-  editBlock: (e: ContentEditableEvent) => void
+  editBlock: (e: ContentEditableEvent, element: HTMLElement | null) => void
   changeBlockTag: (tag: BlockTag) => void
   changeBlockColor: (
     commandHandler: CommandHandler,
@@ -137,7 +137,7 @@ class FlowBlock extends React.Component<Props, State> {
       this.setState({ tempBlock: structuredClone(block) })
     }
 
-    editBlock(e)
+    editBlock(e, contentEditable.current)
 
     this.setState({ html: blockParser(block) })
   }

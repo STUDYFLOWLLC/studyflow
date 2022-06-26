@@ -7,7 +7,7 @@ import { ContentEditableEvent } from 'react-contenteditable'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Block, BlockTag, Color, RichText, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
-import { UpdatePropertyCommand } from 'utils/commandPattern/common/commands/updatePropertyCommand'
+import { UpdatePropertyWithCaretCommand } from 'utils/commandPattern/common/commands/updatePropertyWithCaret'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/getRawTextLength'
 import richTextEditor from 'utils/richTextEditor'
@@ -105,7 +105,11 @@ export default function FlowPage() {
     // this.setState({ blocks: updatedBlocks })
   }
 
-  const editCurrentBlock = (e: ContentEditableEvent) => {
+  const editCurrentBlock = (
+    e: ContentEditableEvent,
+    element: HTMLElement | null,
+  ) => {
+    if (!element) return
     const richText = currentBlock[currentBlock.tag]?.richText
     if (richText) {
       let totalRawLength = 0
@@ -116,10 +120,13 @@ export default function FlowPage() {
 
       if (currentRichText.text) {
         commandHandler.execute(
-          'update-property',
-          new UpdatePropertyCommand({
+          'update-property-with-caret',
+          new UpdatePropertyWithCaretCommand({
             target: currentRichText.text,
             propertyName: 'content',
+            element,
+            caretIndex: currentCaretIndex,
+            setCaretIndex: setCurrentCaretIndex,
             newValue: richTextEditor(
               currentRichText,
               e.target.value,
@@ -307,8 +314,7 @@ export default function FlowPage() {
     'cmd+z, ctrl+z',
     (e) => {
       e.preventDefault()
-      const result = commandHandler.undo()
-      console.log(result)
+      commandHandler.undo()
       setRerenderDetector(currentBlock.index)
     },
     {
