@@ -22,11 +22,18 @@ export default function TodayView({ tasks, archiveTaskLocal, user }: Props) {
         <div key={course.CourseOnTermID} className="">
           <div>{course.Nickname || course.FK_Course.Code}</div>
           <BasicDisplayTasks
-            tasks={tasks}
+            tasks={tasks.filter(
+              (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
+            )}
             archiveTaskLocal={archiveTaskLocal}
           />
         </div>
       ))}
+      <div>General</div>
+      <BasicDisplayTasks
+        tasks={tasks.filter((task) => task.FK_CourseOnTermID === 0)}
+        archiveTaskLocal={archiveTaskLocal}
+      />
     </div>
   )
 }
