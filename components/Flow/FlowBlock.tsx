@@ -12,13 +12,13 @@ import {
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import determinePlaceholder from 'utils/determinePlaceholder'
 import changeBlockColor from 'utils/flows/changeBlockColor'
+import editBlock from 'utils/flows/editBlock'
 import getRawTextLength from 'utils/getRawTextLength'
 import { removeHTMLTags } from 'utils/richTextEditor'
 
 interface Props {
   commandHandler: CommandHandler
   block: Block
-  editBlock: (e: ContentEditableEvent, element: HTMLElement | null) => void
   changeBlockTag: (tag: BlockTag) => void
   updatePage: (block: Block) => void
   addBlock: (
@@ -125,18 +125,25 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   onChangeHandler(e: ContentEditableEvent) {
-    const { block, editBlock, setCurrentCaretIndex } = this.props
+    const { commandHandler, block, currentCaretIndex, setCurrentCaretIndex } =
+      this.props
     const { contentEditable } = this.state
 
     const caretIndex = getCaretIndex(contentEditable.current)
-    console.log(caretIndex)
     setCurrentCaretIndex(caretIndex)
     const stripped = removeHTMLTags(e.target.value)
     if (stripped.charAt(caretIndex - 1) === '/') {
       this.setState({ tempBlock: structuredClone(block) })
     }
 
-    editBlock(e, contentEditable.current)
+    editBlock(
+      commandHandler,
+      e,
+      contentEditable.current,
+      block,
+      currentCaretIndex,
+      setCurrentCaretIndex,
+    )
 
     this.setState({ html: blockParser(block) })
   }
