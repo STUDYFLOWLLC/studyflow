@@ -1,5 +1,6 @@
 import { RichText, RichTextType } from 'types/Flow'
 import decodeHtml from 'utils/decodeHTML'
+import lengthOfPreviousRichText from './flows/lengthOfPreviousRichText'
 
 export function removeHTMLTags(html: string | undefined) {
   if (!html) return ''
@@ -7,29 +8,46 @@ export function removeHTMLTags(html: string | undefined) {
 }
 
 export default function richTextEditor(
-  richText: RichText | undefined,
+  richTexts: RichText[],
+  currentRichText: RichText | undefined,
   newContent: string,
   caretIndex: number,
-  totalLength: number,
 ): string {
-  if (!richText) return newContent
-  if (richText.type === RichTextType.TEXT && richText.text) {
-    const stripped = removeHTMLTags(newContent)
-    const lastStripped = stripped.substring(caretIndex, caretIndex + 1)
-    const textContent = richText.text.content.repeat(1)
+  if (!currentRichText) return newContent
+  if (currentRichText.type === RichTextType.TEXT && currentRichText.text) {
+    const previousLength = lengthOfPreviousRichText(richTexts, currentRichText)
+    const relativeCaretIndex = caretIndex - previousLength
+    const stripped = removeHTMLTags(newContent).substring(
+      previousLength,
+      previousLength + relativeCaretIndex + 1,
+    )
+
+    console.log(currentRichText)
+    console.log(`Previous length: ${previousLength}`)
+    console.log(`Relative caret index: ${relativeCaretIndex}`)
+    console.log(`Stripped: "${stripped}"`)
+
+    const lastStripped = stripped.substring(
+      relativeCaretIndex,
+      relativeCaretIndex + 1,
+    )
+    const textContent = currentRichText.text.content.repeat(1)
 
     // detect if the user deletes a character
-    if (totalLength > stripped.length) {
+    if (textContent.length >= stripped.length) {
+      console.log('deleted a character')
+      console.log(textContent.slice(0, relativeCaretIndex - 1))
       return (
-        textContent.slice(0, caretIndex - 1) + textContent.slice(caretIndex)
+        textContent.slice(0, relativeCaretIndex - 1) +
+        textContent.slice(relativeCaretIndex)
       )
     }
     if (lastStripped.length === 0) return stripped.slice(-1)
 
     return (
-      textContent.slice(0, caretIndex) +
+      textContent.slice(0, relativeCaretIndex) +
       (lastStripped || stripped.slice(-1)) +
-      textContent.slice(caretIndex)
+      textContent.slice(relativeCaretIndex)
     )
 
     // const newRichText: RichText = { ...richText }
