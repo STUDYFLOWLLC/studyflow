@@ -3,14 +3,11 @@
 
 import FlowBlock from 'components/Flow/FlowBlock'
 import { useState } from 'react'
-import { ContentEditableEvent } from 'react-contenteditable'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { Block, BlockTag, Color, RichText, RichTextType } from 'types/Flow'
+import { Block, BlockTag, Color, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
-import { UpdatePropertyWithCaretCommand } from 'utils/commandPattern/common/commands/updatePropertyWithCaret'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/getRawTextLength'
-import richTextEditor from 'utils/richTextEditor'
 import useStateCallback from 'utils/useStateCallback'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -86,22 +83,6 @@ export default function FlowPage() {
     return newBlock
   }
 
-  // iterate through blocks and find the current block based on caret index
-  const findCurrentRichTextBlock = (): RichText => {
-    let charactersProgressed = 0
-    const blockRichText = currentBlock[currentBlock.tag].richText
-    for (let i = 0; i < blockRichText.length; i += 1) {
-      if (
-        charactersProgressed + blockRichText[i].text.content.length >=
-        currentCaretIndex
-      ) {
-        return blockRichText[i]
-      }
-      charactersProgressed += blockRichText[i].text.content.length
-    }
-    return blockRichText[blockRichText.length - 1]
-  }
-
   const updatePageHandler = (updatedBlock: Block) => {
     const index = blocks.map((b: Block) => b.id).indexOf(updatedBlock.id)
     const updatedBlocks = [...blocks]
@@ -111,40 +92,6 @@ export default function FlowPage() {
       p: updatedBlock.p,
     }
     // this.setState({ blocks: updatedBlocks })
-  }
-
-  const editCurrentBlock = (
-    e: ContentEditableEvent,
-    element: HTMLElement | null,
-  ) => {
-    if (!element) return
-    const richText = currentBlock[currentBlock.tag]?.richText
-    if (richText) {
-      let totalRawLength = 0
-      for (let i = 0; i < richText.length; i += 1) {
-        totalRawLength += richText[i].text.content.length
-      }
-      const currentRichText = findCurrentRichTextBlock()
-
-      if (currentRichText.text) {
-        commandHandler.execute(
-          'update-property-with-caret',
-          new UpdatePropertyWithCaretCommand({
-            target: currentRichText.text,
-            propertyName: 'content',
-            newValue: richTextEditor(
-              currentRichText,
-              e.target.value,
-              currentCaretIndex,
-              totalRawLength,
-            ),
-            element,
-            caretIndex: currentCaretIndex,
-            setCaretIndex: setCurrentCaretIndex,
-          }),
-        )
-      }
-    }
   }
 
   const blockCleanupAfterCommand = (block: any) => {
@@ -295,6 +242,7 @@ export default function FlowPage() {
             content: '',
           },
         })
+        console.log(block)
       } else {
         block[block.tag]?.richText.push({
           type: RichTextType.TEXT,
@@ -356,7 +304,6 @@ export default function FlowPage() {
           block={block}
           currentBlock={currentBlock}
           setCurrentBlock={setCurrentBlock}
-          editBlock={editCurrentBlock}
           changeBlockTag={changeCurrentBlockTag}
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
