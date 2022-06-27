@@ -1,6 +1,6 @@
 import Checkbox from 'components/Tasks/DisplayTasks/Checkbox'
-import CourseDisplay from 'components/Tasks/DisplayTasks/CourseDisplay'
-import DateDisplay from 'components/Tasks/DisplayTasks/DateDisplay'
+import CourseIcon from 'components/Tasks/DisplayTasks/CourseIcon'
+import DateIcon from 'components/Tasks/DisplayTasks/DateIcon'
 import DeleteTask from 'components/Tasks/DisplayTasks/DeleteTask'
 import { Task } from 'hooks/tasks/useTasks'
 import { Toaster } from 'react-hot-toast'
@@ -33,9 +33,9 @@ export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
                   </div>
                   <div className="font-light">{task.Description}</div>
                   <div className="flex justify-between">
-                    <DateDisplay date={task.DueDate} />
+                    <DateIcon date={task.DueDate} />
                     <span className="flex justify-end mr-1">
-                      <CourseDisplay courseOnTerm={task.FK_CourseOnTerm} />
+                      <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
                     </span>
                   </div>
                 </div>

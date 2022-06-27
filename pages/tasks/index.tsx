@@ -72,7 +72,7 @@ export default function index({ user }: Props) {
         <CMDPalette />
       </div>
       <div className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}>
-        <div className="mx-auto w-8/12 flex flex-col justify-center">
+        <div className="mx-auto w-full flex flex-col justify-center">
           <DisplayTasks
             user={user}
             mutateTasks={mutateTasks}

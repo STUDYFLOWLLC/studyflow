@@ -12,7 +12,7 @@ interface Props {
   }
 }
 
-export default function DateDisplay({ courseOnTerm }: Props) {
+export default function CourseIcon({ courseOnTerm }: Props) {
   const bgToTextColor = (color: string) => {
     const colorOpacity = parseInt(
       color.substring(color.length - 3, color.length),
