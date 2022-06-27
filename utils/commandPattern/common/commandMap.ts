@@ -1,7 +1,9 @@
 import { UpdatePropertyCommandData } from 'utils/commandPattern/common/commands/updatePropertyCommand'
+import { UpdatePropertyWithCaretCommandData } from 'utils/commandPattern/common/commands/updatePropertyWithCaret'
 
 export interface CommonCommandMap<TTarget> {
   'update-property': UpdatePropertyCommandData<TTarget>
+  'update-property-with-caret': UpdatePropertyWithCaretCommandData<TTarget>
 }
 
 export type commonCommandKeys<T> = keyof CommonCommandMap<T>

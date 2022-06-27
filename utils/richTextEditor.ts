@@ -24,9 +24,11 @@ export default function richTextEditor(
         textContent.slice(0, caretIndex - 1) + textContent.slice(caretIndex)
       )
     }
+    if (lastStripped.length === 0) return stripped.slice(-1)
+
     return (
       textContent.slice(0, caretIndex) +
-      lastStripped +
+      (lastStripped || stripped.slice(-1)) +
       textContent.slice(caretIndex)
     )
 
