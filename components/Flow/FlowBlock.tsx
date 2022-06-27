@@ -1,6 +1,8 @@
+import { HandIcon, PlusIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import FlowMenu from 'components/Flow/FlowMenu'
 import React from 'react'
+import { Draggable } from 'react-beautiful-dnd'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import { Block, BlockTag, Color } from 'types/Flow'
 import blockParser from 'utils/blockParser'
@@ -54,6 +56,7 @@ interface State {
     y: number | null | undefined
   }
   openedMenuInEmptyBlock: boolean
+  showDragger: boolean
 }
 
 const CMD_KEY = '/'
@@ -82,6 +85,7 @@ class FlowBlock extends React.Component<Props, State> {
         y: null,
       },
       openedMenuInEmptyBlock: false,
+      showDragger: false,
     }
   }
 
@@ -176,34 +180,29 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.key === 'ArrowUp' && !selectMenuIsOpen) {
       e.preventDefault()
       const { contentEditable } = this.state
-      if (contentEditable.current?.previousElementSibling) {
+      const previous = contentEditable.current?.parentElement
+        ?.previousElementSibling?.childNodes[0] as HTMLElement
+      if (previous) {
         if (previousBlock) {
           setCurrentBlock(previousBlock, () => {
-            setCaretToPosition(
-              contentEditable.current?.previousElementSibling as HTMLElement,
-              currentCaretIndex,
-            )
+            setCaretToPosition(previous, currentCaretIndex)
             setCurrentCaretIndex(
               Math.min(currentCaretIndex, getRawTextLength(previousBlock)),
             )
           })
         } else {
-          setCaretToPosition(
-            contentEditable.current?.previousElementSibling as HTMLElement,
-            currentCaretIndex,
-          )
+          setCaretToPosition(previous, currentCaretIndex)
         }
       }
     }
     if (e.key === 'ArrowDown' && !selectMenuIsOpen) {
       e.preventDefault()
       const { contentEditable } = this.state
-      if (contentEditable.current?.nextElementSibling && nextBlock) {
+      const next: HTMLElement | null = contentEditable.current?.parentElement
+        ?.nextElementSibling as HTMLElement
+      if (next && nextBlock) {
         setCurrentBlock(nextBlock, () => {
-          setCaretToPosition(
-            contentEditable.current?.nextElementSibling as HTMLElement,
-            currentCaretIndex,
-          )
+          setCaretToPosition(next, currentCaretIndex)
           setCurrentCaretIndex(
             Math.min(currentCaretIndex, getRawTextLength(nextBlock)),
           )
@@ -336,57 +335,93 @@ class FlowBlock extends React.Component<Props, State> {
   render() {
     const { block, currentBlock, setCurrentBlock, setCurrentCaretIndex } =
       this.props
-    const { selectMenuIsOpen, selectMenuPosition, contentEditable, html } =
-      this.state
+    const {
+      selectMenuIsOpen,
+      selectMenuPosition,
+      contentEditable,
+      html,
+      showDragger,
+    } = this.state
 
     return (
-      <>
-        <ContentEditable
-          className={classNames(
-            { 'my-3 text-lg': block.tag === BlockTag.PARAGRAPH },
-            {
-              'text-4xl font-semibold my-6': block.tag === BlockTag.HEADING_1,
-            },
-            { 'text-3xl font-semibold my-5': block.tag === BlockTag.HEADING_2 },
-            { 'text-2xl font-semibold my-4': block.tag === BlockTag.HEADING_3 },
-            {
-              'h-6 text-opacity-40': html === '' && block[block.tag]?.color,
-            },
-            { 'caret-black': block[block.tag]?.color === Color.DEFAULT },
-            block[block.tag]?.color,
-            'outline-none',
-          )}
-          innerRef={contentEditable}
-          html={html}
-          placeholder={
-            (block.id === currentBlock.id &&
-              block.tag === BlockTag.PARAGRAPH) ||
-            (html === '' && block.tag !== BlockTag.PARAGRAPH)
-              ? determinePlaceholder(block.tag)
-              : ''
-          }
-          onChange={this.onChangeHandler}
-          onKeyDown={this.onKeyDownHandler}
-          onKeyUp={this.onKeyUpHandler}
-          onClick={() => {
-            const caretIndex = getCaretIndex(contentEditable.current)
-            setCurrentBlock(block, () => {
-              setCurrentCaretIndex(caretIndex)
-              console.log(caretIndex)
-              setCaretToPosition(contentEditable.current, caretIndex)
-            })
-          }}
-        />
-        {selectMenuIsOpen && (
-          <FlowMenu
-            position={selectMenuPosition}
-            // onTagSelect={this.tagSelectionHandler}
-            onTagSelect={this.tagSelectionHandler}
-            onColorSelect={this.colorSelectionHandler}
-            close={this.closeSelectMenuHandler}
-          />
+      <Draggable draggableId={block.id} index={block.index}>
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            onMouseEnter={() => this.setState({ showDragger: true })}
+            onMouseLeave={() => this.setState({ showDragger: false })}
+          >
+            <div className="relative pl-8">
+              <ContentEditable
+                className={classNames(
+                  { 'my-3 text-lg': block.tag === BlockTag.PARAGRAPH },
+                  {
+                    'text-4xl font-semibold my-6':
+                      block.tag === BlockTag.HEADING_1,
+                  },
+                  {
+                    'text-3xl font-semibold my-5':
+                      block.tag === BlockTag.HEADING_2,
+                  },
+                  {
+                    'text-2xl font-semibold my-4':
+                      block.tag === BlockTag.HEADING_3,
+                  },
+                  {
+                    'h-6 my-3 text-opacity-40':
+                      html === '' && block[block.tag]?.color,
+                  },
+                  { 'caret-black': block[block.tag]?.color === Color.DEFAULT },
+                  block[block.tag]?.color,
+                  'outline-none select-text',
+                )}
+                innerRef={contentEditable}
+                html={html}
+                placeholder={
+                  (block.id === currentBlock.id &&
+                    block.tag === BlockTag.PARAGRAPH) ||
+                  (html === '' && block.tag !== BlockTag.PARAGRAPH)
+                    ? determinePlaceholder(block.tag)
+                    : ''
+                }
+                onChange={this.onChangeHandler}
+                onKeyDown={this.onKeyDownHandler}
+                onKeyUp={this.onKeyUpHandler}
+                onClick={() => {
+                  const caretIndex = getCaretIndex(contentEditable.current)
+                  setCurrentBlock(block, () => {
+                    setCurrentCaretIndex(caretIndex)
+                    setCaretToPosition(contentEditable.current, caretIndex)
+                  })
+                }}
+              />
+              <div
+                className={classNames(
+                  { 'opacity-100': showDragger },
+                  { 'opacity-0': !showDragger },
+                  'absolute left-0 top-1 cursor-move transition-opacity transition-duration-750',
+                )}
+                {...provided.dragHandleProps}
+              >
+                <span className="w-8 h-5 flex text-gray-500">
+                  <PlusIcon className="w-4 h-5 cursor-pointer" />
+                  <HandIcon className="w-4 h-5 cursor-move" />
+                </span>
+              </div>
+              {selectMenuIsOpen && (
+                <FlowMenu
+                  position={selectMenuPosition}
+                  // onTagSelect={this.tagSelectionHandler}
+                  onTagSelect={this.tagSelectionHandler}
+                  onColorSelect={this.colorSelectionHandler}
+                  close={this.closeSelectMenuHandler}
+                />
+              )}
+            </div>
+          </div>
         )}
-      </>
+      </Draggable>
     )
   }
 }
