@@ -69,7 +69,7 @@ export default function FlowType({ type }: Props) {
               {({ active }) => (
                 <div
                   className={classNames(
-                    { 'bg-primary/30': active && theme === 'light' },
+                    { 'bg-gray-100': active && theme === 'light' },
                     { 'bg-slate-600': active && theme === 'dark' },
                     'px-2 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                   )}

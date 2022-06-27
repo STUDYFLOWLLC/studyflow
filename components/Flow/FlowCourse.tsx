@@ -83,8 +83,7 @@ export default function CourseDropDown({ title, items, loading }: Props) {
                 <div
                   className={classNames(
                     {
-                      'bg-primary bg-opacity-30 text-gray-900':
-                        active && theme === 'light',
+                      'bg-gray-100 text-gray-900': active && theme === 'light',
                     },
                     { 'text-gray-700': !active && theme === 'light' },
                     {
