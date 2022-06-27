@@ -3,6 +3,7 @@ import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import { Task } from 'hooks/tasks/useTasks'
 import { KeyedMutator } from 'swr'
+import TodayView from './TodayView'
 
 interface Props {
   user: User
@@ -23,9 +24,33 @@ export default function index({ user, taskView, mutateTasks, tasks }: Props) {
       }),
     })
   }
+
   return (
-    <div className="justify-center">
-      <BasicDisplayTasks archiveTaskLocal={archiveTaskLocal} tasks={tasks} />
-    </div>
+    <>
+      {/* Today view */}
+      {taskView === 'Today' && (
+        <TodayView tasks={tasks} archiveTaskLocal={archiveTaskLocal} />
+      )}
+
+      {/* Calendar view */}
+      {taskView === 'Calendar' && (
+        <div className="justify-center">
+          <BasicDisplayTasks
+            archiveTaskLocal={archiveTaskLocal}
+            tasks={tasks}
+          />
+        </div>
+      )}
+
+      {/* Courses view */}
+      {taskView === 'Courses' && (
+        <div className="justify-center">
+          <BasicDisplayTasks
+            archiveTaskLocal={archiveTaskLocal}
+            tasks={tasks}
+          />
+        </div>
+      )}
+    </>
   )
 }

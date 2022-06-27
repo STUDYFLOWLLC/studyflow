@@ -37,6 +37,7 @@ export default function CourseDropDown({
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
+  const [backgroundColor, setBackgroundColor] = useState('')
 
   useEffect(() => setMounted(true), [])
 
@@ -50,13 +51,23 @@ export default function CourseDropDown({
             disabled={loading}
             className={classNames(
               {
-                'hover:bg-gray-50 hover:border-gray-300': theme === 'light',
+                'ring-black border-transparent hover:opacity-80':
+                  theme === 'light' && backgroundColor,
               },
               {
-                'border-slate-600 hover:bg-slate-600 hover:border-slate-400':
-                  theme === 'dark',
+                'hover:bg-gray-50 hover:border-gray-300 border-slate-300':
+                  theme === 'light' && !backgroundColor,
               },
-              'flex items-center cursor-pointer px-2 py-1 border rounded-md shadow-sm mx-2 text-sm font-medium',
+              {
+                'hover:bg-slate-600 text-white border-transparent':
+                  theme === 'dark' && backgroundColor,
+              },
+              {
+                'border-slate-600 hover:bg-slate-600 hover:border-slate-400 text-gray-100':
+                  theme === 'dark' && !backgroundColor,
+              },
+              backgroundColor,
+              'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mx-2 text-sm font-medium border',
             )}
           >
             {loading ? (
@@ -110,7 +121,10 @@ export default function CourseDropDown({
 
                         'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md',
                       )}
-                      onClick={() => item.handler()}
+                      onClick={() => {
+                        item.handler()
+                        setBackgroundColor(item.color)
+                      }}
                       onKeyDown={() => item.handler()}
                     >
                       <div
@@ -146,8 +160,16 @@ export default function CourseDropDown({
                         },
                         'px-1 flex items-center cursor-pointer rounded-b-md',
                       )}
-                      onClick={() => generalHandler && generalHandler()}
-                      onKeyDown={() => generalHandler && generalHandler()}
+                      onClick={() => {
+                        // eslint-disable-next-line no-unused-expressions
+                        generalHandler && generalHandler()
+                        setBackgroundColor('')
+                      }}
+                      onKeyDown={() => {
+                        // eslint-disable-next-line no-unused-expressions
+                        generalHandler && generalHandler()
+                        setBackgroundColor('')
+                      }}
                     >
                       <InboxIcon className="w-4 h-4 mx-1.5" />
                       <span className="block py-1.5 text-sm">General</span>

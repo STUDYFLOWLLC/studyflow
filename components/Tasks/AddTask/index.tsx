@@ -9,7 +9,8 @@ import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
 import { Task } from 'hooks/tasks/useTasks'
-import { useState } from 'react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { KeyedMutator } from 'swr'
 
 interface Props {
@@ -27,6 +28,9 @@ export default function index({
   coursesOnTerm,
   coursesOnTermLoading,
 }: Props) {
+  const { theme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
   const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>()
@@ -34,6 +38,10 @@ export default function index({
   const [courseDropDownTitle, setCourseDropDownTitle] = useState('Course')
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   const addTask = async () => {
     // mutate locally
@@ -162,7 +170,16 @@ export default function index({
             <span className="flex space-x-2 items-center">
               <button
                 type="button"
-                className="px-3.5 py-1.5 items-center cursor-pointer transition rounded-md bg-gray-100 hover:bg-gray-200 font-medium"
+                className={classNames(
+                  {
+                    'bg-gray-100 hover:bg-gray-200': theme === 'light',
+                  },
+                  {
+                    'bg-slate-500 hover:bg-slate-700 text-gray-100':
+                      theme === 'dark',
+                  },
+                  'px-3.5 py-1.5 items-center cursor-pointer transition rounded-md  font-medium',
+                )}
                 onClick={() => {
                   setShowMain(false)
                   setShowAddTask(false)
@@ -178,11 +195,23 @@ export default function index({
               <button
                 type="button"
                 className={classNames(
-                  { 'bg-gray-400 cursor-default': !taskName },
                   {
-                    'bg-gray-700 hover:bg-black cursor-pointer': taskName,
+                    'bg-gray-400 text-white cursor-default':
+                      !taskName && theme === 'light',
                   },
-                  'px-3.5 py-1.5 item-center transition rounded-md  font-medium text-white',
+                  {
+                    'bg-slate-700 text-default cursor-default':
+                      !taskName && theme === 'dark',
+                  },
+                  {
+                    'bg-gray-700 text-white hover:bg-black cursor-pointer':
+                      taskName && theme === 'light',
+                  },
+                  {
+                    'bg-slate-600 hover:bg-primary/80 text-gray-100 cursor-pointer':
+                      taskName && theme === 'dark',
+                  },
+                  'px-3.5 py-1.5 item-center transition rounded-md font-medium ',
                 )}
                 onClick={() => {
                   if (taskName) {
