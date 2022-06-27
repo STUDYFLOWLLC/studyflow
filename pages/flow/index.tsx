@@ -98,6 +98,8 @@ export default function Flow({ user }: Props) {
           </div>
         </div>
         <div className="divider" />
+      </div>
+      <div className="ml-24 mr-32">
         <FlowPage />
       </div>
     </div>
