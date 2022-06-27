@@ -105,7 +105,7 @@ export default function CourseDropDown({
                     <div
                       className={classNames(
                         {
-                          'bg-primary bg-opacity-30 text-gray-900':
+                          'bg-gray-100 text-gray-900':
                             active && theme === 'light',
                         },
                         {
@@ -146,7 +146,7 @@ export default function CourseDropDown({
                     <div
                       className={classNames(
                         {
-                          'bg-primary bg-opacity-30 text-gray-900':
+                          'bg-gray-100 text-gray-900':
                             active && theme === 'light',
                         },
                         {
