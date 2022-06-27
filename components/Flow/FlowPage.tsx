@@ -7,7 +7,7 @@ import { ContentEditableEvent } from 'react-contenteditable'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Block, BlockTag, Color, RichText, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
-import { UpdatePropertyCommand } from 'utils/commandPattern/common/commands/updatePropertyCommand'
+import { UpdatePropertyWithCaretCommand } from 'utils/commandPattern/common/commands/updatePropertyWithCaret'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/getRawTextLength'
 import richTextEditor from 'utils/richTextEditor'
@@ -66,13 +66,21 @@ export default function FlowPage() {
 
   const restoreBlockAndChangeColor = (
     commandHandler: CommandHandler,
+    element: HTMLElement | null,
     newBlock: Block,
     color: Color,
   ) => {
     const tempBlocks = [...blocks]
     tempBlocks[newBlock.index] = newBlock
     setBlocks(tempBlocks)
-    changeBlockColor(commandHandler, newBlock, color)
+    changeBlockColor(
+      commandHandler,
+      element,
+      currentCaretIndex,
+      setCurrentCaretIndex,
+      newBlock,
+      color,
+    )
     setCurrentBlock(newBlock)
 
     return newBlock
@@ -105,7 +113,11 @@ export default function FlowPage() {
     // this.setState({ blocks: updatedBlocks })
   }
 
-  const editCurrentBlock = (e: ContentEditableEvent) => {
+  const editCurrentBlock = (
+    e: ContentEditableEvent,
+    element: HTMLElement | null,
+  ) => {
+    if (!element) return
     const richText = currentBlock[currentBlock.tag]?.richText
     if (richText) {
       let totalRawLength = 0
@@ -116,8 +128,8 @@ export default function FlowPage() {
 
       if (currentRichText.text) {
         commandHandler.execute(
-          'update-property',
-          new UpdatePropertyCommand({
+          'update-property-with-caret',
+          new UpdatePropertyWithCaretCommand({
             target: currentRichText.text,
             propertyName: 'content',
             newValue: richTextEditor(
@@ -126,6 +138,9 @@ export default function FlowPage() {
               currentCaretIndex,
               totalRawLength,
             ),
+            element,
+            caretIndex: currentCaretIndex,
+            setCaretIndex: setCurrentCaretIndex,
           }),
         )
       }
@@ -210,10 +225,11 @@ export default function FlowPage() {
       tempBlocks[i].index += 1
     }
     setBlocks(tempBlocks, () => {
-      setCurrentBlock(newBlock)
-      setCurrentCaretIndex(0)
-      const next: HTMLElement | null = ref?.nextSibling as HTMLElement
-      if (next) next.focus()
+      setCurrentBlock(newBlock, () => {
+        setCurrentCaretIndex(0)
+        const next: HTMLElement | null = ref?.nextSibling as HTMLElement
+        if (next) next.focus()
+      })
     })
   }
 
@@ -307,8 +323,7 @@ export default function FlowPage() {
     'cmd+z, ctrl+z',
     (e) => {
       e.preventDefault()
-      const result = commandHandler.undo()
-      console.log(result)
+      commandHandler.undo()
       setRerenderDetector(currentBlock.index)
     },
     {
@@ -323,7 +338,6 @@ export default function FlowPage() {
     (e) => {
       e.preventDefault()
       const result = commandHandler.redo()
-      console.log(result)
       setRerenderDetector(currentBlock.index)
     },
     {
@@ -344,7 +358,6 @@ export default function FlowPage() {
           setCurrentBlock={setCurrentBlock}
           editBlock={editCurrentBlock}
           changeBlockTag={changeCurrentBlockTag}
-          changeBlockColor={changeBlockColor}
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}

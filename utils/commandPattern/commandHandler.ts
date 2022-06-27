@@ -29,17 +29,16 @@ export class CommandHandler {
   public execute(key: string, command: Command): CommandHandlerResult {
     const commandResult = command.execute()
     if (commandResult.success && commandResult.canUndo) {
-      const entry: HistoryStackEntry = { key: key, command: command }
+      const entry: HistoryStackEntry = { key, command }
       this.undoHistory.add(entry, commandResult, HistoryAction.EXECUTE)
     }
-    return { key: key, result: commandResult, action: HistoryAction.EXECUTE }
+    return { key, result: commandResult, action: HistoryAction.EXECUTE }
   }
 
   /**
    * Undoes the last successfully executed command.
    */
   public undo(): CommandHandlerResult | undefined {
-    console.log(this.undoHistory)
     const historyItem = this.undoHistory.popUndo()
     if (!historyItem) return
 
