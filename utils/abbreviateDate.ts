@@ -49,8 +49,6 @@ export default function abbreviateDate(date: Date, timezone: string) {
     changeTimezone(new Date(), timezone),
   )
 
-  console.log(daysBetweenReal)
-
   // Today
   if (Math.abs(daysBetweenReal) === 0) retString = 'Today'
   // Tomorrow
