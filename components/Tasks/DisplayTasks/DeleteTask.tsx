@@ -15,17 +15,15 @@ export default function DeleteTask({ task }: Props) {
   const { userDetails } = useUserDetails(user.user?.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
 
-  const [canceled, setCanceled] = useState(false)
+  const [undo, setUndo] = useState(false)
 
   const revertTask = () => {
-    setCanceled(true)
+    setUndo(true)
     mutateTasks(
       {
         mutate: true,
-        tasks: [
-          tasks.filter((taskMap) => taskMap.TaskID !== task.TaskID),
-          task,
-        ],
+        tasks: [tasks.filter((taskMap) => taskMap.TaskID !== task.TaskID)],
+        task,
       },
       {
         revalidate: false,
@@ -35,7 +33,7 @@ export default function DeleteTask({ task }: Props) {
 
   const notify = () =>
     toast.custom(
-      !canceled ? (
+      !undo ? (
         <div
           className="flex border bg-red-200 border-transparent p-1 hover:bg-red-400 cursor-pointer rounded-md mb-4"
           onClick={() => revertTask()}
@@ -65,7 +63,7 @@ export default function DeleteTask({ task }: Props) {
       },
     )
     setTimeout(() => {
-      if (!canceled) deleteTask(task.TaskID)
+      if (!undo) deleteTask(task.TaskID)
     }, 4100)
   }
 

@@ -21,9 +21,7 @@ export default function DateDisplay({ courseOnTerm }: Props) {
     const textColor = color.substring(3, color.length - 4)
     return `text-${textColor}-${colorOpacity + 300}`
   }
-  // console.log(course?.CourseOnTermID)
-  console.log(courseOnTerm?.Color)
-  // console.log(course?.Nickname)
+
   return (
     <div className="text-sm">
       {courseOnTerm?.CourseOnTermID === 0 && (
