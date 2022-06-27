@@ -1,10 +1,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import classNames from 'classnames'
 import FlowBlock from 'components/Flow/FlowBlock'
 import { useState } from 'react'
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Block, BlockTag, Color, RichTextType } from 'types/Flow'
+import { setCaretToPosition } from 'utils/caretHelpers'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/getRawTextLength'
@@ -174,27 +177,29 @@ export default function FlowPage() {
     setBlocks(tempBlocks, () => {
       setCurrentBlock(newBlock, () => {
         setCurrentCaretIndex(0)
-        const next: HTMLElement | null = ref?.nextSibling as HTMLElement
-        if (next) next.focus()
+        const next: HTMLElement | null = ref?.parentElement
+          ?.nextElementSibling as HTMLElement
+        if (next) setCaretToPosition(next, 0)
       })
     })
   }
 
   const deleteBlockHandler = (index: number, ref: HTMLElement | null) => {
     // Only delete the block, if there is a preceding one
-    const previousBlock = ref?.previousElementSibling as HTMLElement
-    if (previousBlock) {
-      const tempBlocks = [...blocks]
-      for (let i = currentBlock.index + 1; i < tempBlocks.length; i += 1) {
-        tempBlocks[i].index -= 1
-      }
-      tempBlocks.splice(currentBlock.index, 1)
-      setBlocks(tempBlocks, () => {
-        setCurrentBlock(tempBlocks[index - 1])
-        setCurrentCaretIndex(getRawTextLength(tempBlocks[index - 1]))
-        previousBlock.focus()
-      })
+    const previous = ref?.parentElement?.previousElementSibling
+      ?.childNodes[0] as HTMLElement
+    if (!previous) return
+
+    const tempBlocks = [...blocks]
+    for (let i = currentBlock.index + 1; i < tempBlocks.length; i += 1) {
+      tempBlocks[i].index -= 1
     }
+    tempBlocks.splice(currentBlock.index, 1)
+    setBlocks(tempBlocks, () => {
+      setCurrentBlock(tempBlocks[index - 1])
+      setCurrentCaretIndex(getRawTextLength(tempBlocks[index - 1]))
+      previous.focus()
+    })
   }
 
   const joinBlocks = (
@@ -242,7 +247,6 @@ export default function FlowPage() {
             content: '',
           },
         })
-        console.log(block)
       } else {
         block[block.tag]?.richText.push({
           type: RichTextType.TEXT,
@@ -252,6 +256,40 @@ export default function FlowPage() {
         })
       }
     }
+  }
+
+  const reorder = (list: Block[], startIndex: number, endIndex: number) => {
+    list[startIndex].index = endIndex
+
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    for (let i = startIndex; i < result.length; i += 1) {
+      result[i].index += 1
+    }
+
+    return result
+  }
+
+  const onEnd = async (result: DropResult) => {
+    const { destination, source } = result
+
+    if (!destination) return
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return
+
+    const newBlocks: Block[] = reorder(
+      blocks,
+      result.source.index,
+      result.destination ? result.destination.index : 0,
+    )
+
+    setBlocks(newBlocks)
   }
 
   useHotkeys(
@@ -285,7 +323,7 @@ export default function FlowPage() {
     'cmd+shift+z, ctrl+shift+z',
     (e) => {
       e.preventDefault()
-      const result = commandHandler.redo()
+      commandHandler.redo()
       setRerenderDetector(currentBlock.index)
     },
     {
@@ -296,32 +334,48 @@ export default function FlowPage() {
   )
 
   return (
-    <div className="max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-semibold prose-h1:text-current prose-h2:text-3xl prose-h2:my-5 prose-h2:font-semibold prose-h2:text-current prose-h3:text-2xl prose-h3:my-4 prose-h3:font-semibold prose-h3:text-current prose-p:my-3 prose-p:text-lg prose-p:text-current">
-      {blocks.map((block: Block) => (
-        <FlowBlock
-          key={block.id}
-          commandHandler={commandHandler}
-          block={block}
-          currentBlock={currentBlock}
-          setCurrentBlock={setCurrentBlock}
-          changeBlockTag={changeCurrentBlockTag}
-          updatePage={updatePageHandler}
-          addBlock={addBlockHandler}
-          deleteBlock={deleteBlockHandler}
-          joinBlocks={joinBlocks}
-          restoreBlockAndChangeColor={restoreBlockAndChangeColor}
-          currentCaretIndex={currentCaretIndex}
-          setCurrentCaretIndex={setCurrentCaretIndex}
-          previousBlock={block.index > 0 ? blocks[block.index - 1] : undefined}
-          nextBlock={
-            block.index < blocks.length - 1
-              ? blocks[block.index + 1]
-              : undefined
-          }
-          rerenderDetector={rerenderDetector}
-          setRerenderDetector={setRerenderDetector}
-        />
-      ))}
-    </div>
+    <DragDropContext onDragEnd={onEnd}>
+      <Droppable droppableId="fnasohghp893">
+        {(provided) => (
+          <div
+            className={classNames(
+              'overflow-none',
+              'max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-bold prose-h1:text-current prose-h2:text-3xl prose-h2:my-5 prose-h2:font-bold prose-h2:text-current prose-h3:text-2xl prose-h3:my-4 prose-h3:font-bold prose-h3:text-current prose-p:my-3 prose-p:text-lg prose-p:text-current',
+            )}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {blocks.map((block: Block) => (
+              <FlowBlock
+                key={block.id}
+                commandHandler={commandHandler}
+                block={block}
+                currentBlock={currentBlock}
+                setCurrentBlock={setCurrentBlock}
+                changeBlockTag={changeCurrentBlockTag}
+                updatePage={updatePageHandler}
+                addBlock={addBlockHandler}
+                deleteBlock={deleteBlockHandler}
+                joinBlocks={joinBlocks}
+                restoreBlockAndChangeColor={restoreBlockAndChangeColor}
+                currentCaretIndex={currentCaretIndex}
+                setCurrentCaretIndex={setCurrentCaretIndex}
+                previousBlock={
+                  block.index > 0 ? blocks[block.index - 1] : undefined
+                }
+                nextBlock={
+                  block.index < blocks.length - 1
+                    ? blocks[block.index + 1]
+                    : undefined
+                }
+                rerenderDetector={rerenderDetector}
+                setRerenderDetector={setRerenderDetector}
+              />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   )
 }
