@@ -35,14 +35,14 @@ export default function TodayView({
   }
 
   return (
-    <div className="w-8/12 flex flex-col mx-auto mt-1">
+    <div className="w-8/12 flex flex-col">
       <div>
         <BasicDisplayTasks
           archiveTaskLocal={archiveTaskLocal}
           tasks={tasks.filter((task) => isToday(task))}
         />
       </div>
-      <div className="mt-1">
+      <div className="mt-2">
         <AddTask
           user={user}
           tasks={tasks}
