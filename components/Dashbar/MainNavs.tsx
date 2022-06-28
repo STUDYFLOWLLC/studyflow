@@ -63,7 +63,7 @@ export default function MainNavs() {
           key={item.name}
           className={classNames(
             {
-              'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
+              'hover:text-gray-900 hover:bg-gray-50':
                 !item.current && theme === 'light',
             },
             { 'hover:bg-slate-700': !item.current && theme === 'dark' },
