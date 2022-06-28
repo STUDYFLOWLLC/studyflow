@@ -42,7 +42,7 @@ export default function TodayView({
               mutateTasks={mutateTasks}
               coursesOnTerm={coursesOnTerm}
               coursesOnTermLoading={coursesOnTermLoading}
-              course={null}
+              courseOnTerm={course}
             />
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function TodayView({
             mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
-            course={null}
+            general
           />
         </div>
       </div>
