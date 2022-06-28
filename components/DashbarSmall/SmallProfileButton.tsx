@@ -1,18 +1,48 @@
 import { Menu, Transition } from '@headlessui/react'
-import classnames from 'classnames'
-import { Fragment } from 'react'
+import classNames from 'classnames'
+import { useTheme } from 'next-themes'
+import { Fragment, useEffect, useState } from 'react'
+import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 
-export default function SmallProfileButton() {
+interface Props {
+  name: string
+  pfpLink: string
+}
+
+export default function SmallProfileButton({ name, pfpLink }: Props) {
+  const { theme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   return (
     <Menu as="div" className="ml-3 relative">
       <div>
-        <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-          <span className="sr-only">Open user menu</span>
-          <img
-            className="h-8 w-8 rounded-full"
-            src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
+        <Menu.Button
+          className={classNames(
+            { 'bg-stone-200': theme === 'light' },
+            { 'bg-slate-700': theme === 'dark' },
+            'max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500',
+          )}
+        >
+          <div className="avatar placeholder online">
+            <div className="w-10 h-10 rounded-full flex-shrink-0">
+              {pfpLink ? (
+                <img
+                  className="rounded-full flex-shrink-0"
+                  src={pfpLink}
+                  alt="the user's avatar"
+                />
+              ) : (
+                <span className="text-lg sm:text-xl">
+                  {getFirstAndLastInitialFromName(name)}
+                </span>
+              )}
+            </div>
+          </div>
         </Menu.Button>
       </div>
       <Transition
@@ -30,7 +60,7 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classnames(
+                  className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm',
                   )}
@@ -43,7 +73,7 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classnames(
+                  className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm',
                   )}
@@ -56,7 +86,7 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classnames(
+                  className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm',
                   )}
@@ -71,7 +101,7 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classnames(
+                  className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm',
                   )}
@@ -84,7 +114,7 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classnames(
+                  className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm',
                   )}
@@ -99,7 +129,7 @@ export default function SmallProfileButton() {
               {({ active }) => (
                 <a
                   href="#"
-                  className={classnames(
+                  className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm',
                   )}
