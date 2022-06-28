@@ -21,10 +21,12 @@ interface activeProps {
 
 interface Props {
   title: string
+  color?: string
   items: Item[]
   loading: boolean
   hasGeneral?: boolean
   generalHandler?: (param1?: any, ...params: any[]) => any
+  general?: boolean
 }
 
 export default function CourseDropDown({
@@ -33,11 +35,20 @@ export default function CourseDropDown({
   loading,
   hasGeneral,
   generalHandler,
+  color,
+  general,
 }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
-  const [backgroundColor, setBackgroundColor] = useState('')
+  const [backgroundColor, setBackgroundColor] = useState(color || '')
+  const [icon, setIcon] = useState<JSX.Element>(
+    general ? (
+      <InboxIcon className="h-5 mr-1 w-5" />
+    ) : (
+      <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
+    ),
+  )
 
   useEffect(() => setMounted(true), [])
 
@@ -75,7 +86,7 @@ export default function CourseDropDown({
                 <MainSpinner size={SpinnerSizes.small} />
               </div>
             ) : (
-              <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
+              icon
             )}
             {title}
           </Menu.Button>
@@ -124,8 +135,23 @@ export default function CourseDropDown({
                       onClick={() => {
                         item.handler()
                         setBackgroundColor(item.color)
+                        setIcon(
+                          <FolderIcon
+                            className="h-5 mr-1 w-5"
+                            aria-hidden="true"
+                          />,
+                        )
                       }}
-                      onKeyDown={() => item.handler()}
+                      onKeyDown={() => {
+                        item.handler()
+                        setBackgroundColor(item.color)
+                        setIcon(
+                          <FolderIcon
+                            className="h-5 mr-1 w-5"
+                            aria-hidden="true"
+                          />,
+                        )
+                      }}
                     >
                       <div
                         className={classNames(
@@ -163,12 +189,14 @@ export default function CourseDropDown({
                       onClick={() => {
                         // eslint-disable-next-line no-unused-expressions
                         generalHandler && generalHandler()
-                        setBackgroundColor('')
+                        setBackgroundColor(color || '')
+                        setIcon(<InboxIcon className="h-5 mr-1 w-5" />)
                       }}
                       onKeyDown={() => {
                         // eslint-disable-next-line no-unused-expressions
                         generalHandler && generalHandler()
-                        setBackgroundColor('')
+                        setBackgroundColor(color || '')
+                        setIcon(<InboxIcon className="h-5 mr-1 w-5" />)
                       }}
                     >
                       <InboxIcon className="w-4 h-4 mx-1.5" />

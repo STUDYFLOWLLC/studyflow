@@ -12,12 +12,12 @@ interface Props {
 
 export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
   return (
-    <ul>
+    <div className="w-72">
       <Toaster />
       {tasks.map(
         (task) =>
           !task.Completed && (
-            <li
+            <div
               className="border border-gray-300 rounded-lg shadow-md p-2 mt-3"
               key={task.TaskID}
             >
@@ -40,9 +40,9 @@ export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
                   </div>
                 </div>
               </div>
-            </li>
+            </div>
           ),
       )}
-    </ul>
+    </div>
   )
 }
