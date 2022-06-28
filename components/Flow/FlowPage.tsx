@@ -177,8 +177,8 @@ export default function FlowPage() {
     setBlocks(tempBlocks, () => {
       setCurrentBlock(newBlock, () => {
         setCurrentCaretIndex(0)
-        const next: HTMLElement | null = ref?.parentElement
-          ?.nextElementSibling as HTMLElement
+        const next: HTMLElement | null = ref?.parentElement?.parentElement
+          ?.nextElementSibling?.childNodes[0] as HTMLElement
         if (next) setCaretToPosition(next, 0)
       })
     })
@@ -186,8 +186,9 @@ export default function FlowPage() {
 
   const deleteBlockHandler = (index: number, ref: HTMLElement | null) => {
     // Only delete the block, if there is a preceding one
-    const previous = ref?.parentElement?.previousElementSibling
+    const previous = ref?.parentElement?.parentElement?.previousElementSibling
       ?.childNodes[0] as HTMLElement
+    console.log(previous)
     if (!previous) return
 
     const tempBlocks = [...blocks]
@@ -198,7 +199,7 @@ export default function FlowPage() {
     setBlocks(tempBlocks, () => {
       setCurrentBlock(tempBlocks[index - 1])
       setCurrentCaretIndex(getRawTextLength(tempBlocks[index - 1]))
-      previous.focus()
+      setCaretToPosition(previous)
     })
   }
 
@@ -207,7 +208,8 @@ export default function FlowPage() {
     block2: Block,
     ref: HTMLElement | null,
   ) => {
-    const previousBlock = ref?.previousElementSibling as HTMLElement
+    const previousBlock = ref?.parentElement?.parentElement
+      ?.previousElementSibling?.childNodes[0] as HTMLElement
     if (!previousBlock) return
 
     const block1RichText = block1[block1.tag]?.richText
@@ -259,14 +261,20 @@ export default function FlowPage() {
   }
 
   const reorder = (list: Block[], startIndex: number, endIndex: number) => {
-    list[startIndex].index = endIndex
-
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)
 
-    for (let i = startIndex; i < result.length; i += 1) {
-      result[i].index += 1
+    if (startIndex > endIndex) {
+      result[endIndex].index = endIndex
+      for (let i = endIndex + 1; i <= startIndex; i += 1) {
+        result[i].index = i
+      }
+    } else if (endIndex > startIndex) {
+      result[startIndex].index = startIndex
+      for (let i = startIndex + 1; i <= endIndex; i += 1) {
+        result[i].index = i
+      }
     }
 
     return result
@@ -340,7 +348,10 @@ export default function FlowPage() {
           <div
             className={classNames(
               'overflow-none',
-              'max-w-none prose prose-h1:text-4xl prose-h1:my-6 prose-h1:font-bold prose-h1:text-current prose-h2:text-3xl prose-h2:my-5 prose-h2:font-bold prose-h2:text-current prose-h3:text-2xl prose-h3:my-4 prose-h3:font-bold prose-h3:text-current prose-p:my-3 prose-p:text-lg prose-p:text-current',
+              'max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
+              'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
+              'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
+              'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
             )}
             ref={provided.innerRef}
             {...provided.droppableProps}
