@@ -2,8 +2,8 @@ import HideButton from 'components/Dashbar/HideButton'
 import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
-  showHideButton: boolean
-  setShowDashBar: Dispatch<SetStateAction<boolean>>
+  showHideButton?: boolean
+  setShowDashBar?: Dispatch<SetStateAction<boolean>>
 }
 export default function LogoHeader({ showHideButton, setShowDashBar }: Props) {
   return (
@@ -12,7 +12,7 @@ export default function LogoHeader({ showHideButton, setShowDashBar }: Props) {
         <img src="/logo.svg" className="w-auto h-8" alt="wave" />
         <p className="mx-2 font-semibold text-xl">Studyflow</p>
       </div>
-      {showHideButton && (
+      {showHideButton && setShowDashBar && (
         <HideButton direction="hide" setShowDashBar={setShowDashBar} />
       )}
     </div>

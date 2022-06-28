@@ -20,7 +20,7 @@ module.exports = {
           accent: '#F4BB77',
           neutral: '#3D4451',
           'base-100': '#FFFFFF',
-          info: '#3ABFF8',
+          info: '#6C727F',
           success: '#36D399',
           warning: '#FBBD23',
           error: '#F87272',
@@ -34,9 +34,9 @@ module.exports = {
           accent: '#F4BB77',
           neutral: '#3D4451',
           'base-100': '#272934',
-          info: '#3ABFF8',
+          info: '#9DA3AE',
           success: '#36D399',
-          warning: '#FBBD23',
+          warning: '#Fff',
           error: '#F87272',
         },
       },
@@ -45,7 +45,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        sans: 'Inter',
       },
       animation: {
         'spin-fast': 'spin 0.47s linear infinite',
@@ -60,14 +60,4 @@ module.exports = {
   variants: {
     width: ['responsive', 'hover', 'focus'],
   },
-  safelist: [
-    'text-teal-600',
-    'text-yellow-600',
-    'text-purple-500',
-    'text-blue-800',
-    'text-green-600',
-    'text-red-700',
-    'text-pink-700',
-    'text-orange-700',
-  ],
 }
