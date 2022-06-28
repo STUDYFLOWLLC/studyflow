@@ -17,8 +17,9 @@ interface Props {
   mutateTasks: KeyedMutator<any>
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
-  course?: CourseOnTerm | null
   taskView?: string
+  courseOnTerm?: CourseOnTerm
+  general?: boolean
 }
 
 export default function index({
@@ -28,6 +29,8 @@ export default function index({
   coursesOnTerm,
   coursesOnTermLoading,
   taskView,
+  courseOnTerm,
+  general,
 }: Props) {
   const autoDate = () => {
     const date = taskView === 'Today' ? new Date() : undefined
@@ -42,8 +45,14 @@ export default function index({
   const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>(
     autoDate,
   )
-  const [taskCourse, setTaskCourse] = useState(0)
-  const [courseDropDownTitle, setCourseDropDownTitle] = useState('Course')
+  const [taskCourse, setTaskCourse] = useState(
+    courseOnTerm?.CourseOnTermID || 0,
+  )
+  const [courseDropDownTitle, setCourseDropDownTitle] = useState(
+    general
+      ? 'General'
+      : courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || 'Course',
+  )
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
 
@@ -89,8 +98,12 @@ export default function index({
     setTaskName('')
     setTaskDescription('')
     setTaskDueDateExact(autoDate)
-    setCourseDropDownTitle('Course')
-    setTaskCourse(0)
+    setCourseDropDownTitle(
+      general
+        ? 'General'
+        : courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || 'Course',
+    )
+    setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
 
     // TODO: error handling
     // send to backend
@@ -171,6 +184,8 @@ export default function index({
                   setTaskCourse(0)
                   setCourseDropDownTitle('General')
                 }}
+                color={courseOnTerm?.Color}
+                general={general}
               />
             </span>
             <span className="flex space-x-2 items-center">
@@ -192,8 +207,14 @@ export default function index({
                   setTaskName('')
                   setTaskDescription('')
                   setTaskDueDateExact(autoDate)
-                  setCourseDropDownTitle('Course')
-                  setTaskCourse(0)
+                  setCourseDropDownTitle(
+                    general
+                      ? 'General'
+                      : courseOnTerm?.Nickname ||
+                          courseOnTerm?.FK_Course.Code ||
+                          'Course',
+                  )
+                  setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
                 }}
               >
                 <div>Cancel</div>
