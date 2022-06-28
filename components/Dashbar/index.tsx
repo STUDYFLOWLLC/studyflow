@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { Transition } from '@headlessui/react'
+import { Dialog, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import BigProfileButton from 'components/buttons/BigProfileButton'
@@ -8,7 +8,7 @@ import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import DashSearch from './DashSearch'
@@ -50,56 +50,60 @@ export default function index({
   if (!mounted) return null
 
   return (
-    <Transition
-      enter="transition ease-in-out duration-300 transform"
-      enterFrom="-translate-x-full"
-      enterTo="translate-x-0"
-      leave="transition ease-in-out duration-300 transform"
-      leaveFrom="translate-x-0"
-      leaveTo="-translate-x-full"
-      show={showDashBar}
+    <SkeletonTheme
+      baseColor={classNames(
+        { '#ebebeb': theme === 'light' },
+        { '#303D50': theme === 'dark' },
+      )}
+      highlightColor={classNames(
+        { '#f5f5f5': theme === 'light' },
+        { '#5C7599': theme === 'dark' },
+      )}
     >
-      <SkeletonTheme
-        baseColor={classNames(
-          { '#ebebeb': theme === 'light' },
-          { '#303D50': theme === 'dark' },
-        )}
-        highlightColor={classNames(
-          { '#f5f5f5': theme === 'light' },
-          { '#5C7599': theme === 'dark' },
-        )}
-      >
-        <div
-          className={classNames(
-            { 'bg-slate-100': theme === 'light' },
-            { 'bg-base-200': theme === 'dark' },
-            'hidden h-full lg:flex lg:flex-col lg:w-56 lg:fixed lg:inset-y-0 lg:pt-5 lg:pb-4',
-          )}
-          onMouseEnter={() => setShowHideButton(true)}
-          onMouseLeave={() => setShowHideButton(false)}
-        >
-          <LogoHeader
-            showHideButton={showHideButton}
-            setShowDashBar={setShowDashBar}
-          />
-          <div className="mt-6 h-full flex-1 flex flex-col overflow-y-auto">
-            <BigProfileButton
-              name={userDetails?.Name}
-              username={userDetails?.Username}
-              pfpLink={userDetails?.ProfilePictureLink}
-              loading={userDetailsLoading}
-            />
-            <DashSearch
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-            />
-            <nav className="px-3 mt-6">
-              <MainNavs />
-              <CourseNavs />
-            </nav>
-          </div>
-        </div>
-      </SkeletonTheme>
-    </Transition>
+      <Transition.Root show={showDashBar} as={Fragment}>
+        <Dialog as="div" className="relative z-40" onClose={setShowDashBar}>
+          <Transition.Child
+            as={Fragment}
+            enter="transition ease-out duration-200 transform"
+            enterFrom="-translate-x-full"
+            enterTo="translate-x-0"
+            leave="transition ease-out duration-300 transform"
+            leaveFrom="translate-x-0"
+            leaveTo="-translate-x-full"
+          >
+            <div
+              className={classNames(
+                { 'bg-slate-100': theme === 'light' },
+                { 'bg-base-200': theme === 'dark' },
+                'hidden h-full lg:flex lg:flex-col lg:w-56 lg:fixed lg:inset-y-0 lg:pt-5 lg:pb-4',
+              )}
+              onMouseEnter={() => setShowHideButton(true)}
+              onMouseLeave={() => setShowHideButton(false)}
+            >
+              <LogoHeader
+                showHideButton={showHideButton}
+                setShowDashBar={setShowDashBar}
+              />
+              <div className="mt-6 h-full flex-1 flex flex-col overflow-y-auto">
+                <BigProfileButton
+                  name={userDetails?.Name}
+                  username={userDetails?.Username}
+                  pfpLink={userDetails?.ProfilePictureLink}
+                  loading={userDetailsLoading}
+                />
+                <DashSearch
+                  searchValue={searchValue}
+                  setSearchValue={setSearchValue}
+                />
+                <nav className="px-3 mt-6">
+                  <MainNavs />
+                  <CourseNavs />
+                </nav>
+              </div>
+            </div>
+          </Transition.Child>
+        </Dialog>
+      </Transition.Root>
+    </SkeletonTheme>
   )
 }
