@@ -1,5 +1,6 @@
 import { Menu, Transition } from '@headlessui/react'
 import classNames from 'classnames'
+import ProfileButtonMenuItem from 'components/buttons/ProfileButtonMenuItem'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
@@ -54,90 +55,27 @@ export default function SmallProfileButton({ name, pfpLink }: Props) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none">
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm',
-                  )}
-                >
-                  View profile
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm',
-                  )}
-                >
-                  Settings
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm',
-                  )}
-                >
-                  Notifications
-                </a>
-              )}
-            </Menu.Item>
+        <Menu.Items
+          className={classNames(
+            {
+              'bg-white divide-gray-200 ring-1 ring-black ring-opacity-5':
+                theme === 'light',
+            },
+            { 'bg-slate-700 divide-gray-200 ring-0': theme === 'dark' },
+            'origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg  divide-y divide-gray-200 focus:outline-none',
+          )}
+        >
+          <div>
+            <ProfileButtonMenuItem name="View Profile" href="#" roundedT />
+            <ProfileButtonMenuItem name="Settings" href="#" />
+            <ProfileButtonMenuItem name="Dark" href="#" />
           </div>
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm',
-                  )}
-                >
-                  Get desktop app
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm',
-                  )}
-                >
-                  Support
-                </a>
-              )}
-            </Menu.Item>
+          <div>
+            <ProfileButtonMenuItem name="Get Desktop App" href="#" />
+            <ProfileButtonMenuItem name="Support" href="#" />
           </div>
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm',
-                  )}
-                >
-                  Logout
-                </a>
-              )}
-            </Menu.Item>
+          <div>
+            <ProfileButtonMenuItem name="Logout" href="#" roundedB />
           </div>
         </Menu.Items>
       </Transition>

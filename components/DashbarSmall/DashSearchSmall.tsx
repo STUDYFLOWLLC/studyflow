@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { SearchIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'

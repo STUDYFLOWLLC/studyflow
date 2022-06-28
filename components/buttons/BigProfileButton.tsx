@@ -1,11 +1,11 @@
 import { Menu, Transition } from '@headlessui/react'
 import { SelectorIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
+import ProfileButtonMenuItem from 'components/buttons/ProfileButtonMenuItem'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
-import BigProfileButtonMenuItem from './BigProfileButtonMenuItem'
 
 export interface Props {
   name: string
@@ -112,20 +112,20 @@ export default function BigProfileButton({
           className={classNames(
             { 'bg-white divide-gray-200': theme === 'light' },
             { 'bg-slate-700 divide-gray-200': theme === 'dark' },
-            'z-10 mx-3 origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 divide-y  focus:outline-none',
+            'z-10 mx-3 origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg ring-1 divide-y  focus:outline-none',
           )}
         >
           <div className="py-1">
-            <BigProfileButtonMenuItem name="View Profile" href="#" />
-            <BigProfileButtonMenuItem name="Settings" href="#" />
-            <BigProfileButtonMenuItem name="Dark" href="#" />
+            <ProfileButtonMenuItem name="View Profile" href="#" />
+            <ProfileButtonMenuItem name="Settings" href="#" />
+            <ProfileButtonMenuItem name="Dark" href="#" />
           </div>
           <div className="py-1">
-            <BigProfileButtonMenuItem name="Get Desktop App" href="#" />
-            <BigProfileButtonMenuItem name="Support" href="#" />
+            <ProfileButtonMenuItem name="Get Desktop App" href="#" />
+            <ProfileButtonMenuItem name="Support" href="#" />
           </div>
           <div className="py-1">
-            <BigProfileButtonMenuItem name="Logout" href="#" />
+            <ProfileButtonMenuItem name="Logout" href="#" />
           </div>
         </Menu.Items>
       </Transition>

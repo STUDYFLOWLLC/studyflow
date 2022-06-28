@@ -8,13 +8,20 @@ import { useEffect, useState } from 'react'
 interface Props {
   name: string
   href: string
+  roundedT?: boolean
+  roundedB?: boolean
 }
 
 interface MenuItemProps {
   active: boolean
 }
 
-export default function BigProfileButtonMenuItem({ name, href }: Props) {
+export default function BigProfileButtonMenuItem({
+  name,
+  href,
+  roundedT,
+  roundedB,
+}: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -36,6 +43,8 @@ export default function BigProfileButtonMenuItem({ name, href }: Props) {
               'bg-slate-600': active && theme === 'dark',
             },
             { 'text-gray-700': !active && theme !== 'dark' },
+            { 'rounded-t-md': roundedT },
+            { 'rounded-b-md': roundedB },
             'block px-4 py-2 text-sm',
           )}
         >

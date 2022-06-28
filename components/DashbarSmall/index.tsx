@@ -71,8 +71,9 @@ export default function index() {
       </Transition.Root>
       <div
         className={classNames(
+          { 'bg-white': theme === 'light' },
           { 'bg-base-200': theme === 'dark' },
-          'sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:hidden',
+          'sticky top-0 z-10 flex-shrink-0 flex h-16 border-b border-gray-200 lg:hidden',
         )}
       >
         <OpenButton setSidebarOpen={setSidebarOpen} />
