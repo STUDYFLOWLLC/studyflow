@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { PlusIcon } from '@heroicons/react/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
@@ -19,6 +17,8 @@ interface Props {
   mutateTasks: KeyedMutator<any>
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
+  course?: CourseOnTerm | null
+  taskView?: string
 }
 
 export default function index({
@@ -27,13 +27,21 @@ export default function index({
   mutateTasks,
   coursesOnTerm,
   coursesOnTermLoading,
+  taskView,
 }: Props) {
+  const autoDate = () => {
+    const date = taskView === 'Today' ? new Date() : undefined
+    return date
+  }
+
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
-  const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>()
+  const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>(
+    autoDate,
+  )
   const [taskCourse, setTaskCourse] = useState(0)
   const [courseDropDownTitle, setCourseDropDownTitle] = useState('Course')
   const [showMain, setShowMain] = useState(false)
@@ -80,7 +88,7 @@ export default function index({
     setShowAddTask(false)
     setTaskName('')
     setTaskDescription('')
-    setTaskDueDateExact(undefined)
+    setTaskDueDateExact(autoDate)
     setCourseDropDownTitle('Course')
     setTaskCourse(0)
 
@@ -99,10 +107,7 @@ export default function index({
     <div>
       {!showMain && (
         <div
-          className={classNames(
-            { 'cursor-pointer': showAddTask },
-            'flex mt-3 m-3',
-          )}
+          className={classNames({ 'cursor-pointer': showAddTask }, 'flex')}
           onClick={() => setShowMain(!showMain)}
           onKeyDown={() => setShowMain(!showMain)}
           onMouseEnter={() => setShowAddTask(true)}
@@ -129,10 +134,11 @@ export default function index({
         </div>
       )}
       {showMain && (
-        <div className="mt-3 m-3 border border-gray-400 rounded-md p-1 flex flex-col">
+        <div className="border border-gray-400 rounded-md p-1 flex flex-col">
           <TaskNameInput
             setTaskName={setTaskName}
             setTaskDueDateExact={setTaskDueDateExact}
+            taskView={taskView}
           />
           <textarea
             rows={1}
@@ -185,7 +191,7 @@ export default function index({
                   setShowAddTask(false)
                   setTaskName('')
                   setTaskDescription('')
-                  setTaskDueDateExact(undefined)
+                  setTaskDueDateExact(autoDate)
                   setCourseDropDownTitle('Course')
                   setTaskCourse(0)
                 }}
