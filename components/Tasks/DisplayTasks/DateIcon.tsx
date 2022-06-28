@@ -5,7 +5,7 @@ interface Props {
   date: string
 }
 
-export default function DateDisplay({ date }: Props) {
+export default function DateIcon({ date }: Props) {
   const dateObj = new Date(date)
   return (
     // I kind of like it with this text color
