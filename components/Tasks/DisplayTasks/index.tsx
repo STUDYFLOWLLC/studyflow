@@ -1,19 +1,24 @@
 /* eslint-disable no-case-declarations */
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
-import { Task } from 'hooks/tasks/useTasks'
-import { KeyedMutator } from 'swr'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import CourseView from './CourseView'
 import TodayView from './TodayView'
 
 interface Props {
   user: User
   taskView: string
-  mutateTasks: KeyedMutator<any>
-  tasks: Task[]
 }
 
-export default function index({ user, taskView, mutateTasks, tasks }: Props) {
+export default function index({ user, taskView }: Props) {
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0]?.TermID,
+  )
+
   const archiveTaskLocal = (TaskID: number) => {
     mutateTasks({
       mutate: true,
@@ -30,28 +35,32 @@ export default function index({ user, taskView, mutateTasks, tasks }: Props) {
     <>
       {/* Today view */}
       {taskView === 'Today' && (
-        <TodayView tasks={tasks} archiveTaskLocal={archiveTaskLocal} />
+        <TodayView
+          tasks={tasks}
+          archiveTaskLocal={archiveTaskLocal}
+          user={user}
+          mutateTasks={mutateTasks}
+          coursesOnTerm={coursesOnTerm}
+          coursesOnTermLoading={coursesOnTermLoading}
+          taskView={taskView}
+        />
       )}
 
       {/* Calendar view */}
       {taskView === 'Calendar' && (
-        <div className="justify-center">
-          <BasicDisplayTasks
-            archiveTaskLocal={archiveTaskLocal}
-            tasks={tasks}
-          />
-        </div>
+        <BasicDisplayTasks archiveTaskLocal={archiveTaskLocal} tasks={tasks} />
       )}
 
       {/* Courses view */}
       {taskView === 'Courses' && (
-        <div className="justify-center">
-          <CourseView
-            archiveTaskLocal={archiveTaskLocal}
-            tasks={tasks}
-            user={user}
-          />
-        </div>
+        <CourseView
+          tasks={tasks}
+          archiveTaskLocal={archiveTaskLocal}
+          user={user}
+          mutateTasks={mutateTasks}
+          coursesOnTerm={coursesOnTerm}
+          coursesOnTermLoading={coursesOnTermLoading}
+        />
       )}
     </>
   )

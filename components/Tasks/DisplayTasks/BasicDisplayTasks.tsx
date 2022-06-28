@@ -18,7 +18,7 @@ export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
         (task) =>
           !task.Completed && (
             <li
-              className="border border-gray-300 rounded-lg shadow-md p-2 m-3"
+              className="border border-gray-300 rounded-lg shadow-md p-2 mt-3"
               key={task.TaskID}
             >
               <div className="flex">
