@@ -1,4 +1,4 @@
-import { HandIcon, PlusIcon } from '@heroicons/react/outline'
+import { PlusIcon, ViewGridIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import FlowMenu from 'components/Flow/FlowMenu'
 import React from 'react'
@@ -172,7 +172,7 @@ class FlowBlock extends React.Component<Props, State> {
       setCurrentCaretIndex(
         Math.min(
           getCaretIndex(contentEditable.current) + 1,
-          getRawTextLength(block) - 1,
+          getRawTextLength(block),
         ),
       )
     }
@@ -180,7 +180,7 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.key === 'ArrowUp' && !selectMenuIsOpen) {
       e.preventDefault()
       const { contentEditable } = this.state
-      const previous = contentEditable.current?.parentElement
+      const previous = contentEditable.current?.parentElement?.parentElement
         ?.previousElementSibling?.childNodes[0] as HTMLElement
       if (previous) {
         if (previousBlock) {
@@ -199,7 +199,7 @@ class FlowBlock extends React.Component<Props, State> {
       e.preventDefault()
       const { contentEditable } = this.state
       const next: HTMLElement | null = contentEditable.current?.parentElement
-        ?.nextElementSibling as HTMLElement
+        ?.parentElement?.nextElementSibling?.childNodes[0] as HTMLElement
       if (next && nextBlock) {
         setCurrentBlock(nextBlock, () => {
           setCaretToPosition(next, currentCaretIndex)
@@ -208,10 +208,7 @@ class FlowBlock extends React.Component<Props, State> {
           )
         })
       } else if (contentEditable.current?.nextElementSibling) {
-        setCaretToPosition(
-          contentEditable.current?.nextElementSibling as HTMLElement,
-          currentCaretIndex,
-        )
+        setCaretToPosition(next, currentCaretIndex)
       }
 
       setCurrentCaretIndex(getCaretIndex(contentEditable.current))
@@ -352,29 +349,44 @@ class FlowBlock extends React.Component<Props, State> {
             onMouseEnter={() => this.setState({ showDragger: true })}
             onMouseLeave={() => this.setState({ showDragger: false })}
           >
-            <div className="relative pl-8">
+            <div className="flex items-center">
+              <div
+                className={classNames(
+                  { 'opacity-100': showDragger || snapshot.isDragging },
+                  { 'opacity-0': !showDragger && !snapshot.isDragging },
+                  'mr-2 cursor-move transition-opacity transition-duration-750',
+                )}
+                {...provided.dragHandleProps}
+              >
+                <span className="w-10 h-5 flex text-gray-500">
+                  <PlusIcon className="w-5 h-5 cursor-pointer" />
+                  <ViewGridIcon className="w-5 h-5 cursor-move" />
+                </span>
+              </div>
               <ContentEditable
                 className={classNames(
-                  { 'my-3 text-lg': block.tag === BlockTag.PARAGRAPH },
                   {
-                    'text-4xl font-semibold my-6':
-                      block.tag === BlockTag.HEADING_1,
+                    'py-[0.25rem] text-lg leading-normal':
+                      html === '' && block.tag === BlockTag.PARAGRAPH,
                   },
                   {
-                    'text-3xl font-semibold my-5':
-                      block.tag === BlockTag.HEADING_2,
+                    'text-4xl font-bold py-[0.4rem] leading-normal':
+                      html === '' && block.tag === BlockTag.HEADING_1,
                   },
                   {
-                    'text-2xl font-semibold my-4':
-                      block.tag === BlockTag.HEADING_3,
+                    'text-3xl font-bold py-[0.35rem] leading-normal':
+                      html === '' && block.tag === BlockTag.HEADING_2,
                   },
                   {
-                    'h-6 my-3 text-opacity-40':
-                      html === '' && block[block.tag]?.color,
+                    'text-2xl font-bold py-[0.3rem] leading-normal':
+                      html === '' && block.tag === BlockTag.HEADING_3,
+                  },
+                  {
+                    'text-opacity-40': html === '' && block[block.tag]?.color,
                   },
                   { 'caret-black': block[block.tag]?.color === Color.DEFAULT },
                   block[block.tag]?.color,
-                  'outline-none select-text',
+                  'outline-none select-text leading-normal',
                 )}
                 innerRef={contentEditable}
                 html={html}
@@ -396,29 +408,16 @@ class FlowBlock extends React.Component<Props, State> {
                   })
                 }}
               />
-              <div
-                className={classNames(
-                  { 'opacity-100': showDragger },
-                  { 'opacity-0': !showDragger },
-                  'absolute left-0 top-1 cursor-move transition-opacity transition-duration-750',
-                )}
-                {...provided.dragHandleProps}
-              >
-                <span className="w-8 h-5 flex text-gray-500">
-                  <PlusIcon className="w-4 h-5 cursor-pointer" />
-                  <HandIcon className="w-4 h-5 cursor-move" />
-                </span>
-              </div>
-              {selectMenuIsOpen && (
-                <FlowMenu
-                  position={selectMenuPosition}
-                  // onTagSelect={this.tagSelectionHandler}
-                  onTagSelect={this.tagSelectionHandler}
-                  onColorSelect={this.colorSelectionHandler}
-                  close={this.closeSelectMenuHandler}
-                />
-              )}
             </div>
+            {selectMenuIsOpen && (
+              <FlowMenu
+                position={selectMenuPosition}
+                // onTagSelect={this.tagSelectionHandler}
+                onTagSelect={this.tagSelectionHandler}
+                onColorSelect={this.colorSelectionHandler}
+                close={this.closeSelectMenuHandler}
+              />
+            )}
           </div>
         )}
       </Draggable>

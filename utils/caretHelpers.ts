@@ -61,7 +61,7 @@ const getYoungestGeneration = (element: HTMLElement | undefined) => {
 
 export function setCaretToPosition(
   element: HTMLElement | null,
-  position: number,
+  position?: number,
 ) {
   if (!element) return
 
@@ -72,7 +72,8 @@ export function setCaretToPosition(
   let charactersProgressed = 0
   const charactersHere = getCharactersInElement(element)
   const youngestChildren = getYoungestGeneration(element).flat(Infinity)
-  const realPosition = position > charactersHere ? charactersHere : position
+  let realPosition = position || charactersHere
+  realPosition = realPosition > charactersHere ? charactersHere : realPosition
 
   for (let i = 0; i < youngestChildren.length; i += 1) {
     const child = youngestChildren[i]
