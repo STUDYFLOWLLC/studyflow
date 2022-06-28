@@ -23,18 +23,20 @@ export default function TodayView({
   mutateTasks,
 }: Props) {
   return (
-    <div className="flex overflow-auto mt-5">
+    <div className="flex overflow-x-auto overflow-y-hidden mt-5">
       {coursesOnTerm.map((course) => (
         <div key={course.CourseOnTermID} className="mx-4">
-          <div className="font-bold">
-            {course.Nickname || course.FK_Course.Code}
+          <div className="overflow-y-auto h-5/6">
+            <div className="font-bold">
+              {course.Nickname || course.FK_Course.Code}
+            </div>
+            <BasicDisplayTasks
+              tasks={tasks.filter(
+                (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
+              )}
+              archiveTaskLocal={archiveTaskLocal}
+            />
           </div>
-          <BasicDisplayTasks
-            tasks={tasks.filter(
-              (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
-            )}
-            archiveTaskLocal={archiveTaskLocal}
-          />
           <div className="mt-1">
             <AddTask
               user={user}
@@ -42,7 +44,7 @@ export default function TodayView({
               mutateTasks={mutateTasks}
               coursesOnTerm={coursesOnTerm}
               coursesOnTermLoading={coursesOnTermLoading}
-              course={null}
+              courseOnTerm={course}
             />
           </div>
         </div>
@@ -60,7 +62,7 @@ export default function TodayView({
             mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
-            course={null}
+            general
           />
         </div>
       </div>
