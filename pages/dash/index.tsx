@@ -1,11 +1,12 @@
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CMDPalette from 'components/CMDPalette'
-import DashBar from 'components/Dashbar'
+import Dashbar from 'components/Dashbar'
+import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
+import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
 import Pinned from 'components/Dashboard/Pinned'
-import DashHeadSmall from 'components/DashHeadSmall'
 import FlowTable from 'components/FlowTable'
 import Taskover from 'components/Taskover'
 import useUserDetails from 'hooks/useUserDetails'
@@ -28,6 +29,7 @@ export default function Dash({ user }: Props) {
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
 
   useHotkeys(
@@ -50,7 +52,7 @@ export default function Dash({ user }: Props) {
 
   return (
     <div className="min-h-full">
-      <DashBar
+      <Dashbar
         showDashBar={showDashBar}
         setShowDashBar={setShowDashBar}
         searchValue={searchValue}
@@ -58,7 +60,17 @@ export default function Dash({ user }: Props) {
       />
 
       <div className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}>
-        <DashHeadSmall />
+        <DashHeadSmall
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          setSidebarOpen={setSidebarOpen}
+        />
+        <DashbarSmall
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
         <main className="flex-1">
           <DashHeadBig
             pageDisplayed="Home"
