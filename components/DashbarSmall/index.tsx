@@ -53,7 +53,13 @@ export default function index() {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-white">
+            <div
+              className={classNames(
+                { 'bg-white': theme === 'light' },
+                { 'bg-base-200': theme === 'dark' },
+                'relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4',
+              )}
+            >
               <CloseButton setSidebarOpen={setSidebarOpen} />
               <LogoHeader />
               <div className="mt-5 flex-1 h-0 overflow-y-auto">

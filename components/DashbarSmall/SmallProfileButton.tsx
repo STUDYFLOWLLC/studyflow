@@ -26,11 +26,11 @@ export default function SmallProfileButton({ name, pfpLink }: Props) {
           className={classNames(
             { 'bg-stone-200': theme === 'light' },
             { 'bg-slate-700': theme === 'dark' },
-            'max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500',
+            'max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-primary',
           )}
         >
           <div className="avatar placeholder online">
-            <div className="w-10 h-10 rounded-full flex-shrink-0">
+            <div className="w-11 h-11 rounded-full flex-shrink-0">
               {pfpLink ? (
                 <img
                   className="rounded-full flex-shrink-0"

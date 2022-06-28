@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /*
   This example requires Tailwind CSS v2.0+
 
