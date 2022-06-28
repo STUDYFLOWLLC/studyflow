@@ -4,8 +4,9 @@ import classNames from 'classnames'
 import CMDPalette from 'components/CMDPalette'
 import DashBar from 'components/Dashbar'
 import HideButton from 'components/Dashbar/HideButton'
-import DashHeadSmall from 'components/DashbarSmall'
+import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
+import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import Taskover from 'components/Taskover'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
 import { useState } from 'react'
@@ -17,6 +18,7 @@ interface Props {
 
 export default function index({ user }: Props) {
   const [showDashBar, setShowDashBar] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [taskView, setTaskView] = useState('Today')
 
@@ -48,7 +50,17 @@ export default function index({ user }: Props) {
         <div
           className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
         >
-          <DashHeadSmall />
+          <DashHeadSmall
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            setSidebarOpen={setSidebarOpen}
+          />
+          <DashbarSmall
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
           <main className="flex-1">
             <DashHeadBig
               pageDisplayed="TASKS"

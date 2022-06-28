@@ -1,31 +1,47 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import { Switch } from '@headlessui/react'
+import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import SettingsButton from 'components/buttons/SettingsButton'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import SettingsInfo from 'components/Settings/SettingsInfo'
+import SettingsNavBig from 'components/Settings/SettingsNavBig'
+import SettingsNavSmall from 'components/Settings/SettingsNavSmall'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 
-const tabs = [
-  { name: 'General', href: '#', current: true },
-  { name: 'Security', href: '#', current: false },
-  { name: 'Notifications', href: '#', current: false },
-  { name: 'Plan', href: '#', current: false },
-  { name: 'Billing', href: '#', current: false },
-  { name: 'Team Members', href: '#', current: false },
+interface Props {
+  user: User
+}
+export interface Tab {
+  name: string
+  handler: (param1?: any, ...params: any[]) => any
+}
+
+const tabs: Tab[] = [
+  { name: 'General', handler: () => console.log('General') },
+  { name: 'Security', handler: () => console.log('Security') },
+  { name: 'Notifications', handler: () => console.log('Notifications') },
+  { name: 'Plan', handler: () => console.log('Plan') },
+  { name: 'Billing', handler: () => console.log('Billing') },
+  { name: 'Team Members', handler: () => console.log('Team Members') },
 ]
 
-export default function Settings() {
+export default function Settings({ user }: Props) {
   const { theme, setTheme } = useTheme()
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
 
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const [activeTab, setActiveTab] = useState('General')
   const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true)
   const [autoUpdateApplicantDataEnabled, setAutoUpdateApplicantDataEnabled] =
     useState(false)
@@ -86,67 +102,24 @@ export default function Settings() {
                 <div className="px-4 sm:px-6 md:px-0">
                   <div className="py-6">
                     {/* Tabs */}
-                    <div className="lg:hidden">
-                      <label htmlFor="selected-tab" className="sr-only">
-                        Select a tab
-                      </label>
-                      <select
-                        id="selected-tab"
-                        name="selected-tab"
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
-                        defaultValue={tabs.find((tab) => tab.current).name}
-                      >
-                        {tabs.map((tab) => (
-                          <option key={tab.name}>{tab.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="hidden lg:block">
-                      <div
-                        className={classNames(
-                          { 'border-gray-200': theme === 'light' },
-                          { 'border-gray-500': theme === 'dark' },
-                          'border-b',
-                        )}
-                      >
-                        <nav className="-mb-px flex justify-between">
-                          {tabs.map((tab) => (
-                            <a
-                              key={tab.name}
-                              href={tab.href}
-                              className={classNames(
-                                {
-                                  'border-primary text-primary': tab.current,
-                                },
-                                {
-                                  'border-transparent hover:border-gray-300':
-                                    !tab.current && theme === 'light',
-                                },
-                                {
-                                  'border-transparent hover:border-gray-300':
-                                    !tab.current && theme === 'dark',
-                                },
-                                'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
-                              )}
-                            >
-                              {tab.name}
-                            </a>
-                          ))}
-                        </nav>
-                      </div>
-                    </div>
+                    <SettingsNavSmall
+                      tabs={tabs}
+                      activeTab={activeTab}
+                      setActiveTab={setActiveTab}
+                    />
+                    <SettingsNavBig
+                      tabs={tabs}
+                      activeTab={activeTab}
+                      setActiveTab={setActiveTab}
+                    />
 
                     {/* Description list with inline editing */}
                     <div className="mt-10 divide-y divide-gray-200">
-                      <div className="space-y-1">
-                        <h3 className="text-lg leading-6 font-medium">
-                          Profile
-                        </h3>
-                        <p className="max-w-2xl text-sm text-info">
-                          This information will be displayed publicly so be
-                          careful what you share.
-                        </p>
-                      </div>
+                      <SettingsInfo
+                        title="Profile"
+                        description="This information will be displayed publicly so be
+                          careful what you share."
+                      />
                       <div className="mt-6">
                         <dl className="divide-y divide-gray-200">
                           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
@@ -154,22 +127,43 @@ export default function Settings() {
                               Name
                             </dt>
                             <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                              <span className="flex-grow">Chelsea Hagon</span>
+                              <span className="flex-grow">
+                                {userDetails?.Name}
+                              </span>
                               <SettingsButton text="Update" />
                             </dd>
                           </div>
                           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
-                            <dt className="text-sm font-medium text-info">
+                            <dt className="mt-3 text-sm font-medium text-info">
                               Photo
                             </dt>
-                            <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                              <span className="flex-grow">
-                                <img
-                                  className="h-8 w-8 rounded-full"
-                                  src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                  alt=""
-                                />
-                              </span>
+                            <dd className="mt-1 flex items-center text-sm sm:mt-0 sm:col-span-2">
+                              <div className="flex-grow">
+                                <div className="avatar placeholder online">
+                                  <div
+                                    className={classNames(
+                                      { 'bg-stone-200': theme === 'light' },
+                                      { 'bg-slate-700': theme === 'dark' },
+                                      'w-11 h-11 rounded-full flex-shrink-0',
+                                    )}
+                                  >
+                                    {userDetails?.profilePictureLink ? (
+                                      <img
+                                        className="rounded-full flex-shrink-0"
+                                        src={userDetails.profilePictureLink}
+                                        alt="the user's avatar"
+                                      />
+                                    ) : (
+                                      <span className="text-lg sm:text-xl rounded-full">
+                                        {getFirstAndLastInitialFromName(
+                                          userDetails?.Name,
+                                        )}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+
                               <span className="ml-4 flex-shrink-0 flex items-start space-x-4">
                                 <SettingsButton text="Update" />
                                 <span
@@ -188,18 +182,7 @@ export default function Settings() {
                             </dt>
                             <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
                               <span className="flex-grow">
-                                chelsea.hagon@example.com
-                              </span>
-                              <SettingsButton text="Update" />
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200">
-                            <dt className="text-sm font-medium text-info">
-                              Job title
-                            </dt>
-                            <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                              <span className="flex-grow">
-                                Human Resources Manager
+                                {userDetails?.Email}
                               </span>
                               <SettingsButton text="Update" />
                             </dd>
@@ -209,14 +192,10 @@ export default function Settings() {
                     </div>
 
                     <div className="mt-10 divide-y divide-gray-200">
-                      <div className="space-y-1">
-                        <h3 className="text-lg leading-6 font-medium">
-                          Account
-                        </h3>
-                        <p className="max-w-2xl text-sm text-info">
-                          Manage how information is displayed on your account.
-                        </p>
-                      </div>
+                      <SettingsInfo
+                        title="Account"
+                        description="manage how information is displayed on your account."
+                      />
                       <div className="mt-6">
                         <dl className="divide-y divide-gray-200">
                           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
@@ -288,51 +267,6 @@ export default function Settings() {
                               </Switch>
                             </dd>
                           </Switch.Group>
-                          <Switch.Group
-                            as="div"
-                            className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200"
-                          >
-                            <Switch.Label
-                              as="dt"
-                              className="text-sm font-medium text-info"
-                              passive
-                            >
-                              Auto-update applicant data
-                            </Switch.Label>
-                            <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                              <Switch
-                                checked={autoUpdateApplicantDataEnabled}
-                                onChange={setAutoUpdateApplicantDataEnabled}
-                                className={classNames(
-                                  {
-                                    'bg-primary':
-                                      autoUpdateApplicantDataEnabled,
-                                  },
-                                  {
-                                    'bg-gray-200':
-                                      !autoUpdateApplicantDataEnabled &&
-                                      theme === 'light',
-                                  },
-                                  {
-                                    'bg-gray-300':
-                                      !autoUpdateApplicantDataEnabled &&
-                                      theme === 'dark',
-                                  },
-                                  'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-auto',
-                                )}
-                              >
-                                <span
-                                  aria-hidden="true"
-                                  className={classNames(
-                                    autoUpdateApplicantDataEnabled
-                                      ? 'translate-x-5'
-                                      : 'translate-x-0',
-                                    'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
-                                  )}
-                                />
-                              </Switch>
-                            </dd>
-                          </Switch.Group>
                         </dl>
                       </div>
                     </div>
@@ -346,3 +280,5 @@ export default function Settings() {
     </>
   )
 }
+
+export const getServerSideProps = withPageAuth({ redirectTo: '/login' })
