@@ -1,4 +1,6 @@
 import classNames from 'classnames'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { Command } from 'types/Flow'
 
 interface Props {
@@ -14,11 +16,20 @@ export default function NewBlockMenuItem({
   onSelect,
   onMouseEnter,
 }: Props) {
+  const { theme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   return (
     <div
       key={item.label}
       className={classNames(
-        { 'bg-primary bg-opacity-30': isSelected },
+        { 'bg-gray-100': isSelected && theme === 'light' },
+        { 'bg-slate-600': isSelected && theme === 'dark' },
         'flex items-center px-2 py-1 first-of-type:rounded-t-md last-of-type:rounded-b-md',
       )}
       role="button"
@@ -45,13 +56,7 @@ export default function NewBlockMenuItem({
         <span className={classNames('text-lg font-medium')}>
           <span>{item.label}</span>
         </span>
-        <span
-          className={classNames(
-            { 'text-gray-700': isSelected },
-            { 'text-gray-500': !isSelected },
-            'text-sm',
-          )}
-        >
+        <span className={classNames('text-sm text-info')}>
           {item.description}
         </span>
       </div>

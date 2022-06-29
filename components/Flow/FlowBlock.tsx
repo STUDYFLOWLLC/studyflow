@@ -4,7 +4,8 @@ import FlowMenu from 'components/Flow/FlowMenu'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
-import { Block, BlockTag, Color } from 'types/Flow'
+import { Color } from 'types/Colors'
+import { Block, BlockTag } from 'types/Flow'
 import blockParser from 'utils/blockParser'
 import {
   getCaretCoordinates,
@@ -19,6 +20,7 @@ import getRawTextLength from 'utils/getRawTextLength'
 import { removeHTMLTags } from 'utils/richTextEditor'
 
 interface Props {
+  theme: string | undefined
   commandHandler: CommandHandler
   block: Block
   changeBlockTag: (tag: BlockTag) => void
@@ -330,8 +332,13 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   render() {
-    const { block, currentBlock, setCurrentBlock, setCurrentCaretIndex } =
-      this.props
+    const {
+      theme,
+      block,
+      currentBlock,
+      setCurrentBlock,
+      setCurrentCaretIndex,
+    } = this.props
     const {
       selectMenuIsOpen,
       selectMenuPosition,
@@ -384,7 +391,16 @@ class FlowBlock extends React.Component<Props, State> {
                   {
                     'text-opacity-40': html === '' && block[block.tag]?.color,
                   },
-                  { 'caret-black': block[block.tag]?.color === Color.DEFAULT },
+                  {
+                    'caret-black':
+                      block[block.tag]?.color === Color.DEFAULT &&
+                      theme === 'light',
+                  },
+                  {
+                    'caret-white':
+                      block[block.tag]?.color === Color.DEFAULT &&
+                      theme === 'dark',
+                  },
                   block[block.tag]?.color,
                   'outline-none select-text leading-normal',
                 )}
@@ -411,6 +427,7 @@ class FlowBlock extends React.Component<Props, State> {
             </div>
             {selectMenuIsOpen && (
               <FlowMenu
+                theme={theme}
                 position={selectMenuPosition}
                 // onTagSelect={this.tagSelectionHandler}
                 onTagSelect={this.tagSelectionHandler}

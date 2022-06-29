@@ -3,10 +3,12 @@
 
 import classNames from 'classnames'
 import FlowBlock from 'components/Flow/FlowBlock'
+import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { Block, BlockTag, Color, RichTextType } from 'types/Flow'
+import { Color } from 'types/Colors'
+import { Block, BlockTag, RichTextType } from 'types/Flow'
 import { setCaretToPosition } from 'utils/caretHelpers'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import changeBlockColor from 'utils/flows/changeBlockColor'
@@ -17,6 +19,23 @@ import { v4 as uuidv4 } from 'uuid'
 export interface addDeleteParams {
   ref: HTMLElement | null
 }
+
+const initialBlocks: Block[] = Object.values(Color).map((color, index) => ({
+  id: uuidv4(),
+  index,
+  tag: BlockTag.PARAGRAPH,
+  p: {
+    richText: [
+      {
+        type: RichTextType.TEXT,
+        text: {
+          content: color,
+        },
+      },
+    ],
+    color,
+  },
+}))
 
 const initialBlock: Block = {
   id: uuidv4(),
@@ -55,7 +74,9 @@ const secondBlock: Block = {
 const commandHandler = new CommandHandler()
 
 export default function FlowPage() {
-  const [blocks, setBlocks] = useStateCallback([initialBlock, secondBlock])
+  const { theme } = useTheme()
+
+  const [blocks, setBlocks] = useStateCallback([...initialBlocks])
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
@@ -359,6 +380,7 @@ export default function FlowPage() {
             {blocks.map((block: Block) => (
               <FlowBlock
                 key={block.id}
+                theme={theme}
                 commandHandler={commandHandler}
                 block={block}
                 currentBlock={currentBlock}
