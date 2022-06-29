@@ -1,159 +1,15 @@
 /* eslint-disable no-case-declarations */
-import { PencilAltIcon } from '@heroicons/react/outline'
+
+import classNames from 'classnames'
 import ColorMenuItem from 'components/Flow/Menu/ColorMenuItem'
 import NewBlockMenuItem from 'components/Flow/Menu/NewBlockMenuItem'
 import { matchSorter } from 'match-sorter'
 import React from 'react'
-import { BlockTag, Color, Command } from 'types/Flow'
-
-export const items: Command[] = [
-  {
-    commandType: 'new',
-    new: true,
-    type: 'tag',
-    label: 'Heading 1',
-    description: 'Big header',
-    abbreviation: 'H1',
-    textSize: 'text-3xl',
-    bgColor: 'bg-rose-400',
-    tag: BlockTag.HEADING_1,
-  },
-  {
-    commandType: 'new',
-    new: true,
-    type: 'tag',
-    label: 'Heading 2',
-    description: 'Medium header',
-    abbreviation: 'H2',
-    textSize: 'text-2xl',
-    bgColor: 'bg-lime-400',
-    tag: BlockTag.HEADING_2,
-  },
-  {
-    commandType: 'new',
-    new: true,
-    type: 'tag',
-    label: 'Heading 3',
-    description: 'Small header',
-    abbreviation: 'H3',
-    textSize: 'text-xl',
-    bgColor: 'bg-cyan-500',
-    tag: BlockTag.HEADING_3,
-  },
-  {
-    commandType: 'new',
-    new: true,
-    type: 'tag',
-    label: 'Text',
-    description: 'Normal text',
-    abbreviation: 'P',
-    bgColor: 'bg-indigo-500',
-    tag: BlockTag.PARAGRAPH,
-    icon: PencilAltIcon,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Red',
-    description: 'red rose color',
-    abbreviation: '',
-    bgColor: 'bg-red-500',
-    color: Color.RED,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Rose',
-    description: 'rose red color',
-    abbreviation: '',
-    bgColor: 'bg-rose-400',
-    color: Color.ROSE,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Green',
-    description: 'green lime color',
-    abbreviation: '',
-    bgColor: 'bg-green-400',
-    color: Color.GREEN,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Lime',
-    description: 'lime green color',
-    abbreviation: '',
-    bgColor: 'bg-lime-400',
-    color: Color.LIME,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Blue',
-    description: 'blue cyan color',
-    abbreviation: '',
-    bgColor: 'bg-sky-500',
-    color: Color.BLUE,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Cyan',
-    description: 'cyan blue color',
-    abbreviation: '',
-    bgColor: 'bg-cyan-500',
-    color: Color.CYAN,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Yellow',
-    description: 'yellow orange color',
-    abbreviation: '',
-    bgColor: 'bg-yellow-500',
-    color: Color.YELLOW,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Orange',
-    description: 'orange yellow color',
-    abbreviation: '',
-    bgColor: 'bg-orange-500',
-    color: Color.ORANGE,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Purple',
-    description: 'purple indigo color',
-    abbreviation: '',
-    bgColor: 'bg-purple-500',
-    color: Color.PURPLE,
-  },
-  {
-    commandType: 'color',
-    new: false,
-    type: 'color',
-    label: 'Indigo',
-    description: 'indigo purple color',
-    abbreviation: '',
-    bgColor: 'bg-indigo-500',
-    color: Color.INDIGO,
-  },
-]
+import { Color } from 'types/Colors'
+import { BlockTag, Command, commandItems } from 'types/Flow'
 
 interface Props {
+  theme: string | undefined
   position: {
     x: number | null | undefined
     y: number | null | undefined
@@ -176,7 +32,7 @@ class SelectMenu extends React.Component<Props, State> {
     this.selectionHandler = this.selectionHandler.bind(this)
     this.state = {
       command: '',
-      items,
+      items: commandItems,
       selectedItem: 0,
     }
   }
@@ -188,7 +44,7 @@ class SelectMenu extends React.Component<Props, State> {
 
   // Whenever the command changes, look for matching tags in the list
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const { command } = this.state
+    const { command, items } = this.state
     if (prevState.command !== command) {
       const itemsSorted = matchSorter(items, command, {
         keys: ['label', 'description', 'abbreviation'],
@@ -242,6 +98,7 @@ class SelectMenu extends React.Component<Props, State> {
 
   render() {
     // Define the absolute position before rendering
+    const { theme } = this.props
     const { items } = this.state
     const news = items.filter((item) => item.commandType === 'new')
     const colors = items.filter((item) => item.commandType === 'color')
@@ -250,8 +107,14 @@ class SelectMenu extends React.Component<Props, State> {
 
     return (
       <div
-        className="overflow-y-scroll ml-1 rounded-lg absolute bg-slate-50 w-64 max-h-80 p-0 shadow-md z-10 flex flex-col transition-all duration-500"
-        style={{ left: x !== 0 ? x : undefined }}
+        className={classNames(
+          { 'bg-slate-100': theme === 'light' },
+          { 'bg-slate-700': theme === 'dark' },
+          'overflow-y-scroll ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10 flex flex-col transition-all duration-500',
+        )}
+        style={{
+          left: x !== 0 ? x : undefined,
+        }}
         id="command-menu"
       >
         {items.length === 0 && (

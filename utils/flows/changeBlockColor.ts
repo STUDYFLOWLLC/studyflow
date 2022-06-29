@@ -1,4 +1,5 @@
-import { Block, Color } from 'types/Flow'
+import { Color } from 'types/Colors'
+import { Block } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import { UpdatePropertyWithCaretCommand } from 'utils/commandPattern/common/commands/updatePropertyWithCaret'
 
