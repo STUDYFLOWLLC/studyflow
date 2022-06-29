@@ -1,7 +1,7 @@
-import Checkbox from 'components/Tasks/DisplayTasks/Checkbox'
-import CourseIcon from 'components/Tasks/DisplayTasks/CourseIcon'
-import DateIcon from 'components/Tasks/DisplayTasks/DateIcon'
-import DeleteTask from 'components/Tasks/DisplayTasks/DeleteTask'
+import Checkbox from 'components/Tasks/DisplayTasks/BasicDisplayTasks/Checkbox'
+import CourseIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/CourseIcon'
+import DateIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/DateIcon'
+import DeleteTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/DeleteTask'
 import { Task } from 'hooks/tasks/useTasks'
 import { Toaster } from 'react-hot-toast'
 

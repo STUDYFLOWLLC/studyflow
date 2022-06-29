@@ -57,8 +57,8 @@ export default function index({ user, taskView }: Props) {
       {taskView === 'Courses' && (
         <CourseListView
           tasks={tasks}
-          archiveTaskLocal={archiveTaskLocal}
           user={user}
+          archiveTaskLocal={archiveTaskLocal}
           mutateTasks={mutateTasks}
           coursesOnTerm={coursesOnTerm}
           coursesOnTermLoading={coursesOnTermLoading}
