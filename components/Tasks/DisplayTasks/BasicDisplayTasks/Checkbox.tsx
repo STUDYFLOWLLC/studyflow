@@ -31,8 +31,10 @@ export default function Checkbox({ TaskID, archiveTaskLocal }: Props) {
       <CheckIcon
         className={classNames(
           { 'text-white opacity-100': completed },
-          { 'text-gray-400 opacity-0 hover:opacity-100': !completed },
-          'w-5 h-5 transition-all duration-200 ease-in-out',
+          {
+            'text-gray-400 opacity-0 hover:opacity-100': !completed,
+          },
+          'w-5 h-5 transition-all duration-200 ease-in-out mt-0.5 ml-px',
         )}
       />
     </div>
