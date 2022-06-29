@@ -40,9 +40,11 @@ export default function TodayView({
 
   return (
     <div className="w-8/12 flex flex-col">
-      <div className="mt-5">
+      <div className="mt-5 mb-1">
         <span className="mt-4 text-xl mr-2">{today}</span>
-        <span className="text-sm text-gray-400">{numTasksToday} Tasks</span>
+        <span className="text-sm text-gray-400">
+          {numTasksToday} {numTasksToday === 1 ? 'Task' : 'Tasks'}
+        </span>
       </div>
 
       <div>
@@ -51,7 +53,7 @@ export default function TodayView({
           tasks={tasks.filter((task) => isToday(task))}
         />
       </div>
-      <div className="mt-2">
+      <div className="mt-1">
         <AddTask
           user={user}
           tasks={tasks}
