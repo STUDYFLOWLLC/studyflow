@@ -83,5 +83,13 @@ module.exports = {
     'bg-orange-500',
     'bg-purple-500',
     'bg-indigo-500',
+    'text-teal-600',
+    'text-yellow-600',
+    'text-purple-500',
+    'text-blue-800',
+    'text-green-600',
+    'text-red-700',
+    'text-pink-700',
+    'text-orange-700',
   ],
 }

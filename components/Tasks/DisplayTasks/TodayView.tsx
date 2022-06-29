@@ -33,16 +33,25 @@ export default function TodayView({
       today.getFullYear() === dueDate.getFullYear()
     )
   }
+  const today = new Date().toDateString().slice(0, 10)
+  const numTasksToday = tasks.filter(
+    (task) => isToday(task) && !task.Completed,
+  ).length
 
   return (
-    <div className="w-8/12 flex flex-col mx-auto mt-1">
+    <div className="w-8/12 flex flex-col">
+      <div className="mt-5">
+        <span className="mt-4 text-xl mr-2">{today}</span>
+        <span className="text-sm text-gray-400">{numTasksToday} Tasks</span>
+      </div>
+
       <div>
         <BasicDisplayTasks
           archiveTaskLocal={archiveTaskLocal}
           tasks={tasks.filter((task) => isToday(task))}
         />
       </div>
-      <div className="mt-1">
+      <div className="mt-2">
         <AddTask
           user={user}
           tasks={tasks}

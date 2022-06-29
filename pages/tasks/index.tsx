@@ -74,7 +74,7 @@ export default function index({ user }: Props) {
         <Taskover />
         <CMDPalette />
       </div>
-      <div className={classNames({ 'lg:pl-56': showDashBar }, 'w-full')}>
+      <div className={classNames({ 'lg:pl-56': showDashBar })}>
         <DisplayTasks user={user} taskView={taskView} />
       </div>
     </>
