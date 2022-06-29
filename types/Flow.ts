@@ -1,25 +1,12 @@
+import { PencilAltIcon } from '@heroicons/react/outline'
 import { SVGProps } from 'react'
+import { bgColor, Color } from 'types/Colors'
 
 export enum BlockTag {
   PARAGRAPH = 'p',
   HEADING_1 = 'h1',
   HEADING_2 = 'h2',
   HEADING_3 = 'h3',
-}
-
-export enum Color {
-  DEFAULT = 'text-gray-900',
-  GREY = 'text-slate-500',
-  RED = 'text-red-500',
-  ROSE = 'text-rose-400',
-  GREEN = 'text-green-400',
-  LIME = 'text-lime-400',
-  BLUE = 'text-sky-500',
-  CYAN = 'text-cyan-500',
-  YELLOW = 'text-yellow-500',
-  ORANGE = 'text-orange-500',
-  PURPLE = 'text-purple-500',
-  INDIGO = 'text-indigo-500',
 }
 
 interface Annotation {
@@ -107,21 +94,166 @@ export interface Command {
   label: string
   description: string
   abbreviation: string
-  bgColor:
-    | 'bg-gray-900'
-    | 'bg-slate-500'
-    | 'bg-red-500'
-    | 'bg-rose-400'
-    | 'bg-green-400'
-    | 'bg-lime-400'
-    | 'bg-sky-500'
-    | 'bg-cyan-500'
-    | 'bg-yellow-500'
-    | 'bg-orange-500'
-    | 'bg-purple-500'
-    | 'bg-indigo-500'
+  bgColor: bgColor
   textSize?: string
   icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element
   tag?: BlockTag
   color?: Color
 }
+
+export const commandItems: Command[] = [
+  {
+    commandType: 'new',
+    new: true,
+    type: 'tag',
+    label: 'Heading 1',
+    description: 'Big header',
+    abbreviation: 'H1',
+    textSize: 'text-3xl',
+    bgColor: bgColor.ROSE,
+    tag: BlockTag.HEADING_1,
+  },
+  {
+    commandType: 'new',
+    new: true,
+    type: 'tag',
+    label: 'Heading 2',
+    description: 'Medium header',
+    abbreviation: 'H2',
+    textSize: 'text-2xl',
+    bgColor: bgColor.CYAN,
+    tag: BlockTag.HEADING_2,
+  },
+  {
+    commandType: 'new',
+    new: true,
+    type: 'tag',
+    label: 'Heading 3',
+    description: 'Small header',
+    abbreviation: 'H3',
+    textSize: 'text-xl',
+    bgColor: bgColor.INDIGO,
+    tag: BlockTag.HEADING_3,
+  },
+  {
+    commandType: 'new',
+    new: true,
+    type: 'tag',
+    label: 'Text',
+    description: 'Normal text',
+    abbreviation: 'P',
+    bgColor: bgColor.GREEN,
+    tag: BlockTag.PARAGRAPH,
+    icon: PencilAltIcon,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Default',
+    description: 'default normal color',
+    abbreviation: '',
+    bgColor: bgColor.DEFAULT,
+    color: Color.DEFAULT,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Red',
+    description: 'red rose color',
+    abbreviation: '',
+    bgColor: bgColor.RED,
+    color: Color.RED,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Rose',
+    description: 'rose red color',
+    abbreviation: '',
+    bgColor: bgColor.ROSE,
+    color: Color.ROSE,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Green',
+    description: 'green lime color',
+    abbreviation: '',
+    bgColor: bgColor.GREEN,
+    color: Color.GREEN,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Lime',
+    description: 'lime green color',
+    abbreviation: '',
+    bgColor: bgColor.LIME,
+    color: Color.LIME,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Blue',
+    description: 'blue cyan color',
+    abbreviation: '',
+    bgColor: bgColor.BLUE,
+    color: Color.BLUE,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Cyan',
+    description: 'cyan blue color',
+    abbreviation: '',
+    bgColor: bgColor.CYAN,
+    color: Color.CYAN,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Yellow',
+    description: 'yellow orange color',
+    abbreviation: '',
+    bgColor: bgColor.YELLOW,
+    color: Color.YELLOW,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Orange',
+    description: 'orange yellow color',
+    abbreviation: '',
+    bgColor: bgColor.ORANGE,
+    color: Color.ORANGE,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Purple',
+    description: 'purple indigo color',
+    abbreviation: '',
+    bgColor: bgColor.PURPLE,
+    color: Color.PURPLE,
+  },
+  {
+    commandType: 'color',
+    new: false,
+    type: 'color',
+    label: 'Indigo',
+    description: 'indigo purple color',
+    abbreviation: '',
+    bgColor: bgColor.INDIGO,
+    color: Color.INDIGO,
+  },
+]
