@@ -12,7 +12,7 @@ interface Props {
 
 export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
   return (
-    <div className="w-72">
+    <div className="w-full">
       <Toaster />
       {tasks.map(
         (task) =>
