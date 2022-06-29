@@ -55,14 +55,16 @@ export default function index({ user, taskView }: Props) {
 
       {/* Courses List view */}
       {taskView === 'Courses' && (
-        <CourseListView
-          tasks={tasks}
-          archiveTaskLocal={archiveTaskLocal}
-          user={user}
-          mutateTasks={mutateTasks}
-          coursesOnTerm={coursesOnTerm}
-          coursesOnTermLoading={coursesOnTermLoading}
-        />
+        <div className="flex justify-center">
+          <CourseListView
+            tasks={tasks}
+            user={user}
+            archiveTaskLocal={archiveTaskLocal}
+            mutateTasks={mutateTasks}
+            coursesOnTerm={coursesOnTerm}
+            coursesOnTermLoading={coursesOnTermLoading}
+          />
+        </div>
       )}
     </>
   )
