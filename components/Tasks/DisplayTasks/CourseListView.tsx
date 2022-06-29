@@ -23,30 +23,27 @@ export default function TodayView({
   mutateTasks,
 }: Props) {
   return (
-    <div className="flex overflow-x-auto overflow-y-hidden mt-5">
+    <>
       {coursesOnTerm.map((course) => (
         <div key={course.CourseOnTermID} className="mx-4">
-          <div className="overflow-y-auto h-5/6">
-            <div className="font-bold">
-              {course.Nickname || course.FK_Course.Code}
-            </div>
-            <BasicDisplayTasks
-              tasks={tasks.filter(
-                (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
-              )}
-              archiveTaskLocal={archiveTaskLocal}
-            />
+          <div className="font-bold">
+            {course.Nickname || course.FK_Course.Code}
           </div>
-          <div className="mt-1">
-            <AddTask
-              user={user}
-              tasks={tasks}
-              mutateTasks={mutateTasks}
-              coursesOnTerm={coursesOnTerm}
-              coursesOnTermLoading={coursesOnTermLoading}
-              courseOnTerm={course}
-            />
-          </div>
+          <BasicDisplayTasks
+            tasks={tasks.filter(
+              (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
+            )}
+            archiveTaskLocal={archiveTaskLocal}
+          />
+
+          <AddTask
+            user={user}
+            tasks={tasks}
+            mutateTasks={mutateTasks}
+            coursesOnTerm={coursesOnTerm}
+            coursesOnTermLoading={coursesOnTermLoading}
+            courseOnTerm={course}
+          />
         </div>
       ))}
       <div>
@@ -66,6 +63,6 @@ export default function TodayView({
           />
         </div>
       </div>
-    </div>
+    </>
   )
 }

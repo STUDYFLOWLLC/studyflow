@@ -4,7 +4,7 @@ import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
-import CourseView from './CourseView'
+import CourseListView from './CourseListView'
 import TodayView from './TodayView'
 
 interface Props {
@@ -35,15 +35,17 @@ export default function index({ user, taskView }: Props) {
     <>
       {/* Today view */}
       {taskView === 'Today' && (
-        <TodayView
-          tasks={tasks}
-          archiveTaskLocal={archiveTaskLocal}
-          user={user}
-          mutateTasks={mutateTasks}
-          coursesOnTerm={coursesOnTerm}
-          coursesOnTermLoading={coursesOnTermLoading}
-          taskView={taskView}
-        />
+        <div className="flex justify-center">
+          <TodayView
+            tasks={tasks}
+            archiveTaskLocal={archiveTaskLocal}
+            user={user}
+            mutateTasks={mutateTasks}
+            coursesOnTerm={coursesOnTerm}
+            coursesOnTermLoading={coursesOnTermLoading}
+            taskView={taskView}
+          />
+        </div>
       )}
 
       {/* Calendar view */}
@@ -51,9 +53,9 @@ export default function index({ user, taskView }: Props) {
         <BasicDisplayTasks archiveTaskLocal={archiveTaskLocal} tasks={tasks} />
       )}
 
-      {/* Courses view */}
+      {/* Courses List view */}
       {taskView === 'Courses' && (
-        <CourseView
+        <CourseListView
           tasks={tasks}
           archiveTaskLocal={archiveTaskLocal}
           user={user}
