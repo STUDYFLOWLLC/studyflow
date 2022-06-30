@@ -28,9 +28,7 @@ export default function TodayView({
   const [showGeneral, setShowGeneral] = useState(false)
 
   // Number of tasks in general
-  const numTasksGeneral = tasks.filter(
-    (task) => !task.FK_CourseOnTermID && !task.Completed,
-  ).length
+  const numTasksGeneral = tasks.filter((task) => !task.FK_CourseOnTermID).length
 
   return (
     <div className="flex flex-col w-10/12 mt-6">
@@ -74,7 +72,9 @@ export default function TodayView({
 
       {showGeneral && (
         <BasicDisplayTasks
-          tasks={tasks.filter((task) => task.FK_CourseOnTermID === 0)}
+          tasks={tasks.filter(
+            (task) => task.FK_CourseOnTermID === 0 && !task.Completed,
+          )}
           archiveTaskLocal={archiveTaskLocal}
         />
       )}
