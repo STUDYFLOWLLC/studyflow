@@ -46,9 +46,7 @@ export default function CourseDropDown({
           <div>
             <Menu.Button className="flex items-center cursor-pointer hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded-md shadow-sm mr-2 text-sm font-medium">
               <CalendarIcon className="w-4 mr-1" />
-              {taskDueDateExact
-                ? abbreviateDate(taskDueDateExact, 'America/Los_Angeles')
-                : 'Due date'}
+              {taskDueDateExact ? abbreviateDate(taskDueDateExact) : 'Due date'}
             </Menu.Button>
           </div>
 

@@ -1,5 +1,4 @@
 import { differenceInCalendarDays } from 'date-fns'
-import { changeTimezone } from 'utils/dateParser'
 
 const monthAbbreviations = [
   'Jan',
@@ -25,29 +24,9 @@ const daysOfWeekAbbreviations = [
   'Sat',
 ]
 
-// normalize dates for subtractions
-function treatAsUTC(date: Date) {
-  const result = new Date(date)
-  result.setMinutes(result.getMinutes() - result.getTimezoneOffset())
-  return result
-}
-
-function daysBetween(startDate: Date, endDate: Date) {
-  const millisecondsPerDay = 24 * 60 * 60 * 1000
-
-  return Math.floor(
-    (treatAsUTC(endDate).valueOf() - treatAsUTC(startDate).valueOf()) /
-      millisecondsPerDay,
-  )
-}
-
-export default function abbreviateDate(date: Date, timezone: string) {
+export default function abbreviateDate(date: Date) {
   let retString = ''
-  let daysBetweenReal = daysBetween(changeTimezone(new Date(), timezone), date)
-  daysBetweenReal = differenceInCalendarDays(
-    date,
-    changeTimezone(new Date(), timezone),
-  )
+  const daysBetweenReal = differenceInCalendarDays(date, new Date())
 
   // Today
   if (Math.abs(daysBetweenReal) === 0) retString = 'Today'
