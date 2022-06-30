@@ -93,7 +93,8 @@ export default function CalendarView({
   const numTasks = tasks.filter(
     (task) =>
       !task.Completed &&
-      task.DueDate.substring(0, 10) === formatISO(today).substring(0, 10),
+      task.DueDate.substring(0, 10) ===
+        formatISO(dateToDisplay).substring(0, 10),
   ).length
 
   return (
@@ -116,7 +117,7 @@ export default function CalendarView({
             tasks={tasks.filter(
               (task) =>
                 !task.Completed &&
-                task.DueDate.substring(0, 10) ===
+                task.DueDate?.substring(0, 10) ===
                   formatISO(dateToDisplay).substring(0, 10),
             )}
           />

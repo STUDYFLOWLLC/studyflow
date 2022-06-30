@@ -29,9 +29,6 @@ export default function TodayView({
   const numTasksToday = tasks.filter(
     (task) => !task.Completed && isToday(task),
   ).length
-  console.log(new Date())
-  console.log(new Date().toDateString())
-  console.log(new Date().toISOString())
 
   return (
     <div className="w-8/12 flex flex-col">
