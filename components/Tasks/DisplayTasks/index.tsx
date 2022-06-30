@@ -20,15 +20,20 @@ export default function index({ user, taskView }: Props) {
   )
 
   const archiveTaskLocal = (TaskID: number) => {
-    mutateTasks({
-      mutate: true,
-      tasks: tasks.map((task) => {
-        if (task.TaskID === TaskID) {
-          return { ...task, Completed: true }
-        }
-        return task
-      }),
-    })
+    mutateTasks(
+      {
+        mutate: true,
+        tasks: tasks.map((task) => {
+          if (task.TaskID === TaskID) {
+            return { ...task, Completed: true }
+          }
+          return task
+        }),
+      },
+      {
+        revalidate: false,
+      },
+    )
   }
 
   return (
@@ -50,19 +55,24 @@ export default function index({ user, taskView }: Props) {
 
       {/* Calendar view */}
       {taskView === 'Calendar' && (
-        <BasicDisplayTasks archiveTaskLocal={archiveTaskLocal} tasks={tasks} />
+        <BasicDisplayTasks
+          archiveTaskLocal={archiveTaskLocal}
+          tasks={tasks.filter((task) => !task.Completed)}
+        />
       )}
 
       {/* Courses List view */}
       {taskView === 'Courses' && (
-        <CourseListView
-          tasks={tasks}
-          archiveTaskLocal={archiveTaskLocal}
-          user={user}
-          mutateTasks={mutateTasks}
-          coursesOnTerm={coursesOnTerm}
-          coursesOnTermLoading={coursesOnTermLoading}
-        />
+        <div className="flex justify-center">
+          <CourseListView
+            tasks={tasks}
+            user={user}
+            archiveTaskLocal={archiveTaskLocal}
+            mutateTasks={mutateTasks}
+            coursesOnTerm={coursesOnTerm}
+            coursesOnTermLoading={coursesOnTermLoading}
+          />
+        </div>
       )}
     </>
   )

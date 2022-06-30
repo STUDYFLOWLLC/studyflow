@@ -1,5 +1,6 @@
 import { FolderIcon, InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import bgToTextColor from 'utils/bgToTextColor'
 
 interface Props {
   courseOnTerm?: {
@@ -13,15 +14,6 @@ interface Props {
 }
 
 export default function CourseIcon({ courseOnTerm }: Props) {
-  const bgToTextColor = (color: string) => {
-    const colorOpacity = parseInt(
-      color.substring(color.length - 3, color.length),
-      10,
-    )
-    const textColor = color.substring(3, color.length - 4)
-    return `text-${textColor}-${colorOpacity + 300}`
-  }
-
   return (
     <div className="text-sm">
       {courseOnTerm?.CourseOnTermID === 0 && (
