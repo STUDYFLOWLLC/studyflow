@@ -30,6 +30,8 @@ a {
 
 [contenteditable='true']:empty:before {
   content: attr(placeholder);
+  display: block;
+  color: #999;
 }
 
 .task-name #date {

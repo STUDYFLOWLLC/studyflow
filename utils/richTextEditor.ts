@@ -22,10 +22,10 @@ export default function richTextEditor(
       previousLength + relativeCaretIndex + 1,
     )
 
-    console.log(currentRichText)
-    console.log(`Previous length: ${previousLength}`)
-    console.log(`Relative caret index: ${relativeCaretIndex}`)
-    console.log(`Stripped: "${stripped}"`)
+    // console.log(currentRichText)
+    // console.log(`Previous length: ${previousLength}`)
+    // console.log(`Relative caret index: ${relativeCaretIndex}`)
+    // console.log(`Stripped: "${stripped}"`)
 
     const lastStripped = stripped.substring(
       relativeCaretIndex,
