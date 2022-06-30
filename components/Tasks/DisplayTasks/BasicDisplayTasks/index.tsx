@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function BasicDisplayTasks({ archiveTaskLocal, tasks }: Props) {
-  const tasksToMap = tasks.filter((task) => task.Completed === false)
+  const tasksToMap = tasks.filter((task) => !task.Completed)
 
   return (
     <div className="w-full">
