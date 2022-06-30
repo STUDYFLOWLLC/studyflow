@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
-import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
+import CalendarView from 'components/Tasks/DisplayTasks/CalendarView'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
@@ -55,9 +55,13 @@ export default function index({ user, taskView }: Props) {
 
       {/* Calendar view */}
       {taskView === 'Calendar' && (
-        <BasicDisplayTasks
+        <CalendarView
+          tasks={tasks}
+          user={user}
           archiveTaskLocal={archiveTaskLocal}
-          tasks={tasks.filter((task) => !task.Completed)}
+          mutateTasks={mutateTasks}
+          coursesOnTerm={coursesOnTerm}
+          coursesOnTermLoading={coursesOnTermLoading}
         />
       )}
 
