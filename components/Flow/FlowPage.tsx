@@ -6,10 +6,8 @@ import FlowBlock from 'components/Flow/FlowBlock'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
-import { useHotkeys } from 'react-hotkeys-hook'
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
-import { setCaretToPosition } from 'utils/caretHelpers'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/getRawTextLength'
@@ -196,19 +194,16 @@ export default function FlowPage() {
       tempBlocks[i].index += 1
     }
     setBlocks(tempBlocks, () => {
-      setCurrentBlock(newBlock, () => {
-        setCurrentCaretIndex(0)
-        const next: HTMLElement | null = ref?.parentElement?.parentElement
-          ?.nextElementSibling?.childNodes[0] as HTMLElement
-        if (next) setCaretToPosition(next, 0)
-      })
+      const next: HTMLElement | null = ref?.parentElement?.parentElement
+        ?.nextElementSibling?.childNodes[0].childNodes[1] as HTMLElement
+      if (next) next.focus()
     })
   }
 
   const deleteBlockHandler = (index: number, ref: HTMLElement | null) => {
     // Only delete the block, if there is a preceding one
     const previous = ref?.parentElement?.parentElement?.previousElementSibling
-      ?.childNodes[0] as HTMLElement
+      ?.childNodes[0].childNodes[1] as HTMLElement
     console.log(previous)
     if (!previous) return
 
@@ -218,9 +213,7 @@ export default function FlowPage() {
     }
     tempBlocks.splice(currentBlock.index, 1)
     setBlocks(tempBlocks, () => {
-      setCurrentBlock(tempBlocks[index - 1])
-      setCurrentCaretIndex(getRawTextLength(tempBlocks[index - 1]))
-      setCaretToPosition(previous)
+      previous.focus()
     })
   }
 
@@ -321,46 +314,46 @@ export default function FlowPage() {
     setBlocks(newBlocks)
   }
 
-  useHotkeys(
-    'cmd+b, ctrl+b',
-    (e) => {
-      e.preventDefault()
-      boldHandler(currentBlock)
-    },
-    {
-      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-      enableOnContentEditable: true,
-    },
-    [],
-  )
+  // useHotkeys(
+  //   'cmd+b, ctrl+b',
+  //   (e) => {
+  //     e.preventDefault()
+  //     boldHandler(currentBlock)
+  //   },
+  //   {
+  //     enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+  //     enableOnContentEditable: true,
+  //   },
+  //   [],
+  // )
 
-  useHotkeys(
-    'cmd+z, ctrl+z',
-    (e) => {
-      e.preventDefault()
-      commandHandler.undo()
-      setRerenderDetector(currentBlock.index)
-    },
-    {
-      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-      enableOnContentEditable: true,
-    },
-    [],
-  )
+  // useHotkeys(
+  //   'cmd+z, ctrl+z',
+  //   (e) => {
+  //     e.preventDefault()
+  //     commandHandler.undo()
+  //     setRerenderDetector(currentBlock.index)
+  //   },
+  //   {
+  //     enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+  //     enableOnContentEditable: true,
+  //   },
+  //   [],
+  // )
 
-  useHotkeys(
-    'cmd+shift+z, ctrl+shift+z',
-    (e) => {
-      e.preventDefault()
-      commandHandler.redo()
-      setRerenderDetector(currentBlock.index)
-    },
-    {
-      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-      enableOnContentEditable: true,
-    },
-    [],
-  )
+  // useHotkeys(
+  //   'cmd+shift+z, ctrl+shift+z',
+  //   (e) => {
+  //     e.preventDefault()
+  //     commandHandler.redo()
+  //     setRerenderDetector(currentBlock.index)
+  //   },
+  //   {
+  //     enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+  //     enableOnContentEditable: true,
+  //   },
+  //   [],
+  // )
 
   return (
     <DragDropContext onDragEnd={onEnd}>
@@ -383,16 +376,12 @@ export default function FlowPage() {
                 theme={theme}
                 commandHandler={commandHandler}
                 block={block}
-                currentBlock={currentBlock}
-                setCurrentBlock={setCurrentBlock}
                 changeBlockTag={changeCurrentBlockTag}
                 updatePage={updatePageHandler}
                 addBlock={addBlockHandler}
                 deleteBlock={deleteBlockHandler}
                 joinBlocks={joinBlocks}
                 restoreBlockAndChangeColor={restoreBlockAndChangeColor}
-                currentCaretIndex={currentCaretIndex}
-                setCurrentCaretIndex={setCurrentCaretIndex}
                 previousBlock={
                   block.index > 0 ? blocks[block.index - 1] : undefined
                 }
