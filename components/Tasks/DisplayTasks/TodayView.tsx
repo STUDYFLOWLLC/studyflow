@@ -2,6 +2,7 @@ import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import { Task } from 'hooks/tasks/useTasks'
 import { KeyedMutator } from 'swr'
+import isToday from 'utils/isToday'
 import AddTask from '../AddTask'
 import BasicDisplayTasks from './BasicDisplayTasks'
 
@@ -24,19 +25,8 @@ export default function TodayView({
   mutateTasks,
   taskView,
 }: Props) {
-  const isToday = (task: Task) => {
-    const today = new Date()
-    const dueDate = new Date(task.DueDate)
-    return (
-      today.getDate() === dueDate.getDate() &&
-      today.getMonth() === dueDate.getMonth() &&
-      today.getFullYear() === dueDate.getFullYear()
-    )
-  }
   const today = new Date().toDateString().slice(0, 10)
-  const numTasksToday = tasks.filter(
-    (task) => isToday(task) && !task.Completed,
-  ).length
+  const numTasksToday = tasks.length
 
   return (
     <div className="w-8/12 flex flex-col">
@@ -50,7 +40,7 @@ export default function TodayView({
       <div>
         <BasicDisplayTasks
           archiveTaskLocal={archiveTaskLocal}
-          tasks={tasks.filter((task) => isToday(task))}
+          tasks={tasks.filter((task) => !task.Completed && isToday(task))}
         />
       </div>
       <div className="mt-1">
