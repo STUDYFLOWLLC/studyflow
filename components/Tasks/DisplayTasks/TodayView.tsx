@@ -53,7 +53,7 @@ export default function TodayView({
           mutateTasks={mutateTasks}
           coursesOnTerm={coursesOnTerm}
           coursesOnTermLoading={coursesOnTermLoading}
-          taskView={taskView}
+          dueDate={new Date()}
         />
       </div>
     </div>
