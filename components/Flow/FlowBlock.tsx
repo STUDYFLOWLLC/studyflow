@@ -15,6 +15,7 @@ import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import ContentEditable, { ContentEditableEvent } from 'utils/ContentEditable'
 import determinePlaceholder from 'utils/determinePlaceholder'
 import altDeleteRichText from 'utils/flows/altDeleteRichText'
+import changeBlockColor from 'utils/flows/changeBlockColor'
 import cmdDeleteRichText from 'utils/flows/cmdDeleteRichText'
 import deleteInBlock from 'utils/flows/deleteInBlock'
 import insertBold from 'utils/flows/insertBold'
@@ -182,6 +183,23 @@ class FlowBlock extends React.Component<Props, State> {
       )
       if (shouldPreventRender) this.setState({ preventRerender: true })
     }
+    if (e.key === 'Backspace' && blockParser(block) === '') {
+      e.preventDefault()
+      // dont delete the block if it is colored, set the color to default
+      if (block[block.tag]?.color !== Color.DEFAULT) {
+        changeBlockColor(
+          commandHandler,
+          contentEditable.current,
+          getCaretIndex(contentEditable.current),
+          block,
+          Color.DEFAULT,
+        )
+      } else {
+        const { deleteBlock } = this.props
+        const { contentEditable } = this.state
+        deleteBlock(block.index, contentEditable.current)
+      }
+    }
 
     // if (e.key === 'ArrowLeft') {
     //   setCurrentCaretIndex(
@@ -232,24 +250,7 @@ class FlowBlock extends React.Component<Props, State> {
         addBlock(block.index, contentEditable.current, BlockTag.PARAGRAPH)
       }
     }
-    // if (e.key === 'Backspace' && blockParser(block) === '') {
-    //   e.preventDefault()
-    //   // dont delete the block if it is colored, set the color to default
-    //   if (block[block.tag]?.color !== Color.DEFAULT) {
-    //     changeBlockColor(
-    //       commandHandler,
-    //       contentEditable.current,
-    //       currentCaretIndex,
-    //       setCurrentCaretIndex,
-    //       block,
-    //       Color.DEFAULT,
-    //     )
-    //   } else {
-    //     const { deleteBlock } = this.props
-    //     const { contentEditable } = this.state
-    //     deleteBlock(block.index, contentEditable.current)
-    //   }
-    // }
+
     // // join two blocks
     // if (
     //   e.key === 'Backspace' &&
