@@ -4,5 +4,5 @@ export default function bgToTextColor(color: string) {
     10,
   )
   const textColor = color.substring(3, color.length - 4)
-  return `text-${textColor}-${colorOpacity + 300}`
+  return `text-${textColor}-${colorOpacity}`
 }
