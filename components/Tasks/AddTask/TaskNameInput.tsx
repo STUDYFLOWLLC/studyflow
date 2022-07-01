@@ -8,7 +8,7 @@ import taskParser from 'utils/taskParser'
 interface Props {
   setTaskName: (taskName: string) => void
   setTaskDueDateExact: (taskDueDateExact: Date | undefined) => void
-  taskView: string | undefined
+  dueDate?: Date | undefined
 }
 
 interface State {
@@ -71,14 +71,14 @@ export default class TaskNameInput extends Component<Props, State> {
   }
 
   taskNameChange = (e: ContentEditableEvent) => {
-    const { setTaskName, setTaskDueDateExact, taskView } = this.props
+    const { setTaskName, setTaskDueDateExact, dueDate } = this.props
     const { exemptWords } = this.state
     const stripped = removeHTMLTags(e.target.value)
     const taskDueDate = dateParser(stripped)
     if (taskDueDate.length > exemptWords) {
       setTaskDueDateExact(taskDueDate[taskDueDate.length - 1].date())
     } else {
-      setTaskDueDateExact(taskView === 'Today' ? new Date() : undefined)
+      setTaskDueDateExact(dueDate || undefined)
     }
     setTaskName(stripped)
     this.setState({
