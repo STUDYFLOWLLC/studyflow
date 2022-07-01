@@ -96,7 +96,6 @@ export default function FlowPage() {
       commandHandler,
       element,
       currentCaretIndex,
-      setCurrentCaretIndex,
       newBlock,
       color,
     )
