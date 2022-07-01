@@ -15,6 +15,7 @@ import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import ContentEditable, { ContentEditableEvent } from 'utils/ContentEditable'
 import determinePlaceholder from 'utils/determinePlaceholder'
 import altDeleteRichText from 'utils/flows/altDeleteRichText'
+import cmdDeleteRichText from 'utils/flows/cmdDeleteRichText'
 import deleteInBlock from 'utils/flows/deleteInBlock'
 import insertBold from 'utils/flows/insertBold'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
@@ -58,6 +59,7 @@ interface State {
   openedMenuInEmptyBlock: boolean
   showDragger: boolean
   focused: boolean
+  preventRerender: boolean
 }
 
 const CMD_KEY = '/'
@@ -88,6 +90,7 @@ class FlowBlock extends React.Component<Props, State> {
       openedMenuInEmptyBlock: false,
       showDragger: false,
       focused: false,
+      preventRerender: false,
     }
   }
 
@@ -152,10 +155,16 @@ class FlowBlock extends React.Component<Props, State> {
     } = this.props
     const { contentEditable, selectMenuIsOpen, previousKey } = this.state
 
+    this.setState({ preventRerender: false })
+
     if (previousKey === 'Meta' || previousKey === 'Control') {
       switch (e.key) {
         case 'b':
           insertBold(block, getCaretIndex(contentEditable.current))
+          break
+        case 'Backspace':
+          cmdDeleteRichText(block, getCaretIndex(contentEditable.current))
+          this.setState({ preventRerender: true })
           break
         default:
           break
@@ -167,7 +176,11 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.key === 'Backspace' && previousKey !== 'Alt') {
       deleteInBlock(block, getCaretIndex(contentEditable.current))
     } else if (e.key === 'Backspace' && previousKey === 'Alt') {
-      altDeleteRichText(block, getCaretIndex(contentEditable.current))
+      const shouldPreventRender = altDeleteRichText(
+        block,
+        getCaretIndex(contentEditable.current),
+      )
+      if (shouldPreventRender) this.setState({ preventRerender: true })
     }
 
     // if (e.key === 'ArrowLeft') {
@@ -326,6 +339,7 @@ class FlowBlock extends React.Component<Props, State> {
       html,
       showDragger,
       focused,
+      preventRerender,
     } = this.state
 
     if (focused) console.log(block)
@@ -405,6 +419,7 @@ class FlowBlock extends React.Component<Props, State> {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
                 onKeyUp={this.onKeyUpHandler}
+                preventRerender={preventRerender}
               />
             </div>
             {selectMenuIsOpen && (

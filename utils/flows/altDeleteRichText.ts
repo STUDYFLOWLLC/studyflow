@@ -21,7 +21,11 @@ export default function altDeleteRichText(block: Block, caretIndex: number) {
 
   // find where we should delete to (space, punctuation, or symbol)
   const altDeleteIndex = findPunctuationOrSpaceOrSymbolIndex(
-    currentRichText.text.content.split('').reverse().join(''),
+    currentRichText.text.content
+      .slice(0, relativeCaretIndex)
+      .split('')
+      .reverse()
+      .join(''),
   )
 
   // if we found a space or punctuation, delete to that
@@ -39,6 +43,10 @@ export default function altDeleteRichText(block: Block, caretIndex: number) {
       0,
       altDeleteIndex - 1,
     )
+  } else if (altDeleteIndex === undefined) {
+    currentRichText.text.content =
+      currentRichText.text.content.slice(relativeCaretIndex)
+    return true
   }
   // this handles the case where we delete to the end of the string (we don't want to delete the last rich text block)
   else if (richTexts.length === 1) {
