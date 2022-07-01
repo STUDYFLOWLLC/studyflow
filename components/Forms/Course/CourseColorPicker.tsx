@@ -1,11 +1,12 @@
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { bgColor } from 'types/Colors'
 
 interface Props {
   colors: string[]
   selectedColor: string
-  setSelectedColor: (color: string) => void
+  setSelectedColor: (color: bgColor) => void
 }
 
 export default function CourseColorPicker({
@@ -44,8 +45,8 @@ export default function CourseColorPicker({
             color,
             ' ring-offset-1 w-5 h-5 m-1 rounded-full cursor-pointer',
           )}
-          onClick={() => setSelectedColor(color)}
-          onKeyDown={() => setSelectedColor(color)}
+          onClick={() => setSelectedColor(color as bgColor)}
+          onKeyDown={() => setSelectedColor(color as bgColor)}
         />
       ))}
     </div>

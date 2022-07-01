@@ -14,6 +14,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { bgColor } from 'types/Colors'
 import { SetupSteps } from 'types/SetupSteps'
 
 interface Props {
@@ -21,16 +22,7 @@ interface Props {
   selectedSchool: School
 }
 
-const colors = [
-  'bg-teal-300',
-  'bg-yellow-300',
-  'bg-purple-200',
-  'bg-blue-500',
-  'bg-green-300',
-  'bg-red-400',
-  'bg-pink-400',
-  'bg-orange-400',
-]
+const colors = Object.values(bgColor)
 
 export default function AddCourse({ user, selectedSchool }: Props) {
   const router = useRouter()
