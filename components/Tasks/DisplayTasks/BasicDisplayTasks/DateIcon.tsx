@@ -1,6 +1,6 @@
 import { CalendarIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
-import { isToday } from 'date-fns'
+import { isBefore, isToday, isTomorrow, startOfToday } from 'date-fns'
 import abbreviateDate from 'utils/abbreviateDate'
 
 interface Props {
@@ -11,13 +11,15 @@ export default function DateIcon({ date }: Props) {
   const dateObj = new Date(date)
 
   return (
-    // I kind of like it with this text color
     <div className="text-sm">
       {date && (
         <div
           className={classNames(
-            { 'text-gray-400': isToday(dateObj) },
-            'text-amber-400 flex',
+            { 'text-red-400': isBefore(dateObj, startOfToday()) },
+            { 'text-amber-400': isToday(dateObj) },
+            { 'text-blue-400': isTomorrow(dateObj) },
+            { 'text-gray-400': !isToday(dateObj) && !isTomorrow(dateObj) },
+            'flex',
           )}
         >
           <CalendarIcon className="w-4 mr-1" />
