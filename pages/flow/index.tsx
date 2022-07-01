@@ -60,13 +60,13 @@ export default function Flow({ user }: Props) {
   if (!mounted) return null
 
   return (
-    <div className="w-screen">
+    <div className="overflow-x-none">
       <div className="flex absolute top-2 right-4">
         <EyeIcon className="w-4" />
         <p className="text-gray-400 ml-2">178</p>
       </div>
-      <div className="mx-32 mt-32">
-        <div className="prose">
+      <div className="mx-auto mt-32 max-w-3xl overflow-y-auto mb-32">
+        <div className="prose mx-12 border-b pb-4 mb-4">
           <div className="flex items-baseline">
             <ContentEditable
               tagName="h1"
@@ -97,9 +97,6 @@ export default function Flow({ user }: Props) {
             />
           </div>
         </div>
-        <div className="divider" />
-      </div>
-      <div className="ml-20 mr-32">
         <FlowPage />
       </div>
     </div>

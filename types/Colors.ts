@@ -1,6 +1,6 @@
 export enum Color {
   DEFAULT = 'text-current',
-  GREY = 'text-slate-500',
+  GRAY = 'text-slate-500',
   RED = 'text-red-500',
   ROSE = 'text-rose-400',
   ORANGE = 'text-orange-500',
@@ -15,7 +15,7 @@ export enum Color {
 
 export enum bgColor {
   DEFAULT = 'bg-current',
-  GREY = 'bg-slate-500',
+  GRAY = 'bg-slate-500',
   RED = 'bg-red-500',
   ROSE = 'bg-rose-400',
   ORANGE = 'bg-orange-500',

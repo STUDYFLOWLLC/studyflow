@@ -7,7 +7,6 @@ export default function changeBlockColor(
   commandHandler: CommandHandler,
   element: HTMLElement | null,
   caretIndex: number,
-  setCaretIndex: (caretIndex: number) => void,
   block: Block,
   color: Color,
 ) {
@@ -22,7 +21,6 @@ export default function changeBlockColor(
         newValue: color,
         element,
         caretIndex,
-        setCaretIndex,
       }),
     )
   }

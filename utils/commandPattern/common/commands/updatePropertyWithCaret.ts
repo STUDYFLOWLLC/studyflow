@@ -8,7 +8,6 @@ export interface UpdatePropertyWithCaretCommandData<TTarget> {
   element: HTMLElement
   newValue?: any
   caretIndex: number
-  setCaretIndex: (caretPosition: number) => void
 }
 
 export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
@@ -33,7 +32,7 @@ export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
   }
 
   public undo(): CommandResult {
-    const { element, setCaretIndex } = this.commandData
+    const { element } = this.commandData
 
     this.updatePropertyWithCursor(this.previousValue)
     this.previousValue = undefined
@@ -42,7 +41,6 @@ export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
 
     if (this.previousCaretIndex !== undefined) {
       setCaretToPosition(element, this.previousCaretIndex)
-      setCaretIndex(this.previousCaretIndex)
     }
 
     this.previousCaretIndex = tempIndex
@@ -51,7 +49,7 @@ export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
   }
 
   public redo(): CommandResult {
-    const { element, setCaretIndex } = this.commandData
+    const { element } = this.commandData
 
     this.previousValue = this.updatePropertyWithCursor(
       this.commandData.newValue,
@@ -61,7 +59,6 @@ export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
 
     if (this.previousCaretIndex !== undefined) {
       setCaretToPosition(element, this.previousCaretIndex)
-      setCaretIndex(this.previousCaretIndex)
     }
 
     this.previousCaretIndex = tempIndex

@@ -11,7 +11,6 @@ export default function editBlock(
   element: HTMLElement | null,
   block: Block,
   caretIndex: number,
-  setCaretIndex: (caretIndex: number) => void,
 ) {
   if (!element) return
 
@@ -39,7 +38,6 @@ export default function editBlock(
       ),
       element,
       caretIndex,
-      setCaretIndex,
     }),
   )
 }
