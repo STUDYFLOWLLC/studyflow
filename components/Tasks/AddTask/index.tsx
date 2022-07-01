@@ -17,9 +17,9 @@ interface Props {
   mutateTasks: KeyedMutator<any>
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
-  taskView?: string
   courseOnTerm?: CourseOnTerm
   general?: boolean
+  dueDate?: Date
 }
 
 export default function index({
@@ -28,22 +28,17 @@ export default function index({
   mutateTasks,
   coursesOnTerm,
   coursesOnTermLoading,
-  taskView,
   courseOnTerm,
   general,
+  dueDate,
 }: Props) {
-  const autoDate = () => {
-    const date = taskView === 'Today' ? new Date() : undefined
-    return date
-  }
-
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
   const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>(
-    autoDate,
+    dueDate || undefined,
   )
   const [taskCourse, setTaskCourse] = useState(
     courseOnTerm?.CourseOnTermID || 0,
@@ -97,7 +92,7 @@ export default function index({
     setShowAddTask(false)
     setTaskName('')
     setTaskDescription('')
-    setTaskDueDateExact(autoDate)
+    setTaskDueDateExact(dueDate || undefined)
     setCourseDropDownTitle(
       general
         ? 'General'
@@ -151,7 +146,7 @@ export default function index({
           <TaskNameInput
             setTaskName={setTaskName}
             setTaskDueDateExact={setTaskDueDateExact}
-            taskView={taskView}
+            dueDate={dueDate}
           />
           <textarea
             rows={1}
@@ -206,7 +201,7 @@ export default function index({
                   setShowAddTask(false)
                   setTaskName('')
                   setTaskDescription('')
-                  setTaskDueDateExact(autoDate)
+                  setTaskDueDateExact(dueDate || undefined)
                   setCourseDropDownTitle(
                     general
                       ? 'General'

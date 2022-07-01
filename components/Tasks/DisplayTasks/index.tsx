@@ -55,14 +55,16 @@ export default function index({ user, taskView }: Props) {
 
       {/* Calendar view */}
       {taskView === 'Calendar' && (
-        <CalendarView
-          tasks={tasks}
-          user={user}
-          archiveTaskLocal={archiveTaskLocal}
-          mutateTasks={mutateTasks}
-          coursesOnTerm={coursesOnTerm}
-          coursesOnTermLoading={coursesOnTermLoading}
-        />
+        <div className="w-full h-full">
+          <CalendarView
+            tasks={tasks}
+            user={user}
+            archiveTaskLocal={archiveTaskLocal}
+            mutateTasks={mutateTasks}
+            coursesOnTerm={coursesOnTerm}
+            coursesOnTermLoading={coursesOnTermLoading}
+          />
+        </div>
       )}
 
       {/* Courses List view */}
