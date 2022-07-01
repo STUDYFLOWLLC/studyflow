@@ -14,6 +14,7 @@ import {
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import ContentEditable, { ContentEditableEvent } from 'utils/ContentEditable'
 import determinePlaceholder from 'utils/determinePlaceholder'
+import altDeleteRichText from 'utils/flows/altDeleteRichText'
 import deleteInBlock from 'utils/flows/deleteInBlock'
 import insertBold from 'utils/flows/insertBold'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
@@ -163,8 +164,10 @@ class FlowBlock extends React.Component<Props, State> {
       insertIntoBlock(block, e.key, getCaretIndex(contentEditable.current))
     }
 
-    if (e.key === 'Backspace') {
+    if (e.key === 'Backspace' && previousKey !== 'Alt') {
       deleteInBlock(block, getCaretIndex(contentEditable.current))
+    } else if (e.key === 'Backspace' && previousKey === 'Alt') {
+      altDeleteRichText(block, getCaretIndex(contentEditable.current))
     }
 
     // if (e.key === 'ArrowLeft') {
