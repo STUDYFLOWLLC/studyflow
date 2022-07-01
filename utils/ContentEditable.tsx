@@ -41,6 +41,7 @@ export interface Props extends DivProps {
   className?: string
   style?: Record<string, unknown>
   innerRef?: React.RefObject<HTMLElement>
+  preventRerender?: boolean
 }
 
 /**
@@ -60,19 +61,23 @@ export default class ContentEditable extends React.Component<Props> {
     className: PropTypes.string,
     style: PropTypes.object,
     innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    preventRerender: PropTypes.bool,
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
     const { props } = this
+
     const el = this.getEl()
+    if (!el) return true
+
+    this.caret = getCaretIndex(el)
+
+    if (props.preventRerender) return false
 
     // We need not rerender if the change of props simply reflects the user's edits.
     // Rerendering in this case would make the cursor/caret jump
 
     // Rerender if there is no element yet... (somehow?)
-    if (!el) return true
-
-    this.caret = getCaretIndex(el)
 
     // ...or if html really changed... (programmatically, not by user edit)
     // if (normalizeHtml(nextProps.html) !== normalizeHtml(el.innerHTML)) {
@@ -89,7 +94,6 @@ export default class ContentEditable extends React.Component<Props> {
       props.className !== nextProps.className ||
       props.innerRef !== nextProps.innerRef ||
       props.placeholder !== nextProps.placeholder ||
-      props.html !== nextProps.html ||
       !deepEqual(props.style, nextProps.style)
     )
   }
@@ -109,6 +113,7 @@ export default class ContentEditable extends React.Component<Props> {
 
     // Restore caret position or enable click to caret position
     const isTargetFocused = document.activeElement === el
+    console.log(this.caret)
     if (isTargetFocused) setCaretToPosition(el, this.caret)
     else replaceCaret(el)
   }
