@@ -13,7 +13,7 @@ export default function DateIcon({ date }: Props) {
       {date && (
         <div className="text-secondary flex">
           <CalendarIcon className="w-4 mr-1" />
-          <div>{abbreviateDate(dateObj, 'America/Los_Angeles')}</div>
+          <div>{abbreviateDate(dateObj)}</div>
         </div>
       )}
     </div>
