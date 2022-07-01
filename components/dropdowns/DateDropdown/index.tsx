@@ -51,15 +51,15 @@ export default function CourseDropDown({
 
   const bgColor = (date: Date) => {
     if (isBefore(date, startOfToday())) {
-      return 'bg-red-400'
+      return 'bg-red-300'
     }
     if (isToday(date)) {
-      return 'bg-amber-400'
+      return 'bg-amber-300'
     }
     if (isTomorrow(date)) {
-      return 'bg-blue-400'
+      return 'bg-blue-300'
     }
-    return 'bg-gray-400'
+    return 'bg-gray-300'
   }
 
   return (
