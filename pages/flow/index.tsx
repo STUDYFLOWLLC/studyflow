@@ -65,7 +65,7 @@ export default function Flow({ user }: Props) {
         <EyeIcon className="w-4" />
         <p className="text-gray-400 ml-2">178</p>
       </div>
-      <div className="mx-auto mt-32 max-w-3xl overflow-y-auto">
+      <div className="mx-auto mt-32 max-w-3xl overflow-y-auto mb-32">
         <div className="prose mx-12 border-b pb-4 mb-4">
           <div className="flex items-baseline">
             <ContentEditable
