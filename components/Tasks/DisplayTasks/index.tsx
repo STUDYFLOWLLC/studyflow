@@ -15,6 +15,7 @@ interface Props {
 export default function index({ user, taskView }: Props) {
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  console.log(tasks)
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )

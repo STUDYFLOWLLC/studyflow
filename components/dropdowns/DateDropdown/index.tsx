@@ -9,7 +9,9 @@ import {
 } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import DropdownCalendar from 'components/dropdowns/DateDropdown/DropdownCalendar'
-import { Fragment } from 'react'
+import { isBefore, isToday, isTomorrow, startOfToday } from 'date-fns'
+import { useTheme } from 'next-themes'
+import { Fragment, useEffect, useState } from 'react'
 import abbreviateDate from 'utils/abbreviateDate'
 import dateParser from 'utils/dateParser'
 
@@ -39,12 +41,54 @@ export default function CourseDropDown({
   taskDueDateExact,
   setTaskDueDateExact,
 }: Props) {
+  const { theme } = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
+  const bgColor = (date: Date) => {
+    if (isBefore(date, startOfToday())) {
+      return 'bg-red-300'
+    }
+    if (isToday(date)) {
+      return 'bg-amber-300'
+    }
+    if (isTomorrow(date)) {
+      return 'bg-blue-300'
+    }
+    return 'bg-gray-300'
+  }
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
         <>
           <div>
-            <Menu.Button className="flex items-center cursor-pointer hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded-md shadow-sm mr-2 text-sm font-medium">
+            <Menu.Button
+              className={classNames(
+                {
+                  'ring-black border-transparent hover:opacity-80':
+                    theme === 'light' && taskDueDateExact,
+                },
+                {
+                  'hover:bg-gray-50 hover:border-gray-300 border-slate-300':
+                    theme === 'light' && !taskDueDateExact,
+                },
+                {
+                  'hover:bg-slate-600 text-white border-transparent':
+                    theme === 'dark' && taskDueDateExact,
+                },
+                {
+                  'border-slate-600 hover:bg-slate-600 hover:border-slate-400 text-gray-100':
+                    theme === 'dark' && !taskDueDateExact,
+                },
+                taskDueDateExact && bgColor(taskDueDateExact),
+                'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mx-2 text-sm font-medium border',
+              )}
+            >
               <CalendarIcon className="w-4 mr-1" />
               {taskDueDateExact ? abbreviateDate(taskDueDateExact) : 'Due date'}
             </Menu.Button>
