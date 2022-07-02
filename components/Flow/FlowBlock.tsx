@@ -58,7 +58,6 @@ interface Props {
 interface State {
   contentEditable: React.RefObject<HTMLElement>
   html: string
-  previousKey: string
   tempBlock: Block
   selectMenuIsOpen: boolean
   selectMenuPosition: {
@@ -68,8 +67,6 @@ interface State {
   openedMenuInEmptyBlock: boolean
   showDragger: boolean
   focused: boolean
-  preventRerender: boolean
-  forceRerender: boolean
 }
 
 const CMD_KEY = '/'
@@ -90,7 +87,6 @@ class FlowBlock extends React.Component<Props, State> {
     this.state = {
       contentEditable: React.createRef(),
       html: blockParser(block),
-      previousKey: '',
       tempBlock: block,
       selectMenuIsOpen: false,
       selectMenuPosition: {
@@ -100,8 +96,6 @@ class FlowBlock extends React.Component<Props, State> {
       openedMenuInEmptyBlock: false,
       showDragger: false,
       focused: false,
-      preventRerender: true,
-      forceRerender: false,
     }
   }
 
@@ -160,155 +154,114 @@ class FlowBlock extends React.Component<Props, State> {
     const {
       commandHandler,
       block,
-      setRerenderDetector,
       previousBlock,
-      nextBlock,
+      addBlock,
+      deleteBlock,
       joinBlocks,
       sliceBlockIntoNew,
     } = this.props
-    const { contentEditable, selectMenuIsOpen, previousKey } = this.state
-
-    this.setState({ preventRerender: false })
+    const { contentEditable, selectMenuIsOpen } = this.state
 
     const caretIndex = getCaretIndex(contentEditable.current)
+    const blockBody = block[block.tag]
+    if (!blockBody) return
+
+    // block deletion takes priority over command+delete and alt+delete
+    if (e.key === 'Backspace' && blockParser(block) === '') {
+      // dont delete the block if it is colored, set the color to default
+      if (block[block.tag]?.color !== Color.DEFAULT)
+        return changeBlockColor(
+          commandHandler,
+          contentEditable.current,
+          getCaretIndex(contentEditable.current),
+          block,
+          Color.DEFAULT,
+        )
+      return deleteBlock(block.index, contentEditable.current)
+    }
 
     // handle commands
-    if (previousKey === 'Meta' || previousKey === 'Control') {
+    if (e.ctrlKey || e.metaKey) {
       switch (e.key) {
         case 'b':
-          insertBold(block, getCaretIndex(contentEditable.current))
+          insertBold(block, caretIndex)
           break
         case 'Backspace':
-          cmdDeleteRichText(block, getCaretIndex(contentEditable.current))
-          this.setState({ preventRerender: true })
+          cmdDeleteRichText(block, caretIndex)
+          break
+        case 'ArrowUp':
+          // focus on the highest block
+          break
+        case 'ArrowDown':
+          // focus on the lowest block
           break
         default:
           break
       }
-    } else if (isAlphaNumericOrSymbol(e.key)) {
+      return
+    }
+
+    if (e.altKey) {
+      switch (e.key) {
+        case 'Backspace':
+          blockBody.richText = altDelete(
+            block,
+            getCaretIndex(contentEditable.current),
+          )
+          break
+        case 'ArrowUp':
+          // swap this and the block above it if possible
+          break
+        case 'ArrowDown':
+          // swap this and the block below it if possible
+          break
+        default:
+          break
+      }
+      return
+    }
+
+    if (e.key === 'Backspace' && caretIndex === 0 && previousBlock) {
+      return joinBlocks(previousBlock, block, contentEditable.current)
+    }
+
+    // normal deletion
+    if (e.key === 'Backspace' && !e.altKey) {
+      deleteInBlock(block, getCaretIndex(contentEditable.current))
+    }
+
+    // normal insertion
+    if (isAlphaNumericOrSymbol(e.key)) {
       insertIntoBlock(block, e.key, getCaretIndex(contentEditable.current))
     }
 
-    // handle delete (CMD+delete handled above)
-    if (e.key === 'Backspace' && caretIndex === 0) {
-      if (previousBlock) {
-        joinBlocks(previousBlock, block, contentEditable.current)
-      }
-      return
-    }
-    if (e.key === 'Backspace' && blockParser(block) === '') {
-      // dont delete the block if it is colored, set the color to default
-      if (block[block.tag]?.color !== Color.DEFAULT) {
-        changeBlockColor(
-          commandHandler,
-          contentEditable.current,
-          getCaretIndex(contentEditable.current),
-          block,
-          Color.DEFAULT,
-        )
-      } else {
-        const { deleteBlock } = this.props
-        const { contentEditable } = this.state
-        deleteBlock(block.index, contentEditable.current)
-      }
-    }
-    if (e.key === 'Backspace' && previousKey !== 'Alt') {
-      deleteInBlock(block, getCaretIndex(contentEditable.current))
-    }
-    console.log(blockParser(block))
-    if (e.key === 'Backspace' && blockParser(block) === '') {
-      // dont delete the block if it is colored, set the color to default
-      if (block[block.tag]?.color !== Color.DEFAULT) {
-        changeBlockColor(
-          commandHandler,
-          contentEditable.current,
-          getCaretIndex(contentEditable.current),
-          block,
-          Color.DEFAULT,
-        )
-      } else {
-        const { deleteBlock } = this.props
-        const { contentEditable } = this.state
-        deleteBlock(block.index, contentEditable.current)
-      }
-    }
-    if (e.key === 'Backspace' && previousKey === 'Alt') {
-      const blockBody = block[block.tag]
-      if (!blockBody) return
-      console.log(altDelete(block, getCaretIndex(contentEditable.current)))
-      this.setState({ preventRerender: true })
-    }
-
-    // if (e.key === 'ArrowLeft') {
-    //   setCurrentCaretIndex(
-    //     Math.max(getCaretIndex(contentEditable.current) - 1, 0),
-    //   )
-    // } else if (e.key === 'ArrowRight') {
-    //   setCurrentCaretIndex(
-    //     Math.min(
-    //       getCaretIndex(contentEditable.current) + 1,
-    //       getRawTextLength(block),
-    //     ),
-    //   )
-    // }
-
+    // normal arrow navigation
     if (e.key === 'ArrowUp' && !selectMenuIsOpen) {
       e.preventDefault()
-      const { contentEditable } = this.state
       const previous = contentEditable.current?.parentElement?.parentElement
         ?.previousElementSibling?.childNodes[0]?.childNodes[1] as HTMLElement
-      if (previous) {
-        setCaretToPosition(previous, getCaretIndex(contentEditable.current))
-      }
+      if (previous) setCaretToPosition(previous, caretIndex)
     }
     if (e.key === 'ArrowDown' && !selectMenuIsOpen) {
       e.preventDefault()
-      const { contentEditable } = this.state
       const next: HTMLElement | null = contentEditable.current?.parentElement
         ?.parentElement?.nextElementSibling?.childNodes[0]
         ?.childNodes[1] as HTMLElement
-      if (next) {
-        setCaretToPosition(next, getCaretIndex(contentEditable.current))
-      }
+      if (next) setCaretToPosition(next, caretIndex)
     }
 
-    if (e.key === CMD_KEY) {
-      // If the user starts to enter a command, we store a backup copy of
-      // the html. We need this to restore a clean version of the content
-      // after the content type selection was finished.
-    }
-    if (e.key === 'Enter' && caretIndex !== getRawTextLength(block)) {
+    // handle creation of new blocks
+    if (e.key === 'Enter' && !selectMenuIsOpen) {
       e.preventDefault()
-      sliceBlockIntoNew(block, contentEditable.current, caretIndex)
-      return
+      const rawTextLength = getRawTextLength(block)
+      if (rawTextLength === caretIndex)
+        return addBlock(
+          block.index,
+          contentEditable.current,
+          BlockTag.PARAGRAPH,
+        )
+      return sliceBlockIntoNew(block, contentEditable.current, caretIndex)
     }
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      // While pressing "Enter" should add a new block to the page, we
-      // still want to allow line breaks by pressing "Shift-Enter"
-      const { previousKey, selectMenuIsOpen } = this.state
-      if (previousKey !== 'Shift' && !selectMenuIsOpen) {
-        e.preventDefault()
-        const { addBlock } = this.props
-        const { contentEditable } = this.state
-        addBlock(block.index, contentEditable.current, BlockTag.PARAGRAPH)
-      }
-    }
-
-    // // join two blocks
-    // if (
-    //   e.key === 'Backspace' &&
-    //   blockParser(block) !== '' &&
-    //   currentCaretIndex === 0
-    // ) {
-    //   e.preventDefault()
-    //   const { block, previousBlock, joinBlocks } = this.props
-    //   const { contentEditable } = this.state
-    //   if (previousBlock)
-    //     joinBlocks(previousBlock, block, contentEditable.current)
-    // }
-    // Store the key to detect combinations like "Shift-Enter" later on
-    this.setState({ previousKey: e.key })
   }
 
   // The openSelectMenuHandler function needs to be invoked on key up. Otherwise
@@ -384,8 +337,6 @@ class FlowBlock extends React.Component<Props, State> {
       html,
       showDragger,
       focused,
-      preventRerender,
-      forceRerender,
     } = this.state
 
     // if (focused) console.log(block)
@@ -451,7 +402,7 @@ class FlowBlock extends React.Component<Props, State> {
                       theme === 'dark',
                   },
                   block[block.tag]?.color,
-                  'outline-none select-text leading-normal',
+                  'outline-none select-text leading-normal cursor-text w-full mr-16',
                 )}
                 innerRef={contentEditable}
                 html={html}
@@ -465,8 +416,6 @@ class FlowBlock extends React.Component<Props, State> {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
                 onKeyUp={this.onKeyUpHandler}
-                preventRerender={preventRerender}
-                forceRerender={forceRerender}
               />
             </div>
             {selectMenuIsOpen && (
