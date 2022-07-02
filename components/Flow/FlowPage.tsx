@@ -8,8 +8,10 @@ import { useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
+import { setCaretToPosition } from 'utils/caretHelpers'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import changeBlockColor from 'utils/flows/changeBlockColor'
+import sliceBlock from 'utils/flows/sliceBlock'
 import getRawTextLength from 'utils/getRawTextLength'
 import useStateCallback from 'utils/useStateCallback'
 import { v4 as uuidv4 } from 'uuid'
@@ -169,6 +171,8 @@ export default function FlowPage() {
     beneathIndex: number,
     ref: HTMLElement | null,
     tag: BlockTag,
+    initialContent?: string,
+    initialColor?: Color,
   ) => {
     const tempBlocks = [...blocks]
     const newBlock: Block = {
@@ -182,11 +186,11 @@ export default function FlowPage() {
         {
           type: RichTextType.TEXT,
           text: {
-            content: '',
+            content: initialContent || '',
           },
         },
       ],
-      color: Color.DEFAULT,
+      color: initialColor || Color.DEFAULT,
     }
     tempBlocks.splice(beneathIndex + 1, 0, newBlock)
     for (let i = beneathIndex + 2; i < tempBlocks.length; i += 1) {
@@ -196,6 +200,7 @@ export default function FlowPage() {
       const next: HTMLElement | null = ref?.parentElement?.parentElement
         ?.nextElementSibling?.childNodes[0].childNodes[1] as HTMLElement
       if (next) next.focus()
+      console.log('end')
     })
   }
 
@@ -203,7 +208,6 @@ export default function FlowPage() {
     // Only delete the block, if there is a preceding one
     const previous = ref?.parentElement?.parentElement?.previousElementSibling
       ?.childNodes[0].childNodes[1] as HTMLElement
-    console.log(previous)
     if (!previous) return
 
     const tempBlocks = [...blocks]
@@ -222,7 +226,7 @@ export default function FlowPage() {
     ref: HTMLElement | null,
   ) => {
     const previousBlock = ref?.parentElement?.parentElement
-      ?.previousElementSibling?.childNodes[0] as HTMLElement
+      ?.previousElementSibling?.childNodes[0].childNodes[1] as HTMLElement
     if (!previousBlock) return
 
     const block1RichText = block1[block1.tag]?.richText
@@ -238,16 +242,49 @@ export default function FlowPage() {
     }
 
     const tempBlocks = [...blocks]
-    for (let i = currentBlock.index + 1; i < tempBlocks.length; i += 1) {
+    for (let i = block2.index + 1; i < tempBlocks.length; i += 1) {
       tempBlocks[i].index -= 1
     }
-    tempBlocks.splice(currentBlock.index, 1)
+    tempBlocks.splice(block2.index, 1)
 
     setBlocks(tempBlocks, () => {
       setRerenderDetector(block1.index)
-      setCurrentCaretIndex(previousLength)
-      setCurrentBlock(block1)
+      setCaretToPosition(previousBlock, previousLength)
     })
+  }
+
+  const sliceBlockIntoNew = (
+    block1: Block,
+    ref: HTMLElement | null,
+    caretIndex: number,
+  ) => {
+    const next: HTMLElement | null = ref?.parentElement?.parentElement
+      ?.nextElementSibling?.childNodes[0]?.childNodes[1] as HTMLElement
+    const sliceIndex = sliceBlock(block1, caretIndex)
+    if (sliceIndex === undefined) return
+    if (sliceIndex === 0) {
+      // insert a block above this block
+    } else {
+      // insert a block below this block with sliced text
+      const richTexts = block1[block1.tag]?.richText
+      if (richTexts === undefined) return
+
+      let initialText = ''
+      for (let i = sliceIndex; i < richTexts.length; i += 1) {
+        initialText += richTexts[i].text?.content || ''
+      }
+
+      richTexts.length = sliceIndex
+      setRerenderDetector(block1.index)
+
+      addBlockHandler(
+        block1.index,
+        ref,
+        block1.tag,
+        initialText,
+        block1[block1.tag]?.color,
+      )
+    }
   }
 
   const boldHandler = (block: Block) => {
@@ -360,7 +397,7 @@ export default function FlowPage() {
         {(provided) => (
           <div
             className={classNames(
-              'max-w-xs prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
+              'max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
               'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
               'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
               'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
@@ -379,6 +416,7 @@ export default function FlowPage() {
                 addBlock={addBlockHandler}
                 deleteBlock={deleteBlock}
                 joinBlocks={joinBlocks}
+                sliceBlockIntoNew={sliceBlockIntoNew}
                 restoreBlockAndChangeColor={restoreBlockAndChangeColor}
                 previousBlock={
                   block.index > 0 ? blocks[block.index - 1] : undefined
