@@ -1,6 +1,6 @@
 import { ContentEditableEvent } from 'react-contenteditable'
 import { Block, RichText } from 'types/Flow'
-import { removeHTMLTags } from 'utils/richTextEditor'
+import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import findCurrentRichTextBlock from './findCurrentRichTextBlock'
 import lengthOfPreviousRichText from './lengthOfPreviousRichText'
 

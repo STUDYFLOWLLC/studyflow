@@ -1,5 +1,5 @@
 import { Block, RichText } from 'types/Flow'
-import decodeHTML from 'utils/decodeHTML'
+import decodeHTML from 'utils/flows/decodeHTML'
 
 // iterate through blocks and find the current block based on caret index
 export default function findCurrentRichTextBlock(

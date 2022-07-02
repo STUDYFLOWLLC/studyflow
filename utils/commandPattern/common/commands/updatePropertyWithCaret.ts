@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getCaretIndex, setCaretToPosition } from 'utils/caretHelpers'
 import { Command, CommandResult } from 'utils/commandPattern/commandModel'
+import { getCaretIndex, setCaretToPosition } from 'utils/flows/caretHelpers'
 
 export interface UpdatePropertyWithCaretCommandData<TTarget> {
   target: TTarget

@@ -5,24 +5,26 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { Color } from 'types/Colors'
 import { Block, BlockTag } from 'types/Flow'
-import blockParser from 'utils/blockParser'
+import { CommandHandler } from 'utils/commandPattern/commandHandler'
+import altDeleteRichText from 'utils/flows/altDeleteRichText'
+import blockParser from 'utils/flows/blockParser'
 import {
   getCaretCoordinates,
   getCaretIndex,
   setCaretToPosition,
-} from 'utils/caretHelpers'
-import { CommandHandler } from 'utils/commandPattern/commandHandler'
-import ContentEditable, { ContentEditableEvent } from 'utils/ContentEditable'
-import determinePlaceholder from 'utils/determinePlaceholder'
-import altDeleteRichText from 'utils/flows/altDeleteRichText'
+} from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import cmdDeleteRichText from 'utils/flows/cmdDeleteRichText'
+import ContentEditable, {
+  ContentEditableEvent,
+} from 'utils/flows/ContentEditable'
 import deleteInBlock from 'utils/flows/deleteInBlock'
+import determinePlaceholder from 'utils/flows/determinePlaceholder'
+import getRawTextLength from 'utils/flows/getRawTextLength'
 import insertBold from 'utils/flows/insertBold'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
-import getRawTextLength from 'utils/getRawTextLength'
-import { removeHTMLTags } from 'utils/richTextEditor'
+import { removeHTMLTags } from 'utils/flows/richTextEditor'
 
 interface Props {
   theme: string | undefined
