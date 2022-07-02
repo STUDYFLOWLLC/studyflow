@@ -4,17 +4,14 @@ import classNames from 'classnames'
 import AddTask from 'components/Tasks/AddTask'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import { Task } from 'hooks/tasks/useTasks'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
-import { KeyedMutator } from 'swr'
 import bgToTextColor from 'utils/bgToTextColor'
 
 interface Props {
   course: CourseOnTerm
   user: User
-  mutateTasks: KeyedMutator<any>
-  tasks: Task[]
-  archiveTaskLocal: (TaskID: number) => void
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
 }
@@ -22,18 +19,17 @@ interface Props {
 export default function CourseListDropdown({
   course,
   user,
-  mutateTasks,
-  tasks,
-  archiveTaskLocal,
   coursesOnTerm,
   coursesOnTermLoading,
 }: Props) {
   const [showTasks, setShowTasks] = useState(false)
 
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+
   // Number of tasks in a course
   const numTasksCourse = tasks.filter(
-    (task) =>
-      task.FK_CourseOnTermID === course.CourseOnTermID && !task.Completed,
+    (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
   ).length
 
   return (
@@ -71,7 +67,6 @@ export default function CourseListDropdown({
           tasks={tasks.filter(
             (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
           )}
-          archiveTaskLocal={archiveTaskLocal}
         />
       )}
 
@@ -80,8 +75,6 @@ export default function CourseListDropdown({
         <div className="mb-4 mt-1">
           <AddTask
             user={user}
-            tasks={tasks}
-            mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
             courseOnTerm={course}

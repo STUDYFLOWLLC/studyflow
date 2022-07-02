@@ -4,28 +4,25 @@ import AddTask from 'components/Tasks/AddTask'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import CourseListDropdown from 'components/Tasks/DisplayTasks/CourseListView/CourseListDropdown'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import { Task } from 'hooks/tasks/useTasks'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
-import { KeyedMutator } from 'swr'
 
 interface Props {
-  tasks: Task[]
   user: User
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
-  mutateTasks: KeyedMutator<any>
-  archiveTaskLocal: (TaskID: number) => void
 }
 
 export default function TodayView({
-  tasks,
   user,
   coursesOnTerm,
   coursesOnTermLoading,
-  mutateTasks,
-  archiveTaskLocal,
 }: Props) {
   const [showGeneral, setShowGeneral] = useState(false)
+
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
 
   // Number of tasks in general
   const numTasksGeneral = tasks.filter((task) => !task.FK_CourseOnTermID).length
@@ -36,11 +33,8 @@ export default function TodayView({
       {coursesOnTerm.map((course) => (
         <CourseListDropdown
           key={course.CourseOnTermID}
-          tasks={tasks}
           course={course}
-          mutateTasks={mutateTasks}
           user={user}
-          archiveTaskLocal={archiveTaskLocal}
           coursesOnTerm={coursesOnTerm}
           coursesOnTermLoading={coursesOnTermLoading}
         />
@@ -72,18 +66,13 @@ export default function TodayView({
 
       {showGeneral && (
         <BasicDisplayTasks
-          tasks={tasks.filter(
-            (task) => task.FK_CourseOnTermID === 0 && !task.Completed,
-          )}
-          archiveTaskLocal={archiveTaskLocal}
+          tasks={tasks.filter((task) => task.FK_CourseOnTermID === 0)}
         />
       )}
       {showGeneral && (
         <div className="mb-3 mt-1">
           <AddTask
             user={user}
-            tasks={tasks}
-            mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
             general

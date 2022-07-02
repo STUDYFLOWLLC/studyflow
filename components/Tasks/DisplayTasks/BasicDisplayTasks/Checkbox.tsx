@@ -1,15 +1,38 @@
 import { CheckIcon } from '@heroicons/react/solid'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import { archiveTask } from 'hooks/tasks/mutateTask'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 
 interface Props {
   TaskID: number
-  archiveTaskLocal: (TaskID: number) => void
 }
 
-export default function Checkbox({ TaskID, archiveTaskLocal }: Props) {
+export default function Checkbox({ TaskID }: Props) {
+  const { user } = useUser()
+  const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+
   const [completed, setCompleted] = useState(false)
+
+  const archiveTaskLocal = (TaskID: number) => {
+    mutateTasks(
+      {
+        mutate: true,
+        tasks: tasks.map((task) => {
+          if (task.TaskID === TaskID) {
+            return { ...task, Completed: true }
+          }
+          return task
+        }),
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
 
   return (
     <div
