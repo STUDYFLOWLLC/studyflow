@@ -18,9 +18,9 @@ import {
   startOfWeek,
 } from 'date-fns'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import { Task } from 'hooks/tasks/useTasks'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import React from 'react'
-import { KeyedMutator } from 'swr'
 import BasicDisplayTasks from '../BasicDisplayTasks'
 
 const colStartClasses = [
@@ -34,12 +34,9 @@ const colStartClasses = [
 ]
 
 interface Props {
-  tasks: Task[]
-  archiveTaskLocal: (TaskID: number) => void
   user: User
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
-  mutateTasks: KeyedMutator<any>
 }
 
 const sameDate = (date1: Date | undefined, date2: Date | undefined) => {
@@ -52,13 +49,13 @@ const sameDate = (date1: Date | undefined, date2: Date | undefined) => {
 }
 
 export default function CalendarView({
-  tasks,
-  archiveTaskLocal,
   user,
   coursesOnTerm,
   coursesOnTermLoading,
-  mutateTasks,
 }: Props) {
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+
   // Today's date
   const today = startOfToday()
 
@@ -113,12 +110,10 @@ export default function CalendarView({
         {/* Display Task with Viewing Date */}
         <div>
           <BasicDisplayTasks
-            archiveTaskLocal={archiveTaskLocal}
             tasks={tasks.filter(
               (task) =>
-                !task.Completed &&
                 task.DueDate?.substring(0, 10) ===
-                  formatISO(dateToDisplay).substring(0, 10),
+                formatISO(dateToDisplay).substring(0, 10),
             )}
           />
         </div>
@@ -126,8 +121,6 @@ export default function CalendarView({
         <div>
           <AddTask
             user={user}
-            tasks={tasks}
-            mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
             dueDate={dateToDisplay}
