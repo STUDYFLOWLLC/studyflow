@@ -6,7 +6,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import { Color } from 'types/Colors'
 import { Block, BlockTag } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
-import altDeleteRichText from 'utils/flows/altDeleteRichText'
+import altDelete from 'utils/flows/altDelete'
 import blockParser from 'utils/flows/blockParser'
 import {
   getCaretCoordinates,
@@ -233,11 +233,10 @@ class FlowBlock extends React.Component<Props, State> {
       }
     }
     if (e.key === 'Backspace' && previousKey === 'Alt') {
-      const shouldPreventRender = altDeleteRichText(
-        block,
-        getCaretIndex(contentEditable.current),
-      )
-      if (shouldPreventRender) this.setState({ preventRerender: true })
+      const blockBody = block[block.tag]
+      if (!blockBody) return
+      console.log(altDelete(block, getCaretIndex(contentEditable.current)))
+      this.setState({ preventRerender: true })
     }
 
     // if (e.key === 'ArrowLeft') {
