@@ -22,8 +22,8 @@ export class TaskLabelCreateManyInput {
   })
   Label?: string | undefined;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FK_TaskID?: number | undefined;
+  FK_TaskID?: string | undefined;
 }

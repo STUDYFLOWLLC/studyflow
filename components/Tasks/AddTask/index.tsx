@@ -10,6 +10,7 @@ import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
 interface Props {
   user: User
@@ -57,34 +58,40 @@ export default function index({
   if (!mounted) return null
 
   const addTask = async () => {
+    const taskId = uuid()
+
+    console.log(taskId)
+    // manufacture new task
+    const newTask = {
+      CreatedTime: new Date().toISOString(),
+      Title: taskName,
+      TaskID: taskId,
+      Description: taskDescription,
+      DueDate: taskDueDateExact?.toISOString(),
+      FK_CourseOnTermID: taskCourse,
+      FK_CourseOnTerm: {
+        CourseOnTermID: taskCourse,
+        Color: coursesOnTerm.find(
+          (course) => course.CourseOnTermID === taskCourse,
+        )?.Color,
+        Nickname: courseDropDownTitle,
+        FK_Course: {
+          Code: courseDropDownTitle,
+        },
+      },
+    }
+
+    console.log([...tasks, newTask])
+
     // mutate locally
     mutateTasks(
       {
-        tasks: [
-          ...tasks,
-          {
-            CreatedTime: new Date().toISOString(),
-            Title: taskName,
-            TaskID: 0,
-            Description: taskDescription,
-            DueDate: taskDueDateExact?.toISOString(),
-            FK_CourseOnTermID: taskCourse,
-            FK_CourseOnTerm: {
-              CourseOnTermID: taskCourse,
-              Color: coursesOnTerm.find(
-                (course) => course.CourseOnTermID === taskCourse,
-              )?.Color,
-              Nickname: courseDropDownTitle,
-              FK_Course: {
-                Code: courseDropDownTitle,
-              },
-            },
-          },
-        ],
+        tasks: [...tasks, newTask],
         mutate: true,
       },
       {
         revalidate: false,
+        populateCache: true,
       },
     )
 
@@ -104,6 +111,7 @@ export default function index({
     // TODO: error handling
     // send to backend
     makeTask(
+      taskId,
       taskName,
       taskDescription,
       taskDueDateExact?.toISOString(),

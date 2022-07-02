@@ -15,6 +15,11 @@ import { TaskLabelUpdateManyWithoutFK_TaskInput } from "../inputs/TaskLabelUpdat
   isAbstract: true
 })
 export class TaskUpdateWithoutFK_UserInput {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  TaskID?: StringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })

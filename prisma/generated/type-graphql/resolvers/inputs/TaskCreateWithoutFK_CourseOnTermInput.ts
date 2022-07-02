@@ -10,6 +10,11 @@ import { UserCreateNestedOneWithoutFK_TaskInput } from "../inputs/UserCreateNest
   isAbstract: true
 })
 export class TaskCreateWithoutFK_CourseOnTermInput {
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  TaskID?: string | undefined;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })

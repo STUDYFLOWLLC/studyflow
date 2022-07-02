@@ -10,6 +10,11 @@ import { TaskLabelCreateNestedManyWithoutFK_TaskInput } from "../inputs/TaskLabe
   isAbstract: true
 })
 export class TaskCreateWithoutFK_UserInput {
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  TaskID?: string | undefined;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })

@@ -27,10 +27,10 @@ export class TaskLabelGroupBy {
   })
   Label!: string;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FK_TaskID!: number | null;
+  FK_TaskID!: string | null;
 
   @TypeGraphQL.Field(_type => TaskLabelCountAggregate, {
     nullable: true

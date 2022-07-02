@@ -12,10 +12,10 @@ import { TaskSumAggregate } from "../outputs/TaskSumAggregate";
   isAbstract: true
 })
 export class TaskGroupBy {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  TaskID!: number;
+  TaskID!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false

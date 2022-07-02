@@ -178,7 +178,7 @@ model FlashCard {
 }
 
 model Task {
-  TaskID            Int           @id @default(autoincrement())
+  TaskID            String        @id @default(uuid())
   CreatedTime       DateTime      @default(now())
   Title             String        @default("Untitled")
   Completed         Boolean       @default(false)
@@ -198,5 +198,5 @@ model TaskLabel {
   CreatedTime DateTime @default(now())
   Label       String   @default("Untitled")
   FK_Task     Task?    @relation(fields: [FK_TaskID], references: [TaskID])
-  FK_TaskID   Int?
+  FK_TaskID   String?
 }

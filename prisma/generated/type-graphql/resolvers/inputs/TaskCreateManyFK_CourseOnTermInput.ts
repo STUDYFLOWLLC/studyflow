@@ -7,10 +7,10 @@ import { DecimalJSScalar } from "../../scalars";
   isAbstract: true
 })
 export class TaskCreateManyFK_CourseOnTermInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  TaskID?: number | undefined;
+  TaskID?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

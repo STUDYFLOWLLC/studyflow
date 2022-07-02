@@ -25,10 +25,12 @@ export default function TodayView({
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
 
   // Number of tasks in general
-  const numTasksGeneral = tasks.filter((task) => !task.FK_CourseOnTermID).length
+  const numTasksGeneral = tasks.filter(
+    (task) => !task.FK_CourseOnTermID && !task.Completed,
+  ).length
 
   return (
-    <div className="flex flex-col w-10/12 mt-6">
+    <div className="flex flex-col w-10/12 mt-6 mb-16">
       {/* Map of Each Class Dropdown-Display */}
       {coursesOnTerm.map((course) => (
         <CourseListDropdown

@@ -12,9 +12,4 @@ export class TaskLabelAvgOrderByAggregateInput {
     nullable: true
   })
   TaskLabelID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_TaskID?: "asc" | "desc" | undefined;
 }

@@ -59,7 +59,9 @@ export default function useTasks(userId: number | undefined): Ret {
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR([query, variables], {
+    revalidateOnMount: false,
+  })
 
   if (data?.mutate) {
     return {

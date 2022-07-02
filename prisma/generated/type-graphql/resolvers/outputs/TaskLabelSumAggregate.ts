@@ -11,9 +11,4 @@ export class TaskLabelSumAggregate {
     nullable: true
   })
   TaskLabelID!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_TaskID!: number | null;
 }

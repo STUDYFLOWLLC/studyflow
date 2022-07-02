@@ -1,6 +1,7 @@
 import request, { gql } from 'graphql-request'
 
 export default async function makeTask(
+  taskId: string,
   title: string,
   description: string,
   dueDate: string | undefined,
@@ -18,6 +19,7 @@ export default async function makeTask(
 
   const variables = {
     data: {
+      TaskID: taskId,
       Title: title,
       FK_User: {
         connect: {
