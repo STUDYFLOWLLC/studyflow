@@ -1,30 +1,25 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import AddTask from 'components/Tasks/AddTask'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import { Task } from 'hooks/tasks/useTasks'
-import { KeyedMutator } from 'swr'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import isToday from 'utils/isToday'
 import BasicDisplayTasks from './BasicDisplayTasks'
 
 interface Props {
-  tasks: Task[]
-  archiveTaskLocal: (TaskID: number) => void
   user: User
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
-  mutateTasks: KeyedMutator<any>
-  taskView: string
 }
 
 export default function TodayView({
-  tasks,
-  archiveTaskLocal,
   user,
   coursesOnTerm,
   coursesOnTermLoading,
-  mutateTasks,
-  taskView,
 }: Props) {
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+
   const today = new Date().toDateString().slice(0, 10)
   const numTasksToday = tasks.filter(
     (task) => !task.Completed && isToday(task),
@@ -41,16 +36,11 @@ export default function TodayView({
       </div>
 
       <div>
-        <BasicDisplayTasks
-          archiveTaskLocal={archiveTaskLocal}
-          tasks={tasks.filter((task) => !task.Completed && isToday(task))}
-        />
+        <BasicDisplayTasks tasks={tasks.filter((task) => isToday(task))} />
       </div>
       <div className="mt-1">
         <AddTask
           user={user}
-          tasks={tasks}
-          mutateTasks={mutateTasks}
           coursesOnTerm={coursesOnTerm}
           coursesOnTermLoading={coursesOnTermLoading}
           dueDate={new Date()}

@@ -6,15 +6,13 @@ import DateDropdown from 'components/dropdowns/DateDropdown'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
-import { Task } from 'hooks/tasks/useTasks'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import { KeyedMutator } from 'swr'
 
 interface Props {
   user: User
-  tasks: Task[]
-  mutateTasks: KeyedMutator<any>
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
   courseOnTerm?: CourseOnTerm
@@ -24,8 +22,6 @@ interface Props {
 
 export default function index({
   user,
-  tasks,
-  mutateTasks,
   coursesOnTerm,
   coursesOnTermLoading,
   courseOnTerm,
@@ -34,6 +30,11 @@ export default function index({
 }: Props) {
   const { theme } = useTheme()
 
+  // Retrieving tasks from backend
+  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+
+  // States
   const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')

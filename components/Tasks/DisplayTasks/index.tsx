@@ -2,7 +2,6 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import CalendarView from 'components/Tasks/DisplayTasks/CalendarView'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
-import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import CourseListView from './CourseListView'
 import TodayView from './TodayView'
@@ -14,28 +13,9 @@ interface Props {
 
 export default function index({ user, taskView }: Props) {
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
-  console.log(tasks)
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )
-
-  const archiveTaskLocal = (TaskID: number) => {
-    mutateTasks(
-      {
-        mutate: true,
-        tasks: tasks.map((task) => {
-          if (task.TaskID === TaskID) {
-            return { ...task, Completed: true }
-          }
-          return task
-        }),
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
 
   return (
     <>
@@ -43,13 +23,9 @@ export default function index({ user, taskView }: Props) {
       {taskView === 'Today' && (
         <div className="flex justify-center">
           <TodayView
-            tasks={tasks}
-            archiveTaskLocal={archiveTaskLocal}
             user={user}
-            mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
-            taskView={taskView}
           />
         </div>
       )}
@@ -58,10 +34,7 @@ export default function index({ user, taskView }: Props) {
       {taskView === 'Calendar' && (
         <div className="w-full h-full">
           <CalendarView
-            tasks={tasks}
             user={user}
-            archiveTaskLocal={archiveTaskLocal}
-            mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
           />
@@ -72,10 +45,7 @@ export default function index({ user, taskView }: Props) {
       {taskView === 'Courses' && (
         <div className="flex justify-center">
           <CourseListView
-            tasks={tasks}
             user={user}
-            archiveTaskLocal={archiveTaskLocal}
-            mutateTasks={mutateTasks}
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
           />
