@@ -42,6 +42,8 @@ export interface Props extends DivProps {
   style?: Record<string, unknown>
   innerRef?: React.RefObject<HTMLElement>
   preventRerender?: boolean
+  forceRerender?: boolean
+  localPreventRerender: boolean
 }
 
 /**
@@ -72,6 +74,8 @@ export default class ContentEditable extends React.Component<Props> {
 
     this.caret = getCaretIndex(el)
 
+    // if (props.forceRerender) return true
+
     if (props.preventRerender) return false
 
     // We need not rerender if the change of props simply reflects the user's edits.
@@ -93,6 +97,8 @@ export default class ContentEditable extends React.Component<Props> {
       props.tagName !== nextProps.tagName ||
       props.className !== nextProps.className ||
       props.innerRef !== nextProps.innerRef ||
+      props.html !== nextProps.html ||
+      props.style !== nextProps.style ||
       props.placeholder !== nextProps.placeholder ||
       !deepEqual(props.style, nextProps.style)
     )
@@ -111,11 +117,12 @@ export default class ContentEditable extends React.Component<Props> {
     }
     this.lastHtml = html
 
-    // Restore caret position or enable click to caret position
     const isTargetFocused = document.activeElement === el
-    console.log(this.caret)
+    // // console.log(this.caret)
     if (isTargetFocused) setCaretToPosition(el, this.caret)
     else replaceCaret(el)
+
+    // Restore caret position or enable click to caret position
   }
 
   getEl = () => {

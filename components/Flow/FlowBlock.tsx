@@ -21,6 +21,7 @@ import deleteInBlock from 'utils/flows/deleteInBlock'
 import insertBold from 'utils/flows/insertBold'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
+import getRawTextLength from 'utils/getRawTextLength'
 import { removeHTMLTags } from 'utils/richTextEditor'
 
 interface Props {
@@ -36,6 +37,11 @@ interface Props {
   ) => void
   deleteBlock: (index: number, ref: HTMLElement | null) => void
   joinBlocks: (block1: Block, block2: Block, ref: HTMLElement | null) => void
+  sliceBlockIntoNew: (
+    block1: Block,
+    ref: HTMLElement | null,
+    caretIndex: number,
+  ) => void
   restoreBlockAndChangeColor: (
     commandHandler: CommandHandler,
     element: HTMLElement | null,
@@ -61,6 +67,7 @@ interface State {
   showDragger: boolean
   focused: boolean
   preventRerender: boolean
+  forceRerender: boolean
 }
 
 const CMD_KEY = '/'
@@ -91,7 +98,8 @@ class FlowBlock extends React.Component<Props, State> {
       openedMenuInEmptyBlock: false,
       showDragger: false,
       focused: false,
-      preventRerender: false,
+      preventRerender: true,
+      forceRerender: false,
     }
   }
 
@@ -153,11 +161,16 @@ class FlowBlock extends React.Component<Props, State> {
       setRerenderDetector,
       previousBlock,
       nextBlock,
+      joinBlocks,
+      sliceBlockIntoNew,
     } = this.props
     const { contentEditable, selectMenuIsOpen, previousKey } = this.state
 
     this.setState({ preventRerender: false })
 
+    const caretIndex = getCaretIndex(contentEditable.current)
+
+    // handle commands
     if (previousKey === 'Meta' || previousKey === 'Control') {
       switch (e.key) {
         case 'b':
@@ -174,17 +187,14 @@ class FlowBlock extends React.Component<Props, State> {
       insertIntoBlock(block, e.key, getCaretIndex(contentEditable.current))
     }
 
-    if (e.key === 'Backspace' && previousKey !== 'Alt') {
-      deleteInBlock(block, getCaretIndex(contentEditable.current))
-    } else if (e.key === 'Backspace' && previousKey === 'Alt') {
-      const shouldPreventRender = altDeleteRichText(
-        block,
-        getCaretIndex(contentEditable.current),
-      )
-      if (shouldPreventRender) this.setState({ preventRerender: true })
+    // handle delete (CMD+delete handled above)
+    if (e.key === 'Backspace' && caretIndex === 0) {
+      if (previousBlock) {
+        joinBlocks(previousBlock, block, contentEditable.current)
+      }
+      return
     }
     if (e.key === 'Backspace' && blockParser(block) === '') {
-      e.preventDefault()
       // dont delete the block if it is colored, set the color to default
       if (block[block.tag]?.color !== Color.DEFAULT) {
         changeBlockColor(
@@ -199,6 +209,33 @@ class FlowBlock extends React.Component<Props, State> {
         const { contentEditable } = this.state
         deleteBlock(block.index, contentEditable.current)
       }
+    }
+    if (e.key === 'Backspace' && previousKey !== 'Alt') {
+      deleteInBlock(block, getCaretIndex(contentEditable.current))
+    }
+    console.log(blockParser(block))
+    if (e.key === 'Backspace' && blockParser(block) === '') {
+      // dont delete the block if it is colored, set the color to default
+      if (block[block.tag]?.color !== Color.DEFAULT) {
+        changeBlockColor(
+          commandHandler,
+          contentEditable.current,
+          getCaretIndex(contentEditable.current),
+          block,
+          Color.DEFAULT,
+        )
+      } else {
+        const { deleteBlock } = this.props
+        const { contentEditable } = this.state
+        deleteBlock(block.index, contentEditable.current)
+      }
+    }
+    if (e.key === 'Backspace' && previousKey === 'Alt') {
+      const shouldPreventRender = altDeleteRichText(
+        block,
+        getCaretIndex(contentEditable.current),
+      )
+      if (shouldPreventRender) this.setState({ preventRerender: true })
     }
 
     // if (e.key === 'ArrowLeft') {
@@ -239,7 +276,13 @@ class FlowBlock extends React.Component<Props, State> {
       // the html. We need this to restore a clean version of the content
       // after the content type selection was finished.
     }
+    if (e.key === 'Enter' && caretIndex !== getRawTextLength(block)) {
+      e.preventDefault()
+      sliceBlockIntoNew(block, contentEditable.current, caretIndex)
+      return
+    }
     if (e.key === 'Enter') {
+      e.preventDefault()
       // While pressing "Enter" should add a new block to the page, we
       // still want to allow line breaks by pressing "Shift-Enter"
       const { previousKey, selectMenuIsOpen } = this.state
@@ -341,9 +384,10 @@ class FlowBlock extends React.Component<Props, State> {
       showDragger,
       focused,
       preventRerender,
+      forceRerender,
     } = this.state
 
-    if (focused) console.log(block)
+    // if (focused) console.log(block)
 
     return (
       <Draggable draggableId={block.id} index={block.index}>
@@ -421,6 +465,7 @@ class FlowBlock extends React.Component<Props, State> {
                 onKeyDown={this.onKeyDownHandler}
                 onKeyUp={this.onKeyUpHandler}
                 preventRerender={preventRerender}
+                forceRerender={forceRerender}
               />
             </div>
             {selectMenuIsOpen && (
