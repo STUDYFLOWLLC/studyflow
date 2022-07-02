@@ -7,8 +7,8 @@ import { DecimalJSScalar } from "../../scalars";
   isAbstract: true
 })
 export class TaskWhereUniqueInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  TaskID?: number | undefined;
+  TaskID?: string | undefined;
 }

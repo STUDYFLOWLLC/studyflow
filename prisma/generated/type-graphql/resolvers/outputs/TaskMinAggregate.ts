@@ -7,10 +7,10 @@ import { DecimalJSScalar } from "../../scalars";
   isAbstract: true
 })
 export class TaskMinAggregate {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  TaskID!: number | null;
+  TaskID!: string | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

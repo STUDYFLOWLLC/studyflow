@@ -25,8 +25,8 @@ export class TaskLabel {
 
   FK_Task?: Task | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FK_TaskID?: number | null;
+  FK_TaskID?: string | null;
 }
