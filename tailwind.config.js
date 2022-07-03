@@ -83,5 +83,9 @@ module.exports = {
     'bg-orange-500',
     'bg-purple-500',
     'bg-indigo-500',
+    'ml-4',
+    'ml-8',
+    'ml-12',
+    'ml-16',
   ],
 }

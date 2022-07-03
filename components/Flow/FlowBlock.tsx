@@ -25,6 +25,10 @@ import insertBold from 'utils/flows/insertBold'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 import { removeHTMLTags } from 'utils/flows/richTextEditor'
+import {
+  decrementBlockTabs,
+  incrementBlockTabs,
+} from 'utils/flows/setBlockTabs'
 
 interface Props {
   theme: string | undefined
@@ -67,6 +71,7 @@ interface State {
   openedMenuInEmptyBlock: boolean
   showDragger: boolean
   focused: boolean
+  forcererender: string
 }
 
 const CMD_KEY = '/'
@@ -96,6 +101,7 @@ class FlowBlock extends React.Component<Props, State> {
       openedMenuInEmptyBlock: false,
       showDragger: false,
       focused: false,
+      forcererender: 'false',
     }
   }
 
@@ -161,6 +167,8 @@ class FlowBlock extends React.Component<Props, State> {
       sliceBlockIntoNew,
     } = this.props
     const { contentEditable, selectMenuIsOpen } = this.state
+
+    this.setState({ forcererender: 'false' })
 
     const caretIndex = getCaretIndex(contentEditable.current)
     const blockBody = block[block.tag]
@@ -259,6 +267,19 @@ class FlowBlock extends React.Component<Props, State> {
         )
       return sliceBlockIntoNew(block, contentEditable.current, caretIndex)
     }
+
+    if (e.key === 'Tab' && !e.shiftKey && !selectMenuIsOpen) {
+      e.preventDefault()
+      block.tabs = incrementBlockTabs(block)
+      this.setState({ forcererender: 'true' })
+      return
+    }
+
+    if (e.key === 'Tab' && !selectMenuIsOpen) {
+      e.preventDefault()
+      block.tabs = decrementBlockTabs(block)
+      this.setState({ forcererender: 'true' })
+    }
   }
 
   // The openSelectMenuHandler function needs to be invoked on key up. Otherwise
@@ -334,6 +355,7 @@ class FlowBlock extends React.Component<Props, State> {
       html,
       showDragger,
       focused,
+      forcererender,
     } = this.state
 
     // if (focused) console.log(block)
@@ -347,7 +369,12 @@ class FlowBlock extends React.Component<Props, State> {
             onMouseEnter={() => this.setState({ showDragger: true })}
             onMouseLeave={() => this.setState({ showDragger: false })}
           >
-            <div className="flex items-center">
+            <div
+              className={classNames(
+                `ml-${block.tabs * 4}`,
+                'flex items-center transition-all',
+              )}
+            >
               <div
                 className={classNames(
                   { 'opacity-100': showDragger || snapshot.isDragging },
@@ -420,6 +447,7 @@ class FlowBlock extends React.Component<Props, State> {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
                 onKeyUp={this.onKeyUpHandler}
+                forcererender={forcererender}
               />
             </div>
             {selectMenuIsOpen && (
