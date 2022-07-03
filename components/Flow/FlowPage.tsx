@@ -216,7 +216,7 @@ export default function FlowPage() {
     }
     tempBlocks.splice(index, 1)
     setBlocks(tempBlocks, () => {
-      previous.focus()
+      setCaretToPosition(previous)
     })
   }
 
