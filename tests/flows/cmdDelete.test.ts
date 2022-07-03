@@ -7,6 +7,7 @@ test('one item of rich text array caret at end', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -40,6 +41,7 @@ test('one item of rich text array caret in middle', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -73,6 +75,7 @@ test('multiple items of rich text array caret at end', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -127,6 +130,7 @@ test('multiple items of rich text array caret in middle', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
