@@ -75,7 +75,7 @@ export default function DayPopup({
             className={classNames(
               { 'bg-slate-100': theme !== 'dark' },
               { 'bg-base-200': theme === 'dark' },
-              'max-w-3xl mx-auto transform divide-y divide-gray-100 overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
+              'max-w-3xl mx-auto transform divide-y divide-gray-100 pt-4 h-full px-4 overflow-hidden rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
             )}
           >
             {/* Header */}

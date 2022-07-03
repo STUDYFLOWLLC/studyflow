@@ -129,7 +129,7 @@ export default function CalendarView({ user }: Props) {
                   !sameDate(day, dateToDisplay) && 'hover:bg-gray-200',
                   (sameDate(day, dateToDisplay) || isToday(day)) &&
                     'font-semibold',
-                  'flex w-9 h-9 mx-auto mb-10 items-center text-lg justify-center rounded-full',
+                  'w-9 h-9 mx-auto mb-10 text-lg rounded-full',
                 )}
               >
                 <time dateTime={format(day, 'yyyy-MM-dd')}>
