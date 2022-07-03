@@ -1,19 +1,15 @@
-import { Block, RichText } from 'types/Flow'
+import { RichText } from 'types/Flow'
 import decodeHTML from 'utils/flows/decodeHTML'
 
-// iterate through blocks and find the current block based on caret index
-export default function findCurrentRichTextBlock(
-  block: Block,
+export default function findCurrentRichText(
+  richTexts: RichText[],
   caretIndex: number,
-): RichText | undefined {
+) {
   let charactersProgressed = 0
 
-  const blockRichText = block[block.tag]?.richText
-  if (!blockRichText) return
-
-  for (let i = 0; i < blockRichText.length; i += 1) {
-    const currentRichText = blockRichText[i]
-    const nextRichText = blockRichText[i + 1]
+  for (let i = 0; i < richTexts.length; i += 1) {
+    const currentRichText = richTexts[i]
+    const nextRichText = richTexts[i + 1]
 
     if (currentRichText.text?.content === undefined) return currentRichText
     if (!nextRichText) return currentRichText
@@ -27,7 +23,7 @@ export default function findCurrentRichTextBlock(
       caretIndex >= charactersProgressed &&
       caretIndex < charactersProgressed + length
     ) {
-      return blockRichText[i]
+      return richTexts[i]
     }
 
     if (
@@ -46,5 +42,5 @@ export default function findCurrentRichTextBlock(
 
     charactersProgressed += currentRichText.text.content.length
   }
-  return blockRichText[blockRichText.length - 1]
+  return richTexts[richTexts.length - 1]
 }

@@ -1,6 +1,6 @@
 import { RichText, RichTextType } from 'types/Flow'
-import decodeHtml from 'utils/decodeHTML'
-import lengthOfPreviousRichText from './flows/lengthOfPreviousRichText'
+import decodeHtml from 'utils/flows/decodeHTML'
+import lengthOfPreviousRichText from './lengthOfPreviousRichText'
 
 export function removeHTMLTags(html: string | undefined) {
   if (!html) return ''

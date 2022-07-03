@@ -5,7 +5,7 @@
 import deepEqual from 'fast-deep-equal'
 import * as PropTypes from 'prop-types'
 import * as React from 'react'
-import { getCaretIndex, setCaretToPosition } from './caretHelpers'
+import { getCaretIndex, setCaretToPosition } from 'utils/flows/caretHelpers'
 
 function replaceCaret(el: HTMLElement) {
   // Place the caret at the end of the element
@@ -41,9 +41,6 @@ export interface Props extends DivProps {
   className?: string
   style?: Record<string, unknown>
   innerRef?: React.RefObject<HTMLElement>
-  preventRerender?: boolean
-  forceRerender?: boolean
-  localPreventRerender: boolean
 }
 
 /**
@@ -63,7 +60,6 @@ export default class ContentEditable extends React.Component<Props> {
     className: PropTypes.string,
     style: PropTypes.object,
     innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    preventRerender: PropTypes.bool,
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -75,8 +71,6 @@ export default class ContentEditable extends React.Component<Props> {
     this.caret = getCaretIndex(el)
 
     // if (props.forceRerender) return true
-
-    if (props.preventRerender) return false
 
     // We need not rerender if the change of props simply reflects the user's edits.
     // Rerendering in this case would make the cursor/caret jump
@@ -113,14 +107,20 @@ export default class ContentEditable extends React.Component<Props> {
     // Perhaps React (whose VDOM gets outdated because we often prevent
     // rerendering) did not update the DOM. So we update it manually now.
     if (html !== el.innerHTML) {
+      console.log(el.innerHTML)
       el.innerHTML = html
     }
     this.lastHtml = html
 
     const isTargetFocused = document.activeElement === el
     // // console.log(this.caret)
-    if (isTargetFocused) setCaretToPosition(el, this.caret)
-    else replaceCaret(el)
+    console.log(this.caret)
+    if (isTargetFocused && this.caret !== 0) {
+      setCaretToPosition(el, this.caret)
+    } else if (this.caret !== 0) {
+      console.log('replacing caret like a pussy')
+      replaceCaret(el)
+    }
 
     // Restore caret position or enable click to caret position
   }
