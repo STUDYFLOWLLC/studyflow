@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "set NODE_ENV=development&&next start",
     "lint": "next lint",
-    "test": "jest --watch",
+    "test": "jest --watchAll",
     "test:ci": "jest --ci",
     "prettier": "npx prettier --write .",
     "checkall": "yarn tsc --noEmit && yarn lint . && yarn prettier",
