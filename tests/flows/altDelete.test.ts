@@ -7,6 +7,7 @@ test('rich text with one complex item caret at end', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -109,6 +110,7 @@ test('rich text with one complex item caret in one in from end', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -171,6 +173,7 @@ test('extremely complex space case', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -213,6 +216,7 @@ test('rich text with multiple items caret at end', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {

@@ -24,6 +24,7 @@ const initialBlocks: Block[] = Object.values(Color).map((color, index) => ({
   id: uuidv4(),
   index,
   tag: BlockTag.PARAGRAPH,
+  tabs: 0,
   p: {
     richText: [
       {
@@ -41,6 +42,7 @@ const initialBlock: Block = {
   id: uuidv4(),
   index: 0,
   tag: BlockTag.PARAGRAPH,
+  tabs: 0,
   p: {
     richText: [
       {
@@ -58,6 +60,7 @@ const secondBlock: Block = {
   id: uuidv4(),
   index: 1,
   tag: BlockTag.PARAGRAPH,
+  tabs: 0,
   p: {
     richText: [
       {
@@ -179,6 +182,7 @@ export default function FlowPage() {
       id: uuidv4(),
       index: beneathIndex + 1,
       tag,
+      tabs: 0,
       p: undefined,
     }
     newBlock[tag] = {

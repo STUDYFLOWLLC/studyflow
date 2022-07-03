@@ -10,7 +10,7 @@
     "test": "jest --watchAll",
     "test:ci": "jest --ci",
     "prettier": "npx prettier --write .",
-    "checkall": "yarn tsc --noEmit && yarn lint . && yarn prettier",
+    "checkall": "yarn tsc --noEmit && yarn test:ci && yarn lint . && yarn prettier",
     "generate-graphql": "graphql-codegen --config codegen.yml",
     "generate-all": "npx prisma generate && npm run generate-graphql",
     "storybook": "start-storybook -p 3001",
