@@ -14,7 +14,7 @@ import {
   setCaretToPosition,
 } from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
-import cmdDeleteRichText from 'utils/flows/cmdDeleteRichText'
+import cmdDelete from 'utils/flows/cmdDelete'
 import ContentEditable, {
   ContentEditableEvent,
 } from 'utils/flows/ContentEditable'
@@ -187,7 +187,7 @@ class FlowBlock extends React.Component<Props, State> {
           insertBold(block, caretIndex)
           break
         case 'Backspace':
-          cmdDeleteRichText(block, caretIndex)
+          blockBody.richText = cmdDelete(block, caretIndex)
           break
         case 'ArrowUp':
           // focus on the highest block
@@ -204,10 +204,7 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.altKey) {
       switch (e.key) {
         case 'Backspace':
-          blockBody.richText = altDelete(
-            block,
-            getCaretIndex(contentEditable.current),
-          )
+          blockBody.richText = altDelete(block, caretIndex)
           break
         case 'ArrowUp':
           // swap this and the block above it if possible
@@ -360,11 +357,16 @@ class FlowBlock extends React.Component<Props, State> {
                 {...provided.dragHandleProps}
               >
                 <span className="w-10 h-5 flex text-slate-400">
-                  <PlusIcon className="w-5 h-5 cursor-pointer" />
+                  <PlusIcon className="w-6 h-6 cursor-pointer" />
                   <ViewGridIcon
                     className={classNames(
-                      { 'bg-slate-200': snapshot.isDragging },
-                      'w-6 h-6 p-0.5 cursor-grab hover:bg-slate-200 rounded-md',
+                      { 'hover:bg-slate-200': theme === 'light' },
+                      { 'hover:bg-slate-600': theme === 'dark' },
+                      {
+                        'bg-slate-200':
+                          snapshot.isDragging && theme === 'light',
+                      },
+                      'w-6 h-6 cursor-grab rounded',
                     )}
                   />
                 </span>
@@ -373,7 +375,7 @@ class FlowBlock extends React.Component<Props, State> {
               <ContentEditable
                 className={classNames(
                   {
-                    'h-8 py-[0.25rem] text-lg leading-normal':
+                    'text-lg my-0 py-[0.25rem] leading-normal':
                       html === '' && block.tag === BlockTag.PARAGRAPH,
                   },
                   {
@@ -401,16 +403,18 @@ class FlowBlock extends React.Component<Props, State> {
                       block[block.tag]?.color === Color.DEFAULT &&
                       theme === 'dark',
                   },
+                  {
+                    'opacity-0':
+                      !focused &&
+                      html === '' &&
+                      block.tag === BlockTag.PARAGRAPH,
+                  },
                   block[block.tag]?.color,
-                  'outline-none select-text leading-normal cursor-text w-full mr-16',
+                  'outline-none select-text cursor-text w-full mr-16',
                 )}
                 innerRef={contentEditable}
                 html={html}
-                placeholder={
-                  focused || (html === '' && block.tag !== BlockTag.PARAGRAPH)
-                    ? determinePlaceholder(block.tag)
-                    : ''
-                }
+                placeholder={determinePlaceholder(block.tag)}
                 onFocus={() => this.setState({ focused: true })}
                 onBlur={() => this.setState({ focused: false })}
                 onChange={this.onChangeHandler}
