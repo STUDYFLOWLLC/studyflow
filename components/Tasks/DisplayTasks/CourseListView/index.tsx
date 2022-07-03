@@ -3,26 +3,23 @@ import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import AddTask from 'components/Tasks/AddTask'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import CourseListDropdown from 'components/Tasks/DisplayTasks/CourseListView/CourseListDropdown'
-import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 
 interface Props {
   user: User
-  coursesOnTerm: CourseOnTerm[]
-  coursesOnTermLoading: boolean
 }
 
-export default function TodayView({
-  user,
-  coursesOnTerm,
-  coursesOnTermLoading,
-}: Props) {
+export default function TodayView({ user }: Props) {
   const [showGeneral, setShowGeneral] = useState(false)
 
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0]?.TermID,
+  )
 
   // Number of tasks in general
   const numTasksGeneral = tasks.filter(

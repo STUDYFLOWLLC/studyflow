@@ -81,6 +81,7 @@ export interface Block {
   id: string
   index: number
   tag: BlockTag
+  tabs: number
   p?: Paragraph
   h1?: Heading_1
   h2?: Heading_2

@@ -1,6 +1,6 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import AddTask from 'components/Tasks/AddTask'
-import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import isToday from 'utils/isToday'
@@ -8,17 +8,14 @@ import BasicDisplayTasks from './BasicDisplayTasks'
 
 interface Props {
   user: User
-  coursesOnTerm: CourseOnTerm[]
-  coursesOnTermLoading: boolean
 }
 
-export default function TodayView({
-  user,
-  coursesOnTerm,
-  coursesOnTermLoading,
-}: Props) {
+export default function TodayView({ user }: Props) {
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0]?.TermID,
+  )
 
   const today = new Date().toDateString().slice(0, 10)
   const numTasksToday = tasks.filter(

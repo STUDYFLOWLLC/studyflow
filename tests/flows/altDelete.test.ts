@@ -2,11 +2,12 @@ import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
 import altDelete from 'utils/flows/altDelete'
 
-test('rich text with one complex item cursor at end', () => {
+test('rich text with one complex item caret at end', () => {
   const block: Block = {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -104,11 +105,12 @@ test('rich text with one complex item cursor at end', () => {
   ])
 })
 
-test('rich text with one complex item cursor in one in from end', () => {
+test('rich text with one complex item caret in one in from end', () => {
   const block: Block = {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -171,6 +173,7 @@ test('extremely complex space case', () => {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {
@@ -208,11 +211,12 @@ test('extremely complex space case', () => {
   ])
 })
 
-test('rich text with multiple items cursor at end', () => {
+test('rich text with multiple items caret at end', () => {
   const block: Block = {
     id: 'abc123',
     index: 0,
     tag: BlockTag.PARAGRAPH,
+    tabs: 0,
     p: {
       richText: [
         {

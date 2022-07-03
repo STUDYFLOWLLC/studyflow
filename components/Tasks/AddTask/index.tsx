@@ -60,7 +60,6 @@ export default function index({
   const addTask = async () => {
     const taskId = uuid()
 
-    console.log(taskId)
     // manufacture new task
     const newTask = {
       CreatedTime: new Date().toISOString(),
@@ -151,20 +150,22 @@ export default function index({
         </div>
       )}
       {showMain && (
-        <div className="border border-gray-400 rounded-md p-1 flex flex-col">
-          <TaskNameInput
-            setTaskName={setTaskName}
-            setTaskDueDateExact={setTaskDueDateExact}
-            dueDate={dueDate}
-          />
-          <textarea
-            rows={1}
-            onChange={(e) => setTaskDescription(e.target.value)}
-            className="border-none focus:ring-0 placeholder:text-gray-400 text-sm resize-none caret-black"
-            placeholder="Description"
-          />
-          <div className="w-full border-t border-gray-300 mb-1.5" />
-          <div className="flex justify-between mx-1">
+        <div className="flex flex-col border-gray-400 border rounded-md">
+          <div className="pt-1 px-1 flex flex-col">
+            <TaskNameInput
+              setTaskName={setTaskName}
+              setTaskDueDateExact={setTaskDueDateExact}
+              dueDate={dueDate}
+            />
+            <textarea
+              rows={1}
+              onChange={(e) => setTaskDescription(e.target.value)}
+              className="border-none focus:ring-0 bg-white placeholder:text-gray-400 text-sm resize-none caret-black"
+              placeholder="Description"
+            />
+          </div>
+          <div className="w-full border-t border-gray-300" />
+          <div className="flex justify-between mx-1 my-1">
             <span className="flex items-center">
               <DateDropdown
                 taskDueDateExact={taskDueDateExact}
