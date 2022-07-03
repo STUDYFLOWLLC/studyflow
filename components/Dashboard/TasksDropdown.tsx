@@ -24,7 +24,7 @@ export default function TasksDropdown({ viewing, setViewing }: Props) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="flex border px-2 py-1 mr-3 rounded border-transparent bg-primary/50 hover:bg-primary/70">
+        <Menu.Button className="flex  border px-2 py-1 mr-3 rounded border-transparent bg-primary/50 hover:bg-primary/70">
           <CheckIcon className="w-5 mr-0.5" />
           <ChevronDownIcon className="w-3" />
         </Menu.Button>

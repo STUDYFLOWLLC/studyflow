@@ -26,7 +26,7 @@ export default function TodayView({
   ).length
 
   return (
-    <div className="w-8/12 flex flex-col">
+    <div className="w-8/12 flex flex-col mb-16">
       <div className="mt-5 mb-1">
         {/* Header, which is date and num of tasks */}
         <span className="mt-4 text-xl mr-2">{today}</span>

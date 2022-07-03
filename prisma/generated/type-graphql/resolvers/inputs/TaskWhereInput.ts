@@ -7,7 +7,6 @@ import { CourseOnTermRelationFilter } from "../inputs/CourseOnTermRelationFilter
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { FlowRelationFilter } from "../inputs/FlowRelationFilter";
-import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
@@ -33,10 +32,10 @@ export class TaskWhereInput {
   })
   NOT?: TaskWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  TaskID?: IntFilter | undefined;
+  TaskID?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true

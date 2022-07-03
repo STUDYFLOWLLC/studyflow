@@ -2,7 +2,7 @@ import { ContentEditableEvent } from 'react-contenteditable'
 import { Block } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import { UpdatePropertyWithCaretCommand } from 'utils/commandPattern/common/commands/updatePropertyWithCaret'
-import richTextEditor from 'utils/richTextEditor'
+import richTextEditor from 'utils/flows/richTextEditor'
 import handleRichTextDeletionAndReturnCurrentRichText from './handleRichTextDeletionAndReturnCurrentRichText'
 
 export default function editBlock(

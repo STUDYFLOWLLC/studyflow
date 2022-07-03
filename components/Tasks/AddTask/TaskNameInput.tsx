@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { Component, createRef, RefObject } from 'react'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import dateParser from 'utils/dateParser'
-import { removeHTMLTags } from 'utils/richTextEditor'
+import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import taskParser from 'utils/taskParser'
 
 interface Props {

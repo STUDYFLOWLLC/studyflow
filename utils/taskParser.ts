@@ -1,5 +1,5 @@
 import { ParsedResult } from 'chrono-node'
-import { removeHTMLTags } from './richTextEditor'
+import { removeHTMLTags } from './flows/richTextEditor'
 
 export default function taskParser(
   text: string,

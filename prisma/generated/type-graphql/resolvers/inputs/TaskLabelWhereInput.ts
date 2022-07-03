@@ -4,8 +4,8 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
-import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TaskRelationFilter } from "../inputs/TaskRelationFilter";
 
 @TypeGraphQL.InputType("TaskLabelWhereInput", {
@@ -47,8 +47,8 @@ export class TaskLabelWhereInput {
   })
   FK_Task?: TaskRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  FK_TaskID?: IntNullableFilter | undefined;
+  FK_TaskID?: StringNullableFilter | undefined;
 }

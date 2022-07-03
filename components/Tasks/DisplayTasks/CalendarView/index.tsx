@@ -95,7 +95,7 @@ export default function CalendarView({
   ).length
 
   return (
-    <div className="flex">
+    <div className="flex mb-16">
       <div className="w-1/2 mt-16 px-6 border-r border-gray-400">
         {/* Header */}
         <div className="mb-4">

@@ -10,11 +10,6 @@ export class TaskAvgAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
-  TaskID!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
-  })
   FK_UserID!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
