@@ -34,6 +34,8 @@ interface Props {
   theme: string | undefined
   commandHandler: CommandHandler
   block: Block
+  previousBlock: Block | undefined
+  nextBlock: Block | undefined
   changeBlockTag: (tag: BlockTag) => void
   updatePage: (block: Block) => void
   addBlock: (
@@ -54,8 +56,7 @@ interface Props {
     block: Block,
     color: Color,
   ) => Block
-  previousBlock: Block | undefined
-  nextBlock: Block | undefined
+  swapBlocks: (block1: Block, block2: Block) => void
   rerenderDetector: number
   setRerenderDetector: (detector: number) => void
 }
@@ -161,10 +162,12 @@ class FlowBlock extends React.Component<Props, State> {
       commandHandler,
       block,
       previousBlock,
+      nextBlock,
       addBlock,
       deleteBlock,
       joinBlocks,
       sliceBlockIntoNew,
+      swapBlocks,
     } = this.props
     const { contentEditable, selectMenuIsOpen } = this.state
 
@@ -216,9 +219,13 @@ class FlowBlock extends React.Component<Props, State> {
           break
         case 'ArrowUp':
           // swap this and the block above it if possible
+          e.preventDefault()
+          if (previousBlock) swapBlocks(block, previousBlock)
           break
         case 'ArrowDown':
           // swap this and the block below it if possible
+          e.preventDefault()
+          if (nextBlock) swapBlocks(block, nextBlock)
           break
         default:
           break
@@ -372,14 +379,14 @@ class FlowBlock extends React.Component<Props, State> {
             <div
               className={classNames(
                 `ml-${block.tabs * 4}`,
-                'flex items-center transition-all',
+                'flex items-center transition-all duration-100',
               )}
             >
               <div
                 className={classNames(
                   { 'opacity-100': showDragger || snapshot.isDragging },
                   { 'opacity-0': !showDragger && !snapshot.isDragging },
-                  'mr-2 cursor-move transition-opacity transition-duration-750',
+                  'mr-2 cursor-move transition-opacity duration-750',
                 )}
                 {...provided.dragHandleProps}
               >

@@ -6,6 +6,7 @@ import FlowBlock from 'components/Flow/FlowBlock'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
+import FlipMove from 'react-flip-move'
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
@@ -291,6 +292,19 @@ export default function FlowPage() {
     }
   }
 
+  const swapBlocks = (block1: Block, block2: Block) => {
+    const tempBlocks = [...blocks]
+    const block1Index = block1.index
+    const block2Index = block2.index
+    ;[tempBlocks[block1Index], tempBlocks[block2Index]] = [
+      tempBlocks[block2Index],
+      tempBlocks[block1Index],
+    ]
+    tempBlocks[block1Index].index = block1Index
+    tempBlocks[block2Index].index = block2Index
+    setBlocks(tempBlocks)
+  }
+
   const boldHandler = (block: Block) => {
     const richText = block[block.tag]?.richText
     if (richText) {
@@ -401,7 +415,7 @@ export default function FlowPage() {
         {(provided) => (
           <div
             className={classNames(
-              'max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
+              'overflow-none max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
               'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
               'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
               'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
@@ -409,31 +423,35 @@ export default function FlowPage() {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {blocks.map((block: Block) => (
-              <FlowBlock
-                key={block.id}
-                theme={theme}
-                commandHandler={commandHandler}
-                block={block}
-                changeBlockTag={changeCurrentBlockTag}
-                updatePage={updatePageHandler}
-                addBlock={addBlockHandler}
-                deleteBlock={deleteBlock}
-                joinBlocks={joinBlocks}
-                sliceBlockIntoNew={sliceBlockIntoNew}
-                restoreBlockAndChangeColor={restoreBlockAndChangeColor}
-                previousBlock={
-                  block.index > 0 ? blocks[block.index - 1] : undefined
-                }
-                nextBlock={
-                  block.index < blocks.length - 1
-                    ? blocks[block.index + 1]
-                    : undefined
-                }
-                rerenderDetector={rerenderDetector}
-                setRerenderDetector={setRerenderDetector}
-              />
-            ))}
+            {/* @ts-expect-error FlipMove is not written in typescript */}
+            <FlipMove duration={100}>
+              {blocks.map((block: Block) => (
+                <FlowBlock
+                  key={block.id}
+                  theme={theme}
+                  commandHandler={commandHandler}
+                  updatePage={updatePageHandler}
+                  block={block}
+                  previousBlock={
+                    block.index > 0 ? blocks[block.index - 1] : undefined
+                  }
+                  nextBlock={
+                    block.index < blocks.length - 1
+                      ? blocks[block.index + 1]
+                      : undefined
+                  }
+                  changeBlockTag={changeCurrentBlockTag}
+                  restoreBlockAndChangeColor={restoreBlockAndChangeColor}
+                  addBlock={addBlockHandler}
+                  deleteBlock={deleteBlock}
+                  joinBlocks={joinBlocks}
+                  sliceBlockIntoNew={sliceBlockIntoNew}
+                  swapBlocks={swapBlocks}
+                  rerenderDetector={rerenderDetector}
+                  setRerenderDetector={setRerenderDetector}
+                />
+              ))}
+            </FlipMove>
             {provided.placeholder}
           </div>
         )}
