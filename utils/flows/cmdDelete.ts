@@ -30,10 +30,7 @@ export default function cmdDelete(block: Block, caretIndex: number) {
 
   // delete all previous rich text
   const currentRichTextIndex = richTextsCopy.indexOf(currentRichText)
-  richTextsCopy.splice(
-    currentRichTextIndex + 1,
-    richTextsCopy.length - (currentRichTextIndex + 1),
-  )
+  const richTextsSliced = richTextsCopy.slice(currentRichTextIndex)
 
-  return richTextsCopy
+  return richTextsSliced
 }
