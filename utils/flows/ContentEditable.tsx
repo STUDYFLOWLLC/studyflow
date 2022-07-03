@@ -41,6 +41,7 @@ export interface Props extends DivProps {
   className?: string
   style?: Record<string, unknown>
   innerRef?: React.RefObject<HTMLElement>
+  forcererender?: string
 }
 
 /**
@@ -60,6 +61,7 @@ export default class ContentEditable extends React.Component<Props> {
     className: PropTypes.string,
     style: PropTypes.object,
     innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    forcererender: PropTypes.string,
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -69,6 +71,8 @@ export default class ContentEditable extends React.Component<Props> {
     if (!el) return true
 
     this.caret = getCaretIndex(el)
+
+    if (nextProps.forcererender === 'true') return true
 
     // if (props.forceRerender) return true
 
@@ -107,18 +111,15 @@ export default class ContentEditable extends React.Component<Props> {
     // Perhaps React (whose VDOM gets outdated because we often prevent
     // rerendering) did not update the DOM. So we update it manually now.
     if (html !== el.innerHTML) {
-      console.log(el.innerHTML)
       el.innerHTML = html
     }
     this.lastHtml = html
 
     const isTargetFocused = document.activeElement === el
     // // console.log(this.caret)
-    console.log(this.caret)
     if (isTargetFocused && this.caret !== 0) {
       setCaretToPosition(el, this.caret)
     } else if (this.caret !== 0) {
-      console.log('replacing caret like a pussy')
       replaceCaret(el)
     }
 
