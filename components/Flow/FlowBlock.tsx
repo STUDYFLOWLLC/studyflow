@@ -448,8 +448,8 @@ class FlowBlock extends React.Component<Props, State> {
               <div
                 ref={provided.innerRef}
                 {...provided.draggableProps}
-                onPointerEnter={() => this.setState({ showDragger: true })}
-                onPointerLeave={() => this.setState({ showDragger: false })}
+                onMouseEnter={() => this.setState({ showDragger: true })}
+                onMouseLeave={() => this.setState({ showDragger: false })}
               >
                 <div className="relative">
                   <div

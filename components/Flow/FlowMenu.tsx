@@ -7,7 +7,7 @@ import { matchSorter } from 'match-sorter'
 import React from 'react'
 import { Color } from 'types/Colors'
 import { BlockTag, Command, commandItems } from 'types/Flow'
-import isLetterNumberOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
+import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 
 interface Props {
   theme: string | undefined
@@ -67,18 +67,25 @@ class SelectMenu extends React.Component<Props, State> {
     else if (item.color) onColorSelect(item.color)
   }
 
-  keyDownHandler(e: { key: string; preventDefault: () => void }) {
+  keyDownHandler(e: KeyboardEvent) {
     const { items, selectedItem, command } = this.state
     const { close } = this.props
 
     // commands are 56px, colors are 36px.
     const el = document.getElementById('command-menu')
 
-    if (isLetterNumberOrSymbol(e.key)) {
-      this.setState({ command: command + e.key })
+    if (
+      !isAlphaNumericOrSymbol(e.key) &&
+      e.key !== 'Enter' &&
+      e.key !== 'Backspace' &&
+      e.key !== 'ArrowUp' &&
+      e.key !== 'ArrowDown' &&
+      e.key !== 'Tab' &&
+      e.key !== 'Shift'
+    )
       return
-    }
 
+    let tempSelected = 0
     switch (e.key) {
       case 'Enter':
         e.preventDefault()
@@ -90,53 +97,44 @@ class SelectMenu extends React.Component<Props, State> {
         this.setState({ command: command.substring(0, command.length - 1) })
         break
       case 'ArrowUp':
-        let tempSelected =
-          selectedItem === 0 ? items.length - 1 : selectedItem - 1
+        tempSelected = selectedItem === 0 ? items.length - 1 : selectedItem - 1
         e.preventDefault()
-        if (el && tempSelected > 2) {
-          let scrolled = 0
-          for (let i = 0; i < items.slice(0, tempSelected).length; i += 1) {
-            const item = items[i]
-            if (item.commandType === 'new') {
-              scrolled += 56
-            } else if (item.commandType === 'color') {
-              scrolled += 36
-            }
-          }
-          el.scrollTop = scrolled
-        } else if (el && tempSelected < 3) {
-          el.scrollTop = 0
-        }
         this.setState({ selectedItem: tempSelected })
         break
       case 'ArrowDown':
         tempSelected = selectedItem === items.length - 1 ? 0 : selectedItem + 1
         e.preventDefault()
-        if (el && tempSelected > 3) {
-          let scrolled = 0
-          for (let i = 0; i < items.slice(0, tempSelected).length; i += 1) {
-            const item = items[i]
-            if (item.commandType === 'new') {
-              scrolled += 56
-            } else if (item.commandType === 'color') {
-              scrolled += 36
-            }
-          }
-          el.scrollTop = scrolled
-        } else if (el && tempSelected < 3) {
-          el.scrollTop = 0
-        }
         this.setState({ selectedItem: tempSelected })
         break
       case 'Tab':
         e.preventDefault()
-        const nextSelected =
-          selectedItem === items.length - 1 ? 0 : selectedItem + 1
-        this.setState({ selectedItem: nextSelected })
+        if (!e.shiftKey) {
+          tempSelected =
+            selectedItem === items.length - 1 ? 0 : selectedItem + 1
+        } else {
+          tempSelected =
+            selectedItem === 0 ? items.length - 1 : selectedItem - 1
+        }
+        this.setState({ selectedItem: tempSelected })
         break
       default:
-        this.setState({ command: command + e.key })
+        if (isAlphaNumericOrSymbol(e.key))
+          this.setState({ command: command + e.key })
         break
+    }
+    if (el && tempSelected > 2) {
+      let scrolled = 0
+      for (let i = 0; i < items.slice(0, tempSelected).length; i += 1) {
+        const item = items[i]
+        if (item.commandType === 'new') {
+          scrolled += 56
+        } else if (item.commandType === 'color') {
+          scrolled += 36
+        }
+      }
+      el.scrollTop = scrolled
+    } else if (el && tempSelected < 3) {
+      el.scrollTop = 0
     }
   }
 
