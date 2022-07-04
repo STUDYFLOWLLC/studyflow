@@ -84,6 +84,7 @@ export default function FlowPage() {
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
+  const [disableAnimations, setDisableAnimations] = useState(true)
 
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
@@ -203,16 +204,18 @@ export default function FlowPage() {
     }
     setBlocks(tempBlocks, () => {
       const next: HTMLElement | null = ref?.parentElement?.parentElement
-        ?.nextElementSibling?.childNodes[0].childNodes[1] as HTMLElement
+        ?.parentElement?.parentElement?.parentElement?.nextElementSibling
+        ?.childNodes[0].childNodes[0].childNodes[0].childNodes[0]
+        .childNodes[1] as HTMLElement
       if (next) next.focus()
-      console.log('end')
     })
   }
 
   const deleteBlock = (index: number, ref: HTMLElement | null) => {
     // Only delete the block, if there is a preceding one
-    const previous = ref?.parentElement?.parentElement?.previousElementSibling
-      ?.childNodes[0].childNodes[1] as HTMLElement
+    const previous = ref?.parentElement?.parentElement?.parentElement
+      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
+      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
     if (!previous) return
 
     const tempBlocks = [...blocks]
@@ -230,8 +233,9 @@ export default function FlowPage() {
     block2: Block,
     ref: HTMLElement | null,
   ) => {
-    const previousBlock = ref?.parentElement?.parentElement
-      ?.previousElementSibling?.childNodes[0].childNodes[1] as HTMLElement
+    const previousBlock = ref?.parentElement?.parentElement?.parentElement
+      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
+      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
     if (!previousBlock) return
 
     const block1RichText = block1[block1.tag]?.richText
@@ -263,8 +267,6 @@ export default function FlowPage() {
     ref: HTMLElement | null,
     caretIndex: number,
   ) => {
-    const next: HTMLElement | null = ref?.parentElement?.parentElement
-      ?.nextElementSibling?.childNodes[0]?.childNodes[1] as HTMLElement
     const sliceIndex = sliceBlock(block1, caretIndex)
     if (sliceIndex === undefined) return
     if (sliceIndex === 0) {
@@ -423,8 +425,7 @@ export default function FlowPage() {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {/* @ts-expect-error FlipMove is not written in typescript */}
-            <FlipMove duration={100}>
+            <FlipMove duration={150} disableAllAnimations={disableAnimations}>
               {blocks.map((block: Block) => (
                 <FlowBlock
                   key={block.id}
@@ -449,10 +450,12 @@ export default function FlowPage() {
                   swapBlocks={swapBlocks}
                   rerenderDetector={rerenderDetector}
                   setRerenderDetector={setRerenderDetector}
+                  setDisableAnimations={setDisableAnimations}
                 />
               ))}
+
+              {provided.placeholder}
             </FlipMove>
-            {provided.placeholder}
           </div>
         )}
       </Droppable>

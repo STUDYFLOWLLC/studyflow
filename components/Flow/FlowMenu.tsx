@@ -110,10 +110,10 @@ class SelectMenu extends React.Component<Props, State> {
         className={classNames(
           { 'bg-slate-100': theme === 'light' },
           { 'bg-slate-700': theme === 'dark' },
-          'overflow-y-scroll ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10 flex flex-col transition-all duration-500',
+          'overflow-y-scroll ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10  transition-all duration-500',
         )}
         style={{
-          left: x !== 0 ? x : undefined,
+          left: x || 0,
         }}
         id="command-menu"
       >

@@ -60,6 +60,7 @@ interface Props {
   swapBlocks: (block1: Block, block2: Block) => void
   rerenderDetector: number
   setRerenderDetector: (detector: number) => void
+  setDisableAnimations: (disableAnimation: boolean) => void
 }
 interface State {
   contentEditable: React.RefObject<HTMLElement>
@@ -171,6 +172,7 @@ class FlowBlock extends React.Component<Props, State> {
       joinBlocks,
       sliceBlockIntoNew,
       swapBlocks,
+      setDisableAnimations,
     } = this.props
     const { contentEditable, selectMenuIsOpen } = this.state
 
@@ -262,12 +264,20 @@ class FlowBlock extends React.Component<Props, State> {
         case 'ArrowUp':
           // swap this and the block above it if possible
           e.preventDefault()
+          setDisableAnimations(false)
           if (previousBlock) swapBlocks(block, previousBlock)
+          setTimeout(() => {
+            setDisableAnimations(true)
+          }, 150)
           break
         case 'ArrowDown':
           // swap this and the block below it if possible
           e.preventDefault()
+          setDisableAnimations(false)
           if (nextBlock) swapBlocks(block, nextBlock)
+          setTimeout(() => {
+            setDisableAnimations(true)
+          }, 150)
           break
         default:
           break
@@ -293,14 +303,17 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.key === 'ArrowUp' && !selectMenuIsOpen) {
       e.preventDefault()
       const previous = contentEditable.current?.parentElement?.parentElement
-        ?.previousElementSibling?.childNodes[0]?.childNodes[1] as HTMLElement
+        ?.parentElement?.parentElement?.parentElement?.previousElementSibling
+        ?.childNodes[0].childNodes[0].childNodes[0].childNodes[0]
+        .childNodes[1] as HTMLElement
       if (previous) setCaretToPosition(previous, caretIndex)
     }
     if (e.key === 'ArrowDown' && !selectMenuIsOpen) {
       e.preventDefault()
       const next: HTMLElement | null = contentEditable.current?.parentElement
-        ?.parentElement?.nextElementSibling?.childNodes[0]
-        ?.childNodes[1] as HTMLElement
+        ?.parentElement?.parentElement?.parentElement?.parentElement
+        ?.nextElementSibling?.childNodes[0].childNodes[0].childNodes[0]
+        .childNodes[0].childNodes[1] as HTMLElement
       if (next) setCaretToPosition(next, caretIndex)
     }
 
@@ -343,6 +356,7 @@ class FlowBlock extends React.Component<Props, State> {
   // closes the menu after the next click - regardless of outside or inside menu.
   openSelectMenuHandler() {
     const { x, y } = getCaretCoordinates()
+    console.log(x, y)
     const { html } = this.state
     if (removeHTMLTags(html) === '/')
       this.setState({ openedMenuInEmptyBlock: true })
@@ -410,108 +424,114 @@ class FlowBlock extends React.Component<Props, State> {
     // if (focused) console.log(block)
 
     return (
-      <Draggable draggableId={block.id} index={block.index}>
-        {(provided, snapshot) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            onMouseEnter={() => this.setState({ showDragger: true })}
-            onMouseLeave={() => this.setState({ showDragger: false })}
-          >
-            <div
-              className={classNames(
-                `ml-${block.tabs * 4}`,
-                'flex items-center transition-all duration-100',
-              )}
-            >
+      <div className="mx-auto max-w-3xl">
+        <Draggable draggableId={block.id} index={block.index}>
+          {(provided, snapshot) => (
+            <div>
               <div
-                className={classNames(
-                  { 'opacity-100': showDragger || snapshot.isDragging },
-                  { 'opacity-0': !showDragger && !snapshot.isDragging },
-                  'mr-2 cursor-move transition-opacity duration-750',
-                )}
-                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                onPointerEnter={() => this.setState({ showDragger: true })}
+                onPointerLeave={() => this.setState({ showDragger: false })}
               >
-                <span className="w-10 h-5 flex text-slate-400">
-                  <PlusIcon className="w-6 h-6 cursor-pointer" />
-                  <ViewGridIcon
+                <div className="relative">
+                  <div
                     className={classNames(
-                      { 'hover:bg-slate-200': theme === 'light' },
-                      { 'hover:bg-slate-600': theme === 'dark' },
-                      {
-                        'bg-slate-200':
-                          snapshot.isDragging && theme === 'light',
-                      },
-                      'w-6 h-6 cursor-grab rounded',
+                      `ml-${block.tabs * 4}`,
+                      'flex items-center transition-all duration-100',
                     )}
-                  />
-                </span>
+                  >
+                    <div
+                      className={classNames(
+                        { 'opacity-100': showDragger || snapshot.isDragging },
+                        { 'opacity-0': !showDragger && !snapshot.isDragging },
+                        'absolute left-[-3rem] cursor-move transition-opacity duration-750',
+                      )}
+                      {...provided.dragHandleProps}
+                    >
+                      <span className="w-10 h-6 flex text-slate-400">
+                        <PlusIcon className="w-6 h-6 cursor-pointer" />
+                        <ViewGridIcon
+                          className={classNames(
+                            { 'hover:bg-slate-200': theme === 'light' },
+                            { 'hover:bg-slate-600': theme === 'dark' },
+                            {
+                              'bg-slate-200':
+                                snapshot.isDragging && theme === 'light',
+                            },
+                            'w-6 h-6 cursor-grab rounded',
+                          )}
+                        />
+                      </span>
+                    </div>
+                    {/*  @ts-expect-error: Let's ignore a compile error like this unreachable code */}
+                    <ContentEditable
+                      className={classNames(
+                        {
+                          'text-lg my-0 py-[0.25rem] leading-normal':
+                            html === '' && block.tag === BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'text-4xl font-bold py-[0.4rem] leading-normal':
+                            html === '' && block.tag === BlockTag.HEADING_1,
+                        },
+                        {
+                          'text-3xl font-bold py-[0.35rem] leading-normal':
+                            html === '' && block.tag === BlockTag.HEADING_2,
+                        },
+                        {
+                          'text-2xl font-bold py-[0.3rem] leading-normal':
+                            html === '' && block.tag === BlockTag.HEADING_3,
+                        },
+                        {
+                          'text-opacity-40':
+                            html === '' && block[block.tag]?.color,
+                        },
+                        {
+                          'caret-black':
+                            block[block.tag]?.color === Color.DEFAULT &&
+                            theme === 'light',
+                        },
+                        {
+                          'caret-white':
+                            block[block.tag]?.color === Color.DEFAULT &&
+                            theme === 'dark',
+                        },
+                        {
+                          'opacity-0':
+                            !focused &&
+                            html === '' &&
+                            block.tag === BlockTag.PARAGRAPH,
+                        },
+                        block[block.tag]?.color,
+                        'outline-none select-text cursor-text w-full mr-16',
+                      )}
+                      innerRef={contentEditable}
+                      html={html}
+                      placeholder={determinePlaceholder(block.tag)}
+                      onFocus={() => this.setState({ focused: true })}
+                      onBlur={() => this.setState({ focused: false })}
+                      onChange={this.onChangeHandler}
+                      onKeyDown={this.onKeyDownHandler}
+                      onKeyUp={this.onKeyUpHandler}
+                      forcererender={forcererender}
+                    />
+                  </div>
+                </div>
               </div>
-              {/*  @ts-expect-error: Let's ignore a compile error like this unreachable code */}
-              <ContentEditable
-                className={classNames(
-                  {
-                    'text-lg my-0 py-[0.25rem] leading-normal':
-                      html === '' && block.tag === BlockTag.PARAGRAPH,
-                  },
-                  {
-                    'text-4xl font-bold py-[0.4rem] leading-normal':
-                      html === '' && block.tag === BlockTag.HEADING_1,
-                  },
-                  {
-                    'text-3xl font-bold py-[0.35rem] leading-normal':
-                      html === '' && block.tag === BlockTag.HEADING_2,
-                  },
-                  {
-                    'text-2xl font-bold py-[0.3rem] leading-normal':
-                      html === '' && block.tag === BlockTag.HEADING_3,
-                  },
-                  {
-                    'text-opacity-40': html === '' && block[block.tag]?.color,
-                  },
-                  {
-                    'caret-black':
-                      block[block.tag]?.color === Color.DEFAULT &&
-                      theme === 'light',
-                  },
-                  {
-                    'caret-white':
-                      block[block.tag]?.color === Color.DEFAULT &&
-                      theme === 'dark',
-                  },
-                  {
-                    'opacity-0':
-                      !focused &&
-                      html === '' &&
-                      block.tag === BlockTag.PARAGRAPH,
-                  },
-                  block[block.tag]?.color,
-                  'outline-none select-text cursor-text w-full mr-16',
-                )}
-                innerRef={contentEditable}
-                html={html}
-                placeholder={determinePlaceholder(block.tag)}
-                onFocus={() => this.setState({ focused: true })}
-                onBlur={() => this.setState({ focused: false })}
-                onChange={this.onChangeHandler}
-                onKeyDown={this.onKeyDownHandler}
-                onKeyUp={this.onKeyUpHandler}
-                forcererender={forcererender}
-              />
+              {selectMenuIsOpen && (
+                <FlowMenu
+                  theme={theme}
+                  position={selectMenuPosition}
+                  onTagSelect={this.tagSelectionHandler}
+                  onColorSelect={this.colorSelectionHandler}
+                  close={this.closeSelectMenuHandler}
+                />
+              )}
             </div>
-            {selectMenuIsOpen && (
-              <FlowMenu
-                theme={theme}
-                position={selectMenuPosition}
-                // onTagSelect={this.tagSelectionHandler}
-                onTagSelect={this.tagSelectionHandler}
-                onColorSelect={this.colorSelectionHandler}
-                close={this.closeSelectMenuHandler}
-              />
-            )}
-          </div>
-        )}
-      </Draggable>
+          )}
+        </Draggable>
+      </div>
     )
   }
 }
