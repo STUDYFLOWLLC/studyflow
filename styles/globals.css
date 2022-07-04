@@ -34,6 +34,17 @@ a {
   color: #999;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .task-name #date {
   @apply bg-primary/50 rounded px-1.5 py-0.5 cursor-pointer;
 }

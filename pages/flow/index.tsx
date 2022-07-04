@@ -60,12 +60,12 @@ export default function Flow({ user }: Props) {
   if (!mounted) return null
 
   return (
-    <div className="overflow-x-none">
+    <div>
       <div className="flex absolute top-2 right-4">
         <EyeIcon className="w-4" />
         <p className="text-gray-400 ml-2">178</p>
       </div>
-      <div className="mt-32 overflow-none mb-32">
+      <div className="mt-32 mb-24">
         <div className="prose border-b pb-4 mb-4 w-full max-w-3xl mx-auto">
           <div className="flex items-baseline">
             <ContentEditable

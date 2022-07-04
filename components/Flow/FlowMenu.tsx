@@ -67,6 +67,23 @@ class SelectMenu extends React.Component<Props, State> {
     const { items, selectedItem, command } = this.state
     const { close } = this.props
 
+    // commands are 56px, colors are 36px.
+    const el = document.getElementById('command-menu')
+    if (el && selectedItem > 3) {
+      let scrolled = 0
+      for (let i = 0; i < items.slice(0, selectedItem).length; i += 1) {
+        const item = items[i]
+        if (item.commandType === 'new') {
+          scrolled += 56
+        } else if (item.commandType === 'color') {
+          scrolled += 36
+        }
+      }
+      el.scrollTop = scrolled
+    } else if (el && selectedItem < 3) {
+      el.scrollTop = 0
+    }
+
     switch (e.key) {
       case 'Enter':
         e.preventDefault()
@@ -78,12 +95,44 @@ class SelectMenu extends React.Component<Props, State> {
         this.setState({ command: command.substring(0, command.length - 1) })
         break
       case 'ArrowUp':
-        e.preventDefault()
-        const prevSelected =
+        let tempSelected =
           selectedItem === 0 ? items.length - 1 : selectedItem - 1
-        this.setState({ selectedItem: prevSelected })
+        e.preventDefault()
+        if (el && tempSelected > 2) {
+          let scrolled = 0
+          for (let i = 0; i < items.slice(0, tempSelected).length; i += 1) {
+            const item = items[i]
+            if (item.commandType === 'new') {
+              scrolled += 56
+            } else if (item.commandType === 'color') {
+              scrolled += 36
+            }
+          }
+          el.scrollTop = scrolled
+        } else if (el && tempSelected < 3) {
+          el.scrollTop = 0
+        }
+        this.setState({ selectedItem: tempSelected })
         break
       case 'ArrowDown':
+        tempSelected = selectedItem === items.length - 1 ? 0 : selectedItem + 1
+        e.preventDefault()
+        if (el && tempSelected > 3) {
+          let scrolled = 0
+          for (let i = 0; i < items.slice(0, tempSelected).length; i += 1) {
+            const item = items[i]
+            if (item.commandType === 'new') {
+              scrolled += 56
+            } else if (item.commandType === 'color') {
+              scrolled += 36
+            }
+          }
+          el.scrollTop = scrolled
+        } else if (el && tempSelected < 3) {
+          el.scrollTop = 0
+        }
+        this.setState({ selectedItem: tempSelected })
+        break
       case 'Tab':
         e.preventDefault()
         const nextSelected =
@@ -110,7 +159,7 @@ class SelectMenu extends React.Component<Props, State> {
         className={classNames(
           { 'bg-slate-100': theme === 'light' },
           { 'bg-slate-700': theme === 'dark' },
-          'overflow-y-scroll ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10  transition-all duration-500',
+          'overflow-y-scroll no-scrollbar scroll-smooth ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10  transition-all duration-500',
         )}
         style={{
           left: x || 0,

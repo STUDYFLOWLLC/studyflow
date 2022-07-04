@@ -29,7 +29,7 @@ export default function NewBlockMenuItem({
     <div
       key={item.label}
       className={classNames(
-        { 'bg-gray-100': isSelected && theme === 'light' },
+        { 'bg-gray-200': isSelected && theme === 'light' },
         { 'bg-slate-600': isSelected && theme === 'dark' },
         'flex items-center px-2 py-1 first-of-type:rounded-t-md last-of-type:rounded-b-md',
       )}

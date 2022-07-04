@@ -179,6 +179,7 @@ export default function FlowPage() {
     initialContent?: string,
     initialColor?: Color,
   ) => {
+    setDisableAnimations(false)
     const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
@@ -209,9 +210,13 @@ export default function FlowPage() {
         .childNodes[1] as HTMLElement
       if (next) next.focus()
     })
+    setTimeout(() => {
+      setDisableAnimations(true)
+    }, 150)
   }
 
   const deleteBlock = (index: number, ref: HTMLElement | null) => {
+    setDisableAnimations(false)
     // Only delete the block, if there is a preceding one
     const previous = ref?.parentElement?.parentElement?.parentElement
       ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
@@ -226,6 +231,9 @@ export default function FlowPage() {
     setBlocks(tempBlocks, () => {
       setCaretToPosition(previous)
     })
+    setTimeout(() => {
+      setDisableAnimations(true)
+    }, 150)
   }
 
   const joinBlocks = (
@@ -425,6 +433,7 @@ export default function FlowPage() {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
+            {/* @ts-expect-error flipmove not in typescript */}
             <FlipMove duration={150} disableAllAnimations={disableAnimations}>
               {blocks.map((block: Block) => (
                 <FlowBlock
