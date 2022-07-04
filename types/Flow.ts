@@ -90,6 +90,7 @@ export interface Block {
 
 export interface Command {
   commandType: 'new' | 'color' | 'turn into'
+  sortValue?: number
   new: boolean
   type: 'color' | 'tag'
   label: string
@@ -256,5 +257,49 @@ export const commandItems: Command[] = [
     abbreviation: '',
     bgColor: bgColor.INDIGO,
     color: Color.INDIGO,
+  },
+  {
+    commandType: 'turn into',
+    new: true,
+    type: 'tag',
+    label: 'Heading 1',
+    description: 'ti h1 turn into Big header',
+    abbreviation: 'H1',
+    textSize: 'text-xs',
+    bgColor: bgColor.ROSE,
+    tag: BlockTag.HEADING_1,
+  },
+  {
+    commandType: 'turn into',
+    new: true,
+    type: 'tag',
+    label: 'Heading 2',
+    description: 'ti h2 turn into Medium header',
+    abbreviation: 'H2',
+    textSize: 'text-xs',
+    bgColor: bgColor.CYAN,
+    tag: BlockTag.HEADING_2,
+  },
+  {
+    commandType: 'turn into',
+    new: true,
+    type: 'tag',
+    label: 'Heading 3',
+    description: 'ti h3 turn into Small header',
+    abbreviation: 'H3',
+    textSize: 'text-xs',
+    bgColor: bgColor.INDIGO,
+    tag: BlockTag.HEADING_3,
+  },
+  {
+    commandType: 'turn into',
+    new: true,
+    type: 'tag',
+    label: 'Text',
+    description: 'ti p text turn into Normal text',
+    abbreviation: 'P',
+    bgColor: bgColor.GREEN,
+    tag: BlockTag.PARAGRAPH,
+    icon: PencilAltIcon,
   },
 ]

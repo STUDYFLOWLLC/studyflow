@@ -381,7 +381,9 @@ class FlowBlock extends React.Component<Props, State> {
     const { block, changeBlockTag } = this.props
     const { contentEditable, tempBlock } = this.state
 
-    changeBlockTag(block, tag)
+
+    if (tag !== block.tag) changeBlockTag(block, tag)
+
 
     const blockBody = block[block.tag]
     const tempBlockBody = tempBlock[tempBlock.tag]
@@ -395,11 +397,14 @@ class FlowBlock extends React.Component<Props, State> {
     contentEditable.current?.focus()
   }
 
-  tagSelectionHandler(tag: BlockTag) {
+  tagSelectionHandler(tag: BlockTag, convert?: boolean) {
     const { block, addBlock } = this.props
     const { contentEditable, openedMenuInEmptyBlock, tempBlock } = this.state
 
-    if (openedMenuInEmptyBlock) return this.convertTagSelectionHandler(tag)
+
+    if (openedMenuInEmptyBlock || convert)
+      return this.convertTagSelectionHandler(tag)
+
 
     const blockBody = block[block.tag]
     const tempBlockBody = tempBlock[tempBlock.tag]

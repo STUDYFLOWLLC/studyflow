@@ -12,7 +12,7 @@ interface Props {
   isTop: boolean
 }
 
-export default function NewBlockMenuItem({
+export default function TurnIntoMenuItem({
   item,
   isSelected,
   onSelect,
@@ -31,9 +31,8 @@ export default function NewBlockMenuItem({
     <>
       {isTop && (
         <span className="ml-1 mt-1 text-sm uppercase font-medium">
-          Change color
+          Turn Into
         </span>
-
       )}
       <div
         key={item.label}
@@ -62,9 +61,13 @@ export default function NewBlockMenuItem({
             },
           )}
         >
-          <span className={classNames(item.textSize, 'text-white')}>
-            {item.abbreviation}
-          </span>
+          {item.icon ? (
+            <item.icon className="h-3 w-3 text-white" aria-hidden="true" />
+          ) : (
+            <span className={classNames(item.textSize, 'text-white')}>
+              {item.abbreviation}
+            </span>
+          )}
         </div>
         <div className="ml-4 flex flex-col">
           <span className={classNames('text-lg font-medium')}>
