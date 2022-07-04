@@ -3,11 +3,13 @@
 import classNames from 'classnames'
 import ColorMenuItem from 'components/Flow/Menu/ColorMenuItem'
 import NewBlockMenuItem from 'components/Flow/Menu/NewBlockMenuItem'
+import { groupBy } from 'lodash'
 import { matchSorter } from 'match-sorter'
 import React from 'react'
 import { Color } from 'types/Colors'
 import { BlockTag, Command, commandItems } from 'types/Flow'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
+import TurnIntoMenuItem from './Menu/TurnIntoMenuItem'
 
 interface Props {
   theme: string | undefined
@@ -15,7 +17,7 @@ interface Props {
     x: number | null | undefined
     y: number | null | undefined
   }
-  onTagSelect: (tag: BlockTag) => void
+  onTagSelect: (tag: BlockTag, convert?: boolean) => void
   onColorSelect: (color: Color) => void
   close: () => void
 }
@@ -24,6 +26,7 @@ interface State {
   command: string
   items: Command[]
   selectedItem: number
+  justScrolled: boolean
 }
 
 class SelectMenu extends React.Component<Props, State> {
@@ -31,10 +34,13 @@ class SelectMenu extends React.Component<Props, State> {
     super(props)
     this.keyDownHandler = this.keyDownHandler.bind(this)
     this.selectionHandler = this.selectionHandler.bind(this)
+    this.prioritizeAndGroupCommands = this.prioritizeAndGroupCommands.bind(this)
+
     this.state = {
       command: '',
       items: commandItems,
       selectedItem: 0,
+      justScrolled: false,
     }
   }
 
@@ -53,7 +59,7 @@ class SelectMenu extends React.Component<Props, State> {
         baseSort: (a: Command, b: Command) =>
           commandItems.indexOf(a) < commandItems.indexOf(b) ? -1 : 1,
       })
-      this.setState({ items: itemsSorted, selectedItem: 0 })
+      this.prioritizeAndGroupCommands(itemsSorted)
     }
   }
 
@@ -63,8 +69,11 @@ class SelectMenu extends React.Component<Props, State> {
 
   selectionHandler(item: Command) {
     const { onTagSelect, onColorSelect } = this.props
-    if (item.tag && item.new) onTagSelect(item.tag)
-    else if (item.color) onColorSelect(item.color)
+    if (item.commandType === 'new' && item.tag) onTagSelect(item.tag)
+    else if (item.commandType === 'color' && item.color)
+      onColorSelect(item.color)
+    else if (item.commandType === 'turn into' && item.tag)
+      onTagSelect(item.tag, true)
   }
 
   keyDownHandler(e: KeyboardEvent) {
@@ -123,6 +132,7 @@ class SelectMenu extends React.Component<Props, State> {
         break
     }
     if (el && tempSelected > 2) {
+      this.setState({ justScrolled: true })
       let scrolled = 0
       for (let i = 0; i < items.slice(0, tempSelected).length; i += 1) {
         const item = items[i]
@@ -134,18 +144,46 @@ class SelectMenu extends React.Component<Props, State> {
       }
       el.scrollTop = scrolled
     } else if (el && tempSelected < 3) {
+      this.setState({ justScrolled: true })
       el.scrollTop = 0
     }
+  }
+
+  prioritizeAndGroupCommands(matchSortedItems: Command[]) {
+    console.log(matchSortedItems)
+    const keysSoFar: string[] = []
+    for (let i = 0; i < matchSortedItems.length; i += 1) {
+      const item = matchSortedItems[i]
+      if (keysSoFar.indexOf(item.commandType) !== -1)
+        keysSoFar.push(item.commandType)
+      if (keysSoFar.length === 3) break
+    }
+    for (let i = 0; i < matchSortedItems.length; i += 1) {
+      const item = matchSortedItems[i]
+      item.sortValue = keysSoFar.indexOf(item.commandType)
+    }
+    const joinedBumpy = []
+    const grouped = groupBy(matchSortedItems, 'sortValue')
+    const keys = Object.keys(grouped)
+    for (let i = 0; i < keys.length; i += 1) {
+      joinedBumpy.push(grouped[keys[i]])
+    }
+    this.setState({ items: joinedBumpy.flat(), selectedItem: 0 })
   }
 
   render() {
     // Define the absolute position before rendering
     const { theme } = this.props
     const { items } = this.state
-    const news = items.filter((item) => item.commandType === 'new')
-    const colors = items.filter((item) => item.commandType === 'color')
     const { position } = this.props
     const x = position?.x || 0
+
+    const joinedBumpy = []
+    const grouped = groupBy(items, 'commandType')
+    for (let i = 0; i < Object.keys(grouped).length; i += 1) {
+      joinedBumpy.push(grouped[Object.keys(grouped)[i]])
+    }
+    const joinedFlat = joinedBumpy.flat()
 
     return (
       <div
@@ -164,45 +202,62 @@ class SelectMenu extends React.Component<Props, State> {
             No commands found :(
           </span>
         )}
-        <div className="transition-all">
-          {news.length > 0 && (
-            <span className="ml-1 mt-1 text-sm uppercase font-medium">
-              New Block
-            </span>
-          )}
-          {news.map((item, index) => {
-            const { selectedItem } = this.state
-            const isSelected = items.indexOf(item) === selectedItem
-            const onMouseEnter = () => this.setState({ selectedItem: index })
-            return (
-              <NewBlockMenuItem
-                key={item.label}
-                item={item}
-                isSelected={isSelected}
-                onSelect={() => this.selectionHandler(item)}
-                onMouseEnter={onMouseEnter}
-              />
-            )
-          })}
-          {colors.length > 0 && (
-            <span className="ml-1 mt-1 text-sm uppercase font-medium">
-              Change Color
-            </span>
-          )}
-          {colors.map((item, index) => {
-            const { selectedItem } = this.state
-            const isSelected = items.indexOf(item) === selectedItem
-            const onMouseEnter = () =>
-              this.setState({ selectedItem: index + news.length })
-            return (
-              <ColorMenuItem
-                key={item.label}
-                item={item}
-                isSelected={isSelected}
-                onSelect={() => this.selectionHandler(item)}
-                onMouseEnter={onMouseEnter}
-              />
-            )
+        <div
+          className="transition-all"
+          onMouseOver={() => this.setState({ justScrolled: false })}
+          onFocus={() => this.setState({ justScrolled: false })}
+        >
+          {joinedFlat.map((item, index) => {
+            const { selectedItem, justScrolled } = this.state
+            const isSelected = joinedFlat.indexOf(item) === selectedItem
+            const onMouseEnter = () => {
+              if (!justScrolled) this.setState({ selectedItem: index })
+            }
+
+            if (item.commandType === 'new') {
+              return (
+                <NewBlockMenuItem
+                  key={item.description}
+                  item={item}
+                  isSelected={isSelected}
+                  onSelect={() => this.selectionHandler(item)}
+                  onMouseEnter={onMouseEnter}
+                  isTop={
+                    index === 0 || joinedFlat[index - 1].commandType !== 'new'
+                  }
+                />
+              )
+            }
+            if (item.commandType === 'color') {
+              return (
+                <ColorMenuItem
+                  key={item.description}
+                  item={item}
+                  isSelected={isSelected}
+                  onSelect={() => this.selectionHandler(item)}
+                  onMouseEnter={onMouseEnter}
+                  isTop={
+                    index === 0 || joinedFlat[index - 1].commandType !== 'color'
+                  }
+                />
+              )
+            }
+            if (item.commandType === 'turn into') {
+              return (
+                <TurnIntoMenuItem
+                  key={item.description}
+                  item={item}
+                  isSelected={isSelected}
+                  onSelect={() => this.selectionHandler(item)}
+                  onMouseEnter={onMouseEnter}
+                  isTop={
+                    index === 0 ||
+                    joinedFlat[index - 1].commandType !== 'turn into'
+                  }
+                />
+              )
+            }
+            return null
           })}
         </div>
       </div>

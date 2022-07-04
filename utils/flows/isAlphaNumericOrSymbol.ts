@@ -1,3 +1,3 @@
-export default function isLetterNumberOrSymbol(char: string): boolean {
+export default function isAlphaNumericOrSymbol(char: string): boolean {
   return /^.$/u.test(char)
 }
