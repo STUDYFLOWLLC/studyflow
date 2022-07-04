@@ -52,7 +52,8 @@ export default function insertInSelection(
 
     endRichTextIndex = richTextsCopy.indexOf(endRichText)
 
-    // update end and remove if empty
+    // update end and remove if empty (we have to do this first because we always preserve
+    // the first rich text element)
     endRichText.text.content = endRichText.text.content.slice(relativeEndIndex)
     if (endRichText.text.content === '' && richTextsCopy.length > 1) {
       richTextsCopy.splice(endRichTextIndex, 1)
