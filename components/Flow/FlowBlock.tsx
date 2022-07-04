@@ -381,7 +381,9 @@ class FlowBlock extends React.Component<Props, State> {
     const { block, changeBlockTag } = this.props
     const { contentEditable, tempBlock } = this.state
 
+
     if (tag !== block.tag) changeBlockTag(block, tag)
+
 
     const blockBody = block[block.tag]
     const tempBlockBody = tempBlock[tempBlock.tag]
@@ -399,8 +401,10 @@ class FlowBlock extends React.Component<Props, State> {
     const { block, addBlock } = this.props
     const { contentEditable, openedMenuInEmptyBlock, tempBlock } = this.state
 
+
     if (openedMenuInEmptyBlock || convert)
       return this.convertTagSelectionHandler(tag)
+
 
     const blockBody = block[block.tag]
     const tempBlockBody = tempBlock[tempBlock.tag]
@@ -438,6 +442,8 @@ class FlowBlock extends React.Component<Props, State> {
       focused,
       forcererender,
     } = this.state
+
+    if (focused) console.log(html)
 
     return (
       <div className="mx-auto max-w-3xl">

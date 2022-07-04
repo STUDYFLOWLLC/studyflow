@@ -33,6 +33,7 @@ export default function NewBlockMenuItem({
         <span className="ml-1 mt-1 text-sm uppercase font-medium">
           Change color
         </span>
+
       )}
       <div
         key={item.label}
