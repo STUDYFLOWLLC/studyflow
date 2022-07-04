@@ -7,6 +7,7 @@ import { matchSorter } from 'match-sorter'
 import React from 'react'
 import { Color } from 'types/Colors'
 import { BlockTag, Command, commandItems } from 'types/Flow'
+import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 
 interface Props {
   theme: string | undefined
@@ -46,10 +47,13 @@ class SelectMenu extends React.Component<Props, State> {
   componentDidUpdate(prevProps: Props, prevState: State) {
     const { command, items } = this.state
     if (prevState.command !== command) {
-      const itemsSorted = matchSorter(items, command, {
-        keys: ['label', 'description', 'abbreviation'],
+      const itemsSorted = matchSorter(commandItems, command, {
+        keys: ['label', 'description'],
+        // @ts-expect-error base sorter weird typing error but it works
+        baseSort: (a: Command, b: Command) =>
+          commandItems.indexOf(a) < commandItems.indexOf(b) ? -1 : 1,
       })
-      this.setState({ items: itemsSorted })
+      this.setState({ items: itemsSorted, selectedItem: 0 })
     }
   }
 
@@ -63,10 +67,25 @@ class SelectMenu extends React.Component<Props, State> {
     else if (item.color) onColorSelect(item.color)
   }
 
-  keyDownHandler(e: { key: string; preventDefault: () => void }) {
+  keyDownHandler(e: KeyboardEvent) {
     const { items, selectedItem, command } = this.state
     const { close } = this.props
 
+    // commands are 56px, colors are 36px.
+    const el = document.getElementById('command-menu')
+
+    if (
+      !isAlphaNumericOrSymbol(e.key) &&
+      e.key !== 'Enter' &&
+      e.key !== 'Backspace' &&
+      e.key !== 'ArrowUp' &&
+      e.key !== 'ArrowDown' &&
+      e.key !== 'Tab' &&
+      e.key !== 'Shift'
+    )
+      return
+
+    let tempSelected = 0
     switch (e.key) {
       case 'Enter':
         e.preventDefault()
@@ -78,21 +97,44 @@ class SelectMenu extends React.Component<Props, State> {
         this.setState({ command: command.substring(0, command.length - 1) })
         break
       case 'ArrowUp':
+        tempSelected = selectedItem === 0 ? items.length - 1 : selectedItem - 1
         e.preventDefault()
-        const prevSelected =
-          selectedItem === 0 ? items.length - 1 : selectedItem - 1
-        this.setState({ selectedItem: prevSelected })
+        this.setState({ selectedItem: tempSelected })
         break
       case 'ArrowDown':
+        tempSelected = selectedItem === items.length - 1 ? 0 : selectedItem + 1
+        e.preventDefault()
+        this.setState({ selectedItem: tempSelected })
+        break
       case 'Tab':
         e.preventDefault()
-        const nextSelected =
-          selectedItem === items.length - 1 ? 0 : selectedItem + 1
-        this.setState({ selectedItem: nextSelected })
+        if (!e.shiftKey) {
+          tempSelected =
+            selectedItem === items.length - 1 ? 0 : selectedItem + 1
+        } else {
+          tempSelected =
+            selectedItem === 0 ? items.length - 1 : selectedItem - 1
+        }
+        this.setState({ selectedItem: tempSelected })
         break
       default:
-        this.setState({ command: command + e.key })
+        if (isAlphaNumericOrSymbol(e.key))
+          this.setState({ command: command + e.key })
         break
+    }
+    if (el && tempSelected > 2) {
+      let scrolled = 0
+      for (let i = 0; i < items.slice(0, tempSelected).length; i += 1) {
+        const item = items[i]
+        if (item.commandType === 'new') {
+          scrolled += 56
+        } else if (item.commandType === 'color') {
+          scrolled += 36
+        }
+      }
+      el.scrollTop = scrolled
+    } else if (el && tempSelected < 3) {
+      el.scrollTop = 0
     }
   }
 
@@ -110,10 +152,10 @@ class SelectMenu extends React.Component<Props, State> {
         className={classNames(
           { 'bg-slate-100': theme === 'light' },
           { 'bg-slate-700': theme === 'dark' },
-          'overflow-y-scroll ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10 flex flex-col transition-all duration-500',
+          'overflow-y-scroll no-scrollbar scroll-smooth ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10  transition-all duration-500',
         )}
         style={{
-          left: x !== 0 ? x : undefined,
+          left: x || 0,
         }}
         id="command-menu"
       >
