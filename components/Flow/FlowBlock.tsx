@@ -22,6 +22,7 @@ import deleteInBlock from 'utils/flows/deleteInBlock'
 import determinePlaceholder from 'utils/flows/determinePlaceholder'
 import getRawTextLength from 'utils/flows/getRawTextLength'
 import insertBold from 'utils/flows/insertBold'
+import insertInSelection from 'utils/flows/insertInSelection'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 import { removeHTMLTags } from 'utils/flows/richTextEditor'
@@ -176,6 +177,21 @@ class FlowBlock extends React.Component<Props, State> {
     const caretIndex = getCaretIndex(contentEditable.current)
     const blockBody = block[block.tag]
     if (!blockBody) return
+
+    const selection = window.getSelection()
+    const range = selection?.getRangeAt(0)
+    const selectionString = range?.toString()
+
+    // handler for if they have selected something
+    if (selectionString !== undefined && selection?.isCollapsed === false) {
+      blockBody.richText = insertInSelection(
+        block,
+        caretIndex - selectionString.length,
+        caretIndex,
+        e.key,
+      )
+      return
+    }
 
     // block deletion takes priority over command+delete and alt+delete
     if (e.key === 'Backspace' && blockParser(block) === '') {
