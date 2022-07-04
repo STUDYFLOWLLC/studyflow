@@ -137,6 +137,8 @@ class FlowBlock extends React.Component<Props, State> {
     // console.log(blockParser(block))
     // console.log(e.target.value)
 
+    console.log(e.target.value)
+
     this.setState({ html: blockParser(block) })
     // const { commandHandler, block, currentCaretIndex, setCurrentCaretIndex } =
     //   this.props
@@ -184,6 +186,26 @@ class FlowBlock extends React.Component<Props, State> {
 
     // handler for if they have selected something
     if (selectionString !== undefined && selection?.isCollapsed === false) {
+      console.log(e)
+      if (e.key === 'Backspace') {
+        blockBody.richText = insertInSelection(
+          block,
+          caretIndex - selectionString.length,
+          caretIndex,
+          '',
+        )
+        return
+      }
+      if (e.metaKey || e.ctrlKey) {
+        switch (e.key) {
+          case 'v':
+            console.log('here')
+            break
+          default:
+            break
+        }
+        return
+      }
       blockBody.richText = insertInSelection(
         block,
         caretIndex - selectionString.length,
@@ -221,6 +243,10 @@ class FlowBlock extends React.Component<Props, State> {
           break
         case 'ArrowDown':
           // focus on the lowest block
+          break
+        case 'l':
+          e.preventDefault()
+          console.log('hi')
           break
         default:
           break
