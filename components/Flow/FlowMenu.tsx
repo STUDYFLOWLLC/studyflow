@@ -7,6 +7,7 @@ import { matchSorter } from 'match-sorter'
 import React from 'react'
 import { Color } from 'types/Colors'
 import { BlockTag, Command, commandItems } from 'types/Flow'
+import isLetterNumberOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 
 interface Props {
   theme: string | undefined
@@ -46,10 +47,13 @@ class SelectMenu extends React.Component<Props, State> {
   componentDidUpdate(prevProps: Props, prevState: State) {
     const { command, items } = this.state
     if (prevState.command !== command) {
-      const itemsSorted = matchSorter(items, command, {
-        keys: ['label', 'description', 'abbreviation'],
+      const itemsSorted = matchSorter(commandItems, command, {
+        keys: ['label', 'description'],
+        // @ts-expect-error base sorter weird typing error but it works
+        baseSort: (a: Command, b: Command) =>
+          commandItems.indexOf(a) < commandItems.indexOf(b) ? -1 : 1,
       })
-      this.setState({ items: itemsSorted })
+      this.setState({ items: itemsSorted, selectedItem: 0 })
     }
   }
 
@@ -69,19 +73,10 @@ class SelectMenu extends React.Component<Props, State> {
 
     // commands are 56px, colors are 36px.
     const el = document.getElementById('command-menu')
-    if (el && selectedItem > 3) {
-      let scrolled = 0
-      for (let i = 0; i < items.slice(0, selectedItem).length; i += 1) {
-        const item = items[i]
-        if (item.commandType === 'new') {
-          scrolled += 56
-        } else if (item.commandType === 'color') {
-          scrolled += 36
-        }
-      }
-      el.scrollTop = scrolled
-    } else if (el && selectedItem < 3) {
-      el.scrollTop = 0
+
+    if (isLetterNumberOrSymbol(e.key)) {
+      this.setState({ command: command + e.key })
+      return
     }
 
     switch (e.key) {

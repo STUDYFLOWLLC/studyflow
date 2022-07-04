@@ -106,8 +106,6 @@ export default function FlowPage() {
       newBlock,
       color,
     )
-    setCurrentBlock(newBlock)
-
     return newBlock
   }
 
@@ -144,28 +142,28 @@ export default function FlowPage() {
     return block
   }
 
-  const changeCurrentBlockTag = (tag: BlockTag) => {
-    const oldTag = currentBlock.tag
-    currentBlock.tag = tag
+  const changeBlockTag = (block: Block, tag: BlockTag) => {
+    const oldTag = block.tag
+    block.tag = tag
     switch (tag) {
       case BlockTag.HEADING_1:
-        currentBlock.h1 = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.h1 = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.HEADING_2:
-        currentBlock.h2 = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.h2 = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.HEADING_3:
-        currentBlock.h3 = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.h3 = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.PARAGRAPH:
-        currentBlock.p = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.p = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       default:
@@ -450,7 +448,7 @@ export default function FlowPage() {
                       ? blocks[block.index + 1]
                       : undefined
                   }
-                  changeBlockTag={changeCurrentBlockTag}
+                  changeBlockTag={changeBlockTag}
                   restoreBlockAndChangeColor={restoreBlockAndChangeColor}
                   addBlock={addBlockHandler}
                   deleteBlock={deleteBlock}

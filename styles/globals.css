@@ -31,7 +31,6 @@ a {
 [contenteditable='true']:empty:before {
   content: attr(placeholder);
   display: block;
-  color: #999;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

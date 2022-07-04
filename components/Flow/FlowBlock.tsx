@@ -37,7 +37,7 @@ interface Props {
   block: Block
   previousBlock: Block | undefined
   nextBlock: Block | undefined
-  changeBlockTag: (tag: BlockTag) => void
+  changeBlockTag: (block: Block, tag: BlockTag) => void
   updatePage: (block: Block) => void
   addBlock: (
     beneathIndex: number,
@@ -111,10 +111,9 @@ class FlowBlock extends React.Component<Props, State> {
   // Update the page component if one of the following is true:
   // 1. user has changed the html content
   // 2. user has changed the tag
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const { block, rerenderDetector, setRerenderDetector, updatePage } =
       this.props
-    const { contentEditable } = this.state
     const tagChanged = prevProps.block.tag !== block.tag
 
     // rerender for joinblock and set caret index
@@ -137,8 +136,6 @@ class FlowBlock extends React.Component<Props, State> {
     const { block } = this.props
     // console.log(blockParser(block))
     // console.log(e.target.value)
-
-    console.log(e.target.value)
 
     this.setState({ html: blockParser(block) })
     // const { commandHandler, block, currentCaretIndex, setCurrentCaretIndex } =
@@ -188,7 +185,6 @@ class FlowBlock extends React.Component<Props, State> {
 
     // handler for if they have selected something
     if (selectionString !== undefined && selection?.isCollapsed === false) {
-      console.log(e)
       if (e.key === 'Backspace') {
         blockBody.richText = insertInSelection(
           block,
@@ -201,7 +197,6 @@ class FlowBlock extends React.Component<Props, State> {
       if (e.metaKey || e.ctrlKey) {
         switch (e.key) {
           case 'v':
-            console.log('here')
             break
           default:
             break
@@ -285,6 +280,12 @@ class FlowBlock extends React.Component<Props, State> {
       return
     }
 
+    // store a copy of the block to restore after command. do not return here because
+    // the command may not go through
+    if (e.key === '/') {
+      this.setState({ tempBlock: structuredClone(block) })
+    }
+
     if (e.key === 'Backspace' && caretIndex === 0 && previousBlock) {
       return joinBlocks(previousBlock, block, contentEditable.current)
     }
@@ -356,7 +357,6 @@ class FlowBlock extends React.Component<Props, State> {
   // closes the menu after the next click - regardless of outside or inside menu.
   openSelectMenuHandler() {
     const { x, y } = getCaretCoordinates()
-    console.log(x, y)
     const { html } = this.state
     if (removeHTMLTags(html) === '/')
       this.setState({ openedMenuInEmptyBlock: true })
@@ -379,8 +379,17 @@ class FlowBlock extends React.Component<Props, State> {
   // with the caret being set to the end, close the select menu
   convertTagSelectionHandler(tag: BlockTag) {
     const { block, changeBlockTag } = this.props
-    const { contentEditable } = this.state
-    changeBlockTag(tag)
+    const { contentEditable, tempBlock } = this.state
+
+    changeBlockTag(block, tag)
+
+    const blockBody = block[block.tag]
+    const tempBlockBody = tempBlock[tempBlock.tag]
+
+    if (blockBody && tempBlockBody) {
+      blockBody.richText = tempBlockBody.richText
+    }
+
     this.setState({ html: blockParser(block) })
     this.closeSelectMenuHandler()
     contentEditable.current?.focus()
@@ -388,10 +397,18 @@ class FlowBlock extends React.Component<Props, State> {
 
   tagSelectionHandler(tag: BlockTag) {
     const { block, addBlock } = this.props
-    const { contentEditable, openedMenuInEmptyBlock } = this.state
+    const { contentEditable, openedMenuInEmptyBlock, tempBlock } = this.state
+
     if (openedMenuInEmptyBlock) return this.convertTagSelectionHandler(tag)
-    // cleanBlock(block)
-    this.setState({ html: blockParser(block) })
+
+    const blockBody = block[block.tag]
+    const tempBlockBody = tempBlock[tempBlock.tag]
+
+    if (blockBody && tempBlockBody) {
+      blockBody.richText = tempBlockBody.richText
+    }
+
+    this.setState({ html: blockParser(tempBlock) })
     this.closeSelectMenuHandler()
     addBlock(block.index, contentEditable.current, tag)
   }
@@ -421,7 +438,7 @@ class FlowBlock extends React.Component<Props, State> {
       forcererender,
     } = this.state
 
-    // if (focused) console.log(block)
+    if (focused) console.log(html)
 
     return (
       <div className="mx-auto max-w-3xl">
@@ -484,10 +501,6 @@ class FlowBlock extends React.Component<Props, State> {
                             html === '' && block.tag === BlockTag.HEADING_3,
                         },
                         {
-                          'text-opacity-40':
-                            html === '' && block[block.tag]?.color,
-                        },
-                        {
                           'caret-black':
                             block[block.tag]?.color === Color.DEFAULT &&
                             theme === 'light',
@@ -503,7 +516,27 @@ class FlowBlock extends React.Component<Props, State> {
                             html === '' &&
                             block.tag === BlockTag.PARAGRAPH,
                         },
-                        block[block.tag]?.color,
+                        {
+                          'opacity-80':
+                            focused &&
+                            html === '' &&
+                            block.tag === BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'opacity-80':
+                            !focused &&
+                            html === '' &&
+                            block.tag !== BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'opacity-90':
+                            focused &&
+                            html === '' &&
+                            block.tag !== BlockTag.PARAGRAPH,
+                        },
+                        block[block.tag]?.color !== Color.DEFAULT
+                          ? block[block.tag]?.color
+                          : '',
                         'outline-none select-text cursor-text w-full mr-16',
                       )}
                       innerRef={contentEditable}
