@@ -4,7 +4,6 @@ import { Menu, Transition } from '@headlessui/react'
 import { TagIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
-import { TaskType } from 'prisma/generated/type-graphql/enums/TaskType'
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 
