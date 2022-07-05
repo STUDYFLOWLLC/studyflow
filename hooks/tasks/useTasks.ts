@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { TaskType } from '@prisma/client'
 import { gql } from 'graphql-request'
+import { TaskType } from 'prisma/generated/type-graphql/enums/TaskType'
 import useSWR, { KeyedMutator } from 'swr'
 
 export interface Task {

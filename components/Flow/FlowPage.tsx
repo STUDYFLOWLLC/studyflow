@@ -13,7 +13,7 @@ import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import { setCaretToPosition } from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/flows/getRawTextLength'
-import sliceBlock from 'utils/flows/sliceBlock'
+import sliceBlock from 'utils/flows/sliceRichText'
 import useStateCallback from 'utils/flows/useStateCallback'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -273,7 +273,10 @@ export default function FlowPage() {
     ref: HTMLElement | null,
     caretIndex: number,
   ) => {
-    const sliceIndex = sliceBlock(block1, caretIndex)
+    const richTexts = block1[block1.tag]?.richText
+    if (richTexts === undefined) return
+
+    const sliceIndex = sliceBlock(richTexts, caretIndex)
     if (sliceIndex === undefined) return
     if (sliceIndex === 0) {
       // insert a block above this block

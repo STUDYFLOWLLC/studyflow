@@ -1,5 +1,5 @@
-import { TaskType } from '@prisma/client'
 import request, { gql } from 'graphql-request'
+import { TaskType } from 'prisma/generated/type-graphql/enums/TaskType'
 
 export default async function makeTask(
   taskId: string,

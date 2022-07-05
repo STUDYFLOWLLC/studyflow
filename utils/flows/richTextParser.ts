@@ -13,10 +13,34 @@ export default function richTextParser(richTexts: RichText[] | undefined) {
     const richText = richTexts[i]
     const encoded = convertSpaces(richText.text?.content)
     if (richText.type === RichTextType.TEXT) {
-      if (richText.annotations?.bold) {
-        html.push('<b>')
+      if (richText.annotations) {
+        if (richText.annotations.bold) {
+          html.push('<b>')
+        }
+        if (richText.annotations.italic) {
+          html.push('<i>')
+        }
+        if (richText.annotations.underline) {
+          html.push('<u>')
+        }
+        if (richText.annotations.code) {
+          html.push('<span id="code">')
+        }
+
         html.push(encoded)
-        html.push('</b>')
+
+        if (richText.annotations.bold) {
+          html.push('</b>')
+        }
+        if (richText.annotations.italic) {
+          html.push('</i>')
+        }
+        if (richText.annotations.underline) {
+          html.push('</u>')
+        }
+        if (richText.annotations.code) {
+          html.push('</span>')
+        }
       } else {
         html.push('<span>')
         html.push(encoded)

@@ -1,6 +1,6 @@
 import { TagIcon } from '@heroicons/react/outline'
-import { TaskType } from '@prisma/client'
 import classNames from 'classnames'
+import { TaskType } from 'prisma/generated/type-graphql/enums/TaskType'
 
 interface Props {
   taskType: TaskType | undefined

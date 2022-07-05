@@ -1,5 +1,4 @@
 import { PlusIcon } from '@heroicons/react/solid'
-import { TaskType } from '@prisma/client'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CourseDropdown from 'components/dropdowns/CourseDropdown'
@@ -11,6 +10,7 @@ import makeTask from 'hooks/tasks/makeTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { TaskType } from 'prisma/generated/type-graphql/enums/TaskType'
 import { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 

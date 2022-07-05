@@ -2,9 +2,9 @@
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
 import { TagIcon } from '@heroicons/react/outline'
-import { TaskType } from '@prisma/client'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
+import { TaskType } from 'prisma/generated/type-graphql/enums/TaskType'
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 
 const items = [
