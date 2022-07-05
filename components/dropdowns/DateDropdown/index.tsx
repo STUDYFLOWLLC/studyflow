@@ -86,7 +86,7 @@ export default function CourseDropDown({
                     theme === 'dark' && !taskDueDateExact,
                 },
                 taskDueDateExact && bgColor(taskDueDateExact),
-                'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mx-2 text-sm font-medium border',
+                'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mr-2 text-sm font-medium border',
               )}
             >
               <CalendarIcon className="w-4 mr-1" />
@@ -123,9 +123,21 @@ export default function CourseDropDown({
                         }
                       }}
                       className={classNames(
-                        { 'bg-primary bg-opacity-30 text-gray-900': active },
-                        { 'text-gray-700': !active },
-                        'px-1 flex items-center cursor-pointer first-of-type:mt-1 last-of-type:mb-1 py-1.5',
+                        {
+                          'bg-gray-100 text-gray-900':
+                            active && theme === 'light',
+                        },
+                        {
+                          'text-gray-700': !active && theme === 'light',
+                        },
+                        {
+                          'bg-slate-600': active && theme === 'dark',
+                        },
+                        {
+                          'bg-slate-700': !active && theme === 'dark',
+                        },
+
+                        'px-1 py-1 flex items-center cursor-pointer first-of-type:rounded-t-md',
                       )}
                     >
                       {itemIcons[itemList.indexOf(item)]}

@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableEnumTaskTypeFieldUpdateOperationsInput } from "../inputs/NullableEnumTaskTypeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -41,4 +42,9 @@ export class TaskUpdateManyMutationInput {
     nullable: true
   })
   DueDate?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableEnumTaskTypeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Type?: NullableEnumTaskTypeFieldUpdateOperationsInput | undefined;
 }

@@ -42,6 +42,11 @@ export class TaskOrderByWithRelationInput {
   })
   DueDate?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  Type?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => TaskLabelOrderByRelationAggregateInput, {
     nullable: true
   })

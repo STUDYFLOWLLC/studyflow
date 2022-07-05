@@ -6,6 +6,7 @@ import FlowBlock from 'components/Flow/FlowBlock'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
+import FlipMove from 'react-flip-move'
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
@@ -83,6 +84,7 @@ export default function FlowPage() {
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
+  const [disableAnimations, setDisableAnimations] = useState(true)
 
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
@@ -104,8 +106,6 @@ export default function FlowPage() {
       newBlock,
       color,
     )
-    setCurrentBlock(newBlock)
-
     return newBlock
   }
 
@@ -142,28 +142,28 @@ export default function FlowPage() {
     return block
   }
 
-  const changeCurrentBlockTag = (tag: BlockTag) => {
-    const oldTag = currentBlock.tag
-    currentBlock.tag = tag
+  const changeBlockTag = (block: Block, tag: BlockTag) => {
+    const oldTag = block.tag
+    block.tag = tag
     switch (tag) {
       case BlockTag.HEADING_1:
-        currentBlock.h1 = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.h1 = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.HEADING_2:
-        currentBlock.h2 = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.h2 = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.HEADING_3:
-        currentBlock.h3 = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.h3 = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       case BlockTag.PARAGRAPH:
-        currentBlock.p = currentBlock[oldTag]
-        currentBlock[oldTag] = undefined
+        block.p = block[oldTag]
+        block[oldTag] = undefined
         // blockCleanupAfterCommand(currentBlock)
         break
       default:
@@ -177,6 +177,7 @@ export default function FlowPage() {
     initialContent?: string,
     initialColor?: Color,
   ) => {
+    setDisableAnimations(false)
     const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
@@ -202,16 +203,22 @@ export default function FlowPage() {
     }
     setBlocks(tempBlocks, () => {
       const next: HTMLElement | null = ref?.parentElement?.parentElement
-        ?.nextElementSibling?.childNodes[0].childNodes[1] as HTMLElement
+        ?.parentElement?.parentElement?.parentElement?.nextElementSibling
+        ?.childNodes[0].childNodes[0].childNodes[0].childNodes[0]
+        .childNodes[1] as HTMLElement
       if (next) next.focus()
-      console.log('end')
     })
+    setTimeout(() => {
+      setDisableAnimations(true)
+    }, 150)
   }
 
   const deleteBlock = (index: number, ref: HTMLElement | null) => {
+    setDisableAnimations(false)
     // Only delete the block, if there is a preceding one
-    const previous = ref?.parentElement?.parentElement?.previousElementSibling
-      ?.childNodes[0].childNodes[1] as HTMLElement
+    const previous = ref?.parentElement?.parentElement?.parentElement
+      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
+      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
     if (!previous) return
 
     const tempBlocks = [...blocks]
@@ -222,6 +229,9 @@ export default function FlowPage() {
     setBlocks(tempBlocks, () => {
       setCaretToPosition(previous)
     })
+    setTimeout(() => {
+      setDisableAnimations(true)
+    }, 150)
   }
 
   const joinBlocks = (
@@ -229,8 +239,9 @@ export default function FlowPage() {
     block2: Block,
     ref: HTMLElement | null,
   ) => {
-    const previousBlock = ref?.parentElement?.parentElement
-      ?.previousElementSibling?.childNodes[0].childNodes[1] as HTMLElement
+    const previousBlock = ref?.parentElement?.parentElement?.parentElement
+      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
+      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
     if (!previousBlock) return
 
     const block1RichText = block1[block1.tag]?.richText
@@ -262,8 +273,6 @@ export default function FlowPage() {
     ref: HTMLElement | null,
     caretIndex: number,
   ) => {
-    const next: HTMLElement | null = ref?.parentElement?.parentElement
-      ?.nextElementSibling?.childNodes[0]?.childNodes[1] as HTMLElement
     const sliceIndex = sliceBlock(block1, caretIndex)
     if (sliceIndex === undefined) return
     if (sliceIndex === 0) {
@@ -289,6 +298,19 @@ export default function FlowPage() {
         block1[block1.tag]?.color,
       )
     }
+  }
+
+  const swapBlocks = (block1: Block, block2: Block) => {
+    const tempBlocks = [...blocks]
+    const block1Index = block1.index
+    const block2Index = block2.index
+    ;[tempBlocks[block1Index], tempBlocks[block2Index]] = [
+      tempBlocks[block2Index],
+      tempBlocks[block1Index],
+    ]
+    tempBlocks[block1Index].index = block1Index
+    tempBlocks[block2Index].index = block2Index
+    setBlocks(tempBlocks)
   }
 
   const boldHandler = (block: Block) => {
@@ -401,7 +423,7 @@ export default function FlowPage() {
         {(provided) => (
           <div
             className={classNames(
-              'max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
+              'overflow-none max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
               'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
               'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
               'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
@@ -409,32 +431,42 @@ export default function FlowPage() {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {blocks.map((block: Block) => (
-              <FlowBlock
-                key={block.id}
-                theme={theme}
-                commandHandler={commandHandler}
-                block={block}
-                changeBlockTag={changeCurrentBlockTag}
-                updatePage={updatePageHandler}
-                addBlock={addBlockHandler}
-                deleteBlock={deleteBlock}
-                joinBlocks={joinBlocks}
-                sliceBlockIntoNew={sliceBlockIntoNew}
-                restoreBlockAndChangeColor={restoreBlockAndChangeColor}
-                previousBlock={
-                  block.index > 0 ? blocks[block.index - 1] : undefined
-                }
-                nextBlock={
-                  block.index < blocks.length - 1
-                    ? blocks[block.index + 1]
-                    : undefined
-                }
-                rerenderDetector={rerenderDetector}
-                setRerenderDetector={setRerenderDetector}
-              />
-            ))}
-            {provided.placeholder}
+            {/* @ts-expect-error flipmove not in typescript */}
+            <FlipMove
+              duration={200}
+              disableAllAnimations={disableAnimations}
+              easing="ease-out"
+            >
+              {blocks.map((block: Block) => (
+                <FlowBlock
+                  key={block.id}
+                  theme={theme}
+                  commandHandler={commandHandler}
+                  updatePage={updatePageHandler}
+                  block={block}
+                  previousBlock={
+                    block.index > 0 ? blocks[block.index - 1] : undefined
+                  }
+                  nextBlock={
+                    block.index < blocks.length - 1
+                      ? blocks[block.index + 1]
+                      : undefined
+                  }
+                  changeBlockTag={changeBlockTag}
+                  restoreBlockAndChangeColor={restoreBlockAndChangeColor}
+                  addBlock={addBlockHandler}
+                  deleteBlock={deleteBlock}
+                  joinBlocks={joinBlocks}
+                  sliceBlockIntoNew={sliceBlockIntoNew}
+                  swapBlocks={swapBlocks}
+                  rerenderDetector={rerenderDetector}
+                  setRerenderDetector={setRerenderDetector}
+                  setDisableAnimations={setDisableAnimations}
+                />
+              ))}
+
+              {provided.placeholder}
+            </FlipMove>
           </div>
         )}
       </Droppable>

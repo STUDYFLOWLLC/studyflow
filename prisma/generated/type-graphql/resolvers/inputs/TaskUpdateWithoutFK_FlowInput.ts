@@ -6,6 +6,7 @@ import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperati
 import { CourseOnTermUpdateOneWithoutFK_TasksInput } from "../inputs/CourseOnTermUpdateOneWithoutFK_TasksInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableEnumTaskTypeFieldUpdateOperationsInput } from "../inputs/NullableEnumTaskTypeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskLabelUpdateManyWithoutFK_TaskInput } from "../inputs/TaskLabelUpdateManyWithoutFK_TaskInput";
@@ -44,6 +45,11 @@ export class TaskUpdateWithoutFK_FlowInput {
     nullable: true
   })
   DueDate?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableEnumTaskTypeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Type?: NullableEnumTaskTypeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => TaskLabelUpdateManyWithoutFK_TaskInput, {
     nullable: true

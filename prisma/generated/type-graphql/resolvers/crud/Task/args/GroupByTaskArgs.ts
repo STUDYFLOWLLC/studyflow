@@ -20,7 +20,7 @@ export class GroupByTaskArgs {
   @TypeGraphQL.Field(_type => [TaskScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"TaskID" | "CreatedTime" | "Title" | "Completed" | "Description" | "DueDate" | "FK_UserID" | "FK_FlowID" | "FK_CourseOnTermID">;
+  by!: Array<"TaskID" | "CreatedTime" | "Title" | "Completed" | "Description" | "DueDate" | "Type" | "FK_UserID" | "FK_FlowID" | "FK_CourseOnTermID">;
 
   @TypeGraphQL.Field(_type => TaskScalarWhereWithAggregatesInput, {
     nullable: true

@@ -7,6 +7,7 @@ import { TaskCountAggregate } from "../outputs/TaskCountAggregate";
 import { TaskMaxAggregate } from "../outputs/TaskMaxAggregate";
 import { TaskMinAggregate } from "../outputs/TaskMinAggregate";
 import { TaskSumAggregate } from "../outputs/TaskSumAggregate";
+import { TaskType } from "../../enums/TaskType";
 
 @TypeGraphQL.ObjectType("TaskGroupBy", {
   isAbstract: true
@@ -41,6 +42,11 @@ export class TaskGroupBy {
     nullable: true
   })
   DueDate!: Date | null;
+
+  @TypeGraphQL.Field(_type => TaskType, {
+    nullable: true
+  })
+  Type!: "WORK_ON" | "DUE" | "REVIEW" | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
