@@ -1,5 +1,5 @@
 import { reverse } from 'esrever'
-import { Block, RichText } from 'types/Flow'
+import { RichText } from 'types/Flow'
 import findCurrentRichText from 'utils/flows/findCurrentRichText'
 import lengthOfPreviousRichText from 'utils/flows/lengthOfPreviousRichText'
 import numWhiteSpacesInEnd from 'utils/flows/numWhiteSpacesInEnd'
@@ -24,10 +24,11 @@ const findPunctuationOrSpaceOrSymbolIndex = (str: string) => {
  * @param caretIndex where the caret is at the start of alt delete
  * @returns the rich text of the block after alt-delete
  */
-export default function altDelete(block: Block, caretIndex: number) {
-  const richTexts = block[block.tag]?.richText
-  if (!richTexts) return [] as RichText[]
-
+export default function altDelete(
+  richTexts: RichText[],
+  caretIndex: number,
+  halt?: boolean,
+): RichText[] {
   const richTextsCopy = [...richTexts]
 
   const currentRichText = findCurrentRichText(richTextsCopy, caretIndex)
@@ -40,7 +41,10 @@ export default function altDelete(block: Block, caretIndex: number) {
   let relativeCaretIndex = caretIndex - previousLength
 
   // trim the current rich text if our caret is immediately after a space
-  if (currentRichText.text.content.charAt(relativeCaretIndex - 1) === ' ') {
+  if (
+    currentRichText.text.content.charAt(relativeCaretIndex - 1) === ' ' &&
+    !halt
+  ) {
     const whiteSpacesBeforeCaret = numWhiteSpacesInEnd(
       currentRichText.text.content.slice(0, relativeCaretIndex),
     )
@@ -57,6 +61,16 @@ export default function altDelete(block: Block, caretIndex: number) {
     currentRichText.text.content.slice(0, relativeCaretIndex),
   )
 
+  if (altDeleteIndex === -1 && richTexts.length > 1) {
+    const currentRichTextIndex = richTexts.indexOf(currentRichText)
+    richTextsCopy.splice(currentRichTextIndex, 1)
+    return altDelete(
+      richTextsCopy,
+      caretIndex - currentRichText.text.content.length,
+      true,
+    )
+  }
+
   // if we found a space or punctuation, delete to that
   if (altDeleteIndex !== -1 && relativeCaretIndex !== altDeleteIndex) {
     currentRichText.text.content =
@@ -65,6 +79,7 @@ export default function altDelete(block: Block, caretIndex: number) {
   }
   // this handles the case where we only delete one character
   else if (altDeleteIndex === relativeCaretIndex) {
+    if (halt) return richTextsCopy
     currentRichText.text.content =
       currentRichText.text.content.slice(0, altDeleteIndex - 1) +
       currentRichText.text.content.slice(relativeCaretIndex)
