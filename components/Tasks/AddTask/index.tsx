@@ -12,6 +12,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { TaskType } from 'prisma/generated/type-graphql/enums/TaskType'
 import { useEffect, useState } from 'react'
+import { TaskType } from 'types/Task'
 import { v4 as uuid } from 'uuid'
 
 interface Props {
