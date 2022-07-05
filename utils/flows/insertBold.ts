@@ -1,18 +1,20 @@
-import { Block, RichTextType } from 'types/Flow'
+import { Block, RichText, RichTextType } from 'types/Flow'
 import sliceBlock from 'utils/flows/sliceBlock'
 
 export default function insertBold(block: Block, caretIndex: number) {
   const insertIndex = sliceBlock(block, caretIndex)
-  if (insertIndex === undefined) return
+  if (insertIndex === undefined) return [] as RichText[]
 
   const richTexts = block[block.tag]?.richText
-  if (!richTexts) return
+  if (!richTexts) return [] as RichText[]
 
-  const boldFlagg = richTexts[insertIndex - 1]
-    ? !richTexts[insertIndex - 1].annotations?.bold
+  const richTextsCopy = [...richTexts]
+
+  const boldFlagg = richTextsCopy[insertIndex - 1]
+    ? !richTextsCopy[insertIndex - 1].annotations?.bold
     : true
 
-  richTexts.splice(insertIndex, 0, {
+  richTextsCopy.splice(insertIndex, 0, {
     type: RichTextType.TEXT,
     text: {
       content: '',
@@ -21,4 +23,6 @@ export default function insertBold(block: Block, caretIndex: number) {
       bold: boldFlagg,
     },
   })
+
+  return richTextsCopy
 }

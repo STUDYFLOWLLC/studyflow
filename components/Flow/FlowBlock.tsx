@@ -235,7 +235,7 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.ctrlKey || e.metaKey) {
       switch (e.key) {
         case 'b':
-          insertBold(block, caretIndex)
+          blockBody.richText = insertBold(block, caretIndex)
           break
         case 'i':
           blockBody.richText = insertItalic(block, caretIndex)
