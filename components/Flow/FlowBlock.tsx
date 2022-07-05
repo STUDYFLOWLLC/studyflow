@@ -286,7 +286,7 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.altKey) {
       switch (e.key) {
         case 'Backspace':
-          blockBody.richText = altDelete(block, caretIndex)
+          blockBody.richText = altDelete(blockBody.richText, caretIndex)
           break
         case 'ArrowUp':
           // swap this and the block above it if possible
