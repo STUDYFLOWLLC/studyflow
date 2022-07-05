@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { TaskType } from "../../enums/TaskType";
 
 @TypeGraphQL.InputType("TaskCreateManyFK_UserInput", {
   isAbstract: true
@@ -36,6 +37,11 @@ export class TaskCreateManyFK_UserInput {
     nullable: true
   })
   DueDate?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => TaskType, {
+    nullable: true
+  })
+  Type?: "WORK_ON" | "DUE" | "REVIEW" | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

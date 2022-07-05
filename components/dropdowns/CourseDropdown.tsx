@@ -78,7 +78,7 @@ export default function CourseDropDown({
                   theme === 'dark' && !backgroundColor,
               },
               backgroundColor,
-              'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mx-2 text-sm font-medium border',
+              'flex items-center cursor-pointer px-2 py-1 rounded-md mr-2 shadow-sm text-sm font-medium border',
             )}
           >
             {loading ? (
@@ -107,7 +107,7 @@ export default function CourseDropDown({
                     theme === 'light',
                 },
                 { 'bg-slate-700': theme === 'dark' },
-                'absolute z-20 left-0 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
+                'absolute z-20 left-2 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
               )}
             >
               {items.map((item) => (

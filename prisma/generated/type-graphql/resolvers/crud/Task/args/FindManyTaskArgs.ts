@@ -35,5 +35,5 @@ export class FindManyTaskArgs {
   @TypeGraphQL.Field(_type => [TaskScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"TaskID" | "CreatedTime" | "Title" | "Completed" | "Description" | "DueDate" | "FK_UserID" | "FK_FlowID" | "FK_CourseOnTermID"> | undefined;
+  distinct?: Array<"TaskID" | "CreatedTime" | "Title" | "Completed" | "Description" | "DueDate" | "Type" | "FK_UserID" | "FK_FlowID" | "FK_CourseOnTermID"> | undefined;
 }

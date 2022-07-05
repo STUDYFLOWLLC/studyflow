@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermCreateNestedOneWithoutFK_TasksInput } from "../inputs/CourseOnTermCreateNestedOneWithoutFK_TasksInput";
 import { FlowCreateNestedOneWithoutFK_TasksInput } from "../inputs/FlowCreateNestedOneWithoutFK_TasksInput";
 import { TaskLabelCreateNestedManyWithoutFK_TaskInput } from "../inputs/TaskLabelCreateNestedManyWithoutFK_TaskInput";
+import { TaskType } from "../../enums/TaskType";
 
 @TypeGraphQL.InputType("TaskCreateWithoutFK_UserInput", {
   isAbstract: true
@@ -39,6 +40,11 @@ export class TaskCreateWithoutFK_UserInput {
     nullable: true
   })
   DueDate?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => TaskType, {
+    nullable: true
+  })
+  Type?: "WORK_ON" | "DUE" | "REVIEW" | undefined;
 
   @TypeGraphQL.Field(_type => TaskLabelCreateNestedManyWithoutFK_TaskInput, {
     nullable: true
