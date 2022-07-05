@@ -1,9 +1,11 @@
 import { PlusIcon } from '@heroicons/react/solid'
+import { TaskType } from '@prisma/client'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CourseDropdown from 'components/dropdowns/CourseDropdown'
 import DateDropdown from 'components/dropdowns/DateDropdown'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
+import TypeDropdown from 'components/Tasks/AddTask/TypeDropdown'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
 import useTasks from 'hooks/tasks/useTasks'
@@ -52,6 +54,7 @@ export default function index({
   )
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
+  const [taskType, setTaskType] = useState<TaskType | undefined>(undefined)
 
   useEffect(() => setMounted(true), [])
 
@@ -67,6 +70,7 @@ export default function index({
       TaskID: taskId,
       Description: taskDescription,
       DueDate: taskDueDateExact?.toISOString(),
+      Type: taskType,
       FK_CourseOnTermID: taskCourse,
       FK_CourseOnTerm: {
         CourseOnTermID: taskCourse,
@@ -79,8 +83,6 @@ export default function index({
         },
       },
     }
-
-    console.log([...tasks, newTask])
 
     // mutate locally
     mutateTasks(
@@ -106,6 +108,7 @@ export default function index({
         : courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || 'Course',
     )
     setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
+    setTaskType(undefined)
 
     // TODO: error handling
     // send to backend
@@ -116,6 +119,7 @@ export default function index({
       taskDueDateExact?.toISOString(),
       user.email || user.user_metadata.email,
       taskCourse,
+      taskType,
     )
   }
 
@@ -165,7 +169,7 @@ export default function index({
             />
           </div>
           <div className="w-full border-t border-gray-300" />
-          <div className="flex justify-between mx-1 my-1">
+          <div className="flex justify-between mx-2 my-1">
             <span className="flex items-center">
               <DateDropdown
                 taskDueDateExact={taskDueDateExact}
@@ -192,6 +196,7 @@ export default function index({
                 color={courseOnTerm?.Color}
                 general={general}
               />
+              <TypeDropdown taskType={taskType} setTaskType={setTaskType} />
             </span>
             <span className="flex space-x-2 items-center">
               <button
@@ -220,6 +225,7 @@ export default function index({
                           'Course',
                   )
                   setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
+                  setTaskType(undefined)
                 }}
               >
                 <div>Cancel</div>

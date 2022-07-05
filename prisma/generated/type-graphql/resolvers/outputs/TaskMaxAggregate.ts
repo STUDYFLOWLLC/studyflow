@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { TaskType } from "../../enums/TaskType";
 
 @TypeGraphQL.ObjectType("TaskMaxAggregate", {
   isAbstract: true
@@ -36,6 +37,11 @@ export class TaskMaxAggregate {
     nullable: true
   })
   DueDate!: Date | null;
+
+  @TypeGraphQL.Field(_type => TaskType, {
+    nullable: true
+  })
+  Type!: "WORK_ON" | "DUE" | "REVIEW" | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

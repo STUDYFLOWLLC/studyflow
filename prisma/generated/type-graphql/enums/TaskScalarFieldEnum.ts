@@ -7,6 +7,7 @@ export enum TaskScalarFieldEnum {
   Completed = "Completed",
   Description = "Description",
   DueDate = "DueDate",
+  Type = "Type",
   FK_UserID = "FK_UserID",
   FK_FlowID = "FK_FlowID",
   FK_CourseOnTermID = "FK_CourseOnTermID"

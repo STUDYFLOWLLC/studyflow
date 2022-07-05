@@ -11,7 +11,7 @@ export default function DateIcon({ date }: Props) {
   const dateObj = new Date(date)
 
   return (
-    <div className="text-sm">
+    <div className="text-sm mr-2">
       {date && (
         <div
           className={classNames(
@@ -19,10 +19,10 @@ export default function DateIcon({ date }: Props) {
             { 'text-amber-400': isToday(dateObj) },
             { 'text-blue-400': isTomorrow(dateObj) },
             { 'text-gray-400': !isToday(dateObj) && !isTomorrow(dateObj) },
-            'flex',
+            'flex items-center',
           )}
         >
-          <CalendarIcon className="w-4 mr-1" />
+          <CalendarIcon className="w-4 h-4 mr-1" />
           <div>{abbreviateDate(dateObj)}</div>
         </div>
       )}
