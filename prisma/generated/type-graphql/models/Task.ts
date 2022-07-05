@@ -6,6 +6,7 @@ import { CourseOnTerm } from "../models/CourseOnTerm";
 import { Flow } from "../models/Flow";
 import { TaskLabel } from "../models/TaskLabel";
 import { User } from "../models/User";
+import { TaskType } from "../enums/TaskType";
 import { TaskCount } from "../resolvers/outputs/TaskCount";
 
 @TypeGraphQL.ObjectType("Task", {
@@ -41,6 +42,11 @@ export class Task {
     nullable: true
   })
   DueDate?: Date | null;
+
+  @TypeGraphQL.Field(_type => TaskType, {
+    nullable: true
+  })
+  Type?: "WORK_ON" | "DUE" | "REVIEW" | null;
 
   FK_TaskLabel?: TaskLabel[];
 

@@ -3,6 +3,7 @@ import CourseIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/CourseIc
 import DateIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/DateIcon'
 import DeleteTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/DeleteTask'
 import { Task } from 'hooks/tasks/useTasks'
+import TypeIcon from './TypeIcon'
 
 interface Props {
   tasks: Task[]
@@ -27,7 +28,10 @@ export default function BasicDisplayTasks({ tasks }: Props) {
                   </div>
                   <div className="font-light">{task.Description}</div>
                   <div className="flex justify-between">
-                    <DateIcon date={task.DueDate} />
+                    <span className="flex">
+                      <DateIcon date={task.DueDate} />
+                      <TypeIcon taskType={task.Type} />
+                    </span>
                     <span className="flex justify-end mr-1">
                       <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
                     </span>

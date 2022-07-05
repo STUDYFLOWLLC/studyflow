@@ -11,6 +11,7 @@ export { SetupStep } from "./SetupStep";
 export { SortOrder } from "./SortOrder";
 export { TaskLabelScalarFieldEnum } from "./TaskLabelScalarFieldEnum";
 export { TaskScalarFieldEnum } from "./TaskScalarFieldEnum";
+export { TaskType } from "./TaskType";
 export { TermScalarFieldEnum } from "./TermScalarFieldEnum";
 export { TermType } from "./TermType";
 export { UserScalarFieldEnum } from "./UserScalarFieldEnum";

@@ -40,6 +40,11 @@ export class TaskCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  Type!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_UserID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

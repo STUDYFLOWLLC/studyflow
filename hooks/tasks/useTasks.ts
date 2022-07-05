@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { TaskType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 
@@ -19,6 +20,7 @@ export interface Task {
       Code: string
     }
   }
+  Type: TaskType
 }
 
 interface Ret {
@@ -47,6 +49,7 @@ export default function useTasks(userId: number | undefined): Ret {
             Code
           }
         }
+        Type
       }
     }
   `

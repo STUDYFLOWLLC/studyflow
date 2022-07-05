@@ -42,6 +42,12 @@ enum FlowType {
   EXAM
 }
 
+enum TaskType {
+  WORK_ON
+  DUE
+  REVIEW
+}
+
 //holds user information. STANDARD: NULL IS A DELETED USER
 model User {
   UserID             Int         @id @default(autoincrement())
@@ -184,6 +190,7 @@ model Task {
   Completed         Boolean       @default(false)
   Description       String?
   DueDate           DateTime?
+  Type              TaskType?
   FK_TaskLabel      TaskLabel[]
   FK_User           User?         @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID         Int?

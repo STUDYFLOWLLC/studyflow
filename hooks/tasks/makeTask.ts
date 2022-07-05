@@ -1,3 +1,4 @@
+import { TaskType } from '@prisma/client'
 import request, { gql } from 'graphql-request'
 
 export default async function makeTask(
@@ -7,6 +8,7 @@ export default async function makeTask(
   dueDate: string | undefined,
   email: string,
   courseOnTermId: number,
+  type: TaskType | undefined,
 ) {
   const mutation = gql`
     mutation Mutation($data: TaskCreateInput!) {
@@ -33,6 +35,7 @@ export default async function makeTask(
           CourseOnTermID: courseOnTermId,
         },
       },
+      Type: type,
     },
   }
 

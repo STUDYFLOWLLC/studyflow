@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
+import { EnumTaskTypeNullableFilter } from "../inputs/EnumTaskTypeNullableFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
@@ -57,6 +58,11 @@ export class TaskScalarWhereInput {
     nullable: true
   })
   DueDate?: DateTimeNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumTaskTypeNullableFilter, {
+    nullable: true
+  })
+  Type?: EnumTaskTypeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
