@@ -44,6 +44,14 @@ a {
   scrollbar-width: none; /* Firefox */
 }
 
+#underline {
+  @apply underline;
+}
+
+#code {
+  @apply text-red-400 bg-gray-200 rounded-md px-1;
+}
+
 .task-name #date {
   @apply bg-primary/50 rounded px-1.5 py-0.5 cursor-pointer;
 }

@@ -1,12 +1,12 @@
 import { Block, RichText, RichTextType } from 'types/Flow'
-import sliceBlock from 'utils/flows/sliceBlock'
+import sliceRichText from 'utils/flows/sliceRichText'
 
-export default function insertBold(block: Block, caretIndex: number) {
-  const insertIndex = sliceBlock(block, caretIndex)
-  if (insertIndex === undefined) return [] as RichText[]
-
+export default function insertItalic(block: Block, caretIndex: number) {
   const richTexts = block[block.tag]?.richText
   if (!richTexts) return [] as RichText[]
+
+  const insertIndex = sliceRichText(richTexts, caretIndex)
+  if (insertIndex === undefined) return [] as RichText[]
 
   const richTextsCopy = [...richTexts]
 

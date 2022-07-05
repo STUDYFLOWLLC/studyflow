@@ -4,7 +4,7 @@ import FlowMenu from 'components/Flow/FlowMenu'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { Color } from 'types/Colors'
-import { Block, BlockTag } from 'types/Flow'
+import { Annotations, Block, BlockTag } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import altDelete from 'utils/flows/altDelete'
 import blockParser from 'utils/flows/blockParser'
@@ -21,10 +21,9 @@ import ContentEditable, {
 import deleteInBlock from 'utils/flows/deleteInBlock'
 import determinePlaceholder from 'utils/flows/determinePlaceholder'
 import getRawTextLength from 'utils/flows/getRawTextLength'
-import insertBold from 'utils/flows/insertBold'
+import insertAnnotation from 'utils/flows/insertAnnotation'
 import insertInSelection from 'utils/flows/insertInSelection'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
-import insertItalic from 'utils/flows/insertItalic'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import {
@@ -233,12 +232,37 @@ class FlowBlock extends React.Component<Props, State> {
 
     // handle commands
     if (e.ctrlKey || e.metaKey) {
+      console.log(
+        insertAnnotation(blockBody.richText, caretIndex, Annotations.ITALIC),
+      )
       switch (e.key) {
         case 'b':
-          blockBody.richText = insertBold(block, caretIndex)
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.BOLD,
+          )
           break
         case 'i':
-          blockBody.richText = insertItalic(block, caretIndex)
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.ITALIC,
+          )
+          break
+        case 'u':
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.UNDERLINE,
+          )
+          break
+        case 'e':
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.CODE,
+          )
           break
         case 'Backspace':
           blockBody.richText = cmdDelete(block, caretIndex)
@@ -275,7 +299,7 @@ class FlowBlock extends React.Component<Props, State> {
           }, 200)
           setTimeout(() => {
             this.setState({ animatingMoveUp: false })
-          }, 750)
+          }, 500)
           break
         case 'ArrowDown':
           // swap this and the block below it if possible
@@ -288,7 +312,7 @@ class FlowBlock extends React.Component<Props, State> {
           }, 200)
           setTimeout(() => {
             this.setState({ animatingMoveDown: false })
-          }, 750)
+          }, 500)
           break
         default:
           break
@@ -457,6 +481,8 @@ class FlowBlock extends React.Component<Props, State> {
       animatingMoveUp,
     } = this.state
 
+    if (focused) console.log(html)
+
     return (
       <div className="mx-auto max-w-3xl">
         <Draggable draggableId={block.id} index={block.index}>
@@ -472,7 +498,7 @@ class FlowBlock extends React.Component<Props, State> {
                   <div
                     className={classNames(
                       `ml-${block.tabs * 4}`,
-                      'flex items-center transition-all duration-100',
+                      'flex items-center transition-all duration-200',
                     )}
                   >
                     <div
@@ -552,11 +578,11 @@ class FlowBlock extends React.Component<Props, State> {
                             block.tag !== BlockTag.PARAGRAPH,
                         },
                         {
-                          'duration-500 z-10 transition-all shadow-2xl rounded-md ease-out ':
+                          'z-10 transition-all shadow-2xl rounded-md ease-out ':
                             animatingMoveUp,
                         },
                         {
-                          'duration-500  z-10 transition-all shadow-2xl rounded-md ease-in':
+                          'z-10 transition-all shadow-2xl rounded-md ease-in':
                             animatingMoveDown,
                         },
                         {
@@ -566,7 +592,7 @@ class FlowBlock extends React.Component<Props, State> {
                         block[block.tag]?.color !== Color.DEFAULT
                           ? block[block.tag]?.color
                           : '',
-                        'bg-inherit min-h-fit outline-none select-text cursor-text w-full',
+                        'bg-inherit min-h-fit outline-none select-text cursor-text w-full duration-500',
                       )}
                       innerRef={contentEditable}
                       html={html}
