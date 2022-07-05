@@ -75,6 +75,7 @@ interface State {
   showDragger: boolean
   focused: boolean
   forcererender: string
+  animatingMove: boolean
 }
 
 const CMD_KEY = '/'
@@ -105,6 +106,7 @@ class FlowBlock extends React.Component<Props, State> {
       showDragger: false,
       focused: false,
       forcererender: 'false',
+      animatingMove: false,
     }
   }
 
@@ -260,19 +262,23 @@ class FlowBlock extends React.Component<Props, State> {
           // swap this and the block above it if possible
           e.preventDefault()
           setDisableAnimations(false)
+          this.setState({ animatingMove: true })
           if (previousBlock) swapBlocks(block, previousBlock)
           setTimeout(() => {
             setDisableAnimations(true)
-          }, 150)
+            this.setState({ animatingMove: false })
+          }, 250)
           break
         case 'ArrowDown':
           // swap this and the block below it if possible
           e.preventDefault()
           setDisableAnimations(false)
+          this.setState({ animatingMove: true })
           if (nextBlock) swapBlocks(block, nextBlock)
           setTimeout(() => {
             setDisableAnimations(true)
-          }, 150)
+            this.setState({ animatingMove: false })
+          }, 250)
           break
         default:
           break
@@ -381,9 +387,7 @@ class FlowBlock extends React.Component<Props, State> {
     const { block, changeBlockTag } = this.props
     const { contentEditable, tempBlock } = this.state
 
-
     if (tag !== block.tag) changeBlockTag(block, tag)
-
 
     const blockBody = block[block.tag]
     const tempBlockBody = tempBlock[tempBlock.tag]
@@ -401,10 +405,8 @@ class FlowBlock extends React.Component<Props, State> {
     const { block, addBlock } = this.props
     const { contentEditable, openedMenuInEmptyBlock, tempBlock } = this.state
 
-
     if (openedMenuInEmptyBlock || convert)
       return this.convertTagSelectionHandler(tag)
-
 
     const blockBody = block[block.tag]
     const tempBlockBody = tempBlock[tempBlock.tag]
@@ -441,9 +443,8 @@ class FlowBlock extends React.Component<Props, State> {
       showDragger,
       focused,
       forcererender,
+      animatingMove,
     } = this.state
-
-    if (focused) console.log(html)
 
     return (
       <div className="mx-auto max-w-3xl">
@@ -539,10 +540,14 @@ class FlowBlock extends React.Component<Props, State> {
                             html === '' &&
                             block.tag !== BlockTag.PARAGRAPH,
                         },
+                        {
+                          'z-10 mb-2 shadow-2xl transition-all rounded-md ':
+                            animatingMove,
+                        },
                         block[block.tag]?.color !== Color.DEFAULT
                           ? block[block.tag]?.color
                           : '',
-                        'outline-none select-text cursor-text w-full mr-16',
+                        'bg-inherit min-h-fit outline-none select-text cursor-text w-full duration-300 ease-[cubic-bezier(.19,1.09,.34,.82)] transform-gpu',
                       )}
                       innerRef={contentEditable}
                       html={html}

@@ -432,7 +432,11 @@ export default function FlowPage() {
             {...provided.droppableProps}
           >
             {/* @ts-expect-error flipmove not in typescript */}
-            <FlipMove duration={150} disableAllAnimations={disableAnimations}>
+            <FlipMove
+              duration={250}
+              disableAllAnimations={disableAnimations}
+              easing="ease-out"
+            >
               {blocks.map((block: Block) => (
                 <FlowBlock
                   key={block.id}
