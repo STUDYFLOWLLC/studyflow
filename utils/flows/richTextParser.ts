@@ -17,6 +17,10 @@ export default function richTextParser(richTexts: RichText[] | undefined) {
         html.push('<b>')
         html.push(encoded)
         html.push('</b>')
+      } else if (richText.annotations?.italic) {
+        html.push('<i>')
+        html.push(encoded)
+        html.push('</i>')
       } else {
         html.push('<span>')
         html.push(encoded)

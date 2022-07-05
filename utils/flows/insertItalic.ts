@@ -11,7 +11,7 @@ export default function insertBold(block: Block, caretIndex: number) {
   const richTextsCopy = [...richTexts]
 
   const italicFlagg = richTextsCopy[insertIndex - 1]
-    ? !richTextsCopy[insertIndex - 1].annotations?.bold
+    ? !richTextsCopy[insertIndex - 1].annotations?.italic
     : true
 
   richTextsCopy.splice(insertIndex, 0, {

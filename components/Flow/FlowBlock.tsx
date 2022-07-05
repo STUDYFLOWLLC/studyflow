@@ -239,7 +239,6 @@ class FlowBlock extends React.Component<Props, State> {
           break
         case 'i':
           blockBody.richText = insertItalic(block, caretIndex)
-          console.log(blockBody.richText)
           break
         case 'Backspace':
           blockBody.richText = cmdDelete(block, caretIndex)
