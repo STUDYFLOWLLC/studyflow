@@ -11,7 +11,6 @@ import { BlockTag, Command, commandItems } from 'types/Flow'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 import TurnIntoMenuItem from './Menu/TurnIntoMenuItem'
 
-
 interface Props {
   theme: string | undefined
   position: {
@@ -61,7 +60,6 @@ class SelectMenu extends React.Component<Props, State> {
           commandItems.indexOf(a) < commandItems.indexOf(b) ? -1 : 1,
       })
       this.prioritizeAndGroupCommands(itemsSorted)
-
     }
   }
 

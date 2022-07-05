@@ -75,7 +75,8 @@ interface State {
   showDragger: boolean
   focused: boolean
   forcererender: string
-  animatingMove: boolean
+  animatingMoveUp: boolean
+  animatingMoveDown: boolean
 }
 
 const CMD_KEY = '/'
@@ -106,7 +107,8 @@ class FlowBlock extends React.Component<Props, State> {
       showDragger: false,
       focused: false,
       forcererender: 'false',
-      animatingMove: false,
+      animatingMoveUp: false,
+      animatingMoveDown: false,
     }
   }
 
@@ -262,23 +264,27 @@ class FlowBlock extends React.Component<Props, State> {
           // swap this and the block above it if possible
           e.preventDefault()
           setDisableAnimations(false)
-          this.setState({ animatingMove: true })
+          this.setState({ animatingMoveUp: true })
           if (previousBlock) swapBlocks(block, previousBlock)
           setTimeout(() => {
             setDisableAnimations(true)
-            this.setState({ animatingMove: false })
-          }, 250)
+          }, 200)
+          setTimeout(() => {
+            this.setState({ animatingMoveUp: false })
+          }, 750)
           break
         case 'ArrowDown':
           // swap this and the block below it if possible
           e.preventDefault()
           setDisableAnimations(false)
-          this.setState({ animatingMove: true })
+          this.setState({ animatingMoveDown: true })
           if (nextBlock) swapBlocks(block, nextBlock)
           setTimeout(() => {
             setDisableAnimations(true)
-            this.setState({ animatingMove: false })
-          }, 250)
+          }, 200)
+          setTimeout(() => {
+            this.setState({ animatingMoveDown: false })
+          }, 750)
           break
         default:
           break
@@ -443,136 +449,149 @@ class FlowBlock extends React.Component<Props, State> {
       showDragger,
       focused,
       forcererender,
-      animatingMove,
+      animatingMoveDown,
+      animatingMoveUp,
     } = this.state
 
     return (
       <div className="mx-auto max-w-3xl">
         <Draggable draggableId={block.id} index={block.index}>
-          {(provided, snapshot) => (
-            <div>
-              <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                onMouseEnter={() => this.setState({ showDragger: true })}
-                onMouseLeave={() => this.setState({ showDragger: false })}
-              >
-                <div className="relative">
-                  <div
-                    className={classNames(
-                      `ml-${block.tabs * 4}`,
-                      'flex items-center transition-all duration-100',
-                    )}
-                  >
+          {(provided, snapshot) => {
+            console.log(provided)
+            console.log(snapshot)
+            return (
+              <div>
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  onMouseEnter={() => this.setState({ showDragger: true })}
+                  onMouseLeave={() => this.setState({ showDragger: false })}
+                >
+                  <div className="relative">
                     <div
                       className={classNames(
-                        { 'opacity-100': showDragger || snapshot.isDragging },
-                        { 'opacity-0': !showDragger && !snapshot.isDragging },
-                        'absolute left-[-3rem] cursor-move transition-opacity duration-750',
+                        `ml-${block.tabs * 4}`,
+                        'flex items-center transition-all duration-100',
                       )}
-                      {...provided.dragHandleProps}
                     >
-                      <span className="w-10 h-6 flex text-slate-400">
-                        <PlusIcon className="w-6 h-6 cursor-pointer" />
-                        <ViewGridIcon
-                          className={classNames(
-                            { 'hover:bg-slate-200': theme === 'light' },
-                            { 'hover:bg-slate-600': theme === 'dark' },
-                            {
-                              'bg-slate-200':
-                                snapshot.isDragging && theme === 'light',
-                            },
-                            'w-6 h-6 cursor-grab rounded',
-                          )}
-                        />
-                      </span>
+                      <div
+                        className={classNames(
+                          { 'opacity-100': showDragger || snapshot.isDragging },
+                          { 'opacity-0': !showDragger && !snapshot.isDragging },
+                          'absolute left-[-3rem] cursor-move transition-opacity duration-750',
+                        )}
+                        {...provided.dragHandleProps}
+                      >
+                        <span className="w-10 h-6 flex text-slate-400">
+                          <PlusIcon className="w-6 h-6 cursor-pointer" />
+                          <ViewGridIcon
+                            className={classNames(
+                              { 'hover:bg-slate-200': theme === 'light' },
+                              { 'hover:bg-slate-600': theme === 'dark' },
+                              {
+                                'bg-slate-200':
+                                  snapshot.isDragging && theme === 'light',
+                              },
+                              'w-6 h-6 cursor-grab rounded',
+                            )}
+                          />
+                        </span>
+                      </div>
+                      {/*  @ts-expect-error: Let's ignore a compile error like this unreachable code */}
+                      <ContentEditable
+                        className={classNames(
+                          {
+                            'text-lg my-0 py-[0.25rem] leading-normal':
+                              html === '' && block.tag === BlockTag.PARAGRAPH,
+                          },
+                          {
+                            'text-4xl font-bold py-[0.4rem] leading-normal':
+                              html === '' && block.tag === BlockTag.HEADING_1,
+                          },
+                          {
+                            'text-3xl font-bold py-[0.35rem] leading-normal':
+                              html === '' && block.tag === BlockTag.HEADING_2,
+                          },
+                          {
+                            'text-2xl font-bold py-[0.3rem] leading-normal':
+                              html === '' && block.tag === BlockTag.HEADING_3,
+                          },
+                          {
+                            'caret-black':
+                              block[block.tag]?.color === Color.DEFAULT &&
+                              theme === 'light',
+                          },
+                          {
+                            'caret-white':
+                              block[block.tag]?.color === Color.DEFAULT &&
+                              theme === 'dark',
+                          },
+                          {
+                            'opacity-0':
+                              !focused &&
+                              html === '' &&
+                              block.tag === BlockTag.PARAGRAPH,
+                          },
+                          {
+                            'opacity-80':
+                              focused &&
+                              html === '' &&
+                              block.tag === BlockTag.PARAGRAPH,
+                          },
+                          {
+                            'opacity-80':
+                              !focused &&
+                              html === '' &&
+                              block.tag !== BlockTag.PARAGRAPH,
+                          },
+                          {
+                            'opacity-90':
+                              focused &&
+                              html === '' &&
+                              block.tag !== BlockTag.PARAGRAPH,
+                          },
+                          {
+                            'duration-500 z-10 transition-all shadow-2xl rounded-md ease-out ':
+                              animatingMoveUp,
+                          },
+                          {
+                            'duration-500  z-10 transition-all shadow-2xl rounded-md ease-in':
+                              animatingMoveDown,
+                          },
+                          {
+                            'z-10 transition-all shadow-2xl rounded-md duration-100':
+                              snapshot.isDragging || snapshot.isDropAnimating,
+                          },
+                          block[block.tag]?.color !== Color.DEFAULT
+                            ? block[block.tag]?.color
+                            : '',
+                          'bg-inherit min-h-fit outline-none select-text cursor-text w-full',
+                        )}
+                        innerRef={contentEditable}
+                        html={html}
+                        placeholder={determinePlaceholder(block.tag)}
+                        onFocus={() => this.setState({ focused: true })}
+                        onBlur={() => this.setState({ focused: false })}
+                        onChange={this.onChangeHandler}
+                        onKeyDown={this.onKeyDownHandler}
+                        onKeyUp={this.onKeyUpHandler}
+                        forcererender={forcererender}
+                      />
                     </div>
-                    {/*  @ts-expect-error: Let's ignore a compile error like this unreachable code */}
-                    <ContentEditable
-                      className={classNames(
-                        {
-                          'text-lg my-0 py-[0.25rem] leading-normal':
-                            html === '' && block.tag === BlockTag.PARAGRAPH,
-                        },
-                        {
-                          'text-4xl font-bold py-[0.4rem] leading-normal':
-                            html === '' && block.tag === BlockTag.HEADING_1,
-                        },
-                        {
-                          'text-3xl font-bold py-[0.35rem] leading-normal':
-                            html === '' && block.tag === BlockTag.HEADING_2,
-                        },
-                        {
-                          'text-2xl font-bold py-[0.3rem] leading-normal':
-                            html === '' && block.tag === BlockTag.HEADING_3,
-                        },
-                        {
-                          'caret-black':
-                            block[block.tag]?.color === Color.DEFAULT &&
-                            theme === 'light',
-                        },
-                        {
-                          'caret-white':
-                            block[block.tag]?.color === Color.DEFAULT &&
-                            theme === 'dark',
-                        },
-                        {
-                          'opacity-0':
-                            !focused &&
-                            html === '' &&
-                            block.tag === BlockTag.PARAGRAPH,
-                        },
-                        {
-                          'opacity-80':
-                            focused &&
-                            html === '' &&
-                            block.tag === BlockTag.PARAGRAPH,
-                        },
-                        {
-                          'opacity-80':
-                            !focused &&
-                            html === '' &&
-                            block.tag !== BlockTag.PARAGRAPH,
-                        },
-                        {
-                          'opacity-90':
-                            focused &&
-                            html === '' &&
-                            block.tag !== BlockTag.PARAGRAPH,
-                        },
-                        {
-                          'z-10 mb-2 shadow-2xl transition-all rounded-md ':
-                            animatingMove,
-                        },
-                        block[block.tag]?.color !== Color.DEFAULT
-                          ? block[block.tag]?.color
-                          : '',
-                        'bg-inherit min-h-fit outline-none select-text cursor-text w-full duration-300 ease-[cubic-bezier(.19,1.09,.34,.82)] transform-gpu',
-                      )}
-                      innerRef={contentEditable}
-                      html={html}
-                      placeholder={determinePlaceholder(block.tag)}
-                      onFocus={() => this.setState({ focused: true })}
-                      onBlur={() => this.setState({ focused: false })}
-                      onChange={this.onChangeHandler}
-                      onKeyDown={this.onKeyDownHandler}
-                      onKeyUp={this.onKeyUpHandler}
-                      forcererender={forcererender}
-                    />
                   </div>
                 </div>
+                {selectMenuIsOpen && (
+                  <FlowMenu
+                    theme={theme}
+                    position={selectMenuPosition}
+                    onTagSelect={this.tagSelectionHandler}
+                    onColorSelect={this.colorSelectionHandler}
+                    close={this.closeSelectMenuHandler}
+                  />
+                )}
               </div>
-              {selectMenuIsOpen && (
-                <FlowMenu
-                  theme={theme}
-                  position={selectMenuPosition}
-                  onTagSelect={this.tagSelectionHandler}
-                  onColorSelect={this.colorSelectionHandler}
-                  close={this.closeSelectMenuHandler}
-                />
-              )}
-            </div>
-          )}
+            )
+          }}
         </Draggable>
       </div>
     )

@@ -433,7 +433,7 @@ export default function FlowPage() {
           >
             {/* @ts-expect-error flipmove not in typescript */}
             <FlipMove
-              duration={250}
+              duration={200}
               disableAllAnimations={disableAnimations}
               easing="ease-out"
             >
