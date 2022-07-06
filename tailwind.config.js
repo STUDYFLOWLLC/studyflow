@@ -18,7 +18,7 @@ module.exports = {
           secondary: '#EE81C3',
           'secondary-focus': '#ED54A8',
           accent: '#F4BB77',
-          neutral: '#3D4451',
+          neutral: '#333333',
           'base-100': '#FFFFFF',
           info: '#6C727F',
           success: '#36D399',
@@ -28,11 +28,11 @@ module.exports = {
       },
       {
         dark: {
-          primary: '#39D0C0',
+          primary: '#55D7CA',
           secondary: '#EE81C3',
           'secondary-focus': '#ED54A8',
           accent: '#F4BB77',
-          neutral: '#3D4451',
+          neutral: '#C9CCE2',
           'base-100': '#272934',
           info: '#9DA3AE',
           success: '#36D399',
