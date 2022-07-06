@@ -52,6 +52,18 @@ a {
   @apply text-red-400 bg-gray-200 rounded-md px-1;
 }
 
+#code-dark {
+  @apply text-green-400 bg-gray-600 rounded-md px-1;
+}
+
+#underline {
+  @apply underline underline-offset-1 decoration-2;
+}
+
+#strikethrough {
+  @apply line-through;
+}
+
 .task-name #date {
   @apply bg-primary/50 rounded px-1.5 py-0.5 cursor-pointer;
 }
