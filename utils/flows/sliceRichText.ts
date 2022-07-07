@@ -1,13 +1,21 @@
-import { Block } from 'types/Flow'
-import findCurrentRichTextBlock from './findCurrentRichTextBlock'
+import { RichText } from 'types/Flow'
+import findCurrentRichText from './findCurrentRichText'
 import lengthOfPreviousRichText from './lengthOfPreviousRichText'
 
-export default function sliceBlock(block: Block, caretIndex: number) {
-  const richTexts = block[block.tag]?.richText
-  if (!richTexts) return
-
-  const currentRichText = findCurrentRichTextBlock(block, caretIndex)
-  if (!currentRichText?.text) return
+/**
+ * Slice the block and insert a new rich text item at the caret index. Will potentially
+ * return the current rich text index if the caret is at the beginnng, no content, or at
+ * the end of the block.
+ * @param block the block to slice
+ * @param caretIndex the caret index at which to slice the block
+ * @returns the index of the current block
+ */
+export default function sliceRichText(
+  richTexts: RichText[],
+  caretIndex: number,
+) {
+  const currentRichText = findCurrentRichText(richTexts, caretIndex)
+  if (!currentRichText?.text) return -1
 
   const previousLength = lengthOfPreviousRichText(richTexts, currentRichText)
   const relativeCaretIndex = caretIndex - previousLength
@@ -15,6 +23,8 @@ export default function sliceBlock(block: Block, caretIndex: number) {
   if (previousLength === 0 && caretIndex === 0) return 0
 
   const currentRichTextIndex = richTexts.indexOf(currentRichText)
+  // special case: there is already a blank block
+  if (currentRichText.text.content === '') return currentRichTextIndex
   if (relativeCaretIndex === currentRichText.text.content.length)
     return currentRichTextIndex + 1
 

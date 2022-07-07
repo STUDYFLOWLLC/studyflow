@@ -5,7 +5,10 @@ const convertSpaces = (text: string | undefined) => {
   return text.replace(/\s/g, '&nbsp;')
 }
 
-export default function richTextParser(richTexts: RichText[] | undefined) {
+export default function richTextParser(
+  richTexts: RichText[] | undefined,
+  theme?: string,
+) {
   if (!richTexts) return ''
   let allhtml = ''
   for (let i = 0; i < richTexts.length; i += 1) {
@@ -13,10 +16,43 @@ export default function richTextParser(richTexts: RichText[] | undefined) {
     const richText = richTexts[i]
     const encoded = convertSpaces(richText.text?.content)
     if (richText.type === RichTextType.TEXT) {
-      if (richText.annotations?.bold) {
-        html.push('<b>')
+      if (richText.annotations) {
+        if (richText.annotations.bold) {
+          html.push('<b>')
+        }
+        if (richText.annotations.italic) {
+          html.push('<i>')
+        }
+        if (richText.annotations.underline) {
+          html.push('<span id="underline">')
+        }
+        if (richText.annotations.code && theme !== 'dark') {
+          html.push('<span id="code">')
+        }
+        if (richText.annotations.code && theme === 'dark') {
+          html.push('<span id="code-dark">')
+        }
+        if (richText.annotations.strikethrough) {
+          html.push('<span id="strikethrough">')
+        }
+
         html.push(encoded)
-        html.push('</b>')
+
+        if (richText.annotations.bold) {
+          html.push('</b>')
+        }
+        if (richText.annotations.italic) {
+          html.push('</i>')
+        }
+        if (richText.annotations.underline) {
+          html.push('</span>')
+        }
+        if (richText.annotations.code) {
+          html.push('</span>')
+        }
+        if (richText.annotations.strikethrough) {
+          html.push('</span>')
+        }
       } else {
         html.push('<span>')
         html.push(encoded)

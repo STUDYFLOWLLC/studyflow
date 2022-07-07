@@ -13,7 +13,7 @@ import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import { setCaretToPosition } from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import getRawTextLength from 'utils/flows/getRawTextLength'
-import sliceBlock from 'utils/flows/sliceBlock'
+import sliceBlock from 'utils/flows/sliceRichText'
 import useStateCallback from 'utils/flows/useStateCallback'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -78,13 +78,14 @@ const secondBlock: Block = {
 const commandHandler = new CommandHandler()
 
 export default function FlowPage() {
-  const { theme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const [blocks, setBlocks] = useStateCallback([...initialBlocks])
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
   const [disableAnimations, setDisableAnimations] = useState(true)
+  const [animatingBlock, setAnimatingBlock] = useState(false)
 
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
@@ -273,7 +274,10 @@ export default function FlowPage() {
     ref: HTMLElement | null,
     caretIndex: number,
   ) => {
-    const sliceIndex = sliceBlock(block1, caretIndex)
+    const richTexts = block1[block1.tag]?.richText
+    if (richTexts === undefined) return
+
+    const sliceIndex = sliceBlock(richTexts, caretIndex)
     if (sliceIndex === undefined) return
     if (sliceIndex === 0) {
       // insert a block above this block
@@ -357,6 +361,7 @@ export default function FlowPage() {
   }
 
   const onEnd = async (result: DropResult) => {
+    setAnimatingBlock(true)
     const { destination, source } = result
 
     if (!destination) return
@@ -374,6 +379,7 @@ export default function FlowPage() {
     )
 
     setBlocks(newBlocks)
+    setTimeout(() => setAnimatingBlock(false), 500)
   }
 
   // useHotkeys(
@@ -441,6 +447,7 @@ export default function FlowPage() {
                 <FlowBlock
                   key={block.id}
                   theme={theme}
+                  setTheme={setTheme}
                   commandHandler={commandHandler}
                   updatePage={updatePageHandler}
                   block={block}
@@ -462,9 +469,10 @@ export default function FlowPage() {
                   rerenderDetector={rerenderDetector}
                   setRerenderDetector={setRerenderDetector}
                   setDisableAnimations={setDisableAnimations}
+                  animatingBlock={animatingBlock}
+                  setAnimatingBlock={setAnimatingBlock}
                 />
               ))}
-
               {provided.placeholder}
             </FlipMove>
           </div>

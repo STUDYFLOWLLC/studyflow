@@ -1,5 +1,4 @@
 import { PlusIcon } from '@heroicons/react/solid'
-import { TaskType } from '@prisma/client'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CourseDropdown from 'components/dropdowns/CourseDropdown'
@@ -12,6 +11,7 @@ import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { TaskType } from 'types/Task'
 import { v4 as uuid } from 'uuid'
 
 interface Props {
@@ -164,7 +164,7 @@ export default function index({
             <textarea
               rows={1}
               onChange={(e) => setTaskDescription(e.target.value)}
-              className="border-none focus:ring-0 bg-white placeholder:text-gray-400 text-sm resize-none caret-black"
+              className="border-none focus:ring-0 bg-transparent placeholder:text-gray-400 text-sm resize-none caret-black"
               placeholder="Description"
             />
           </div>

@@ -9,6 +9,14 @@ export enum BlockTag {
   HEADING_3 = 'h3',
 }
 
+export enum Annotations {
+  BOLD = 'bold',
+  ITALIC = 'italic',
+  UNDERLINE = 'underline',
+  STRIKETHROUGH = 'strikethrough',
+  CODE = 'code',
+  COLOR = 'color',
+}
 interface Annotation {
   bold?: boolean
   italic?: boolean

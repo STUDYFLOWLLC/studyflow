@@ -1,6 +1,6 @@
 import { TagIcon } from '@heroicons/react/outline'
-import { TaskType } from '@prisma/client'
 import classNames from 'classnames'
+import { TaskType } from 'types/Task'
 
 interface Props {
   taskType: TaskType | undefined

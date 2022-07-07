@@ -1,4 +1,4 @@
-import * as TypeGraphQL from "type-graphql"
+import * as TypeGraphQL from "type-graphql";
 
 export enum TaskType {
   WORK_ON = "WORK_ON",
@@ -8,4 +8,4 @@ export enum TaskType {
 TypeGraphQL.registerEnumType(TaskType, {
   name: "TaskType",
   description: undefined,
-})
+});

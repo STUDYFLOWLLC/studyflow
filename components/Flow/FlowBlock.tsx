@@ -4,7 +4,7 @@ import FlowMenu from 'components/Flow/FlowMenu'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { Color } from 'types/Colors'
-import { Block, BlockTag } from 'types/Flow'
+import { Annotations, Block, BlockTag } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import altDelete from 'utils/flows/altDelete'
 import blockParser from 'utils/flows/blockParser'
@@ -21,7 +21,7 @@ import ContentEditable, {
 import deleteInBlock from 'utils/flows/deleteInBlock'
 import determinePlaceholder from 'utils/flows/determinePlaceholder'
 import getRawTextLength from 'utils/flows/getRawTextLength'
-import insertBold from 'utils/flows/insertBold'
+import insertAnnotation from 'utils/flows/insertAnnotation'
 import insertInSelection from 'utils/flows/insertInSelection'
 import insertIntoBlock from 'utils/flows/insertIntoBlock'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
@@ -33,6 +33,7 @@ import {
 
 interface Props {
   theme: string | undefined
+  setTheme: (theme: string) => void
   commandHandler: CommandHandler
   block: Block
   previousBlock: Block | undefined
@@ -61,6 +62,8 @@ interface Props {
   rerenderDetector: number
   setRerenderDetector: (detector: number) => void
   setDisableAnimations: (disableAnimation: boolean) => void
+  animatingBlock: boolean
+  setAnimatingBlock: (animatingBlock: boolean) => void
 }
 interface State {
   contentEditable: React.RefObject<HTMLElement>
@@ -93,10 +96,10 @@ class FlowBlock extends React.Component<Props, State> {
     this.tagSelectionHandler = this.tagSelectionHandler.bind(this)
     this.colorSelectionHandler = this.colorSelectionHandler.bind(this)
 
-    const { block } = props
+    const { block, theme } = props
     this.state = {
       contentEditable: React.createRef(),
-      html: blockParser(block),
+      html: blockParser(block, theme),
       tempBlock: block,
       selectMenuIsOpen: false,
       selectMenuPosition: {
@@ -116,7 +119,7 @@ class FlowBlock extends React.Component<Props, State> {
   // 1. user has changed the html content
   // 2. user has changed the tag
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const { block, rerenderDetector, setRerenderDetector, updatePage } =
+    const { block, theme, rerenderDetector, setRerenderDetector, updatePage } =
       this.props
     const tagChanged = prevProps.block.tag !== block.tag
 
@@ -126,7 +129,7 @@ class FlowBlock extends React.Component<Props, State> {
       block.index === rerenderDetector
     ) {
       console.log('rerender detector')
-      this.setState({ html: blockParser(block) }, () => {
+      this.setState({ html: blockParser(block, theme) }, () => {
         setRerenderDetector(-1)
       })
     }
@@ -137,11 +140,11 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   onChangeHandler(e: ContentEditableEvent) {
-    const { block } = this.props
+    const { theme, block } = this.props
     // console.log(blockParser(block))
     // console.log(e.target.value)
 
-    this.setState({ html: blockParser(block) })
+    this.setState({ html: blockParser(block, theme) })
     // const { commandHandler, block, currentCaretIndex, setCurrentCaretIndex } =
     //   this.props
     // const { contentEditable } = this.state
@@ -164,6 +167,8 @@ class FlowBlock extends React.Component<Props, State> {
 
   onKeyDownHandler(e: KeyboardEvent) {
     const {
+      theme,
+      setTheme,
       commandHandler,
       block,
       previousBlock,
@@ -174,6 +179,7 @@ class FlowBlock extends React.Component<Props, State> {
       sliceBlockIntoNew,
       swapBlocks,
       setDisableAnimations,
+      setAnimatingBlock,
     } = this.props
     const { contentEditable, selectMenuIsOpen } = this.state
 
@@ -232,9 +238,47 @@ class FlowBlock extends React.Component<Props, State> {
 
     // handle commands
     if (e.ctrlKey || e.metaKey) {
+      console.log(
+        insertAnnotation(blockBody.richText, caretIndex, Annotations.ITALIC),
+      )
       switch (e.key) {
         case 'b':
-          insertBold(block, caretIndex)
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.BOLD,
+          )
+          break
+        case 'i':
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.ITALIC,
+          )
+          break
+        case 'u':
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.UNDERLINE,
+          )
+          break
+        case 'e':
+          blockBody.richText = insertAnnotation(
+            blockBody.richText,
+            caretIndex,
+            Annotations.CODE,
+          )
+          break
+        case 's':
+          // if no shift key, then it is a save command
+          if (e.shiftKey) {
+            blockBody.richText = insertAnnotation(
+              blockBody.richText,
+              caretIndex,
+              Annotations.STRIKETHROUGH,
+            )
+          }
           break
         case 'Backspace':
           blockBody.richText = cmdDelete(block, caretIndex)
@@ -247,7 +291,7 @@ class FlowBlock extends React.Component<Props, State> {
           break
         case 'l':
           e.preventDefault()
-          console.log('hi')
+          setTheme(theme === 'light' ? 'dark' : 'light')
           break
         default:
           break
@@ -258,7 +302,7 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.altKey) {
       switch (e.key) {
         case 'Backspace':
-          blockBody.richText = altDelete(block, caretIndex)
+          blockBody.richText = altDelete(blockBody.richText, caretIndex)
           break
         case 'ArrowUp':
           // swap this and the block above it if possible
@@ -271,7 +315,10 @@ class FlowBlock extends React.Component<Props, State> {
           }, 200)
           setTimeout(() => {
             this.setState({ animatingMoveUp: false })
-          }, 750)
+          }, 500)
+          setTimeout(() => {
+            setAnimatingBlock(false)
+          }, 1000)
           break
         case 'ArrowDown':
           // swap this and the block below it if possible
@@ -284,7 +331,10 @@ class FlowBlock extends React.Component<Props, State> {
           }, 200)
           setTimeout(() => {
             this.setState({ animatingMoveDown: false })
-          }, 750)
+          }, 500)
+          setTimeout(() => {
+            setAnimatingBlock(false)
+          }, 1000)
           break
         default:
           break
@@ -390,7 +440,7 @@ class FlowBlock extends React.Component<Props, State> {
   // Restore the clean html (without the command), focus the editable
   // with the caret being set to the end, close the select menu
   convertTagSelectionHandler(tag: BlockTag) {
-    const { block, changeBlockTag } = this.props
+    const { theme, block, changeBlockTag } = this.props
     const { contentEditable, tempBlock } = this.state
 
     if (tag !== block.tag) changeBlockTag(block, tag)
@@ -402,13 +452,13 @@ class FlowBlock extends React.Component<Props, State> {
       blockBody.richText = tempBlockBody.richText
     }
 
-    this.setState({ html: blockParser(block) })
+    this.setState({ html: blockParser(block, theme) })
     this.closeSelectMenuHandler()
     contentEditable.current?.focus()
   }
 
   tagSelectionHandler(tag: BlockTag, convert?: boolean) {
-    const { block, addBlock } = this.props
+    const { theme, block, addBlock } = this.props
     const { contentEditable, openedMenuInEmptyBlock, tempBlock } = this.state
 
     if (openedMenuInEmptyBlock || convert)
@@ -421,13 +471,13 @@ class FlowBlock extends React.Component<Props, State> {
       blockBody.richText = tempBlockBody.richText
     }
 
-    this.setState({ html: blockParser(tempBlock) })
+    this.setState({ html: blockParser(tempBlock, theme) })
     this.closeSelectMenuHandler()
     addBlock(block.index, contentEditable.current, tag)
   }
 
   colorSelectionHandler(color: Color) {
-    const { commandHandler, restoreBlockAndChangeColor } = this.props
+    const { theme, commandHandler, restoreBlockAndChangeColor } = this.props
     const { contentEditable, tempBlock } = this.state
     const newBlock = restoreBlockAndChangeColor(
       commandHandler,
@@ -435,12 +485,12 @@ class FlowBlock extends React.Component<Props, State> {
       tempBlock,
       color,
     )
-    this.setState({ html: blockParser(newBlock) })
+    this.setState({ html: blockParser(newBlock, theme) })
     this.closeSelectMenuHandler()
   }
 
   render() {
-    const { theme, block } = this.props
+    const { theme, block, animatingBlock } = this.props
     const {
       selectMenuIsOpen,
       selectMenuPosition,
@@ -453,145 +503,145 @@ class FlowBlock extends React.Component<Props, State> {
       animatingMoveUp,
     } = this.state
 
+    if (focused) console.log(html)
+    if (focused) console.log(blockParser(block, theme))
+
     return (
       <div className="mx-auto max-w-3xl">
         <Draggable draggableId={block.id} index={block.index}>
-          {(provided, snapshot) => {
-            console.log(provided)
-            console.log(snapshot)
-            return (
-              <div>
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  onMouseEnter={() => this.setState({ showDragger: true })}
-                  onMouseLeave={() => this.setState({ showDragger: false })}
-                >
-                  <div className="relative">
+          {(provided, snapshot) => (
+            <div>
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                onMouseEnter={() => this.setState({ showDragger: true })}
+                onMouseLeave={() => this.setState({ showDragger: false })}
+              >
+                <div className="relative">
+                  <div
+                    className={classNames(
+                      `ml-${block.tabs * 4}`,
+                      'flex items-center transition-all duration-200',
+                    )}
+                  >
                     <div
                       className={classNames(
-                        `ml-${block.tabs * 4}`,
-                        'flex items-center transition-all duration-100',
+                        { 'opacity-100': showDragger || snapshot.isDragging },
+                        { 'opacity-0': !showDragger && !snapshot.isDragging },
+                        'absolute left-[-3rem] cursor-move transition-opacity duration-750',
                       )}
+                      {...provided.dragHandleProps}
                     >
-                      <div
-                        className={classNames(
-                          { 'opacity-100': showDragger || snapshot.isDragging },
-                          { 'opacity-0': !showDragger && !snapshot.isDragging },
-                          'absolute left-[-3rem] cursor-move transition-opacity duration-750',
-                        )}
-                        {...provided.dragHandleProps}
-                      >
-                        <span className="w-10 h-6 flex text-slate-400">
-                          <PlusIcon className="w-6 h-6 cursor-pointer" />
-                          <ViewGridIcon
-                            className={classNames(
-                              { 'hover:bg-slate-200': theme === 'light' },
-                              { 'hover:bg-slate-600': theme === 'dark' },
-                              {
-                                'bg-slate-200':
-                                  snapshot.isDragging && theme === 'light',
-                              },
-                              'w-6 h-6 cursor-grab rounded',
-                            )}
-                          />
-                        </span>
-                      </div>
-                      {/*  @ts-expect-error: Let's ignore a compile error like this unreachable code */}
-                      <ContentEditable
-                        className={classNames(
-                          {
-                            'text-lg my-0 py-[0.25rem] leading-normal':
-                              html === '' && block.tag === BlockTag.PARAGRAPH,
-                          },
-                          {
-                            'text-4xl font-bold py-[0.4rem] leading-normal':
-                              html === '' && block.tag === BlockTag.HEADING_1,
-                          },
-                          {
-                            'text-3xl font-bold py-[0.35rem] leading-normal':
-                              html === '' && block.tag === BlockTag.HEADING_2,
-                          },
-                          {
-                            'text-2xl font-bold py-[0.3rem] leading-normal':
-                              html === '' && block.tag === BlockTag.HEADING_3,
-                          },
-                          {
-                            'caret-black':
-                              block[block.tag]?.color === Color.DEFAULT &&
-                              theme === 'light',
-                          },
-                          {
-                            'caret-white':
-                              block[block.tag]?.color === Color.DEFAULT &&
-                              theme === 'dark',
-                          },
-                          {
-                            'opacity-0':
-                              !focused &&
-                              html === '' &&
-                              block.tag === BlockTag.PARAGRAPH,
-                          },
-                          {
-                            'opacity-80':
-                              focused &&
-                              html === '' &&
-                              block.tag === BlockTag.PARAGRAPH,
-                          },
-                          {
-                            'opacity-80':
-                              !focused &&
-                              html === '' &&
-                              block.tag !== BlockTag.PARAGRAPH,
-                          },
-                          {
-                            'opacity-90':
-                              focused &&
-                              html === '' &&
-                              block.tag !== BlockTag.PARAGRAPH,
-                          },
-                          {
-                            'duration-500 z-10 transition-all shadow-2xl rounded-md ease-out ':
-                              animatingMoveUp,
-                          },
-                          {
-                            'duration-500  z-10 transition-all shadow-2xl rounded-md ease-in':
-                              animatingMoveDown,
-                          },
-                          {
-                            'z-10 transition-all shadow-2xl rounded-md duration-100':
-                              snapshot.isDragging || snapshot.isDropAnimating,
-                          },
-                          block[block.tag]?.color !== Color.DEFAULT
-                            ? block[block.tag]?.color
-                            : '',
-                          'bg-inherit min-h-fit outline-none select-text cursor-text w-full',
-                        )}
-                        innerRef={contentEditable}
-                        html={html}
-                        placeholder={determinePlaceholder(block.tag)}
-                        onFocus={() => this.setState({ focused: true })}
-                        onBlur={() => this.setState({ focused: false })}
-                        onChange={this.onChangeHandler}
-                        onKeyDown={this.onKeyDownHandler}
-                        onKeyUp={this.onKeyUpHandler}
-                        forcererender={forcererender}
-                      />
+                      <span className="w-10 h-6 flex text-slate-400">
+                        <PlusIcon className="w-6 h-6 cursor-pointer" />
+                        <ViewGridIcon
+                          className={classNames(
+                            { 'hover:bg-slate-200': theme === 'light' },
+                            { 'hover:bg-slate-600': theme === 'dark' },
+                            {
+                              'bg-slate-200':
+                                snapshot.isDragging && theme === 'light',
+                            },
+                            'w-6 h-6 cursor-grab rounded',
+                          )}
+                        />
+                      </span>
                     </div>
+                    {/*  @ts-expect-error: Let's ignore a compile error like this unreachable code */}
+                    <ContentEditable
+                      className={classNames(
+                        {
+                          'text-lg my-0 py-[0.25rem] leading-normal':
+                            html === '' && block.tag === BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'text-4xl font-bold py-[0.4rem] leading-normal':
+                            html === '' && block.tag === BlockTag.HEADING_1,
+                        },
+                        {
+                          'text-3xl font-bold py-[0.35rem] leading-normal':
+                            html === '' && block.tag === BlockTag.HEADING_2,
+                        },
+                        {
+                          'text-2xl font-bold py-[0.3rem] leading-normal':
+                            html === '' && block.tag === BlockTag.HEADING_3,
+                        },
+                        {
+                          'caret-black':
+                            block[block.tag]?.color === Color.DEFAULT &&
+                            theme === 'light',
+                        },
+                        {
+                          'caret-white':
+                            block[block.tag]?.color === Color.DEFAULT &&
+                            theme === 'dark',
+                        },
+                        {
+                          'opacity-0':
+                            !focused &&
+                            html === '' &&
+                            block.tag === BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'opacity-80':
+                            focused &&
+                            html === '' &&
+                            block.tag === BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'opacity-80':
+                            !focused &&
+                            html === '' &&
+                            block.tag !== BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'opacity-90':
+                            focused &&
+                            html === '' &&
+                            block.tag !== BlockTag.PARAGRAPH,
+                        },
+                        {
+                          'z-10 transition-all shadow-2xl rounded-md ease-out ':
+                            animatingMoveUp,
+                        },
+                        {
+                          'z-10 transition-all shadow-2xl rounded-md ease-in':
+                            animatingMoveDown,
+                        },
+                        {
+                          'z-10 transition-all shadow-2xl rounded-md':
+                            snapshot.isDragging || snapshot.isDropAnimating,
+                        },
+                        { 'duration-300': animatingBlock },
+                        block[block.tag]?.color !== Color.DEFAULT
+                          ? block[block.tag]?.color
+                          : '',
+                        'bg-inherit min-h-fit break-words outline-none select-text cursor-text w-full',
+                      )}
+                      innerRef={contentEditable}
+                      html={html}
+                      placeholder={determinePlaceholder(block.tag)}
+                      onFocus={() => this.setState({ focused: true })}
+                      onBlur={() => this.setState({ focused: false })}
+                      onChange={this.onChangeHandler}
+                      onKeyDown={this.onKeyDownHandler}
+                      onKeyUp={this.onKeyUpHandler}
+                      forcererender={forcererender}
+                    />
                   </div>
                 </div>
-                {selectMenuIsOpen && (
-                  <FlowMenu
-                    theme={theme}
-                    position={selectMenuPosition}
-                    onTagSelect={this.tagSelectionHandler}
-                    onColorSelect={this.colorSelectionHandler}
-                    close={this.closeSelectMenuHandler}
-                  />
-                )}
               </div>
-            )
-          }}
+              {selectMenuIsOpen && (
+                <FlowMenu
+                  theme={theme}
+                  position={selectMenuPosition}
+                  onTagSelect={this.tagSelectionHandler}
+                  onColorSelect={this.colorSelectionHandler}
+                  close={this.closeSelectMenuHandler}
+                />
+              )}
+            </div>
+          )}
         </Draggable>
       </div>
     )
