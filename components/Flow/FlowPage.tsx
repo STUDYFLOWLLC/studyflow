@@ -78,13 +78,14 @@ const secondBlock: Block = {
 const commandHandler = new CommandHandler()
 
 export default function FlowPage() {
-  const { theme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const [blocks, setBlocks] = useStateCallback([...initialBlocks])
   const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
   const [disableAnimations, setDisableAnimations] = useState(true)
+  const [animatingBlock, setAnimatingBlock] = useState(false)
 
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
@@ -360,6 +361,7 @@ export default function FlowPage() {
   }
 
   const onEnd = async (result: DropResult) => {
+    setAnimatingBlock(true)
     const { destination, source } = result
 
     if (!destination) return
@@ -377,6 +379,7 @@ export default function FlowPage() {
     )
 
     setBlocks(newBlocks)
+    setTimeout(() => setAnimatingBlock(false), 500)
   }
 
   // useHotkeys(
@@ -444,6 +447,7 @@ export default function FlowPage() {
                 <FlowBlock
                   key={block.id}
                   theme={theme}
+                  setTheme={setTheme}
                   commandHandler={commandHandler}
                   updatePage={updatePageHandler}
                   block={block}
@@ -465,9 +469,10 @@ export default function FlowPage() {
                   rerenderDetector={rerenderDetector}
                   setRerenderDetector={setRerenderDetector}
                   setDisableAnimations={setDisableAnimations}
+                  animatingBlock={animatingBlock}
+                  setAnimatingBlock={setAnimatingBlock}
                 />
               ))}
-
               {provided.placeholder}
             </FlipMove>
           </div>

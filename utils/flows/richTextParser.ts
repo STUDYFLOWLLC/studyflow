@@ -5,7 +5,10 @@ const convertSpaces = (text: string | undefined) => {
   return text.replace(/\s/g, '&nbsp;')
 }
 
-export default function richTextParser(richTexts: RichText[] | undefined) {
+export default function richTextParser(
+  richTexts: RichText[] | undefined,
+  theme?: string,
+) {
   if (!richTexts) return ''
   let allhtml = ''
   for (let i = 0; i < richTexts.length; i += 1) {
@@ -21,10 +24,16 @@ export default function richTextParser(richTexts: RichText[] | undefined) {
           html.push('<i>')
         }
         if (richText.annotations.underline) {
-          html.push('<u>')
+          html.push('<span id="underline">')
         }
-        if (richText.annotations.code) {
+        if (richText.annotations.code && theme !== 'dark') {
           html.push('<span id="code">')
+        }
+        if (richText.annotations.code && theme === 'dark') {
+          html.push('<span id="code-dark">')
+        }
+        if (richText.annotations.strikethrough) {
+          html.push('<span id="strikethrough">')
         }
 
         html.push(encoded)
@@ -36,9 +45,12 @@ export default function richTextParser(richTexts: RichText[] | undefined) {
           html.push('</i>')
         }
         if (richText.annotations.underline) {
-          html.push('</u>')
+          html.push('</span>')
         }
         if (richText.annotations.code) {
+          html.push('</span>')
+        }
+        if (richText.annotations.strikethrough) {
           html.push('</span>')
         }
       } else {
