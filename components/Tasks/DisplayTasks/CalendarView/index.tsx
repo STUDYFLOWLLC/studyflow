@@ -14,7 +14,10 @@ import {
   startOfToday,
   startOfWeek,
 } from 'date-fns'
+import useTasks from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import React from 'react'
+import { TaskType } from 'types/Task'
 import DayPopup from './DayPopup'
 
 interface Props {
@@ -32,6 +35,36 @@ const sameDate = (date1: Date | undefined, date2: Date | undefined) => {
 
 export default function CalendarView({ user }: Props) {
   const [open, setOpen] = React.useState(false)
+
+  const { userDetails } = useUserDetails(user.id)
+  const { tasks } = useTasks(userDetails?.UserID)
+
+  // Number of tasks Due on a given date
+  const numDueTasks = (date: Date) =>
+    tasks.filter(
+      (task) =>
+        !task.Completed &&
+        task.DueDate?.substring(0, 10) === format(date, 'yyyy-MM-dd') &&
+        task.Type === TaskType.DUE,
+    ).length
+
+  // Number of tasks Work-on on a given date
+  const numWorkOnTasks = (date: Date) =>
+    tasks.filter(
+      (task) =>
+        !task.Completed &&
+        task.DueDate?.substring(0, 10) === format(date, 'yyyy-MM-dd') &&
+        task.Type === TaskType.WORK_ON,
+    ).length
+
+  // Number of tasks Review on a given date
+  const numReviewTasks = (date: Date) =>
+    tasks.filter(
+      (task) =>
+        !task.Completed &&
+        task.DueDate?.substring(0, 10) === format(date, 'yyyy-MM-dd') &&
+        task.Type === TaskType.REVIEW,
+    ).length
 
   // Today's date
   const today = startOfToday()
@@ -67,7 +100,7 @@ export default function CalendarView({ user }: Props) {
   return (
     <div className="flex">
       {/* Calendar Display */}
-      <div className="grid gird-cols-2 w-full mt-14 mx-4 h-full">
+      <div className="grid gird-cols-2 w-full my-6 mx-4 h-full">
         <div className="flex justify-center mb-4">
           <button
             onClick={previousMonth}
@@ -100,7 +133,10 @@ export default function CalendarView({ user }: Props) {
         </div>
         <div className="grid grid-cols-7 text-xl border-b border-l">
           {days.map((day) => (
-            <div key={day.toString()} className="border-t border-r">
+            <div
+              key={day.toString()}
+              className="flex flex-col border-t border-r h-20"
+            >
               <button
                 type="button"
                 onClick={() => {
@@ -129,13 +165,29 @@ export default function CalendarView({ user }: Props) {
                   !sameDate(day, dateToDisplay) && 'hover:bg-gray-200',
                   (sameDate(day, dateToDisplay) || isToday(day)) &&
                     'font-semibold',
-                  'w-9 h-9 mx-auto mb-10 text-lg rounded-full',
+                  'h-7 w-7 mt-0.5 ml-0.5 text-sm border border-transparent rounded-full p-0.5',
                 )}
               >
                 <time dateTime={format(day, 'yyyy-MM-dd')}>
                   {format(day, 'd')}
                 </time>
               </button>
+              <div className="text-xs ml-2">
+                {numWorkOnTasks(day) > 0 && (
+                  <div className="text-cyan-500">
+                    {numWorkOnTasks(day)} Work-on
+                  </div>
+                )}
+                {numDueTasks(day) > 0 && (
+                  <div className="text-orange-500">{numDueTasks(day)} Due</div>
+                )}
+                {numReviewTasks(day) > 0 && (
+                  <div className="text-purple-500">
+                    {numReviewTasks(day)}{' '}
+                    {numReviewTasks(day) > 1 ? 'Reviews' : 'Review'}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
