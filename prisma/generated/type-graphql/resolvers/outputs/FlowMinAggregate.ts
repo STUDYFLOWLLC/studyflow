@@ -19,10 +19,15 @@ export class FlowMinAggregate {
   })
   CreatedTime!: Date | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  UserEnteredDate!: Date | null;
+
   @TypeGraphQL.Field(_type => FlowType, {
     nullable: true
   })
-  Type!: "LECTURE" | "ASSIGNMENT" | "NOTE" | "EXAM" | null;
+  Type!: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS" | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

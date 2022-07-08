@@ -23,7 +23,7 @@ export default function MainSpinner({ size }: Props) {
         className={classNames(
           { 'text-gray-200': theme === 'light' },
           { 'text-white': theme === 'dark' },
-          'w-12 h-12  animate-spin-fast fill-primary',
+          'w-8 h-8  animate-spin-fast fill-primary',
         )}
         viewBox="0 0 100 101"
         fill="none"

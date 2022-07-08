@@ -7,12 +7,15 @@ import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
 import Pinned from 'components/Dashboard/Pinned'
+import FlowModal from 'components/Flow/FlowModal'
 import FlowTable from 'components/FlowTable'
 import Taskover from 'components/Taskover'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { FlowType } from 'types/Flow'
 import setupRedirectHandler from 'utils/setupRedirectHandler'
 
 interface Props {
@@ -26,11 +29,17 @@ export default function Dash({ user }: Props) {
   const { userDetails, userDetailsLoading, userDetailsError } = useUserDetails(
     user.id,
   )
+  const { coursesOnTerm, coursesOnTermLoading, mutateCoursesOnTerm } =
+    useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
+
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const [flowModalOpen, setFlowModalOpen] = useState(false)
+  const [createFlowAs, setCreateFlowAs] = useState<FlowType | null>(null)
+  const [currentFlow, setCurrentFlow] = useState<string>('')
 
   useHotkeys(
     'cmd+i, ctrl+i',
@@ -76,14 +85,28 @@ export default function Dash({ user }: Props) {
             pageDisplayed="Home"
             showDashBar={showDashBar}
             setShowDashBar={setShowDashBar}
+            flowModalOpen={flowModalOpen}
+            setFlowModalOpen={setFlowModalOpen}
+            setCreateFlowAs={setCreateFlowAs}
           />
           <Pinned />
           <FlowListSmall />
-          <FlowTable />
+          <FlowTable
+            setFlowModalOpen={setFlowModalOpen}
+            setCurrentFlow={setCurrentFlow}
+          />
         </main>
       </div>
       <Taskover />
       <CMDPalette />
+      <FlowModal
+        isOpen={flowModalOpen}
+        setIsOpen={setFlowModalOpen}
+        firstCourseOnTermId={coursesOnTerm?.[0]?.CourseOnTermID}
+        flowId={currentFlow}
+        setCurrentFlow={setCurrentFlow}
+        createAs={createFlowAs}
+      />
     </div>
   )
 }

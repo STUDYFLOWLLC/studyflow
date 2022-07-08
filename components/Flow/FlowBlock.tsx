@@ -34,6 +34,7 @@ import {
 interface Props {
   theme: string | undefined
   setTheme: (theme: string) => void
+  setChangesMade: (changesMade: boolean) => void
   commandHandler: CommandHandler
   block: Block
   previousBlock: Block | undefined
@@ -140,7 +141,7 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   onChangeHandler(e: ContentEditableEvent) {
-    const { theme, block } = this.props
+    const { theme, block, setChangesMade } = this.props
     // console.log(blockParser(block))
     // console.log(e.target.value)
 
@@ -169,6 +170,7 @@ class FlowBlock extends React.Component<Props, State> {
     const {
       theme,
       setTheme,
+      setChangesMade,
       commandHandler,
       block,
       previousBlock,
@@ -183,6 +185,7 @@ class FlowBlock extends React.Component<Props, State> {
     } = this.props
     const { contentEditable, selectMenuIsOpen } = this.state
 
+    setChangesMade(true)
     this.setState({ forcererender: 'false' })
 
     const caretIndex = getCaretIndex(contentEditable.current)
@@ -502,9 +505,6 @@ class FlowBlock extends React.Component<Props, State> {
       animatingMoveDown,
       animatingMoveUp,
     } = this.state
-
-    if (focused) console.log(html)
-    if (focused) console.log(blockParser(block, theme))
 
     return (
       <div className="mx-auto max-w-3xl">

@@ -1,27 +1,35 @@
 import { Menu, Transition } from '@headlessui/react'
 import {
-  AnnotationIcon,
-  BookOpenIcon,
+  ChartBarIcon,
+  ChatAlt2Icon,
   ChevronDownIcon,
-  HandIcon,
+  LightBulbIcon,
   PencilAltIcon,
+  PencilIcon,
+  ViewGridAddIcon,
 } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
+import { ActiveProps } from 'types/ActiveProps'
+import { FlowType } from 'types/Flow'
 
 interface Props {
-  type: string
+  loading: boolean
+  type?: string
+  mutator: (newType: FlowType) => void
 }
 
 const items = [
-  { name: 'LECTURE', icon: AnnotationIcon },
-  { name: 'ASSIGNMENT', icon: HandIcon },
-  { name: 'NOTE', icon: BookOpenIcon },
-  { name: 'EXAM', icon: PencilAltIcon },
+  { name: FlowType.LECTURE, icon: LightBulbIcon },
+  { name: FlowType.DISCUSSION, icon: ChatAlt2Icon },
+  { name: FlowType.NOTE, icon: PencilIcon },
+  { name: FlowType.ASSIGNMNENT, icon: PencilAltIcon },
+  { name: FlowType.SYNTHESIS, icon: ViewGridAddIcon },
+  { name: FlowType.ASSESSMENT, icon: ChartBarIcon },
 ]
 
-export default function FlowType({ type }: Props) {
+export default function FlowTypeChooser({ loading, type, mutator }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -44,10 +52,12 @@ export default function FlowType({ type }: Props) {
           },
           'flex items-center font-light m-0 p-0 ml-3 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
+        disabled={loading}
       >
         {type}
-        <ChevronDownIcon className="w-5" />
+        <ChevronDownIcon className="w-5 ml-1" />
       </Menu.Button>
+
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -61,18 +71,20 @@ export default function FlowType({ type }: Props) {
           className={classNames(
             { ' bg-white ring-black ring-1 ring-opacity-5': theme === 'light' },
             { 'bg-slate-700': theme === 'dark' },
-            'absolute z-20 left-0 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
+            'absolute z-20 left-3 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
           )}
         >
           {items.map((item) => (
             <Menu.Item key={item.name}>
-              {({ active }) => (
+              {({ active }: ActiveProps) => (
                 <div
                   className={classNames(
                     { 'bg-gray-100': active && theme === 'light' },
                     { 'bg-slate-600': active && theme === 'dark' },
                     'px-2 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                   )}
+                  onClick={() => mutator(item.name)}
+                  onKeyDown={() => mutator(item.name)}
                 >
                   <item.icon className="w-4 mx-2" />
                   {item.name}

@@ -22,10 +22,15 @@ export class FlowCreateInput {
   })
   CreatedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  UserEnteredDate?: Date | undefined;
+
   @TypeGraphQL.Field(_type => FlowType, {
     nullable: false
   })
-  Type!: "LECTURE" | "ASSIGNMENT" | "NOTE" | "EXAM";
+  Type!: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS";
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

@@ -1,11 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Flow } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
+interface FlowDetail {
+  CreatedTime: string
+  FlowID: string
+  Type: FlowType
+  Title: string
+  Body: string
+  Visibility: FlowVisibility
+  Fk_CourseOnTermID: number
+  FK_CourseOnTerm: {
+    Nickname: string
+    FK_Course: {
+      Code: string
+    }
+  }
+}
 interface Ret {
-  flowDetails: Flow
+  flowDetails: FlowDetail
   flowDetailsLoading: boolean
   flowDetailsError: any
   mutateFlowDetails: KeyedMutator<any>
@@ -21,6 +36,13 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
         Title
         Body
         Visibility
+        FK_CourseOnTermID
+        FK_CourseOnTerm {
+          Nickname
+          FK_Course {
+            Code
+          }
+        }
       }
     }
   `
@@ -34,6 +56,25 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
   }
 
   const { data, error, mutate } = useSWR([query, variables])
+
+  if (data?.mutate) {
+    console.log(data.mutatedFlow)
+    return {
+      flowDetails: data.mutatedFlow,
+      flowDetailsLoading: false,
+      flowDetailsError: null,
+      mutateFlowDetails: mutate,
+    }
+  }
+
+  if (data?.findFirstFlow) {
+    return {
+      flowDetails: data.findFirstFlow,
+      flowDetailsLoading: false,
+      flowDetailsError: null,
+      mutateFlowDetails: mutate,
+    }
+  }
 
   return {
     flowDetails: data,

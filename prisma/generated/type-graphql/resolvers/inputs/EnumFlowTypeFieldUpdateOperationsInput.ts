@@ -11,5 +11,5 @@ export class EnumFlowTypeFieldUpdateOperationsInput {
   @TypeGraphQL.Field(_type => FlowType, {
     nullable: true
   })
-  set?: "LECTURE" | "ASSIGNMENT" | "NOTE" | "EXAM" | undefined;
+  set?: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS" | undefined;
 }
