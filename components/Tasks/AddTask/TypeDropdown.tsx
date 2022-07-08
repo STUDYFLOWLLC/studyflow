@@ -8,7 +8,7 @@ import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 
 const items = [
-  { type: TaskType.WORK_ON, display: 'Work-on' },
+  { type: TaskType.WORK_ON, display: 'Work' },
   { type: TaskType.DUE, display: 'Due' },
   { type: TaskType.REVIEW, display: 'Review' },
 ]
@@ -39,7 +39,7 @@ const taskTypeToString = (taskType: TaskType | undefined) => {
   if (!taskType) return
   switch (taskType) {
     case 'WORK_ON':
-      return 'Work-on'
+      return 'Work'
     case 'DUE':
       return 'Due'
     case 'REVIEW':

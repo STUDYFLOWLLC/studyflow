@@ -63,36 +63,34 @@ export default function CourseDropDown({
   }
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="z-40 relative inline-block text-left">
       {({ open }) => (
         <>
-          <div>
-            <Menu.Button
-              className={classNames(
-                {
-                  'ring-black border-transparent hover:opacity-80':
-                    theme === 'light' && taskDueDateExact,
-                },
-                {
-                  'hover:bg-gray-50 hover:border-gray-300 border-slate-300':
-                    theme === 'light' && !taskDueDateExact,
-                },
-                {
-                  'hover:bg-slate-600 text-white border-transparent':
-                    theme === 'dark' && taskDueDateExact,
-                },
-                {
-                  'border-slate-600 hover:bg-slate-600 hover:border-slate-400 text-gray-100':
-                    theme === 'dark' && !taskDueDateExact,
-                },
-                taskDueDateExact && bgColor(taskDueDateExact),
-                'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mr-2 text-sm font-medium border',
-              )}
-            >
-              <CalendarIcon className="w-4 mr-1" />
-              {taskDueDateExact ? abbreviateDate(taskDueDateExact) : 'Due date'}
-            </Menu.Button>
-          </div>
+          <Menu.Button
+            className={classNames(
+              {
+                'ring-black border-transparent hover:opacity-80':
+                  theme === 'light' && taskDueDateExact,
+              },
+              {
+                'hover:bg-gray-50 hover:border-gray-300 border-slate-300':
+                  theme === 'light' && !taskDueDateExact,
+              },
+              {
+                'hover:bg-slate-600 text-white border-transparent':
+                  theme === 'dark' && taskDueDateExact,
+              },
+              {
+                'border-slate-600 hover:bg-slate-600 hover:border-slate-400 text-gray-100':
+                  theme === 'dark' && !taskDueDateExact,
+              },
+              taskDueDateExact && bgColor(taskDueDateExact),
+              'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mr-2 text-sm font-medium border',
+            )}
+          >
+            <CalendarIcon className="w-4 mr-1" />
+            {taskDueDateExact ? abbreviateDate(taskDueDateExact) : 'Due date'}
+          </Menu.Button>
 
           <Transition
             as={Fragment}
@@ -103,7 +101,7 @@ export default function CourseDropDown({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-left absolute left-2 w-auto h-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-top-left absolute w-auto h-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               {itemList.map((item) => (
                 <Menu.Item key={item}>
                   {({ active }: activeProps) => (
