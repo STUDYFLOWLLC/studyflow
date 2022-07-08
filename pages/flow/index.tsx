@@ -1,18 +1,11 @@
 // should get flow from server side and render it here
 
-import { CalendarIcon, EyeIcon } from '@heroicons/react/outline'
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
-import FlowCourse from 'components/Flow/FlowCourse'
-import FlowPage from 'components/Flow/FlowPage'
-import FlowProperty from 'components/Flow/FlowProperty'
-import FlowType from 'components/Flow/FlowType'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import { useHotkeys } from 'react-hotkeys-hook'
-import handleTimeStamp from 'utils/handleTimeStamp'
 
 interface Props {
   // flow?: FlowRet
@@ -59,48 +52,7 @@ export default function Flow({ user }: Props) {
 
   if (!mounted) return null
 
-  return (
-    <div>
-      <div className="flex absolute top-2 right-4">
-        <EyeIcon className="w-4" />
-        <p className="text-gray-400 ml-2">178</p>
-      </div>
-      <div className="mt-32 mb-24">
-        <div className="prose border-b pb-4 mb-4 w-full max-w-3xl mx-auto">
-          <div className="flex items-baseline">
-            <ContentEditable
-              tagName="h1"
-              className="font-medium m-0 p-0 outline-0"
-              onChange={(e: ContentEditableEvent) => setTitle(e.target.value)}
-              html={title}
-            />
-            <FlowType type={flowy.Type} />
-          </div>
-          <div className="border-l-2 ml-1 mt-4 p-0 mb-2">
-            <FlowProperty
-              Icon={CalendarIcon}
-              property="Date"
-              value={handleTimeStamp(flowy.CreatedTime)}
-            />
-            <FlowCourse
-              title="Course"
-              items={
-                coursesOnTerm
-                  ? coursesOnTerm.map((course) => ({
-                      color: course.Color,
-                      name: course.Nickname || course.FK_Course.Code,
-                      handler: () => console.log('test'),
-                    }))
-                  : []
-              }
-              loading={coursesOnTermLoading}
-            />
-          </div>
-        </div>
-        <FlowPage />
-      </div>
-    </div>
-  )
+  return <div>dep</div>
 }
 
 /*

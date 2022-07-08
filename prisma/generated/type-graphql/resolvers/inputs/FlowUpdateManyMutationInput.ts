@@ -22,6 +22,11 @@ export class FlowUpdateManyMutationInput {
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  UserEnteredDate?: DateTimeFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => EnumFlowTypeFieldUpdateOperationsInput, {
     nullable: true
   })

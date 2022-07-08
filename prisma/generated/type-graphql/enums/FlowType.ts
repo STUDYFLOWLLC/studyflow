@@ -2,9 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 
 export enum FlowType {
   LECTURE = "LECTURE",
-  ASSIGNMENT = "ASSIGNMENT",
+  DISCUSSION = "DISCUSSION",
   NOTE = "NOTE",
-  EXAM = "EXAM"
+  ASSIGNMENT = "ASSIGNMENT",
+  ASSESSMENT = "ASSESSMENT",
+  SYNTHESIS = "SYNTHESIS"
 }
 TypeGraphQL.registerEnumType(FlowType, {
   name: "FlowType",

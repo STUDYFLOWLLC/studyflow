@@ -3,22 +3,29 @@ import OpenFancy from 'components/FlowTable/OpenFancy'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { FlowType } from 'types/Flow'
 
 interface Props {
+  setFlowModalOpen: (value: boolean) => void
+  setCurrentFlow: (flowId: string) => void
   loading: boolean
   flowID: string
   bgColorClass: string
   title: string
+  type: FlowType
   course: string
   createdDate: string
   nextReview: string
 }
 
 export default function FlowTableLine({
+  setFlowModalOpen,
+  setCurrentFlow,
   loading,
   flowID,
   bgColorClass,
   title,
+  type,
   course,
   createdDate,
   nextReview,
@@ -34,7 +41,16 @@ export default function FlowTableLine({
 
   return (
     <tr id={flowID}>
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <td
+        onClick={() => {
+          setFlowModalOpen(true)
+          setCurrentFlow(flowID)
+        }}
+        onKeyDown={() => {
+          setFlowModalOpen(true)
+          setCurrentFlow(flowID)
+        }}
         onMouseOver={() => setShowOpenIcon(true)}
         onMouseLeave={() => setShowOpenIcon(false)}
         onFocus={() => setShowOpenIcon(true)}
@@ -69,7 +85,7 @@ export default function FlowTableLine({
                     'font-normal',
                   )}
                 >
-                  in {course}
+                  <span className="lowercase">{type} </span>in {course}
                 </span>
               </span>
             ) : (
@@ -94,6 +110,9 @@ export default function FlowTableLine({
         {!loading ? <p>{nextReview}</p> : <Skeleton width={60} />}
       </td>
       <OpenFancy
+        setFlowModalOpen={setFlowModalOpen}
+        setCurrentFlow={setCurrentFlow}
+        flowID={flowID}
         loading={loading}
         showOpenIcon={showOpenIcon}
         setShowOpenIcon={setShowOpenIcon}

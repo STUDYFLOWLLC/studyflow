@@ -1,12 +1,16 @@
 import HideButton from 'components/Dashbar/HideButton'
+import CreateButton from 'components/Dashboard/CreateButton'
 import TasksNavbar from 'components/Dashboard/TasksNavbar'
 import { Dispatch, SetStateAction } from 'react'
-import FlowDropdown from './CreateButton'
+import { FlowType } from 'types/Flow'
 
 interface Props {
   showDashBar: boolean
   setShowDashBar: Dispatch<SetStateAction<boolean>>
   pageDisplayed: string
+  flowModalOpen: boolean
+  setFlowModalOpen: (value: boolean) => void
+  setCreateFlowAs: (value: FlowType | null) => void
   taskView?: string
   setTaskView?: (taskView: string) => void
 }
@@ -15,6 +19,9 @@ export default function DashHeadBig({
   showDashBar,
   setShowDashBar,
   pageDisplayed,
+  flowModalOpen,
+  setFlowModalOpen,
+  setCreateFlowAs,
   taskView,
   setTaskView,
 }: Props) {
@@ -31,7 +38,11 @@ export default function DashHeadBig({
           )}
         </div>
         <div className="flex sm:mt-0 sm:ml-4 items-center">
-          <FlowDropdown />
+          <CreateButton
+            flowModalOpen={flowModalOpen}
+            setFlowModalOpen={setFlowModalOpen}
+            setCreateFlowAs={setCreateFlowAs}
+          />
         </div>
       </div>
     </div>

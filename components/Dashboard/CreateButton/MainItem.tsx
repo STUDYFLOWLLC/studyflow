@@ -37,6 +37,12 @@ export default function MainItem({ item }: Props) {
       style={{
         backgroundColor: item.bgColor,
       }}
+      onClick={() => {
+        if (item.onClick) item.onClick()
+      }}
+      onKeyDown={() => {
+        if (item.onClick) item.onClick()
+      }}
     >
       <div
         className={classNames(

@@ -14,17 +14,17 @@ export class EnumFlowTypeWithAggregatesFilter {
   @TypeGraphQL.Field(_type => FlowType, {
     nullable: true
   })
-  equals?: "LECTURE" | "ASSIGNMENT" | "NOTE" | "EXAM" | undefined;
+  equals?: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS" | undefined;
 
   @TypeGraphQL.Field(_type => [FlowType], {
     nullable: true
   })
-  in?: Array<"LECTURE" | "ASSIGNMENT" | "NOTE" | "EXAM"> | undefined;
+  in?: Array<"LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS"> | undefined;
 
   @TypeGraphQL.Field(_type => [FlowType], {
     nullable: true
   })
-  notIn?: Array<"LECTURE" | "ASSIGNMENT" | "NOTE" | "EXAM"> | undefined;
+  notIn?: Array<"LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS"> | undefined;
 
   @TypeGraphQL.Field(_type => NestedEnumFlowTypeWithAggregatesFilter, {
     nullable: true

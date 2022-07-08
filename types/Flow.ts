@@ -2,6 +2,21 @@ import { PencilAltIcon } from '@heroicons/react/outline'
 import { SVGProps } from 'react'
 import { bgColor, Color } from 'types/Colors'
 
+export enum FlowType {
+  LECTURE = 'LECTURE',
+  DISCUSSION = 'DISCUSSION',
+  NOTE = 'NOTE',
+  ASSIGNMNENT = 'ASSIGNMENT',
+  ASSESSMENT = 'ASSESSMENT',
+  SYNTHESIS = 'SYNTHESIS',
+}
+
+export enum FlowVisibility {
+  HIDDEN = 'HIDDEN',
+  PRIVATE = 'PRIVATE',
+  PUBLIC = 'PUBLIC',
+}
+
 export enum BlockTag {
   PARAGRAPH = 'p',
   HEADING_1 = 'h1',
