@@ -15,6 +15,14 @@ module.exports = {
       fontFamily: {
         sans: 'Inter',
       },
+      fontSize: {
+        '9xl': '10rem',
+        '10xl': '11rem',
+        '11xl': '16rem',
+      },
+      backgroundImage: {
+        404: "url('/images/404bg.svg')",
+      },
       animation: {
         'spin-fast': 'spin 0.47s linear infinite',
       },
