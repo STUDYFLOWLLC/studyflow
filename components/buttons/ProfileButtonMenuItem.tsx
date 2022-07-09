@@ -4,21 +4,20 @@ import { Menu } from '@headlessui/react'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { ActiveProps } from 'types/ActiveProps'
 
 interface Props {
   name: string
-  href: string
+  handler: () => void
+  hasDivider?: boolean
   roundedT?: boolean
   roundedB?: boolean
 }
 
-interface MenuItemProps {
-  active: boolean
-}
-
 export default function BigProfileButtonMenuItem({
   name,
-  href,
+  handler,
+  hasDivider,
   roundedT,
   roundedB,
 }: Props) {
@@ -32,9 +31,8 @@ export default function BigProfileButtonMenuItem({
 
   return (
     <Menu.Item>
-      {({ active }: MenuItemProps) => (
-        <a
-          href={href}
+      {({ active }: ActiveProps) => (
+        <div
           className={classnames(
             {
               'bg-gray-100 text-gray-900': active && theme !== 'dark',
@@ -43,13 +41,16 @@ export default function BigProfileButtonMenuItem({
               'bg-slate-600': active && theme === 'dark',
             },
             { 'text-gray-700': !active && theme !== 'dark' },
-            { 'rounded-t-md': roundedT },
+            { 'rounded-t-md pt-3 pb-2': roundedT },
             { 'rounded-b-md': roundedB },
-            'block px-4 py-2 text-sm',
+            { 'border-t': hasDivider },
+            'block px-4 py-2 text-sm cursor-pointer',
           )}
+          onClick={() => handler()}
+          onKeyDown={() => handler()}
         >
           {name}
-        </a>
+        </div>
       )}
     </Menu.Item>
   )

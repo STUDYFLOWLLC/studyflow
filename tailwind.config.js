@@ -10,7 +10,26 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
   ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: 'Inter',
+      },
+      animation: {
+        'spin-fast': 'spin 0.47s linear infinite',
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('daisyui'),
+  ],
   daisyui: {
+    styled: true,
+    base: true,
+    utils: true,
+    logs: false,
     themes: [
       {
         light: {
@@ -42,21 +61,6 @@ module.exports = {
       },
     ],
   },
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: 'Inter',
-      },
-      animation: {
-        'spin-fast': 'spin 0.47s linear infinite',
-      },
-    },
-  },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('daisyui'),
-  ],
   variants: {
     width: ['responsive', 'hover', 'focus'],
   },
