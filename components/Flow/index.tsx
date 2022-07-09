@@ -1,6 +1,5 @@
 import {
   ArrowsExpandIcon,
-  CalendarIcon,
   CheckIcon,
   ClockIcon,
 } from '@heroicons/react/outline'
@@ -12,6 +11,7 @@ import {
   mutateFlowCourseOnTerm,
   mutateFlowTitle,
   mutateFlowType,
+  mutateUserEnteredDate,
 } from 'hooks/flows/mutateFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
@@ -22,10 +22,9 @@ import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import Skeleton from 'react-loading-skeleton'
 import { Block, FlowType } from 'types/Flow'
 import { SpinnerSizes } from 'types/Loading'
-import handleTimeStamp from 'utils/handleTimeStamp'
 import FlowBody from './FlowBody'
 import FlowCourse from './FlowCourse'
-import FlowProperty from './FlowProperty'
+import FlowDate from './FlowDate'
 import FlowTypeChooser from './FlowTypeChooser'
 
 interface Props {
@@ -44,6 +43,7 @@ export default function Flow({ flowId }: Props) {
     userDetails.UserID,
   )
 
+  const [fauxSaving, setFauxSaving] = useState(false)
   const [saving, setSaving] = useState(false)
 
   const saveFlow = async (blocks: Block[]) => {
@@ -99,6 +99,42 @@ export default function Flow({ flowId }: Props) {
         mutatedFlows: dashFlows.map((flow) =>
           flow.FlowID === flowId ? { ...flow, Type: newType } : flow,
         ),
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+  }
+
+  const changeDate = (newDate: Date) => {
+    const dateAsString = newDate.toISOString()
+
+    // change in backend
+    mutateUserEnteredDate(flowId, dateAsString)
+
+    // mutate locally
+    mutateFlowDetails(
+      {
+        mutatedFlow: {
+          ...flowDetails,
+          UserEnteredDate: dateAsString,
+        },
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+    mutateDashFlows(
+      {
+        mutatedFlows: dashFlows
+          .map((flow) =>
+            flow.FlowID === flowId
+              ? { ...flow, UserEnteredDate: dateAsString }
+              : flow,
+          )
+          .sort((flowA, flowB) => {
+            if (flowA.UserEnteredDate < flowB.UserEnteredDate) return 1
+            if (flowA.UserEnteredDate > flowB.UserEnteredDate) return -1
+            return flowA.CreatedTime < flowB.CreatedTime ? 1 : -1
+          }),
         mutate: true,
       },
       { revalidate: false },
@@ -167,10 +203,17 @@ export default function Flow({ flowId }: Props) {
             <span className="">3 days </span>
           </div>
           <div className="transition-all duration-500">
-            {saving ? (
+            {fauxSaving || saving || flowDetailsLoading ? (
               <MainSpinner size={SpinnerSizes.small} />
             ) : (
-              <CheckIcon className="w-5 h-5 text-info" />
+              <div
+                className="tooltip tooltip-bottom z-50"
+                data-tip={
+                  fauxSaving || saving ? 'saving...' : 'all changes saved'
+                }
+              >
+                <CheckIcon className="w-5 h-5 text-info" />
+              </div>
             )}
           </div>
         </div>
@@ -208,11 +251,13 @@ export default function Flow({ flowId }: Props) {
             </div>
           )}
         </div>
-        <div className="border-l-2 ml-1 mt-4 p-0 mb-2">
-          <FlowProperty
-            Icon={CalendarIcon}
-            property="Date"
-            value={handleTimeStamp(new Date().toISOString())}
+        <div className="border-l-2 ml-1 mt-4 mb-2">
+          <FlowDate
+            loading={flowDetailsLoading}
+            userEnteredDate={
+              flowDetails?.UserEnteredDate || new Date().toISOString()
+            }
+            setUserEnteredDate={changeDate}
           />
           <FlowCourse
             title={
@@ -240,6 +285,7 @@ export default function Flow({ flowId }: Props) {
         <FlowBody
           initialBlocks={JSON.parse(flowDetails.Body)}
           saveFlow={saveFlow}
+          setFauxSaving={setFauxSaving}
         />
       ) : (
         <div className="flex flex-col justify-center w-full h-80 max-h-full">

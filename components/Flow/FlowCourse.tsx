@@ -53,16 +53,19 @@ export default function CourseDropDown({
             {
               'hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
             },
-            'flex align-middle items-center px-1 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
+            'flex align-middle w-40 justify-between items-center px-2 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
           )}
         >
-          <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
-          {title}
-
-          <ChevronDownIcon className="h-5 ml-1 w-5 mr-1" aria-hidden="true" />
+          <div>
+            <FolderIcon className="h-5 mr-2 w-5" aria-hidden="true" />
+          </div>
+          <span className="truncate mr-2">{title}</span>
+          <div>
+            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+          </div>
         </Menu.Button>
       ) : (
-        <Skeleton className="h-5 w-24 ml-2" />
+        <Skeleton className="h-5 w-40 ml-4" />
       )}
 
       <Transition

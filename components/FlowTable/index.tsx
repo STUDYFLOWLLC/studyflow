@@ -60,7 +60,7 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
                   'hidden md:table-cell px-6 py-3 border-b text-center text-xs font-medium uppercase tracking-wider',
                 )}
               >
-                Created
+                Date
               </th>
               <th
                 className={classnames(
@@ -107,7 +107,7 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
                     flow.FK_CourseOnTerm.Nickname ||
                     flow.FK_CourseOnTerm.FK_Course.Code
                   }
-                  createdDate={new Date(flow.UserEnteredDate)
+                  displayDate={new Date(flow.UserEnteredDate)
                     .toDateString()
                     .slice(0, 10)}
                   nextReview="in 3 days"

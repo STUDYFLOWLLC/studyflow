@@ -35,6 +35,7 @@ interface Props {
   theme: string | undefined
   setTheme: (theme: string) => void
   setChangesMade: (changesMade: boolean) => void
+  setFauxSaving: (fauxSaving: boolean) => void
   commandHandler: CommandHandler
   block: Block
   previousBlock: Block | undefined
@@ -171,6 +172,7 @@ class FlowBlock extends React.Component<Props, State> {
       theme,
       setTheme,
       setChangesMade,
+      setFauxSaving,
       commandHandler,
       block,
       previousBlock,
@@ -186,6 +188,8 @@ class FlowBlock extends React.Component<Props, State> {
     const { contentEditable, selectMenuIsOpen } = this.state
 
     setChangesMade(true)
+    setFauxSaving(true)
+    setTimeout(() => setFauxSaving(false), 500)
     this.setState({ forcererender: 'false' })
 
     const caretIndex = getCaretIndex(contentEditable.current)
