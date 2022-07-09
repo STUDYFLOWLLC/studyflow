@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react'
 import { SelectorIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
-import ProfileButtonMenuItem from 'components/buttons/ProfileButtonMenuItem'
+import ProfileButtonDropdown from 'components/dropdowns/ProfileButtonDropdown'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
@@ -112,21 +112,10 @@ export default function BigProfileButton({
           className={classNames(
             { 'bg-white divide-gray-200': theme === 'light' },
             { 'bg-slate-700 divide-gray-200': theme === 'dark' },
-            'z-10 mx-3 origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg ring-1 divide-y  focus:outline-none',
+            'z-10 mx-3 origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg focus:outline-none',
           )}
         >
-          <div className="py-1">
-            <ProfileButtonMenuItem name="View Profile" href="#" />
-            <ProfileButtonMenuItem name="Settings" href="#" />
-            <ProfileButtonMenuItem name="Dark" href="#" />
-          </div>
-          <div className="py-1">
-            <ProfileButtonMenuItem name="Get Desktop App" href="#" />
-            <ProfileButtonMenuItem name="Support" href="#" />
-          </div>
-          <div className="py-1">
-            <ProfileButtonMenuItem name="Logout" href="#" />
-          </div>
+          <ProfileButtonDropdown />
         </Menu.Items>
       </Transition>
     </Menu>
