@@ -9,7 +9,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,

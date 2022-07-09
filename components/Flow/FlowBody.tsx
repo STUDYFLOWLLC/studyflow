@@ -80,9 +80,14 @@ const commandHandler = new CommandHandler()
 interface Props {
   initialBlocks: Block[]
   saveFlow: (blocks: Block[]) => Promise<void>
+  setFauxSaving: (fauxSaving: boolean) => void
 }
 
-export default function FlowBody({ initialBlocks, saveFlow }: Props) {
+export default function FlowBody({
+  initialBlocks,
+  saveFlow,
+  setFauxSaving,
+}: Props) {
   const { theme, setTheme } = useTheme()
 
   const [blocks, setBlocks] = useStateCallback(initialBlocks)
@@ -93,10 +98,9 @@ export default function FlowBody({ initialBlocks, saveFlow }: Props) {
   const [animatingBlock, setAnimatingBlock] = useState(false)
 
   const saveFlowLocal = async () => {
-    console.log(changesMade)
+    setFauxSaving(false)
     if (changesMade) {
       setChangesMade(false)
-      console.log('saving flow')
       await saveFlow(blocks)
     }
   }
@@ -470,6 +474,7 @@ export default function FlowBody({ initialBlocks, saveFlow }: Props) {
                   theme={theme}
                   setTheme={setTheme}
                   setChangesMade={setChangesMade}
+                  setFauxSaving={setFauxSaving}
                   commandHandler={commandHandler}
                   updatePage={updatePageHandler}
                   block={block}

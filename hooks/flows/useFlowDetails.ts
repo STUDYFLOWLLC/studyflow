@@ -5,8 +5,9 @@ import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
 
 interface FlowDetail {
-  CreatedTime: string
   FlowID: string
+  CreatedTime: string
+  UserEnteredDate: string
   Type: FlowType
   Title: string
   Body: string
@@ -30,8 +31,9 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
   const query = gql`
     query FindFirstFlow($where: FlowWhereInput) {
       findFirstFlow(where: $where) {
-        CreatedTime
         FlowID
+        CreatedTime
+        UserEnteredDate
         Type
         Title
         Body

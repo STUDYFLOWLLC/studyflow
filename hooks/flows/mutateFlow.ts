@@ -110,3 +110,33 @@ export async function mutateFlowBody(flowId: string, body: string) {
   const data = await request('/api/graphql', mutation, variables)
   return data
 }
+
+export async function mutateUserEnteredDate(
+  flowId: string,
+  userEnteredDate: string,
+) {
+  const mutation = gql`
+    mutation UpdateFlow(
+      $data: FlowUpdateInput!
+      $where: FlowWhereUniqueInput!
+    ) {
+      updateFlow(data: $data, where: $where) {
+        UserEnteredDate
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      UserEnteredDate: {
+        set: userEnteredDate,
+      },
+    },
+    where: {
+      FlowID: flowId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}

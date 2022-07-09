@@ -14,7 +14,7 @@ interface Props {
   title: string
   type: FlowType
   course: string
-  createdDate: string
+  displayDate: string
   nextReview: string
 }
 
@@ -27,7 +27,7 @@ export default function FlowTableLine({
   title,
   type,
   course,
-  createdDate,
+  displayDate,
   nextReview,
 }: Props) {
   const { theme } = useTheme()
@@ -100,7 +100,7 @@ export default function FlowTableLine({
           'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
         )}
       >
-        {!loading ? <p>{createdDate}</p> : <Skeleton width={100} />}
+        {!loading ? <p>{displayDate}</p> : <Skeleton width={100} />}
       </td>
       <td
         className={classnames(
