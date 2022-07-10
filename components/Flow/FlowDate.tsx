@@ -27,7 +27,7 @@ export default function FlowDate({
   if (!mounted) return null
 
   return (
-    <Menu as="div" className="z-40 relative text-left">
+    <Menu as="div" className="z-30 relative text-left">
       {!loading ? (
         <Menu.Button
           className={classNames(

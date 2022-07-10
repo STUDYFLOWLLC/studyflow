@@ -4,6 +4,7 @@ import useDashFlows from 'hooks/flows/useDashFlows'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import EmptyTable from './EmptyTable'
 import FlowTableLine from './FlowTableLine'
 import LoadingLine from './LoadingLine'
 
@@ -89,10 +90,11 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
               {
                 'bg-white divide-y divide-gray-100': theme !== 'dark',
               },
-              { 'divide-y divide-gray-50': theme === 'dark' },
+              { 'divide-y divide-gray-200': theme === 'dark' },
             )}
           >
             {!dashFlowsLoading &&
+              dashFlows.length > 0 &&
               dashFlows.map((flow) => (
                 <FlowTableLine
                   setFlowModalOpen={setFlowModalOpen}
@@ -111,8 +113,10 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
                     .toDateString()
                     .slice(0, 10)}
                   nextReview="in 3 days"
+                  visibility={flow.Visibility}
                 />
               ))}
+
             {dashFlowsLoading &&
               [...Array(8).keys()].map((_, index) => (
                 // eslint-disable-next-line react/no-array-index-key
@@ -120,6 +124,7 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
               ))}
           </tbody>
         </table>
+        {!dashFlowsLoading && dashFlows.length === 0 && <EmptyTable />}
       </div>
     </div>
   )

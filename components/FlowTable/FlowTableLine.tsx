@@ -1,9 +1,10 @@
 import classnames from 'classnames'
+import RainbowPublicIcon from 'components/Flow/RainbowPublicIcon'
 import OpenFancy from 'components/FlowTable/OpenFancy'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import { FlowType } from 'types/Flow'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
 interface Props {
   setFlowModalOpen: (value: boolean) => void
@@ -16,6 +17,7 @@ interface Props {
   course: string
   displayDate: string
   nextReview: string
+  visibility: FlowVisibility
 }
 
 export default function FlowTableLine({
@@ -29,6 +31,7 @@ export default function FlowTableLine({
   course,
   displayDate,
   nextReview,
+  visibility,
 }: Props) {
   const { theme } = useTheme()
 
@@ -71,22 +74,27 @@ export default function FlowTableLine({
           )}
           <a href="#" className={classnames('truncate transition-colors')}>
             {!loading ? (
-              <span>
-                <span
-                  className={classnames({
-                    'text-primary brightness-90 font-semibold': showOpenIcon,
-                  })}
-                >
-                  {title}{' '}
-                </span>
-                <span
-                  className={classnames(
-                    { 'text-gray-500': !showOpenIcon },
-                    'font-normal',
-                  )}
-                >
-                  <span className="lowercase">{type} </span>in {course}
-                </span>
+              <span className="flex items-center">
+                <div>
+                  <span
+                    className={classnames({
+                      'text-primary brightness-90 font-semibold': showOpenIcon,
+                    })}
+                  >
+                    {title}{' '}
+                  </span>
+                  <span
+                    className={classnames(
+                      { 'text-gray-500': !showOpenIcon },
+                      'font-normal',
+                    )}
+                  >
+                    <span className="lowercase">{type} </span>in {course}
+                  </span>
+                </div>
+                {visibility === FlowVisibility.PUBLIC && (
+                  <RainbowPublicIcon dimension="w-4 h-4 ml-2" />
+                )}
               </span>
             ) : (
               <Skeleton width={350} />

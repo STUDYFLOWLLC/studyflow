@@ -18,22 +18,6 @@ export interface CourseDisplay {
   loading: boolean
 }
 
-const fakeCourse: CourseOnTerm = {
-  CourseOnTermID: 0,
-  Color: '',
-  Nickname: '',
-  Index: 0,
-  FK_Course: {
-    Code: '',
-    Term: '',
-    Title: '',
-    FK_Professor: {
-      Name: '',
-      Email: '',
-    },
-  },
-}
-
 const reorder = (
   list: CourseOnTerm[],
   startIndex: number,
@@ -102,7 +86,10 @@ export default function CourseNavs() {
 
   if (!mounted) return null
 
-  if (coursesOnTerm?.length === 0) return <FakeCourseNavs />
+  console.log(coursesOnTermLoading)
+
+  if (userDetails && userDetails?.SetupStep === 'Profile')
+    return <FakeCourseNavs />
 
   return (
     <div className="mt-6">
@@ -117,7 +104,8 @@ export default function CourseNavs() {
           style={{ width: '1.125rem' }}
         />
       </div>
-      {coursesOnTermLoading &&
+      {coursesOnTerm &&
+        coursesOnTerm.length === 0 &&
         [1, 2, 3, 4].map((_) => (
           <div
             key={_}
@@ -148,7 +136,8 @@ export default function CourseNavs() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {!coursesOnTermLoading &&
+              {coursesOnTerm &&
+                coursesOnTerm.length !== 0 &&
                 coursesOnTerm.map((course, index) => (
                   <CourseLine
                     key={course.FK_Course.Code}
