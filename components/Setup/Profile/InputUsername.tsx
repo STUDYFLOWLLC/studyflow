@@ -97,7 +97,7 @@ export default function InputUsername({ username, setUsername }: Props) {
             </div>
             <div className="w-full flex items-center pl-8 align-center">
               {username.length >= 3 && username.length <= 15 ? (
-                <CakeIcon className="mr-4 w-4 h-4 text-green-400" />
+                <CakeIcon className="mr-4 w-4 h-4 text-secondary" />
               ) : (
                 <LockClosedIcon
                   className={classNames(

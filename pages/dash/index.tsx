@@ -9,6 +9,7 @@ import DashWelcome from 'components/Dashboard/DashWelcome'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
 import FlowModal from 'components/Flow/FlowModal'
 import FlowTable from 'components/FlowTable'
+import DashSetup from 'components/Setup/DashSetup'
 import Taskover from 'components/Taskover'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -18,7 +19,7 @@ import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { FlowType } from 'types/Flow'
-import setupRedirectHandler from 'utils/setupRedirectHandler'
+import { SetupSteps } from 'types/SetupSteps'
 
 interface Props {
   user: User
@@ -58,8 +59,8 @@ export default function Dash({ user }: Props) {
 
   useEffect(() => {
     setMounted(true)
-    setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
-  }, [userDetails, userDetailsLoading])
+    // setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
+  }, [])
 
   if (userDetailsError) return <p>error</p>
 
@@ -98,23 +99,40 @@ export default function Dash({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-          <main className="flex-1">
-            <DashHeadBig
-              pageDisplayed="Home"
-              showDashBar={showDashBar}
-              setShowDashBar={setShowDashBar}
-              flowModalOpen={flowModalOpen}
-              setFlowModalOpen={setFlowModalOpen}
-              setCreateFlowAs={setCreateFlowAs}
-            />
-            <DashWelcome />
-            {/* <Pinned /> */}
-            <FlowListSmall />
-            <FlowTable
-              setFlowModalOpen={setFlowModalOpen}
-              setCurrentFlow={setCurrentFlow}
-            />
-          </main>
+
+          {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
+            <main className="flex-1">
+              <DashHeadBig
+                pageDisplayed="Home"
+                showDashBar={showDashBar}
+                setShowDashBar={setShowDashBar}
+                flowModalOpen={flowModalOpen}
+                setFlowModalOpen={setFlowModalOpen}
+                setCreateFlowAs={setCreateFlowAs}
+              />
+              <DashWelcome />
+              {/* <Pinned /> */}
+              <FlowListSmall />
+              <FlowTable
+                setFlowModalOpen={setFlowModalOpen}
+                setCurrentFlow={setCurrentFlow}
+              />
+            </main>
+          )}
+          {userDetails && userDetails.SetupStep !== SetupSteps.COMPLETE && (
+            <main className="flex-1">
+              <DashHeadBig
+                disabled
+                pageDisplayed="Welcome to Studyflow"
+                showDashBar={showDashBar}
+                setShowDashBar={setShowDashBar}
+                flowModalOpen={flowModalOpen}
+                setFlowModalOpen={setFlowModalOpen}
+                setCreateFlowAs={setCreateFlowAs}
+              />
+              <DashSetup />
+            </main>
+          )}
         </div>
         <Taskover />
         <CMDPalette />

@@ -1,24 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { User } from '@supabase/supabase-js'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
 import { ChangeEvent, Dispatch, useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
+import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 import { supabase } from 'utils/supabase'
 
 interface Props {
-  user: User
   tempPFPLink: string
   setTempPFPLink: Dispatch<any>
+  name?: string
 }
 
 export default function InputProfilePicture({
-  user,
   tempPFPLink,
   setTempPFPLink,
+  name,
 }: Props) {
   const { theme } = useTheme()
+  const { user } = useUser()
 
   const [mounted, setMounted] = useState(false)
 
@@ -29,7 +31,7 @@ export default function InputProfilePicture({
     if (avatarFile === null) return
     const { data, error } = await supabase.storage
       .from('pfp')
-      .upload(`${user.id}/${avatarFile.name}`, avatarFile)
+      .upload(`${user?.id}/${avatarFile.name}`, avatarFile)
     if (error) {
       toast.error('File Upload Failed. Continue in setup and upload later.')
     }
@@ -58,7 +60,9 @@ export default function InputProfilePicture({
                 /* eslint-enable */
               />
             ) : (
-              <span className="text-xl sm:text-2xl">SF</span>
+              <span className="text-xl sm:text-2xl">
+                {getFirstAndLastInitialFromName(name)}
+              </span>
             )}
           </div>
         </div>

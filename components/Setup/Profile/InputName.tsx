@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react/self-closing-comp */
 
-import { User } from '@supabase/supabase-js'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Dispatch, useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 interface Props {
-  user: User
   name: string
   setName: Dispatch<any>
 }
 
-export default function InputName({ user, name, setName }: Props) {
+export default function InputName({ name, setName }: Props) {
   const { theme } = useTheme()
+  const { user } = useUser()
 
   const [mounted, setMounted] = useState(false)
   const [focused, setFocused] = useState(false)
@@ -41,7 +41,7 @@ export default function InputName({ user, name, setName }: Props) {
             setFocused(false)
             if (name && name.length < 3) {
               toast.error('Name must be at least 3 characters')
-              setName(user.user_metadata.name)
+              setName(user?.user_metadata.name)
             }
           }}
           placeholder="Studyflow Fan"

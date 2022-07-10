@@ -1,39 +1,32 @@
 import { School } from '@prisma/client'
-import { withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
-import { User } from '@supabase/supabase-auth-helpers/react'
-import classnames from 'classnames'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
+import classNames from 'classnames'
 import SchoolSearch from 'components/Forms/School/SchoolSearch'
-import SchoolDisplay from 'components/Setup/Education/SchoolDisplay'
-import SetupHeader from 'components/Setup/Header'
-import SetupStepTitle from 'components/Setup/SetupStepTitle'
 import LoadWithText from 'components/spinners/LoadWithText'
 import useSchoolDetails from 'hooks/school/useSchoolDetails'
 import setUserSchool from 'hooks/setup/setUserSchool'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { SpinnerSizes } from 'types/Loading'
-import setupRedirectHandler from 'utils/setupRedirectHandler'
+import SchoolDisplay from '../Education/SchoolDisplay'
+import SetupHeader from '../Header'
+import SetupStepTitle from '../SetupStepTitle'
 
-interface Props {
-  user: User
-}
-
-export default function index({ user }: Props) {
-  const { theme, setTheme } = useTheme()
-  const router = useRouter()
-
+export default function DashEducationSetup() {
+  const { theme } = useTheme()
+  const { user } = useUser()
   const { userDetails, userDetailsLoading, mutateUserDetails } = useUserDetails(
-    user.id,
+    user?.id,
   )
   const { schoolDetails, schoolDetailsLoading, mutateSchoolDetails } =
     useSchoolDetails(userDetails?.FK_SchoolID)
 
   const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
 
   const updateSchoolinDB = async (school: School) => {
     mutateSchoolDetails(
@@ -54,29 +47,12 @@ export default function index({ user }: Props) {
     )
     toast.success('School updated!')
 
-    const newSchool = await setUserSchool(user.email || '', school.SchoolID)
+    const newSchool = await setUserSchool(user?.email || '', school.SchoolID)
     if (newSchool.Name === 'Error')
       return toast.error(
         'Could not update school. Please refresh and try again.',
       )
   }
-
-  useHotkeys(
-    'cmd+l, ctrl+l',
-    (e) => {
-      e.preventDefault()
-      setTheme(theme === 'light' ? 'dark' : 'light')
-    },
-    {
-      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-    },
-    [theme],
-  )
-
-  useEffect(() => {
-    setMounted(true)
-    setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
-  }, [userDetails, userDetailsLoading])
 
   if (!mounted) return null
 
@@ -112,11 +88,11 @@ export default function index({ user }: Props) {
         <SetupHeader step={1} />
         <SetupStepTitle title="Education" />
         <SkeletonTheme
-          baseColor={classnames(
+          baseColor={classNames(
             { '#ebebeb': theme === 'light' },
             { '#303D50': theme === 'dark' },
           )}
-          highlightColor={classnames(
+          highlightColor={classNames(
             { '#f5f5f5': theme === 'light' },
             { '#5C7599': theme === 'dark' },
           )}
@@ -135,5 +111,3 @@ export default function index({ user }: Props) {
     </div>
   )
 }
-
-export const getServerSideProps = withPageAuth({ redirectTo: '/login' })

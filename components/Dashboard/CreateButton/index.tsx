@@ -26,12 +26,14 @@ interface Props {
   flowModalOpen: boolean
   setFlowModalOpen: (open: boolean) => void
   setCreateFlowAs: (flowType: FlowType | null) => void
+  disabled?: boolean
 }
 
 export default function FlowDropdown({
   flowModalOpen,
   setFlowModalOpen,
   setCreateFlowAs,
+  disabled,
 }: Props) {
   const { theme } = useTheme()
 
@@ -77,6 +79,8 @@ export default function FlowDropdown({
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
+
+  if (disabled) return <PlusButton disabled />
 
   return (
     <Popover className="relative mr-2">

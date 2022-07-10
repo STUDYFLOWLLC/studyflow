@@ -27,6 +27,7 @@ export default function profile({ user }: Props) {
     userDetailsError,
     mutateUserDetails,
   } = useUserDetails(user.id)
+
   const [mounted, setMounted] = useState(false)
 
   const createBasicProfile = async () => {

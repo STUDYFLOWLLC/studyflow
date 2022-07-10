@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export enum SetupSteps {
   PROFILE = 'PROFILE',
   EDUCATION = 'EDUCATION',

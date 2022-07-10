@@ -95,7 +95,7 @@ export default function CourseSearch({
                 'bg-gray-100': theme === 'light',
               },
               { 'bg-slate-700': theme === 'dark' },
-              'absolute z-10 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+              'mt-2 absolute z-10 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
             )}
           >
             {hits.slice(0, 5).map((course: any) => (

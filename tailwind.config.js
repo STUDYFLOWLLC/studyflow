@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable global-require */
 // #49C2FA
-const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
@@ -12,6 +11,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        'spin-fast': 'spin 0.47s linear infinite',
+      },
+      backgroundImage: {
+        404: "url('/images/404bg.svg')",
+      },
+      blur: {
+        xs: '3px',
+      },
       fontFamily: {
         sans: 'Inter',
       },
@@ -19,12 +27,6 @@ module.exports = {
         '9xl': '10rem',
         '10xl': '11rem',
         '11xl': '16rem',
-      },
-      backgroundImage: {
-        404: "url('/images/404bg.svg')",
-      },
-      animation: {
-        'spin-fast': 'spin 0.47s linear infinite',
       },
     },
   },

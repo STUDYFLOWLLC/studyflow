@@ -74,14 +74,16 @@ export default function BigProfileButton({
               <span className="flex-1 flex flex-col min-w-0">
                 {!loading ? (
                   <>
-                    <span className="text-sm font-medium truncate">{name}</span>
+                    <span className="text-sm font-medium truncate">
+                      {name || 'Welcome'}
+                    </span>
                     <span
                       className={classNames(
                         { 'text-gray-500': theme === 'light' },
                         'text-sm truncate',
                       )}
                     >
-                      @{username}
+                      @{username || 'studyflow'}
                     </span>
                   </>
                 ) : (
