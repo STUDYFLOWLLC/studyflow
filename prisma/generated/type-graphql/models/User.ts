@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { School } from "../models/School";
+import { Setting } from "../models/Setting";
 import { Task } from "../models/Task";
 import { Term } from "../models/Term";
 import { SetupStep } from "../enums/SetupStep";
@@ -68,6 +69,8 @@ export class User {
   FK_Terms?: Term[];
 
   FK_Task?: Task[];
+
+  FK_Settings?: Setting | null;
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

@@ -65,7 +65,7 @@ export default function FourOFour() {
   return (
     <div className="bg-[url('../images/404bg.svg')] bg-cover min-h-full h-screen">
       <div className="flex flex-col justify-end h-screen p-2">
-        <div className="h-80 min-h-80 max-h-80">
+        <div className="h-80 max-h-80 mt-4">
           <CMDRaw
             placeholder="Search for pages, flows, etc."
             quickActions={quickActions}

@@ -7,6 +7,7 @@ import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
+import { defaultBody } from 'hooks/flows/makeFlow'
 import mutateFlowVisibility, {
   mutateFlowBody,
   mutateFlowCourseOnTerm,
@@ -158,8 +159,16 @@ export default function Flow({ flowId }: Props) {
               : flow,
           )
           .sort((flowA, flowB) => {
-            if (flowA.UserEnteredDate < flowB.UserEnteredDate) return 1
-            if (flowA.UserEnteredDate > flowB.UserEnteredDate) return -1
+            if (
+              flowA.UserEnteredDate.slice(0, 10) <
+              flowB.UserEnteredDate.slice(0, 10)
+            )
+              return 1
+            if (
+              flowA.UserEnteredDate.slice(0, 10) >
+              flowB.UserEnteredDate.slice(0, 10)
+            )
+              return -1
             return flowA.CreatedTime < flowB.CreatedTime ? 1 : -1
           }),
         mutate: true,
@@ -329,7 +338,7 @@ export default function Flow({ flowId }: Props) {
       </div>
       {!flowDetailsLoading ? (
         <FlowBody
-          initialBlocks={JSON.parse(flowDetails.Body)}
+          initialBlocks={JSON.parse(flowDetails.Body) || defaultBody}
           saveFlow={saveFlow}
           setFauxSaving={setFauxSaving}
         />

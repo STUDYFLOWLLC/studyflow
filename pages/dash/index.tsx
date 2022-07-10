@@ -139,7 +139,7 @@ export default function Dash({ user }: Props) {
         <FlowModal
           isOpen={flowModalOpen}
           setIsOpen={setFlowModalOpen}
-          firstCourseOnTermId={coursesOnTerm?.[0]?.CourseOnTermID}
+          firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}
           setCurrentFlow={setCurrentFlow}
           createAs={createFlowAs}

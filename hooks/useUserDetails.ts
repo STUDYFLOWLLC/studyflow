@@ -31,6 +31,10 @@ export default function useUserDetails(supabaseId: string | undefined | null) {
               TermName
               TermID
             }
+            FK_Settings {
+              HasSeenWelcomeMessage
+              LastSeenWelcomeMessageAt
+            }
           }
         }
       `,
@@ -41,6 +45,8 @@ export default function useUserDetails(supabaseId: string | undefined | null) {
       revalidateOnFocus: false,
     },
   )
+
+  console.log(error)
 
   if (data?.mutate) {
     return {
