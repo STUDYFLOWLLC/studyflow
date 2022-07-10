@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { School } from '@prisma/client'
-import { User } from '@supabase/supabase-js'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import CourseColorPicker from 'components/Forms/Course/CourseColorPicker'
 import CourseSearch, { CourseHit } from 'components/Forms/Course/CourseSearch'
 import CourseDisplay from 'components/Setup/Education/CourseDisplay'
@@ -13,21 +13,21 @@ import { mutateSetupStep } from 'hooks/setup/mutateUser'
 import useUserDetails from 'hooks/useUserDetails'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { bgColor } from 'types/Colors'
 import { SetupSteps } from 'types/SetupSteps'
 
 interface Props {
-  user: User
   selectedSchool: School
 }
 
 const colors = Object.values(bgColor)
 
-export default function AddCourse({ user, selectedSchool }: Props) {
+export default function AddCourse({ selectedSchool }: Props) {
+  const { user } = useUser()
   const router = useRouter()
 
-  const { userDetails, mutateUserDetails } = useUserDetails(user.id)
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
   const { termDetails, termDetailsLoading, mutateTermDetails } = useTermDetails(
     userDetails.FK_Terms?.[0]?.TermID,
   )
@@ -105,20 +105,23 @@ export default function AddCourse({ user, selectedSchool }: Props) {
   const finishAddingCourses = async () => {
     if (doneAddingCourses) return
     setDoneAddingCourses(true)
-    await mutateSetupStep(userDetails.Email, SetupSteps.COMPLETE)
-    await mutateUserDetails({
-      ...userDetails,
-      SetupStep: SetupSteps.COMPLETE,
-      mutate: true,
-    })
+    mutateSetupStep(userDetails.Email, SetupSteps.COMPLETE)
+    mutateUserDetails(
+      {
+        ...userDetails,
+        SetupStep: SetupSteps.COMPLETE,
+        mutate: true,
+      },
+      {
+        revalidate: false,
+      },
+    )
 
     setDoneAddingCourses(false)
-    router.push('setup/community')
   }
 
   return (
     <>
-      <Toaster position="top-center" />
       <p className="w-full text-left text-lg mt-2 font-semibold">Add Courses</p>
       <CourseSearch
         selectedCourse={selectedCourse}
@@ -148,7 +151,9 @@ export default function AddCourse({ user, selectedSchool }: Props) {
         Add {nickname || 'Course'}
         <ButtonSpinner show={addingCourse} />
       </button>
-      <div className="w-full transition-all h-0.5 bg-gray-200 mx-auto mt-4" />
+      {termDetails?.CoursesOnTerm.length > 0 && (
+        <div className="w-full transition-all h-0.5 bg-gray-200 mx-auto mt-4" />
+      )}
 
       {termDetails.CoursesOnTerm.length !== 0 && (
         <p className="w-full text-left pl-2 mt-2">Your courses</p>

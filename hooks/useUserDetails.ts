@@ -6,38 +6,40 @@ export default function useUserDetails(supabaseId: string | undefined | null) {
   const variables = {
     where: {
       SupabaseID: {
-        equals: supabaseId,
+        equals: supabaseId || null,
       },
     },
   }
 
   const { data, error, mutate } = useSWR(
-    supabaseId
-      ? [
-          gql`
-            query Query($where: UserWhereInput) {
-              findFirstUser(where: $where) {
-                UserID
-                Username
-                ProfilePictureLink
-                DefaultVisibility
-                SupabaseID
-                SetupStep
-                CreatedTime
-                Email
-                Name
-                FK_SchoolID
-                FK_Terms {
-                  TermType
-                  TermName
-                  TermID
-                }
-              }
+    [
+      gql`
+        query Query($where: UserWhereInput) {
+          findFirstUser(where: $where) {
+            UserID
+            Username
+            ProfilePictureLink
+            DefaultVisibility
+            SupabaseID
+            SetupStep
+            CreatedTime
+            Email
+            Name
+            FK_SchoolID
+            FK_Terms {
+              TermType
+              TermName
+              TermID
             }
-          `,
-          variables,
-        ]
-      : null,
+          }
+        }
+      `,
+      variables,
+    ],
+    {
+      revalidateOnMount: false,
+      revalidateOnFocus: false,
+    },
   )
 
   if (data?.mutate) {

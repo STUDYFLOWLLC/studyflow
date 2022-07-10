@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable global-require */
 // #49C2FA
-const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
@@ -10,11 +9,41 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
   ],
+  theme: {
+    extend: {
+      animation: {
+        'spin-fast': 'spin 0.47s linear infinite',
+      },
+      backgroundImage: {
+        404: "url('/images/404bg.svg')",
+      },
+      blur: {
+        xs: '3px',
+      },
+      fontFamily: {
+        sans: 'Inter',
+      },
+      fontSize: {
+        '9xl': '10rem',
+        '10xl': '11rem',
+        '11xl': '16rem',
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('daisyui'),
+  ],
   daisyui: {
+    styled: true,
+    base: true,
+    utils: true,
+    logs: false,
     themes: [
       {
         light: {
-          primary: '#55D7CA',
+          primary: '#7AE0D6',
           secondary: '#EE81C3',
           'secondary-focus': '#ED54A8',
           accent: '#F4BB77',
@@ -28,7 +57,7 @@ module.exports = {
       },
       {
         dark: {
-          primary: '#55D7CA',
+          primary: '#6EDDD2',
           secondary: '#EE81C3',
           'secondary-focus': '#ED54A8',
           accent: '#F4BB77',
@@ -42,21 +71,6 @@ module.exports = {
       },
     ],
   },
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: 'Inter',
-      },
-      animation: {
-        'spin-fast': 'spin 0.47s linear infinite',
-      },
-    },
-  },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('daisyui'),
-  ],
   variants: {
     width: ['responsive', 'hover', 'focus'],
   },

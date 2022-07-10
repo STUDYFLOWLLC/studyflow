@@ -1,27 +1,37 @@
 import classnames from 'classnames'
+import RainbowPublicIcon from 'components/Flow/RainbowPublicIcon'
 import OpenFancy from 'components/FlowTable/OpenFancy'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
 interface Props {
+  setFlowModalOpen: (value: boolean) => void
+  setCurrentFlow: (flowId: string) => void
   loading: boolean
   flowID: string
   bgColorClass: string
   title: string
+  type: FlowType
   course: string
-  createdDate: string
+  displayDate: string
   nextReview: string
+  visibility: FlowVisibility
 }
 
 export default function FlowTableLine({
+  setFlowModalOpen,
+  setCurrentFlow,
   loading,
   flowID,
   bgColorClass,
   title,
+  type,
   course,
-  createdDate,
+  displayDate,
   nextReview,
+  visibility,
 }: Props) {
   const { theme } = useTheme()
 
@@ -34,7 +44,16 @@ export default function FlowTableLine({
 
   return (
     <tr id={flowID}>
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <td
+        onClick={() => {
+          setFlowModalOpen(true)
+          setCurrentFlow(flowID)
+        }}
+        onKeyDown={() => {
+          setFlowModalOpen(true)
+          setCurrentFlow(flowID)
+        }}
         onMouseOver={() => setShowOpenIcon(true)}
         onMouseLeave={() => setShowOpenIcon(false)}
         onFocus={() => setShowOpenIcon(true)}
@@ -55,22 +74,27 @@ export default function FlowTableLine({
           )}
           <a href="#" className={classnames('truncate transition-colors')}>
             {!loading ? (
-              <span>
-                <span
-                  className={classnames({
-                    'text-primary brightness-90 font-semibold': showOpenIcon,
-                  })}
-                >
-                  {title}{' '}
-                </span>
-                <span
-                  className={classnames(
-                    { 'text-gray-500': !showOpenIcon },
-                    'font-normal',
-                  )}
-                >
-                  in {course}
-                </span>
+              <span className="flex items-center">
+                <div>
+                  <span
+                    className={classnames({
+                      'text-primary brightness-90 font-semibold': showOpenIcon,
+                    })}
+                  >
+                    {title}{' '}
+                  </span>
+                  <span
+                    className={classnames(
+                      { 'text-gray-500': !showOpenIcon },
+                      'font-normal',
+                    )}
+                  >
+                    <span className="lowercase">{type} </span>in {course}
+                  </span>
+                </div>
+                {visibility === FlowVisibility.PUBLIC && (
+                  <RainbowPublicIcon dimension="w-4 h-4 ml-2" />
+                )}
               </span>
             ) : (
               <Skeleton width={350} />
@@ -84,7 +108,7 @@ export default function FlowTableLine({
           'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
         )}
       >
-        {!loading ? <p>{createdDate}</p> : <Skeleton width={100} />}
+        {!loading ? <p>{displayDate}</p> : <Skeleton width={100} />}
       </td>
       <td
         className={classnames(
@@ -94,6 +118,9 @@ export default function FlowTableLine({
         {!loading ? <p>{nextReview}</p> : <Skeleton width={60} />}
       </td>
       <OpenFancy
+        setFlowModalOpen={setFlowModalOpen}
+        setCurrentFlow={setCurrentFlow}
+        flowID={flowID}
         loading={loading}
         showOpenIcon={showOpenIcon}
         setShowOpenIcon={setShowOpenIcon}

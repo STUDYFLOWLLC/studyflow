@@ -3,29 +3,36 @@
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, FolderIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
-import MainSpinner from 'components/spinners/MainSpinner'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
-import { SpinnerSizes } from 'types/Loading'
+import Skeleton from 'react-loading-skeleton'
+import { ActiveProps } from 'types/ActiveProps'
 import shorten from 'utils/shorten'
 
-export interface Item {
-  color: string
-  name: string
-  handler: (param1?: any, ...params: any[]) => any
-}
-
-interface activeProps {
-  active: boolean
+export interface CourseOnTermSmall {
+  CourseOnTermID: number
+  Nickname: string
+  Code: string
+  Color: string
+  mutator: (
+    newId: number,
+    newNickname: string,
+    newCode: string,
+    newColor: string,
+  ) => void
 }
 
 interface Props {
   title: string
-  items: Item[]
+  coursesOnTermSmall: CourseOnTermSmall[]
   loading: boolean
 }
 
-export default function CourseDropDown({ title, items, loading }: Props) {
+export default function CourseDropDown({
+  title,
+  coursesOnTermSmall,
+  loading,
+}: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -36,7 +43,7 @@ export default function CourseDropDown({ title, items, loading }: Props) {
 
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <div>
+      {!loading ? (
         <Menu.Button
           disabled={loading}
           className={classNames(
@@ -46,20 +53,20 @@ export default function CourseDropDown({ title, items, loading }: Props) {
             {
               'hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
             },
-            'flex align-middle items-center px-1 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
+            'flex align-middle w-40 justify-between items-center px-2 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
           )}
         >
-          <FolderIcon className="h-5 mr-1 w-5" aria-hidden="true" />
-          {title}
-          {loading ? (
-            <div className="w-4 mx-1">
-              <MainSpinner size={SpinnerSizes.small} />
-            </div>
-          ) : (
-            <ChevronDownIcon className="h-5 ml-1 w-5 mr-1" aria-hidden="true" />
-          )}
+          <div>
+            <FolderIcon className="h-5 mr-2 w-5" aria-hidden="true" />
+          </div>
+          <span className="truncate mr-2">{title}</span>
+          <div>
+            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+          </div>
         </Menu.Button>
-      </div>
+      ) : (
+        <Skeleton className="h-5 w-40 ml-4" />
+      )}
 
       <Transition
         as={Fragment}
@@ -77,9 +84,9 @@ export default function CourseDropDown({ title, items, loading }: Props) {
             'absolute z-20 left-0 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
           )}
         >
-          {items.map((item) => (
-            <Menu.Item key={item.name}>
-              {({ active }: activeProps) => (
+          {coursesOnTermSmall.map((courseOnTermSmall) => (
+            <Menu.Item key={courseOnTermSmall.Code}>
+              {({ active }: ActiveProps) => (
                 <div
                   className={classNames(
                     {
@@ -94,17 +101,34 @@ export default function CourseDropDown({ title, items, loading }: Props) {
                     },
                     'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md last-of-type:rounded-b-md',
                   )}
-                  onClick={() => item.handler()}
-                  onKeyDown={() => item.handler()}
+                  onClick={() =>
+                    courseOnTermSmall.mutator(
+                      courseOnTermSmall.CourseOnTermID,
+                      courseOnTermSmall.Nickname,
+                      courseOnTermSmall.Code,
+                      courseOnTermSmall.Color,
+                    )
+                  }
+                  onKeyDown={() =>
+                    courseOnTermSmall.mutator(
+                      courseOnTermSmall.CourseOnTermID,
+                      courseOnTermSmall.Nickname,
+                      courseOnTermSmall.Code,
+                      courseOnTermSmall.Color,
+                    )
+                  }
                 >
                   <div
                     className={classNames(
-                      item.color,
+                      courseOnTermSmall.Color,
                       ' ring-offset-1 w-3 h-3 mx-2 rounded-full',
                     )}
                   />
                   <span className="block py-2 text-sm">
-                    {shorten(item.name, 18)}
+                    {shorten(
+                      courseOnTermSmall.Nickname || courseOnTermSmall.Code,
+                      18,
+                    )}
                   </span>
                 </div>
               )}

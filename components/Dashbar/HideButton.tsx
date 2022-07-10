@@ -22,7 +22,28 @@ export default function HideButton({ direction, setShowDashBar }: Props) {
 
   if (direction === 'show') {
     return (
-      <ChevronDoubleRightIcon
+      <div className="hidden lg:block">
+        <ChevronDoubleRightIcon
+          className={classNames(
+            {
+              'text-gray-500 hover:text-gray-600 hover:bg-gray-200':
+                theme === 'light',
+            },
+            {
+              'text-gray-400 hover:text-gray-300 hover:bg-slate-700':
+                theme === 'dark',
+            },
+            'w-7 h-7 p-1 cursor-pointer rounded',
+          )}
+          onClick={() => setShowDashBar(true)}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className="block">
+      <ChevronDoubleLeftIcon
         className={classNames(
           {
             'text-gray-500 hover:text-gray-600 hover:bg-gray-200':
@@ -32,27 +53,10 @@ export default function HideButton({ direction, setShowDashBar }: Props) {
             'text-gray-400 hover:text-gray-300 hover:bg-slate-700':
               theme === 'dark',
           },
-          'w-7 h-7 p-1 cursor-pointer rounded',
+          'w-7 h-7 p-1 mb-1 cursor-pointer rounded',
         )}
-        onClick={() => setShowDashBar(true)}
+        onClick={() => setShowDashBar(false)}
       />
-    )
-  }
-
-  return (
-    <ChevronDoubleLeftIcon
-      className={classNames(
-        {
-          'text-gray-500 hover:text-gray-600 hover:bg-gray-200':
-            theme === 'light',
-        },
-        {
-          'text-gray-400 hover:text-gray-300 hover:bg-slate-700':
-            theme === 'dark',
-        },
-        'w-7 h-7 p-1 mb-1 cursor-pointer rounded',
-      )}
-      onClick={() => setShowDashBar(false)}
-    />
+    </div>
   )
 }

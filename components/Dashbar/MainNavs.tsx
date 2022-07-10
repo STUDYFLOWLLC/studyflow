@@ -1,60 +1,68 @@
 import {
+  BeakerIcon,
   CalendarIcon,
   CheckCircleIcon,
   ClipboardListIcon,
-  StarIcon,
   UserGroupIcon,
 } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-
-const navigation = [
-  {
-    name: 'Dash',
-    href: '#',
-    icon: ClipboardListIcon,
-    keyboard: 'D',
-    current: true,
-  },
-  {
-    name: 'Favorites',
-    href: '#',
-    icon: StarIcon,
-    keyboard: 'F',
-    current: false,
-  },
-  {
-    name: 'Tasks',
-    href: '#',
-    icon: CheckCircleIcon,
-    keyboard: 'T',
-    current: false,
-  },
-  {
-    name: 'Calendar',
-    href: '#',
-    icon: CalendarIcon,
-    keyboard: 'C',
-    current: false,
-  },
-  {
-    name: 'Social',
-    href: '#',
-    icon: UserGroupIcon,
-    keyboard: 'S',
-    current: false,
-  },
-]
 
 export default function MainNavs() {
   const { theme } = useTheme()
+  const router = useRouter()
 
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
+
+  const navigation = [
+    {
+      name: 'Dash',
+      href: '#',
+      icon: ClipboardListIcon,
+      keyboard: 'D',
+      current: router.pathname === '/dash',
+      handler: () => router.push('/dash'),
+    },
+
+    {
+      name: 'Tasks',
+      href: '#',
+      icon: CheckCircleIcon,
+      keyboard: 'T',
+      current: router.pathname === '/tasks',
+      handler: () => router.push('/tasks'),
+    },
+    {
+      name: 'Calendar',
+      href: '#',
+      icon: CalendarIcon,
+      keyboard: 'C',
+      current: router.pathname === '/calendar',
+      handler: () => router.push('/calendar'),
+    },
+    {
+      name: 'Social',
+      href: '#',
+      icon: UserGroupIcon,
+      keyboard: 'S',
+      current: router.pathname === '/social',
+      handler: () => router.push('/social'),
+    },
+    {
+      name: 'Automation',
+      href: '#',
+      icon: BeakerIcon,
+      keyboard: 'S',
+      current: router.pathname === '/automation',
+      handler: () => router.push('/automation'),
+    },
+  ]
 
   return (
     <div className="space-y-1">
@@ -71,9 +79,11 @@ export default function MainNavs() {
             { 'bg-slate-600': item.current && theme === 'dark' },
             'group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
           )}
+          onClick={() => item.handler()}
+          onKeyDown={() => item.handler()}
           aria-current={item.current ? 'page' : undefined}
         >
-          <div className="flex items-center">
+          <div className="flex items-center w-full">
             <item.icon
               className={classNames(
                 { 'text-gray-500': item.current },
@@ -82,7 +92,14 @@ export default function MainNavs() {
               )}
               aria-hidden="true"
             />
-            <span className="text-sm font-medium">{item.name}</span>
+            <div className="flex justify-between items-center w-full">
+              <span className="text-sm font-medium">{item.name}</span>
+              {item.name === 'Automation' && (
+                <span className="bg-accent rounded-md px-1.5 uppercase text-xs text-gray-900">
+                  alpha
+                </span>
+              )}
+            </div>
           </div>
           {/* {item.keyboard && (
             <kbd className="kbd kbd-xs w-5 text-xs">{item.keyboard}</kbd>

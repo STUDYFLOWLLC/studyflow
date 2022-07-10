@@ -11,7 +11,6 @@ export default function insertIntoBlock(
   if (!richTexts) return
 
   const currentRichText = findCurrentRichTextBlock(block, caretIndex)
-  console.log(currentRichText)
   if (!currentRichText?.text) return
 
   const previousLength = lengthOfPreviousRichText(richTexts, currentRichText)

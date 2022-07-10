@@ -9,28 +9,13 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import Skeleton from 'react-loading-skeleton'
+import FakeCourseNavs from './FakeCourseNavs'
 
 export interface CourseDisplay {
   name: string
   href: string
   bgColorClass: string
   loading: boolean
-}
-
-const fakeCourse: CourseOnTerm = {
-  CourseOnTermID: 0,
-  Color: '',
-  Nickname: '',
-  Index: 0,
-  FK_Course: {
-    Code: '',
-    Term: '',
-    Title: '',
-    FK_Professor: {
-      Name: '',
-      Email: '',
-    },
-  },
 }
 
 const reorder = (
@@ -101,6 +86,11 @@ export default function CourseNavs() {
 
   if (!mounted) return null
 
+  console.log(coursesOnTermLoading)
+
+  if (userDetails && userDetails?.SetupStep === 'Profile')
+    return <FakeCourseNavs />
+
   return (
     <div className="mt-6">
       <div className="w-100 flex items-center justify-between">
@@ -114,7 +104,8 @@ export default function CourseNavs() {
           style={{ width: '1.125rem' }}
         />
       </div>
-      {coursesOnTermLoading &&
+      {coursesOnTerm &&
+        coursesOnTerm.length === 0 &&
         [1, 2, 3, 4].map((_) => (
           <div
             key={_}
@@ -145,7 +136,8 @@ export default function CourseNavs() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {!coursesOnTermLoading &&
+              {coursesOnTerm &&
+                coursesOnTerm.length !== 0 &&
                 coursesOnTerm.map((course, index) => (
                   <CourseLine
                     key={course.FK_Course.Code}

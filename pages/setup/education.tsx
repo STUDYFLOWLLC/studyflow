@@ -13,7 +13,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { SpinnerSizes } from 'types/Loading'
@@ -83,7 +83,6 @@ export default function index({ user }: Props) {
   if (userDetailsLoading) {
     return (
       <div className="w-full flex flex-col items-center">
-        <Toaster position="top-center" />
         <SetupHeader step={1} />
         <SetupStepTitle title="Education" />
         <LoadWithText
@@ -97,7 +96,6 @@ export default function index({ user }: Props) {
   if (!userDetails.FK_SchoolID) {
     return (
       <div className="w-full flex flex-col items-center">
-        <Toaster position="top-center" />
         <SetupHeader step={1} />
         <SetupStepTitle title="Education" />
         <SchoolSearch
@@ -111,7 +109,6 @@ export default function index({ user }: Props) {
   if (!schoolDetailsLoading) {
     return (
       <div className="w-full flex flex-col items-center">
-        <Toaster position="top-center" />
         <SetupHeader step={1} />
         <SetupStepTitle title="Education" />
         <SkeletonTheme
@@ -124,7 +121,7 @@ export default function index({ user }: Props) {
             { '#5C7599': theme === 'dark' },
           )}
         >
-          <SchoolDisplay user={user} selectedSchool={schoolDetails} />
+          <SchoolDisplay selectedSchool={schoolDetails} />
         </SkeletonTheme>
       </div>
     )
@@ -132,7 +129,6 @@ export default function index({ user }: Props) {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <Toaster position="top-center" />
       <SetupHeader step={1} />
       <SetupStepTitle title="Education" />
       <LoadWithText text="Loading school details" size={SpinnerSizes.medium} />

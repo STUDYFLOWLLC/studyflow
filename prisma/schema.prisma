@@ -37,9 +37,11 @@ enum TermType {
 
 enum FlowType {
   LECTURE
-  ASSIGNMENT
+  DISCUSSION
   NOTE
-  EXAM
+  ASSIGNMENT
+  ASSESSMENT
+  SYNTHESIS
 }
 
 enum TaskType {
@@ -130,6 +132,7 @@ model Professor {
 model Flow {
   FlowID             String           @id @default(uuid())
   CreatedTime        DateTime         @default(now())
+  UserEnteredDate    DateTime         @default(now())
   //FK_Tags            FlowTagOnFlow[]
   Type               FlowType
   Title              String           @default("Untitled")

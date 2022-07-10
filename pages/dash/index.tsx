@@ -5,32 +5,45 @@ import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import DashWelcome from 'components/Dashboard/DashWelcome'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
-import Pinned from 'components/Dashboard/Pinned'
+import FlowModal from 'components/Flow/FlowModal'
 import FlowTable from 'components/FlowTable'
+import DashSetup from 'components/Setup/DashSetup'
 import Taskover from 'components/Taskover'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
+import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import setupRedirectHandler from 'utils/setupRedirectHandler'
+import { SkeletonTheme } from 'react-loading-skeleton'
+import { FlowType } from 'types/Flow'
+import { SetupSteps } from 'types/SetupSteps'
 
 interface Props {
   user: User
 }
 
 export default function Dash({ user }: Props) {
+  const { theme } = useTheme()
   const router = useRouter()
 
   /* eslint-disable */
   const { userDetails, userDetailsLoading, userDetailsError } = useUserDetails(
     user.id,
   )
+  const { coursesOnTerm, coursesOnTermLoading, mutateCoursesOnTerm } =
+    useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
+
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const [flowModalOpen, setFlowModalOpen] = useState(false)
+  const [createFlowAs, setCreateFlowAs] = useState<FlowType | null>(null)
+  const [currentFlow, setCurrentFlow] = useState<string>('')
 
   useHotkeys(
     'cmd+i, ctrl+i',
@@ -45,46 +58,94 @@ export default function Dash({ user }: Props) {
   )
 
   useEffect(() => {
-    setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
-  }, [userDetails, userDetailsLoading])
+    setMounted(true)
+    // setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
+  }, [])
 
   if (userDetailsError) return <p>error</p>
 
-  return (
-    <div className="min-h-full">
-      <Dashbar
-        showDashBar={showDashBar}
-        setShowDashBar={setShowDashBar}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
+  if (!mounted) return null
 
-      <div className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}>
-        <DashHeadSmall
+  return (
+    <SkeletonTheme
+      baseColor={classNames(
+        { '#ebebeb': theme === 'light' },
+        { '#303D50': theme === 'dark' },
+      )}
+      highlightColor={classNames(
+        { '#f5f5f5': theme === 'light' },
+        { '#5C7599': theme === 'dark' },
+      )}
+    >
+      <div className="min-h-full">
+        <Dashbar
+          showDashBar={showDashBar}
+          setShowDashBar={setShowDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          setSidebarOpen={setSidebarOpen}
         />
-        <DashbarSmall
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
-        <main className="flex-1">
-          <DashHeadBig
-            pageDisplayed="Home"
-            showDashBar={showDashBar}
-            setShowDashBar={setShowDashBar}
+
+        <div
+          className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
+        >
+          <DashHeadSmall
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            setSidebarOpen={setSidebarOpen}
           />
-          <Pinned />
-          <FlowListSmall />
-          <FlowTable />
-        </main>
+          <DashbarSmall
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+
+          {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
+            <main className="flex-1">
+              <DashHeadBig
+                pageDisplayed="Home"
+                showDashBar={showDashBar}
+                setShowDashBar={setShowDashBar}
+                flowModalOpen={flowModalOpen}
+                setFlowModalOpen={setFlowModalOpen}
+                setCreateFlowAs={setCreateFlowAs}
+              />
+              <DashWelcome />
+              {/* <Pinned /> */}
+              <FlowListSmall />
+              <FlowTable
+                setFlowModalOpen={setFlowModalOpen}
+                setCurrentFlow={setCurrentFlow}
+              />
+            </main>
+          )}
+          {userDetails && userDetails.SetupStep !== SetupSteps.COMPLETE && (
+            <main className="flex-1">
+              <DashHeadBig
+                disabled
+                pageDisplayed="Welcome to Studyflow"
+                showDashBar={showDashBar}
+                setShowDashBar={setShowDashBar}
+                flowModalOpen={flowModalOpen}
+                setFlowModalOpen={setFlowModalOpen}
+                setCreateFlowAs={setCreateFlowAs}
+              />
+              <DashSetup />
+            </main>
+          )}
+        </div>
+        <Taskover />
+        <CMDPalette />
+        <FlowModal
+          isOpen={flowModalOpen}
+          setIsOpen={setFlowModalOpen}
+          firstCourseOnTermId={coursesOnTerm?.[0]?.CourseOnTermID}
+          flowId={currentFlow}
+          setCurrentFlow={setCurrentFlow}
+          createAs={createFlowAs}
+        />
       </div>
-      <Taskover />
-      <CMDPalette />
-    </div>
+    </SkeletonTheme>
   )
 }
 

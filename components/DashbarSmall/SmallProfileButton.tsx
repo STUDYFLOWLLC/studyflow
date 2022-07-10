@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react'
 import classNames from 'classnames'
-import ProfileButtonMenuItem from 'components/buttons/ProfileButtonMenuItem'
+import ProfileButtonDropdown from 'components/dropdowns/ProfileButtonDropdown'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
@@ -62,21 +62,10 @@ export default function SmallProfileButton({ name, pfpLink }: Props) {
                 theme === 'light',
             },
             { 'bg-slate-700 divide-gray-200 ring-0': theme === 'dark' },
-            'origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg  divide-y divide-gray-200 focus:outline-none',
+            'origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg focus:outline-none',
           )}
         >
-          <div>
-            <ProfileButtonMenuItem name="View Profile" href="#" roundedT />
-            <ProfileButtonMenuItem name="Settings" href="#" />
-            <ProfileButtonMenuItem name="Dark" href="#" />
-          </div>
-          <div>
-            <ProfileButtonMenuItem name="Get Desktop App" href="#" />
-            <ProfileButtonMenuItem name="Support" href="#" />
-          </div>
-          <div>
-            <ProfileButtonMenuItem name="Logout" href="#" roundedB />
-          </div>
+          <ProfileButtonDropdown />
         </Menu.Items>
       </Transition>
     </Menu>

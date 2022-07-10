@@ -4,7 +4,7 @@
 import classNames from 'classnames'
 import FlowBlock from 'components/Flow/FlowBlock'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import FlipMove from 'react-flip-move'
 import { Color } from 'types/Colors'
@@ -77,15 +77,40 @@ const secondBlock: Block = {
 
 const commandHandler = new CommandHandler()
 
-export default function FlowPage() {
+interface Props {
+  initialBlocks: Block[]
+  saveFlow: (blocks: Block[]) => Promise<void>
+  setFauxSaving: (fauxSaving: boolean) => void
+}
+
+export default function FlowBody({
+  initialBlocks,
+  saveFlow,
+  setFauxSaving,
+}: Props) {
   const { theme, setTheme } = useTheme()
 
-  const [blocks, setBlocks] = useStateCallback([...initialBlocks])
-  const [currentBlock, setCurrentBlock] = useStateCallback(initialBlock)
+  const [blocks, setBlocks] = useStateCallback(initialBlocks)
+  const [changesMade, setChangesMade] = useState(false)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
   const [disableAnimations, setDisableAnimations] = useState(true)
   const [animatingBlock, setAnimatingBlock] = useState(false)
+
+  const saveFlowLocal = async () => {
+    setFauxSaving(false)
+    if (changesMade) {
+      setChangesMade(false)
+      await saveFlow(blocks)
+    }
+  }
+
+  useEffect(() => {
+    const saveInterval = setInterval(() => {
+      saveFlowLocal()
+    }, 5000)
+    return () => clearInterval(saveInterval)
+  }, [changesMade])
 
   // console.log(`Current Block ${currentBlock.index}`)
   // console.log(`Current Caret Index ${currentCaretIndex}`)
@@ -429,7 +454,7 @@ export default function FlowPage() {
         {(provided) => (
           <div
             className={classNames(
-              'overflow-none max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
+              'overflow-none max-h-5/6 max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
               'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
               'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
               'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
@@ -448,6 +473,8 @@ export default function FlowPage() {
                   key={block.id}
                   theme={theme}
                   setTheme={setTheme}
+                  setChangesMade={setChangesMade}
+                  setFauxSaving={setFauxSaving}
                   commandHandler={commandHandler}
                   updatePage={updatePageHandler}
                   block={block}

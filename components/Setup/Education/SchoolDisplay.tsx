@@ -1,5 +1,5 @@
 import { School } from '@prisma/client'
-import { User } from '@supabase/supabase-js'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import AddCourse from 'components/Setup/Education/AddCourse'
 import SchoolInfo from 'components/Setup/Education/SchoolInfo'
@@ -12,14 +12,14 @@ import { useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 
 interface Props {
-  user: User
   selectedSchool: School
 }
 
-export default function SchoolDisplay({ user, selectedSchool }: Props) {
+export default function SchoolDisplay({ selectedSchool }: Props) {
   const { theme } = useTheme()
+  const { user } = useUser()
 
-  const { userDetails } = useUserDetails(user.id)
+  const { userDetails } = useUserDetails(user?.id)
   const { termDetails, termDetailsLoading } = useTermDetails(
     userDetails.FK_Terms?.[0]?.TermID,
   )
@@ -58,9 +58,9 @@ export default function SchoolDisplay({ user, selectedSchool }: Props) {
     >
       <SchoolInfo selectedSchool={selectedSchool} />
       {termDetails.TermID === 0 ? (
-        <TermCreate user={user} selectedSchool={selectedSchool} />
+        <TermCreate selectedSchool={selectedSchool} />
       ) : (
-        <AddCourse user={user} selectedSchool={selectedSchool} />
+        <AddCourse selectedSchool={selectedSchool} />
       )}
     </div>
   )
