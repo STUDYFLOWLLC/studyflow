@@ -73,8 +73,7 @@ export default function profile({ user }: Props) {
     createBasicProfile()
   }
 
-  if (!userDetailsLoading && !userDetails.Username)
-    return <IncompleteProfile user={user} />
+  if (!userDetailsLoading && !userDetails.Username) return <IncompleteProfile />
 
   return (
     <div className="w-full flex flex-col items-center">
