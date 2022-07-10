@@ -70,7 +70,7 @@ export default function Dash({ user }: Props) {
   const shouldShowWelcomeMessageBasedOnTime =
     new Date().getTime() -
       new Date(userDetails?.FK_Settings?.LastSeenWelcomeMessageAt).getTime() >
-    60 * 1000 * 5
+    60 * 1000 * 60 * 24
 
   return (
     <SkeletonTheme
