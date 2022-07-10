@@ -27,6 +27,7 @@ export default function profile({ user }: Props) {
     userDetailsError,
     mutateUserDetails,
   } = useUserDetails(user.id)
+
   const [mounted, setMounted] = useState(false)
 
   const createBasicProfile = async () => {
@@ -72,8 +73,7 @@ export default function profile({ user }: Props) {
     createBasicProfile()
   }
 
-  if (!userDetailsLoading && !userDetails.Username)
-    return <IncompleteProfile user={user} />
+  if (!userDetailsLoading && !userDetails.Username) return <IncompleteProfile />
 
   return (
     <div className="w-full flex flex-col items-center">

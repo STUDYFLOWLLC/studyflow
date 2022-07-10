@@ -14,7 +14,7 @@ export default async function setBasicProfile(
 
   const variables = {
     data: {
-      SupabaseID: SupabaseID,
+      SupabaseID,
       Email: email,
     },
   }

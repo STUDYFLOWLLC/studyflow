@@ -21,7 +21,7 @@ export default function SchoolInfo({ selectedSchool }: Props) {
   const { flowCount, flowCountLoading } = useFlowCount(selectedSchool.SchoolID)
 
   return (
-    <div className="relative prose w-full border-b-2 mb-2 pb-2">
+    <div className="relative prose w-full border-b-2 mb-4 pb-5">
       <div className="relative w-full">
         <h3 className="m-0 flex items-center">
           {selectedSchool.Name}{' '}

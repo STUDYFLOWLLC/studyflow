@@ -38,7 +38,7 @@ export default function ProfileButtonDropdown() {
     {
       name: 'Logout',
       hasDivider: true,
-      handler: () => console.log('logout'),
+      handler: () => router.push('/api/auth/logout'),
     },
   ]
 

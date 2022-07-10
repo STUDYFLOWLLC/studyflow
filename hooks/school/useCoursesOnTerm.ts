@@ -52,7 +52,7 @@ export default function useCoursesOnTerm(termID: number | undefined): Ret {
   const variables = {
     where: {
       TermID: {
-        equals: termID,
+        equals: termID === undefined ? null : termID,
       },
     },
   }

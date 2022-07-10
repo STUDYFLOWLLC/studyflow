@@ -68,6 +68,8 @@ export default function CMDRaw({
           onChange={(event: { target: { value: string } }) =>
             setQuery(event.target.value)
           }
+          autoComplete="off"
+          autoFocus
         />
         {setOpen && (
           <kbd

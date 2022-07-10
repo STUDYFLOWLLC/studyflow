@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import Skeleton from 'react-loading-skeleton'
+import FakeCourseNavs from './FakeCourseNavs'
 
 export interface CourseDisplay {
   name: string
@@ -100,6 +101,8 @@ export default function CourseNavs() {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
+
+  if (coursesOnTerm?.length === 0) return <FakeCourseNavs />
 
   return (
     <div className="mt-6">

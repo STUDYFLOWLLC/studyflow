@@ -11,6 +11,7 @@ interface Props {
   flowModalOpen: boolean
   setFlowModalOpen: (value: boolean) => void
   setCreateFlowAs: (value: FlowType | null) => void
+  disabled?: boolean
   taskView?: string
   setTaskView?: (taskView: string) => void
 }
@@ -22,6 +23,7 @@ export default function DashHeadBig({
   flowModalOpen,
   setFlowModalOpen,
   setCreateFlowAs,
+  disabled,
   taskView,
   setTaskView,
 }: Props) {
@@ -39,6 +41,7 @@ export default function DashHeadBig({
         </div>
         <div className="flex sm:mt-0 items-center">
           <CreateButton
+            disabled={disabled}
             flowModalOpen={flowModalOpen}
             setFlowModalOpen={setFlowModalOpen}
             setCreateFlowAs={setCreateFlowAs}
