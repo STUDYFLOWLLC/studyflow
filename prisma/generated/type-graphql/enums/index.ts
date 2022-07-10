@@ -7,6 +7,7 @@ export { FlowType } from "./FlowType";
 export { ProfessorScalarFieldEnum } from "./ProfessorScalarFieldEnum";
 export { QueryMode } from "./QueryMode";
 export { SchoolScalarFieldEnum } from "./SchoolScalarFieldEnum";
+export { SettingScalarFieldEnum } from "./SettingScalarFieldEnum";
 export { SetupStep } from "./SetupStep";
 export { SortOrder } from "./SortOrder";
 export { TaskLabelScalarFieldEnum } from "./TaskLabelScalarFieldEnum";

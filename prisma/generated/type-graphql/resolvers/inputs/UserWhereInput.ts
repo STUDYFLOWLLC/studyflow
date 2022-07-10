@@ -8,6 +8,7 @@ import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFi
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
+import { SettingRelationFilter } from "../inputs/SettingRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TaskListRelationFilter } from "../inputs/TaskListRelationFilter";
@@ -96,4 +97,9 @@ export class UserWhereInput {
     nullable: true
   })
   FK_Task?: TaskListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => SettingRelationFilter, {
+    nullable: true
+  })
+  FK_Settings?: SettingRelationFilter | undefined;
 }

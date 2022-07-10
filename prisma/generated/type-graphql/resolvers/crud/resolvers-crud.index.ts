@@ -5,6 +5,7 @@ export { FlashCardStackCrudResolver } from "./FlashCardStack/FlashCardStackCrudR
 export { FlowCrudResolver } from "./Flow/FlowCrudResolver";
 export { ProfessorCrudResolver } from "./Professor/ProfessorCrudResolver";
 export { SchoolCrudResolver } from "./School/SchoolCrudResolver";
+export { SettingCrudResolver } from "./Setting/SettingCrudResolver";
 export { TaskCrudResolver } from "./Task/TaskCrudResolver";
 export { TaskLabelCrudResolver } from "./TaskLabel/TaskLabelCrudResolver";
 export { TermCrudResolver } from "./Term/TermCrudResolver";

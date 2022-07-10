@@ -6,6 +6,7 @@ import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdat
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
 import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskUpdateManyWithoutFK_UserInput } from "../inputs/TaskUpdateManyWithoutFK_UserInput";
 import { TermUpdateManyWithoutFK_UserInput } from "../inputs/TermUpdateManyWithoutFK_UserInput";
@@ -63,4 +64,9 @@ export class UserUpdateWithoutFK_SchoolInput {
     nullable: true
   })
   FK_Task?: TaskUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => SettingUpdateOneWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_Settings?: SettingUpdateOneWithoutFK_UserInput | undefined;
 }

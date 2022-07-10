@@ -86,8 +86,6 @@ export default function CourseNavs() {
 
   if (!mounted) return null
 
-  console.log(coursesOnTermLoading)
-
   if (userDetails && userDetails?.SetupStep === 'Profile')
     return <FakeCourseNavs />
 

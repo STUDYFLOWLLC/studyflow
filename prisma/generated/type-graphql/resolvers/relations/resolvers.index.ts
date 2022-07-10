@@ -5,6 +5,7 @@ export { FlashCardStackRelationsResolver } from "./FlashCardStack/FlashCardStack
 export { FlowRelationsResolver } from "./Flow/FlowRelationsResolver";
 export { ProfessorRelationsResolver } from "./Professor/ProfessorRelationsResolver";
 export { SchoolRelationsResolver } from "./School/SchoolRelationsResolver";
+export { SettingRelationsResolver } from "./Setting/SettingRelationsResolver";
 export { TaskRelationsResolver } from "./Task/TaskRelationsResolver";
 export { TaskLabelRelationsResolver } from "./TaskLabel/TaskLabelRelationsResolver";
 export { TermRelationsResolver } from "./Term/TermRelationsResolver";

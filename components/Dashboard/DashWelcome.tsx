@@ -1,13 +1,60 @@
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
+import createSetting from 'hooks/settings/createSetting'
+import mutateSetting from 'hooks/settings/mutateSetting'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 export default function DashWelcome() {
   const { theme } = useTheme()
+  const { user } = useUser()
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
 
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
+
+  const handleHide = () => {
+    if (!userDetails.FK_Settings) {
+      // mutate in backend
+      createSetting(userDetails?.UserID, true)
+
+      // mutate locally
+      mutateUserDetails(
+        {
+          ...userDetails,
+          FK_Settings: {
+            HasSeenWelcomeMessage: true,
+            LastSeenWelcomeMessageAt: new Date().toISOString(),
+          },
+          mutate: true,
+        },
+        {
+          revalidate: false,
+        },
+      )
+    } else if (userDetails.FK_Settings.HasSeenWelcomeMessage) {
+      // mutate in backend
+      mutateSetting(userDetails?.FK_Settings?.SettingID || 0)
+
+      // mutate locally
+      mutateUserDetails(
+        {
+          ...userDetails,
+          FK_Settings: {
+            ...userDetails.FK_Settings,
+            LastSeenWelcomeMessageAt: new Date().toISOString(),
+          },
+          mutate: true,
+        },
+        {
+          revalidate: false,
+        },
+      )
+    }
+    console.log(userDetails)
+  }
 
   if (!mounted) return null
 
@@ -19,6 +66,8 @@ export default function DashWelcome() {
           { 'hover:bg-slate-600': theme === 'dark' },
           'cursor-pointer rounded-md px-1.5 py-0.5 absolute right-5 top-0.5 uppercase text-sm text-info',
         )}
+        onClick={() => handleHide()}
+        onKeyDown={() => handleHide()}
       >
         Hide
       </span>
