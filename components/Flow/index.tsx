@@ -43,7 +43,7 @@ export default function Flow({ flowId }: Props) {
     userDetails?.FK_Terms?.[0]?.TermID,
   )
   const { dashFlows, dashFlowsLoading, mutateDashFlows } = useDashFlows(
-    userDetails.UserID,
+    userDetails?.UserID,
   )
 
   const [fauxSaving, setFauxSaving] = useState(false)
@@ -152,25 +152,11 @@ export default function Flow({ flowId }: Props) {
     )
     mutateDashFlows(
       {
-        mutatedFlows: dashFlows
-          .map((flow) =>
-            flow.FlowID === flowId
-              ? { ...flow, UserEnteredDate: dateAsString }
-              : flow,
-          )
-          .sort((flowA, flowB) => {
-            if (
-              flowA.UserEnteredDate.slice(0, 10) <
-              flowB.UserEnteredDate.slice(0, 10)
-            )
-              return 1
-            if (
-              flowA.UserEnteredDate.slice(0, 10) >
-              flowB.UserEnteredDate.slice(0, 10)
-            )
-              return -1
-            return flowA.CreatedTime < flowB.CreatedTime ? 1 : -1
-          }),
+        mutatedFlows: dashFlows.map((flow) =>
+          flow.FlowID === flowId
+            ? { ...flow, UserEnteredDate: dateAsString }
+            : flow,
+        ),
         mutate: true,
       },
       { revalidate: false },

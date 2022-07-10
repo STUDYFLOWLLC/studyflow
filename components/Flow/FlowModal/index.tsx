@@ -33,7 +33,7 @@ export default function index({
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails.UserID)
+  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
   const [creatingFlow, setCreatingFlow] = useState(false)
