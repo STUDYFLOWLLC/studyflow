@@ -1,5 +1,6 @@
 import * as TypeGraphQL from "type-graphql";
 import { School } from "../../../models/School";
+import { Setting } from "../../../models/Setting";
 import { Task } from "../../../models/Task";
 import { Term } from "../../../models/Term";
 import { User } from "../../../models/User";
@@ -40,5 +41,16 @@ export class UserRelationsResolver {
         UserID: user.UserID,
       },
     }).FK_Task(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => Setting, {
+    nullable: true
+  })
+  async FK_Settings(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any): Promise<Setting | null> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_Settings({});
   }
 }

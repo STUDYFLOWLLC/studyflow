@@ -31,6 +31,11 @@ export default function useUserDetails(supabaseId: string | undefined | null) {
               TermName
               TermID
             }
+            FK_Settings {
+              SettingID
+              HasSeenWelcomeMessage
+              LastSeenWelcomeMessageAt
+            }
           }
         }
       `,

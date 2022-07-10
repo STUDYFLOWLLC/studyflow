@@ -50,6 +50,14 @@ enum TaskType {
   REVIEW
 }
 
+model Setting {
+  SettingID                Int       @id @default(autoincrement())
+  HasSeenWelcomeMessage    Boolean?  @default(false)
+  LastSeenWelcomeMessageAt DateTime? @default(now())
+  FK_User                  User?     @relation(fields: [FK_UserID], references: [UserID])
+  FK_UserID                Int       @unique
+}
+
 //holds user information. STANDARD: NULL IS A DELETED USER
 model User {
   UserID             Int         @id @default(autoincrement())
@@ -66,6 +74,7 @@ model User {
   FK_Terms           Term[]
   //FK_FlowTags       FlowTag[]
   FK_Task            Task[]
+  FK_Settings        Setting?
 }
 
 model Term {
