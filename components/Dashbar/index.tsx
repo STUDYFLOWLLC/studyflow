@@ -77,12 +77,12 @@ export default function index({
           <div
             className={classNames(
               {
-                'blur-sm pointer-events-none':
-                  userDetails?.SetupStep !== SetupSteps.COMPLETE,
+                'blur-sm pointer-events-none transition-all duration-1000':
+                  userDetails && userDetails?.SetupStep !== SetupSteps.COMPLETE,
               },
               { 'bg-slate-100': theme === 'light' },
               { 'bg-base-200': theme === 'dark' },
-              'transition-all duration-1000 hidden h-full lg:flex lg:flex-col lg:w-56 lg:fixed lg:inset-y-0 lg:pt-5 lg:pb-4',
+              'hidden h-full lg:flex lg:flex-col lg:w-56 lg:fixed lg:inset-y-0 lg:pt-5 lg:pb-4',
             )}
             onMouseEnter={() => setShowHideButton(true)}
             onMouseLeave={() => setShowHideButton(false)}

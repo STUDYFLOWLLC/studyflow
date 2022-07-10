@@ -57,7 +57,7 @@ export default function useDashFlows(userId: number | undefined): Ret {
               FK_User: {
                 is: {
                   UserID: {
-                    equals: 185,
+                    equals: userId,
                   },
                 },
               },

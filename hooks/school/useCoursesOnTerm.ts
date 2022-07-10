@@ -83,6 +83,8 @@ export default function useCoursesOnTerm(termID: number | undefined): Ret {
     }
   }
 
+  console.log(data)
+
   return {
     coursesOnTerm: [] as CourseOnTerm[],
     coursesOnTermLoading: !error && !data,
