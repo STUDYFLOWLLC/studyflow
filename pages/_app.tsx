@@ -9,6 +9,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import 'styles/flashcard.css'
 import 'styles/flows.css'
 import { SWRConfig } from 'swr'
+import 'tippy.js/dist/tippy.css'
 import '../styles/globals.css'
 import '../styles/transition.css'
 

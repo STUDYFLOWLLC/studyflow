@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
-import { FlowType } from 'types/Flow'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
 interface DashFlow {
   FlowID: string
@@ -9,6 +9,7 @@ interface DashFlow {
   Title: string
   UserEnteredDate: string
   Type: FlowType
+  Visibility: FlowVisibility
   FK_CourseOnTerm: {
     Nickname: string
     Color: string
@@ -37,6 +38,7 @@ export default function useDashFlows(userId: number | undefined): Ret {
         CreatedTime
         UserEnteredDate
         Type
+        Visibility
         FK_CourseOnTerm {
           Nickname
           Color

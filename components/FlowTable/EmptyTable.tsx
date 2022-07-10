@@ -8,7 +8,7 @@ export default function EmptyTable() {
       <div className="w-16 h-16">
         <Image src={logo} alt="wave" />
       </div>
-      <h2 className="mt-2">Nothing yet!</h2>
+      <h2 className="mt-2 mb-4">Nothing yet!</h2>
       <div className="flex items-center">
         <p className="m-0">Use the</p>{' '}
         <div className="mx-4">

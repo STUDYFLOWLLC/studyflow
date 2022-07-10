@@ -113,6 +113,7 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
                     .toDateString()
                     .slice(0, 10)}
                   nextReview="in 3 days"
+                  visibility={flow.Visibility}
                 />
               ))}
 

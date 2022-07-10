@@ -4,9 +4,10 @@ import {
   ClockIcon,
 } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
-import {
+import mutateFlowVisibility, {
   mutateFlowBody,
   mutateFlowCourseOnTerm,
   mutateFlowTitle,
@@ -20,12 +21,13 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import Skeleton from 'react-loading-skeleton'
-import { Block, FlowType } from 'types/Flow'
+import { Block, FlowType, FlowVisibility } from 'types/Flow'
 import { SpinnerSizes } from 'types/Loading'
 import FlowBody from './FlowBody'
 import FlowCourse from './FlowCourse'
 import FlowDate from './FlowDate'
 import FlowTypeChooser from './FlowTypeChooser'
+import FlowVisibilityChooser from './FlowVisibilityChooser'
 
 interface Props {
   flowId: string
@@ -55,6 +57,31 @@ export default function Flow({ flowId }: Props) {
     if (data) {
       setSaving(false)
     }
+  }
+
+  const changeVisibility = async (newVisibility: FlowVisibility) => {
+    // change in backend
+    mutateFlowVisibility(flowId, newVisibility)
+
+    // mutate locally
+    mutateFlowDetails(
+      {
+        mutatedFlow: { ...flowDetails, Visibility: newVisibility },
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+    mutateDashFlows(
+      {
+        mutatedFlows: dashFlows.map((flow) =>
+          flow.FlowID === flowId
+            ? { ...flow, Visibility: newVisibility }
+            : flow,
+        ),
+        mutate: true,
+      },
+      { revalidate: false },
+    )
   }
 
   const editTitle = (newTitle: string) => {
@@ -194,28 +221,47 @@ export default function Flow({ flowId }: Props) {
   return (
     <div className="max-h-full">
       <div className="m-4 flex justify-between items-center">
-        <div>
-          <ArrowsExpandIcon className="w-5 h-5 text-info hover:text-current cursor-pointer" />
-        </div>
-        <div className="flex items-center ">
-          <div className="mr-4 text-info hover:text-current cursor-pointer flex items-center">
-            <ClockIcon className="w-5 h-5 mr-1" />
-            <span className="">3 days </span>
+        <Tippy content="Open as page" arrow={false} delay={750} offset={[0, 5]}>
+          <div>
+            <ArrowsExpandIcon className="w-5 h-5 text-info hover:text-current cursor-pointer" />
           </div>
-          <div className="transition-all duration-500">
-            {fauxSaving || saving || flowDetailsLoading ? (
-              <MainSpinner size={SpinnerSizes.small} />
-            ) : (
-              <div
-                className="tooltip tooltip-bottom z-50"
-                data-tip={
-                  fauxSaving || saving ? 'saving...' : 'all changes saved'
-                }
-              >
+        </Tippy>
+
+        <div className="flex items-center">
+          <FlowVisibilityChooser
+            loading={flowDetailsLoading}
+            visibility={flowDetails?.Visibility}
+            mutator={changeVisibility}
+          />
+          <Tippy
+            content="Next Review In"
+            arrow={false}
+            delay={750}
+            offset={[0, 5]}
+          >
+            <div className="mr-4 text-info hover:text-current cursor-pointer flex items-center">
+              <ClockIcon className="w-5 h-5 mr-1" />
+              <span className="">3 days </span>
+            </div>
+          </Tippy>
+          <Tippy
+            content={
+              fauxSaving || saving || flowDetailsLoading
+                ? 'saving changes'
+                : 'all changes saved'
+            }
+            arrow={false}
+            delay={750}
+            offset={[0, 5]}
+          >
+            <div className="transition-all duration-500 h-5">
+              {fauxSaving || saving || flowDetailsLoading ? (
+                <MainSpinner size={SpinnerSizes.small} />
+              ) : (
                 <CheckIcon className="w-5 h-5 text-info" />
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          </Tippy>
         </div>
       </div>
       <div className="prose border-b pb-4 mb-4 w-full max-w-3xl mx-auto">

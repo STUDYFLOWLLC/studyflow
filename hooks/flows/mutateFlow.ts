@@ -1,5 +1,5 @@
 import request, { gql } from 'graphql-request'
-import { FlowType } from 'types/Flow'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
 export async function mutateFlowTitle(flowId: string, title: string) {
   const mutation = gql`
@@ -138,5 +138,35 @@ export async function mutateUserEnteredDate(
   }
 
   const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
+export default function mutateFlowVisibility(
+  flowId: string,
+  visibility: FlowVisibility,
+) {
+  const mutation = gql`
+    mutation UpdateFlow(
+      $data: FlowUpdateInput!
+      $where: FlowWhereUniqueInput!
+    ) {
+      updateFlow(data: $data, where: $where) {
+        Visibility
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      Visibility: {
+        set: visibility,
+      },
+    },
+    where: {
+      FlowID: flowId,
+    },
+  }
+
+  const data = request('/api/graphql', mutation, variables)
   return data
 }
