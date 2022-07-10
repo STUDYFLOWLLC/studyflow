@@ -66,6 +66,12 @@ export default function Dash({ user }: Props) {
 
   if (!mounted) return null
 
+  // if more than 24 hours since showing welcome message, show it again
+  const shouldShowWelcomeMessageBasedOnTime =
+    new Date().getTime() -
+      new Date(userDetails?.FK_Settings?.LastSeenWelcomeMessageAt).getTime() >
+    60 * 1000 * 5
+
   return (
     <SkeletonTheme
       baseColor={classNames(
@@ -110,7 +116,9 @@ export default function Dash({ user }: Props) {
                 setFlowModalOpen={setFlowModalOpen}
                 setCreateFlowAs={setCreateFlowAs}
               />
-              <DashWelcome />
+              {userDetails &&
+                (!userDetails?.FK_Settings?.HasSeenWelcomeMessage ||
+                  shouldShowWelcomeMessageBasedOnTime) && <DashWelcome />}
               {/* <Pinned /> */}
               <FlowListSmall />
               <FlowTable
