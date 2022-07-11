@@ -7,6 +7,27 @@ import {
   FlowVisibility,
   RichTextType,
 } from 'types/Flow'
+import { v4 as uuid } from 'uuid'
+
+export const defaultBody: Block[] = [
+  {
+    id: uuid(),
+    index: 0,
+    tag: BlockTag.PARAGRAPH,
+    tabs: 0,
+    p: {
+      richText: [
+        {
+          type: RichTextType.TEXT,
+          text: {
+            content: '',
+          },
+        },
+      ],
+      color: Color.DEFAULT,
+    },
+  },
+]
 
 export default async function makeFlow(
   flowId: string,
@@ -23,26 +44,6 @@ export default async function makeFlow(
       }
     }
   `
-
-  const defaultBody: Block[] = [
-    {
-      id: flowId,
-      index: 0,
-      tag: BlockTag.PARAGRAPH,
-      tabs: 0,
-      p: {
-        richText: [
-          {
-            type: RichTextType.TEXT,
-            text: {
-              content: '',
-            },
-          },
-        ],
-        color: Color.DEFAULT,
-      },
-    },
-  ]
 
   const variables = {
     data: {

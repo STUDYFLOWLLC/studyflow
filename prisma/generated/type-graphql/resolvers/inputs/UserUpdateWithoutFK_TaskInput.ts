@@ -7,6 +7,7 @@ import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStep
 import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
+import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TermUpdateManyWithoutFK_UserInput } from "../inputs/TermUpdateManyWithoutFK_UserInput";
 
@@ -63,4 +64,9 @@ export class UserUpdateWithoutFK_TaskInput {
     nullable: true
   })
   FK_Terms?: TermUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => SettingUpdateOneWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_Settings?: SettingUpdateOneWithoutFK_UserInput | undefined;
 }

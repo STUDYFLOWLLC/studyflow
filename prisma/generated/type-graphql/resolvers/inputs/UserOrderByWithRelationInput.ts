@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
+import { SettingOrderByWithRelationInput } from "../inputs/SettingOrderByWithRelationInput";
 import { TaskOrderByRelationAggregateInput } from "../inputs/TaskOrderByRelationAggregateInput";
 import { TermOrderByRelationAggregateInput } from "../inputs/TermOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -75,4 +76,9 @@ export class UserOrderByWithRelationInput {
     nullable: true
   })
   FK_Task?: TaskOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => SettingOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_Settings?: SettingOrderByWithRelationInput | undefined;
 }

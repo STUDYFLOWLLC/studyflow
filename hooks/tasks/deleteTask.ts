@@ -1,6 +1,6 @@
 import request, { gql } from 'graphql-request'
 
-export default async function deleteTask(taskId: number) {
+export default async function deleteTask(taskId: string) {
   const mutation = gql`
     mutation DeleteTask($where: TaskWhereUniqueInput!) {
       deleteTask(where: $where) {
