@@ -203,6 +203,15 @@ export default function EditTask({
             onKeyDown={() => {
               if (taskName) {
                 editTaskLocal()
+                editTask(
+                  taskId,
+                  taskName,
+                  taskDescription,
+                  taskDueDateExact?.toISOString(),
+                  user?.email || user?.user_metadata.email,
+                  taskCourse,
+                  taskType,
+                )
               }
             }}
           >
