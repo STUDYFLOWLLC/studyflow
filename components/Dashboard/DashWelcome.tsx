@@ -53,7 +53,6 @@ export default function DashWelcome() {
         },
       )
     }
-    console.log(userDetails)
   }
 
   if (!mounted) return null

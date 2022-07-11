@@ -7,7 +7,7 @@ import { TaskType } from 'types/Task'
 export interface Task {
   CreatedTime: string
   Title: string
-  TaskID: number
+  TaskID: string
   Description: string
   DueDate: string
   Completed: boolean
