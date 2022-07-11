@@ -15,7 +15,15 @@ export default function BasicTask({ task }: Props) {
   const [editing, setEditing] = useState(false)
 
   return editing ? (
-    <EditTask />
+    <EditTask
+      oldName={task.Title}
+      oldDescription={task.Description}
+      oldDueDate={task.DueDate}
+      oldCourse={task.FK_CourseOnTerm}
+      oldType={task.Type}
+      taskId={task.TaskID}
+      setEditing={setEditing}
+    />
   ) : (
     <div
       className="border border-gray-300 rounded-lg shadow-md p-2 mb-2"
@@ -25,27 +33,20 @@ export default function BasicTask({ task }: Props) {
         <Checkbox TaskID={task.TaskID} />
         <div className="flex flex-col w-full">
           <div className="flex justify-between">
-            <div
-              className="text-lg font-medium hover:cursor-pointer"
-              onClick={() => setEditing(true)}
-              onKeyDown={() => setEditing(true)}
-            >
-              {task.Title}
-            </div>
-            <DeleteTask task={task} />
+            <div className="text-lg font-medium">{task.Title}</div>
+            <span className="flex">
+              <span
+                className="text-sm mr-1 text-gray-500 hover:text-black hover:cursor-pointer"
+                onClick={() => setEditing(true)}
+                onKeyDown={() => setEditing(true)}
+              >
+                Edit
+              </span>
+              <DeleteTask task={task} />
+            </span>
           </div>
-          <div
-            className="font-light hover:cursor-pointer"
-            onClick={() => setEditing(true)}
-            onKeyDown={() => setEditing(true)}
-          >
-            {task.Description}
-          </div>
-          <div
-            className="flex justify-between hover:cursor-pointer"
-            onClick={() => setEditing(true)}
-            onKeyDown={() => setEditing(true)}
-          >
+          <div className="text-sm mb-1">{task.Description}</div>
+          <div className="flex justify-between">
             <span className="flex">
               <DateIcon date={task.DueDate} />
               <TypeIcon taskType={task.Type} />
