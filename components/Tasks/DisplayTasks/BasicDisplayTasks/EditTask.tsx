@@ -5,6 +5,7 @@ import DateDropdown from 'components/dropdowns/DateDropdown'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import TypeDropdown from 'components/Tasks/AddTask/TypeDropdown'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
+import { editTask } from 'hooks/tasks/mutateTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
@@ -86,10 +87,12 @@ export default function EditTask({
       },
     }
 
+    setEditing(false)
+
     mutateTasks(
       {
         mutate: true,
-        tasks: [...tasks, newTask],
+        tasks: [...tasks.filter((task) => task.TaskID !== taskId), newTask],
       },
       {
         revalidate: false,
@@ -183,16 +186,25 @@ export default function EditTask({
               },
               'px-3.5 py-1.5 item-center transition rounded-md font-medium ',
             )}
-            // onClick={() => {
-            //   if (taskName) {
-            //     addTask()
-            //   }
-            // }}
-            // onKeyDown={() => {
-            //   if (taskName) {
-            //     addTask()
-            //   }
-            // }}
+            onClick={() => {
+              if (taskName) {
+                editTaskLocal()
+                editTask(
+                  taskId,
+                  taskName,
+                  taskDescription,
+                  taskDueDateExact?.toISOString(),
+                  user?.email || user?.user_metadata.email,
+                  taskCourse,
+                  taskType,
+                )
+              }
+            }}
+            onKeyDown={() => {
+              if (taskName) {
+                editTaskLocal()
+              }
+            }}
           >
             <div>Edit</div>
           </button>

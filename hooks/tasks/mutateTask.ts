@@ -74,8 +74,10 @@ export async function editTask(
       DueDate: {
         set: dueDate,
       },
-      FK_CourseOnTermID: {
-        set: courseOnTermId,
+      FK_CourseOnTerm: {
+        connect: {
+          CourseOnTermID: courseOnTermId,
+        },
       },
       Type: {
         set: type,
