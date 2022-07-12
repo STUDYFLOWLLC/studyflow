@@ -16,7 +16,7 @@ export default function DashWelcome() {
   useEffect(() => setMounted(true), [])
 
   const handleHide = () => {
-    if (!userDetails.FK_Settings) {
+    if (!userDetails?.FK_Settings && userDetails?.UserID) {
       // mutate in backend
       createSetting(userDetails?.UserID, true)
 
@@ -34,7 +34,7 @@ export default function DashWelcome() {
           revalidate: false,
         },
       )
-    } else if (userDetails.FK_Settings.HasSeenWelcomeMessage) {
+    } else if (userDetails?.FK_Settings?.HasSeenWelcomeMessage) {
       // mutate in backend
       mutateSetting(userDetails?.FK_Settings?.SettingID || 0)
 
@@ -58,7 +58,7 @@ export default function DashWelcome() {
   if (!mounted) return null
 
   return (
-    <div className="relative mt-4">
+    <div className="relative mt-4 pb-4 border-b">
       <span
         className={classNames(
           { 'hover:bg-gray-200': theme === 'light' },

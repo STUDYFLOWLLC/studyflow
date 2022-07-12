@@ -70,7 +70,9 @@ export default function Dash({ user }: Props) {
   // if more than 24 hours since showing welcome message, show it again
   const shouldShowWelcomeMessageBasedOnTime =
     new Date().getTime() -
-      new Date(userDetails?.FK_Settings?.LastSeenWelcomeMessageAt).getTime() >
+      new Date(
+        userDetails?.FK_Settings?.LastSeenWelcomeMessageAt || new Date(),
+      ).getTime() >
     60 * 1000 * 60 * 24
 
   return (

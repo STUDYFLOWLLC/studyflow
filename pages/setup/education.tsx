@@ -93,7 +93,7 @@ export default function index({ user }: Props) {
     )
   }
 
-  if (!userDetails.FK_SchoolID) {
+  if (!userDetails?.FK_SchoolID) {
     return (
       <div className="w-full flex flex-col items-center">
         <SetupHeader step={1} />
