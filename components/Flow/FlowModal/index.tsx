@@ -33,7 +33,9 @@ export default function index({
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
+  const { dashFlows, dashFlowsLoading, mutateDashFlows } = useDashFlows(
+    userDetails?.UserID,
+  )
 
   const [mounted, setMounted] = useState(false)
   const [creatingFlow, setCreatingFlow] = useState(false)
@@ -46,6 +48,10 @@ export default function index({
 
     const id = uuid()
 
+    while (dashFlowsLoading) {
+      // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    }
     // add flow locally
     mutateDashFlows(
       {
@@ -97,6 +103,7 @@ export default function index({
         open={isOpen}
         onClose={() => {
           if (setCurrentFlow) setCurrentFlow('')
+          if (createdFlowId) setCreatedFlowId('')
           setIsOpen(false)
         }}
         className="relative z-50 w-full h-screen max-h-screen"
