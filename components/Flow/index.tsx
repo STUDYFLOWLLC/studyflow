@@ -72,8 +72,6 @@ export default function Flow({ flowId }: Props) {
       { revalidate: false },
     )
 
-    console.log(flowDetails)
-
     // change in backend
     const data = await mutateFlowBody(
       flowDetails.FlowID,

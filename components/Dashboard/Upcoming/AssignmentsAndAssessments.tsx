@@ -6,6 +6,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { FlowType } from 'types/Flow'
+import sortFlows from 'utils/flows/sortFlows'
 import Pin from './Pin'
 
 export default function AssignmentsAndAssessments() {
@@ -82,9 +83,11 @@ export default function AssignmentsAndAssessments() {
         )}
       {!dashFlowsLoading && dashFlows.length > 0 && (
         <div className="max-w-3xl mx-auto flex flex-wrap justify-around mb-4">
-          {dashFlows.map((flow) => (
-            <Pin flow={flow} key={flow.FlowID} />
-          ))}
+          {dashFlows
+            .sort((flowA, flowB) => sortFlows(flowA, flowB, true))
+            .map((flow) => (
+              <Pin flow={flow} key={flow.FlowID} />
+            ))}
         </div>
       )}
     </div>
