@@ -29,7 +29,8 @@ export default function CourseListDropdown({
 
   // Number of tasks in a course
   const numTasksCourse = tasks.filter(
-    (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
+    (task) =>
+      task.FK_CourseOnTermID === course.CourseOnTermID && !task.Completed,
   ).length
 
   return (
