@@ -68,7 +68,7 @@ export default function index({ user }: Props) {
               setShowDashBar={setShowDashBar}
               setTaskView={setTaskView}
               taskView={taskView}
-              // Charles I added these for the dashboard if you ever want to open a flow from a tas
+              // Charles I added these for the dashboard if you ever want to open a flow from a task
               // then you will have to implement these and the flow modal. just talk to me about
               // it if you ever want to and we can do it together.
               flowModalOpen={false}

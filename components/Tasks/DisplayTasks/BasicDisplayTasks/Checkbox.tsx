@@ -7,7 +7,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 
 interface Props {
-  TaskID: number
+  TaskID: string
 }
 
 export default function Checkbox({ TaskID }: Props) {
@@ -17,7 +17,7 @@ export default function Checkbox({ TaskID }: Props) {
 
   const [completed, setCompleted] = useState(false)
 
-  const archiveTaskLocal = (TaskID: number) => {
+  const archiveTaskLocal = (TaskID: string) => {
     mutateTasks(
       {
         mutate: true,
