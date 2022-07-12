@@ -47,8 +47,6 @@ export default function useUserDetails(supabaseId: string | undefined | null) {
     },
   )
 
-  console.log(error)
-
   if (data?.mutate) {
     return {
       userDetails: data,

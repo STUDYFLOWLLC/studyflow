@@ -51,6 +51,30 @@ export default function Flow({ flowId }: Props) {
 
   const saveFlow = async (blocks: Block[]) => {
     setSaving(true)
+
+    // mutate locally
+    mutateFlowDetails(
+      {
+        mutatedFlow: { ...flowDetails, Body: JSON.stringify(blocks) },
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+    mutateDashFlows(
+      {
+        mutatedFlows: dashFlows.map((flow) =>
+          flow.FlowID === flowId
+            ? { ...flow, Body: JSON.stringify(blocks) }
+            : flow,
+        ),
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+
+    console.log(flowDetails)
+
+    // change in backend
     const data = await mutateFlowBody(
       flowDetails.FlowID,
       JSON.stringify(blocks),
