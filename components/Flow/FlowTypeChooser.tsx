@@ -24,7 +24,7 @@ const items = [
   { name: FlowType.LECTURE, icon: LightBulbIcon },
   { name: FlowType.DISCUSSION, icon: ChatAlt2Icon },
   { name: FlowType.NOTE, icon: PencilIcon },
-  { name: FlowType.ASSIGNMNENT, icon: PencilAltIcon },
+  { name: FlowType.ASSIGNMENT, icon: PencilAltIcon },
   { name: FlowType.SYNTHESIS, icon: ViewGridAddIcon },
   { name: FlowType.ASSESSMENT, icon: ChartBarIcon },
 ]
