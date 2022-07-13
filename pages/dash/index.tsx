@@ -7,6 +7,7 @@ import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import DashWelcome from 'components/Dashboard/DashWelcome'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
+import AssignmentsAndAssessments from 'components/Dashboard/Upcoming/AssignmentsAndAssessments'
 import FlowModal from 'components/Flow/FlowModal'
 import FlowTable from 'components/FlowTable'
 import DashSetup from 'components/Setup/DashSetup'
@@ -66,10 +67,14 @@ export default function Dash({ user }: Props) {
 
   if (!mounted) return null
 
+  console.log(currentFlow)
+
   // if more than 24 hours since showing welcome message, show it again
   const shouldShowWelcomeMessageBasedOnTime =
     new Date().getTime() -
-      new Date(userDetails?.FK_Settings?.LastSeenWelcomeMessageAt).getTime() >
+      new Date(
+        userDetails?.FK_Settings?.LastSeenWelcomeMessageAt || new Date(),
+      ).getTime() >
     60 * 1000 * 60 * 24
 
   return (
@@ -120,6 +125,10 @@ export default function Dash({ user }: Props) {
                 (!userDetails?.FK_Settings?.HasSeenWelcomeMessage ||
                   shouldShowWelcomeMessageBasedOnTime) && <DashWelcome />}
               {/* <Pinned /> */}
+              <AssignmentsAndAssessments
+                setFlowModalOpen={setFlowModalOpen}
+                setCurrentFlow={setCurrentFlow}
+              />
               <FlowListSmall />
               <FlowTable
                 setFlowModalOpen={setFlowModalOpen}
@@ -145,7 +154,7 @@ export default function Dash({ user }: Props) {
         <Taskover />
         <CMDPalette />
         <FlowModal
-          isOpen={flowModalOpen}
+          isOpen={!!currentFlow}
           setIsOpen={setFlowModalOpen}
           firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}

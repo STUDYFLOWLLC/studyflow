@@ -1,8 +1,10 @@
 import { Popover, Transition } from '@headlessui/react'
 import {
   ChatAlt2Icon,
+  DocumentAddIcon,
   LightBulbIcon,
   PencilIcon,
+  StarIcon,
 } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import PlusButton from 'components/buttons/PlusButton'
@@ -58,13 +60,44 @@ export default function FlowDropdown({
       color: Color.GREEN,
       bgColor: 'rgba( 118, 219, 137, 0.2)',
       icon: ChatAlt2Icon,
+      onClick: () => {
+        setCreateFlowAs(FlowType.DISCUSSION)
+        setFlowModalOpen(true)
+      },
     },
     {
       name: 'Note',
-      description: 'Easily embed textbook pages, videos, and more.',
+      description: 'Add PDFs, videos, and bookmarks in your flow.',
       color: Color.INDIGO,
       bgColor: 'rgba( 99, 102, 233, 0.2)',
       icon: PencilIcon,
+      onClick: () => {
+        setCreateFlowAs(FlowType.NOTE)
+        setFlowModalOpen(true)
+      },
+    },
+    {
+      name: 'Assignment',
+      description:
+        'Manage an assigment with inline tasks, notes, and flow sharing.',
+      color: Color.YELLOW,
+      bgColor: 'rgba( 225, 181, 62, 0.2)',
+      icon: DocumentAddIcon,
+      onClick: () => {
+        setCreateFlowAs(FlowType.ASSIGNMENT)
+        setFlowModalOpen(true)
+      },
+    },
+    {
+      name: 'Assessment',
+      description: 'Add practice material and graded assessments to your flow.',
+      color: Color.ROSE,
+      bgColor: 'rgba( 234, 120, 135, 0.2)',
+      icon: StarIcon,
+      onClick: () => {
+        setCreateFlowAs(FlowType.ASSESSMENT)
+        setFlowModalOpen(true)
+      },
     },
     {
       name: 'Synthesis',
@@ -73,6 +106,10 @@ export default function FlowDropdown({
       color: 'rainbow',
       bgColor: '',
       icon: 'SynthesisIcon',
+      onClick: () => {
+        setCreateFlowAs(FlowType.SYNTHESIS)
+        setFlowModalOpen(true)
+      },
     },
   ]
 

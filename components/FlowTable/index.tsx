@@ -26,7 +26,7 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
   if (!mounted) return null
 
   return (
-    <div className="hidden mt-8 sm:block">
+    <div className="hidden sm:block">
       <div
         className={classnames(
           { 'border-gray-200': theme === 'light' },

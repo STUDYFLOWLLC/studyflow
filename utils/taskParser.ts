@@ -9,7 +9,7 @@ export default function taskParser(
   if (removeHTMLTags(text) === '') return ''
   const tempText = removeHTMLTags(text)
   const html = []
-  html.push('<p>')
+  html.push('<span>')
   if (dateResult.length > 0 + exemptWords) {
     const dateItem = dateResult[dateResult.length - 1]
     const dateText = dateItem.text
@@ -25,7 +25,7 @@ export default function taskParser(
   } else {
     html.push(tempText)
   }
-  html.push('</p>')
+  html.push('</span>')
 
   return html.join('')
 }

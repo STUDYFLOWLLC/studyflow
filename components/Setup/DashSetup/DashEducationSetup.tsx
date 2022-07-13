@@ -69,7 +69,7 @@ export default function DashEducationSetup() {
     )
   }
 
-  if (!userDetails.FK_SchoolID) {
+  if (!userDetails?.FK_SchoolID) {
     return (
       <div className="w-full flex flex-col items-center">
         <SetupHeader step={1} />
