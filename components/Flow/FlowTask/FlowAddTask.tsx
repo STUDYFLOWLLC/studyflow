@@ -1,11 +1,13 @@
 import { PlusIcon } from '@heroicons/react/solid'
-import { User } from '@supabase/supabase-auth-helpers/nextjs'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import CourseDropdown from 'components/dropdowns/CourseDropdown'
 import DateDropdown from 'components/dropdowns/DateDropdown'
+import { SmallCourse } from 'components/Flow/FlowTop'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import TypeDropdown from 'components/Tasks/AddTask/TypeDropdown'
-import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useFlowTasks from 'hooks/flows/useFlowTasks'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
@@ -13,29 +15,30 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 import { v4 as uuid } from 'uuid'
+import FlowTaskButton from './FlowTaskButton'
 
 interface Props {
-  user: User
-  coursesOnTerm: CourseOnTerm[]
-  coursesOnTermLoading: boolean
-  courseOnTerm?: CourseOnTerm
-  general?: boolean
+  flowId: string
+  flowTitle: string
+  courseOnTerm?: SmallCourse
   dueDate?: Date
 }
 
 export default function index({
-  user,
-  coursesOnTerm,
-  coursesOnTermLoading,
+  flowId,
+  flowTitle,
   courseOnTerm,
-  general,
   dueDate,
 }: Props) {
   const { theme } = useTheme()
 
-  // Retrieving tasks from backend
-  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { user } = useUser()
+  const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
+  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0].TermID,
+  )
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { flowTasks, mutateFlowTasks } = useFlowTasks(flowId, courseOnTerm)
 
   // States
   const [mounted, setMounted] = useState(false)
@@ -43,14 +46,6 @@ export default function index({
   const [taskDescription, setTaskDescription] = useState('')
   const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>(
     dueDate || undefined,
-  )
-  const [taskCourse, setTaskCourse] = useState(
-    courseOnTerm?.CourseOnTermID || 0,
-  )
-  const [courseDropDownTitle, setCourseDropDownTitle] = useState(
-    general
-      ? 'General'
-      : courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || 'Course',
   )
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
@@ -65,21 +60,19 @@ export default function index({
 
     // manufacture new task
     const newTask = {
+      TaskID: taskId,
       CreatedTime: new Date().toISOString(),
       Title: taskName,
-      TaskID: taskId,
       Description: taskDescription,
       DueDate: taskDueDateExact?.toISOString(),
       Type: taskType,
-      FK_CourseOnTermID: taskCourse,
+      FK_FlowID: flowId,
+      FK_CourseOnTermID: courseOnTerm?.FK_CourseOnTermID,
       FK_CourseOnTerm: {
-        CourseOnTermID: taskCourse,
-        Color: coursesOnTerm.find(
-          (course) => course.CourseOnTermID === taskCourse,
-        )?.Color,
-        Nickname: courseDropDownTitle,
+        Color: courseOnTerm?.Color,
+        Nickname: courseOnTerm?.Nickname,
         FK_Course: {
-          Code: courseDropDownTitle,
+          Code: courseOnTerm?.FK_Course.Code,
         },
       },
     }
@@ -95,6 +88,25 @@ export default function index({
         populateCache: true,
       },
     )
+    mutateFlowTasks(
+      {
+        tasks: [
+          ...flowTasks,
+          {
+            TaskID: taskId,
+            Title: taskName,
+            Completed: false,
+            Description: taskDescription,
+            DueDate: taskDueDateExact?.toISOString(),
+            Type: taskType,
+            FK_CourseOnTerm: courseOnTerm,
+          },
+        ],
+      },
+      {
+        revalidate: false,
+      },
+    )
 
     // reset local state
     setShowMain(false)
@@ -102,12 +114,6 @@ export default function index({
     setTaskName('')
     setTaskDescription('')
     setTaskDueDateExact(dueDate || undefined)
-    setCourseDropDownTitle(
-      general
-        ? 'General'
-        : courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || 'Course',
-    )
-    setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
     setTaskType(undefined)
 
     // TODO: error handling
@@ -117,9 +123,10 @@ export default function index({
       taskName,
       taskDescription,
       taskDueDateExact?.toISOString(),
-      user.email || user.user_metadata.email,
-      taskCourse,
+      user?.email || user?.user_metadata.email,
+      courseOnTerm?.FK_CourseOnTermID || 0,
       taskType,
+      flowId,
     )
   }
 
@@ -182,23 +189,15 @@ export default function index({
                 items={coursesOnTerm.map((course) => ({
                   color: course.Color,
                   name: course.Nickname || course.FK_Course.Code,
-                  handler: () => {
-                    setTaskCourse(course.CourseOnTermID)
-                    setCourseDropDownTitle(
-                      course.Nickname || course.FK_Course.Code,
-                    )
-                  },
                 }))}
-                title={courseDropDownTitle}
-                hasGeneral
+                title={
+                  courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || ''
+                }
                 loading={coursesOnTermLoading}
-                generalHandler={() => {
-                  setTaskCourse(0)
-                  setCourseDropDownTitle('General')
-                }}
                 color={courseOnTerm?.Color}
-                general={general}
+                disabled
               />
+              <FlowTaskButton title={flowTitle} />
               <TypeDropdown taskType={taskType} setTaskType={setTaskType} />
             </span>
             <span className="flex space-x-2 items-center">
@@ -220,14 +219,6 @@ export default function index({
                   setTaskName('')
                   setTaskDescription('')
                   setTaskDueDateExact(dueDate || undefined)
-                  setCourseDropDownTitle(
-                    general
-                      ? 'General'
-                      : courseOnTerm?.Nickname ||
-                          courseOnTerm?.FK_Course.Code ||
-                          'Course',
-                  )
-                  setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
                   setTaskType(undefined)
                 }}
               >

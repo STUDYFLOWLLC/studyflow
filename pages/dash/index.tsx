@@ -67,6 +67,8 @@ export default function Dash({ user }: Props) {
 
   if (!mounted) return null
 
+  console.log(currentFlow)
+
   // if more than 24 hours since showing welcome message, show it again
   const shouldShowWelcomeMessageBasedOnTime =
     new Date().getTime() -
@@ -123,7 +125,10 @@ export default function Dash({ user }: Props) {
                 (!userDetails?.FK_Settings?.HasSeenWelcomeMessage ||
                   shouldShowWelcomeMessageBasedOnTime) && <DashWelcome />}
               {/* <Pinned /> */}
-              <AssignmentsAndAssessments />
+              <AssignmentsAndAssessments
+                setFlowModalOpen={setFlowModalOpen}
+                setCurrentFlow={setCurrentFlow}
+              />
               <FlowListSmall />
               <FlowTable
                 setFlowModalOpen={setFlowModalOpen}
@@ -149,7 +154,7 @@ export default function Dash({ user }: Props) {
         <Taskover />
         <CMDPalette />
         <FlowModal
-          isOpen={flowModalOpen}
+          isOpen={!!currentFlow}
           setIsOpen={setFlowModalOpen}
           firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}

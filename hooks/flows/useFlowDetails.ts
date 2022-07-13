@@ -12,9 +12,10 @@ export interface FlowDetail {
   Title: string
   Body: string
   Visibility: FlowVisibility
-  Fk_CourseOnTermID: number
+  FK_CourseOnTermID: number
   FK_CourseOnTerm: {
     Nickname: string
+    Color: string
     FK_Course: {
       Code: string
     }
@@ -42,6 +43,7 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
         FK_CourseOnTermID
         FK_CourseOnTerm {
           Nickname
+          Color
           FK_Course {
             Code
           }

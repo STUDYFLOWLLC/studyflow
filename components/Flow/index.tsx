@@ -66,7 +66,15 @@ export default function Flow({ flowId }: Props) {
 
   return (
     <div className="max-h-full">
-      <FlowTop flowId={flowId} saving={saving} />
+      <FlowTop
+        flowId={flowId}
+        flowTitle={flowDetails?.Title}
+        saving={saving}
+        courseOnTerm={{
+          FK_CourseOnTermID: flowDetails?.FK_CourseOnTermID,
+          ...flowDetails?.FK_CourseOnTerm,
+        }}
+      />
       {!flowDetailsLoading ? (
         <FlowBody
           initialBlocks={JSON.parse(flowDetails.Body) || defaultBody}

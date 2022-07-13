@@ -10,9 +10,11 @@ import PinMenu from './PinMenu'
 
 interface Props {
   flow: DashFlow
+  setFlowModalOpen: (flowModalOpen: boolean) => void
+  setCurrentFlow: (flowId: string) => void
 }
 
-export default function Pin({ flow }: Props) {
+export default function Pin({ flow, setFlowModalOpen, setCurrentFlow }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -27,6 +29,14 @@ export default function Pin({ flow }: Props) {
     <div
       key={flow.FlowID}
       className="relative col-span-1 flex shadow-sm rounded-md m-2 w-48"
+      onClick={() => {
+        setFlowModalOpen(true)
+        setCurrentFlow(flow.FlowID)
+      }}
+      onKeyDown={() => {
+        setFlowModalOpen(true)
+        setCurrentFlow(flow.FlowID)
+      }}
     >
       <div
         className={classNames(

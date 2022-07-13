@@ -83,7 +83,7 @@ export default function index({ flowId, saving }: Props) {
     )
 
   return (
-    <div className="prose border-b pb-4 mb-4 w-full max-w-3xl mx-auto">
+    <div className="prose w-full mb-4">
       <div className="flex items-baseline">
         <FlowTitle
           title={flowDetails?.Title}

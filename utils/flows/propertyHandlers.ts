@@ -161,6 +161,7 @@ export function changeCourse(
         FK_CourseOnTermID: newId,
         FK_CourseOnTerm: {
           Nickname: newNickname,
+          Color: newColor,
           FK_Course: {
             Code: newCode,
           },

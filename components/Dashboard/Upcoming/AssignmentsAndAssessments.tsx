@@ -5,15 +5,25 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import { FlowType } from 'types/Flow'
 import sortFlows from 'utils/flows/sortFlows'
 import Pin from './Pin'
 
-export default function AssignmentsAndAssessments() {
+interface Props {
+  setFlowModalOpen: (flowModalOpen: boolean) => void
+  setCurrentFlow: (flowId: string) => void
+}
+
+export default function AssignmentsAndAssessments({
+  setFlowModalOpen,
+  setCurrentFlow,
+}: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { dashFlows, dashFlowsLoading } = useDashFlows(userDetails?.UserID)
+  const { dashFlows, dashFlowsLoading } = useDashFlows(
+    userDetails?.UserID,
+    true,
+  )
 
   const [mounted, setMounted] = useState(false)
   const [tempHide, setTempHide] = useState(false)
@@ -65,28 +75,28 @@ export default function AssignmentsAndAssessments() {
           ))}
         </div>
       )}
-      {!dashFlowsLoading &&
-        dashFlows.filter(
-          (flow) =>
-            flow.Type === FlowType.ASSESSMENT ||
-            flow.Type === FlowType.ASSIGNMENT,
-        ).length === 0 && (
-          <div className="prose mx-auto flex flex-col items-center">
-            <h2 className="mt-0 mb-2">Relax.</h2>
-            <div className="flex items-center">
-              <p className="m-0 text-center">
-                Nothing upcoming. Use the create button or visit the calendar to
-                create upcoming events.
-              </p>
-            </div>
+      {!dashFlowsLoading && dashFlows.length === 0 && (
+        <div className="prose mx-auto flex flex-col items-center">
+          <h2 className="mt-0 mb-2">Relax.</h2>
+          <div className="flex items-center">
+            <p className="m-0 text-center">
+              Nothing upcoming. Use the create button or visit the calendar to
+              create upcoming events.
+            </p>
           </div>
-        )}
+        </div>
+      )}
       {!dashFlowsLoading && dashFlows.length > 0 && (
         <div className="max-w-3xl mx-auto flex flex-wrap justify-around mb-4">
           {dashFlows
             .sort((flowA, flowB) => sortFlows(flowA, flowB, true))
             .map((flow) => (
-              <Pin flow={flow} key={flow.FlowID} />
+              <Pin
+                flow={flow}
+                key={flow.FlowID}
+                setFlowModalOpen={setFlowModalOpen}
+                setCurrentFlow={setCurrentFlow}
+              />
             ))}
         </div>
       )}
