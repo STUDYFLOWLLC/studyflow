@@ -4,7 +4,7 @@ import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
 
-interface FlowDetail {
+export interface FlowDetail {
   FlowID: string
   CreatedTime: string
   UserEnteredDate: string
@@ -20,6 +20,7 @@ interface FlowDetail {
     }
   }
 }
+
 interface Ret {
   flowDetails: FlowDetail
   flowDetailsLoading: boolean
@@ -60,7 +61,6 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
   const { data, error, mutate } = useSWR([query, variables])
 
   if (data?.mutate) {
-    console.log(data.mutatedFlow)
     return {
       flowDetails: data.mutatedFlow,
       flowDetailsLoading: false,
