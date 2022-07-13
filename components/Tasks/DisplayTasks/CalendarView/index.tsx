@@ -45,21 +45,17 @@ export default function CalendarView({ user }: Props) {
   const numDueTasksByType = (date: Date, type?: TaskType, past?: boolean) => {
     if (past) {
       return tasks.filter(
-        (task) =>
-          task.DueDate?.substring(0, 10) ===
-          format(date, 'yyyy-MM-dd').substring(0, 10),
+        (task) => task.Completed && sameDate(new Date(task.DueDate), date),
       ).length
     }
     if (!type)
       return tasks.filter(
-        (task) =>
-          !task.Completed &&
-          task.DueDate?.substring(0, 10) === format(date, 'yyyy-MM-dd'),
+        (task) => !task.Completed && sameDate(new Date(task.DueDate), date),
       ).length
     return tasks.filter(
       (task) =>
         !task.Completed &&
-        task.DueDate?.substring(0, 10) === format(date, 'yyyy-MM-dd') &&
+        sameDate(new Date(task.DueDate), date) &&
         task.Type === type,
     ).length
   }
@@ -193,8 +189,8 @@ export default function CalendarView({ user }: Props) {
                     <div className="text-slate-900">
                       {numDueTasksByType(day, undefined, true)}{' '}
                       {numDueTasksByType(day, undefined, true) > 1
-                        ? 'Tasks'
-                        : 'Task'}
+                        ? 'Tasks Completed'
+                        : 'Task Completed'}
                     </div>
                   )}
                 </div>
@@ -209,6 +205,7 @@ export default function CalendarView({ user }: Props) {
         user={user}
         open={open}
         setOpen={setOpen}
+        sameDate={sameDate}
       />
     </div>
   )
