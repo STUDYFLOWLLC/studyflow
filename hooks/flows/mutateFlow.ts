@@ -141,7 +141,7 @@ export async function mutateUserEnteredDate(
   return data
 }
 
-export default function mutateFlowVisibility(
+export async function mutateFlowVisibility(
   flowId: string,
   visibility: FlowVisibility,
 ) {

@@ -93,9 +93,9 @@ export default function index({
             />
             <div className="mt-4 h-full flex-1 flex flex-col overflow-y-auto">
               <BigProfileButton
-                name={userDetails?.Name}
-                username={userDetails?.Username}
-                pfpLink={userDetails?.ProfilePictureLink}
+                name={userDetails?.Name || 'Studyflow'}
+                username={userDetails?.Username || 'flowsurfer434'}
+                pfpLink={userDetails?.ProfilePictureLink || ''}
                 loading={userDetailsLoading}
               />
               <DashSearch

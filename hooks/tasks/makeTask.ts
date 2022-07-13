@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import request, { gql } from 'graphql-request'
 import { TaskType } from 'types/Task'
 
@@ -9,6 +11,7 @@ export default async function makeTask(
   email: string,
   courseOnTermId: number,
   type: TaskType | undefined,
+  flowId?: string,
 ) {
   const mutation = gql`
     mutation Mutation($data: TaskCreateInput!) {
@@ -19,7 +22,7 @@ export default async function makeTask(
     }
   `
 
-  const variables = {
+  const variables: any = {
     data: {
       TaskID: taskId,
       Title: title,
@@ -37,6 +40,14 @@ export default async function makeTask(
       },
       Type: type,
     },
+  }
+
+  if (flowId) {
+    variables.data.FK_Flow = {
+      connect: {
+        FlowID: flowId,
+      },
+    }
   }
 
   const data = await request('/api/graphql', mutation, variables)

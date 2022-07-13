@@ -27,7 +27,10 @@ interface Ret {
   mutateDashFlows: KeyedMutator<any>
 }
 
-export default function useDashFlows(userId: number | undefined): Ret {
+export default function useDashFlows(
+  userId: number | undefined,
+  isUpcoming?: boolean,
+): Ret {
   const query = gql`
     query Flows(
       $where: FlowWhereInput
@@ -79,10 +82,18 @@ export default function useDashFlows(userId: number | undefined): Ret {
   const { data, error, mutate } = useSWR([query, variables])
 
   if (data?.flows) {
+    const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>
+      sortFlows(flowA, flowB),
+    )
+
     return {
-      dashFlows: data.flows.sort((flowA: DashFlow, flowB: DashFlow) =>
-        sortFlows(flowA, flowB),
-      ),
+      dashFlows: !isUpcoming
+        ? flows
+        : flows.filter(
+            (flow: DashFlow) =>
+              flow.Type === FlowType.ASSESSMENT ||
+              flow.Type === FlowType.ASSIGNMENT,
+          ),
       dashFlowsLoading: false,
       dashFlowsError: null,
       mutateDashFlows: mutate,
@@ -90,10 +101,18 @@ export default function useDashFlows(userId: number | undefined): Ret {
   }
 
   if (data?.mutate) {
+    const flows = data?.mutatedFlows.sort((flowA: DashFlow, flowB: DashFlow) =>
+      sortFlows(flowA, flowB),
+    )
+
     return {
-      dashFlows: data?.mutatedFlows.sort((flowA: DashFlow, flowB: DashFlow) =>
-        sortFlows(flowA, flowB),
-      ),
+      dashFlows: !isUpcoming
+        ? flows
+        : flows.filter(
+            (flow: DashFlow) =>
+              flow.Type === FlowType.ASSESSMENT ||
+              flow.Type === FlowType.ASSIGNMENT,
+          ),
       dashFlowsLoading: false,
       dashFlowsError: null,
       mutateDashFlows: mutate,

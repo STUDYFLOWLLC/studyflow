@@ -29,7 +29,7 @@ export default function AddCourse({ selectedSchool }: Props) {
 
   const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
   const { termDetails, termDetailsLoading, mutateTermDetails } = useTermDetails(
-    userDetails.FK_Terms?.[0]?.TermID,
+    userDetails?.FK_Terms?.[0]?.TermID,
   )
 
   const [nickname, setNickname] = useState('')
@@ -74,7 +74,7 @@ export default function AddCourse({ selectedSchool }: Props) {
     const newCourse = await createCourseOnTerm(
       selectedColor,
       selectedCourse.CourseID,
-      userDetails.FK_Terms[0].TermID,
+      (userDetails?.FK_Terms && userDetails?.FK_Terms[0].TermID) || 0,
       nickname,
     )
     if (newCourse === false) {
@@ -105,7 +105,10 @@ export default function AddCourse({ selectedSchool }: Props) {
   const finishAddingCourses = async () => {
     if (doneAddingCourses) return
     setDoneAddingCourses(true)
-    mutateSetupStep(userDetails.Email, SetupSteps.COMPLETE)
+    mutateSetupStep(
+      userDetails?.Email || 'fucktheiremaildidntload',
+      SetupSteps.COMPLETE,
+    )
     mutateUserDetails(
       {
         ...userDetails,
