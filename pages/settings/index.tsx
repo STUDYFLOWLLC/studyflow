@@ -147,10 +147,10 @@ export default function Settings({ user }: Props) {
                                       'w-11 h-11 rounded-full flex-shrink-0',
                                     )}
                                   >
-                                    {userDetails?.profilePictureLink ? (
+                                    {userDetails?.ProfilePictureLink ? (
                                       <img
                                         className="rounded-full flex-shrink-0"
-                                        src={userDetails.profilePictureLink}
+                                        src={userDetails.ProfilePictureLink}
                                         alt="the user's avatar"
                                       />
                                     ) : (

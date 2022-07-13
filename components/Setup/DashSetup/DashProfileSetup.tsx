@@ -21,7 +21,7 @@ export default function DashProfileSetup() {
   useEffect(() => setMounted(true), [])
 
   const createBasicProfile = async () => {
-    if (userDetails.Email) return
+    if (userDetails?.Email) return
     mutateUserDetails(
       {
         ...userDetails,

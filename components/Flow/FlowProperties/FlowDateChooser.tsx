@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import abbreviateDate from 'utils/abbreviateDate'
-import FlowDropdownCalendar from './FlowDropdownCalendar'
+import FlowDropdownCalendar from '../FlowDropdownCalendar'
 
 interface Props {
   loading: boolean
@@ -13,7 +13,7 @@ interface Props {
   setUserEnteredDate: (newDate: Date) => void
 }
 
-export default function FlowDate({
+export default function FlowDateChooser({
   loading,
   userEnteredDate,
   setUserEnteredDate,

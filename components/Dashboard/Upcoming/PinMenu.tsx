@@ -1,35 +1,26 @@
 import { Menu, Transition } from '@headlessui/react'
-import {
-  ChartBarIcon,
-  ChatAlt2Icon,
-  ChevronDownIcon,
-  LightBulbIcon,
-  PencilAltIcon,
-  PencilIcon,
-  ViewGridAddIcon,
-} from '@heroicons/react/outline'
+import { DotsVerticalIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { ActiveProps } from 'types/ActiveProps'
-import { FlowType } from 'types/Flow'
-
-interface Props {
-  loading: boolean
-  type?: string
-  mutator: (newType: FlowType) => void
-}
 
 const items = [
-  { name: FlowType.LECTURE, icon: LightBulbIcon },
-  { name: FlowType.DISCUSSION, icon: ChatAlt2Icon },
-  { name: FlowType.NOTE, icon: PencilIcon },
-  { name: FlowType.ASSIGNMNENT, icon: PencilAltIcon },
-  { name: FlowType.SYNTHESIS, icon: ViewGridAddIcon },
-  { name: FlowType.ASSESSMENT, icon: ChartBarIcon },
+  {
+    name: 'Open',
+  },
+  {
+    name: 'Hide',
+  },
+  {
+    name: 'Share',
+  },
+  {
+    name: 'Mark complete',
+  },
 ]
 
-export default function FlowTypeChooser({ loading, type, mutator }: Props) {
+export default function PinMenu() {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -39,25 +30,17 @@ export default function FlowTypeChooser({ loading, type, mutator }: Props) {
   if (!mounted) return null
 
   return (
-    <Menu as="div" className="relative">
+    <Menu as="div" className="flex-shrink-0 pr-2">
       <Menu.Button
         className={classNames(
-          {
-            'text-stone-500 hover:bg-gray-50 hover:border-gray-300':
-              theme === 'light',
-          },
-          {
-            'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
-              theme === 'dark',
-          },
-          'flex items-center font-light m-0 p-0 ml-3 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          { 'bg-white border-gray-200': theme === 'light' },
+          { 'bg-slate-700 border-slate-600': theme === 'dark' },
+          'w-8 h-8 inline-flex items-center justify-center text-info rounded-full focus:outline-none focus:ring-2 focus:ring-primary',
         )}
-        disabled={loading}
       >
-        {type}
-        <ChevronDownIcon className="w-5 ml-1" />
+        <span className="sr-only">Open options</span>
+        <DotsVerticalIcon className="w-5 h-5" aria-hidden="true" />
       </Menu.Button>
-
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -69,9 +52,11 @@ export default function FlowTypeChooser({ loading, type, mutator }: Props) {
       >
         <Menu.Items
           className={classNames(
-            { ' bg-white ring-black ring-1 ring-opacity-5': theme === 'light' },
+            {
+              'bg-white ring-1 ring-black ring-opacity-5': theme === 'light',
+            },
             { 'bg-slate-700': theme === 'dark' },
-            'absolute z-20 left-3 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
+            'z-10 mx-3 origin-top-right absolute top-[-1rem] right-2 w-36 mt-1 rounded-md shadow-lg focus:outline-none',
           )}
         >
           {items.map((item) => (
@@ -83,10 +68,7 @@ export default function FlowTypeChooser({ loading, type, mutator }: Props) {
                     { 'bg-slate-600': active && theme === 'dark' },
                     'px-2 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                   )}
-                  onClick={() => mutator(item.name)}
-                  onKeyDown={() => mutator(item.name)}
                 >
-                  <item.icon className="w-4 mx-2" />
                   {item.name}
                 </div>
               )}

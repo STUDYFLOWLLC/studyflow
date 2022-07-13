@@ -21,7 +21,7 @@ export default function SchoolDisplay({ selectedSchool }: Props) {
 
   const { userDetails } = useUserDetails(user?.id)
   const { termDetails, termDetailsLoading } = useTermDetails(
-    userDetails.FK_Terms?.[0]?.TermID,
+    userDetails?.FK_Terms && userDetails?.FK_Terms[0]?.TermID,
   )
 
   const [mounted, setMounted] = useState(false)

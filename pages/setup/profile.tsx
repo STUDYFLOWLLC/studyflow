@@ -69,11 +69,12 @@ export default function profile({ user }: Props) {
   if (userDetailsError)
     toast.error('Could not create profile. Please refresh and try again.')
 
-  if (!userDetailsLoading && !userDetails.Email) {
+  if (!userDetailsLoading && !userDetails?.Email) {
     createBasicProfile()
   }
 
-  if (!userDetailsLoading && !userDetails.Username) return <IncompleteProfile />
+  if (!userDetailsLoading && !userDetails?.Username)
+    return <IncompleteProfile />
 
   return (
     <div className="w-full flex flex-col items-center">

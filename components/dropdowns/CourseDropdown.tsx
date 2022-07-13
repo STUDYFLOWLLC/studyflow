@@ -12,7 +12,7 @@ import shorten from 'utils/shorten'
 export interface Item {
   color: string
   name: string
-  handler: (param1?: any, ...params: any[]) => any
+  handler?: (param1?: any, ...params: any[]) => any
 }
 
 interface activeProps {
@@ -27,6 +27,7 @@ interface Props {
   hasGeneral?: boolean
   generalHandler?: (param1?: any, ...params: any[]) => any
   general?: boolean
+  disabled?: boolean
 }
 
 export default function CourseDropDown({
@@ -37,6 +38,7 @@ export default function CourseDropDown({
   generalHandler,
   color,
   general,
+  disabled,
 }: Props) {
   const { theme } = useTheme()
 
@@ -54,15 +56,17 @@ export default function CourseDropDown({
 
   if (!mounted) return null
 
+  console.log(backgroundColor)
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
         <>
           <Menu.Button
-            disabled={loading}
+            disabled={loading || disabled}
             className={classNames(
               {
-                'ring-black border-transparent hover:opacity-80':
+                'ring-black border-transparent':
                   theme === 'light' && backgroundColor,
               },
               {
@@ -77,8 +81,10 @@ export default function CourseDropDown({
                 'border-slate-600 hover:bg-slate-600 hover:border-slate-400 text-gray-100':
                   theme === 'dark' && !backgroundColor,
               },
-              backgroundColor,
-              'flex items-center cursor-pointer px-2 py-1 rounded-md mr-2 shadow-sm text-sm font-medium border',
+              { 'hover:opacity-80': !loading && !disabled && backgroundColor },
+              { 'cursor-pointer': !loading && !disabled },
+              color || backgroundColor,
+              'flex items-center px-2 py-1 rounded-md mr-2 shadow-sm text-sm font-medium border',
             )}
           >
             {loading ? (
@@ -133,7 +139,7 @@ export default function CourseDropDown({
                         'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md',
                       )}
                       onClick={() => {
-                        item.handler()
+                        if (item.handler) item.handler()
                         setBackgroundColor(item.color)
                         setIcon(
                           <FolderIcon
@@ -143,7 +149,7 @@ export default function CourseDropDown({
                         )
                       }}
                       onKeyDown={() => {
-                        item.handler()
+                        if (item.handler) item.handler()
                         setBackgroundColor(item.color)
                         setIcon(
                           <FolderIcon

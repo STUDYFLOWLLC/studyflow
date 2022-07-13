@@ -44,8 +44,8 @@ export default function DashHeadSmall({
         />
         <div className="flex items-center">
           <SmallProfileButton
-            name={userDetails?.Name}
-            pfpLink={userDetails?.ProfilePictureLink}
+            name={userDetails?.Name || 'Studyflow'}
+            pfpLink={userDetails?.ProfilePictureLink || ''}
           />
         </div>
       </div>

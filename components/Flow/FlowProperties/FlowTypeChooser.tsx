@@ -1,29 +1,36 @@
 import { Menu, Transition } from '@headlessui/react'
-import { BanIcon, LockClosedIcon } from '@heroicons/react/outline'
+import {
+  ChartBarIcon,
+  ChatAlt2Icon,
+  ChevronDownIcon,
+  LightBulbIcon,
+  PencilAltIcon,
+  PencilIcon,
+  ViewGridAddIcon,
+} from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 import { ActiveProps } from 'types/ActiveProps'
-import { FlowVisibility } from 'types/Flow'
-import RainbowPublicIcon from './RainbowPublicIcon'
+import { FlowType } from 'types/Flow'
 
 interface Props {
+  type?: string
+  mutator: (newType: FlowType) => void
   loading: boolean
-  visibility?: FlowVisibility
-  mutator: (newVisibility: FlowVisibility) => void
 }
 
 const items = [
-  { name: FlowVisibility.PUBLIC, icon: RainbowPublicIcon },
-  { name: FlowVisibility.PRIVATE, icon: LockClosedIcon },
-  { name: FlowVisibility.HIDDEN, icon: BanIcon },
+  { name: FlowType.LECTURE, icon: LightBulbIcon },
+  { name: FlowType.DISCUSSION, icon: ChatAlt2Icon },
+  { name: FlowType.NOTE, icon: PencilIcon },
+  { name: FlowType.ASSIGNMENT, icon: PencilAltIcon },
+  { name: FlowType.SYNTHESIS, icon: ViewGridAddIcon },
+  { name: FlowType.ASSESSMENT, icon: ChartBarIcon },
 ]
 
-export default function FlowVisibilityChooser({
-  loading,
-  visibility,
-  mutator,
-}: Props) {
+export default function FlowTypeChooser({ loading, type, mutator }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -32,7 +39,12 @@ export default function FlowVisibilityChooser({
 
   if (!mounted) return null
 
-  console.log(visibility)
+  if (loading)
+    return (
+      <div className="mt-3">
+        <Skeleton className="mr-3 p-0 w-36 h-8" />
+      </div>
+    )
 
   return (
     <Menu as="div" className="relative">
@@ -46,19 +58,14 @@ export default function FlowVisibilityChooser({
             'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
               theme === 'dark',
           },
-          'flex items-center font-light m-0 p-0 mr-2 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'flex items-center font-light m-0 p-0 ml-3 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
+        disabled={loading}
       >
-        <div>
-          {visibility === FlowVisibility.PUBLIC && <RainbowPublicIcon />}
-          {visibility === FlowVisibility.PRIVATE && (
-            <LockClosedIcon className="w-6 h-6" />
-          )}
-          {visibility === FlowVisibility.HIDDEN && (
-            <BanIcon className="w-6 h-6" />
-          )}
-        </div>
+        {type}
+        <ChevronDownIcon className="w-5 ml-1" />
       </Menu.Button>
+
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -72,7 +79,7 @@ export default function FlowVisibilityChooser({
           className={classNames(
             { ' bg-white ring-black ring-1 ring-opacity-5': theme === 'light' },
             { 'bg-slate-700': theme === 'dark' },
-            'absolute z-40 left-[-2rem] origin-top-left rounded-md shadow-lg focus:outline-none',
+            'absolute z-20 left-3 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
           )}
         >
           {items.map((item) => (
@@ -82,12 +89,12 @@ export default function FlowVisibilityChooser({
                   className={classNames(
                     { 'bg-gray-100': active && theme === 'light' },
                     { 'bg-slate-600': active && theme === 'dark' },
-                    'pl-2 pr-4 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
+                    'px-2 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                   )}
                   onClick={() => mutator(item.name)}
                   onKeyDown={() => mutator(item.name)}
                 >
-                  <item.icon className="w-4 mx-2" dimension="w-4 mx-2" />
+                  <item.icon className="w-4 mx-2" />
                   {item.name}
                 </div>
               )}

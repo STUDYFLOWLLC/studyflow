@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import Skeleton from 'react-loading-skeleton'
+import { SetupSteps } from 'types/SetupSteps'
 import FakeCourseNavs from './FakeCourseNavs'
 
 export interface CourseDisplay {
@@ -86,7 +87,7 @@ export default function CourseNavs() {
 
   if (!mounted) return null
 
-  if (userDetails && userDetails?.SetupStep === 'Profile')
+  if (userDetails && userDetails?.SetupStep === SetupSteps.PROFILE)
     return <FakeCourseNavs />
 
   return (
