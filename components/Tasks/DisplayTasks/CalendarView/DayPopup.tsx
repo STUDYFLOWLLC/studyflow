@@ -3,7 +3,6 @@ import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import AddTask from 'components/Tasks/AddTask'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
-import { formatISO } from 'date-fns'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
@@ -15,6 +14,7 @@ interface Props {
   user: User
   open: boolean
   setOpen: (open: boolean) => void
+  sameDate: (date1: Date | undefined, date2: Date | undefined) => boolean
 }
 
 export default function DayPopup({
@@ -22,6 +22,7 @@ export default function DayPopup({
   user,
   open,
   setOpen,
+  sameDate,
 }: Props) {
   const { theme } = useTheme()
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
@@ -38,9 +39,7 @@ export default function DayPopup({
 
   const numTasks = tasks.filter(
     (task) =>
-      !task.Completed &&
-      task.DueDate?.substring(0, 10) ===
-        formatISO(dateToDisplay).substring(0, 10),
+      !task.Completed && sameDate(new Date(task.DueDate), dateToDisplay),
   ).length
 
   return (
@@ -91,10 +90,8 @@ export default function DayPopup({
             {/* Display Task with Viewing Date */}
             <div>
               <BasicDisplayTasks
-                tasks={tasks.filter(
-                  (task) =>
-                    task.DueDate?.substring(0, 10) ===
-                    formatISO(dateToDisplay).substring(0, 10),
+                tasks={tasks.filter((task) =>
+                  sameDate(new Date(task.DueDate), dateToDisplay),
                 )}
               />
             </div>
