@@ -19,7 +19,8 @@ interface Props {
   firstCourse?: CourseOnTerm
   flowId?: string
   setCurrentFlow?: (flowId: string) => void
-  createAs?: FlowType | null
+  createAs?: FlowType | null // only pass this if you want to create a new flow on mount
+  setCreateAs?: (value: FlowType | null) => void
 }
 
 export default function index({
@@ -29,6 +30,7 @@ export default function index({
   flowId,
   setCurrentFlow,
   createAs,
+  setCreateAs,
 }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
@@ -43,7 +45,7 @@ export default function index({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createFlow = async () => {
-    if (flowId || !isOpen) return
+    if (!createAs) return
     setCreatingFlow(true)
 
     const id = uuid()
@@ -103,6 +105,7 @@ export default function index({
         open={isOpen}
         onClose={() => {
           if (setCurrentFlow) setCurrentFlow('')
+          if (setCreateAs) setCreateAs(null)
           if (createdFlowId) setCreatedFlowId('')
           setIsOpen(false)
         }}
