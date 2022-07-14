@@ -22,6 +22,11 @@ export class FlowCreateManyFK_CourseOnTermInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
+  LastOpened?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
   UserEnteredDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => FlowType, {

@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
+import { FlowViewUpdateManyWithoutFK_UserInput } from "../inputs/FlowViewUpdateManyWithoutFK_UserInput";
 import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
@@ -69,4 +70,9 @@ export class UserUpdateWithoutFK_SchoolInput {
     nullable: true
   })
   FK_Settings?: SettingUpdateOneWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlowViewUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_FlowView?: FlowViewUpdateManyWithoutFK_UserInput | undefined;
 }

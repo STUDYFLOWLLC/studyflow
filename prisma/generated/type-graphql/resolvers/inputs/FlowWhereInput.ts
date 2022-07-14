@@ -7,6 +7,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
 import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { FlashCardStackListRelationFilter } from "../inputs/FlashCardStackListRelationFilter";
+import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
@@ -40,6 +41,11 @@ export class FlowWhereInput {
     nullable: true
   })
   CreatedTime?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
+  LastOpened?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
@@ -85,4 +91,9 @@ export class FlowWhereInput {
     nullable: true
   })
   FK_Tasks?: TaskListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FlowViewListRelationFilter, {
+    nullable: true
+  })
+  FK_FlowView?: FlowViewListRelationFilter | undefined;
 }

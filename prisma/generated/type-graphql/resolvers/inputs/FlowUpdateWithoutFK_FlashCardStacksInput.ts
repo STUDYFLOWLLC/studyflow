@@ -6,6 +6,7 @@ import { CourseOnTermUpdateOneWithoutFK_FlowsInput } from "../inputs/CourseOnTer
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumFlowTypeFieldUpdateOperationsInput } from "../inputs/EnumFlowTypeFieldUpdateOperationsInput";
 import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
+import { FlowViewUpdateManyWithoutFK_FlowInput } from "../inputs/FlowViewUpdateManyWithoutFK_FlowInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskUpdateManyWithoutFK_FlowInput } from "../inputs/TaskUpdateManyWithoutFK_FlowInput";
@@ -23,6 +24,11 @@ export class FlowUpdateWithoutFK_FlashCardStacksInput {
     nullable: true
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  LastOpened?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
@@ -58,4 +64,9 @@ export class FlowUpdateWithoutFK_FlashCardStacksInput {
     nullable: true
   })
   FK_Tasks?: TaskUpdateManyWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlowViewUpdateManyWithoutFK_FlowInput, {
+    nullable: true
+  })
+  FK_FlowView?: FlowViewUpdateManyWithoutFK_FlowInput | undefined;
 }

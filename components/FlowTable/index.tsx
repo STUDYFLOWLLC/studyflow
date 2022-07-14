@@ -9,11 +9,10 @@ import FlowTableLine from './FlowTableLine'
 import LoadingLine from './LoadingLine'
 
 interface Props {
-  setFlowModalOpen: (value: boolean) => void
   setCurrentFlow: (flowId: string) => void
 }
 
-export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
+export default function FlowList({ setCurrentFlow }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
@@ -97,7 +96,6 @@ export default function FlowList({ setFlowModalOpen, setCurrentFlow }: Props) {
               dashFlows.length > 0 &&
               dashFlows.map((flow) => (
                 <FlowTableLine
-                  setFlowModalOpen={setFlowModalOpen}
                   setCurrentFlow={setCurrentFlow}
                   loading={userDetailsLoading || dashFlowsLoading}
                   key={flow.FlowID}

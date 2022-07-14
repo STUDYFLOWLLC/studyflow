@@ -75,6 +75,7 @@ model User {
   //FK_FlowTags       FlowTag[]
   FK_Task            Task[]
   FK_Settings        Setting?
+  FK_FlowView        FlowView[]
 }
 
 model Term {
@@ -141,6 +142,7 @@ model Professor {
 model Flow {
   FlowID             String           @id @default(uuid())
   CreatedTime        DateTime         @default(now())
+  LastOpened         DateTime         @default(now()) // in theory, we could just use flowviews to track this, but this is simpler
   UserEnteredDate    DateTime         @default(now())
   //FK_Tags            FlowTagOnFlow[]
   Type               FlowType
@@ -151,6 +153,16 @@ model Flow {
   FK_CourseOnTermID  Int?
   FK_FlashCardStacks FlashCardStack[]
   FK_Tasks           Task[]
+  FK_FlowView        FlowView[]
+}
+
+model FlowView {
+  FlowViewID  Int      @id @default(autoincrement())
+  CreatedTime DateTime @default(now())
+  FK_Flow     Flow?    @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlowID   String?
+  FK_User     User?    @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID   Int?
 }
 
 //creates many-to-many for tags and flows (flows can be related to many tags, and tags can be related to many flows)
