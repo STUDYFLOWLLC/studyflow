@@ -1,9 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
+import { FlowView } from "../../../models/FlowView";
 import { School } from "../../../models/School";
 import { Setting } from "../../../models/Setting";
 import { Task } from "../../../models/Task";
 import { Term } from "../../../models/Term";
 import { User } from "../../../models/User";
+import { UserFK_FlowViewArgs } from "./args/UserFK_FlowViewArgs";
 import { UserFK_TaskArgs } from "./args/UserFK_TaskArgs";
 import { UserFK_TermsArgs } from "./args/UserFK_TermsArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
@@ -52,5 +54,16 @@ export class UserRelationsResolver {
         UserID: user.UserID,
       },
     }).FK_Settings({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [FlowView], {
+    nullable: false
+  })
+  async FK_FlowView(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_FlowViewArgs): Promise<FlowView[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_FlowView(args);
   }
 }

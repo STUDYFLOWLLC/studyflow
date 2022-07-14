@@ -35,5 +35,5 @@ export class SchoolFK_UserArgs {
   @TypeGraphQL.Field(_type => [UserScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"UserID" | "CreatedTime" | "SetupStep" | "SupabaseID" | "Email" | "Name" | "Username" | "ProfilePictureLink" | "DefaultVisibility" | "FK_SchoolID"> | undefined;
+  distinct?: Array<"UserID" | "CreatedTime" | "LastOpened" | "SetupStep" | "SupabaseID" | "Email" | "Name" | "Username" | "ProfilePictureLink" | "DefaultVisibility" | "FK_SchoolID"> | undefined;
 }

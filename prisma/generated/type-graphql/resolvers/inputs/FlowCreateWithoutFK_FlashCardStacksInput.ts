@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermCreateNestedOneWithoutFK_FlowsInput } from "../inputs/CourseOnTermCreateNestedOneWithoutFK_FlowsInput";
+import { FlowViewCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_FlowInput";
 import { TaskCreateNestedManyWithoutFK_FlowInput } from "../inputs/TaskCreateNestedManyWithoutFK_FlowInput";
 import { FlowType } from "../../enums/FlowType";
 import { Visibility } from "../../enums/Visibility";
@@ -55,4 +56,9 @@ export class FlowCreateWithoutFK_FlashCardStacksInput {
     nullable: true
   })
   FK_Tasks?: TaskCreateNestedManyWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlowViewCreateNestedManyWithoutFK_FlowInput, {
+    nullable: true
+  })
+  FK_FlowView?: FlowViewCreateNestedManyWithoutFK_FlowInput | undefined;
 }

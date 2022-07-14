@@ -7,6 +7,7 @@ import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdat
 import { EnumFlowTypeFieldUpdateOperationsInput } from "../inputs/EnumFlowTypeFieldUpdateOperationsInput";
 import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { FlashCardStackUpdateManyWithoutFK_FlowInput } from "../inputs/FlashCardStackUpdateManyWithoutFK_FlowInput";
+import { FlowViewUpdateManyWithoutFK_FlowInput } from "../inputs/FlowViewUpdateManyWithoutFK_FlowInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -58,4 +59,9 @@ export class FlowUpdateWithoutFK_TasksInput {
     nullable: true
   })
   FK_FlashCardStacks?: FlashCardStackUpdateManyWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlowViewUpdateManyWithoutFK_FlowInput, {
+    nullable: true
+  })
+  FK_FlowView?: FlowViewUpdateManyWithoutFK_FlowInput | undefined;
 }

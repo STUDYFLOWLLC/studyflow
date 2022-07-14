@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermOrderByWithRelationInput } from "../inputs/CourseOnTermOrderByWithRelationInput";
 import { FlashCardStackOrderByRelationAggregateInput } from "../inputs/FlashCardStackOrderByRelationAggregateInput";
+import { FlowViewOrderByRelationAggregateInput } from "../inputs/FlowViewOrderByRelationAggregateInput";
 import { TaskOrderByRelationAggregateInput } from "../inputs/TaskOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -65,4 +66,9 @@ export class FlowOrderByWithRelationInput {
     nullable: true
   })
   FK_Tasks?: TaskOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlowViewOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_FlowView?: FlowViewOrderByRelationAggregateInput | undefined;
 }
