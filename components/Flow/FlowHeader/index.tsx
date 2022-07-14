@@ -1,14 +1,14 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import DeleteFlow from 'components/Flow/FlowProperties/DeleteFlow'
+import DeleteFlow from 'components/Flow/FlowHeader/DeleteFlow'
+import FlowSaving from 'components/Flow/FlowHeader/FlowSaving'
+import FlowVisibilityChooser from 'components/Flow/FlowHeader/FlowVisibilityChooser'
+import NextReview from 'components/Flow/FlowHeader/NextReview'
+import OpenAsPage from 'components/Flow/FlowHeader/OpenAsPage'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { FlowVisibility } from 'types/Flow'
 import { changeVisibility } from 'utils/flows/propertyHandlers'
-import FlowSaving from './FlowProperties/FlowSaving'
-import FlowVisibilityChooser from './FlowProperties/FlowVisibilityChooser'
-import NextReview from './FlowProperties/NextReview'
-import OpenAsPage from './FlowProperties/OpenAsPage'
 
 interface Props {
   flowId: string
