@@ -67,8 +67,6 @@ export default function Dash({ user }: Props) {
 
   if (!mounted) return null
 
-  console.log(currentFlow)
-
   // if more than 24 hours since showing welcome message, show it again
   const shouldShowWelcomeMessageBasedOnTime =
     new Date().getTime() -
@@ -110,15 +108,12 @@ export default function Dash({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-
           {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
             <main className="flex-1">
               <DashHeadBig
                 pageDisplayed="Home"
                 showDashBar={showDashBar}
                 setShowDashBar={setShowDashBar}
-                flowModalOpen={flowModalOpen}
-                setFlowModalOpen={setFlowModalOpen}
                 setCreateFlowAs={setCreateFlowAs}
               />
               {userDetails &&
@@ -143,8 +138,6 @@ export default function Dash({ user }: Props) {
                 pageDisplayed="Welcome to Studyflow"
                 showDashBar={showDashBar}
                 setShowDashBar={setShowDashBar}
-                flowModalOpen={flowModalOpen}
-                setFlowModalOpen={setFlowModalOpen}
                 setCreateFlowAs={setCreateFlowAs}
               />
               <DashSetup />
@@ -154,12 +147,13 @@ export default function Dash({ user }: Props) {
         <Taskover />
         <CMDPalette />
         <FlowModal
-          isOpen={!!currentFlow}
+          isOpen={!flowModalOpen ? false : !!currentFlow || !!createFlowAs}
           setIsOpen={setFlowModalOpen}
           firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}
           setCurrentFlow={setCurrentFlow}
           createAs={createFlowAs}
+          setCreateAs={setCreateFlowAs}
         />
       </div>
     </SkeletonTheme>

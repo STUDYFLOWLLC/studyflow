@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import Flow from 'components/Flow'
 import LoadWithText from 'components/spinners/LoadWithText'
 import makeFlow from 'hooks/flows/makeFlow'
+import { mutateDeleteFlow } from 'hooks/flows/mutateFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -19,7 +20,8 @@ interface Props {
   firstCourse?: CourseOnTerm
   flowId?: string
   setCurrentFlow?: (flowId: string) => void
-  createAs?: FlowType | null
+  createAs?: FlowType | null // only pass this if you want to create a new flow on mount
+  setCreateAs?: (value: FlowType | null) => void
 }
 
 export default function index({
@@ -29,6 +31,7 @@ export default function index({
   flowId,
   setCurrentFlow,
   createAs,
+  setCreateAs,
 }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
@@ -43,7 +46,7 @@ export default function index({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createFlow = async () => {
-    if (flowId || !isOpen) return
+    if (!createAs) return
     setCreatingFlow(true)
 
     const id = uuid()
@@ -90,6 +93,24 @@ export default function index({
     }
   }
 
+  const deleteFlow = async () => {
+    if (!flowId) return
+
+    setIsOpen(false)
+
+    // mutate in backend
+    mutateDeleteFlow(flowId)
+
+    // mutate locally
+    mutateDashFlows(
+      {
+        mutatedFlows: dashFlows.filter((flow) => flow.FlowID !== flowId),
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+  }
+
   useEffect(() => {
     setMounted(true)
     createFlow()
@@ -103,6 +124,7 @@ export default function index({
         open={isOpen}
         onClose={() => {
           if (setCurrentFlow) setCurrentFlow('')
+          if (setCreateAs) setCreateAs(null)
           if (createdFlowId) setCreatedFlowId('')
           setIsOpen(false)
         }}
@@ -149,7 +171,10 @@ export default function index({
                   />
                 )}
                 {(flowId || createdFlowId) && (
-                  <Flow flowId={flowId || createdFlowId} />
+                  <Flow
+                    flowId={flowId || createdFlowId}
+                    deleteFlow={deleteFlow}
+                  />
                 )}
               </Dialog.Panel>
             </Transition.Child>

@@ -14,9 +14,10 @@ import FlowBody from './FlowBody'
 
 interface Props {
   flowId: string
+  deleteFlow: () => void
 }
 
-export default function Flow({ flowId }: Props) {
+export default function Flow({ flowId, deleteFlow }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
@@ -65,9 +66,10 @@ export default function Flow({ flowId }: Props) {
   }
 
   return (
-    <div className="max-h-full">
+    <div className="max-h-full relative">
       <FlowTop
         flowId={flowId}
+        deleteFlow={deleteFlow}
         flowTitle={flowDetails?.Title}
         saving={saving}
         courseOnTerm={{
