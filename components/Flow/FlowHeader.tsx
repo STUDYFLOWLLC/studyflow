@@ -1,4 +1,5 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import DeleteFlow from 'components/Flow/FlowProperties/DeleteFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useUserDetails from 'hooks/useUserDetails'
@@ -11,10 +12,11 @@ import OpenAsPage from './FlowProperties/OpenAsPage'
 
 interface Props {
   flowId: string
+  deleteFlow: () => void
   saving: boolean
 }
 
-export default function FlowHeader({ flowId, saving }: Props) {
+export default function FlowHeader({ flowId, deleteFlow, saving }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
@@ -35,6 +37,7 @@ export default function FlowHeader({ flowId, saving }: Props) {
     <div className="m-4 flex justify-between items-center">
       <OpenAsPage />
       <div className="flex items-center">
+        <DeleteFlow flowId={flowId} deleteFlow={deleteFlow} />
         <FlowVisibilityChooser
           loading={flowDetailsLoading}
           visibility={flowDetails?.Visibility}

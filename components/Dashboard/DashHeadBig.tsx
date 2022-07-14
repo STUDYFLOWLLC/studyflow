@@ -8,8 +8,6 @@ interface Props {
   showDashBar: boolean
   setShowDashBar: Dispatch<SetStateAction<boolean>>
   pageDisplayed: string
-  flowModalOpen: boolean
-  setFlowModalOpen: (value: boolean) => void
   setCreateFlowAs: (value: FlowType | null) => void
   disabled?: boolean
   taskView?: string
@@ -20,8 +18,6 @@ export default function DashHeadBig({
   showDashBar,
   setShowDashBar,
   pageDisplayed,
-  flowModalOpen,
-  setFlowModalOpen,
   setCreateFlowAs,
   disabled,
   taskView,
@@ -40,12 +36,7 @@ export default function DashHeadBig({
           )}
         </div>
         <div className="flex sm:mt-0 items-center">
-          <CreateButton
-            disabled={disabled}
-            flowModalOpen={flowModalOpen}
-            setFlowModalOpen={setFlowModalOpen}
-            setCreateFlowAs={setCreateFlowAs}
-          />
+          <CreateButton disabled={disabled} setCreateFlowAs={setCreateFlowAs} />
         </div>
       </div>
     </div>

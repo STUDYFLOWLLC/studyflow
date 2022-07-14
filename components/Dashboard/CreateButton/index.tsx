@@ -25,18 +25,11 @@ export interface CreateButtonMenuItem {
 }
 
 interface Props {
-  flowModalOpen: boolean
-  setFlowModalOpen: (open: boolean) => void
   setCreateFlowAs: (flowType: FlowType | null) => void
   disabled?: boolean
 }
 
-export default function FlowDropdown({
-  flowModalOpen,
-  setFlowModalOpen,
-  setCreateFlowAs,
-  disabled,
-}: Props) {
+export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -50,7 +43,6 @@ export default function FlowDropdown({
       icon: LightBulbIcon,
       onClick: () => {
         setCreateFlowAs(FlowType.LECTURE)
-        setFlowModalOpen(true)
       },
     },
     {
@@ -62,7 +54,6 @@ export default function FlowDropdown({
       icon: ChatAlt2Icon,
       onClick: () => {
         setCreateFlowAs(FlowType.DISCUSSION)
-        setFlowModalOpen(true)
       },
     },
     {
@@ -73,7 +64,6 @@ export default function FlowDropdown({
       icon: PencilIcon,
       onClick: () => {
         setCreateFlowAs(FlowType.NOTE)
-        setFlowModalOpen(true)
       },
     },
     {
@@ -85,7 +75,6 @@ export default function FlowDropdown({
       icon: DocumentAddIcon,
       onClick: () => {
         setCreateFlowAs(FlowType.ASSIGNMENT)
-        setFlowModalOpen(true)
       },
     },
     {
@@ -96,7 +85,6 @@ export default function FlowDropdown({
       icon: StarIcon,
       onClick: () => {
         setCreateFlowAs(FlowType.ASSESSMENT)
-        setFlowModalOpen(true)
       },
     },
     {
@@ -108,7 +96,6 @@ export default function FlowDropdown({
       icon: 'SynthesisIcon',
       onClick: () => {
         setCreateFlowAs(FlowType.SYNTHESIS)
-        setFlowModalOpen(true)
       },
     },
   ]

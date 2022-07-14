@@ -170,3 +170,22 @@ export async function mutateFlowVisibility(
   const data = request('/api/graphql', mutation, variables)
   return data
 }
+
+export async function mutateDeleteFlow(flowId: string) {
+  const mutation = gql`
+    mutation DeleteFlow($where: FlowWhereUniqueInput!) {
+      deleteFlow(where: $where) {
+        FlowID
+      }
+    }
+  `
+
+  const variables = {
+    where: {
+      FlowID: flowId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}

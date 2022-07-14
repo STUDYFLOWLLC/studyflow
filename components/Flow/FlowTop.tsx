@@ -24,6 +24,7 @@ export interface SmallCourse {
 
 interface Props {
   flowId: string
+  deleteFlow: () => void
   flowTitle: string
   saving: boolean
   courseOnTerm?: SmallCourse
@@ -31,6 +32,7 @@ interface Props {
 
 export default function FlowTop({
   flowId,
+  deleteFlow,
   flowTitle,
   saving,
   courseOnTerm,
@@ -48,7 +50,7 @@ export default function FlowTop({
 
   return (
     <>
-      <FlowHeader flowId={flowId} saving={saving} />
+      <FlowHeader flowId={flowId} deleteFlow={deleteFlow} saving={saving} />
       <div className="border-b pb-4 mb-4 prose max-w-3xl mx-auto">
         <FlowProperties flowId={flowId} saving={saving} />
 
