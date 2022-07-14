@@ -62,7 +62,6 @@ model Setting {
 model User {
   UserID             Int         @id @default(autoincrement())
   CreatedTime        DateTime    @default(now())
-  LastOpened         DateTime?   @default(now()) // in theory, we could just use flowviews to track this, but this is simpler
   SetupStep          SetupStep   @default(PROFILE)
   SupabaseID         String
   Email              String      @unique
@@ -143,6 +142,7 @@ model Professor {
 model Flow {
   FlowID             String           @id @default(uuid())
   CreatedTime        DateTime         @default(now())
+  LastOpened         DateTime         @default(now()) // in theory, we could just use flowviews to track this, but this is simpler
   UserEnteredDate    DateTime         @default(now())
   //FK_Tags            FlowTagOnFlow[]
   Type               FlowType

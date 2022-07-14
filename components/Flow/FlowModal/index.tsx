@@ -34,9 +34,7 @@ export default function index({
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { dashFlows, dashFlowsLoading, mutateDashFlows } = useDashFlows(
-    userDetails?.UserID,
-  )
+  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
   const [creatingFlow, setCreatingFlow] = useState(false)
@@ -48,9 +46,28 @@ export default function index({
     if (createdFlowId) setCreatedFlowId('')
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateLastOpened = () => {
+    mutateDashFlows(
+      {
+        mutatedFlows: dashFlows.map((flow) => {
+          if (flow.FlowID === flowId) {
+            return {
+              ...flow,
+              lastOpened: new Date().toISOString(),
+            }
+          }
+          return flow
+        }),
+        mutate: true,
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
+
   const createFlow = async () => {
-    if (!createAs) return
+    if (!createAs) return updateLastOpened()
     setCreatingFlow(true)
 
     const id = uuid()
@@ -62,6 +79,7 @@ export default function index({
           ...dashFlows,
           {
             FlowID: id,
+            Title: 'Untitled',
             Type: createAs || FlowType.LECTURE,
             CreatedTime: new Date().toISOString(),
             UserEnteredDate: new Date().toISOString(),
@@ -123,11 +141,7 @@ export default function index({
     <Transition appear show={!!flowId || !!createdFlowId} as={Fragment}>
       <Dialog
         open={!!flowId || !!createdFlowId}
-        onClose={() => {
-          if (setCurrentFlow) setCurrentFlow('')
-          if (setCreateAs) setCreateAs(null)
-          if (createdFlowId) setCreatedFlowId('')
-        }}
+        onClose={() => closeFlowModal()}
         className="relative z-50 w-full h-screen max-h-screen"
       >
         {/* The backdrop, rendered as a fixed sibling to the panel container */}

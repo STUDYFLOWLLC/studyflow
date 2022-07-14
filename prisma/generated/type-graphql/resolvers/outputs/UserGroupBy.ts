@@ -24,11 +24,6 @@ export class UserGroupBy {
   })
   CreatedTime!: Date;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  LastOpened!: Date | null;
-
   @TypeGraphQL.Field(_type => SetupStep, {
     nullable: false
   })

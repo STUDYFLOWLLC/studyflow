@@ -3,7 +3,6 @@ import * as TypeGraphQL from "type-graphql";
 export enum UserScalarFieldEnum {
   UserID = "UserID",
   CreatedTime = "CreatedTime",
-  LastOpened = "LastOpened",
   SetupStep = "SetupStep",
   SupabaseID = "SupabaseID",
   Email = "Email",

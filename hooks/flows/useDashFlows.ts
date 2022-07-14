@@ -40,6 +40,7 @@ export default function useDashFlows(
         FlowID
         Title
         CreatedTime
+        LastOpened
         UserEnteredDate
         Type
         Visibility
@@ -80,6 +81,8 @@ export default function useDashFlows(
   }
 
   const { data, error, mutate } = useSWR([query, variables])
+
+  console.log(error)
 
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>

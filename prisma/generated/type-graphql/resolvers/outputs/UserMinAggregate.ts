@@ -19,11 +19,6 @@ export class UserMinAggregate {
   })
   CreatedTime!: Date | null;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  LastOpened!: Date | null;
-
   @TypeGraphQL.Field(_type => SetupStep, {
     nullable: true
   })

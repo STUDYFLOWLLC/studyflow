@@ -45,6 +45,11 @@ export class FlowWhereInput {
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
+  LastOpened?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
   UserEnteredDate?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumFlowTypeFilter, {

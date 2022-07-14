@@ -26,11 +26,6 @@ export class UserOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  LastOpened?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
   SetupStep?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

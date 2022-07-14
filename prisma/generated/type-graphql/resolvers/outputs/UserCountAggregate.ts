@@ -20,11 +20,6 @@ export class UserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  LastOpened!: number;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
   SetupStep!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

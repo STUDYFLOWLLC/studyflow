@@ -25,6 +25,11 @@ export class FlowCreateWithoutFK_TasksInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
+  LastOpened?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
   UserEnteredDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => FlowType, {

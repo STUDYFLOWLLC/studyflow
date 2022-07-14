@@ -18,11 +18,6 @@ export class UserCreateWithoutFK_TermsInput {
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  LastOpened?: Date | undefined;
-
   @TypeGraphQL.Field(_type => SetupStep, {
     nullable: true
   })

@@ -27,6 +27,11 @@ export class Flow {
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
+  LastOpened!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
   UserEnteredDate!: Date;
 
   @TypeGraphQL.Field(_type => FlowType, {

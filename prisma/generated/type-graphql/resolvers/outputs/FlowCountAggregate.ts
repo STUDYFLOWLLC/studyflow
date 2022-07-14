@@ -20,6 +20,11 @@ export class FlowCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  LastOpened!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   UserEnteredDate!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
