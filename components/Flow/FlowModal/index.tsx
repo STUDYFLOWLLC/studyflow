@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import Flow from 'components/Flow'
 import LoadWithText from 'components/spinners/LoadWithText'
 import makeFlow from 'hooks/flows/makeFlow'
+import { mutateDeleteFlow } from 'hooks/flows/mutateFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -92,6 +93,24 @@ export default function index({
     }
   }
 
+  const deleteFlow = async () => {
+    if (!flowId) return
+
+    setIsOpen(false)
+
+    // mutate in backend
+    mutateDeleteFlow(flowId)
+
+    // mutate locally
+    mutateDashFlows(
+      {
+        mutatedFlows: dashFlows.filter((flow) => flow.FlowID !== flowId),
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+  }
+
   useEffect(() => {
     setMounted(true)
     createFlow()
@@ -152,7 +171,10 @@ export default function index({
                   />
                 )}
                 {(flowId || createdFlowId) && (
-                  <Flow flowId={flowId || createdFlowId} />
+                  <Flow
+                    flowId={flowId || createdFlowId}
+                    deleteFlow={deleteFlow}
+                  />
                 )}
               </Dialog.Panel>
             </Transition.Child>

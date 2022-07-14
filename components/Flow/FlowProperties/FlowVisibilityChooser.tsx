@@ -32,8 +32,6 @@ export default function FlowVisibilityChooser({
 
   if (!mounted) return null
 
-  console.log(visibility)
-
   return (
     <Menu as="div" className="relative">
       <Menu.Button
@@ -46,7 +44,7 @@ export default function FlowVisibilityChooser({
             'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
               theme === 'dark',
           },
-          'flex items-center font-light m-0 p-0 mr-2 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'flex items-center font-light m-0 mr-2 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
         <div>

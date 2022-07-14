@@ -147,7 +147,7 @@ export default function Dash({ user }: Props) {
         <Taskover />
         <CMDPalette />
         <FlowModal
-          isOpen={!!currentFlow || !!createFlowAs}
+          isOpen={!flowModalOpen ? false : !!currentFlow || !!createFlowAs}
           setIsOpen={setFlowModalOpen}
           firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}
