@@ -7,6 +7,7 @@ import {
 } from 'hooks/flows/mutateFlow'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import { FlowDetail } from 'hooks/flows/useFlowDetails'
+import { editTaskCourse } from 'hooks/tasks/mutateTask'
 import { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
 
@@ -152,6 +153,10 @@ export function changeCourse(
 ) {
   // change in backend
   mutateFlowCourseOnTerm(flowDetails.FlowID, newId)
+  // we also have to change the task course in the backend
+  for (let i = 0; i < flowDetails.FK_Tasks.length; i += 1) {
+    editTaskCourse(flowDetails.FK_Tasks[i].TaskID, newId)
+  }
 
   // mutate locally
   mutateFlowDetails(

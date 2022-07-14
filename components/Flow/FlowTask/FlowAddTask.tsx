@@ -116,8 +116,6 @@ export default function index({
       },
     )
 
-    console.log(flowDetails)
-
     // reset local state
     setShowMain(false)
     setShowAddTask(false)

@@ -15,7 +15,7 @@ export interface SmallCourse {
 }
 
 export interface FlowTask {
-  TaskID: number
+  TaskID: string
   Title: string
   Completed: boolean
   Description?: string

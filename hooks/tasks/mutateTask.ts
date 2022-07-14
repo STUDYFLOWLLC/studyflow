@@ -92,3 +92,29 @@ export async function editTask(
 
   return data
 }
+
+export async function editTaskCourse(taskId: string, newCourseId: number) {
+  const mutation = gql`
+    mutation Mutation($data: TaskUpdateInput!, $where: TaskWhereUniqueInput!) {
+      updateTask(data: $data, where: $where) {
+        TaskID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      FK_CourseOnTerm: {
+        connect: {
+          CourseOnTermID: newCourseId,
+        },
+      },
+    },
+    where: {
+      TaskID: taskId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
