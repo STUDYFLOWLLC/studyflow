@@ -100,14 +100,10 @@ export default function Flow({ flowId, deleteFlow }: Props) {
         deleteFlow={deleteFlow}
         flowTitle={flowDetails?.Title}
         saving={saving}
-        courseOnTerm={{
-          FK_CourseOnTermID: flowDetails?.FK_CourseOnTermID,
-          ...flowDetails?.FK_CourseOnTerm,
-        }}
       />
       {!flowDetailsLoading ? (
         <FlowBody
-          initialBlocks={JSON.parse(flowDetails.Body) || defaultBody}
+          initialBlocks={JSON.parse(flowDetails?.Body) || defaultBody}
           saveFlow={saveFlow}
           setFauxSaving={setFauxSaving}
         />

@@ -1,8 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { TaskType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
+
+export interface SmallCourse {
+  CourseOnTermID: number
+  Nickname: string
+  Color: string
+  FK_Course: {
+    Code: string
+  }
+}
+
+export interface FlowTask {
+  TaskID: number
+  Title: string
+  Completed: boolean
+  Description?: string
+  DueDate?: string
+  Type?: TaskType
+}
 
 export interface FlowDetail {
   FlowID: string
@@ -13,14 +32,8 @@ export interface FlowDetail {
   Title: string
   Body: string
   Visibility: FlowVisibility
-  FK_CourseOnTermID: number
-  FK_CourseOnTerm: {
-    Nickname: string
-    Color: string
-    FK_Course: {
-      Code: string
-    }
-  }
+  FK_CourseOnTerm: SmallCourse
+  FK_Tasks: FlowTask[]
   _count: {
     FK_FlowView: number
     FK_FlashcardStacks: number
@@ -47,13 +60,21 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
         Title
         Body
         Visibility
-        FK_CourseOnTermID
         FK_CourseOnTerm {
+          CourseOnTermID
           Nickname
           Color
           FK_Course {
             Code
           }
+        }
+        FK_Tasks {
+          TaskID
+          Title
+          Completed
+          Description
+          DueDate
+          Type
         }
         _count {
           FK_FlowView
@@ -73,8 +94,6 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
   }
 
   const { data, error, mutate } = useSWR([query, variables])
-
-  console.log(error)
 
   if (data?.mutate) {
     return {
