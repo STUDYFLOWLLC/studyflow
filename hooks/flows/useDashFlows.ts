@@ -2,11 +2,12 @@
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
-import sortFlows from 'utils/flows/sortFlows'
+import { sortByLastOpened } from 'utils/flows/sortFlows'
 
 export interface DashFlow {
   FlowID: string
   CreatedTime: string
+  LastOpened: string
   Title: string
   UserEnteredDate: string
   Type: FlowType
@@ -82,11 +83,9 @@ export default function useDashFlows(
 
   const { data, error, mutate } = useSWR([query, variables])
 
-  console.log(error)
-
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>
-      sortFlows(flowA, flowB),
+      sortByLastOpened(flowA, flowB),
     )
 
     return {
@@ -105,7 +104,7 @@ export default function useDashFlows(
 
   if (data?.mutate) {
     const flows = data?.mutatedFlows.sort((flowA: DashFlow, flowB: DashFlow) =>
-      sortFlows(flowA, flowB),
+      sortByLastOpened(flowA, flowB),
     )
 
     return {

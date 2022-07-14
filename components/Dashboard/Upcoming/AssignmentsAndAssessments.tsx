@@ -5,7 +5,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import sortFlows from 'utils/flows/sortFlows'
+import { sortByUserEnteredDate } from 'utils/flows/sortFlows'
 import Pin from './Pin'
 
 interface Props {
@@ -85,7 +85,7 @@ export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
       {!dashFlowsLoading && dashFlows.length > 0 && (
         <div className="max-w-3xl mx-auto flex flex-wrap justify-around mb-4">
           {dashFlows
-            .sort((flowA, flowB) => sortFlows(flowA, flowB, true))
+            .sort((flowA, flowB) => sortByUserEnteredDate(flowA, flowB, true))
             .map((flow) => (
               <Pin
                 flow={flow}

@@ -9,7 +9,7 @@ import { DashFlow } from 'hooks/flows/useDashFlows'
  * (its not possible for them to be equal, as two flows cannot be created at the same
  * exact time) these are reversed to make the sort ascending.
  */
-export default function sortFlows(
+export function sortByUserEnteredDate(
   flowA: DashFlow,
   flowB: DashFlow,
   asc?: boolean,
@@ -21,4 +21,25 @@ export default function sortFlows(
   if (flowA.CreatedTime < flowB.CreatedTime) return asc ? -1 : 1
   if (flowA.CreatedTime > flowB.CreatedTime) return asc ? 1 : -1
   return 0
+}
+
+/**
+ * Sort flows by first their (last-opened) date, then sort by user entered date
+ * (if necessary).
+ * @param flowA the first flow to compare
+ * @param flowB the second flow to compare
+ * @returns 1 if flowA is more recent than flowB, -1 if flowB is more recent than flowA
+ * (its not possible for them to be equal, as two flows cannot be created at the same
+ * exact time) these are reversed to make the sort ascending.
+ */
+export function sortByLastOpened(
+  flowA: DashFlow,
+  flowB: DashFlow,
+  asc?: boolean,
+) {
+  if (flowA.LastOpened.slice(0, 10) < flowB.LastOpened.slice(0, 10))
+    return asc ? -1 : 1
+  if (flowA.LastOpened.slice(0, 10) > flowB.LastOpened.slice(0, 10))
+    return asc ? 1 : -1
+  return sortByUserEnteredDate(flowA, flowB, asc)
 }
