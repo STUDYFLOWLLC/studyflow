@@ -1,12 +1,12 @@
+/* eslint-disable no-underscore-dangle */
 import { PlusIcon } from '@heroicons/react/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import CourseDropdown from 'components/dropdowns/CourseDropdown'
 import DateDropdown from 'components/dropdowns/DateDropdown'
-import { SmallCourse } from 'components/Flow/FlowTop'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import TypeDropdown from 'components/Tasks/AddTask/TypeDropdown'
-import useFlowTasks from 'hooks/flows/useFlowTasks'
+import useFlowDetails, { SmallCourse } from 'hooks/flows/useFlowDetails'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import makeTask from 'hooks/tasks/makeTask'
 import useTasks from 'hooks/tasks/useTasks'
@@ -38,7 +38,7 @@ export default function index({
     userDetails?.FK_Terms?.[0].TermID,
   )
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
-  const { flowTasks, mutateFlowTasks } = useFlowTasks(flowId, courseOnTerm)
+  const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   // States
   const [mounted, setMounted] = useState(false)
@@ -67,7 +67,7 @@ export default function index({
       DueDate: taskDueDateExact?.toISOString(),
       Type: taskType,
       FK_FlowID: flowId,
-      FK_CourseOnTermID: courseOnTerm?.FK_CourseOnTermID,
+      FK_CourseOnTermID: courseOnTerm?.CourseOnTermID,
       FK_CourseOnTerm: {
         Color: courseOnTerm?.Color,
         Nickname: courseOnTerm?.Nickname,
@@ -88,20 +88,28 @@ export default function index({
         populateCache: true,
       },
     )
-    mutateFlowTasks(
+    mutateFlowDetails(
       {
-        tasks: [
-          ...flowTasks,
-          {
-            TaskID: taskId,
-            Title: taskName,
-            Completed: false,
-            Description: taskDescription,
-            DueDate: taskDueDateExact?.toISOString(),
-            Type: taskType,
-            FK_CourseOnTerm: courseOnTerm,
+        mutatedFlow: {
+          ...flowDetails,
+          FK_Tasks: [
+            ...flowDetails.FK_Tasks,
+            {
+              TaskID: taskId,
+              Title: taskName,
+              Completed: false,
+              Description: taskDescription,
+              DueDate: taskDueDateExact?.toISOString(),
+              Type: taskType,
+              FK_CourseOnTerm: courseOnTerm,
+            },
+          ],
+          _count: {
+            ...flowDetails._count,
+            FK_Tasks: flowDetails._count.FK_Tasks + 1,
           },
-        ],
+        },
+        mutate: true,
       },
       {
         revalidate: false,
@@ -124,7 +132,7 @@ export default function index({
       taskDescription,
       taskDueDateExact?.toISOString(),
       user?.email || user?.user_metadata.email,
-      courseOnTerm?.FK_CourseOnTermID || 0,
+      courseOnTerm?.CourseOnTermID || 0,
       taskType,
       flowId,
     )
