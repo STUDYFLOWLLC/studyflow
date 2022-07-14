@@ -46,28 +46,8 @@ export default function index({
     if (createdFlowId) setCreatedFlowId('')
   }
 
-  const updateLastOpened = () => {
-    mutateDashFlows(
-      {
-        mutatedFlows: dashFlows.map((flow) => {
-          if (flow.FlowID === flowId) {
-            return {
-              ...flow,
-              lastOpened: new Date().toISOString(),
-            }
-          }
-          return flow
-        }),
-        mutate: true,
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
-
   const createFlow = async () => {
-    if (!createAs) return updateLastOpened()
+    if (!createAs || createdFlowId) return
     setCreatingFlow(true)
 
     const id = uuid()
@@ -82,6 +62,7 @@ export default function index({
             Title: 'Untitled',
             Type: createAs || FlowType.LECTURE,
             CreatedTime: new Date().toISOString(),
+            LastOpened: new Date().toISOString(),
             UserEnteredDate: new Date().toISOString(),
             Visibility: FlowVisibility.PRIVATE,
             FK_CourseOnTerm: {

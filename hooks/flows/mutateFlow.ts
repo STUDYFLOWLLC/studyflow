@@ -171,6 +171,33 @@ export async function mutateFlowVisibility(
   return data
 }
 
+export async function mutateLastOpened(flowId: string) {
+  const mutation = gql`
+    mutation UpdateFlow(
+      $data: FlowUpdateInput!
+      $where: FlowWhereUniqueInput!
+    ) {
+      updateFlow(data: $data, where: $where) {
+        LastOpened
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      LastOpened: {
+        set: new Date().toISOString(),
+      },
+    },
+    where: {
+      FlowID: flowId,
+    },
+  }
+
+  const data = request('/api/graphql', mutation, variables)
+  return data
+}
+
 export async function mutateDeleteFlow(flowId: string) {
   const mutation = gql`
     mutation DeleteFlow($where: FlowWhereUniqueInput!) {

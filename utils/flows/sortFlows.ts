@@ -37,9 +37,7 @@ export function sortByLastOpened(
   flowB: DashFlow,
   asc?: boolean,
 ) {
-  if (flowA.LastOpened.slice(0, 10) < flowB.LastOpened.slice(0, 10))
-    return asc ? -1 : 1
-  if (flowA.LastOpened.slice(0, 10) > flowB.LastOpened.slice(0, 10))
-    return asc ? 1 : -1
+  if (flowA.LastOpened < flowB.LastOpened) return asc ? -1 : 1
+  if (flowA.LastOpened > flowB.LastOpened) return asc ? 1 : -1
   return sortByUserEnteredDate(flowA, flowB, asc)
 }

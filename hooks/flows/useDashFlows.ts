@@ -74,11 +74,6 @@ export default function useDashFlows(
         },
       },
     },
-    orderBy: [
-      {
-        UserEnteredDate: 'desc',
-      },
-    ],
   }
 
   const { data, error, mutate } = useSWR([query, variables])
