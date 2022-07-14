@@ -1,5 +1,6 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import DeleteFlow from 'components/Flow/FlowHeader/DeleteFlow'
+import FlowInfo from 'components/Flow/FlowHeader/FlowInfo'
 import FlowSaving from 'components/Flow/FlowHeader/FlowSaving'
 import FlowVisibilityChooser from 'components/Flow/FlowHeader/FlowVisibilityChooser'
 import NextReview from 'components/Flow/FlowHeader/NextReview'
@@ -34,16 +35,21 @@ export default function FlowHeader({ flowId, deleteFlow, saving }: Props) {
     )
 
   return (
-    <div className="m-4 flex justify-between items-center">
-      <OpenAsPage />
-      <div className="flex items-center">
-        <DeleteFlow flowId={flowId} deleteFlow={deleteFlow} />
+    <div className="m-4 flex items-center w-full justify-between">
+      <div className="w-36">
+        <OpenAsPage />
+      </div>
+      <div className="flex items-center w-36">
         <FlowVisibilityChooser
           loading={flowDetailsLoading}
           visibility={flowDetails?.Visibility}
           mutator={visbilityMutator}
         />
         <NextReview />
+      </div>
+      <div className="flex items-center w-36">
+        <DeleteFlow flowId={flowId} deleteFlow={deleteFlow} />
+        <FlowInfo flowId={flowId} />
         <FlowSaving saving={saving} loading={flowDetailsLoading} />
       </div>
     </div>

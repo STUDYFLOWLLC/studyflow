@@ -7,6 +7,7 @@ import { FlowType, FlowVisibility } from 'types/Flow'
 export interface FlowDetail {
   FlowID: string
   CreatedTime: string
+  LastOpened: string
   UserEnteredDate: string
   Type: FlowType
   Title: string
@@ -19,6 +20,11 @@ export interface FlowDetail {
     FK_Course: {
       Code: string
     }
+  }
+  _count: {
+    FK_FlowView: number
+    FK_FlashcardStacks: number
+    FK_Tasks: number
   }
 }
 
@@ -35,6 +41,7 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
       findFirstFlow(where: $where) {
         FlowID
         CreatedTime
+        LastOpened
         UserEnteredDate
         Type
         Title
@@ -47,6 +54,11 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
           FK_Course {
             Code
           }
+        }
+        _count {
+          FK_FlowView
+          FK_FlashCardStacks
+          FK_Tasks
         }
       }
     }
@@ -61,6 +73,8 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
   }
 
   const { data, error, mutate } = useSWR([query, variables])
+
+  console.log(error)
 
   if (data?.mutate) {
     return {
