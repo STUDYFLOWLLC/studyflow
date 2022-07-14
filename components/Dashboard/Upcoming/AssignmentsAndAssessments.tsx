@@ -9,14 +9,10 @@ import sortFlows from 'utils/flows/sortFlows'
 import Pin from './Pin'
 
 interface Props {
-  setFlowModalOpen: (flowModalOpen: boolean) => void
   setCurrentFlow: (flowId: string) => void
 }
 
-export default function AssignmentsAndAssessments({
-  setFlowModalOpen,
-  setCurrentFlow,
-}: Props) {
+export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
@@ -94,7 +90,6 @@ export default function AssignmentsAndAssessments({
               <Pin
                 flow={flow}
                 key={flow.FlowID}
-                setFlowModalOpen={setFlowModalOpen}
                 setCurrentFlow={setCurrentFlow}
               />
             ))}

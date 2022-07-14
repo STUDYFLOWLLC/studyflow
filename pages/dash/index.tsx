@@ -42,7 +42,6 @@ export default function Dash({ user }: Props) {
   const [showDashBar, setShowDashBar] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [flowModalOpen, setFlowModalOpen] = useState(false)
   const [createFlowAs, setCreateFlowAs] = useState<FlowType | null>(null)
   const [currentFlow, setCurrentFlow] = useState<string>('')
 
@@ -120,15 +119,9 @@ export default function Dash({ user }: Props) {
                 (!userDetails?.FK_Settings?.HasSeenWelcomeMessage ||
                   shouldShowWelcomeMessageBasedOnTime) && <DashWelcome />}
               {/* <Pinned /> */}
-              <AssignmentsAndAssessments
-                setFlowModalOpen={setFlowModalOpen}
-                setCurrentFlow={setCurrentFlow}
-              />
+              <AssignmentsAndAssessments setCurrentFlow={setCurrentFlow} />
               <FlowListSmall />
-              <FlowTable
-                setFlowModalOpen={setFlowModalOpen}
-                setCurrentFlow={setCurrentFlow}
-              />
+              <FlowTable setCurrentFlow={setCurrentFlow} />
             </main>
           )}
           {userDetails && userDetails.SetupStep !== SetupSteps.COMPLETE && (
@@ -147,8 +140,7 @@ export default function Dash({ user }: Props) {
         <Taskover />
         <CMDPalette />
         <FlowModal
-          isOpen={!flowModalOpen ? false : !!currentFlow || !!createFlowAs}
-          setIsOpen={setFlowModalOpen}
+          isOpen={!!currentFlow || !!createFlowAs}
           firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}
           setCurrentFlow={setCurrentFlow}

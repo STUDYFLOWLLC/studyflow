@@ -16,7 +16,6 @@ import { v4 as uuid } from 'uuid'
 
 interface Props {
   isOpen: boolean
-  setIsOpen: (value: boolean) => void
   firstCourse?: CourseOnTerm
   flowId?: string
   setCurrentFlow?: (flowId: string) => void
@@ -26,7 +25,6 @@ interface Props {
 
 export default function index({
   isOpen,
-  setIsOpen,
   firstCourse,
   flowId,
   setCurrentFlow,
@@ -44,6 +42,12 @@ export default function index({
   const [creatingFlow, setCreatingFlow] = useState(false)
   const [createdFlowId, setCreatedFlowId] = useState<string>('')
 
+  const closeFlowModal = () => {
+    if (setCurrentFlow) setCurrentFlow('')
+    if (setCreateAs) setCreateAs(null)
+    if (createdFlowId) setCreatedFlowId('')
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createFlow = async () => {
     if (!createAs) return
@@ -51,10 +55,6 @@ export default function index({
 
     const id = uuid()
 
-    while (dashFlowsLoading) {
-      // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
-      await new Promise((resolve) => setTimeout(resolve, 100))
-    }
     // add flow locally
     mutateDashFlows(
       {
@@ -75,6 +75,7 @@ export default function index({
             },
           },
         ],
+        mutate: true,
       },
       {
         revalidate: false,
@@ -96,8 +97,6 @@ export default function index({
   const deleteFlow = async () => {
     if (!flowId) return
 
-    setIsOpen(false)
-
     // mutate in backend
     mutateDeleteFlow(flowId)
 
@@ -109,6 +108,8 @@ export default function index({
       },
       { revalidate: false },
     )
+
+    closeFlowModal()
   }
 
   useEffect(() => {
@@ -119,14 +120,13 @@ export default function index({
   if (!mounted) return null
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={!!flowId || !!createdFlowId} as={Fragment}>
       <Dialog
-        open={isOpen}
+        open={!!flowId || !!createdFlowId}
         onClose={() => {
           if (setCurrentFlow) setCurrentFlow('')
           if (setCreateAs) setCreateAs(null)
           if (createdFlowId) setCreatedFlowId('')
-          setIsOpen(false)
         }}
         className="relative z-50 w-full h-screen max-h-screen"
       >
