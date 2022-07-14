@@ -16,4 +16,9 @@ export class FlowCount {
     nullable: false
   })
   FK_Tasks!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  FK_FlowView!: number;
 }

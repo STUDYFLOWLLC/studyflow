@@ -4,7 +4,6 @@ import { Dispatch, SetStateAction } from 'react'
 import Skeleton from 'react-loading-skeleton'
 
 interface Props {
-  setFlowModalOpen: (value: boolean) => void
   setCurrentFlow: (flowId: string) => void
   flowID: string
   loading: boolean
@@ -13,7 +12,6 @@ interface Props {
 }
 
 export default function OpenFancy({
-  setFlowModalOpen,
   setCurrentFlow,
   flowID,
   loading,
@@ -47,11 +45,9 @@ export default function OpenFancy({
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <td
         onClick={() => {
-          setFlowModalOpen(true)
           setCurrentFlow(flowID)
         }}
         onKeyDown={() => {
-          setFlowModalOpen(true)
           setCurrentFlow(flowID)
         }}
         onMouseOver={() => setShowOpenIcon(true)}

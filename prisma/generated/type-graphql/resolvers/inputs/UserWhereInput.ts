@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
 import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
+import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
@@ -102,4 +103,9 @@ export class UserWhereInput {
     nullable: true
   })
   FK_Settings?: SettingRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FlowViewListRelationFilter, {
+    nullable: true
+  })
+  FK_FlowView?: FlowViewListRelationFilter | undefined;
 }

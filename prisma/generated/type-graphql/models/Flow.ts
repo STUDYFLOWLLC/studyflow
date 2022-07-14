@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { CourseOnTerm } from "../models/CourseOnTerm";
 import { FlashCardStack } from "../models/FlashCardStack";
+import { FlowView } from "../models/FlowView";
 import { Task } from "../models/Task";
 import { FlowType } from "../enums/FlowType";
 import { Visibility } from "../enums/Visibility";
@@ -22,6 +23,11 @@ export class Flow {
     nullable: false
   })
   CreatedTime!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  LastOpened!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
@@ -58,6 +64,8 @@ export class Flow {
   FK_FlashCardStacks?: FlashCardStack[];
 
   FK_Tasks?: Task[];
+
+  FK_FlowView?: FlowView[];
 
   @TypeGraphQL.Field(_type => FlowCount, {
     nullable: true

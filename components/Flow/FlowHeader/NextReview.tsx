@@ -10,7 +10,7 @@ export default function NextReview() {
       delay={TOOLTIP_DELAY}
       offset={TOOLTIP_OFFSET}
     >
-      <div className="mr-4 text-info hover:text-current cursor-pointer flex items-center">
+      <div className="mr- text-info hover:text-current cursor-pointer flex items-center">
         <ClockIcon className="w-5 h-5 mr-1" />
         <span className="">3 days </span>
       </div>

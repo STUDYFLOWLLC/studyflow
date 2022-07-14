@@ -22,6 +22,11 @@ export class FlowMaxAggregate {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
+  LastOpened!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
   UserEnteredDate!: Date | null;
 
   @TypeGraphQL.Field(_type => FlowType, {
