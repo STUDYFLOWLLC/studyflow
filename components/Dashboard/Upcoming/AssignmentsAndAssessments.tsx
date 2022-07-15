@@ -72,7 +72,7 @@ export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
         </div>
       )}
       {!dashFlowsLoading && dashFlows.length === 0 && (
-        <div className="prose mx-auto flex flex-col items-center">
+        <div className="prose mx-auto mb-4 flex flex-col items-center">
           <h2 className="mt-0 mb-2">Relax.</h2>
           <div className="flex items-center">
             <p className="m-0 text-center">

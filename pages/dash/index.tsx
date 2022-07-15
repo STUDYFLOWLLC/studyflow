@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
+import { ActionType } from 'types/CMDPalette'
 import { FlowType } from 'types/Flow'
 import { SetupSteps } from 'types/SetupSteps'
 
@@ -40,6 +41,7 @@ export default function Dash({ user }: Props) {
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
+  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [createFlowAs, setCreateFlowAs] = useState<FlowType | null>(null)
@@ -91,6 +93,8 @@ export default function Dash({ user }: Props) {
           setShowDashBar={setShowDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          cmdPaletteOpen={cmdPaletteOpen}
+          setCmdPaletteOpen={setCmdPaletteOpen}
         />
 
         <div
@@ -110,7 +114,7 @@ export default function Dash({ user }: Props) {
           {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
             <main className="flex-1">
               <DashHeadBig
-                pageDisplayed="Home"
+                pageDisplayed="Term"
                 showDashBar={showDashBar}
                 setShowDashBar={setShowDashBar}
                 setCreateFlowAs={setCreateFlowAs}
@@ -138,7 +142,11 @@ export default function Dash({ user }: Props) {
           )}
         </div>
         <Taskover />
-        <CMDPalette />
+        <CMDPalette
+          include={[ActionType.JUMPTO, ActionType.SCHOOL]}
+          open={cmdPaletteOpen}
+          setOpen={setCmdPaletteOpen}
+        />
         <FlowModal
           isOpen={!!currentFlow || !!createFlowAs}
           firstCourse={coursesOnTerm?.[0]}

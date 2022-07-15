@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { TaskType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { TaskType } from 'types/Task'
 
 export interface SmallCourse {
   CourseOnTermID: number

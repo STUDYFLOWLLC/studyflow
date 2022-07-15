@@ -1,37 +1,21 @@
-/* eslint-disable no-unused-expressions, no-console */
 import { Dialog, Transition } from '@headlessui/react'
-// import { QuickAction } from 'components/CMDPalette/CMDEntry'
+import classNames from 'classnames'
+import { SmallTerm } from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
-import { useHotkeys } from 'react-hotkeys-hook'
-import { ActionType, QuickAction } from 'types/CMDPalette'
-import buildQuickActions from 'utils/commandPalette/buildQuickActions'
-import CMDRaw from './CMDRaw'
+import InputTermName from './InputTermName'
+import TermTypeChooser from './TermTypeChooser'
 
 interface Props {
-  include: ActionType[]
   open: boolean
   setOpen: (open: boolean) => void
+  term: SmallTerm | undefined
 }
 
-export default function CMDPalette({ include, open, setOpen }: Props) {
+export default function EditTermModal({ open, setOpen, term }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
-  const [query, setQuery] = useState('')
-  const [selectedAction, setSelectedAction] = useState<QuickAction | null>(null)
-
-  useHotkeys(
-    'cmd+k, ctrl+k',
-    (e) => {
-      e.preventDefault()
-      setOpen(!open)
-    },
-    {
-      enableOnTags: ['INPUT'],
-    },
-    [open],
-  )
 
   useEffect(() => setMounted(true), [])
 
@@ -42,7 +26,7 @@ export default function CMDPalette({ include, open, setOpen }: Props) {
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        className="fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-20 z-[90]"
+        className="fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-20 z-30"
       >
         <Transition.Child
           as={Fragment}
@@ -65,17 +49,21 @@ export default function CMDPalette({ include, open, setOpen }: Props) {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="max-w-2xl mx-auto">
-            <CMDRaw
-              placeholder="Search for common actions, pages, flows, users, or schools."
-              quickActions={buildQuickActions(include)}
-              query={query}
-              setQuery={setQuery}
-              selectedAction={selectedAction}
-              setSelectedAction={setSelectedAction}
-              open={open}
-              setOpen={setOpen}
-            />
+          <Dialog.Panel
+            className={classNames(
+              { 'bg-slate-100': theme === 'light' },
+              { 'bg-base-200': theme === 'dark' },
+              'w-full prose mx-auto max-w-lg p-4 transform overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
+            )}
+          >
+            <h3 className="border-b pb-2">Edit term {term?.TermName}</h3>
+            <InputTermName term={term} />
+            <div className="mb-8">
+              <div className="text-lg text-info font-medium">Type</div>
+              <div className="mx-auto w-24 mt-1 flex text-md">
+                <TermTypeChooser term={term} />
+              </div>
+            </div>
           </Dialog.Panel>
         </Transition.Child>
       </Dialog>

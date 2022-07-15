@@ -18,7 +18,7 @@ export default function SettingsButton({ text }: Props) {
     <span className="ml-4 flex-shrink-0">
       <button
         type="button"
-        className="rounded-md font-medium text-primary hover:text-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+        className="rounded-md font-medium text-primary hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:text-accent"
       >
         {text}
       </button>
