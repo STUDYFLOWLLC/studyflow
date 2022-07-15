@@ -23,21 +23,19 @@ export default function TermTypeChooser({ term }: Props) {
   if (!mounted) return null
 
   return (
-    <Menu as="div" className="relative">
+    <Menu as="div" className="relative w-28">
       <Menu.Button
         className={classNames(
           {
-            'text-stone-500 hover:bg-gray-50 hover:border-gray-300':
-              theme === 'light',
+            ' hover:bg-gray-50 hover:border-gray-300': theme === 'light',
           },
           {
-            'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
-              theme === 'dark',
+            ' hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
           },
-          'flex items-center font-light m-0 mr-2 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'absolute -left-2 flex items-center font-light m-0 text-sm px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
-        <div>{term?.TermName || 'Please refresh page'}</div>
+        <div>{term?.TermType || 'Please refresh page'}</div>
       </Menu.Button>
       <Transition
         as={Fragment}
@@ -52,7 +50,7 @@ export default function TermTypeChooser({ term }: Props) {
           className={classNames(
             { ' bg-white ring-black ring-1 ring-opacity-5': theme === 'light' },
             { 'bg-slate-700': theme === 'dark' },
-            'absolute z-40 left-[-2rem] origin-top-left rounded-md shadow-lg focus:outline-none',
+            'absolute w-24 -bottom-4 -right-16 rounded-md shadow-lg focus:outline-none',
           )}
         >
           {Object.keys(TermType).map((termtype) => (
@@ -62,7 +60,7 @@ export default function TermTypeChooser({ term }: Props) {
                   className={classNames(
                     { 'bg-gray-100': active && theme === 'light' },
                     { 'bg-slate-600': active && theme === 'dark' },
-                    'z-40 pl-2 pr-4 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
+                    'z-40 pl-2 w-full pr-4 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                   )}
                   // onClick={() => mutator(item.name)}
                   // onKeyDown={() => mutator(item.name)}

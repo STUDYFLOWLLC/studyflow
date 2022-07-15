@@ -57,14 +57,19 @@ export default function EditTermModal({ open, setOpen, term }: Props) {
             )}
           >
             <h3 className="border-b pb-2">Edit term {term?.TermName}</h3>
-            <div>
+            <div className="mb-4">
               <div className="text-md text-info font-medium">Name</div>
               <div className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
                 <span className="flex-grow">{term?.TermName}</span>
                 <SettingsButton text="Update" />
               </div>
             </div>
-            <TermTypeChooser term={term} />
+            <div className="mb-4">
+              <div className="text-md text-info font-medium">Type</div>
+              <div className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
+                <TermTypeChooser term={term} />
+              </div>
+            </div>
           </Dialog.Panel>
         </Transition.Child>
       </Dialog>
