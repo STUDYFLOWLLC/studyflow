@@ -20,6 +20,8 @@ interface Props {
   setShowDashBar: Dispatch<SetStateAction<boolean>>
   searchValue: string
   setSearchValue: Dispatch<SetStateAction<string>>
+  cmdPaletteOpen: boolean
+  setCmdPaletteOpen: Dispatch<SetStateAction<boolean>>
 }
 
 export default function index({
@@ -27,6 +29,8 @@ export default function index({
   setShowDashBar,
   searchValue,
   setSearchValue,
+  cmdPaletteOpen,
+  setCmdPaletteOpen,
 }: Props) {
   const { theme, setTheme } = useTheme()
   const { user } = useUser()
@@ -98,10 +102,15 @@ export default function index({
                 pfpLink={userDetails?.ProfilePictureLink || ''}
                 loading={userDetailsLoading}
               />
-              <DashSearch
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-              />
+              <div
+                onClick={() => setCmdPaletteOpen(true)}
+                onKeyDown={() => setCmdPaletteOpen(true)}
+              >
+                <DashSearch
+                  searchValue={searchValue}
+                  setSearchValue={setSearchValue}
+                />
+              </div>
               <nav className="px-3 mt-6">
                 <MainNavs />
                 <CourseNavs />

@@ -40,6 +40,7 @@ export default function Settings({ user }: Props) {
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [activeTab, setActiveTab] = useState('General')
   const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true)
@@ -78,6 +79,8 @@ export default function Settings({ user }: Props) {
           setShowDashBar={setShowDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          cmdPaletteOpen={cmdPaletteOpen}
+          setCmdPaletteOpen={setCmdPaletteOpen}
         />
         <div
           className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
