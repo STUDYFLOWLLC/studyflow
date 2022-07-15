@@ -1,4 +1,5 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import Tippy from '@tippyjs/react'
 import classnames from 'classnames'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
@@ -6,6 +7,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { bgColor } from 'types/Colors'
+import { TOOLTIP_OFFSET } from 'types/Magic'
 import { changeCourseColor } from 'utils/setup/courseHandlers'
 
 interface Props {
@@ -44,41 +46,48 @@ export default function CourseColorPicker({
       )}
     >
       {Object.values(bgColor).map((color) => (
-        <div
+        <Tippy
           key={color}
-          className={classnames(
-            {
-              'ring-2 ring-gray-500 ':
-                theme === 'light' && course?.Color === color,
-            },
-            {
-              'ring-2 ring-gray-100':
-                theme === 'dark' && course?.Color === color,
-            },
-            color,
-            'ring-offset-1 w-5 h-5 m-2 rounded-full cursor-pointer',
-          )}
-          onClick={() =>
-            changeCourseColor(
-              course?.CourseOnTermID,
-              color as bgColor,
-              coursesOnTerm,
-              mutateCoursesOnTerm,
-              dashFlows,
-              mutateDashFlows,
-            )
-          }
-          onKeyDown={() =>
-            changeCourseColor(
-              course?.CourseOnTermID,
-              color as bgColor,
-              coursesOnTerm,
-              mutateCoursesOnTerm,
-              dashFlows,
-              mutateDashFlows,
-            )
-          }
-        />
+          disabled={color !== bgColor.DEFAULT}
+          content="Do you really want no background color?"
+          delay={0}
+          offset={TOOLTIP_OFFSET}
+        >
+          <div
+            className={classnames(
+              {
+                'ring-2 ring-gray-500 ':
+                  theme === 'light' && course?.Color === color,
+              },
+              {
+                'ring-2 ring-gray-100':
+                  theme === 'dark' && course?.Color === color,
+              },
+              color,
+              'ring-offset-1 w-5 h-5 m-2 rounded-full cursor-pointer',
+            )}
+            onClick={() =>
+              changeCourseColor(
+                course?.CourseOnTermID,
+                color as bgColor,
+                coursesOnTerm,
+                mutateCoursesOnTerm,
+                dashFlows,
+                mutateDashFlows,
+              )
+            }
+            onKeyDown={() =>
+              changeCourseColor(
+                course?.CourseOnTermID,
+                color as bgColor,
+                coursesOnTerm,
+                mutateCoursesOnTerm,
+                dashFlows,
+                mutateDashFlows,
+              )
+            }
+          />
+        </Tippy>
       ))}
     </div>
   )
