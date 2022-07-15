@@ -51,7 +51,7 @@ export default function EditTermModal({ open, setOpen, term }: Props) {
         >
           <Dialog.Panel
             className={classNames(
-              { 'bg-slate-100': theme === 'light' },
+              { 'bg-base-100': theme === 'light' },
               { 'bg-base-200': theme === 'dark' },
               'w-full prose mx-auto max-w-lg p-4 transform overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
             )}

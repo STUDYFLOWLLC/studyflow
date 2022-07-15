@@ -1,7 +1,7 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import CourseLine from 'components/Dashbar/CourseLine'
+import CourseLine from 'components/Dashbar/Course/CourseLine'
 import { mutateCourseOnTermIndex } from 'hooks/school/mutateCourseOnTerm'
 import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import Skeleton from 'react-loading-skeleton'
 import { SetupSteps } from 'types/SetupSteps'
+import CourseModal from './CourseModal/CourseModal'
 import FakeCourseNavs from './FakeCourseNavs'
 
 export interface CourseDisplay {
@@ -39,6 +40,7 @@ export default function CourseNavs() {
     useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
 
   const [mounted, setMounted] = useState(false)
+  const [courseModalOpen, setCourseModalOpen] = useState(false)
 
   const onEnd = async (result: DropResult) => {
     const { destination, source } = result
@@ -91,66 +93,70 @@ export default function CourseNavs() {
     return <FakeCourseNavs />
 
   return (
-    <div className="mt-6">
-      <div className="w-100 flex items-center justify-between">
-        <div>
-          <p className="px-2 text-xs font-semibold text-gray-500 tracking-wider">
-            Courses
-          </p>
-        </div>
-        <PlusCircleIcon
-          className="text-gray-500 cursor-pointer"
-          style={{ width: '1.125rem' }}
-        />
-      </div>
-      {coursesOnTerm &&
-        coursesOnTerm.length === 0 &&
-        [1, 2, 3, 4].map((_) => (
-          <div
-            key={_}
-            className={classNames(
-              {
-                'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
-                  theme === 'light',
-              },
-              { 'hover:bg-slate-700': theme === 'dark' },
-              'mt-1 space-y-1 group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
-            )}
-          >
-            <div
-              className="flex self-center items-center"
-              style={{ marginLeft: '0.15rem' }}
-            >
-              <Skeleton className="w-2.5 h-2.5 mr-4" circle />
-              <Skeleton width={150} />
-            </div>
+    <>
+      <CourseModal open={courseModalOpen} setOpen={setCourseModalOpen} />
+      <div className="mt-6">
+        <div className="w-100 flex items-center justify-between">
+          <div>
+            <p className="px-2 text-xs font-semibold text-gray-500 tracking-wider">
+              Courses
+            </p>
           </div>
-        ))}
-
-      <DragDropContext onDragEnd={onEnd}>
-        <Droppable droppableId="courses">
-          {(provided) => (
+          <PlusCircleIcon
+            className="text-gray-500 cursor-pointer"
+            style={{ width: '1.125rem' }}
+            onClick={() => setCourseModalOpen(true)}
+          />
+        </div>
+        {coursesOnTerm &&
+          coursesOnTerm.length === 0 &&
+          [1, 2, 3, 4].map((_) => (
             <div
-              className="mt-1 space-y-1"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
+              key={_}
+              className={classNames(
+                {
+                  'text-gray-700 hover:text-gray-900 hover:bg-gray-50':
+                    theme === 'light',
+                },
+                { 'hover:bg-slate-700': theme === 'dark' },
+                'mt-1 space-y-1 group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
+              )}
             >
-              {coursesOnTerm &&
-                coursesOnTerm.length !== 0 &&
-                coursesOnTerm.map((course, index) => (
-                  <CourseLine
-                    key={course.FK_Course.Code}
-                    index={index}
-                    course={course}
-                    loading={userDetailsLoading || coursesOnTermLoading}
-                    current={false}
-                  />
-                ))}
-              {provided.placeholder}
+              <div
+                className="flex self-center items-center"
+                style={{ marginLeft: '0.15rem' }}
+              >
+                <Skeleton className="w-2.5 h-2.5 mr-4" circle />
+                <Skeleton width={150} />
+              </div>
             </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+          ))}
+
+        <DragDropContext onDragEnd={onEnd}>
+          <Droppable droppableId="courses">
+            {(provided) => (
+              <div
+                className="mt-1 space-y-1"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {coursesOnTerm &&
+                  coursesOnTerm.length !== 0 &&
+                  coursesOnTerm.map((course, index) => (
+                    <CourseLine
+                      key={course.FK_Course.Code}
+                      index={index}
+                      course={course}
+                      loading={userDetailsLoading || coursesOnTermLoading}
+                      current={false}
+                    />
+                  ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
+    </>
   )
 }

@@ -1,12 +1,12 @@
 import { Menu, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import { mutateTermType } from 'hooks/school/mutateTerm'
 import useUserDetails, { SmallTerm } from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { ActiveProps } from 'types/ActiveProps'
 import { TermType } from 'types/School'
+import { changeTermType } from 'utils/setup/termHandlers'
 
 interface Props {
   term: SmallTerm | undefined
@@ -23,31 +23,6 @@ export default function TermTypeChooser({ term }: Props) {
 
   if (!mounted) return null
 
-  const changeTerm = (newType: TermType) => {
-    // mutate in backend
-    mutateTermType(term?.TermID || 0, newType)
-
-    // change locally
-    mutateUserDetails(
-      {
-        ...userDetails,
-        FK_Terms: userDetails?.FK_Terms?.map((termCurrent) => {
-          if (term?.TermID === termCurrent.TermID) {
-            return {
-              ...term,
-              TermType: newType,
-            }
-          }
-          return termCurrent
-        }),
-        mutate: true,
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
-
   return (
     <Menu as="div" className="relative">
       <Menu.Button
@@ -58,7 +33,7 @@ export default function TermTypeChooser({ term }: Props) {
           {
             ' hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
           },
-          'absolute flex items-center font-light m-0 px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'absolute flex items-center font-normal m-0 px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
         <div>{term?.TermType || 'Please refresh page'}</div>
@@ -88,8 +63,22 @@ export default function TermTypeChooser({ term }: Props) {
                     { 'bg-slate-600': active && theme === 'dark' },
                     'z-40 pl-2 w-full pr-4 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                   )}
-                  onClick={() => changeTerm(termtype as TermType)}
-                  onKeyDown={() => changeTerm(termtype as TermType)}
+                  onClick={() =>
+                    changeTermType(
+                      term?.TermID,
+                      termtype as TermType,
+                      userDetails,
+                      mutateUserDetails,
+                    )
+                  }
+                  onKeyDown={() =>
+                    changeTermType(
+                      term?.TermID,
+                      termtype as TermType,
+                      userDetails,
+                      mutateUserDetails,
+                    )
+                  }
                 >
                   {termtype}
                 </div>

@@ -13,6 +13,7 @@ export interface DashFlow {
   Type: FlowType
   Visibility: FlowVisibility
   FK_CourseOnTerm: {
+    CourseOnTermID: number
     Nickname: string
     Color: string
     FK_Course: {
@@ -46,6 +47,7 @@ export default function useDashFlows(
         Type
         Visibility
         FK_CourseOnTerm {
+          CourseOnTermID
           Nickname
           Color
           FK_Course {
