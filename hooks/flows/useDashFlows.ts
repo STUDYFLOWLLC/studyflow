@@ -2,11 +2,12 @@
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
-import sortFlows from 'utils/flows/sortFlows'
+import { sortByLastOpened } from 'utils/flows/sortFlows'
 
 export interface DashFlow {
   FlowID: string
   CreatedTime: string
+  LastOpened: string
   Title: string
   UserEnteredDate: string
   Type: FlowType
@@ -40,6 +41,7 @@ export default function useDashFlows(
         FlowID
         Title
         CreatedTime
+        LastOpened
         UserEnteredDate
         Type
         Visibility
@@ -72,18 +74,15 @@ export default function useDashFlows(
         },
       },
     },
-    orderBy: [
-      {
-        UserEnteredDate: 'desc',
-      },
-    ],
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR([query, variables], {
+    revalidateOnMount: false,
+  })
 
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>
-      sortFlows(flowA, flowB),
+      sortByLastOpened(flowA, flowB),
     )
 
     return {
@@ -102,7 +101,7 @@ export default function useDashFlows(
 
   if (data?.mutate) {
     const flows = data?.mutatedFlows.sort((flowA: DashFlow, flowB: DashFlow) =>
-      sortFlows(flowA, flowB),
+      sortByLastOpened(flowA, flowB),
     )
 
     return {

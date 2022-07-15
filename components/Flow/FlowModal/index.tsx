@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import Flow from 'components/Flow'
 import LoadWithText from 'components/spinners/LoadWithText'
 import makeFlow from 'hooks/flows/makeFlow'
+import { mutateDeleteFlow } from 'hooks/flows/mutateFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -15,43 +16,42 @@ import { v4 as uuid } from 'uuid'
 
 interface Props {
   isOpen: boolean
-  setIsOpen: (value: boolean) => void
   firstCourse?: CourseOnTerm
   flowId?: string
   setCurrentFlow?: (flowId: string) => void
-  createAs?: FlowType | null
+  createAs?: FlowType | null // only pass this if you want to create a new flow on mount
+  setCreateAs?: (value: FlowType | null) => void
 }
 
 export default function index({
   isOpen,
-  setIsOpen,
   firstCourse,
   flowId,
   setCurrentFlow,
   createAs,
+  setCreateAs,
 }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { dashFlows, dashFlowsLoading, mutateDashFlows } = useDashFlows(
-    userDetails?.UserID,
-  )
+  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
   const [creatingFlow, setCreatingFlow] = useState(false)
   const [createdFlowId, setCreatedFlowId] = useState<string>('')
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const closeFlowModal = () => {
+    if (setCurrentFlow) setCurrentFlow('')
+    if (setCreateAs) setCreateAs(null)
+    if (createdFlowId) setCreatedFlowId('')
+  }
+
   const createFlow = async () => {
-    if (flowId || !isOpen) return
+    if (!createAs || createdFlowId) return
     setCreatingFlow(true)
 
     const id = uuid()
 
-    while (dashFlowsLoading) {
-      // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
-      await new Promise((resolve) => setTimeout(resolve, 100))
-    }
     // add flow locally
     mutateDashFlows(
       {
@@ -59,8 +59,10 @@ export default function index({
           ...dashFlows,
           {
             FlowID: id,
+            Title: 'Untitled',
             Type: createAs || FlowType.LECTURE,
             CreatedTime: new Date().toISOString(),
+            LastOpened: new Date().toISOString(),
             UserEnteredDate: new Date().toISOString(),
             Visibility: FlowVisibility.PRIVATE,
             FK_CourseOnTerm: {
@@ -72,6 +74,7 @@ export default function index({
             },
           },
         ],
+        mutate: true,
       },
       {
         revalidate: false,
@@ -90,6 +93,24 @@ export default function index({
     }
   }
 
+  const deleteFlow = async () => {
+    if (!flowId) return
+
+    // mutate in backend
+    mutateDeleteFlow(flowId)
+
+    // mutate locally
+    mutateDashFlows(
+      {
+        mutatedFlows: dashFlows.filter((flow) => flow.FlowID !== flowId),
+        mutate: true,
+      },
+      { revalidate: false },
+    )
+
+    closeFlowModal()
+  }
+
   useEffect(() => {
     setMounted(true)
     createFlow()
@@ -98,14 +119,10 @@ export default function index({
   if (!mounted) return null
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={!!flowId || !!createdFlowId} as={Fragment}>
       <Dialog
-        open={isOpen}
-        onClose={() => {
-          if (setCurrentFlow) setCurrentFlow('')
-          if (createdFlowId) setCreatedFlowId('')
-          setIsOpen(false)
-        }}
+        open={!!flowId || !!createdFlowId}
+        onClose={() => closeFlowModal()}
         className="relative z-50 w-full h-screen max-h-screen"
       >
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
@@ -149,7 +166,10 @@ export default function index({
                   />
                 )}
                 {(flowId || createdFlowId) && (
-                  <Flow flowId={flowId || createdFlowId} />
+                  <Flow
+                    flowId={flowId || createdFlowId}
+                    deleteFlow={deleteFlow}
+                  />
                 )}
               </Dialog.Panel>
             </Transition.Child>

@@ -3,22 +3,41 @@
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { TaskType } from 'types/Task'
+
+export interface SmallCourse {
+  CourseOnTermID: number
+  Nickname: string
+  Color: string
+  FK_Course: {
+    Code: string
+  }
+}
+
+export interface FlowTask {
+  TaskID: string
+  Title: string
+  Completed: boolean
+  Description?: string
+  DueDate?: string
+  Type?: TaskType
+}
 
 export interface FlowDetail {
   FlowID: string
   CreatedTime: string
+  LastOpened: string
   UserEnteredDate: string
   Type: FlowType
   Title: string
   Body: string
   Visibility: FlowVisibility
-  FK_CourseOnTermID: number
-  FK_CourseOnTerm: {
-    Nickname: string
-    Color: string
-    FK_Course: {
-      Code: string
-    }
+  FK_CourseOnTerm: SmallCourse
+  FK_Tasks: FlowTask[]
+  _count: {
+    FK_FlowView: number
+    FK_FlashcardStacks: number
+    FK_Tasks: number
   }
 }
 
@@ -35,18 +54,32 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
       findFirstFlow(where: $where) {
         FlowID
         CreatedTime
+        LastOpened
         UserEnteredDate
         Type
         Title
         Body
         Visibility
-        FK_CourseOnTermID
         FK_CourseOnTerm {
+          CourseOnTermID
           Nickname
           Color
           FK_Course {
             Code
           }
+        }
+        FK_Tasks {
+          TaskID
+          Title
+          Completed
+          Description
+          DueDate
+          Type
+        }
+        _count {
+          FK_FlowView
+          FK_FlashCardStacks
+          FK_Tasks
         }
       }
     }

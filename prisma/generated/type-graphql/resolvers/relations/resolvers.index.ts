@@ -3,6 +3,7 @@ export { CourseOnTermRelationsResolver } from "./CourseOnTerm/CourseOnTermRelati
 export { FlashCardRelationsResolver } from "./FlashCard/FlashCardRelationsResolver";
 export { FlashCardStackRelationsResolver } from "./FlashCardStack/FlashCardStackRelationsResolver";
 export { FlowRelationsResolver } from "./Flow/FlowRelationsResolver";
+export { FlowViewRelationsResolver } from "./FlowView/FlowViewRelationsResolver";
 export { ProfessorRelationsResolver } from "./Professor/ProfessorRelationsResolver";
 export { SchoolRelationsResolver } from "./School/SchoolRelationsResolver";
 export { SettingRelationsResolver } from "./Setting/SettingRelationsResolver";

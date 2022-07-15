@@ -5,18 +5,14 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import sortFlows from 'utils/flows/sortFlows'
+import { sortByUserEnteredDate } from 'utils/flows/sortFlows'
 import Pin from './Pin'
 
 interface Props {
-  setFlowModalOpen: (flowModalOpen: boolean) => void
   setCurrentFlow: (flowId: string) => void
 }
 
-export default function AssignmentsAndAssessments({
-  setFlowModalOpen,
-  setCurrentFlow,
-}: Props) {
+export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
@@ -76,7 +72,7 @@ export default function AssignmentsAndAssessments({
         </div>
       )}
       {!dashFlowsLoading && dashFlows.length === 0 && (
-        <div className="prose mx-auto flex flex-col items-center">
+        <div className="prose mx-auto mb-4 flex flex-col items-center">
           <h2 className="mt-0 mb-2">Relax.</h2>
           <div className="flex items-center">
             <p className="m-0 text-center">
@@ -89,12 +85,11 @@ export default function AssignmentsAndAssessments({
       {!dashFlowsLoading && dashFlows.length > 0 && (
         <div className="max-w-3xl mx-auto flex flex-wrap justify-around mb-4">
           {dashFlows
-            .sort((flowA, flowB) => sortFlows(flowA, flowB, true))
+            .sort((flowA, flowB) => sortByUserEnteredDate(flowA, flowB, true))
             .map((flow) => (
               <Pin
                 flow={flow}
                 key={flow.FlowID}
-                setFlowModalOpen={setFlowModalOpen}
                 setCurrentFlow={setCurrentFlow}
               />
             ))}

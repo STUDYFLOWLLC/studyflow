@@ -1,66 +1,11 @@
-import {
-  BeakerIcon,
-  CalendarIcon,
-  CheckCircleIcon,
-  ClipboardListIcon,
-  CogIcon,
-  UserGroupIcon,
-} from '@heroicons/react/outline'
 import CMDRaw from 'components/CMDPalette/CMDRaw'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { QuickAction } from 'types/CMDPalette'
+import { ActionType, QuickAction } from 'types/CMDPalette'
+import buildQuickActions from 'utils/commandPalette/buildQuickActions'
 
 export default function FourOFour() {
-  const router = useRouter()
-
   const [query, setQuery] = useState('')
   const [selectedAction, setSelectedAction] = useState<QuickAction | null>(null)
-
-  const quickActions: QuickAction[] = [
-    {
-      name: 'Dash',
-      CmdIcon: ClipboardListIcon,
-      shortcut: 'D',
-      url: '#',
-      action: () => router.push('/dash'),
-    },
-    {
-      name: 'Tasks',
-      CmdIcon: CheckCircleIcon,
-      shortcut: 'D',
-      url: '#',
-      action: () => router.push('/tasks'),
-    },
-    {
-      name: 'Calendar',
-      CmdIcon: CalendarIcon,
-      shortcut: 'D',
-      url: '#',
-      action: () => router.push('/calendar'),
-    },
-    {
-      name: 'Social',
-      CmdIcon: UserGroupIcon,
-      shortcut: 'D',
-      url: '#',
-      action: () => router.push('/social'),
-    },
-    {
-      name: 'Automation',
-      CmdIcon: BeakerIcon,
-      shortcut: 'D',
-      url: '#',
-      action: () => router.push('/automatino'),
-    },
-    {
-      name: 'Settings',
-      CmdIcon: CogIcon,
-      shortcut: 'D',
-      url: '#',
-      action: () => router.push('/settings'),
-    },
-  ]
 
   return (
     <div className="bg-[url('../images/404bg.svg')] bg-cover min-h-full h-screen">
@@ -68,8 +13,7 @@ export default function FourOFour() {
         <div className="h-80 max-h-80 mt-4">
           <CMDRaw
             placeholder="Search for pages, flows, etc."
-            quickActions={quickActions}
-            filteredProjects={quickActions}
+            quickActions={buildQuickActions([ActionType.JUMPTO])}
             query={query}
             setQuery={setQuery}
             selectedAction={selectedAction}

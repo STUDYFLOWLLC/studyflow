@@ -3,6 +3,7 @@ import * as TypeGraphQL from "type-graphql";
 export enum FlowScalarFieldEnum {
   FlowID = "FlowID",
   CreatedTime = "CreatedTime",
+  LastOpened = "LastOpened",
   UserEnteredDate = "UserEnteredDate",
   Type = "Type",
   Title = "Title",

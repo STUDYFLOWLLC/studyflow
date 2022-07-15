@@ -20,7 +20,7 @@ export class GroupByFlowArgs {
   @TypeGraphQL.Field(_type => [FlowScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"FlowID" | "CreatedTime" | "UserEnteredDate" | "Type" | "Title" | "Body" | "Visibility" | "FK_CourseOnTermID">;
+  by!: Array<"FlowID" | "CreatedTime" | "LastOpened" | "UserEnteredDate" | "Type" | "Title" | "Body" | "Visibility" | "FK_CourseOnTermID">;
 
   @TypeGraphQL.Field(_type => FlowScalarWhereWithAggregatesInput, {
     nullable: true

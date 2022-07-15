@@ -1,20 +1,23 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import DeleteFlow from 'components/Flow/FlowHeader/DeleteFlow'
+import FlowInfo from 'components/Flow/FlowHeader/FlowInfo'
+import FlowSaving from 'components/Flow/FlowHeader/FlowSaving'
+import FlowVisibilityChooser from 'components/Flow/FlowHeader/FlowVisibilityChooser'
+import NextReview from 'components/Flow/FlowHeader/NextReview'
+import OpenAsPage from 'components/Flow/FlowHeader/OpenAsPage'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { FlowVisibility } from 'types/Flow'
 import { changeVisibility } from 'utils/flows/propertyHandlers'
-import FlowSaving from './FlowProperties/FlowSaving'
-import FlowVisibilityChooser from './FlowProperties/FlowVisibilityChooser'
-import NextReview from './FlowProperties/NextReview'
-import OpenAsPage from './FlowProperties/OpenAsPage'
 
 interface Props {
   flowId: string
+  deleteFlow: () => void
   saving: boolean
 }
 
-export default function FlowHeader({ flowId, saving }: Props) {
+export default function FlowHeader({ flowId, deleteFlow, saving }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
@@ -32,15 +35,21 @@ export default function FlowHeader({ flowId, saving }: Props) {
     )
 
   return (
-    <div className="m-4 flex justify-between items-center">
-      <OpenAsPage />
-      <div className="flex items-center">
+    <div className="m-4 flex items-center w-full justify-between">
+      <div className="w-36">
+        <OpenAsPage />
+      </div>
+      <div className="flex items-center w-36">
         <FlowVisibilityChooser
           loading={flowDetailsLoading}
           visibility={flowDetails?.Visibility}
           mutator={visbilityMutator}
         />
         <NextReview />
+      </div>
+      <div className="flex items-center w-36">
+        <DeleteFlow flowId={flowId} deleteFlow={deleteFlow} />
+        <FlowInfo flowId={flowId} />
         <FlowSaving saving={saving} loading={flowDetailsLoading} />
       </div>
     </div>

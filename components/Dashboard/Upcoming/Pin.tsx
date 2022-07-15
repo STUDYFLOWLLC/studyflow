@@ -1,20 +1,19 @@
 import { DocumentAddIcon, StarIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import PinMenu from 'components/Dashboard/Upcoming/PinMenu'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { FlowType } from 'types/Flow'
 import abbreviateDate from 'utils/abbreviateDate'
 import shorten from 'utils/shorten'
-import PinMenu from './PinMenu'
 
 interface Props {
   flow: DashFlow
-  setFlowModalOpen: (flowModalOpen: boolean) => void
   setCurrentFlow: (flowId: string) => void
 }
 
-export default function Pin({ flow, setFlowModalOpen, setCurrentFlow }: Props) {
+export default function Pin({ flow, setCurrentFlow }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -30,11 +29,9 @@ export default function Pin({ flow, setFlowModalOpen, setCurrentFlow }: Props) {
       key={flow.FlowID}
       className="relative col-span-1 flex shadow-sm rounded-md m-2 w-48"
       onClick={() => {
-        setFlowModalOpen(true)
         setCurrentFlow(flow.FlowID)
       }}
       onKeyDown={() => {
-        setFlowModalOpen(true)
         setCurrentFlow(flow.FlowID)
       }}
     >

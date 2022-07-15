@@ -41,6 +41,11 @@ export class FlowScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
+  LastOpened?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+    nullable: true
+  })
   UserEnteredDate?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumFlowTypeWithAggregatesFilter, {

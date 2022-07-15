@@ -3,25 +3,22 @@ import CreateButton from 'components/Dashboard/CreateButton'
 import TasksNavbar from 'components/Dashboard/TasksNavbar'
 import { Dispatch, SetStateAction } from 'react'
 import { FlowType } from 'types/Flow'
+import TermSelector from './TermSelector'
 
 interface Props {
   showDashBar: boolean
   setShowDashBar: Dispatch<SetStateAction<boolean>>
   pageDisplayed: string
-  flowModalOpen: boolean
-  setFlowModalOpen: (value: boolean) => void
   setCreateFlowAs: (value: FlowType | null) => void
   disabled?: boolean
   taskView?: string
   setTaskView?: (taskView: string) => void
 }
 
-export default function DashHeadBig({
+export default function index({
   showDashBar,
   setShowDashBar,
   pageDisplayed,
-  flowModalOpen,
-  setFlowModalOpen,
   setCreateFlowAs,
   disabled,
   taskView,
@@ -34,18 +31,17 @@ export default function DashHeadBig({
           {!showDashBar && (
             <HideButton direction="show" setShowDashBar={setShowDashBar} />
           )}
-          <h1 className="ml-2 text-lg font-medium">{pageDisplayed}</h1>
+          {pageDisplayed !== 'Term' ? (
+            <h1 className="ml-2 text-lg font-medium">{pageDisplayed}</h1>
+          ) : (
+            <TermSelector />
+          )}
           {taskView && setTaskView && (
             <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
           )}
         </div>
         <div className="flex sm:mt-0 items-center">
-          <CreateButton
-            disabled={disabled}
-            flowModalOpen={flowModalOpen}
-            setFlowModalOpen={setFlowModalOpen}
-            setCreateFlowAs={setCreateFlowAs}
-          />
+          <CreateButton disabled={disabled} setCreateFlowAs={setCreateFlowAs} />
         </div>
       </div>
     </div>

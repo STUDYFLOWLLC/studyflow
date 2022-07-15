@@ -7,7 +7,6 @@ import Skeleton from 'react-loading-skeleton'
 import { FlowType, FlowVisibility } from 'types/Flow'
 
 interface Props {
-  setFlowModalOpen: (value: boolean) => void
   setCurrentFlow: (flowId: string) => void
   loading: boolean
   flowID: string
@@ -21,7 +20,6 @@ interface Props {
 }
 
 export default function FlowTableLine({
-  setFlowModalOpen,
   setCurrentFlow,
   loading,
   flowID,
@@ -47,11 +45,9 @@ export default function FlowTableLine({
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <td
         onClick={() => {
-          setFlowModalOpen(true)
           setCurrentFlow(flowID)
         }}
         onKeyDown={() => {
-          setFlowModalOpen(true)
           setCurrentFlow(flowID)
         }}
         onMouseOver={() => setShowOpenIcon(true)}
@@ -118,7 +114,6 @@ export default function FlowTableLine({
         {!loading ? <p>{nextReview}</p> : <Skeleton width={60} />}
       </td>
       <OpenFancy
-        setFlowModalOpen={setFlowModalOpen}
         setCurrentFlow={setCurrentFlow}
         flowID={flowID}
         loading={loading}

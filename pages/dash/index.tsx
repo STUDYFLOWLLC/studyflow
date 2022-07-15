@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
+import { ActionType } from 'types/CMDPalette'
 import { FlowType } from 'types/Flow'
 import { SetupSteps } from 'types/SetupSteps'
 
@@ -40,9 +41,9 @@ export default function Dash({ user }: Props) {
   /* eslint-enable */
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
+  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [flowModalOpen, setFlowModalOpen] = useState(false)
   const [createFlowAs, setCreateFlowAs] = useState<FlowType | null>(null)
   const [currentFlow, setCurrentFlow] = useState<string>('')
 
@@ -66,8 +67,6 @@ export default function Dash({ user }: Props) {
   if (userDetailsError) return <p>error</p>
 
   if (!mounted) return null
-
-  console.log(currentFlow)
 
   // if more than 24 hours since showing welcome message, show it again
   const shouldShowWelcomeMessageBasedOnTime =
@@ -94,6 +93,8 @@ export default function Dash({ user }: Props) {
           setShowDashBar={setShowDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          cmdPaletteOpen={cmdPaletteOpen}
+          setCmdPaletteOpen={setCmdPaletteOpen}
         />
 
         <div
@@ -110,30 +111,21 @@ export default function Dash({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-
           {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
             <main className="flex-1">
               <DashHeadBig
-                pageDisplayed="Home"
+                pageDisplayed="Term"
                 showDashBar={showDashBar}
                 setShowDashBar={setShowDashBar}
-                flowModalOpen={flowModalOpen}
-                setFlowModalOpen={setFlowModalOpen}
                 setCreateFlowAs={setCreateFlowAs}
               />
               {userDetails &&
                 (!userDetails?.FK_Settings?.HasSeenWelcomeMessage ||
                   shouldShowWelcomeMessageBasedOnTime) && <DashWelcome />}
               {/* <Pinned /> */}
-              <AssignmentsAndAssessments
-                setFlowModalOpen={setFlowModalOpen}
-                setCurrentFlow={setCurrentFlow}
-              />
+              <AssignmentsAndAssessments setCurrentFlow={setCurrentFlow} />
               <FlowListSmall />
-              <FlowTable
-                setFlowModalOpen={setFlowModalOpen}
-                setCurrentFlow={setCurrentFlow}
-              />
+              <FlowTable setCurrentFlow={setCurrentFlow} />
             </main>
           )}
           {userDetails && userDetails.SetupStep !== SetupSteps.COMPLETE && (
@@ -143,8 +135,6 @@ export default function Dash({ user }: Props) {
                 pageDisplayed="Welcome to Studyflow"
                 showDashBar={showDashBar}
                 setShowDashBar={setShowDashBar}
-                flowModalOpen={flowModalOpen}
-                setFlowModalOpen={setFlowModalOpen}
                 setCreateFlowAs={setCreateFlowAs}
               />
               <DashSetup />
@@ -152,14 +142,18 @@ export default function Dash({ user }: Props) {
           )}
         </div>
         <Taskover />
-        <CMDPalette />
+        <CMDPalette
+          include={[ActionType.JUMPTO, ActionType.SCHOOL]}
+          open={cmdPaletteOpen}
+          setOpen={setCmdPaletteOpen}
+        />
         <FlowModal
-          isOpen={!!currentFlow}
-          setIsOpen={setFlowModalOpen}
+          isOpen={!!currentFlow || !!createFlowAs}
           firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}
           setCurrentFlow={setCurrentFlow}
           createAs={createFlowAs}
+          setCreateAs={setCreateFlowAs}
         />
       </div>
     </SkeletonTheme>

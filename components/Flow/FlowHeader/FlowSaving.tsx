@@ -17,11 +17,11 @@ export default function FlowSaving({ saving, loading }: Props) {
       delay={TOOLTIP_DELAY}
       offset={TOOLTIP_OFFSET}
     >
-      <div className="transition-all duration-500 h-5">
+      <div className="transition-all duration-500 w-6 h-6">
         {saving || loading ? (
           <MainSpinner size={SpinnerSizes.small} />
         ) : (
-          <CheckIcon className="w-5 h-5 text-info" />
+          <CheckIcon className="w-6 h-6 text-info" />
         )}
       </div>
     </Tippy>
