@@ -114,7 +114,7 @@ export default function Dash({ user }: Props) {
           {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
             <main className="flex-1">
               <DashHeadBig
-                pageDisplayed="Home"
+                pageDisplayed="Term"
                 showDashBar={showDashBar}
                 setShowDashBar={setShowDashBar}
                 setCreateFlowAs={setCreateFlowAs}
