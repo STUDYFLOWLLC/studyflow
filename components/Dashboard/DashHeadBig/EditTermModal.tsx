@@ -1,9 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react'
 import classNames from 'classnames'
-import SettingsButton from 'components/buttons/SettingsButton'
 import { SmallTerm } from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
+import InputTermName from './InputTermName'
 import TermTypeChooser from './TermTypeChooser'
 
 interface Props {
@@ -57,16 +57,10 @@ export default function EditTermModal({ open, setOpen, term }: Props) {
             )}
           >
             <h3 className="border-b pb-2">Edit term {term?.TermName}</h3>
-            <div className="mb-4">
-              <div className="text-md text-info font-medium">Name</div>
-              <div className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                <span className="flex-grow">{term?.TermName}</span>
-                <SettingsButton text="Update" />
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="text-md text-info font-medium">Type</div>
-              <div className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
+            <InputTermName term={term} />
+            <div className="mb-8">
+              <div className="text-lg text-info font-medium">Type</div>
+              <div className="mx-auto w-24 mt-1 flex text-md">
                 <TermTypeChooser term={term} />
               </div>
             </div>

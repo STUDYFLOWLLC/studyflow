@@ -1,6 +1,7 @@
 import { Menu, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
+import { mutateTermType } from 'hooks/school/mutateTerm'
 import useUserDetails, { SmallTerm } from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
@@ -22,8 +23,33 @@ export default function TermTypeChooser({ term }: Props) {
 
   if (!mounted) return null
 
+  const changeTerm = (newType: TermType) => {
+    // mutate in backend
+    mutateTermType(term?.TermID || 0, newType)
+
+    // change locally
+    mutateUserDetails(
+      {
+        ...userDetails,
+        FK_Terms: userDetails?.FK_Terms?.map((termCurrent) => {
+          if (term?.TermID === termCurrent.TermID) {
+            return {
+              ...term,
+              TermType: newType,
+            }
+          }
+          return termCurrent
+        }),
+        mutate: true,
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
+
   return (
-    <Menu as="div" className="relative w-28">
+    <Menu as="div" className="relative">
       <Menu.Button
         className={classNames(
           {
@@ -32,7 +58,7 @@ export default function TermTypeChooser({ term }: Props) {
           {
             ' hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
           },
-          'absolute -left-2 flex items-center font-light m-0 text-sm px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'absolute flex items-center font-light m-0 px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
         <div>{term?.TermType || 'Please refresh page'}</div>
@@ -50,7 +76,7 @@ export default function TermTypeChooser({ term }: Props) {
           className={classNames(
             { ' bg-white ring-black ring-1 ring-opacity-5': theme === 'light' },
             { 'bg-slate-700': theme === 'dark' },
-            'absolute w-24 -bottom-4 -right-16 rounded-md shadow-lg focus:outline-none',
+            'absolute w-24 -bottom-8 left-0 rounded-md shadow-lg focus:outline-none',
           )}
         >
           {Object.keys(TermType).map((termtype) => (
@@ -62,8 +88,8 @@ export default function TermTypeChooser({ term }: Props) {
                     { 'bg-slate-600': active && theme === 'dark' },
                     'z-40 pl-2 w-full pr-4 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                   )}
-                  // onClick={() => mutator(item.name)}
-                  // onKeyDown={() => mutator(item.name)}
+                  onClick={() => changeTerm(termtype as TermType)}
+                  onKeyDown={() => changeTerm(termtype as TermType)}
                 >
                   {termtype}
                 </div>
