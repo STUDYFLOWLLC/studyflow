@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import DeleteCourse from './DeleteCourse'
 
 interface Props {
   course: CourseOnTerm
@@ -7,19 +8,24 @@ interface Props {
 
 export default function CourseHeader({ course }: Props) {
   return (
-    <div className="flex items-center">
-      <div
-        className={classNames(
-          course.Color,
-          ' ring-offset-1 w-3 h-3 mx-2 rounded-full',
-        )}
-      />
-      <h3 className="m-0 p-0 truncate">
-        {course.Nickname || course.FK_Course.Code} |{' '}
-        <span className="text-info opacity-80 text-sm">
-          {course.FK_Course.Title}, {course.FK_Course.Code}
-        </span>
-      </h3>
+    <div className="flex items-center justify-between">
+      <div className="flex items-center max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl">
+        <div className="mx-2">
+          <div
+            className={classNames(
+              course.Color,
+              ' ring-offset-1 w-3 h-3 min-w-full min-h-full rounded-full',
+            )}
+          />
+        </div>
+        <h3 className="m-0 p-0 truncate">
+          {course.Nickname || course.FK_Course.Code} |{' '}
+          <span className="text-info opacity-80 text-sm">
+            {course.FK_Course.Title}, {course.FK_Course.Code}
+          </span>
+        </h3>
+      </div>
+      <DeleteCourse course={course} />
     </div>
   )
 }
