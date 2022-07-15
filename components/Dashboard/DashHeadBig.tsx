@@ -3,6 +3,7 @@ import CreateButton from 'components/Dashboard/CreateButton'
 import TasksNavbar from 'components/Dashboard/TasksNavbar'
 import { Dispatch, SetStateAction } from 'react'
 import { FlowType } from 'types/Flow'
+import TermSelector from './TermSelector'
 
 interface Props {
   showDashBar: boolean
@@ -30,7 +31,11 @@ export default function DashHeadBig({
           {!showDashBar && (
             <HideButton direction="show" setShowDashBar={setShowDashBar} />
           )}
-          <h1 className="ml-2 text-lg font-medium">{pageDisplayed}</h1>
+          {pageDisplayed !== 'Term' ? (
+            <h1 className="ml-2 text-lg font-medium">{pageDisplayed}</h1>
+          ) : (
+            <TermSelector />
+          )}
           {taskView && setTaskView && (
             <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
           )}

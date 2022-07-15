@@ -4,7 +4,7 @@ import useSWR, { KeyedMutator } from 'swr'
 import { FlowVisibility } from 'types/Flow'
 import { SetupSteps } from 'types/SetupSteps'
 
-interface SmallTerm {
+export interface SmallTerm {
   TermID: number
   TermName: string
   TermType: TermType
