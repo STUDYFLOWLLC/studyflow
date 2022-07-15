@@ -15,7 +15,7 @@ interface Props {
   setTaskView?: (taskView: string) => void
 }
 
-export default function DashHeadBig({
+export default function index({
   showDashBar,
   setShowDashBar,
   pageDisplayed,
