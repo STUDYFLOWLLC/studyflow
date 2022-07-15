@@ -1,9 +1,9 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import AddTask from 'components/Tasks/AddTask'
+import { isToday, isYesterday } from 'date-fns'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
-import isToday from 'utils/isToday'
 import BasicDisplayTasks from './BasicDisplayTasks'
 
 interface Props {
@@ -19,7 +19,7 @@ export default function TodayView({ user }: Props) {
 
   const today = new Date().toDateString().slice(0, 10)
   const numTasksToday = tasks.filter(
-    (task) => !task.Completed && isToday(task),
+    (task) => !task.Completed && isToday(new Date(task.DueDate)),
   ).length
 
   return (
@@ -33,7 +33,13 @@ export default function TodayView({ user }: Props) {
       </div>
 
       <div>
-        <BasicDisplayTasks tasks={tasks.filter((task) => isToday(task))} />
+        <BasicDisplayTasks
+          tasks={tasks.filter(
+            (task) =>
+              isToday(new Date(task.DueDate)) ||
+              isYesterday(new Date(task.DueDate)),
+          )}
+        />
       </div>
       <div className="mt-1">
         <AddTask
