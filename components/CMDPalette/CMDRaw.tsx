@@ -82,7 +82,7 @@ export default function CMDRaw({
     <Combobox
       as="div"
       className={classNames(
-        { 'bg-slate-100': theme === 'light' },
+        { 'bg-base-100': theme === 'light' },
         { 'bg-base-200': theme === 'dark' },
         'w-full mx-auto max-w-2xl transform divide-y divide-gray-100 overflow-hidden rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
       )}
