@@ -11,6 +11,7 @@ import Taskover from 'components/Taskover'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { ActionType } from 'types/CMDPalette'
 
 interface Props {
   user: User
@@ -21,6 +22,7 @@ export default function index({ user }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [taskView, setTaskView] = useState('Today')
+  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
 
   useHotkeys(
     'cmd+i, ctrl+i',
@@ -45,6 +47,8 @@ export default function index({ user }: Props) {
           setShowDashBar={setShowDashBar}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          cmdPaletteOpen={cmdPaletteOpen}
+          setCmdPaletteOpen={setCmdPaletteOpen}
         />
 
         <div
@@ -78,7 +82,11 @@ export default function index({ user }: Props) {
           </main>
         </div>
         <Taskover />
-        <CMDPalette />
+        <CMDPalette
+          include={[ActionType.JUMPTO]}
+          open={cmdPaletteOpen}
+          setOpen={setCmdPaletteOpen}
+        />
       </div>
       <div className={classNames({ 'lg:pl-56': showDashBar })}>
         <DisplayTasks user={user} taskView={taskView} />

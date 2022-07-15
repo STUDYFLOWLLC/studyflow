@@ -150,7 +150,6 @@ class SelectMenu extends React.Component<Props, State> {
   }
 
   prioritizeAndGroupCommands(matchSortedItems: Command[]) {
-    console.log(matchSortedItems)
     const keysSoFar: string[] = []
     for (let i = 0; i < matchSortedItems.length; i += 1) {
       const item = matchSortedItems[i]

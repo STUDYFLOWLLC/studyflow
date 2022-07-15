@@ -76,7 +76,9 @@ export default function useDashFlows(
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR([query, variables], {
+    revalidateOnMount: false,
+  })
 
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>

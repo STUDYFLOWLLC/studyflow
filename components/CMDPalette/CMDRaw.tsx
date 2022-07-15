@@ -1,16 +1,19 @@
 import { Combobox } from '@headlessui/react'
-import { EmojiSadIcon, SearchIcon } from '@heroicons/react/outline'
+import { EmojiSadIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import { groupBy } from 'lodash'
 import { matchSorter } from 'match-sorter'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { QuickAction } from 'types/CMDPalette'
+import { ActionType, QuickAction } from 'types/CMDPalette'
+import scrapeActionTypes from 'utils/commandPalette/scrapeActionTypes'
 import CMDEntry from './CMDEntry'
+import CMDSearch from './CMDSearch'
 
 interface Props {
   placeholder: string
   quickActions: QuickAction[]
-  filteredProjects: any[]
   query: string
   setQuery: (query: string) => void
   selectedAction: QuickAction | null
@@ -22,7 +25,6 @@ interface Props {
 export default function CMDRaw({
   placeholder,
   quickActions,
-  filteredProjects,
   query,
   setQuery,
   selectedAction,
@@ -30,15 +32,48 @@ export default function CMDRaw({
   open,
   setOpen,
 }: Props) {
+  const router = useRouter()
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
   const [filtered, setFiltered] = useState<QuickAction[]>(quickActions)
+  const [availableActionTypes, setAvailableActionTypes] = useState<
+    ActionType[]
+  >(scrapeActionTypes(quickActions))
 
   useEffect(() => setMounted(true), [])
 
+  const prioritizeAndGroupCommands = (matchSortedItems: QuickAction[]) => {
+    const keysSoFar: string[] = []
+    for (let i = 0; i < matchSortedItems.length; i += 1) {
+      const item = matchSortedItems[i]
+      if (keysSoFar.indexOf(item.actionType) === -1)
+        keysSoFar.push(item.actionType)
+      if (keysSoFar.length === 3) break
+    }
+    for (let i = 0; i < matchSortedItems.length; i += 1) {
+      const item = matchSortedItems[i]
+      item.sortValue = keysSoFar.indexOf(item.actionType)
+    }
+    const joinedBumpy = []
+    const grouped = groupBy(matchSortedItems, 'sortValue')
+    const keys = Object.keys(grouped)
+    for (let i = 0; i < keys.length; i += 1) {
+      joinedBumpy.push(grouped[keys[i]])
+    }
+    return joinedBumpy.flat()
+  }
+
   useEffect(() => {
-    setFiltered(matchSorter(quickActions, query, { keys: ['name'] }))
+    const filteredTemp = matchSorter(quickActions, query, {
+      keys: ['name'],
+      // @ts-expect-error base sorter weird typing error but it works
+      baseSort: (a: QuickAction, b: QuickAction) =>
+        quickActions.indexOf(a) < quickActions.indexOf(b) ? -1 : 1,
+    })
+    const filteredGrouped = prioritizeAndGroupCommands(filteredTemp)
+    setFiltered(filteredGrouped)
+    setAvailableActionTypes(scrapeActionTypes(filteredGrouped))
   }, [query])
 
   if (!mounted) return null
@@ -54,76 +89,35 @@ export default function CMDRaw({
       value={selectedAction}
       onChange={(item: QuickAction) => {
         setSelectedAction(item)
-        item.action()
+        if (item.actionType === ActionType.JUMPTO && item.action)
+          item.action(router)
       }}
     >
-      <div className="flex">
-        <SearchIcon
-          className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-          aria-hidden="true"
-        />
-        <Combobox.Input
-          className="h-12 w-full border-0 bg-transparent pl-11 pr-4 focus:ring-0 sm:text-sm"
-          placeholder={placeholder}
-          onChange={(event: { target: { value: string } }) =>
-            setQuery(event.target.value)
-          }
-          autoComplete="off"
-          autoFocus
-        />
-        {setOpen && (
-          <kbd
-            onClick={() => {
-              if (open !== undefined && setOpen) setOpen(!open)
-            }}
-            onKeyDown={() => {
-              if (open !== undefined && setOpen) setOpen(!open)
-            }}
-            className="kbd kbd-xs absolute top-4 right-4 h-5 w-8 cursor-pointer"
-          >
-            esc
-          </kbd>
-        )}
-      </div>
-
-      {(query === '' || filtered.length > 0) && (
+      <CMDSearch
+        placeholder={placeholder}
+        setQuery={setQuery}
+        open={open}
+        setOpen={setOpen}
+      />
+      {query === '' || filtered.length > 0 ? (
         <Combobox.Options
           static
           className="max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto"
         >
-          <li className="p-2">
-            {query === '' && (
-              <h2 className="mb-2 px-3 text-xs font-semibold text-gray-500">
-                Jump to
-              </h2>
-            )}
-            <ul className="text-sm">
-              {query === ''
-                ? quickActions.map((action) => (
-                    <CMDEntry
-                      key={action.name}
-                      CmdIcon={action.CmdIcon}
-                      name={action.name}
-                      shortcut={action.shortcut}
-                      url=""
-                      action={action.action}
-                    />
-                  ))
-                : filtered.map((action) => (
-                    <CMDEntry
-                      key={action.name}
-                      CmdIcon={action.CmdIcon}
-                      name={action.name}
-                      shortcut={action.shortcut}
-                      url=""
-                      action={action.action}
-                    />
-                  ))}
-            </ul>
+          <li className="p-2 text-sm">
+            {filtered.map((action, index) => (
+              <CMDEntry
+                key={action.name}
+                quickAction={action}
+                isFirst={
+                  index === 0 ||
+                  filtered[index - 1].actionType !== action.actionType
+                }
+              />
+            ))}
           </li>
         </Combobox.Options>
-      )}
-      {query !== '' && filtered.length === 0 && (
+      ) : (
         <div className="py-14 px-6 text-center sm:px-14">
           <EmojiSadIcon
             className="mx-auto h-6 w-6 text-gray-400"
