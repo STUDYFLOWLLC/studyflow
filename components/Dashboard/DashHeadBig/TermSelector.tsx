@@ -26,12 +26,7 @@ export default function FlowTypeChooser() {
 
   if (!mounted) return null
 
-  if (userDetailsLoading)
-    return (
-      <div className="mt-3">
-        <Skeleton className="mr-3 p-0 w-36 h-8" />
-      </div>
-    )
+  if (userDetailsLoading) return <Skeleton className="mr-3 p-0 w-36 h-8" />
 
   return (
     <>

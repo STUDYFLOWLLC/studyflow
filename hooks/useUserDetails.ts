@@ -10,7 +10,7 @@ export interface SmallTerm {
   TermType: TermType
 }
 
-interface UserDetail {
+export interface UserDetail {
   UserID: number
   CreatedTime: string
   SetupStep: SetupSteps
