@@ -87,3 +87,22 @@ export function mutateCourseColor(courseOnTermId: number, newColor: string) {
 
   return request('/api/graphql', mutation, variables)
 }
+
+export async function mutateDeleteCourseOnTerm(courseOnTermId: number) {
+  const mutation = gql`
+    mutation Mutation($where: CourseOnTermWhereUniqueInput!) {
+      deleteCourseOnTerm(where: $where) {
+        CourseOnTermID
+      }
+    }
+  `
+
+  const variables = {
+    where: {
+      CourseOnTermID: courseOnTermId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}

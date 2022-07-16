@@ -3,6 +3,7 @@ import { DashFlow } from 'hooks/flows/useDashFlows'
 import {
   mutateCourseColor,
   mutateCourseNickname,
+  mutateDeleteCourseOnTerm,
 } from 'hooks/school/mutateCourseOnTerm'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import { KeyedMutator } from 'swr'
@@ -109,6 +110,43 @@ export function changeCourseColor(
         }
         return flow
       }),
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export async function deleteCourseOnTerm(
+  courseOnTermId: number | undefined,
+  coursesOnTerm: CourseOnTerm[],
+  mutateCoursesOnTerm: KeyedMutator<any>,
+  dashFlows: DashFlow[],
+  mutateDashFlows: KeyedMutator<any>,
+) {
+  if (courseOnTermId === undefined) return
+
+  // mutate in backend
+  mutateDeleteCourseOnTerm(courseOnTermId)
+
+  // mutate locally
+  mutateCoursesOnTerm(
+    {
+      coursesOnTerm: coursesOnTerm.filter(
+        (course) => course.CourseOnTermID !== courseOnTermId,
+      ),
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
+  mutateDashFlows(
+    {
+      mutatedFlows: dashFlows.filter(
+        (flow) => flow.FK_CourseOnTerm.CourseOnTermID !== courseOnTermId,
+      ),
       mutate: true,
     },
     {

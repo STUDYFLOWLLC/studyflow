@@ -6,12 +6,13 @@ import InputCourseTitle from './InputCourseTitle'
 
 interface Props {
   course: CourseOnTerm
+  setSelectedCourse: (course: CourseOnTerm | null) => void
 }
 
-export default function EditCourse({ course }: Props) {
+export default function EditCourse({ course, setSelectedCourse }: Props) {
   return (
     <div className="prose">
-      <CourseHeader course={course} />
+      <CourseHeader course={course} setSelectedCourse={setSelectedCourse} />
       <div className="my-4">
         <InputCourseTitle course={course} />
       </div>

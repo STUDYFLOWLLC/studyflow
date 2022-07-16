@@ -95,7 +95,10 @@ export default function CourseModal({ open, setOpen }: Props) {
             {selectedCourse === null ? (
               <span>add course</span>
             ) : (
-              <EditCourse course={selectedCourse} />
+              <EditCourse
+                course={selectedCourse}
+                setSelectedCourse={setSelectedCourse}
+              />
             )}
           </Dialog.Panel>
         </Transition.Child>
