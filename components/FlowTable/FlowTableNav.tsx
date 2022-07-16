@@ -1,16 +1,13 @@
 import classNames from 'classnames'
+import { Tab } from 'components/FlowTable/FlowTableHeader'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import { ViewTypes } from 'utils/flows/sortFlows'
 
 interface Props {
-  viewing: ViewTypes | null
-  setViewing: (viewing: ViewTypes) => void
+  tabs: Tab[]
 }
 
-const tabs = Object.values(ViewTypes)
-
-export default function SettingsNavBig({ viewing, setViewing }: Props) {
+export default function SettingsNavBig({ tabs }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -25,34 +22,30 @@ export default function SettingsNavBig({ viewing, setViewing }: Props) {
         {
           'bg-gray-50 text-gray-500': theme === 'light',
         },
-        'ml-4 flex absolute bottom-0 text-left text-xs font-medium uppercase tracking-wider h-full',
+        'flex bottom-0 text-left text-xs font-medium uppercase tracking-wider h-full',
       )}
     >
       {tabs.map((tab) => (
         <span
-          key={tab}
+          key={tab.name}
           className={classNames(
             {
-              'border-primary text-primary': tab === viewing,
+              'border-primary text-primary': tab.active,
             },
             {
               'border-transparent hover:border-gray-300':
-                tab !== viewing && theme === 'light',
+                !tab.active && theme === 'light',
             },
             {
               'border-transparent hover:border-gray-300':
-                tab !== viewing && theme === 'dark',
+                !tab.active && theme === 'dark',
             },
-            'mx-2 h-full whitespace-nowrap cursor-pointer py-2 px-1 border-b-2 font-medium transition',
+            'mx-2 pt-3 pb-[.56rem] h-full md:table-cell border-spacing-0 whitespace-nowrap cursor-pointer px-1 border-b-2 font-medium transition',
           )}
-          onClick={() => {
-            setViewing(tab as ViewTypes)
-          }}
-          onKeyDown={() => {
-            setViewing(tab as ViewTypes)
-          }}
+          onClick={() => tab.handler()}
+          onKeyDown={() => tab.handler()}
         >
-          {tab}
+          {tab.name}
         </span>
       ))}
     </th>

@@ -39,21 +39,10 @@ export default function ActualFlowTable({
         flows.map((flow) => (
           <FlowTableLine
             key={flow.FlowID}
-            flowID={flow.FlowID}
+            flow={flow}
             setCurrentFlow={setCurrentFlow}
             loading={loading}
-            bgColorClass={flow.FK_CourseOnTerm.Color}
-            title={flow.Title}
-            type={flow.Type}
-            course={
-              flow.FK_CourseOnTerm.Nickname ||
-              flow.FK_CourseOnTerm.FK_Course.Code
-            }
-            displayDate={new Date(flow.UserEnteredDate)
-              .toDateString()
-              .slice(0, 10)}
             nextReview="in 3 days"
-            visibility={flow.Visibility}
           />
         ))}
 

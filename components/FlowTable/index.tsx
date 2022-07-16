@@ -7,8 +7,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import {
   FlowSortOptions,
-  masterFlowFilterAndSorter,
-  ViewTypes,
+  masterFlowSorterAndGrouper,
 } from 'utils/flows/sortFlows'
 import ActualFlowTable from './ActualFlowTable'
 import EmptyTable from './EmptyTable'
@@ -24,7 +23,11 @@ export default function FlowList({ setCurrentFlow }: Props) {
   const { dashFlows, dashFlowsLoading } = useDashFlows(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
-  const [viewing, setViewing] = useState<ViewTypes>(ViewTypes.RECENTLY_VIEWED)
+  const [sortBy, setSortBy] = useState<FlowSortOptions>(
+    FlowSortOptions.RECENTLY_VIEWED_DESCENDING,
+  )
+  const [groupBy, setGroupBy] = useState<'All' | number | 'Trash'>('All')
+  const [ascending, setAscending] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
@@ -39,13 +42,14 @@ export default function FlowList({ setCurrentFlow }: Props) {
         )}
       >
         <table className="min-w-full">
-          <FlowTableHeader viewing={viewing} setViewing={setViewing} />
+          <FlowTableHeader
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            groupBy={groupBy}
+            setGroupBy={setGroupBy}
+          />
           <ActualFlowTable
-            flows={masterFlowFilterAndSorter(
-              dashFlows,
-              FlowSortOptions.LAST_OPENED,
-              viewing,
-            )}
+            flows={masterFlowSorterAndGrouper(dashFlows, sortBy, groupBy)}
             setCurrentFlow={setCurrentFlow}
             loading={userDetailsLoading || dashFlowsLoading}
             dashFlowsLoading={dashFlowsLoading}

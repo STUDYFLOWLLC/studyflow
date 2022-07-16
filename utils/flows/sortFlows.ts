@@ -1,13 +1,10 @@
 import { DashFlow } from 'hooks/flows/useDashFlows'
 
-export enum ViewTypes {
-  RECENTLY_VIEWED = 'Recently Viewed',
-  TRASH = 'Trash',
-}
-
 export enum FlowSortOptions {
-  USER_ENTERED_DATE = 'User Entered Date',
-  LAST_OPENED = 'Last Opened',
+  RECENTLY_VIEWED_DESCENDING = 'Recently Viewed ↓',
+  RECENTLY_VIEWED_ASCENDING = 'Recently Viewed ↑',
+  BY_DATE_DESCENDING = 'By Date ↓',
+  BY_DATE_ASCENDING = 'By Date ↑',
 }
 
 /**
@@ -52,40 +49,51 @@ export function sortByLastOpened(
   return sortByUserEnteredDate(flowA, flowB, asc)
 }
 
-export function masterFlowFilterAndSorter(
+export function masterFlowSorterAndGrouper(
   flows: DashFlow[],
   sortBy: FlowSortOptions,
-  filterBy: ViewTypes,
-  asc?: boolean,
+  groupBy: number | 'All' | 'Trash',
 ) {
-  let filteredAndSortedFlows: DashFlow[]
+  let sortedAndGroupedFlows: DashFlow[]
 
-  switch (filterBy) {
-    case ViewTypes.RECENTLY_VIEWED:
-      filteredAndSortedFlows = flows.filter((flow) => flow.Trashed === false)
+  switch (groupBy) {
+    case 'All':
+      sortedAndGroupedFlows = flows
       break
-    case ViewTypes.TRASH:
-      filteredAndSortedFlows = flows.filter((flow) => flow.Trashed === true)
+    case 'Trash':
+      sortedAndGroupedFlows = flows.filter((flow) => flow.Trashed)
       break
     default:
-      filteredAndSortedFlows = flows
+      sortedAndGroupedFlows = flows.filter(
+        (flow) => flow.FK_CourseOnTerm.CourseOnTermID === groupBy,
+      )
       break
   }
 
   switch (sortBy) {
-    case FlowSortOptions.USER_ENTERED_DATE:
-      filteredAndSortedFlows.sort((flowA, flowB) =>
-        sortByUserEnteredDate(flowA, flowB, asc),
+    case FlowSortOptions.RECENTLY_VIEWED_DESCENDING:
+      sortedAndGroupedFlows.sort((flowA, flowB) =>
+        sortByLastOpened(flowA, flowB, false),
       )
       break
-    case FlowSortOptions.LAST_OPENED:
-      filteredAndSortedFlows.sort((flowA, flowB) =>
-        sortByLastOpened(flowA, flowB, asc),
+    case FlowSortOptions.RECENTLY_VIEWED_ASCENDING:
+      sortedAndGroupedFlows.sort((flowA, flowB) =>
+        sortByLastOpened(flowA, flowB, true),
+      )
+      break
+    case FlowSortOptions.BY_DATE_DESCENDING:
+      sortedAndGroupedFlows.sort((flowA, flowB) =>
+        sortByUserEnteredDate(flowA, flowB, false),
+      )
+      break
+    case FlowSortOptions.BY_DATE_ASCENDING:
+      sortedAndGroupedFlows.sort((flowA, flowB) =>
+        sortByUserEnteredDate(flowA, flowB, true),
       )
       break
     default:
-      return flows
+      break
   }
 
-  return filteredAndSortedFlows
+  return sortedAndGroupedFlows
 }
