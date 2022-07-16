@@ -4,9 +4,10 @@ import DeleteCourse from './DeleteCourse'
 
 interface Props {
   course: CourseOnTerm
+  setSelectedCourse: (course: CourseOnTerm | null) => void
 }
 
-export default function CourseHeader({ course }: Props) {
+export default function CourseHeader({ course, setSelectedCourse }: Props) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl">
@@ -25,7 +26,7 @@ export default function CourseHeader({ course }: Props) {
           </span>
         </h3>
       </div>
-      <DeleteCourse course={course} />
+      <DeleteCourse course={course} setSelectedCourse={setSelectedCourse} />
     </div>
   )
 }

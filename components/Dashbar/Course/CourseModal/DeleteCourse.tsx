@@ -1,17 +1,28 @@
 import { Menu, Transition } from '@headlessui/react'
 import { TrashIcon } from '@heroicons/react/outline'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useDashFlows from 'hooks/flows/useDashFlows'
+import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { ActiveProps } from 'types/ActiveProps'
+import { deleteCourseOnTerm } from 'utils/setup/courseHandlers'
 
 interface Props {
   course: CourseOnTerm
+  setSelectedCourse: (course: CourseOnTerm | null) => void
 }
 
-export default function DeleteFlow({ course }: Props) {
+export default function DeleteFlow({ course, setSelectedCourse }: Props) {
   const { theme } = useTheme()
+  const { user } = useUser()
+  const { userDetails } = useUserDetails(user?.id)
+  const { coursesOnTerm, mutateCoursesOnTerm } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0]?.TermID,
+  )
+  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
@@ -70,8 +81,26 @@ export default function DeleteFlow({ course }: Props) {
                     <button
                       type="button"
                       className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
-                      // onClick={() => deleteFlow()}
-                      // onKeyDown={() => deleteFlow()}
+                      onClick={() => {
+                        deleteCourseOnTerm(
+                          course.CourseOnTermID,
+                          coursesOnTerm,
+                          mutateCoursesOnTerm,
+                          dashFlows,
+                          mutateDashFlows,
+                        )
+                        setSelectedCourse(null)
+                      }}
+                      onKeyDown={() => {
+                        deleteCourseOnTerm(
+                          course.CourseOnTermID,
+                          coursesOnTerm,
+                          mutateCoursesOnTerm,
+                          dashFlows,
+                          mutateDashFlows,
+                        )
+                        setSelectedCourse(null)
+                      }}
                     >
                       Delete course
                     </button>
