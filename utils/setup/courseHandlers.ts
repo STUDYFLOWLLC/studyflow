@@ -118,7 +118,7 @@ export function changeCourseColor(
   )
 }
 
-export async function deleteCourseOnTerm(
+export async function trashCourseOnTerm(
   courseOnTermId: number | undefined,
   coursesOnTerm: CourseOnTerm[],
   mutateCoursesOnTerm: KeyedMutator<any>,
@@ -144,9 +144,17 @@ export async function deleteCourseOnTerm(
   )
   mutateDashFlows(
     {
-      mutatedFlows: dashFlows.filter(
-        (flow) => flow.FK_CourseOnTerm.CourseOnTermID !== courseOnTermId,
-      ),
+      mutatedFlows: dashFlows.map((flow) => {
+        if (flow.FK_CourseOnTerm.CourseOnTermID === courseOnTermId) {
+          return {
+            ...flow,
+            FK_CourseOnTerm: undefined,
+            FK_CourseOnTermID: undefined,
+            Trashed: true,
+          }
+        }
+        return flow
+      }),
       mutate: true,
     },
     {

@@ -216,3 +216,35 @@ export async function mutateDeleteFlow(flowId: string) {
   const data = await request('/api/graphql', mutation, variables)
   return data
 }
+
+export async function mutateTrashedMany(
+  flowIds: string[],
+  newTrashed: boolean,
+) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: FlowUpdateManyMutationInput!
+      $where: FlowWhereInput
+    ) {
+      updateManyFlow(data: $data, where: $where) {
+        count
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      Trashed: {
+        set: newTrashed,
+      },
+    },
+    where: {
+      FlowID: {
+        in: flowIds,
+      },
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
