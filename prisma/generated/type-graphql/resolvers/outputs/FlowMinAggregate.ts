@@ -44,6 +44,11 @@ export class FlowMinAggregate {
   })
   Body!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  Trashed!: boolean | null;
+
   @TypeGraphQL.Field(_type => Visibility, {
     nullable: true
   })

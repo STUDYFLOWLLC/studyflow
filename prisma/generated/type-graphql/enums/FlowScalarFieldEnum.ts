@@ -8,6 +8,7 @@ export enum FlowScalarFieldEnum {
   Type = "Type",
   Title = "Title",
   Body = "Body",
+  Trashed = "Trashed",
   Visibility = "Visibility",
   FK_CourseOnTermID = "FK_CourseOnTermID"
 }

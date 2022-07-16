@@ -51,6 +51,11 @@ export class FlowOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  Trashed?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   Visibility?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

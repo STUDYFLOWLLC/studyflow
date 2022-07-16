@@ -48,6 +48,11 @@ export class FlowCreateInput {
   })
   Body?: string | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  Trashed?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => Visibility, {
     nullable: true
   })
