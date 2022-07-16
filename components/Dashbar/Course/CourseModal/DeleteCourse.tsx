@@ -8,7 +8,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { ActiveProps } from 'types/ActiveProps'
-import { trashCourseOnTerm } from 'utils/setup/courseHandlers'
+import { deleteCourseOnTerm } from 'utils/setup/courseHandlers'
 
 interface Props {
   course: CourseOnTerm
@@ -82,7 +82,7 @@ export default function DeleteFlow({ course, setSelectedCourse }: Props) {
                       type="button"
                       className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
                       onClick={() => {
-                        trashCourseOnTerm(
+                        deleteCourseOnTerm(
                           course.CourseOnTermID,
                           coursesOnTerm,
                           mutateCoursesOnTerm,
@@ -92,7 +92,7 @@ export default function DeleteFlow({ course, setSelectedCourse }: Props) {
                         setSelectedCourse(null)
                       }}
                       onKeyDown={() => {
-                        trashCourseOnTerm(
+                        deleteCourseOnTerm(
                           course.CourseOnTermID,
                           coursesOnTerm,
                           mutateCoursesOnTerm,

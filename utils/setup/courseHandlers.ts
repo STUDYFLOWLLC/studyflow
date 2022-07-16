@@ -118,7 +118,7 @@ export function changeCourseColor(
   )
 }
 
-export async function trashCourseOnTerm(
+export async function deleteCourseOnTerm(
   courseOnTermId: number | undefined,
   coursesOnTerm: CourseOnTerm[],
   mutateCoursesOnTerm: KeyedMutator<any>,
