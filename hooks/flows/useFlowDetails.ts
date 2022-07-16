@@ -32,6 +32,7 @@ export interface FlowDetail {
   Title: string
   Body: string
   Visibility: FlowVisibility
+  Trashed: boolean
   FK_CourseOnTerm: SmallCourse
   FK_Tasks: FlowTask[]
   _count: {
@@ -60,6 +61,7 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
         Title
         Body
         Visibility
+        Trashed
         FK_CourseOnTerm {
           CourseOnTermID
           Nickname

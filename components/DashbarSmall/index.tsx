@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import classNames from 'classnames'
-import CourseNavs from 'components/Dashbar/CourseNavs'
+import CourseNavs from 'components/Dashbar/Course/CourseNavs'
 import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
 import { useTheme } from 'next-themes'

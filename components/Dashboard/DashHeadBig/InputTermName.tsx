@@ -2,10 +2,10 @@ import { CheckIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
-import { mutateTermName } from 'hooks/school/mutateTerm'
 import useUserDetails, { SmallTerm } from 'hooks/useUserDetails'
 import { useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
+import { changeTermName } from 'utils/setup/termHandlers'
 
 interface Props {
   term: SmallTerm | undefined
@@ -18,34 +18,6 @@ export default function InputTermName({ term }: Props) {
   const [editingName, setEditingName] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const changeTerm = async (newName: string) => {
-    setSaving(true)
-
-    // mutate locally
-    mutateUserDetails(
-      {
-        ...userDetails,
-        FK_Terms: userDetails?.FK_Terms?.map((termCurrent) => {
-          if (term?.TermID === termCurrent.TermID) {
-            return {
-              ...term,
-              TermName: newName,
-            }
-          }
-          return termCurrent
-        }),
-        mutate: true,
-      },
-      {
-        revalidate: false,
-      },
-    )
-
-    // change locally
-    const data = await mutateTermName(term?.TermID || 0, newName)
-    if (data) setSaving(false)
-  }
-
   return (
     <div className="mb-4">
       <div className="text-lg text-info font-medium">Name</div>
@@ -54,7 +26,15 @@ export default function InputTermName({ term }: Props) {
           <input
             className="bg-transparent text-center first-line:outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-lg"
             defaultValue={term?.TermName}
-            onChange={(e) => changeTerm(e.target.value)}
+            onChange={(e) =>
+              changeTermName(
+                term?.TermID,
+                e.target.value,
+                userDetails,
+                mutateUserDetails,
+                setSaving,
+              )
+            }
             onFocus={() => setEditingName(true)}
             onBlur={() => setEditingName(false)}
           />
