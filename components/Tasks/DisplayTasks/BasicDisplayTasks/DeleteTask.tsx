@@ -4,7 +4,7 @@ import { useUser } from '@supabase/supabase-auth-helpers/react'
 import deleteTask from 'hooks/tasks/deleteTask'
 import useTasks, { Task } from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 interface Props {
   task: Task
@@ -83,7 +83,6 @@ export default function DeleteTask({ task }: Props) {
         }}
         className="w-5 h-5 text-gray-400 hover:text-black hover:cursor-pointer"
       />
-      <Toaster />
     </div>
   )
 }

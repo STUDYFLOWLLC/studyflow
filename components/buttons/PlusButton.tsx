@@ -11,7 +11,7 @@ export default function PlusButton({ disabled }: Props) {
       <button
         type="button"
         disabled={disabled}
-        className="text-gray-800 flex items-center p-1 rounded-md hover:border hover:shadow-sm focus:outline-none"
+        className="text-gray-800 flex items-center p-1 rounded-md focus:outline-none"
       >
         <PlusIcon className="w-5" />
       </button>
