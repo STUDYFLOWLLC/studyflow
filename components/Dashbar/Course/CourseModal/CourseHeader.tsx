@@ -1,6 +1,6 @@
 import classNames from 'classnames'
+import DeleteCourse from 'components/Dashbar/Course/CourseModal/DeleteCourse'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import DeleteCourse from './DeleteCourse'
 
 interface Props {
   course: CourseOnTerm
