@@ -42,12 +42,12 @@ export default function SettingsNavBig({ tabs, selectedCourse }: Props) {
               },
               {
                 'border-transparent hover:border-gray-300':
-                  tab.key === selectedCourse?.CourseOnTermID &&
+                  tab.key !== selectedCourse?.CourseOnTermID &&
                   theme === 'light',
               },
               {
                 'border-transparent hover:border-gray-300':
-                  tab.key === selectedCourse?.CourseOnTermID &&
+                  tab.key !== selectedCourse?.CourseOnTermID &&
                   theme === 'dark',
               },
               'whitespace-nowrap cursor-pointer py-2 px-1 border-b-2 font-medium text-sm transition',
