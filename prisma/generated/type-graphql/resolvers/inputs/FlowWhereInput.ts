@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolFilter } from "../inputs/BoolFilter";
 import { CourseOnTermRelationFilter } from "../inputs/CourseOnTermRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
@@ -66,6 +67,11 @@ export class FlowWhereInput {
     nullable: true
   })
   Body?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  Trashed?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumVisibilityFilter, {
     nullable: true

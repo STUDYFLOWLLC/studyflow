@@ -49,6 +49,11 @@ export class FlowGroupBy {
   })
   Body!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  Trashed!: boolean;
+
   @TypeGraphQL.Field(_type => Visibility, {
     nullable: false
   })

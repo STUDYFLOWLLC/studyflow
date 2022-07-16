@@ -148,6 +148,7 @@ model Flow {
   Type               FlowType
   Title              String           @default("Untitled")
   Body               String?
+  Trashed            Boolean          @default(false)
   Visibility         Visibility       @default(PUBLIC)
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: SetNull, onUpdate: Cascade)
   FK_CourseOnTermID  Int?
