@@ -1,6 +1,5 @@
 import {
   BeakerIcon,
-  CalendarIcon,
   CheckCircleIcon,
   ClipboardListIcon,
   UserGroupIcon,
@@ -38,14 +37,14 @@ export default function MainNavs() {
       current: router.pathname === '/tasks',
       handler: () => router.push('/tasks'),
     },
-    {
-      name: 'Calendar',
-      href: '#',
-      icon: CalendarIcon,
-      keyboard: 'C',
-      current: router.pathname === '/calendar',
-      handler: () => router.push('/calendar'),
-    },
+    // {
+    //   name: 'Calendar',
+    //   href: '#',
+    //   icon: CalendarIcon,
+    //   keyboard: 'C',
+    //   current: router.pathname === '/calendar',
+    //   handler: () => router.push('/calendar'),
+    // },
     {
       name: 'Social',
       href: '#',

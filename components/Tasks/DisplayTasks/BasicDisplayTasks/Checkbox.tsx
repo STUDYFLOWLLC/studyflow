@@ -5,7 +5,7 @@ import { archiveTask } from 'hooks/tasks/mutateTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 interface Props {
   TaskID: string
@@ -104,7 +104,6 @@ export default function Checkbox({ TaskID }: Props) {
           )}
         />
       </div>
-      <Toaster />
     </div>
   )
 }
