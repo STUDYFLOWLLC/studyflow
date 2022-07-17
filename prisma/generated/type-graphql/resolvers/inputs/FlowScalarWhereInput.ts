@@ -78,4 +78,9 @@ export class FlowScalarWhereInput {
     nullable: true
   })
   FK_CourseOnTermID?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  FK_UserID?: IntNullableFilter | undefined;
 }

@@ -53,4 +53,9 @@ export class FlowCreateManyFK_CourseOnTermInput {
     nullable: true
   })
   Visibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_UserID?: number | undefined;
 }

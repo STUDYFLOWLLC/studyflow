@@ -10,7 +10,8 @@ export enum FlowScalarFieldEnum {
   Body = "Body",
   Trashed = "Trashed",
   Visibility = "Visibility",
-  FK_CourseOnTermID = "FK_CourseOnTermID"
+  FK_CourseOnTermID = "FK_CourseOnTermID",
+  FK_UserID = "FK_UserID"
 }
 TypeGraphQL.registerEnumType(FlowScalarFieldEnum, {
   name: "FlowScalarFieldEnum",

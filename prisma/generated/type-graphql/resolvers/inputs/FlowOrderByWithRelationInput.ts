@@ -6,6 +6,7 @@ import { CourseOnTermOrderByWithRelationInput } from "../inputs/CourseOnTermOrde
 import { FlashCardStackOrderByRelationAggregateInput } from "../inputs/FlashCardStackOrderByRelationAggregateInput";
 import { FlowViewOrderByRelationAggregateInput } from "../inputs/FlowViewOrderByRelationAggregateInput";
 import { TaskOrderByRelationAggregateInput } from "../inputs/TaskOrderByRelationAggregateInput";
+import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("FlowOrderByWithRelationInput", {
@@ -81,4 +82,14 @@ export class FlowOrderByWithRelationInput {
     nullable: true
   })
   FK_FlowView?: FlowViewOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_User?: UserOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_UserID?: "asc" | "desc" | undefined;
 }

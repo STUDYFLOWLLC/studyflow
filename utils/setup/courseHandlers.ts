@@ -162,8 +162,6 @@ export function changeCourseOnTermCourse(
   mutateCourseOnTermCourse(courseOnTermId, newCourse?.CourseID || 0)
   mutateCourseOnTermIsNew(courseOnTermId, false)
 
-  console.log(newCourse)
-
   const asFkCourse = {
     Code: newCourse?.Code || 'UNTTL',
     Term: newCourse?.Term || 'Untitled Term',
@@ -173,8 +171,6 @@ export function changeCourseOnTermCourse(
       Email: newCourse?.FK_Professor?.Email || '',
     },
   }
-
-  console.log(asFkCourse)
 
   // mutate locally
   mutateCoursesOnTerm(

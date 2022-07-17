@@ -12,4 +12,9 @@ export class FlowAvgOrderByAggregateInput {
     nullable: true
   })
   FK_CourseOnTermID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_UserID?: "asc" | "desc" | undefined;
 }

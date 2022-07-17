@@ -11,4 +11,9 @@ export class FlowAvgAggregate {
     nullable: true
   })
   FK_CourseOnTermID!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  FK_UserID!: number | null;
 }
