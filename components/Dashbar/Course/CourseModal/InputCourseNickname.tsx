@@ -12,10 +12,10 @@ import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
 import { changeCourseNickname } from 'utils/setup/courseHandlers'
 
 interface Props {
-  course: CourseOnTerm
+  courseOnTerm: CourseOnTerm | undefined
 }
 
-export default function InputCourseNickname({ course }: Props) {
+export default function InputCourseNickname({ courseOnTerm }: Props) {
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
   const { coursesOnTerm, mutateCoursesOnTerm } = useCoursesOnTerm(
@@ -26,15 +26,19 @@ export default function InputCourseNickname({ course }: Props) {
   const [editingNickname, setEditingNickname] = useState(false)
   const [saving, setSaving] = useState(false)
   const [inputValue, setInputValue] = useState(
-    course.Nickname !== null ? course.Nickname : course.FK_Course?.Code,
+    courseOnTerm?.Nickname !== null
+      ? courseOnTerm?.Nickname
+      : courseOnTerm?.FK_Course?.Code,
   )
 
   useEffect(
     () =>
       setInputValue(
-        course.Nickname !== null ? course.Nickname : course.FK_Course?.Code,
+        courseOnTerm?.Nickname !== null
+          ? courseOnTerm?.Nickname
+          : courseOnTerm?.FK_Course?.Code,
       ),
-    [course],
+    [courseOnTerm],
   )
 
   return (
@@ -50,7 +54,7 @@ export default function InputCourseNickname({ course }: Props) {
           onChange={(e) => {
             setInputValue(e.target.value)
             changeCourseNickname(
-              course.CourseOnTermID,
+              courseOnTerm?.CourseOnTermID,
               e.target.value,
               coursesOnTerm,
               mutateCoursesOnTerm,

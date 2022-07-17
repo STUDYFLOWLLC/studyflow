@@ -25,7 +25,7 @@ export default function CourseModal({ open, setOpen }: Props) {
   const [mounted, setMounted] = useState(false)
   const [selectedCourse, setSelectedCourse] = useState<
     CourseOnTerm | undefined | null
-  >(coursesOnTerm?.[0] ? coursesOnTerm[0] : undefined)
+  >(!coursesOnTerm?.[0] ? coursesOnTerm[0] : undefined)
 
   useEffect(() => setMounted(true), [])
 
@@ -48,6 +48,7 @@ export default function CourseModal({ open, setOpen }: Props) {
         open={open}
         onClose={() => setOpen(false)}
         className="fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-20 z-30"
+        static={!coursesOnTermLoading && coursesOnTerm?.length === 0}
       >
         <Transition.Child
           as={Fragment}
@@ -93,7 +94,8 @@ export default function CourseModal({ open, setOpen }: Props) {
                 ])}
               selectedCourse={selectedCourse}
             />
-            {selectedCourse === null && (
+            {(selectedCourse === null ||
+              (!coursesOnTermLoading && coursesOnTerm.length === 0)) && (
               <AddCourse setSelectedCourseOnTerm={setSelectedCourse} />
             )}
             {selectedCourse !== null && selectedCourse !== undefined && (

@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { CourseHit } from 'components/Forms/Course/CourseSearch'
+import { mutateFlowUser, mutateTrashFLow } from 'hooks/flows/mutateFlow'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import {
   mutateAddCourseOnTerm,
@@ -73,7 +74,7 @@ export async function changeCourseNickname(
   mutateDashFlows(
     {
       mutatedFlows: dashFlows.map((flow) => {
-        if (flow.FK_CourseOnTerm.CourseOnTermID === courseOnTermId) {
+        if (flow.FK_CourseOnTerm?.CourseOnTermID === courseOnTermId) {
           return {
             ...flow,
             FK_CourseOnTerm: {
@@ -130,7 +131,7 @@ export function changeCourseColor(
   mutateDashFlows(
     {
       mutatedFlows: dashFlows.map((flow) => {
-        if (flow.FK_CourseOnTerm.CourseOnTermID === courseOnTermId) {
+        if (flow.FK_CourseOnTerm?.CourseOnTermID === courseOnTermId) {
           return {
             ...flow,
             FK_CourseOnTerm: {
@@ -195,6 +196,7 @@ export function changeCourseOnTermCourse(
 
 export async function deleteCourseOnTerm(
   courseOnTermId: number | undefined,
+  userId: number | undefined,
   coursesOnTerm: CourseOnTerm[],
   mutateCoursesOnTerm: KeyedMutator<any>,
   dashFlows: DashFlow[],
@@ -204,6 +206,12 @@ export async function deleteCourseOnTerm(
 
   // mutate in backend
   mutateDeleteCourseOnTerm(courseOnTermId)
+  for (let i = 0; i < dashFlows.length; i += 1) {
+    if (dashFlows[i].FK_CourseOnTerm?.CourseOnTermID === courseOnTermId) {
+      mutateFlowUser(dashFlows[i].FlowID, userId || 0)
+      mutateTrashFLow(dashFlows[i].FlowID, true)
+    }
+  }
 
   // mutate locally
   mutateCoursesOnTerm(
@@ -220,7 +228,7 @@ export async function deleteCourseOnTerm(
   mutateDashFlows(
     {
       mutatedFlows: dashFlows.map((flow) => {
-        if (flow.FK_CourseOnTerm.CourseOnTermID === courseOnTermId) {
+        if (flow.FK_CourseOnTerm?.CourseOnTermID === courseOnTermId) {
           return {
             ...flow,
             FK_CourseOnTerm: undefined,

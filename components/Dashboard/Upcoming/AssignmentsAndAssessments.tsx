@@ -1,11 +1,14 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import useDashFlows from 'hooks/flows/useDashFlows'
+import useDashFlows, { DashFlow } from 'hooks/flows/useDashFlows'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import { sortByUserEnteredDate } from 'utils/flows/sortFlows'
+import {
+  FlowSortOptions,
+  masterFlowSorterAndGrouper,
+} from 'utils/flows/sortFlows'
 import Pin from './Pin'
 
 interface Props {
@@ -22,9 +25,22 @@ export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
   )
 
   const [mounted, setMounted] = useState(false)
+  const [sorted, setSorted] = useState<DashFlow[]>([])
   const [tempHide, setTempHide] = useState(false)
 
   useEffect(() => setMounted(true), [])
+
+  useEffect(
+    () =>
+      setSorted(
+        masterFlowSorterAndGrouper(
+          dashFlows,
+          FlowSortOptions.BY_DATE_ASCENDING,
+          'All',
+        ),
+      ),
+    [dashFlowsLoading],
+  )
 
   if (!mounted) return null
 
@@ -71,7 +87,7 @@ export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
           ))}
         </div>
       )}
-      {!dashFlowsLoading && dashFlows.length === 0 && (
+      {!dashFlowsLoading && sorted.length === 0 && (
         <div className="prose mx-auto mb-4 flex flex-col items-center">
           <h2 className="mt-0 mb-2">Relax.</h2>
           <div className="flex items-center">
@@ -84,17 +100,21 @@ export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
       )}
       {!dashFlowsLoading && dashFlows.length > 0 && (
         <div className="max-w-3xl mx-auto flex flex-wrap justify-around mb-4">
-          {dashFlows
-            .sort((flowA, flowB) => sortByUserEnteredDate(flowA, flowB, true))
-            .map((flow) => (
-              <Pin
-                flow={flow}
-                key={flow.FlowID}
-                setCurrentFlow={setCurrentFlow}
-              />
-            ))}
+          {sorted.map((flow) => (
+            <Pin
+              flow={flow}
+              key={flow.FlowID}
+              setCurrentFlow={setCurrentFlow}
+            />
+          ))}
         </div>
       )}
     </div>
   )
+}
+function sortFlows(
+  dashFlows: import('hooks/flows/useDashFlows').DashFlow[],
+  arg1: string,
+) {
+  throw new Error('Function not implemented.')
 }

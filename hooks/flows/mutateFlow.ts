@@ -198,6 +198,33 @@ export async function mutateLastOpened(flowId: string) {
   return data
 }
 
+export async function mutateTrashFLow(flowId: string, newBool: boolean) {
+  const mutation = gql`
+    mutation UpdateFlow(
+      $data: FlowUpdateInput!
+      $where: FlowWhereUniqueInput!
+    ) {
+      updateFlow(data: $data, where: $where) {
+        FlowID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      Trashed: {
+        set: newBool,
+      },
+    },
+    where: {
+      FlowID: flowId,
+    },
+  }
+
+  const data = request('/api/graphql', mutation, variables)
+  return data
+}
+
 export async function mutateDeleteFlow(flowId: string) {
   const mutation = gql`
     mutation DeleteFlow($where: FlowWhereUniqueInput!) {
@@ -208,6 +235,35 @@ export async function mutateDeleteFlow(flowId: string) {
   `
 
   const variables = {
+    where: {
+      FlowID: flowId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
+export async function mutateFlowUser(flowId: string, userId: number) {
+  const mutation = gql`
+    mutation UpdateFlow(
+      $data: FlowUpdateInput!
+      $where: FlowWhereUniqueInput!
+    ) {
+      updateFlow(data: $data, where: $where) {
+        FK_UserID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      FK_User: {
+        connect: {
+          UserID: userId,
+        },
+      },
+    },
     where: {
       FlowID: flowId,
     },

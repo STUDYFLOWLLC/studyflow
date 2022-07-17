@@ -13,11 +13,11 @@ import { changeVisibility } from 'utils/flows/propertyHandlers'
 
 interface Props {
   flowId: string
-  deleteFlow: () => void
+  closeModal: () => void
   saving: boolean
 }
 
-export default function FlowHeader({ flowId, deleteFlow, saving }: Props) {
+export default function FlowHeader({ flowId, closeModal, saving }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
@@ -48,7 +48,7 @@ export default function FlowHeader({ flowId, deleteFlow, saving }: Props) {
         <NextReview />
       </div>
       <div className="flex items-center w-36">
-        <DeleteFlow flowId={flowId} deleteFlow={deleteFlow} />
+        <DeleteFlow flowId={flowId} closeModal={closeModal} />
         <FlowInfo flowId={flowId} />
         <FlowSaving saving={saving} loading={flowDetailsLoading} />
       </div>

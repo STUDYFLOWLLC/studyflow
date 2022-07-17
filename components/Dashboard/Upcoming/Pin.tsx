@@ -4,6 +4,7 @@ import PinMenu from 'components/Dashboard/Upcoming/PinMenu'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { bgColor } from 'types/Colors'
 import { FlowType } from 'types/Flow'
 import abbreviateDate from 'utils/abbreviateDate'
 import shorten from 'utils/shorten'
@@ -37,7 +38,7 @@ export default function Pin({ flow, setCurrentFlow }: Props) {
     >
       <div
         className={classNames(
-          flow.FK_CourseOnTerm.Color,
+          flow.FK_CourseOnTerm?.Color || bgColor.BLUE,
           'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md',
         )}
       >

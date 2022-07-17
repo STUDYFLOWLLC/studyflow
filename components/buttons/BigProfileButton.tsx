@@ -34,7 +34,7 @@ export default function BigProfileButton({
         <Menu.Button
           className={classNames(
             {
-              'focus:ring-offset-gray-100 bg-gray-100 hover:bg-gray-200':
+              'focus:ring-offset-gray-100  hover:bg-gray-200':
                 theme === 'light',
             },
             {

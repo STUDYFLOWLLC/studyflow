@@ -84,6 +84,7 @@ export default function DeleteFlow({ course, setSelectedCourse }: Props) {
                       onClick={() => {
                         deleteCourseOnTerm(
                           course.CourseOnTermID,
+                          userDetails?.UserID,
                           coursesOnTerm,
                           mutateCoursesOnTerm,
                           dashFlows,
@@ -94,6 +95,7 @@ export default function DeleteFlow({ course, setSelectedCourse }: Props) {
                       onKeyDown={() => {
                         deleteCourseOnTerm(
                           course.CourseOnTermID,
+                          userDetails?.UserID,
                           coursesOnTerm,
                           mutateCoursesOnTerm,
                           dashFlows,

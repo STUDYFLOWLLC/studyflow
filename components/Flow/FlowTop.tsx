@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react'
 
 export interface Props {
   flowId: string
-  deleteFlow: () => void
+  closeModal: () => void
   flowTitle: string
   saving: boolean
 }
 
 export default function FlowTop({
   flowId,
-  deleteFlow,
+  closeModal,
   flowTitle,
   saving,
 }: Props) {
@@ -24,7 +24,7 @@ export default function FlowTop({
 
   return (
     <>
-      <FlowHeader flowId={flowId} deleteFlow={deleteFlow} saving={saving} />
+      <FlowHeader flowId={flowId} closeModal={closeModal} saving={saving} />
       <div className="border-b pb-4 mb-4 prose max-w-3xl mx-auto">
         <FlowProperties flowId={flowId} saving={saving} />
         <FlowTask flowId={flowId} flowTitle={flowTitle} />
