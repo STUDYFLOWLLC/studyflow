@@ -51,21 +51,22 @@ export function sortByLastOpened(
 
 export function masterFlowSorterAndGrouper(
   flows: DashFlow[],
-  sortBy: FlowSortOptions,
-  groupBy: number | 'All' | 'Trash',
+  sortBy?: FlowSortOptions,
+  groupBy?: number | 'All' | 'Trash',
 ) {
-  let sortedAndGroupedFlows: DashFlow[]
+  let sortedAndGroupedFlows = structuredClone(flows)
 
   switch (groupBy) {
     case 'All':
-      sortedAndGroupedFlows = flows
+      sortedAndGroupedFlows = flows.filter((flow) => !flow.Trashed)
       break
     case 'Trash':
       sortedAndGroupedFlows = flows.filter((flow) => flow.Trashed)
       break
     default:
       sortedAndGroupedFlows = flows.filter(
-        (flow) => flow.FK_CourseOnTerm.CourseOnTermID === groupBy,
+        (flow) =>
+          flow.FK_CourseOnTerm?.CourseOnTermID === groupBy && !flow.Trashed,
       )
       break
   }

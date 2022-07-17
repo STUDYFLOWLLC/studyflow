@@ -13,6 +13,7 @@ import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TaskListRelationFilter } from "../inputs/TaskListRelationFilter";
+import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("FlowWhereInput", {
   isAbstract: true
@@ -102,4 +103,14 @@ export class FlowWhereInput {
     nullable: true
   })
   FK_FlowView?: FlowViewListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => UserRelationFilter, {
+    nullable: true
+  })
+  FK_User?: UserRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
+    nullable: true
+  })
+  FK_UserID?: IntNullableFilter | undefined;
 }

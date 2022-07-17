@@ -4,6 +4,7 @@ import { FlashCardStack } from "../../../models/FlashCardStack";
 import { Flow } from "../../../models/Flow";
 import { FlowView } from "../../../models/FlowView";
 import { Task } from "../../../models/Task";
+import { User } from "../../../models/User";
 import { FlowFK_FlashCardStacksArgs } from "./args/FlowFK_FlashCardStacksArgs";
 import { FlowFK_FlowViewArgs } from "./args/FlowFK_FlowViewArgs";
 import { FlowFK_TasksArgs } from "./args/FlowFK_TasksArgs";
@@ -53,5 +54,16 @@ export class FlowRelationsResolver {
         FlowID: flow.FlowID,
       },
     }).FK_FlowView(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => User, {
+    nullable: true
+  })
+  async FK_User(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any): Promise<User | null> {
+    return getPrismaFromContext(ctx).flow.findUnique({
+      where: {
+        FlowID: flow.FlowID,
+      },
+    }).FK_User({});
   }
 }

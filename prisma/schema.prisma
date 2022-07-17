@@ -76,6 +76,7 @@ model User {
   FK_Task            Task[]
   FK_Settings        Setting?
   FK_FlowView        FlowView[]
+  Flow               Flow[]
 }
 
 model Term {
@@ -156,6 +157,9 @@ model Flow {
   FK_FlashCardStacks FlashCardStack[]
   FK_Tasks           Task[]
   FK_FlowView        FlowView[]
+  // Only use for trash/restore. CourseOnTermID is used for the rest.
+  FK_User            User?            @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID          Int?
 }
 
 model FlowView {

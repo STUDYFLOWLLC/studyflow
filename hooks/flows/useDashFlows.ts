@@ -13,7 +13,7 @@ export interface DashFlow {
   Type: FlowType
   Visibility: FlowVisibility
   Trashed: boolean
-  FK_CourseOnTerm: {
+  FK_CourseOnTerm?: {
     CourseOnTermID: number
     Nickname: string
     Color: string
@@ -21,6 +21,7 @@ export interface DashFlow {
       Code: string
     }
   }
+  FK_UserID?: number
 }
 
 interface Ret {
@@ -56,19 +57,25 @@ export default function useDashFlows(
             Code
           }
         }
+        FK_UserID
       }
     }
   `
 
   const variables = {
     where: {
-      FK_CourseOnTerm: {
-        is: {
-          FK_Term: {
+      OR: [
+        {
+          FK_UserID: {
+            equals: userId,
+          },
+        },
+        {
+          FK_CourseOnTerm: {
             is: {
-              FK_User: {
+              FK_Term: {
                 is: {
-                  UserID: {
+                  FK_UserID: {
                     equals: userId,
                   },
                 },
@@ -76,8 +83,13 @@ export default function useDashFlows(
             },
           },
         },
-      },
+      ],
     },
+    orderBy: [
+      {
+        CreatedTime: 'asc',
+      },
+    ],
   }
 
   const { data, error, mutate } = useSWR([query, variables], {

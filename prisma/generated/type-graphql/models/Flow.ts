@@ -6,6 +6,7 @@ import { CourseOnTerm } from "../models/CourseOnTerm";
 import { FlashCardStack } from "../models/FlashCardStack";
 import { FlowView } from "../models/FlowView";
 import { Task } from "../models/Task";
+import { User } from "../models/User";
 import { FlowType } from "../enums/FlowType";
 import { Visibility } from "../enums/Visibility";
 import { FlowCount } from "../resolvers/outputs/FlowCount";
@@ -71,6 +72,13 @@ export class Flow {
   FK_Tasks?: Task[];
 
   FK_FlowView?: FlowView[];
+
+  FK_User?: User | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  FK_UserID?: number | null;
 
   @TypeGraphQL.Field(_type => FlowCount, {
     nullable: true
