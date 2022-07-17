@@ -1,5 +1,6 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import FlowTop from 'components/Flow/FlowTop'
+import TrashedFlow from 'components/Flow/TrashedFlow'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { defaultBody } from 'hooks/flows/makeFlow'
 import { mutateFlowBody, mutateLastOpened } from 'hooks/flows/mutateFlow'
@@ -14,10 +15,10 @@ import FlowBody from './FlowBody'
 
 interface Props {
   flowId: string
-  deleteFlow: () => void
+  closeModal: () => void
 }
 
-export default function Flow({ flowId, deleteFlow }: Props) {
+export default function Flow({ flowId, closeModal }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
@@ -93,11 +94,15 @@ export default function Flow({ flowId, deleteFlow }: Props) {
     updateLastOpened()
   }, [])
 
+  if (flowDetails?.Trashed) {
+    return <TrashedFlow flowId={flowId} closeModal={closeModal} />
+  }
+
   return (
-    <div className="max-h-full relative">
+    <div className="relative h-full w-full min-h-full max-h-full">
       <FlowTop
         flowId={flowId}
-        deleteFlow={deleteFlow}
+        closeModal={closeModal}
         flowTitle={flowDetails?.Title}
         saving={saving}
       />

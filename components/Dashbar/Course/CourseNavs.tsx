@@ -94,7 +94,13 @@ export default function CourseNavs() {
 
   return (
     <>
-      <CourseModal open={courseModalOpen} setOpen={setCourseModalOpen} />
+      <CourseModal
+        open={
+          courseModalOpen ||
+          (!coursesOnTermLoading && coursesOnTerm?.length === 0)
+        }
+        setOpen={setCourseModalOpen}
+      />
       <div className="mt-6">
         <div className="w-100 flex items-center justify-between">
           <div>

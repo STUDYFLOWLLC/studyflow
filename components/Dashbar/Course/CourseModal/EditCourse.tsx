@@ -17,7 +17,7 @@ export default function EditCourse({ course, setSelectedCourse }: Props) {
         <InputCourseTitle course={course} />
       </div>
       <div className="my-4">
-        <InputCourseNickname course={course} />
+        <InputCourseNickname courseOnTerm={course} />
       </div>
       <div className="mx-auto my-4 max-w-xs">
         <CourseColorPicker course={course} />

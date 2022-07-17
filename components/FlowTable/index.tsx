@@ -1,7 +1,8 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import FlowTableHeader from 'components/FlowTable/FlowTableHeader'
-import useDashFlows from 'hooks/flows/useDashFlows'
+import useDashFlows, { DashFlow } from 'hooks/flows/useDashFlows'
+import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
@@ -20,6 +21,7 @@ export default function FlowList({ setCurrentFlow }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
+  const { coursesOnTerm } = useCoursesOnTerm(userDetails?.FK_Terms?.[0].TermID)
   const { dashFlows, dashFlowsLoading } = useDashFlows(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
@@ -27,9 +29,19 @@ export default function FlowList({ setCurrentFlow }: Props) {
     FlowSortOptions.RECENTLY_VIEWED_DESCENDING,
   )
   const [groupBy, setGroupBy] = useState<'All' | number | 'Trash'>('All')
-  const [ascending, setAscending] = useState(false)
+  const [sortedAndGroupedFlows, setSortedAndGroupedFlows] = useState<
+    DashFlow[]
+  >([])
 
   useEffect(() => setMounted(true), [])
+
+  useEffect(
+    () =>
+      setSortedAndGroupedFlows(
+        masterFlowSorterAndGrouper(dashFlows, sortBy, groupBy),
+      ),
+    [dashFlowsLoading, sortBy, groupBy],
+  )
 
   if (!mounted) return null
 
@@ -49,13 +61,21 @@ export default function FlowList({ setCurrentFlow }: Props) {
             setGroupBy={setGroupBy}
           />
           <ActualFlowTable
-            flows={masterFlowSorterAndGrouper(dashFlows, sortBy, groupBy)}
+            flows={sortedAndGroupedFlows}
             setCurrentFlow={setCurrentFlow}
             loading={userDetailsLoading || dashFlowsLoading}
             dashFlowsLoading={dashFlowsLoading}
           />
         </table>
-        {!dashFlowsLoading && dashFlows.length === 0 && <EmptyTable />}
+        {!dashFlowsLoading && sortedAndGroupedFlows.length === 0 && (
+          <EmptyTable
+            type={groupBy}
+            courseName={
+              coursesOnTerm.find((course) => course.CourseOnTermID === groupBy)
+                ?.Nickname || 'You should add a nickname to your course!'
+            }
+          />
+        )}
       </div>
     </div>
   )
