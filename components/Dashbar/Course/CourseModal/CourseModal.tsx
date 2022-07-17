@@ -5,6 +5,7 @@ import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
+import AddCourse from './AddCourse'
 import CourseModalNav from './CourseModalNav'
 import EditCourse from './EditCourse'
 
@@ -22,13 +23,14 @@ export default function CourseModal({ open, setOpen }: Props) {
   )
 
   const [mounted, setMounted] = useState(false)
-  const [selectedCourse, setSelectedCourse] = useState<CourseOnTerm | null>(
-    null,
-  )
+  const [selectedCourse, setSelectedCourse] = useState<
+    CourseOnTerm | undefined | null
+  >(coursesOnTerm?.[0] ? coursesOnTerm[0] : undefined)
 
   useEffect(() => setMounted(true), [])
 
   useEffect(() => {
+    if (selectedCourse === undefined) setSelectedCourse(coursesOnTerm?.[0])
     if (selectedCourse && coursesOnTerm) {
       const course = coursesOnTerm?.find(
         (courseOnTerm) =>
@@ -76,25 +78,25 @@ export default function CourseModal({ open, setOpen }: Props) {
             )}
           >
             <CourseModalNav
-              tabs={[
-                {
-                  key: undefined,
-                  name: 'Add Course',
-                  handler: () => setSelectedCourse(null),
-                },
-              ].concat(
-                /* @ts-expect-error fuck this shit it works */
-                coursesOnTerm.map((course) => ({
+              tabs={coursesOnTerm
+                .map((course) => ({
                   key: course.CourseOnTermID,
-                  name: course.Nickname || course.FK_Course.Code,
+                  name: course.Nickname || course.FK_Course?.Code || '',
                   handler: () => setSelectedCourse(course),
-                })),
-              )}
+                }))
+                .concat([
+                  {
+                    key: -1,
+                    name: 'Add Course',
+                    handler: () => setSelectedCourse(null),
+                  },
+                ])}
               selectedCourse={selectedCourse}
             />
-            {selectedCourse === null ? (
-              <span>add course</span>
-            ) : (
+            {selectedCourse === null && (
+              <AddCourse setSelectedCourseOnTerm={setSelectedCourse} />
+            )}
+            {selectedCourse !== null && selectedCourse !== undefined && (
               <EditCourse
                 course={selectedCourse}
                 setSelectedCourse={setSelectedCourse}

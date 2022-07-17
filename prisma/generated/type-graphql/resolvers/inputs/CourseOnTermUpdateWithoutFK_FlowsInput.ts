@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { CourseUpdateOneWithoutCourseOnTermInput } from "../inputs/CourseUpdateOneWithoutCourseOnTermInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
@@ -33,6 +34,11 @@ export class CourseOnTermUpdateWithoutFK_FlowsInput {
     nullable: true
   })
   Nickname?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  IsNew?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => CourseUpdateOneWithoutCourseOnTermInput, {
     nullable: true

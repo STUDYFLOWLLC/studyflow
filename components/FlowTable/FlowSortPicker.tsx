@@ -1,5 +1,4 @@
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
@@ -34,7 +33,6 @@ export default function TermSelectorMenu({ sortBy, setSortBy }: Props) {
         )}
       >
         {sortBy}
-        <ChevronDownIcon className="w-5 ml-1" />
       </Menu.Button>
 
       <Transition
@@ -52,7 +50,7 @@ export default function TermSelectorMenu({ sortBy, setSortBy }: Props) {
               ' bg-white ring-black ring-1 ring-opacity-5': theme === 'light',
             },
             { 'bg-slate-700': theme === 'dark' },
-            'absolute z-20 left-1.5 w-36 font-medium origin-top-left rounded-md shadow-lg focus:outline-none',
+            'absolute z-20 left-1 w-36 mt-1 font-medium origin-top-left rounded-md shadow-lg focus:outline-none',
           )}
         >
           {Object.values(FlowSortOptions).map((option) => (

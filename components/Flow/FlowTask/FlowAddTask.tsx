@@ -72,7 +72,7 @@ export default function index({
         Color: courseOnTerm?.Color,
         Nickname: courseOnTerm?.Nickname,
         FK_Course: {
-          Code: courseOnTerm?.FK_Course.Code,
+          Code: courseOnTerm?.FK_Course?.Code,
         },
       },
     }
@@ -196,10 +196,10 @@ export default function index({
               <CourseDropdown
                 items={coursesOnTerm.map((course) => ({
                   color: course.Color,
-                  name: course.Nickname || course.FK_Course.Code,
+                  name: course.Nickname || course.FK_Course?.Code || '',
                 }))}
                 title={
-                  courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || ''
+                  courseOnTerm?.Nickname || courseOnTerm?.FK_Course?.Code || ''
                 }
                 loading={coursesOnTermLoading}
                 color={courseOnTerm?.Color}

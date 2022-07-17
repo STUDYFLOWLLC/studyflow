@@ -32,6 +32,11 @@ export class CourseOnTermCreateManyInput {
   })
   Nickname?: string | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  IsNew?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

@@ -57,7 +57,7 @@ export default function EditTask({
   )
   const [taskCourse, setTaskCourse] = useState(oldCourse?.CourseOnTermID || 0)
   const [courseDropDownTitle, setCourseDropDownTitle] = useState(
-    oldCourse?.Nickname || oldCourse?.FK_Course.Code || 'General',
+    oldCourse?.Nickname || oldCourse?.FK_Course?.Code || 'General',
   )
   const [taskType, setTaskType] = useState<TaskType | undefined>(oldType)
 
@@ -127,14 +127,16 @@ export default function EditTask({
           <CourseDropdown
             items={coursesOnTerm.map((course) => ({
               color: course.Color,
-              name: course.Nickname || course.FK_Course.Code,
+              name: course.Nickname || course.FK_Course?.Code || '',
               handler: () => {
                 setTaskCourse(course.CourseOnTermID)
-                setCourseDropDownTitle(course.Nickname || course.FK_Course.Code)
+                setCourseDropDownTitle(
+                  course.Nickname || course.FK_Course?.Code || '',
+                )
               },
             }))}
             title={
-              oldCourse?.Nickname || oldCourse?.FK_Course.Code || 'General'
+              oldCourse?.Nickname || oldCourse?.FK_Course?.Code || 'General'
             }
             hasGeneral
             loading={coursesOnTermLoading}

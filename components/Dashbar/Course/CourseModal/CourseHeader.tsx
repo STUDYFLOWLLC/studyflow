@@ -4,7 +4,7 @@ import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 
 interface Props {
   course: CourseOnTerm
-  setSelectedCourse: (course: CourseOnTerm | null) => void
+  setSelectedCourse: (course: CourseOnTerm | undefined | null) => void
 }
 
 export default function CourseHeader({ course, setSelectedCourse }: Props) {
@@ -20,9 +20,9 @@ export default function CourseHeader({ course, setSelectedCourse }: Props) {
           />
         </div>
         <h3 className="m-0 p-0 truncate">
-          {course.Nickname || course.FK_Course.Code} |{' '}
+          {course.Nickname || course.FK_Course?.Code} |{' '}
           <span className="text-info opacity-80 text-sm">
-            {course.FK_Course.Title}, {course.FK_Course.Code}
+            {course.FK_Course?.Title}, {course.FK_Course?.Code}
           </span>
         </h3>
       </div>

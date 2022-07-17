@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { School, TermType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
+import { School, TermType } from 'types/School'
 
 interface SchoolDetails {
   schoolDetails: School
@@ -14,32 +14,27 @@ interface SchoolDetails {
 export default function useSchoolDetails(
   schoolId: number | undefined,
 ): SchoolDetails {
+  const query = gql`
+    query Query($where: SchoolWhereInput) {
+      findFirstSchool(where: $where) {
+        SchoolID
+        Name
+        HasClassSupport
+        SearchIndex
+        TermType
+      }
+    }
+  `
+
   const variables = {
     where: {
       SchoolID: {
-        equals: schoolId,
+        equals: schoolId || 0,
       },
     },
   }
 
-  const { data, error, mutate } = useSWR(
-    schoolId
-      ? [
-          gql`
-            query Query($where: SchoolWhereInput) {
-              findFirstSchool(where: $where) {
-                SchoolID
-                Name
-                HasClassSupport
-                SearchIndex
-                TermType
-              }
-            }
-          `,
-          variables,
-        ]
-      : null,
-  )
+  const { data, error, mutate } = useSWR([query, variables])
 
   if (data?.mutate) {
     return {

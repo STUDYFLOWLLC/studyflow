@@ -1,47 +1,39 @@
 import classnames from 'classnames'
-import { CourseHit } from 'components/Forms/Course/CourseSearch'
-import EnterCourseNickname from 'components/Setup/Education/EnterCourseNickname'
-import { Dispatch, SetStateAction } from 'react'
-import shorten from 'utils/shorten'
+import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 
 interface Props {
-  color: string
-  course: CourseHit
-  nickname: string
-  setNickname: Dispatch<SetStateAction<string>>
+  courseOnTerm: CourseOnTerm
 }
 
-export default function CourseDisplay({
-  color,
-  course,
-  nickname,
-  setNickname,
-}: Props) {
+export default function CourseDisplay({ courseOnTerm }: Props) {
   return (
     <div className="w-full sm:ml-4 flex flex-col mb-3">
       <div className="flex items-center">
         <div
-          key={color}
+          key={courseOnTerm.Color}
           className={classnames(
-            color,
+            courseOnTerm.Color,
             ' ring-offset-1 w-3 h-3 m-2 rounded-full',
           )}
         />
-        {shorten(nickname || course.Title, 34)}
+        {courseOnTerm.Nickname || courseOnTerm.FK_Course?.Title}
       </div>
       <div className="sm:px-2 flex w-full justify-between">
-        <p>{course.Code}</p>
-        <p>{course.Term}</p>
+        <p className="truncate">{courseOnTerm.FK_Course?.Code}</p>
+        <p className="truncate">{courseOnTerm.FK_Course?.Term}</p>
       </div>
       <div className="sm:hidden flex w-full justify-between">
-        <p>{shorten(course.FK_Professor?.Name, 10)}</p>
-        <p>{course.FK_Professor?.Email}</p>
+        <p className="truncate">{courseOnTerm.FK_Course?.FK_Professor?.Name}</p>
+        <p className="truncate">
+          {courseOnTerm.FK_Course?.FK_Professor?.Email}
+        </p>
       </div>
       <div className="hidden px-2 sm:flex w-full justify-between">
-        <p>{shorten(course.FK_Professor?.Name, 20)}</p>
-        <p>{course.FK_Professor?.Email}</p>
+        <p className="truncate">{courseOnTerm.FK_Course?.FK_Professor?.Name}</p>
+        <p className="truncate">
+          {courseOnTerm.FK_Course?.FK_Professor?.Email}
+        </p>
       </div>
-      <EnterCourseNickname nickname={nickname} setNickname={setNickname} />
     </div>
   )
 }

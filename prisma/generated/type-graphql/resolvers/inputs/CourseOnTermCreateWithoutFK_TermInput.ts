@@ -30,6 +30,11 @@ export class CourseOnTermCreateWithoutFK_TermInput {
   })
   Nickname?: string | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  IsNew?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => CourseCreateNestedOneWithoutCourseOnTermInput, {
     nullable: true
   })

@@ -6,6 +6,7 @@ export enum CourseOnTermScalarFieldEnum {
   Index = "Index",
   Color = "Color",
   Nickname = "Nickname",
+  IsNew = "IsNew",
   FK_CourseID = "FK_CourseID",
   FK_TermID = "FK_TermID"
 }

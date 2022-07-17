@@ -1,21 +1,24 @@
 import { Combobox } from '@headlessui/react'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import { CourseHit } from 'components/Forms/Course/CourseSearch'
-import { Dispatch, SetStateAction, useState } from 'react'
+import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useUserDetails from 'hooks/useUserDetails'
+import { useState } from 'react'
+import { changeCourseOnTermCourse } from 'utils/setup/courseHandlers'
 
 interface Props {
-  selectedCourse: CourseHit
-  setSelectedCourse: Dispatch<SetStateAction<CourseHit>>
+  courseOnTerm: CourseOnTerm | undefined
   query: string
   setQuery: (query: string) => void
 }
 
-export default function CourseInput({
-  selectedCourse,
-  setSelectedCourse,
-  query,
-  setQuery,
-}: Props) {
+export default function CourseInput({ courseOnTerm, query, setQuery }: Props) {
+  const { user } = useUser()
+  const { userDetails } = useUserDetails(user?.id)
+  const { coursesOnTerm, mutateCoursesOnTerm } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0]?.TermID,
+  )
+
   const [focused, setFocused] = useState(false)
 
   return (
@@ -26,17 +29,20 @@ export default function CourseInput({
         )}
         onChange={(e: { target: { value: string } }) => {
           setQuery(e.target.value)
-          if (query === '')
-            setSelectedCourse({
-              Code: '',
-              CourseID: 0,
-              Title: '',
-              Term: '',
-              FK_SchoolID: 0,
-              IsOfficial: false,
-            })
+          if (query === '') {
+            changeCourseOnTermCourse(
+              courseOnTerm?.CourseOnTermID,
+              undefined,
+              coursesOnTerm,
+              mutateCoursesOnTerm,
+            )
+          }
         }}
-        displayValue={() => selectedCourse?.Title || query}
+        displayValue={() =>
+          courseOnTerm?.FK_Course?.Title === 'Untitled course'
+            ? query
+            : courseOnTerm?.FK_Course?.Title || ''
+        }
         value={query}
         placeholder="Course Title/Code/Prof"
         onFocus={() => setFocused(true)}

@@ -56,13 +56,13 @@ export default async function createCourseOnTerm(
       CourseOnTermID: data.updateTerm.FK_CourseOnTerm[0].CourseOnTermID,
       Color: data.updateTerm.FK_CourseOnTerm[0].Color,
       Nickname: data.updateTerm.FK_CourseOnTerm[0].Nickname,
-      IsOfficial: data.updateTerm.FK_CourseOnTerm[0].FK_Course.IsOfficial,
-      Title: data.updateTerm.FK_CourseOnTerm[0].FK_Course.Title,
-      Code: data.updateTerm.FK_CourseOnTerm[0].FK_Course.Code,
-      Term: data.updateTerm.FK_CourseOnTerm[0].FK_Course.Term,
+      IsOfficial: data.updateTerm.FK_CourseOnTerm[0].FK_Course?.IsOfficial,
+      Title: data.updateTerm.FK_CourseOnTerm[0].FK_Course?.Title,
+      Code: data.updateTerm.FK_CourseOnTerm[0].FK_Course?.Code,
+      Term: data.updateTerm.FK_CourseOnTerm[0].FK_Course?.Term,
       ProfessorName:
-        data.updateTerm.FK_CourseOnTerm[0].FK_Course.FK_Professor?.Name,
-      Email: data.updateTerm.FK_CourseOnTerm[0].FK_Course.FK_Professor?.Email,
+        data.updateTerm.FK_CourseOnTerm[0].FK_Course?.FK_Professor?.Name,
+      Email: data.updateTerm.FK_CourseOnTerm[0].FK_Course?.FK_Professor?.Email,
     }
   }
   return false

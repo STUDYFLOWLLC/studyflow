@@ -31,7 +31,7 @@ export default function FlowProperty({
               coursesOnTerm
                 ? coursesOnTerm.map((course) => ({
                     color: course.Color,
-                    name: course.Nickname || course.FK_Course.Code,
+                    name: course.Nickname || course.FK_Course?.Code || '',
                     handler: () => console.log('test'),
                   }))
                 : []

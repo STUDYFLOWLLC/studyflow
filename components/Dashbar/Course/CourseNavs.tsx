@@ -105,7 +105,9 @@ export default function CourseNavs() {
           <PlusCircleIcon
             className="text-gray-500 cursor-pointer"
             style={{ width: '1.125rem' }}
-            onClick={() => setCourseModalOpen(true)}
+            onClick={() => {
+              if (!coursesOnTermLoading) setCourseModalOpen(true)
+            }}
           />
         </div>
         {coursesOnTerm &&
@@ -144,7 +146,7 @@ export default function CourseNavs() {
                   coursesOnTerm.length !== 0 &&
                   coursesOnTerm.map((course, index) => (
                     <CourseLine
-                      key={course.FK_Course.Code}
+                      key={course.FK_Course?.Code}
                       index={index}
                       course={course}
                       loading={userDetailsLoading || coursesOnTermLoading}

@@ -3,20 +3,23 @@
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 
+export interface fkCourse {
+  Code: string
+  Term: string
+  Title: string
+  FK_Professor: {
+    Name: string
+    Email: string
+  }
+}
+
 export interface CourseOnTerm {
   CourseOnTermID: number
   Color: string
   Nickname: string
   Index: number
-  FK_Course: {
-    Code: string
-    Term: string
-    Title: string
-    FK_Professor: {
-      Name: string
-      Email: string
-    }
-  }
+  IsNew: boolean
+  FK_Course?: fkCourse
 }
 
 interface Ret {
@@ -35,6 +38,7 @@ export default function useCoursesOnTerm(termID: number | undefined): Ret {
           Color
           Nickname
           Index
+          IsNew
           FK_Course {
             Code
             Term
@@ -52,12 +56,14 @@ export default function useCoursesOnTerm(termID: number | undefined): Ret {
   const variables = {
     where: {
       TermID: {
-        equals: termID === undefined ? null : termID,
+        equals: termID || 0,
       },
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR([query, variables], {
+    revalidateOnMount: false,
+  })
 
   if (data?.mutate) {
     return {
