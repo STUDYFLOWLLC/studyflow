@@ -90,7 +90,9 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
         />
         <CourseColorPicker course={coursesOnTerm[coursesOnTerm.length - 1]} />
         <CourseDisplay courseOnTerm={coursesOnTerm[coursesOnTerm.length - 1]} />
-        <InputCourseNickname courseOnTerm={coursesOnTerm[coursesOnTerm.length - 1]} />
+        <InputCourseNickname
+          courseOnTerm={coursesOnTerm[coursesOnTerm.length - 1]}
+        />
         <button
           type="button"
           className="alex-button mt-2"

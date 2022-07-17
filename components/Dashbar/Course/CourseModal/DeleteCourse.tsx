@@ -74,7 +74,7 @@ export default function DeleteFlow({ course, setSelectedCourse }: Props) {
                   <div className="max-w-xl text-sm text-info pt-2">
                     <p className="p-0 m-0">
                       When you delete a course, all of its flows, flashcards,
-                      and tasks will be deleted.
+                      and tasks will be trashed.
                     </p>
                   </div>
                   <div className="mt-5">
