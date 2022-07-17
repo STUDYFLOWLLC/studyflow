@@ -5,6 +5,7 @@ import { DashFlow } from 'hooks/flows/useDashFlows'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { bgColor } from 'types/Colors'
 import { FlowVisibility } from 'types/Flow'
 
 interface Props {
@@ -49,7 +50,7 @@ export default function FlowTableLine({
           {!loading ? (
             <div
               className={classnames(
-                flow.FK_CourseOnTerm.Color,
+                flow.FK_CourseOnTerm?.Color || bgColor.GRAY,
                 'flex-shrink-0 w-2.5 h-2.5 rounded-full',
               )}
               aria-hidden="true"
@@ -68,15 +69,22 @@ export default function FlowTableLine({
                   >
                     {flow.Title}{' '}
                   </span>
+
                   <span
                     className={classnames(
                       { 'text-gray-500': !showOpenIcon },
                       'font-normal',
                     )}
                   >
-                    <span className="lowercase">{flow.Type} </span>in{' '}
-                    {flow.FK_CourseOnTerm.Nickname ||
-                      flow.FK_CourseOnTerm.FK_Course?.Code}
+                    {!flow.Trashed ? (
+                      <>
+                        <span className="lowercase">{flow.Type} </span>in{' '}
+                        {flow.FK_CourseOnTerm?.Nickname ||
+                          flow.FK_CourseOnTerm?.FK_Course?.Code}
+                      </>
+                    ) : (
+                      <span className="lowercase">{flow.Type} </span>
+                    )}
                   </span>
                 </div>
                 {flow.Visibility === FlowVisibility.PUBLIC && (

@@ -78,4 +78,9 @@ export class FlowScalarWhereWithAggregatesInput {
     nullable: true
   })
   FK_CourseOnTermID?: IntNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  FK_UserID?: IntNullableWithAggregatesFilter | undefined;
 }

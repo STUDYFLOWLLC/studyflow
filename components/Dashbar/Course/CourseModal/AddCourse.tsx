@@ -64,7 +64,7 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
 
   return (
     <div className="relative w-full h-full">
-      {!coursesOnTerm[coursesOnTerm.length - 1].IsNew && showAdd && (
+      {!coursesOnTerm[coursesOnTerm.length - 1]?.IsNew && showAdd && (
         <CourseBlurOver
           loading={loading}
           setLoading={setLoading}
@@ -75,7 +75,7 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
         className={classNames(
           {
             'blur-lg':
-              !coursesOnTerm[coursesOnTerm.length - 1].IsNew && showAdd,
+              !coursesOnTerm[coursesOnTerm.length - 1]?.IsNew && showAdd,
           },
           'w-full flex flex-col items-center not-prose',
         )}
@@ -90,7 +90,9 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
         />
         <CourseColorPicker course={coursesOnTerm[coursesOnTerm.length - 1]} />
         <CourseDisplay courseOnTerm={coursesOnTerm[coursesOnTerm.length - 1]} />
-        <InputCourseNickname course={coursesOnTerm[coursesOnTerm.length - 1]} />
+        <InputCourseNickname
+          courseOnTerm={coursesOnTerm[coursesOnTerm.length - 1]}
+        />
         <button
           type="button"
           className="alex-button mt-2"

@@ -108,8 +108,8 @@ export default function index({ flowId, saving }: Props) {
           title={
             flowDetailsLoading
               ? 'Course'
-              : flowDetails?.FK_CourseOnTerm.Nickname ||
-                flowDetails?.FK_CourseOnTerm.FK_Course?.Code
+              : flowDetails?.FK_CourseOnTerm?.Nickname ||
+                flowDetails?.FK_CourseOnTerm?.FK_Course?.Code
           }
           coursesOnTermSmall={
             coursesOnTerm

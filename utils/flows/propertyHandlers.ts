@@ -1,13 +1,17 @@
 import {
+  mutateDeleteFlow,
   mutateFlowCourseOnTerm,
   mutateFlowTitle,
   mutateFlowType,
   mutateFlowVisibility,
+  mutateTrashFLow,
   mutateUserEnteredDate,
 } from 'hooks/flows/mutateFlow'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import { FlowDetail } from 'hooks/flows/useFlowDetails'
+import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import { editTaskCourse } from 'hooks/tasks/mutateTask'
+import { UserDetail } from 'hooks/useUserDetails'
 import { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
 
@@ -198,4 +202,95 @@ export function changeCourse(
     },
     { revalidate: false },
   )
+}
+
+export async function trashFlow(
+  flowId: string,
+  userDetails: UserDetail | null,
+  dashFlows: DashFlow[],
+  mutateDashFlows: KeyedMutator<any>,
+  closeFlowModal: () => void,
+) {
+  if (!flowId) return
+
+  // mutate in backend
+  mutateTrashFLow(flowId, true)
+
+  // mutate locally
+  mutateDashFlows(
+    {
+      mutatedFlows: dashFlows.map((flow) => {
+        if (flow.FlowID === flowId) {
+          return {
+            ...flow,
+            Trashed: true,
+            FK_UserID: userDetails?.UserID || 0,
+          }
+        }
+        return flow
+      }),
+      mutate: true,
+    },
+    { revalidate: false },
+  )
+
+  closeFlowModal()
+}
+
+export async function restoreFlow(
+  flowId: string,
+  newCourse: CourseOnTerm,
+  dashFlows: DashFlow[],
+  mutateDashFlows: KeyedMutator<any>,
+  closeFlowModal: () => void,
+) {
+  if (!flowId) return
+
+  // mutate in backend
+  mutateTrashFLow(flowId, false)
+  mutateFlowCourseOnTerm(flowId, newCourse.CourseOnTermID)
+
+  // mutate locally
+  mutateDashFlows(
+    {
+      mutatedFlows: dashFlows.map((flow) => {
+        if (flow.FlowID === flowId) {
+          return {
+            ...flow,
+            Trashed: false,
+            FK_CourseOnTerm: newCourse,
+            FK_UserID: undefined,
+          }
+        }
+        return flow
+      }),
+      mutate: true,
+    },
+    { revalidate: false },
+  )
+
+  closeFlowModal()
+}
+
+export async function deleteFlow(
+  flowId: string,
+  dashFlows: DashFlow[],
+  mutateDashFlows: KeyedMutator<any>,
+  closeFlowModal: () => void,
+) {
+  if (!flowId) return
+
+  // mutate in backend
+  mutateDeleteFlow(flowId)
+
+  // mutate locally
+  mutateDashFlows(
+    {
+      mutatedFlows: dashFlows.filter((flow) => flow.FlowID !== flowId),
+      mutate: true,
+    },
+    { revalidate: false },
+  )
+
+  closeFlowModal()
 }

@@ -11,6 +11,7 @@ import { FlashCardStackUpdateManyWithoutFK_FlowInput } from "../inputs/FlashCard
 import { FlowViewUpdateManyWithoutFK_FlowInput } from "../inputs/FlowViewUpdateManyWithoutFK_FlowInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { UserUpdateOneWithoutFlowInput } from "../inputs/UserUpdateOneWithoutFlowInput";
 
 @TypeGraphQL.InputType("FlowUpdateWithoutFK_TasksInput", {
   isAbstract: true
@@ -75,4 +76,9 @@ export class FlowUpdateWithoutFK_TasksInput {
     nullable: true
   })
   FK_FlowView?: FlowViewUpdateManyWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserUpdateOneWithoutFlowInput, {
+    nullable: true
+  })
+  FK_User?: UserUpdateOneWithoutFlowInput | undefined;
 }
