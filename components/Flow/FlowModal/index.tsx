@@ -69,7 +69,7 @@ export default function index({
               Nickname: firstCourse?.Nickname,
               Color: firstCourse?.Color,
               FK_Course: {
-                Code: firstCourse?.FK_Course.Code,
+                Code: firstCourse?.FK_Course?.Code,
               },
             },
           },

@@ -32,6 +32,11 @@ export class CourseOnTermMaxAggregate {
   })
   Nickname!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  IsNew!: boolean | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

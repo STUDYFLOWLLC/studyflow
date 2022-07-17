@@ -50,7 +50,7 @@ export default function index({
   const [courseDropDownTitle, setCourseDropDownTitle] = useState(
     general
       ? 'General'
-      : courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || 'Course',
+      : courseOnTerm?.Nickname || courseOnTerm?.FK_Course?.Code || 'Course',
   )
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
@@ -105,7 +105,7 @@ export default function index({
     setCourseDropDownTitle(
       general
         ? 'General'
-        : courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code || 'Course',
+        : courseOnTerm?.Nickname || courseOnTerm?.FK_Course?.Code || 'Course',
     )
     setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
     setTaskType(undefined)
@@ -181,11 +181,11 @@ export default function index({
               <CourseDropdown
                 items={coursesOnTerm.map((course) => ({
                   color: course.Color,
-                  name: course.Nickname || course.FK_Course.Code,
+                  name: course.Nickname || course.FK_Course?.Code || '',
                   handler: () => {
                     setTaskCourse(course.CourseOnTermID)
                     setCourseDropDownTitle(
-                      course.Nickname || course.FK_Course.Code,
+                      course.Nickname || course.FK_Course?.Code || '',
                     )
                   },
                 }))}
@@ -224,7 +224,7 @@ export default function index({
                     general
                       ? 'General'
                       : courseOnTerm?.Nickname ||
-                          courseOnTerm?.FK_Course.Code ||
+                          courseOnTerm?.FK_Course?.Code ||
                           'Course',
                   )
                   setTaskCourse(courseOnTerm?.CourseOnTermID || 0)

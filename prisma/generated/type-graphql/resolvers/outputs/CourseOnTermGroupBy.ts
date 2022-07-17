@@ -37,6 +37,11 @@ export class CourseOnTermGroupBy {
   })
   Nickname!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  IsNew!: boolean;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

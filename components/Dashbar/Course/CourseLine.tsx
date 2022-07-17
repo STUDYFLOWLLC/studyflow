@@ -25,8 +25,8 @@ export default function CourseLine({ index, course, current, loading }: Props) {
 
   return (
     <Draggable
-      key={course.FK_Course.Code || rand.toString()}
-      draggableId={course.FK_Course.Code || rand.toString()}
+      key={course.FK_Course?.Code || rand.toString()}
+      draggableId={course.FK_Course?.Code || rand.toString()}
       index={index}
     >
       {(provided) => (
@@ -62,7 +62,7 @@ export default function CourseLine({ index, course, current, loading }: Props) {
               <Skeleton className="w-2.5 h-2.5 mr-4" circle />
             )}
             {!loading ? (
-              <span>{course.Nickname || course.FK_Course.Code}</span>
+              <span>{course.Nickname || course.FK_Course?.Code}</span>
             ) : (
               <Skeleton width={150} />
             )}

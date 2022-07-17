@@ -109,14 +109,14 @@ export default function index({ flowId, saving }: Props) {
             flowDetailsLoading
               ? 'Course'
               : flowDetails?.FK_CourseOnTerm.Nickname ||
-                flowDetails?.FK_CourseOnTerm.FK_Course.Code
+                flowDetails?.FK_CourseOnTerm.FK_Course?.Code
           }
           coursesOnTermSmall={
             coursesOnTerm
               ? coursesOnTerm.map((course) => ({
                   CourseOnTermID: course.CourseOnTermID,
                   Nickname: course.Nickname,
-                  Code: course.FK_Course.Code,
+                  Code: course.FK_Course?.Code || '',
                   Color: course.Color,
                   mutator: courseMutator,
                 }))

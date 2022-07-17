@@ -6,7 +6,7 @@ import InputCourseTitle from './InputCourseTitle'
 
 interface Props {
   course: CourseOnTerm
-  setSelectedCourse: (course: CourseOnTerm | null) => void
+  setSelectedCourse: (course: CourseOnTerm | undefined | null) => void
 }
 
 export default function EditCourse({ course, setSelectedCourse }: Props) {

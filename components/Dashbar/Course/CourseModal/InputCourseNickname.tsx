@@ -26,11 +26,14 @@ export default function InputCourseNickname({ course }: Props) {
   const [editingNickname, setEditingNickname] = useState(false)
   const [saving, setSaving] = useState(false)
   const [inputValue, setInputValue] = useState(
-    course.Nickname || course.FK_Course.Code,
+    course.Nickname !== null ? course.Nickname : course.FK_Course?.Code,
   )
 
   useEffect(
-    () => setInputValue(course.Nickname || course.FK_Course.Code),
+    () =>
+      setInputValue(
+        course.Nickname !== null ? course.Nickname : course.FK_Course?.Code,
+      ),
     [course],
   )
 
@@ -56,6 +59,7 @@ export default function InputCourseNickname({ course }: Props) {
               setSaving,
             )
           }}
+          placeholder="Course Nickname"
           onFocus={() => setEditingNickname(true)}
           onBlur={() => setEditingNickname(false)}
         />

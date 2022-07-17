@@ -2,11 +2,7 @@
 
 import { School } from '@prisma/client'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import CourseColorPicker from 'components/Forms/Course/CourseColorPicker'
-import CourseSearch, { CourseHit } from 'components/Forms/Course/CourseSearch'
-import CourseDisplay from 'components/Setup/Education/CourseDisplay'
-import SmallCourseDisplay from 'components/Setup/Education/SmallCourseDisplay'
-import ButtonSpinner from 'components/spinners/ButtonSpinner'
+import { CourseHit } from 'components/Forms/Course/CourseSearch'
 import createCourseOnTerm from 'hooks/school/createCourseOnTerm'
 import useTermDetails from 'hooks/school/useTermDetails'
 import { mutateSetupStep } from 'hooks/setup/mutateUser'
@@ -123,69 +119,71 @@ export default function AddCourse({ selectedSchool }: Props) {
     setDoneAddingCourses(false)
   }
 
-  return (
-    <>
-      <p className="w-full text-left text-lg mt-2 font-semibold">Add Courses</p>
-      <CourseSearch
-        selectedCourse={selectedCourse}
-        setSelectedCourse={setSelectedCourse}
-        selectedSchool={selectedSchool}
-        query={query}
-        setQuery={setQuery}
-      />
-      <CourseColorPicker
-        colors={colors}
-        selectedColor={selectedColor}
-        setSelectedColor={setSelectedColor}
-      />
-      {selectedCourse.Title && (
-        <CourseDisplay
-          nickname={nickname}
-          setNickname={setNickname}
-          color={selectedColor}
-          course={selectedCourse}
-        />
-      )}
-      <button
-        type="button"
-        className="mt-2 btn btn-primary btn-sm flex"
-        onClick={() => createCourseOnTermInDB()}
-      >
-        Add {nickname || 'Course'}
-        <ButtonSpinner show={addingCourse} />
-      </button>
-      {termDetails?.CoursesOnTerm.length > 0 && (
-        <div className="w-full transition-all h-0.5 bg-gray-200 mx-auto mt-4" />
-      )}
+  return null
 
-      {termDetails.CoursesOnTerm.length !== 0 && (
-        <p className="w-full text-left pl-2 mt-2">Your courses</p>
-      )}
-      {!termDetailsLoading && (
-        <div
-          className="w-full flex flex-wrap px-2 tooltip-bottom tooltip"
-          data-tip="Courses can be edited later."
-        >
-          {termDetails.CoursesOnTerm.map((course) => (
-            <SmallCourseDisplay
-              key={course.Code}
-              color={course.Color}
-              title={course.Title}
-              nickname={course.Nickname}
-            />
-          ))}
-        </div>
-      )}
-      {!termDetailsLoading && termDetails.CoursesOnTerm.length > 0 && (
-        <button
-          type="button"
-          className="mt-4 btn btn-primary btn-sm flex"
-          onClick={() => finishAddingCourses()}
-        >
-          I&apos;m done adding courses
-          <ButtonSpinner show={doneAddingCourses} />
-        </button>
-      )}
-    </>
-  )
+  // return (
+  //   <>
+  //     <p className="w-full text-left text-lg mt-2 font-semibold">Add Courses</p>
+  //     <CourseSearch
+  //       selectedCourse={selectedCourse}
+  //       setSelectedCourse={setSelectedCourse}
+  //       selectedSchool={selectedSchool}
+  //       query={query}
+  //       setQuery={setQuery}
+  //     />
+  //     <CourseColorPicker
+  //       colors={colors}
+  //       selectedColor={selectedColor}
+  //       setSelectedColor={setSelectedColor}
+  //     />
+  //     {selectedCourse.Title && (
+  //       <CourseDisplay
+  //         nickname={nickname}
+  //         setNickname={setNickname}
+  //         color={selectedColor}
+  //         course={selectedCourse}
+  //       />
+  //     )}
+  //     <button
+  //       type="button"
+  //       className="mt-2 btn btn-primary btn-sm flex"
+  //       onClick={() => createCourseOnTermInDB()}
+  //     >
+  //       Add {nickname || 'Course'}
+  //       <ButtonSpinner show={addingCourse} />
+  //     </button>
+  //     {termDetails?.CoursesOnTerm.length > 0 && (
+  //       <div className="w-full transition-all h-0.5 bg-gray-200 mx-auto mt-4" />
+  //     )}
+
+  //     {termDetails.CoursesOnTerm.length !== 0 && (
+  //       <p className="w-full text-left pl-2 mt-2">Your courses</p>
+  //     )}
+  //     {!termDetailsLoading && (
+  //       <div
+  //         className="w-full flex flex-wrap px-2 tooltip-bottom tooltip"
+  //         data-tip="Courses can be edited later."
+  //       >
+  //         {termDetails.CoursesOnTerm.map((course) => (
+  //           <SmallCourseDisplay
+  //             key={course.Code}
+  //             color={course.Color}
+  //             title={course.Title}
+  //             nickname={course.Nickname}
+  //           />
+  //         ))}
+  //       </div>
+  //     )}
+  //     {!termDetailsLoading && termDetails.CoursesOnTerm.length > 0 && (
+  //       <button
+  //         type="button"
+  //         className="mt-4 btn btn-primary btn-sm flex"
+  //         onClick={() => finishAddingCourses()}
+  //       >
+  //         I&apos;m done adding courses
+  //         <ButtonSpinner show={doneAddingCourses} />
+  //       </button>
+  //     )}
+  //   </>
+  // )
 }

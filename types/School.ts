@@ -6,3 +6,11 @@ export enum TermType {
   SEMESTER = 'SEMESTER',
   SUMMER = 'SUMMER',
 }
+
+export interface School {
+  SchoolID: number
+  Name: string
+  HasClassSupport: boolean
+  SearchIndex: string | null
+  TermType: TermType | null
+}

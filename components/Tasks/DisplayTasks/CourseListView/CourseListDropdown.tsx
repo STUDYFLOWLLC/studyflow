@@ -54,7 +54,7 @@ export default function CourseListDropdown({
           <span
             className={classNames(bgToTextColor(course.Color), 'font-bold')}
           >
-            {course.Nickname || course.FK_Course.Code}
+            {course.Nickname || course.FK_Course?.Code}
           </span>
         </span>
         <span className="text-xs text-gray-400 mt-3">

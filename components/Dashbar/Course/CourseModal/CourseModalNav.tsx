@@ -4,14 +4,14 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 export interface Tab {
-  key: number | undefined
+  key: number
   name: string
   handler: () => void
 }
 
 interface Props {
   tabs: Tab[]
-  selectedCourse: CourseOnTerm | null
+  selectedCourse: CourseOnTerm | undefined | null
 }
 
 export default function SettingsNavBig({ tabs, selectedCourse }: Props) {
@@ -38,7 +38,8 @@ export default function SettingsNavBig({ tabs, selectedCourse }: Props) {
             className={classNames(
               {
                 'border-primary text-primary':
-                  tab.key === selectedCourse?.CourseOnTermID,
+                  tab.key === selectedCourse?.CourseOnTermID ||
+                  (!selectedCourse && tab.key === -1),
               },
               {
                 'border-transparent hover:border-gray-300':
