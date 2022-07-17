@@ -44,6 +44,10 @@ a {
   scrollbar-width: none; /* Firefox */
 }
 
+.alex-button {
+  @apply bg-primary text-gray-700 mx-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+}
+
 #underline {
   @apply underline;
 }

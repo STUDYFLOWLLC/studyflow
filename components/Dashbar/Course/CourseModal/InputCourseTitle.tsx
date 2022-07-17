@@ -26,9 +26,9 @@ export default function InputCourseTitle({ course }: Props) {
   const [locked, setLocked] = useState(true)
   const [editingNickname, setEditingNickname] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [inputValue, setInputValue] = useState(course.FK_Course.Title)
+  const [inputValue, setInputValue] = useState(course.FK_Course?.Title || '')
 
-  useEffect(() => setInputValue(course.FK_Course.Title), [course])
+  useEffect(() => setInputValue(course.FK_Course?.Title || ''), [course])
 
   return (
     <Tippy

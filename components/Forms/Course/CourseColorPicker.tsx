@@ -11,18 +11,10 @@ import { TOOLTIP_OFFSET } from 'types/Magic'
 import { changeCourseColor } from 'utils/setup/courseHandlers'
 
 interface Props {
-  colors?: string[]
-  selectedColor?: string
-  setSelectedColor?: (color: bgColor) => void
-  course?: CourseOnTerm
+  course: CourseOnTerm
 }
 
-export default function CourseColorPicker({
-  colors,
-  selectedColor,
-  setSelectedColor,
-  course,
-}: Props) {
+export default function CourseColorPicker({ course }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
@@ -62,6 +54,9 @@ export default function CourseColorPicker({
               {
                 'ring-2 ring-gray-100':
                   theme === 'dark' && course?.Color === color,
+              },
+              {
+                'border-2 border-primary': color === bgColor.DEFAULT,
               },
               color,
               'ring-offset-1 w-5 h-5 m-2 rounded-full cursor-pointer',

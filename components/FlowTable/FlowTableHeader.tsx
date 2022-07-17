@@ -49,7 +49,7 @@ export default function FlowTableHeader({
   ].concat(
     coursesOnTerm
       ?.map((courseOnTerm) => ({
-        name: courseOnTerm.Nickname || courseOnTerm.FK_Course.Code,
+        name: courseOnTerm.Nickname || courseOnTerm.FK_Course?.Code || '',
         active: groupBy === courseOnTerm.CourseOnTermID,
         handler: () => setGroupBy(courseOnTerm.CourseOnTermID),
       }))

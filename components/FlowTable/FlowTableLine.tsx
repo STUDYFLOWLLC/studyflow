@@ -76,7 +76,7 @@ export default function FlowTableLine({
                   >
                     <span className="lowercase">{flow.Type} </span>in{' '}
                     {flow.FK_CourseOnTerm.Nickname ||
-                      flow.FK_CourseOnTerm.FK_Course.Code}
+                      flow.FK_CourseOnTerm.FK_Course?.Code}
                   </span>
                 </div>
                 {flow.Visibility === FlowVisibility.PUBLIC && (

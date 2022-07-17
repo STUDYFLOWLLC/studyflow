@@ -37,6 +37,11 @@ export class CourseOnTermOrderByWithRelationInput {
   })
   Nickname?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  IsNew?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => CourseOrderByWithRelationInput, {
     nullable: true
   })

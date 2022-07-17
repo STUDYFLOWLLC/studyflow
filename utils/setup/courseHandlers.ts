@@ -1,13 +1,44 @@
 /* eslint-disable import/prefer-default-export */
+import { CourseHit } from 'components/Forms/Course/CourseSearch'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import {
+  mutateAddCourseOnTerm,
   mutateCourseColor,
   mutateCourseNickname,
+  mutateCourseOnTermCourse,
+  mutateCourseOnTermIsNew,
   mutateDeleteCourseOnTerm,
 } from 'hooks/school/mutateCourseOnTerm'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import { UserDetail } from 'hooks/useUserDetails'
+import toast from 'react-hot-toast'
 import { KeyedMutator } from 'swr'
 import { bgColor } from 'types/Colors'
+
+export async function addBlankCourse(
+  userDetails: UserDetail | null,
+  coursesOnTerm: CourseOnTerm[],
+  mutateCoursesOnTerm: KeyedMutator<any>,
+): Promise<CourseOnTerm | boolean> {
+  // add to backend
+  const data = await mutateAddCourseOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
+  if (data.createCourseOnTerm) {
+    const newCourseOnTerm = data.createCourseOnTerm as CourseOnTerm
+    // mutate locally
+    mutateCoursesOnTerm(
+      {
+        coursesOnTerm: [...coursesOnTerm, newCourseOnTerm],
+        mutate: true,
+      },
+      {
+        revalidate: false,
+      },
+    )
+    return newCourseOnTerm
+  }
+
+  return false
+}
 
 export async function changeCourseNickname(
   courseOnTermId: number | undefined,
@@ -118,6 +149,54 @@ export function changeCourseColor(
   )
 }
 
+export function changeCourseOnTermCourse(
+  courseOnTermId: number | undefined,
+  newCourse: CourseHit | undefined,
+  coursesOnTerm: CourseOnTerm[],
+  mutateCoursesOnTerm: KeyedMutator<any>,
+) {
+  if (courseOnTermId === undefined) return
+  if (newCourse === undefined) return
+
+  // mutate in backend
+  mutateCourseOnTermCourse(courseOnTermId, newCourse?.CourseID || 0)
+  mutateCourseOnTermIsNew(courseOnTermId, false)
+
+  console.log(newCourse)
+
+  const asFkCourse = {
+    Code: newCourse?.Code || 'UNTTL',
+    Term: newCourse?.Term || 'Untitled Term',
+    Title: newCourse?.Title || 'Untitled course',
+    FK_Professor: {
+      Name: newCourse?.FK_Professor?.Name || '',
+      Email: newCourse?.FK_Professor?.Email || '',
+    },
+  }
+
+  console.log(asFkCourse)
+
+  // mutate locally
+  mutateCoursesOnTerm(
+    {
+      coursesOnTerm: coursesOnTerm.map((course) => {
+        if (course.CourseOnTermID === courseOnTermId) {
+          return {
+            ...course,
+            IsNew: false,
+            FK_Course: asFkCourse,
+          }
+        }
+        return course
+      }),
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
 export async function deleteCourseOnTerm(
   courseOnTermId: number | undefined,
   coursesOnTerm: CourseOnTerm[],
@@ -161,4 +240,20 @@ export async function deleteCourseOnTerm(
       revalidate: false,
     },
   )
+}
+
+export const verifyUniqueCourse = (
+  coursesOnTerm: CourseOnTerm[],
+  newCourseCode: string,
+) => {
+  const courseCodes = coursesOnTerm
+    .map((course) => course.Color)
+    .concat([newCourseCode])
+  const uniqueCourseCodes = [...new Set(courseCodes)]
+  const flagg = uniqueCourseCodes.length === courseCodes.length
+  if (!flagg) {
+    toast.error('Course already added!')
+    return false
+  }
+  return true
 }

@@ -9,6 +9,7 @@ const FC1 = {
   Color: 'bg-rose-400',
   Nickname: 'Welcome',
   Index: 0,
+  IsNew: false,
   FK_Course: {
     Code: 'WLCM',
     Term: 'Next Term',
@@ -24,6 +25,7 @@ const FC2 = {
   Color: 'bg-sky-500',
   Nickname: 'To Studyflow',
   Index: 0,
+  IsNew: false,
   FK_Course: {
     Code: 'SFLW',
     Term: 'Next Term',
@@ -39,6 +41,7 @@ const FC3 = {
   Color: 'bg-green-400',
   Nickname: 'Ur Awesome',
   Index: 0,
+  IsNew: false,
   FK_Course: {
     Code: 'AWSM',
     Term: 'Next Term',
@@ -100,7 +103,7 @@ export default function FakeCourseNavs() {
                 )}
                 style={{ marginRight: '1.125rem' }}
               />
-              <span>{course.Nickname || course.FK_Course.Code}</span>
+              <span>{course.Nickname || course.FK_Course?.Code}</span>
             </div>
           ))}
         </div>

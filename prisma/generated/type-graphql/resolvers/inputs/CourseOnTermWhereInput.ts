@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolFilter } from "../inputs/BoolFilter";
 import { CourseRelationFilter } from "../inputs/CourseRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
@@ -55,6 +56,11 @@ export class CourseOnTermWhereInput {
     nullable: true
   })
   Nickname?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  IsNew?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => CourseRelationFilter, {
     nullable: true

@@ -30,7 +30,7 @@ export default function CourseIcon({ courseOnTerm }: Props) {
           )}
         >
           <FolderIcon className="w-4 h-4 mr-1" />
-          <div>{courseOnTerm?.Nickname || courseOnTerm?.FK_Course.Code}</div>
+          <div>{courseOnTerm?.Nickname || courseOnTerm?.FK_Course?.Code}</div>
         </div>
       )}
     </div>
