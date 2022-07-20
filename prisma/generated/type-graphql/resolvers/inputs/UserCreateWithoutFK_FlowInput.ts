@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { AutomationCreateNestedManyWithoutFK_UserInput } from "../inputs/AutomationCreateNestedManyWithoutFK_UserInput";
 import { FlowViewCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_UserInput";
 import { SchoolCreateNestedOneWithoutFK_UserInput } from "../inputs/SchoolCreateNestedOneWithoutFK_UserInput";
 import { SettingCreateNestedOneWithoutFK_UserInput } from "../inputs/SettingCreateNestedOneWithoutFK_UserInput";
@@ -10,10 +11,10 @@ import { TermCreateNestedManyWithoutFK_UserInput } from "../inputs/TermCreateNes
 import { SetupStep } from "../../enums/SetupStep";
 import { Visibility } from "../../enums/Visibility";
 
-@TypeGraphQL.InputType("UserCreateWithoutFlowInput", {
+@TypeGraphQL.InputType("UserCreateWithoutFK_FlowInput", {
   isAbstract: true
 })
-export class UserCreateWithoutFlowInput {
+export class UserCreateWithoutFK_FlowInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -78,4 +79,9 @@ export class UserCreateWithoutFlowInput {
     nullable: true
   })
   FK_FlowView?: FlowViewCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => AutomationCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_Automation?: AutomationCreateNestedManyWithoutFK_UserInput | undefined;
 }

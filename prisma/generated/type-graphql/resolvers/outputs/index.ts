@@ -1,4 +1,5 @@
 export { AffectedRowsOutput } from "./AffectedRowsOutput";
+export { AggregateAutomation } from "./AggregateAutomation";
 export { AggregateCourse } from "./AggregateCourse";
 export { AggregateCourseOnTerm } from "./AggregateCourseOnTerm";
 export { AggregateFlashCard } from "./AggregateFlashCard";
@@ -12,6 +13,12 @@ export { AggregateTask } from "./AggregateTask";
 export { AggregateTaskLabel } from "./AggregateTaskLabel";
 export { AggregateTerm } from "./AggregateTerm";
 export { AggregateUser } from "./AggregateUser";
+export { AutomationAvgAggregate } from "./AutomationAvgAggregate";
+export { AutomationCountAggregate } from "./AutomationCountAggregate";
+export { AutomationGroupBy } from "./AutomationGroupBy";
+export { AutomationMaxAggregate } from "./AutomationMaxAggregate";
+export { AutomationMinAggregate } from "./AutomationMinAggregate";
+export { AutomationSumAggregate } from "./AutomationSumAggregate";
 export { CourseAvgAggregate } from "./CourseAvgAggregate";
 export { CourseCount } from "./CourseCount";
 export { CourseCountAggregate } from "./CourseCountAggregate";

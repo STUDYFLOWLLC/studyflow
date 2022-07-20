@@ -1,3 +1,4 @@
+export { AutomationCrudResolver } from "./Automation/AutomationCrudResolver";
 export { CourseCrudResolver } from "./Course/CourseCrudResolver";
 export { CourseOnTermCrudResolver } from "./CourseOnTerm/CourseOnTermCrudResolver";
 export { FlashCardCrudResolver } from "./FlashCard/FlashCardCrudResolver";

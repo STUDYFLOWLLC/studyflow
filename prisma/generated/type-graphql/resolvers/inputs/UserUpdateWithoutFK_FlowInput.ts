@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { AutomationUpdateManyWithoutFK_UserInput } from "../inputs/AutomationUpdateManyWithoutFK_UserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
 import { FlowViewUpdateManyWithoutFK_UserInput } from "../inputs/FlowViewUpdateManyWithoutFK_UserInput";
@@ -13,10 +14,10 @@ import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOpe
 import { TaskUpdateManyWithoutFK_UserInput } from "../inputs/TaskUpdateManyWithoutFK_UserInput";
 import { TermUpdateManyWithoutFK_UserInput } from "../inputs/TermUpdateManyWithoutFK_UserInput";
 
-@TypeGraphQL.InputType("UserUpdateWithoutFlowInput", {
+@TypeGraphQL.InputType("UserUpdateWithoutFK_FlowInput", {
   isAbstract: true
 })
-export class UserUpdateWithoutFlowInput {
+export class UserUpdateWithoutFK_FlowInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -81,4 +82,9 @@ export class UserUpdateWithoutFlowInput {
     nullable: true
   })
   FK_FlowView?: FlowViewUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => AutomationUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_Automation?: AutomationUpdateManyWithoutFK_UserInput | undefined;
 }

@@ -25,5 +25,10 @@ export class UserCount {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  Flow!: number;
+  FK_Flow!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  FK_Automation!: number;
 }

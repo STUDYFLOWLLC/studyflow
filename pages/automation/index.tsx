@@ -32,9 +32,11 @@ export default function index() {
    * discovery doc to initialize the API.
    */
   async function intializeGapiClient() {
-    await gapi.client.init({
+    await window.gapi.client.init({
       apiKey: API_KEY,
+      clientId: CLIENT_ID,
       discoveryDocs: [DISCOVERY_DOC],
+      scope: SCOPES,
     })
     gapiInited = true
     maybeEnableButtons()
@@ -126,6 +128,8 @@ export default function index() {
     document.getElementById('content').innerText = output
   }
 
+  console.log(tokenClient)
+
   return (
     <>
       <Script
@@ -142,7 +146,20 @@ export default function index() {
       />
       <div>
         <p>Drive API Quickstart</p>
-
+        <button
+          type="button"
+          onClick={() => {
+            console.log(gapi.client.getToken())
+            const authInstance = window.gapi.auth2.getAuthInstance()
+            console.log(gapi)
+            authInstance.grantOfflineAccess().then((res) => {
+              console.log(res)
+              this.data.refreshToken = res.code
+            })
+          }}
+        >
+          test
+        </button>
         <button
           type="button"
           id="authorize_button"

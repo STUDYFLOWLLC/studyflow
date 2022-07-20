@@ -1,3 +1,15 @@
+export { FindUniqueAutomationResolver } from "./Automation/FindUniqueAutomationResolver";
+export { FindFirstAutomationResolver } from "./Automation/FindFirstAutomationResolver";
+export { FindManyAutomationResolver } from "./Automation/FindManyAutomationResolver";
+export { CreateAutomationResolver } from "./Automation/CreateAutomationResolver";
+export { CreateManyAutomationResolver } from "./Automation/CreateManyAutomationResolver";
+export { DeleteAutomationResolver } from "./Automation/DeleteAutomationResolver";
+export { UpdateAutomationResolver } from "./Automation/UpdateAutomationResolver";
+export { DeleteManyAutomationResolver } from "./Automation/DeleteManyAutomationResolver";
+export { UpdateManyAutomationResolver } from "./Automation/UpdateManyAutomationResolver";
+export { UpsertAutomationResolver } from "./Automation/UpsertAutomationResolver";
+export { AggregateAutomationResolver } from "./Automation/AggregateAutomationResolver";
+export { GroupByAutomationResolver } from "./Automation/GroupByAutomationResolver";
 export { FindUniqueCourseResolver } from "./Course/FindUniqueCourseResolver";
 export { FindFirstCourseResolver } from "./Course/FindFirstCourseResolver";
 export { FindManyCourseResolver } from "./Course/FindManyCourseResolver";

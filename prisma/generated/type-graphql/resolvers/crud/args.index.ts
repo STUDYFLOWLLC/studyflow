@@ -1,3 +1,4 @@
+export * from "./Automation/args";
 export * from "./Course/args";
 export * from "./CourseOnTerm/args";
 export * from "./FlashCard/args";

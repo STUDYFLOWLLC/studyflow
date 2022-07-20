@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { AutomationListRelationFilter } from "../inputs/AutomationListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
 import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
@@ -113,5 +114,10 @@ export class UserWhereInput {
   @TypeGraphQL.Field(_type => FlowListRelationFilter, {
     nullable: true
   })
-  Flow?: FlowListRelationFilter | undefined;
+  FK_Flow?: FlowListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => AutomationListRelationFilter, {
+    nullable: true
+  })
+  FK_Automation?: AutomationListRelationFilter | undefined;
 }

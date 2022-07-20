@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermCreateNestedOneWithoutFK_FlowsInput } from "../inputs/CourseOnTermCreateNestedOneWithoutFK_FlowsInput";
 import { FlowViewCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_FlowInput";
 import { TaskCreateNestedManyWithoutFK_FlowInput } from "../inputs/TaskCreateNestedManyWithoutFK_FlowInput";
-import { UserCreateNestedOneWithoutFlowInput } from "../inputs/UserCreateNestedOneWithoutFlowInput";
+import { UserCreateNestedOneWithoutFK_FlowInput } from "../inputs/UserCreateNestedOneWithoutFK_FlowInput";
 import { FlowType } from "../../enums/FlowType";
 import { Visibility } from "../../enums/Visibility";
 
@@ -73,8 +73,8 @@ export class FlowCreateWithoutFK_FlashCardStacksInput {
   })
   FK_FlowView?: FlowViewCreateNestedManyWithoutFK_FlowInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFlowInput, {
+  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFK_FlowInput, {
     nullable: true
   })
-  FK_User?: UserCreateNestedOneWithoutFlowInput | undefined;
+  FK_User?: UserCreateNestedOneWithoutFK_FlowInput | undefined;
 }

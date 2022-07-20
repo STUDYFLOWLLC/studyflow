@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { AutomationOrderByRelationAggregateInput } from "../inputs/AutomationOrderByRelationAggregateInput";
 import { FlowOrderByRelationAggregateInput } from "../inputs/FlowOrderByRelationAggregateInput";
 import { FlowViewOrderByRelationAggregateInput } from "../inputs/FlowViewOrderByRelationAggregateInput";
 import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
@@ -92,5 +93,10 @@ export class UserOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => FlowOrderByRelationAggregateInput, {
     nullable: true
   })
-  Flow?: FlowOrderByRelationAggregateInput | undefined;
+  FK_Flow?: FlowOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => AutomationOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_Automation?: AutomationOrderByRelationAggregateInput | undefined;
 }

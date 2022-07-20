@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { AutomationUpdateManyWithoutFK_UserInput } from "../inputs/AutomationUpdateManyWithoutFK_UserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
 import { FlowUpdateManyWithoutFK_UserInput } from "../inputs/FlowUpdateManyWithoutFK_UserInput";
@@ -80,5 +81,10 @@ export class UserUpdateWithoutFK_SettingsInput {
   @TypeGraphQL.Field(_type => FlowUpdateManyWithoutFK_UserInput, {
     nullable: true
   })
-  Flow?: FlowUpdateManyWithoutFK_UserInput | undefined;
+  FK_Flow?: FlowUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => AutomationUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_Automation?: AutomationUpdateManyWithoutFK_UserInput | undefined;
 }

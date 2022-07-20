@@ -58,25 +58,33 @@ model Setting {
   FK_UserID                Int       @unique
 }
 
+model Automation {
+  AutomationID Int    @id @default(autoincrement())
+  RefreshToken String @unique
+  FK_User      User?  @relation(fields: [FK_UserID], references: [UserID])
+  FK_UserID    Int    @unique
+}
+
 //holds user information. STANDARD: NULL IS A DELETED USER
 model User {
-  UserID             Int         @id @default(autoincrement())
-  CreatedTime        DateTime    @default(now())
-  SetupStep          SetupStep   @default(PROFILE)
+  UserID             Int          @id @default(autoincrement())
+  CreatedTime        DateTime     @default(now())
+  SetupStep          SetupStep    @default(PROFILE)
   SupabaseID         String
-  Email              String      @unique
+  Email              String       @unique
   Name               String?
   Username           String?
   ProfilePictureLink String?
   DefaultVisibility  Visibility?
-  FK_School          School?     @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
+  FK_School          School?      @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
   FK_SchoolID        Int?
   FK_Terms           Term[]
   //FK_FlowTags       FlowTag[]
   FK_Task            Task[]
   FK_Settings        Setting?
   FK_FlowView        FlowView[]
-  Flow               Flow[]
+  FK_Flow            Flow[]
+  FK_Automation      Automation[]
 }
 
 model Term {

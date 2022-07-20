@@ -6,7 +6,7 @@ import { FlowWhereUniqueInput } from "../../../inputs/FlowWhereUniqueInput";
 import { FlowScalarFieldEnum } from "../../../../enums/FlowScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class UserFlowArgs {
+export class UserFK_FlowArgs {
   @TypeGraphQL.Field(_type => FlowWhereInput, {
     nullable: true
   })
