@@ -21,6 +21,7 @@
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
     "@prisma/client": "~3.11.0",
+    "@react-oauth/google": "^0.2.6",
     "@react-spring/web": "^9.4.5",
     "@supabase/supabase-auth-helpers": "^1.4.2",
     "@supabase/supabase-js": "^1.35.2",
