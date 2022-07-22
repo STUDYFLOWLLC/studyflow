@@ -64,9 +64,7 @@ export default function useCoursesOnTerm(
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables], {
-    revalidateOnMount: false,
-  })
+  const { data, error, mutate } = useSWR([query, variables])
 
   if (data?.mutate) {
     return {

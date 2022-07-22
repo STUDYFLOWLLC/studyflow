@@ -6,7 +6,7 @@ import { CourseOnTermCreateNestedOneWithoutFK_FlowsInput } from "../inputs/Cours
 import { FlashCardStackCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlashCardStackCreateNestedManyWithoutFK_FlowInput";
 import { FlowViewCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_FlowInput";
 import { TaskCreateNestedManyWithoutFK_FlowInput } from "../inputs/TaskCreateNestedManyWithoutFK_FlowInput";
-import { UserCreateNestedOneWithoutFlowInput } from "../inputs/UserCreateNestedOneWithoutFlowInput";
+import { UserCreateNestedOneWithoutFK_FlowInput } from "../inputs/UserCreateNestedOneWithoutFK_FlowInput";
 import { FlowType } from "../../enums/FlowType";
 import { Visibility } from "../../enums/Visibility";
 
@@ -79,8 +79,8 @@ export class FlowCreateInput {
   })
   FK_FlowView?: FlowViewCreateNestedManyWithoutFK_FlowInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFlowInput, {
+  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFK_FlowInput, {
     nullable: true
   })
-  FK_User?: UserCreateNestedOneWithoutFlowInput | undefined;
+  FK_User?: UserCreateNestedOneWithoutFK_FlowInput | undefined;
 }

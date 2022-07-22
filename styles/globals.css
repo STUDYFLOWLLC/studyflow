@@ -48,6 +48,10 @@ a {
   @apply bg-primary text-gray-700 mx-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
 }
 
+.alex-button-outline {
+  @apply border border-primary text-gray-700  inline-flex justify-center rounded-md  px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+}
+
 #underline {
   @apply underline;
 }

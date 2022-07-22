@@ -34,7 +34,7 @@ const reorder = (
 
 export default function CourseNavs() {
   const { theme } = useTheme()
-  const { user, error } = useUser()
+  const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
   const { coursesOnTerm, coursesOnTermLoading, mutateCoursesOnTerm } =
     useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
