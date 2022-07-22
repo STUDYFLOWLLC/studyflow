@@ -1,8 +1,9 @@
+import makeAutomationLog from 'hooks/automation/makeAutomationLog'
 import makeCourseOnTermAutomation from 'hooks/automation/makeCourseOnTermAutomation'
 import { Automation } from 'hooks/automation/useAutomationDetails'
 import { KeyedMutator } from 'swr'
 
-export default function createCourseOnTermAutomation(
+export default async function createCourseOnTermAutomation(
   folderId: string,
   automationDetails: Automation | undefined,
   mutateAutomationDetails: KeyedMutator<any>,
@@ -11,10 +12,15 @@ export default function createCourseOnTermAutomation(
   if (!automationDetails) return
 
   // mutate in backend
-  makeCourseOnTermAutomation(
+  const data = await makeCourseOnTermAutomation(
     automationDetails.AutomationID,
     courseOnTermId,
     folderId,
+  )
+  makeAutomationLog(
+    data.createCourseOnTermAutomation.CourseOnTermAutomationID,
+    true,
+    'Created Automation',
   )
 
   // mutate locally

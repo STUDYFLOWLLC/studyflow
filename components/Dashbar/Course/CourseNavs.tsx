@@ -34,14 +34,10 @@ const reorder = (
 
 export default function CourseNavs() {
   const { theme } = useTheme()
-  const { user, error } = useUser()
-  console.log(user)
+  const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  console.log(userDetails)
   const { coursesOnTerm, coursesOnTermLoading, mutateCoursesOnTerm } =
     useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
-
-  console.log(coursesOnTerm)
 
   const [mounted, setMounted] = useState(false)
   const [courseModalOpen, setCourseModalOpen] = useState(false)

@@ -19,6 +19,8 @@ export default function AutomationCard({ courseOnTerm, automation }: Props) {
     userDetails?.UserID,
   )
 
+  console.log(automation)
+
   return (
     <div className="w-96 border rounded-md mx-12 my-8 px-4 py-2 prose">
       <div className="mb-2 flex items-baseline justify-between">

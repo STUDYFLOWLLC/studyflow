@@ -3,6 +3,14 @@
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 
+export interface AutomationLog {
+  AutomationLogID: number
+  Time: string
+  Success: boolean
+  Message: string
+  FK_CourseOnTermAutomationID: number
+}
+
 export interface CourseOnTermAutomation {
   CourseOnTermAutomationID: number
   FolderID: string
@@ -33,6 +41,13 @@ export default function useAutomationDetails(userId: number | undefined): Ret {
           FolderID
           FK_AutomationID
           FK_CourseOnTermID
+          AutomationLog {
+            AutomationLogID
+            Time
+            Success
+            Message
+            FK_CourseOnTermAutomationID
+          }
         }
         FK_UserID
       }

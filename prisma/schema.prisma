@@ -54,7 +54,7 @@ model Setting {
   SettingID                Int       @id @default(autoincrement())
   HasSeenWelcomeMessage    Boolean?  @default(false)
   LastSeenWelcomeMessageAt DateTime? @default(now())
-  FK_User                  User?     @relation(fields: [FK_UserID], references: [UserID])
+  FK_User                  User?     @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
   FK_UserID                Int       @unique
 }
 
@@ -63,7 +63,7 @@ model AutomationLog {
   Time                        DateTime               @default(now())
   Success                     Boolean                @default(false)
   Message                     String                 @default("")
-  FK_CourseOnTermAutomation   CourseOnTermAutomation @relation(fields: [FK_CourseOnTermAutomationID], references: [CourseOnTermAutomationID])
+  FK_CourseOnTermAutomation   CourseOnTermAutomation @relation(fields: [FK_CourseOnTermAutomationID], references: [CourseOnTermAutomationID], onDelete: Cascade, onUpdate: Cascade)
   FK_CourseOnTermAutomationID Int                    @unique
 }
 
@@ -71,9 +71,9 @@ model CourseOnTermAutomation {
   CourseOnTermAutomationID Int             @id @default(autoincrement())
   FolderID                 String          @default("No Folder Id")
   AutomationLog            AutomationLog[]
-  FK_Automation            Automation?     @relation(fields: [FK_AutomationID], references: [AutomationID])
+  FK_Automation            Automation?     @relation(fields: [FK_AutomationID], references: [AutomationID], onDelete: Cascade, onUpdate: Cascade)
   FK_AutomationID          Int?
-  FK_CourseOnTerm          CourseOnTerm?   @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
+  FK_CourseOnTerm          CourseOnTerm?   @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: Cascade, onUpdate: Cascade)
   FK_CourseOnTermID        Int?
 
 }
@@ -82,7 +82,7 @@ model Automation {
   AutomationID            Int                      @id @default(autoincrement())
   RefreshToken            String                   @unique
   CourseOnTermAutomations CourseOnTermAutomation[]
-  FK_User                 User?                    @relation(fields: [FK_UserID], references: [UserID])
+  FK_User                 User?                    @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
   FK_UserID               Int                      @unique
 }
 
