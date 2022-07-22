@@ -14,6 +14,7 @@ export interface AutomationLog {
 export interface CourseOnTermAutomation {
   CourseOnTermAutomationID: number
   FolderID: string
+  AutomationLog: AutomationLog[]
   FK_AutomationID: number
   FK_CourseOnTermID: number
 }

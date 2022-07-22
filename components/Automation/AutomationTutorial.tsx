@@ -57,9 +57,9 @@ export default function AutomationTutorial({ isOpen, setIsOpen }: Props) {
                   Welcome to Automation
                 </Dialog.Title>
                 <div className="mt-1">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
+                  <p>
+                    Please select a tutorial below. No tutorial for your
+                    note-taking combo? Request a tutorial.
                   </p>
                 </div>
 
