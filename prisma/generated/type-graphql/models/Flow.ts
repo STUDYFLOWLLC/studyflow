@@ -45,11 +45,6 @@ export class Flow {
   })
   Title!: string;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Body?: string | null;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
@@ -59,6 +54,16 @@ export class Flow {
     nullable: false
   })
   Visibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  WasAutomated!: boolean;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Body?: string | null;
 
   FK_CourseOnTerm?: CourseOnTerm | null;
 

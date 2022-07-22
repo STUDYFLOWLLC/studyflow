@@ -59,11 +59,6 @@ export class FlowScalarWhereWithAggregatesInput {
   })
   Title?: StringWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  Body?: StringNullableWithAggregatesFilter | undefined;
-
   @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })
@@ -73,6 +68,16 @@ export class FlowScalarWhereWithAggregatesInput {
     nullable: true
   })
   Visibility?: EnumVisibilityWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
+    nullable: true
+  })
+  WasAutomated?: BoolWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  Body?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true

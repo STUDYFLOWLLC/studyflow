@@ -31,5 +31,10 @@ export class AutomationLogCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  FileID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   FK_CourseOnTermAutomationID?: "asc" | "desc" | undefined;
 }

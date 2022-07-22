@@ -5,6 +5,7 @@ export enum AutomationLogScalarFieldEnum {
   Time = "Time",
   Success = "Success",
   Message = "Message",
+  FileID = "FileID",
   FK_CourseOnTermAutomationID = "FK_CourseOnTermAutomationID"
 }
 TypeGraphQL.registerEnumType(AutomationLogScalarFieldEnum, {

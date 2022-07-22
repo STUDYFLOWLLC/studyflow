@@ -29,6 +29,11 @@ export class AutomationLogOrderByWithRelationInput {
   })
   Message?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FileID?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => CourseOnTermAutomationOrderByWithRelationInput, {
     nullable: true
   })

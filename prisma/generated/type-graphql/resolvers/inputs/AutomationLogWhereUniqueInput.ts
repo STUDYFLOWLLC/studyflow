@@ -11,9 +11,4 @@ export class AutomationLogWhereUniqueInput {
     nullable: true
   })
   AutomationLogID?: number | undefined;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  FK_CourseOnTermAutomationID?: number | undefined;
 }

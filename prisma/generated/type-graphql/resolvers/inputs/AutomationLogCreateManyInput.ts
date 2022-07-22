@@ -27,6 +27,11 @@ export class AutomationLogCreateManyInput {
   })
   Message?: string | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FileID?: string | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })

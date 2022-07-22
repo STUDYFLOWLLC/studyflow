@@ -30,6 +30,11 @@ export class AutomationLogCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  FileID!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_CourseOnTermAutomationID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

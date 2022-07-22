@@ -23,6 +23,11 @@ export class AutomationLogCreateInput {
   })
   Message?: string | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FileID?: string | undefined;
+
   @TypeGraphQL.Field(_type => CourseOnTermAutomationCreateNestedOneWithoutAutomationLogInput, {
     nullable: false
   })

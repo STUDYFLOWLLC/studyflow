@@ -63,8 +63,9 @@ model AutomationLog {
   Time                        DateTime               @default(now())
   Success                     Boolean                @default(false)
   Message                     String                 @default("")
+  FileID                      String?
   FK_CourseOnTermAutomation   CourseOnTermAutomation @relation(fields: [FK_CourseOnTermAutomationID], references: [CourseOnTermAutomationID], onDelete: Cascade, onUpdate: Cascade)
-  FK_CourseOnTermAutomationID Int                    @unique
+  FK_CourseOnTermAutomationID Int
 }
 
 model CourseOnTermAutomation {
@@ -75,7 +76,6 @@ model CourseOnTermAutomation {
   FK_AutomationID          Int?
   FK_CourseOnTerm          CourseOnTerm?   @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: Cascade, onUpdate: Cascade)
   FK_CourseOnTermID        Int?
-
 }
 
 model Automation {
@@ -179,9 +179,10 @@ model Flow {
   //FK_Tags            FlowTagOnFlow[]
   Type               FlowType
   Title              String           @default("Untitled")
-  Body               String?
   Trashed            Boolean          @default(false)
   Visibility         Visibility       @default(PUBLIC)
+  WasAutomated       Boolean          @default(false)
+  Body               String?
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: SetNull, onUpdate: Cascade)
   FK_CourseOnTermID  Int?
   FK_FlashCardStacks FlashCardStack[]

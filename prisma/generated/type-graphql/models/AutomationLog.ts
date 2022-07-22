@@ -28,6 +28,11 @@ export class AutomationLog {
   })
   Message!: string;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FileID?: string | null;
+
   FK_CourseOnTermAutomation?: CourseOnTermAutomation;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

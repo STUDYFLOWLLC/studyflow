@@ -35,5 +35,5 @@ export class FindFirstAutomationLogArgs {
   @TypeGraphQL.Field(_type => [AutomationLogScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"AutomationLogID" | "Time" | "Success" | "Message" | "FK_CourseOnTermAutomationID"> | undefined;
+  distinct?: Array<"AutomationLogID" | "Time" | "Success" | "Message" | "FileID" | "FK_CourseOnTermAutomationID"> | undefined;
 }
