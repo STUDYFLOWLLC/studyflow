@@ -5,7 +5,7 @@ import useSWR, { KeyedMutator } from 'swr'
 
 export interface CourseOnTermAutomation {
   CourseOnTermAutomationID: number
-  FilePath: string
+  FolderID: string
   FK_AutomationID: number
   FK_CourseOnTermID: number
 }

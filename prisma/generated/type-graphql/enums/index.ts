@@ -1,3 +1,4 @@
+export { AutomationLogScalarFieldEnum } from "./AutomationLogScalarFieldEnum";
 export { AutomationScalarFieldEnum } from "./AutomationScalarFieldEnum";
 export { CourseOnTermAutomationScalarFieldEnum } from "./CourseOnTermAutomationScalarFieldEnum";
 export { CourseOnTermScalarFieldEnum } from "./CourseOnTermScalarFieldEnum";

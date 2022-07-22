@@ -1,4 +1,5 @@
 export { Automation } from "./Automation";
+export { AutomationLog } from "./AutomationLog";
 export { Course } from "./Course";
 export { CourseOnTerm } from "./CourseOnTerm";
 export { CourseOnTermAutomation } from "./CourseOnTermAutomation";

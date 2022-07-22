@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { AutomationLogOrderByRelationAggregateInput } from "../inputs/AutomationLogOrderByRelationAggregateInput";
 import { AutomationOrderByWithRelationInput } from "../inputs/AutomationOrderByWithRelationInput";
 import { CourseOnTermOrderByWithRelationInput } from "../inputs/CourseOnTermOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -19,6 +20,11 @@ export class CourseOnTermAutomationOrderByWithRelationInput {
     nullable: true
   })
   FolderID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => AutomationLogOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  AutomationLog?: AutomationLogOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => AutomationOrderByWithRelationInput, {
     nullable: true

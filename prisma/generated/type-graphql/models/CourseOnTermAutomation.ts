@@ -3,7 +3,9 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Automation } from "../models/Automation";
+import { AutomationLog } from "../models/AutomationLog";
 import { CourseOnTerm } from "../models/CourseOnTerm";
+import { CourseOnTermAutomationCount } from "../resolvers/outputs/CourseOnTermAutomationCount";
 
 @TypeGraphQL.ObjectType("CourseOnTermAutomation", {
   isAbstract: true
@@ -19,6 +21,8 @@ export class CourseOnTermAutomation {
   })
   FolderID!: string;
 
+  AutomationLog?: AutomationLog[];
+
   FK_Automation?: Automation | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
@@ -32,4 +36,9 @@ export class CourseOnTermAutomation {
     nullable: true
   })
   FK_CourseOnTermID?: number | null;
+
+  @TypeGraphQL.Field(_type => CourseOnTermAutomationCount, {
+    nullable: true
+  })
+  _count?: CourseOnTermAutomationCount | null;
 }

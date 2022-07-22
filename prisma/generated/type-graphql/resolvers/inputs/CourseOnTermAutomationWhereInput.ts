@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { AutomationLogListRelationFilter } from "../inputs/AutomationLogListRelationFilter";
 import { AutomationRelationFilter } from "../inputs/AutomationRelationFilter";
 import { CourseOnTermRelationFilter } from "../inputs/CourseOnTermRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -36,6 +37,11 @@ export class CourseOnTermAutomationWhereInput {
     nullable: true
   })
   FolderID?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => AutomationLogListRelationFilter, {
+    nullable: true
+  })
+  AutomationLog?: AutomationLogListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => AutomationRelationFilter, {
     nullable: true

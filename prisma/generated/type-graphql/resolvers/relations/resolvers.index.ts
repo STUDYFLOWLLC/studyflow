@@ -1,4 +1,5 @@
 export { AutomationRelationsResolver } from "./Automation/AutomationRelationsResolver";
+export { AutomationLogRelationsResolver } from "./AutomationLog/AutomationLogRelationsResolver";
 export { CourseRelationsResolver } from "./Course/CourseRelationsResolver";
 export { CourseOnTermRelationsResolver } from "./CourseOnTerm/CourseOnTermRelationsResolver";
 export { CourseOnTermAutomationRelationsResolver } from "./CourseOnTermAutomation/CourseOnTermAutomationRelationsResolver";

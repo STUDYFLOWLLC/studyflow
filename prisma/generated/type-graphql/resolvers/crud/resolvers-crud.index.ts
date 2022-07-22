@@ -1,4 +1,5 @@
 export { AutomationCrudResolver } from "./Automation/AutomationCrudResolver";
+export { AutomationLogCrudResolver } from "./AutomationLog/AutomationLogCrudResolver";
 export { CourseCrudResolver } from "./Course/CourseCrudResolver";
 export { CourseOnTermCrudResolver } from "./CourseOnTerm/CourseOnTermCrudResolver";
 export { CourseOnTermAutomationCrudResolver } from "./CourseOnTermAutomation/CourseOnTermAutomationCrudResolver";

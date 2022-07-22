@@ -1,4 +1,5 @@
 export * from "./Automation/args";
+export * from "./AutomationLog/args";
 export * from "./Course/args";
 export * from "./CourseOnTerm/args";
 export * from "./CourseOnTermAutomation/args";

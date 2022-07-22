@@ -4,6 +4,7 @@ import useAutomationDetails, {
 } from 'hooks/automation/useAutomationDetails'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
+import AutomationCardBody from './AutomationCardBody'
 import CreateAutomationOnCourseOnTerm from './CreateAutomationOnCourseOnTerm'
 
 interface Props {
@@ -26,8 +27,10 @@ export default function AutomationCard({ courseOnTerm, automation }: Props) {
         </h3>
         <p className="p-0 m-0 cursor-pointer">Help</p>
       </div>
-      {automation === undefined && (
+      {automation === undefined ? (
         <CreateAutomationOnCourseOnTerm courseOnTerm={courseOnTerm} />
+      ) : (
+        <AutomationCardBody automation={automation} />
       )}
     </div>
   )
