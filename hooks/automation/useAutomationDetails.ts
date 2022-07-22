@@ -1,12 +1,39 @@
-import { gql } from 'graphql-request'
-import useSWR from 'swr'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export default function useAutomationDetails(userId: number | undefined) {
+import { gql } from 'graphql-request'
+import useSWR, { KeyedMutator } from 'swr'
+
+export interface CourseOnTermAutomation {
+  CourseOnTermAutomationID: number
+  FilePath: string
+  FK_AutomationID: number
+  FK_CourseOnTermID: number
+}
+export interface Automation {
+  AutomationID: number
+  RefreshToken: string
+  CourseOnTermAutomations: CourseOnTermAutomation[]
+}
+
+interface Ret {
+  automationDetails: Automation | undefined
+  automationDetailsLoading: boolean
+  automationDetailsError: any
+  mutateAutomationDetails: KeyedMutator<any>
+}
+
+export default function useAutomationDetails(userId: number | undefined): Ret {
   const query = gql`
     query ExampleQuery($where: AutomationWhereUniqueInput!) {
       automation(where: $where) {
         AutomationID
         RefreshToken
+        CourseOnTermAutomations {
+          CourseOnTermAutomationID
+          FolderID
+          FK_AutomationID
+          FK_CourseOnTermID
+        }
         FK_UserID
       }
     }
@@ -30,8 +57,8 @@ export default function useAutomationDetails(userId: number | undefined) {
   }
 
   return {
-    automationDetails: data,
-    automationDetailsLoading: !error && !data,
+    automationDetails: undefined,
+    automationDetailsLoading: true,
     automationDetailsError: error,
     mutateAutomationDetails: mutate,
   }

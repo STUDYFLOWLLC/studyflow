@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CourseOnTermAutomationOrderByRelationAggregateInput } from "../inputs/CourseOnTermAutomationOrderByRelationAggregateInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -18,6 +19,11 @@ export class AutomationOrderByWithRelationInput {
     nullable: true
   })
   RefreshToken?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermAutomationOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  CourseOnTermAutomations?: CourseOnTermAutomationOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
     nullable: true

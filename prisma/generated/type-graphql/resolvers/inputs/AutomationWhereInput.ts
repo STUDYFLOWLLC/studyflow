@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CourseOnTermAutomationListRelationFilter } from "../inputs/CourseOnTermAutomationListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
@@ -34,6 +35,11 @@ export class AutomationWhereInput {
     nullable: true
   })
   RefreshToken?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermAutomationListRelationFilter, {
+    nullable: true
+  })
+  CourseOnTermAutomations?: CourseOnTermAutomationListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true

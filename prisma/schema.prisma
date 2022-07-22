@@ -58,14 +58,24 @@ model Setting {
   FK_UserID                Int       @unique
 }
 
-model Automation {
-  AutomationID Int    @id @default(autoincrement())
-  RefreshToken String @unique
-  FK_User      User?  @relation(fields: [FK_UserID], references: [UserID])
-  FK_UserID    Int    @unique
+model CourseOnTermAutomation {
+  CourseOnTermAutomationID Int           @id @default(autoincrement())
+  FolderID                 String        @default("No Folder Id")
+  FK_Automation            Automation?   @relation(fields: [FK_AutomationID], references: [AutomationID])
+  FK_AutomationID          Int?
+  FK_CourseOnTerm          CourseOnTerm? @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
+  FK_CourseOnTermID        Int?
 }
 
-//holds user information. STANDARD: NULL IS A DELETED USER
+model Automation {
+  AutomationID            Int                      @id @default(autoincrement())
+  RefreshToken            String                   @unique
+  CourseOnTermAutomations CourseOnTermAutomation[]
+  FK_User                 User?                    @relation(fields: [FK_UserID], references: [UserID])
+  FK_UserID               Int                      @unique
+}
+
+// holds user information. STANDARD: NULL IS A DELETED USER
 model User {
   UserID             Int          @id @default(autoincrement())
   CreatedTime        DateTime     @default(now())
@@ -114,18 +124,19 @@ model Course {
 }
 
 model CourseOnTerm {
-  CourseOnTermID Int      @id @default(autoincrement())
-  CreatedTime    DateTime @default(now())
-  Index          Int      @default(autoincrement())
-  Color          String   @default("bg-sky-500")
-  Nickname       String?
-  IsNew          Boolean  @default(true)
-  FK_Course      Course?  @relation(fields: [FK_CourseID], references: [CourseID], onDelete: SetNull, onUpdate: Cascade)
-  FK_CourseID    Int?
-  FK_Term        Term?    @relation(fields: [FK_TermID], references: [TermID], onDelete: SetNull, onUpdate: Cascade)
-  FK_TermID      Int?
-  FK_Flows       Flow[]
-  FK_Tasks       Task[]
+  CourseOnTermID         Int                      @id @default(autoincrement())
+  CreatedTime            DateTime                 @default(now())
+  Index                  Int                      @default(autoincrement())
+  Color                  String                   @default("bg-sky-500")
+  Nickname               String?
+  IsNew                  Boolean                  @default(true)
+  FK_Course              Course?                  @relation(fields: [FK_CourseID], references: [CourseID], onDelete: SetNull, onUpdate: Cascade)
+  FK_CourseID            Int?
+  FK_Term                Term?                    @relation(fields: [FK_TermID], references: [TermID], onDelete: SetNull, onUpdate: Cascade)
+  FK_TermID              Int?
+  FK_Flows               Flow[]
+  FK_Tasks               Task[]
+  CourseOnTermAutomation CourseOnTermAutomation[]
 }
 
 model School {

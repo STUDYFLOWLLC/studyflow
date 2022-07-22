@@ -1,6 +1,7 @@
 export { Automation } from "./Automation";
 export { Course } from "./Course";
 export { CourseOnTerm } from "./CourseOnTerm";
+export { CourseOnTermAutomation } from "./CourseOnTermAutomation";
 export { FlashCard } from "./FlashCard";
 export { FlashCardStack } from "./FlashCardStack";
 export { Flow } from "./Flow";

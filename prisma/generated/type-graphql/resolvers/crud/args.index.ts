@@ -1,6 +1,7 @@
 export * from "./Automation/args";
 export * from "./Course/args";
 export * from "./CourseOnTerm/args";
+export * from "./CourseOnTermAutomation/args";
 export * from "./FlashCard/args";
 export * from "./FlashCardStack/args";
 export * from "./Flow/args";

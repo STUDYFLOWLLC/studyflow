@@ -1,6 +1,7 @@
 export { AutomationRelationsResolver } from "./Automation/AutomationRelationsResolver";
 export { CourseRelationsResolver } from "./Course/CourseRelationsResolver";
 export { CourseOnTermRelationsResolver } from "./CourseOnTerm/CourseOnTermRelationsResolver";
+export { CourseOnTermAutomationRelationsResolver } from "./CourseOnTermAutomation/CourseOnTermAutomationRelationsResolver";
 export { FlashCardRelationsResolver } from "./FlashCard/FlashCardRelationsResolver";
 export { FlashCardStackRelationsResolver } from "./FlashCardStack/FlashCardStackRelationsResolver";
 export { FlowRelationsResolver } from "./Flow/FlowRelationsResolver";
