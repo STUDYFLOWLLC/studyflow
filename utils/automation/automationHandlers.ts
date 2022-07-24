@@ -2,9 +2,12 @@ import makeAutomationLog from 'hooks/automation/makeAutomationLog'
 import makeCourseOnTermAutomation from 'hooks/automation/makeCourseOnTermAutomation'
 import { Automation } from 'hooks/automation/useAutomationDetails'
 import { KeyedMutator } from 'swr'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
 export default async function createCourseOnTermAutomation(
   folderId: string,
+  defaultType: FlowType,
+  defaultVisibility: FlowVisibility,
   automationDetails: Automation | undefined,
   mutateAutomationDetails: KeyedMutator<any>,
   courseOnTermId: number,
@@ -16,6 +19,8 @@ export default async function createCourseOnTermAutomation(
     automationDetails.AutomationID,
     courseOnTermId,
     folderId,
+    defaultType,
+    defaultVisibility,
   )
   makeAutomationLog(
     data.createCourseOnTermAutomation.CourseOnTermAutomationID,
@@ -33,6 +38,17 @@ export default async function createCourseOnTermAutomation(
           {
             CourseOnTermAutomationID: 0,
             FolderID: folderId,
+            DefaultType: defaultType,
+            DefaultVibility: defaultVisibility,
+            AutomationLog: [
+              {
+                AutomationLogID: 0,
+                Time: new Date().toISOString,
+                Success: true,
+                Message: 'Created Automation',
+                FK_CourseOnTermAutomationID: 0,
+              },
+            ],
             FK_AutomationID: automationDetails.AutomationID,
             FK_CourseOnTermID: courseOnTermId,
           },

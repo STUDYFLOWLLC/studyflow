@@ -21,6 +21,7 @@ export interface CourseOnTermAutomation {
   FK_AutomationID: number
   FK_CourseOnTermID: number
 }
+
 export interface Automation {
   AutomationID: number
   RefreshToken: string
