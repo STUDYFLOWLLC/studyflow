@@ -5,6 +5,8 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationCreateNestedOneWithoutCourseOnTermAutomationsInput } from "../inputs/AutomationCreateNestedOneWithoutCourseOnTermAutomationsInput";
 import { AutomationLogCreateNestedManyWithoutFK_CourseOnTermAutomationInput } from "../inputs/AutomationLogCreateNestedManyWithoutFK_CourseOnTermAutomationInput";
 import { CourseOnTermCreateNestedOneWithoutCourseOnTermAutomationInput } from "../inputs/CourseOnTermCreateNestedOneWithoutCourseOnTermAutomationInput";
+import { FlowType } from "../../enums/FlowType";
+import { Visibility } from "../../enums/Visibility";
 
 @TypeGraphQL.InputType("CourseOnTermAutomationCreateInput", {
   isAbstract: true
@@ -14,6 +16,16 @@ export class CourseOnTermAutomationCreateInput {
     nullable: true
   })
   FolderID?: string | undefined;
+
+  @TypeGraphQL.Field(_type => FlowType, {
+    nullable: true
+  })
+  DefaultType?: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS" | undefined;
+
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: true
+  })
+  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
 
   @TypeGraphQL.Field(_type => AutomationLogCreateNestedManyWithoutFK_CourseOnTermAutomationInput, {
     nullable: true

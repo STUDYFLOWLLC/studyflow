@@ -71,6 +71,8 @@ model AutomationLog {
 model CourseOnTermAutomation {
   CourseOnTermAutomationID Int             @id @default(autoincrement())
   FolderID                 String          @default("No Folder Id")
+  DefaultType              FlowType        @default(LECTURE)
+  DefaultVisibility        Visibility      @default(PUBLIC)
   AutomationLog            AutomationLog[]
   FK_Automation            Automation?     @relation(fields: [FK_AutomationID], references: [AutomationID], onDelete: Cascade, onUpdate: Cascade)
   FK_AutomationID          Int?

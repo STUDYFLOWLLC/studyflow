@@ -4,6 +4,8 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AutomationUpdateOneWithoutCourseOnTermAutomationsInput } from "../inputs/AutomationUpdateOneWithoutCourseOnTermAutomationsInput";
 import { CourseOnTermUpdateOneWithoutCourseOnTermAutomationInput } from "../inputs/CourseOnTermUpdateOneWithoutCourseOnTermAutomationInput";
+import { EnumFlowTypeFieldUpdateOperationsInput } from "../inputs/EnumFlowTypeFieldUpdateOperationsInput";
+import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("CourseOnTermAutomationUpdateWithoutAutomationLogInput", {
@@ -14,6 +16,16 @@ export class CourseOnTermAutomationUpdateWithoutAutomationLogInput {
     nullable: true
   })
   FolderID?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => EnumFlowTypeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DefaultType?: EnumFlowTypeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => EnumVisibilityFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => AutomationUpdateOneWithoutCourseOnTermAutomationsInput, {
     nullable: true

@@ -5,6 +5,8 @@ import { DecimalJSScalar } from "../scalars";
 import { Automation } from "../models/Automation";
 import { AutomationLog } from "../models/AutomationLog";
 import { CourseOnTerm } from "../models/CourseOnTerm";
+import { FlowType } from "../enums/FlowType";
+import { Visibility } from "../enums/Visibility";
 import { CourseOnTermAutomationCount } from "../resolvers/outputs/CourseOnTermAutomationCount";
 
 @TypeGraphQL.ObjectType("CourseOnTermAutomation", {
@@ -20,6 +22,16 @@ export class CourseOnTermAutomation {
     nullable: false
   })
   FolderID!: string;
+
+  @TypeGraphQL.Field(_type => FlowType, {
+    nullable: false
+  })
+  DefaultType!: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS";
+
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: false
+  })
+  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
 
   AutomationLog?: AutomationLog[];
 
