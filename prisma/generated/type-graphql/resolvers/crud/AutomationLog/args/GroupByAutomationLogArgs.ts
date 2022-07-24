@@ -20,7 +20,7 @@ export class GroupByAutomationLogArgs {
   @TypeGraphQL.Field(_type => [AutomationLogScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"AutomationLogID" | "Time" | "Success" | "Message" | "FK_CourseOnTermAutomationID">;
+  by!: Array<"AutomationLogID" | "Time" | "Success" | "Message" | "FileID" | "FK_CourseOnTermAutomationID">;
 
   @TypeGraphQL.Field(_type => AutomationLogScalarWhereWithAggregatesInput, {
     nullable: true

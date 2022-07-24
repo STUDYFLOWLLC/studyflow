@@ -59,11 +59,6 @@ export class FlowScalarWhereInput {
   })
   Title?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
-  })
-  Body?: StringNullableFilter | undefined;
-
   @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
@@ -73,6 +68,16 @@ export class FlowScalarWhereInput {
     nullable: true
   })
   Visibility?: EnumVisibilityFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  WasAutomated?: BoolFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  Body?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

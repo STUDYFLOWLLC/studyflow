@@ -7,6 +7,8 @@ import { CourseOnTermAutomationCountAggregate } from "../outputs/CourseOnTermAut
 import { CourseOnTermAutomationMaxAggregate } from "../outputs/CourseOnTermAutomationMaxAggregate";
 import { CourseOnTermAutomationMinAggregate } from "../outputs/CourseOnTermAutomationMinAggregate";
 import { CourseOnTermAutomationSumAggregate } from "../outputs/CourseOnTermAutomationSumAggregate";
+import { FlowType } from "../../enums/FlowType";
+import { Visibility } from "../../enums/Visibility";
 
 @TypeGraphQL.ObjectType("CourseOnTermAutomationGroupBy", {
   isAbstract: true
@@ -21,6 +23,16 @@ export class CourseOnTermAutomationGroupBy {
     nullable: false
   })
   FolderID!: string;
+
+  @TypeGraphQL.Field(_type => FlowType, {
+    nullable: false
+  })
+  DefaultType!: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS";
+
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: false
+  })
+  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

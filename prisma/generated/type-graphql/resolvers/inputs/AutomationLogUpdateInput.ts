@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput } from "../inputs/CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("AutomationLogUpdateInput", {
@@ -25,6 +26,11 @@ export class AutomationLogUpdateInput {
     nullable: true
   })
   Message?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  FileID?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput, {
     nullable: true

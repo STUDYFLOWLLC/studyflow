@@ -43,11 +43,6 @@ export class FlowCreateWithoutFK_FlashCardStacksInput {
   })
   Title?: string | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Body?: string | undefined;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
@@ -57,6 +52,16 @@ export class FlowCreateWithoutFK_FlashCardStacksInput {
     nullable: true
   })
   Visibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  WasAutomated?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Body?: string | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermCreateNestedOneWithoutFK_FlowsInput, {
     nullable: true

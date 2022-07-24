@@ -20,6 +20,16 @@ export class CourseOnTermAutomationCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  DefaultType!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  DefaultVisibility!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_AutomationID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

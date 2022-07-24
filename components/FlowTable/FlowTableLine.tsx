@@ -1,4 +1,5 @@
-import classnames from 'classnames'
+import { BeakerIcon } from '@heroicons/react/outline'
+import classNames from 'classnames'
 import RainbowPublicIcon from 'components/Flow/RainbowPublicIcon'
 import OpenFancy from 'components/FlowTable/OpenFancy'
 import { DashFlow } from 'hooks/flows/useDashFlows'
@@ -49,7 +50,7 @@ export default function FlowTableLine({
         <div className="flex items-center space-x-3 lg:pl-2">
           {!loading ? (
             <div
-              className={classnames(
+              className={classNames(
                 flow.FK_CourseOnTerm?.Color || bgColor.GRAY,
                 'flex-shrink-0 w-2.5 h-2.5 rounded-full',
               )}
@@ -58,12 +59,12 @@ export default function FlowTableLine({
           ) : (
             <Skeleton circle width={10} height={10} />
           )}
-          <a href="#" className={classnames('truncate transition-colors')}>
+          <a href="#" className={classNames('truncate transition-colors')}>
             {!loading ? (
               <span className="flex items-center">
                 <div>
                   <span
-                    className={classnames({
+                    className={classNames({
                       'text-primary brightness-90 font-semibold': showOpenIcon,
                     })}
                   >
@@ -71,7 +72,7 @@ export default function FlowTableLine({
                   </span>
 
                   <span
-                    className={classnames(
+                    className={classNames(
                       { 'text-gray-500': !showOpenIcon },
                       'font-normal',
                     )}
@@ -90,6 +91,15 @@ export default function FlowTableLine({
                 {flow.Visibility === FlowVisibility.PUBLIC && (
                   <RainbowPublicIcon dimension="w-4 h-4 ml-2" />
                 )}
+                {flow.WasAutomated && (
+                  <BeakerIcon
+                    className={classNames(
+                      { 'text-gray-500': !showOpenIcon },
+                      'font-normal',
+                      'w-4 h-4 ml-2',
+                    )}
+                  />
+                )}
               </span>
             ) : (
               <Skeleton width={350} />
@@ -98,7 +108,7 @@ export default function FlowTableLine({
         </div>
       </td>
       <td
-        className={classnames(
+        className={classNames(
           { 'text-gray-500': theme === 'light' },
           'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
         )}
@@ -110,7 +120,7 @@ export default function FlowTableLine({
         )}
       </td>
       <td
-        className={classnames(
+        className={classNames(
           'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
         )}
       >

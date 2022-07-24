@@ -2,6 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
+import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -34,6 +36,16 @@ export class CourseOnTermAutomationScalarWhereInput {
     nullable: true
   })
   FolderID?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumFlowTypeFilter, {
+    nullable: true
+  })
+  DefaultType?: EnumFlowTypeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumVisibilityFilter, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

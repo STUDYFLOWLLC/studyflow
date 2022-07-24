@@ -1,4 +1,3 @@
-import { CheckIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import useAutomationDetails from 'hooks/automation/useAutomationDetails'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
@@ -6,7 +5,10 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 import useDrivePicker from 'react-google-drive-picker'
 import toast from 'react-hot-toast'
+import { FlowType, FlowVisibility } from 'types/Flow'
 import createCourseOnTermAutomation from 'utils/automation/automationHandlers'
+import TypeChooser from './TypeChooser'
+import VisibilityChooser from './VisibilityChooser'
 
 interface Props {
   courseOnTerm: CourseOnTerm
@@ -23,8 +25,10 @@ export default function CreateAutomationOnCourseOnTerm({
 
   const [openPicker, authResponse] = useDrivePicker()
 
-  const [folderName, setFolderName] = useState('')
-  const [folderId, setFolderId] = useState('')
+  const [defaultType, setDefaultType] = useState<FlowType>(FlowType.LECTURE)
+  const [defaultVisibility, setDefaultVisibility] = useState<FlowVisibility>(
+    FlowVisibility.PUBLIC,
+  )
 
   const handleOpenPicker = () => {
     openPicker({
@@ -39,6 +43,8 @@ export default function CreateAutomationOnCourseOnTerm({
         if (data?.docs?.[0]?.id) {
           createCourseOnTermAutomation(
             data.docs[0].id,
+            defaultType,
+            defaultVisibility,
             automationDetails,
             mutateAutomationDetails,
             courseOnTerm.CourseOnTermID,
@@ -48,30 +54,32 @@ export default function CreateAutomationOnCourseOnTerm({
       },
     })
   }
+
   return (
     <div className="flex flex-col items-center">
-      <p className="mb-2 mt-0 p-0 text-center">
-        To create an automation for this course, please select the Google Drive
-        folder where your notes are backed up.
+      <TypeChooser
+        mutator={(newType: FlowType) => setDefaultType(newType)}
+        type={defaultType}
+        loading={false}
+      />
+      <VisibilityChooser
+        mutator={(newVisibility: FlowVisibility) =>
+          setDefaultVisibility(newVisibility)
+        }
+        visibility={defaultVisibility}
+        loading={false}
+      />
+      <button
+        type="button"
+        className="alex-button mb-2"
+        onClick={() => handleOpenPicker()}
+      >
+        Select Drive folder *
+      </button>
+      <p className="mb-2 mt-0 p-0 text-sm">
+        * You must sign in with the same google account you previously
+        connected. Need help?
       </p>
-      {!folderName || !folderId ? (
-        <button
-          type="button"
-          className="alex-button mb-2"
-          onClick={() => handleOpenPicker()}
-        >
-          Select Drive folder
-        </button>
-      ) : (
-        <button
-          type="button"
-          disabled
-          className="alex-button-outline mb-2 flex items-center"
-        >
-          {folderName}
-          <CheckIcon className="ml-2 w-5 h-5 text-green-400" />
-        </button>
-      )}
     </div>
   )
 }

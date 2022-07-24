@@ -20,7 +20,7 @@ export class GroupByCourseOnTermAutomationArgs {
   @TypeGraphQL.Field(_type => [CourseOnTermAutomationScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"CourseOnTermAutomationID" | "FolderID" | "FK_AutomationID" | "FK_CourseOnTermID">;
+  by!: Array<"CourseOnTermAutomationID" | "FolderID" | "DefaultType" | "DefaultVisibility" | "FK_AutomationID" | "FK_CourseOnTermID">;
 
   @TypeGraphQL.Field(_type => CourseOnTermAutomationScalarWhereWithAggregatesInput, {
     nullable: true

@@ -26,4 +26,9 @@ export class AutomationLogCreateManyFK_CourseOnTermAutomationInput {
     nullable: true
   })
   Message?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FileID?: string | undefined;
 }

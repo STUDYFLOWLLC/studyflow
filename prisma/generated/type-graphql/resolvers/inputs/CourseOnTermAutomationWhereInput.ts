@@ -5,6 +5,8 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationLogListRelationFilter } from "../inputs/AutomationLogListRelationFilter";
 import { AutomationRelationFilter } from "../inputs/AutomationRelationFilter";
 import { CourseOnTermRelationFilter } from "../inputs/CourseOnTermRelationFilter";
+import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
+import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -37,6 +39,16 @@ export class CourseOnTermAutomationWhereInput {
     nullable: true
   })
   FolderID?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumFlowTypeFilter, {
+    nullable: true
+  })
+  DefaultType?: EnumFlowTypeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumVisibilityFilter, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFilter | undefined;
 
   @TypeGraphQL.Field(_type => AutomationLogListRelationFilter, {
     nullable: true

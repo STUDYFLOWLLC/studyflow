@@ -27,6 +27,11 @@ export class AutomationLogMaxAggregate {
   })
   Message!: string | null;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FileID!: string | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

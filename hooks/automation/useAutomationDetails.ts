@@ -2,6 +2,7 @@
 
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
 export interface AutomationLog {
   AutomationLogID: number
@@ -14,10 +15,13 @@ export interface AutomationLog {
 export interface CourseOnTermAutomation {
   CourseOnTermAutomationID: number
   FolderID: string
+  DefaultType: FlowType
+  DefaultVisibility: FlowVisibility
   AutomationLog: AutomationLog[]
   FK_AutomationID: number
   FK_CourseOnTermID: number
 }
+
 export interface Automation {
   AutomationID: number
   RefreshToken: string
@@ -40,6 +44,8 @@ export default function useAutomationDetails(userId: number | undefined): Ret {
         CourseOnTermAutomations {
           CourseOnTermAutomationID
           FolderID
+          DefaultType
+          DefaultVisibility
           FK_AutomationID
           FK_CourseOnTermID
           AutomationLog {

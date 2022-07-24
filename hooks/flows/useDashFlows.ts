@@ -13,6 +13,7 @@ export interface DashFlow {
   Type: FlowType
   Visibility: FlowVisibility
   Trashed: boolean
+  WasAutomated: boolean
   FK_CourseOnTerm?: {
     CourseOnTermID: number
     Nickname: string
@@ -49,6 +50,7 @@ export default function useDashFlows(
         Type
         Visibility
         Trashed
+        WasAutomated
         FK_CourseOnTerm {
           CourseOnTermID
           Nickname
