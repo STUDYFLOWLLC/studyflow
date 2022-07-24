@@ -9,10 +9,13 @@ import CreateAutomationOnCourseOnTerm from './CreateAutomationOnCourseOnTerm'
 
 interface Props {
   courseOnTerm: CourseOnTerm
-  automation: CourseOnTermAutomation | undefined
+  courseOnTermAutomation: CourseOnTermAutomation | undefined
 }
 
-export default function AutomationCard({ courseOnTerm, automation }: Props) {
+export default function AutomationCard({
+  courseOnTerm,
+  courseOnTermAutomation,
+}: Props) {
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
   const { automationDetails, automationDetailsLoading } = useAutomationDetails(
@@ -27,10 +30,10 @@ export default function AutomationCard({ courseOnTerm, automation }: Props) {
         </h3>
         <p className="p-0 m-0 cursor-pointer">Help</p>
       </div>
-      {automation === undefined ? (
+      {courseOnTermAutomation === undefined ? (
         <CreateAutomationOnCourseOnTerm courseOnTerm={courseOnTerm} />
       ) : (
-        <AutomationCardBody automation={automation} />
+        <AutomationCardBody courseOnTermAutomation={courseOnTermAutomation} />
       )}
     </div>
   )

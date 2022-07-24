@@ -13,12 +13,12 @@ export default function AutomationCards() {
   )
 
   return (
-    <div className="w-full flex flex-wrap justify-center">
+    <div className="w-full mb-36 flex flex-wrap justify-center">
       {coursesOnTerm.map((courseOnTerm) => (
         <AutomationCard
           key={courseOnTerm.CourseOnTermID}
           courseOnTerm={courseOnTerm}
-          automation={automationDetails?.CourseOnTermAutomations.find(
+          courseOnTermAutomation={automationDetails?.CourseOnTermAutomations.find(
             (cota) => cota.FK_CourseOnTermID === courseOnTerm.CourseOnTermID,
           )}
         />

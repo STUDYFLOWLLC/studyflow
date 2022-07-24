@@ -1,5 +1,9 @@
 import makeAutomationLog from 'hooks/automation/makeAutomationLog'
 import makeCourseOnTermAutomation from 'hooks/automation/makeCourseOnTermAutomation'
+import {
+  mutateCourseOnTermAutomationDefaultType,
+  mutateCourseOnTermDefaultVisibility,
+} from 'hooks/automation/mutateCourseOnTermAutomation'
 import { Automation } from 'hooks/automation/useAutomationDetails'
 import { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
@@ -53,6 +57,84 @@ export default async function createCourseOnTermAutomation(
             FK_CourseOnTermID: courseOnTermId,
           },
         ],
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export function changeCourseOnTermAutomationDefaultType(
+  courseOnTermAutomationId: number,
+  newDefaultType: FlowType,
+  automationDetails: Automation | undefined,
+  mutateAutomationDetails: KeyedMutator<any>,
+) {
+  // mutate in backend
+  mutateCourseOnTermAutomationDefaultType(
+    courseOnTermAutomationId,
+    newDefaultType,
+  )
+
+  // mutate locally
+  mutateAutomationDetails(
+    {
+      automation: {
+        ...automationDetails,
+        CourseOnTermAutomations: automationDetails?.CourseOnTermAutomations.map(
+          (courseOnTermAutomation) => {
+            if (
+              courseOnTermAutomationId ===
+              courseOnTermAutomation.CourseOnTermAutomationID
+            ) {
+              return {
+                ...courseOnTermAutomation,
+                DefaultType: newDefaultType,
+              }
+            }
+            return courseOnTermAutomation
+          },
+        ),
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export function changeCourseOnTermAutomationDefaultVisibility(
+  courseOnTermAutomationId: number,
+  newDefaultVisibility: FlowVisibility,
+  automationDetails: Automation | undefined,
+  mutateAutomationDetails: KeyedMutator<any>,
+) {
+  // mutate in backend
+  mutateCourseOnTermDefaultVisibility(
+    courseOnTermAutomationId,
+    newDefaultVisibility,
+  )
+
+  // mutate locally
+  mutateAutomationDetails(
+    {
+      automation: {
+        ...automationDetails,
+        CourseOnTermAutomations: automationDetails?.CourseOnTermAutomations.map(
+          (courseOnTermAutomation) => {
+            if (
+              courseOnTermAutomationId ===
+              courseOnTermAutomation.CourseOnTermAutomationID
+            ) {
+              return {
+                ...courseOnTermAutomation,
+                DefaultVisibility: newDefaultVisibility,
+              }
+            }
+            return courseOnTermAutomation
+          },
+        ),
       },
     },
     {

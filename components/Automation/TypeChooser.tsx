@@ -47,8 +47,8 @@ export default function FlowTypeChooser({ loading, type, mutator }: Props) {
     )
 
   return (
-    <div className="prose flex items-center m-2">
-      <p className="m-0 p-0 font-medium">Default flow type:</p>
+    <div className="prose flex w-full items-center m-1">
+      <p className="m-0 p-0 font-medium text-sm">Default flow type:</p>
       <Menu as="div" className="relative">
         <Menu.Button
           className={classNames(
@@ -60,7 +60,7 @@ export default function FlowTypeChooser({ loading, type, mutator }: Props) {
               'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
                 theme === 'dark',
             },
-            'flex items-center font-light m-0 p-0 ml-3 text-md px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+            'flex items-center font-light m-0 p-0 ml-3 text-sm px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
           )}
           disabled={loading}
         >
@@ -93,7 +93,7 @@ export default function FlowTypeChooser({ loading, type, mutator }: Props) {
                     className={classNames(
                       { 'bg-gray-100': active && theme === 'light' },
                       { 'bg-slate-600': active && theme === 'dark' },
-                      'px-2 py-2 text-sm first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
+                      'px-2 py-2 text-xs first-of-type:rounded-t-md last-of-type:rounded-b-md flex items-center cursor-pointer',
                     )}
                     onClick={() => mutator(item.name)}
                     onKeyDown={() => mutator(item.name)}

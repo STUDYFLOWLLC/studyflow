@@ -33,8 +33,8 @@ export default function FlowVisibilityChooser({
   if (!mounted) return null
 
   return (
-    <div className="prose flex items-center m-2">
-      <p className="m-0 p-0 font-medium">Default flow visibility:</p>
+    <div className="prose flex w-full items-center m-1">
+      <p className="m-0 p-0 font-medium text-sm">Default flow visibility:</p>
       <Menu as="div" className="relative">
         <Menu.Button
           className={classNames(
@@ -50,12 +50,14 @@ export default function FlowVisibilityChooser({
           )}
         >
           <div>
-            {visibility === FlowVisibility.PUBLIC && <RainbowPublicIcon />}
+            {visibility === FlowVisibility.PUBLIC && (
+              <RainbowPublicIcon dimension="w-5 h-5" />
+            )}
             {visibility === FlowVisibility.PRIVATE && (
-              <LockClosedIcon className="w-6 h-6" />
+              <LockClosedIcon className="w-5 h-5" />
             )}
             {visibility === FlowVisibility.HIDDEN && (
-              <BanIcon className="w-6 h-6" />
+              <BanIcon className="w-5 h-5" />
             )}
           </div>
         </Menu.Button>
