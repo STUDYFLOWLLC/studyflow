@@ -137,7 +137,7 @@ export default function index({
                 className={classNames(
                   { 'bg-white': theme === 'light' },
                   { 'bg-base-100': theme === 'dark' },
-                  'overflow-auto no-scrollbar mx-auto w-full h-full max-w-4xl shadow-lg rounded-md',
+                  'overflow-auto no-scrollbar w-full max-w-4xl shadow-lg rounded-md',
                 )}
               >
                 {creatingFlow && (

@@ -6,7 +6,6 @@ import { defaultBody } from 'hooks/flows/makeFlow'
 import { mutateFlowBody, mutateLastOpened } from 'hooks/flows/mutateFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
-import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
 import { Block } from 'types/Flow'
@@ -22,13 +21,8 @@ export default function Flow({ flowId, closeModal }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
-  const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
-    userDetails?.FK_Terms?.[0]?.TermID,
-  )
-  const { dashFlows, dashFlowsLoading, mutateDashFlows } = useDashFlows(
-    userDetails?.UserID,
-  )
+  const { userDetails } = useUserDetails(user?.id)
+  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
   const updateLastOpened = () => {
     // mutate in backend
