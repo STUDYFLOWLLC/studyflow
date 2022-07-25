@@ -6,7 +6,6 @@ import { defaultBody } from 'hooks/flows/makeFlow'
 import { mutateFlowBody, mutateLastOpened } from 'hooks/flows/mutateFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
-import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
 import { Block } from 'types/Flow'
@@ -16,19 +15,15 @@ import FlowBody from './FlowBody'
 interface Props {
   flowId: string
   closeModal: () => void
+  setDragSetter?: (value: boolean) => void
 }
 
-export default function Flow({ flowId, closeModal }: Props) {
+export default function Flow({ flowId, closeModal, setDragSetter }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
-  const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
-    userDetails?.FK_Terms?.[0]?.TermID,
-  )
-  const { dashFlows, dashFlowsLoading, mutateDashFlows } = useDashFlows(
-    userDetails?.UserID,
-  )
+  const { userDetails } = useUserDetails(user?.id)
+  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
   const updateLastOpened = () => {
     // mutate in backend
@@ -99,7 +94,7 @@ export default function Flow({ flowId, closeModal }: Props) {
   }
 
   return (
-    <div className="relative h-full w-full min-h-full max-h-full">
+    <>
       <FlowTop
         flowId={flowId}
         closeModal={closeModal}
@@ -111,6 +106,7 @@ export default function Flow({ flowId, closeModal }: Props) {
           initialBlocks={JSON.parse(flowDetails?.Body) || defaultBody}
           saveFlow={saveFlow}
           setFauxSaving={setFauxSaving}
+          setDragSetter={setDragSetter}
         />
       ) : (
         <div className="flex flex-col justify-center w-full h-80 max-h-full">
@@ -119,6 +115,6 @@ export default function Flow({ flowId, closeModal }: Props) {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
