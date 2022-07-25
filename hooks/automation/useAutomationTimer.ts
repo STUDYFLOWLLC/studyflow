@@ -30,14 +30,7 @@ export default function useAutomationTimer() {
 
   const { data, error, mutate } = useSWR([query, variables])
 
-  console.log(data)
-
   if (data?.automationLogs) {
-    console.log(
-      Date.now() +
-        1000 * 60 * 15 -
-        (Date.now() - new Date(data.automationLogs[0].Time).getTime()),
-    )
     return {
       automationTimer:
         Date.now() +
