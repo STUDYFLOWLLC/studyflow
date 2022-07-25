@@ -6,6 +6,7 @@ import FlowBlock from 'components/Flow/FlowBlock'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
+import FlipMove from 'react-flip-move'
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
@@ -28,15 +29,18 @@ interface Props {
   initialBlocks: Block[]
   saveFlow: (blocks: Block[]) => Promise<void>
   setFauxSaving: (fauxSaving: boolean) => void
+  setDragSetter?: (value: boolean) => void
 }
 
 export default function FlowBody({
   initialBlocks,
   saveFlow,
   setFauxSaving,
+  setDragSetter,
 }: Props) {
   const { theme, setTheme } = useTheme()
 
+  const [mounted, setMounted] = useState(false)
   const [blocks, setBlocks] = useStateCallback(initialBlocks)
   const [changesMade, setChangesMade] = useState(false)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
@@ -358,50 +362,60 @@ export default function FlowBody({
   //   [],
   // )
 
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   return (
     <DragDropContext onDragEnd={onEnd}>
       <Droppable droppableId="fnasohghp893">
         {(provided) => (
           <div
+            onMouseDown={() => {
+              if (setDragSetter) setDragSetter(true)
+            }}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
             className={classNames(
-              'overflow-none max-h-5/6 max-w-3xl mx-auto prose',
+              'max-w-3xl mx-auto overflow-none prose',
               'prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
               'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
               'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
               'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
             )}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
           >
-            {blocks.map((block: Block) => (
-              <FlowBlock
-                key={block.id}
-                theme={theme}
-                setTheme={setTheme}
-                setChangesMade={setChangesMade}
-                setFauxSaving={setFauxSaving}
-                commandHandler={commandHandler}
-                updatePage={updatePageHandler}
-                block={block}
-                previousBlock={
-                  block.index > 0 ? blocks[block.index - 1] : undefined
-                }
-                nextBlock={
-                  block.index < blocks.length - 1
-                    ? blocks[block.index + 1]
-                    : undefined
-                }
-                changeBlockTag={changeBlockTag}
-                restoreBlockAndChangeColor={restoreBlockAndChangeColor}
-                addBlock={addBlockHandler}
-                deleteBlock={deleteBlock}
-                joinBlocks={joinBlocks}
-                sliceBlockIntoNew={sliceBlockIntoNew}
-                swapBlocks={swapBlocks}
-                rerenderDetector={rerenderDetector}
-                setRerenderDetector={setRerenderDetector}
-              />
-            ))}
+            {/* @ts-expect-error flipmove not in typescript */}
+            <FlipMove duration={200} easing="ease-out" disableAllAnimations>
+              {blocks.map((block: Block) => (
+                <FlowBlock
+                  key={block.id}
+                  theme={theme}
+                  setTheme={setTheme}
+                  setChangesMade={setChangesMade}
+                  setFauxSaving={setFauxSaving}
+                  commandHandler={commandHandler}
+                  updatePage={updatePageHandler}
+                  block={block}
+                  previousBlock={
+                    block.index > 0 ? blocks[block.index - 1] : undefined
+                  }
+                  nextBlock={
+                    block.index < blocks.length - 1
+                      ? blocks[block.index + 1]
+                      : undefined
+                  }
+                  changeBlockTag={changeBlockTag}
+                  restoreBlockAndChangeColor={restoreBlockAndChangeColor}
+                  addBlock={addBlockHandler}
+                  deleteBlock={deleteBlock}
+                  joinBlocks={joinBlocks}
+                  sliceBlockIntoNew={sliceBlockIntoNew}
+                  swapBlocks={swapBlocks}
+                  rerenderDetector={rerenderDetector}
+                  setRerenderDetector={setRerenderDetector}
+                />
+              ))}
+            </FlipMove>
             {provided.placeholder}
           </div>
         )}

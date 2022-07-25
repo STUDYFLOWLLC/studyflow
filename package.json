@@ -65,6 +65,7 @@
     "react-hot-toast": "^2.2.0",
     "react-hotkeys-hook": "^3.4.4",
     "react-loading-skeleton": "^3.1.0",
+    "react-no-ssr-depup": "^2.0.1",
     "react-query": "^3.39.1",
     "reflect-metadata": "^0.1.13",
     "swr": "^1.2.2",

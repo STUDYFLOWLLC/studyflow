@@ -490,7 +490,6 @@ class FlowBlock extends React.Component<Props, State> {
             {...provided.draggableProps}
             onMouseEnter={() => this.setState({ showDragger: true })}
             onMouseLeave={() => this.setState({ showDragger: false })}
-            className="mx-auto max-w-3xl"
           >
             <div
               className={classNames(

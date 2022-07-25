@@ -30,12 +30,13 @@ export default function index({
   createAs,
   setCreateAs,
 }: Props) {
-  const { theme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
   const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
+  const [dragSetter, setDragSetter] = useState(false)
   const [creatingFlow, setCreatingFlow] = useState(false)
   const [createdFlowId, setCreatedFlowId] = useState<string>('')
 
@@ -94,17 +95,23 @@ export default function index({
 
   useEffect(() => {
     setMounted(true)
+  }, [])
+
+  useEffect(() => {
     createFlow()
+    setDragSetter(false)
   }, [isOpen])
 
   if (!mounted) return null
 
+  console.log(dragSetter)
+
   return (
-    <Transition appear show={!!flowId || !!createdFlowId} as={Fragment}>
+    <Transition show={!!flowId || !!createdFlowId} as={Fragment}>
       <Dialog
         open={!!flowId || !!createdFlowId}
         onClose={() => closeFlowModal()}
-        className="relative z-50 w-full h-screen max-h-screen"
+        className="relative z-50 w-full h-screen"
       >
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
         <Transition.Child
@@ -120,7 +127,7 @@ export default function index({
         </Transition.Child>
 
         {/* Full-screen scrollable container */}
-        <div className="w-full fixed inset-0 h-4/5 my-auto flex items-center justify-center">
+        <div className="w-full fixed inset-0 h-full my-auto flex items-center justify-center">
           {/* Container to center the panel */}
           <div className="w-full flex items-center h-full justify-center">
             {/* The actual dialog panel  */}
@@ -137,7 +144,9 @@ export default function index({
                 className={classNames(
                   { 'bg-white': theme === 'light' },
                   { 'bg-base-100': theme === 'dark' },
-                  'overflow-auto no-scrollbar w-full max-w-4xl shadow-lg rounded-md',
+                  { 'w-full': dragSetter },
+                  { 'w-[99%]': !dragSetter },
+                  'overflow-auto no-scrollbar h-5/6 max-w-4xl shadow-lg rounded-md',
                 )}
               >
                 {creatingFlow && (
@@ -150,6 +159,7 @@ export default function index({
                   <Flow
                     flowId={flowId || createdFlowId}
                     closeModal={closeFlowModal}
+                    setDragSetter={setDragSetter}
                   />
                 )}
               </Dialog.Panel>

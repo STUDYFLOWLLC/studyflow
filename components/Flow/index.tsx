@@ -15,9 +15,10 @@ import FlowBody from './FlowBody'
 interface Props {
   flowId: string
   closeModal: () => void
+  setDragSetter?: (value: boolean) => void
 }
 
-export default function Flow({ flowId, closeModal }: Props) {
+export default function Flow({ flowId, closeModal, setDragSetter }: Props) {
   const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
     useFlowDetails(flowId)
   const { user } = useUser()
@@ -93,7 +94,7 @@ export default function Flow({ flowId, closeModal }: Props) {
   }
 
   return (
-    <div className="relative h-full w-full min-h-full max-h-full">
+    <>
       <FlowTop
         flowId={flowId}
         closeModal={closeModal}
@@ -105,6 +106,7 @@ export default function Flow({ flowId, closeModal }: Props) {
           initialBlocks={JSON.parse(flowDetails?.Body) || defaultBody}
           saveFlow={saveFlow}
           setFauxSaving={setFauxSaving}
+          setDragSetter={setDragSetter}
         />
       ) : (
         <div className="flex flex-col justify-center w-full h-80 max-h-full">
@@ -113,6 +115,6 @@ export default function Flow({ flowId, closeModal }: Props) {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
