@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
-import { CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput } from "../inputs/CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput";
+import { CourseOnTermAutomationUpdateOneWithoutAutomationLogInput } from "../inputs/CourseOnTermAutomationUpdateOneWithoutAutomationLogInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
@@ -32,8 +32,8 @@ export class AutomationLogUpdateInput {
   })
   FileID?: NullableStringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput, {
+  @TypeGraphQL.Field(_type => CourseOnTermAutomationUpdateOneWithoutAutomationLogInput, {
     nullable: true
   })
-  FK_CourseOnTermAutomation?: CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput | undefined;
+  FK_CourseOnTermAutomation?: CourseOnTermAutomationUpdateOneWithoutAutomationLogInput | undefined;
 }

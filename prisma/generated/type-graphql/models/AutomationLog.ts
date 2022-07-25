@@ -33,10 +33,10 @@ export class AutomationLog {
   })
   FileID?: string | null;
 
-  FK_CourseOnTermAutomation?: CourseOnTermAutomation;
+  FK_CourseOnTermAutomation?: CourseOnTermAutomation | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  FK_CourseOnTermAutomationID!: number;
+  FK_CourseOnTermAutomationID?: number | null;
 }

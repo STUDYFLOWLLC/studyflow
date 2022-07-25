@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import AutomationCards from 'components/Automation/AutomationCards'
 import AutomationHeader from 'components/Automation/AutomationHeader'
 import SetupAutomation from 'components/Automation/SetupAutomation'
+import Timer from 'components/Automation/Timer'
 import CMDPalette from 'components/CMDPalette'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
@@ -90,6 +91,7 @@ export default function index({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
+          <Timer />
           <AutomationCards />
           <Taskover />
           <CMDPalette

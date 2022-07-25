@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -52,8 +53,8 @@ export class AutomationLogScalarWhereInput {
   })
   FileID?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  FK_CourseOnTermAutomationID?: IntFilter | undefined;
+  FK_CourseOnTermAutomationID?: IntNullableFilter | undefined;
 }

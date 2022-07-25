@@ -29,7 +29,7 @@ export class AutomationLogCreateInput {
   FileID?: string | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermAutomationCreateNestedOneWithoutAutomationLogInput, {
-    nullable: false
+    nullable: true
   })
-  FK_CourseOnTermAutomation!: CourseOnTermAutomationCreateNestedOneWithoutAutomationLogInput;
+  FK_CourseOnTermAutomation?: CourseOnTermAutomationCreateNestedOneWithoutAutomationLogInput | undefined;
 }
