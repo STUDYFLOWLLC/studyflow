@@ -117,7 +117,7 @@ export { CourseOnTermAutomationUpdateManyWithWhereWithoutFK_AutomationInput } fr
 export { CourseOnTermAutomationUpdateManyWithWhereWithoutFK_CourseOnTermInput } from "./CourseOnTermAutomationUpdateManyWithWhereWithoutFK_CourseOnTermInput";
 export { CourseOnTermAutomationUpdateManyWithoutFK_AutomationInput } from "./CourseOnTermAutomationUpdateManyWithoutFK_AutomationInput";
 export { CourseOnTermAutomationUpdateManyWithoutFK_CourseOnTermInput } from "./CourseOnTermAutomationUpdateManyWithoutFK_CourseOnTermInput";
-export { CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput } from "./CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput";
+export { CourseOnTermAutomationUpdateOneWithoutAutomationLogInput } from "./CourseOnTermAutomationUpdateOneWithoutAutomationLogInput";
 export { CourseOnTermAutomationUpdateWithWhereUniqueWithoutFK_AutomationInput } from "./CourseOnTermAutomationUpdateWithWhereUniqueWithoutFK_AutomationInput";
 export { CourseOnTermAutomationUpdateWithWhereUniqueWithoutFK_CourseOnTermInput } from "./CourseOnTermAutomationUpdateWithWhereUniqueWithoutFK_CourseOnTermInput";
 export { CourseOnTermAutomationUpdateWithoutAutomationLogInput } from "./CourseOnTermAutomationUpdateWithoutAutomationLogInput";

@@ -33,7 +33,7 @@ export class AutomationLogCreateManyInput {
   FileID?: string | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  FK_CourseOnTermAutomationID!: number;
+  FK_CourseOnTermAutomationID?: number | undefined;
 }

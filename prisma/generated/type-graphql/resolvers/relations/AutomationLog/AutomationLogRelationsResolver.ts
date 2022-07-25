@@ -6,9 +6,9 @@ import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRel
 @TypeGraphQL.Resolver(_of => AutomationLog)
 export class AutomationLogRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => CourseOnTermAutomation, {
-    nullable: false
+    nullable: true
   })
-  async FK_CourseOnTermAutomation(@TypeGraphQL.Root() automationLog: AutomationLog, @TypeGraphQL.Ctx() ctx: any): Promise<CourseOnTermAutomation> {
+  async FK_CourseOnTermAutomation(@TypeGraphQL.Root() automationLog: AutomationLog, @TypeGraphQL.Ctx() ctx: any): Promise<CourseOnTermAutomation | null> {
     return getPrismaFromContext(ctx).automationLog.findUnique({
       where: {
         AutomationLogID: automationLog.AutomationLogID,

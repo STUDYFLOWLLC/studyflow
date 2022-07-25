@@ -8,10 +8,10 @@ import { CourseOnTermAutomationUpdateWithoutAutomationLogInput } from "../inputs
 import { CourseOnTermAutomationUpsertWithoutAutomationLogInput } from "../inputs/CourseOnTermAutomationUpsertWithoutAutomationLogInput";
 import { CourseOnTermAutomationWhereUniqueInput } from "../inputs/CourseOnTermAutomationWhereUniqueInput";
 
-@TypeGraphQL.InputType("CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput", {
+@TypeGraphQL.InputType("CourseOnTermAutomationUpdateOneWithoutAutomationLogInput", {
   isAbstract: true
 })
-export class CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput {
+export class CourseOnTermAutomationUpdateOneWithoutAutomationLogInput {
   @TypeGraphQL.Field(_type => CourseOnTermAutomationCreateWithoutAutomationLogInput, {
     nullable: true
   })
@@ -26,6 +26,16 @@ export class CourseOnTermAutomationUpdateOneRequiredWithoutAutomationLogInput {
     nullable: true
   })
   upsert?: CourseOnTermAutomationUpsertWithoutAutomationLogInput | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  disconnect?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  delete?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermAutomationWhereUniqueInput, {
     nullable: true

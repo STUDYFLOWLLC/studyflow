@@ -23,7 +23,7 @@ export default function AutomationCard({
   )
 
   return (
-    <div className="w-96 border rounded-md mx-12 my-8 px-4 py-2 prose">
+    <div className="w-96 border rounded-md mx-12 mb-8 px-4 prose py-2">
       <div className="mb-2 flex items-baseline justify-between">
         <h3 className="p-0 m-0">
           {courseOnTerm.Nickname || courseOnTerm.FK_Course?.Code}

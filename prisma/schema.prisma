@@ -59,13 +59,13 @@ model Setting {
 }
 
 model AutomationLog {
-  AutomationLogID             Int                    @id @default(autoincrement())
-  Time                        DateTime               @default(now())
-  Success                     Boolean                @default(false)
-  Message                     String                 @default("")
+  AutomationLogID             Int                     @id @default(autoincrement())
+  Time                        DateTime                @default(now())
+  Success                     Boolean                 @default(false)
+  Message                     String                  @default("")
   FileID                      String?
-  FK_CourseOnTermAutomation   CourseOnTermAutomation @relation(fields: [FK_CourseOnTermAutomationID], references: [CourseOnTermAutomationID], onDelete: Cascade, onUpdate: Cascade)
-  FK_CourseOnTermAutomationID Int
+  FK_CourseOnTermAutomation   CourseOnTermAutomation? @relation(fields: [FK_CourseOnTermAutomationID], references: [CourseOnTermAutomationID], onDelete: Cascade, onUpdate: Cascade)
+  FK_CourseOnTermAutomationID Int?
 }
 
 model CourseOnTermAutomation {

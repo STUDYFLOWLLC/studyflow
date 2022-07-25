@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
@@ -52,8 +53,8 @@ export class AutomationLogScalarWhereWithAggregatesInput {
   })
   FileID?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })
-  FK_CourseOnTermAutomationID?: IntWithAggregatesFilter | undefined;
+  FK_CourseOnTermAutomationID?: IntNullableWithAggregatesFilter | undefined;
 }

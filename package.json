@@ -62,6 +62,7 @@
     "react": "^17.0.0",
     "react-beautiful-dnd": "^13.1.0",
     "react-contenteditable": "^3.3.6",
+    "react-countdown": "^2.3.2",
     "react-dom": "^17.0.0",
     "react-flip-move": "^3.0.4",
     "react-google-drive-picker": "^1.2.0",

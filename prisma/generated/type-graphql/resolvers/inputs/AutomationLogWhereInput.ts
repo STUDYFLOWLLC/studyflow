@@ -6,6 +6,7 @@ import { BoolFilter } from "../inputs/BoolFilter";
 import { CourseOnTermAutomationRelationFilter } from "../inputs/CourseOnTermAutomationRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -58,8 +59,8 @@ export class AutomationLogWhereInput {
   })
   FK_CourseOnTermAutomation?: CourseOnTermAutomationRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  FK_CourseOnTermAutomationID?: IntFilter | undefined;
+  FK_CourseOnTermAutomationID?: IntNullableFilter | undefined;
 }
