@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { CourseOnTermAutomationOrderByRelationAggregateInput } from "../inputs/CourseOnTermAutomationOrderByRelationAggregateInput";
 import { CourseOrderByWithRelationInput } from "../inputs/CourseOrderByWithRelationInput";
 import { FlowOrderByRelationAggregateInput } from "../inputs/FlowOrderByRelationAggregateInput";
 import { TaskOrderByRelationAggregateInput } from "../inputs/TaskOrderByRelationAggregateInput";
@@ -71,4 +72,9 @@ export class CourseOnTermOrderByWithRelationInput {
     nullable: true
   })
   FK_Tasks?: TaskOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermAutomationOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  CourseOnTermAutomation?: CourseOnTermAutomationOrderByRelationAggregateInput | undefined;
 }

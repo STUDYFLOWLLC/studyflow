@@ -12,7 +12,7 @@ import { FlowViewUpdateManyWithoutFK_FlowInput } from "../inputs/FlowViewUpdateM
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskUpdateManyWithoutFK_FlowInput } from "../inputs/TaskUpdateManyWithoutFK_FlowInput";
-import { UserUpdateOneWithoutFlowInput } from "../inputs/UserUpdateOneWithoutFlowInput";
+import { UserUpdateOneWithoutFK_FlowInput } from "../inputs/UserUpdateOneWithoutFK_FlowInput";
 
 @TypeGraphQL.InputType("FlowUpdateInput", {
   isAbstract: true
@@ -48,11 +48,6 @@ export class FlowUpdateInput {
   })
   Title?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  Body?: NullableStringFieldUpdateOperationsInput | undefined;
-
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -62,6 +57,16 @@ export class FlowUpdateInput {
     nullable: true
   })
   Visibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  WasAutomated?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Body?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermUpdateOneWithoutFK_FlowsInput, {
     nullable: true
@@ -83,8 +88,8 @@ export class FlowUpdateInput {
   })
   FK_FlowView?: FlowViewUpdateManyWithoutFK_FlowInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserUpdateOneWithoutFlowInput, {
+  @TypeGraphQL.Field(_type => UserUpdateOneWithoutFK_FlowInput, {
     nullable: true
   })
-  FK_User?: UserUpdateOneWithoutFlowInput | undefined;
+  FK_User?: UserUpdateOneWithoutFK_FlowInput | undefined;
 }

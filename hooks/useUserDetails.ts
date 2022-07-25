@@ -74,10 +74,7 @@ export default function useUserDetails(
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables], {
-    revalidateOnMount: false,
-    revalidateOnFocus: false,
-  })
+  const { data, error, mutate } = useSWR([query, variables])
 
   if (data?.mutate) {
     return {

@@ -39,11 +39,6 @@ export class FlowMinAggregate {
   })
   Title!: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Body!: string | null;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
@@ -53,6 +48,16 @@ export class FlowMinAggregate {
     nullable: true
   })
   Visibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  WasAutomated!: boolean | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Body!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { UserProvider } from '@supabase/supabase-auth-helpers/react'
 import { request, RequestDocument } from 'graphql-request'
@@ -23,11 +24,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <title>Studyflow</title>
       </Head>
-      <ThemeProvider defaultTheme="light" enableSystem>
-        <UserProvider supabaseClient={supabaseClient}>
-          <Component {...pageProps} />
-        </UserProvider>
-      </ThemeProvider>
+      <GoogleOAuthProvider
+        clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}
+      >
+        <ThemeProvider defaultTheme="light" enableSystem>
+          <UserProvider supabaseClient={supabaseClient}>
+            <Component {...pageProps} />
+          </UserProvider>
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     </SWRConfig>
   )
 }

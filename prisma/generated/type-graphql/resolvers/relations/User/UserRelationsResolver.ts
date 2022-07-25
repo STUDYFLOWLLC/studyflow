@@ -1,4 +1,5 @@
 import * as TypeGraphQL from "type-graphql";
+import { Automation } from "../../../models/Automation";
 import { Flow } from "../../../models/Flow";
 import { FlowView } from "../../../models/FlowView";
 import { School } from "../../../models/School";
@@ -6,10 +7,11 @@ import { Setting } from "../../../models/Setting";
 import { Task } from "../../../models/Task";
 import { Term } from "../../../models/Term";
 import { User } from "../../../models/User";
+import { UserFK_AutomationArgs } from "./args/UserFK_AutomationArgs";
+import { UserFK_FlowArgs } from "./args/UserFK_FlowArgs";
 import { UserFK_FlowViewArgs } from "./args/UserFK_FlowViewArgs";
 import { UserFK_TaskArgs } from "./args/UserFK_TaskArgs";
 import { UserFK_TermsArgs } from "./args/UserFK_TermsArgs";
-import { UserFlowArgs } from "./args/UserFlowArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => User)
@@ -72,11 +74,22 @@ export class UserRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => [Flow], {
     nullable: false
   })
-  async Flow(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFlowArgs): Promise<Flow[]> {
+  async FK_Flow(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_FlowArgs): Promise<Flow[]> {
     return getPrismaFromContext(ctx).user.findUnique({
       where: {
         UserID: user.UserID,
       },
-    }).Flow(args);
+    }).FK_Flow(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [Automation], {
+    nullable: false
+  })
+  async FK_Automation(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_AutomationArgs): Promise<Automation[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_Automation(args);
   }
 }

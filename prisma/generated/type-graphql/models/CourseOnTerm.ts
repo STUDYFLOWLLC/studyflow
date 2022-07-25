@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Course } from "../models/Course";
+import { CourseOnTermAutomation } from "../models/CourseOnTermAutomation";
 import { Flow } from "../models/Flow";
 import { Task } from "../models/Task";
 import { Term } from "../models/Term";
@@ -59,6 +60,8 @@ export class CourseOnTerm {
   FK_Flows?: Flow[];
 
   FK_Tasks?: Task[];
+
+  CourseOnTermAutomation?: CourseOnTermAutomation[];
 
   @TypeGraphQL.Field(_type => CourseOnTermCount, {
     nullable: true

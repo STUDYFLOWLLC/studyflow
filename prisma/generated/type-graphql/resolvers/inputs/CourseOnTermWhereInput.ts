@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
+import { CourseOnTermAutomationListRelationFilter } from "../inputs/CourseOnTermAutomationListRelationFilter";
 import { CourseRelationFilter } from "../inputs/CourseRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
@@ -91,4 +92,9 @@ export class CourseOnTermWhereInput {
     nullable: true
   })
   FK_Tasks?: TaskListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermAutomationListRelationFilter, {
+    nullable: true
+  })
+  CourseOnTermAutomation?: CourseOnTermAutomationListRelationFilter | undefined;
 }

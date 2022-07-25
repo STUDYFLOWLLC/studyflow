@@ -29,7 +29,10 @@ interface Ret {
   mutateCoursesOnTerm: KeyedMutator<any>
 }
 
-export default function useCoursesOnTerm(termID: number | undefined): Ret {
+export default function useCoursesOnTerm(
+  termID: number | undefined,
+  filterFunk?: (arg0: CourseOnTerm) => boolean,
+): Ret {
   const query = gql`
     query Query($where: TermWhereInput) {
       findFirstTerm(where: $where) {
@@ -61,9 +64,7 @@ export default function useCoursesOnTerm(termID: number | undefined): Ret {
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables], {
-    revalidateOnMount: false,
-  })
+  const { data, error, mutate } = useSWR([query, variables])
 
   if (data?.mutate) {
     return {
@@ -80,9 +81,9 @@ export default function useCoursesOnTerm(termID: number | undefined): Ret {
     data.findFirstTerm.FK_CourseOnTerm.length !== 0
   ) {
     return {
-      coursesOnTerm: data.findFirstTerm.FK_CourseOnTerm.sort(
-        (a: CourseOnTerm, b: CourseOnTerm) => (a.Index > b.Index ? 1 : -1),
-      ),
+      coursesOnTerm: !filterFunk
+        ? data.findFirstTerm.FK_CourseOnTerm
+        : data.findFirstTerm.FK_CourseOnTerm.filter(filterFunk),
       coursesOnTermLoading: false,
       coursesOnTermError: error,
       mutateCoursesOnTerm: mutate,
@@ -91,7 +92,7 @@ export default function useCoursesOnTerm(termID: number | undefined): Ret {
 
   return {
     coursesOnTerm: [] as CourseOnTerm[],
-    coursesOnTermLoading: !error && !data,
+    coursesOnTermLoading: true,
     coursesOnTermError: error,
     mutateCoursesOnTerm: mutate,
   }

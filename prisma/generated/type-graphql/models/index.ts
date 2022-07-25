@@ -1,5 +1,8 @@
+export { Automation } from "./Automation";
+export { AutomationLog } from "./AutomationLog";
 export { Course } from "./Course";
 export { CourseOnTerm } from "./CourseOnTerm";
+export { CourseOnTermAutomation } from "./CourseOnTermAutomation";
 export { FlashCard } from "./FlashCard";
 export { FlashCardStack } from "./FlashCardStack";
 export { Flow } from "./Flow";

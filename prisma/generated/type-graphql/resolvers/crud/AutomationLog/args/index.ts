@@ -1,0 +1,12 @@
+export { AggregateAutomationLogArgs } from "./AggregateAutomationLogArgs";
+export { CreateAutomationLogArgs } from "./CreateAutomationLogArgs";
+export { CreateManyAutomationLogArgs } from "./CreateManyAutomationLogArgs";
+export { DeleteAutomationLogArgs } from "./DeleteAutomationLogArgs";
+export { DeleteManyAutomationLogArgs } from "./DeleteManyAutomationLogArgs";
+export { FindFirstAutomationLogArgs } from "./FindFirstAutomationLogArgs";
+export { FindManyAutomationLogArgs } from "./FindManyAutomationLogArgs";
+export { FindUniqueAutomationLogArgs } from "./FindUniqueAutomationLogArgs";
+export { GroupByAutomationLogArgs } from "./GroupByAutomationLogArgs";
+export { UpdateAutomationLogArgs } from "./UpdateAutomationLogArgs";
+export { UpdateManyAutomationLogArgs } from "./UpdateManyAutomationLogArgs";
+export { UpsertAutomationLogArgs } from "./UpsertAutomationLogArgs";

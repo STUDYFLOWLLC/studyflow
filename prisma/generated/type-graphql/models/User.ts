@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
+import { Automation } from "../models/Automation";
 import { Flow } from "../models/Flow";
 import { FlowView } from "../models/FlowView";
 import { School } from "../models/School";
@@ -76,7 +77,9 @@ export class User {
 
   FK_FlowView?: FlowView[];
 
-  Flow?: Flow[];
+  FK_Flow?: Flow[];
+
+  FK_Automation?: Automation[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true
