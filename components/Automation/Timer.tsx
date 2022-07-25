@@ -41,8 +41,8 @@ export default function Timer() {
   }
 
   return (
-    <div className="mt-6 mb-0 w-full text-center  prose max-w-none mx-auto">
-      <Countdown date={automationTimer} renderer={renderer} />,
+    <div className="mt-6 w-full text-center  prose max-w-none mx-auto mb-6 md:mb-8">
+      <Countdown date={automationTimer} renderer={renderer} />
     </div>
   )
 }
