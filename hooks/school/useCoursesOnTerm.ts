@@ -92,7 +92,7 @@ export default function useCoursesOnTerm(
 
   return {
     coursesOnTerm: [] as CourseOnTerm[],
-    coursesOnTermLoading: !error && !data,
+    coursesOnTermLoading: true,
     coursesOnTermError: error,
     mutateCoursesOnTerm: mutate,
   }
