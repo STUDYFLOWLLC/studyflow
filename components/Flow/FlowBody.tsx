@@ -12,6 +12,8 @@ import { Block, BlockTag, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import { setCaretToPosition } from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
+import getNextFromRef from 'utils/flows/getNextFromRef'
+import getPrevFromRef from 'utils/flows/getPrevFromRef'
 import getRawTextLength from 'utils/flows/getRawTextLength'
 import sliceBlock from 'utils/flows/sliceRichText'
 import useStateCallback from 'utils/flows/useStateCallback'
@@ -21,80 +23,28 @@ export interface addDeleteParams {
   ref: HTMLElement | null
 }
 
-const initialBlocks: Block[] = Object.values(Color).map((color, index) => ({
-  id: uuidv4(),
-  index,
-  tag: BlockTag.PARAGRAPH,
-  tabs: 0,
-  p: {
-    richText: [
-      {
-        type: RichTextType.TEXT,
-        text: {
-          content: color,
-        },
-      },
-    ],
-    color,
-  },
-}))
-
-const initialBlock: Block = {
-  id: uuidv4(),
-  index: 0,
-  tag: BlockTag.PARAGRAPH,
-  tabs: 0,
-  p: {
-    richText: [
-      {
-        type: RichTextType.TEXT,
-        text: {
-          content: 'TESTING',
-        },
-      },
-    ],
-    color: Color.GREEN,
-  },
-}
-
-const secondBlock: Block = {
-  id: uuidv4(),
-  index: 1,
-  tag: BlockTag.PARAGRAPH,
-  tabs: 0,
-  p: {
-    richText: [
-      {
-        type: RichTextType.TEXT,
-        text: {
-          content: 'TESTING2',
-        },
-      },
-    ],
-    color: Color.RED,
-  },
-}
-
 const commandHandler = new CommandHandler()
 
 interface Props {
   initialBlocks: Block[]
   saveFlow: (blocks: Block[]) => Promise<void>
   setFauxSaving: (fauxSaving: boolean) => void
+  setDragSetter?: (value: boolean) => void
 }
 
 export default function FlowBody({
   initialBlocks,
   saveFlow,
   setFauxSaving,
+  setDragSetter,
 }: Props) {
   const { theme, setTheme } = useTheme()
 
+  const [mounted, setMounted] = useState(false)
   const [blocks, setBlocks] = useStateCallback(initialBlocks)
   const [changesMade, setChangesMade] = useState(false)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
-  const [disableAnimations, setDisableAnimations] = useState(true)
   const [animatingBlock, setAnimatingBlock] = useState(false)
 
   const saveFlowLocal = async () => {
@@ -146,28 +96,6 @@ export default function FlowBody({
     // this.setState({ blocks: updatedBlocks })
   }
 
-  const blockCleanupAfterCommand = (block: any) => {
-    const blockRichTexts = block[block.tag]?.richText
-
-    if (!blockRichTexts) return
-    const { length } = blockRichTexts
-    const lastRichText = blockRichTexts[length - 1]
-
-    if (!lastRichText?.text?.content) return
-    const lastSlashIndex =
-      blockRichTexts[blockRichTexts.length - 1].text.content.lastIndexOf('/')
-
-    if (lastSlashIndex !== -1) {
-      const sliced = blockRichTexts[length - 1].text.content.substring(
-        0,
-        lastSlashIndex,
-      )
-      blockRichTexts[length - 1].text.content = sliced
-    }
-
-    return block
-  }
-
   const changeBlockTag = (block: Block, tag: BlockTag) => {
     const oldTag = block.tag
     block.tag = tag
@@ -202,8 +130,8 @@ export default function FlowBody({
     tag: BlockTag,
     initialContent?: string,
     initialColor?: Color,
+    insertAbove?: boolean,
   ) => {
-    setDisableAnimations(false)
     const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
@@ -228,23 +156,14 @@ export default function FlowBody({
       tempBlocks[i].index += 1
     }
     setBlocks(tempBlocks, () => {
-      const next: HTMLElement | null = ref?.parentElement?.parentElement
-        ?.parentElement?.parentElement?.parentElement?.nextElementSibling
-        ?.childNodes[0].childNodes[0].childNodes[0].childNodes[0]
-        .childNodes[1] as HTMLElement
-      if (next) next.focus()
+      const next: HTMLElement | null = getNextFromRef(ref)
+      if (next && !insertAbove) next.focus()
     })
-    setTimeout(() => {
-      setDisableAnimations(true)
-    }, 150)
   }
 
   const deleteBlock = (index: number, ref: HTMLElement | null) => {
-    setDisableAnimations(false)
     // Only delete the block, if there is a preceding one
-    const previous = ref?.parentElement?.parentElement?.parentElement
-      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
-      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
+    const previous = getPrevFromRef(ref)
     if (!previous) return
 
     const tempBlocks = [...blocks]
@@ -255,9 +174,6 @@ export default function FlowBody({
     setBlocks(tempBlocks, () => {
       setCaretToPosition(previous)
     })
-    setTimeout(() => {
-      setDisableAnimations(true)
-    }, 150)
   }
 
   const joinBlocks = (
@@ -265,9 +181,7 @@ export default function FlowBody({
     block2: Block,
     ref: HTMLElement | null,
   ) => {
-    const previousBlock = ref?.parentElement?.parentElement?.parentElement
-      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
-      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
+    const previousBlock = getPrevFromRef(ref)
     if (!previousBlock) return
 
     const block1RichText = block1[block1.tag]?.richText
@@ -448,26 +362,30 @@ export default function FlowBody({
   //   [],
   // )
 
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   return (
     <DragDropContext onDragEnd={onEnd}>
       <Droppable droppableId="fnasohghp893">
         {(provided) => (
           <div
+            onMouseDown={() => {
+              if (setDragSetter) setDragSetter(true)
+            }}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
             className={classNames(
-              'overflow-none max-h-5/6 max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
+              'max-w-3xl mx-auto overflow-none prose',
+              'prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
               'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
               'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
               'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
             )}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
           >
             {/* @ts-expect-error flipmove not in typescript */}
-            <FlipMove
-              duration={200}
-              disableAllAnimations={disableAnimations}
-              easing="ease-out"
-            >
+            <FlipMove duration={200} easing="ease-out" disableAllAnimations>
               {blocks.map((block: Block) => (
                 <FlowBlock
                   key={block.id}
@@ -495,13 +413,10 @@ export default function FlowBody({
                   swapBlocks={swapBlocks}
                   rerenderDetector={rerenderDetector}
                   setRerenderDetector={setRerenderDetector}
-                  setDisableAnimations={setDisableAnimations}
-                  animatingBlock={animatingBlock}
-                  setAnimatingBlock={setAnimatingBlock}
                 />
               ))}
-              {provided.placeholder}
             </FlipMove>
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
