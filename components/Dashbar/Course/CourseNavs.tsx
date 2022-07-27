@@ -102,7 +102,7 @@ export default function CourseNavs() {
         setOpen={setCourseModalOpen}
       />
       <div className="mt-6">
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex items-center text-info justify-between">
           <div>
             <p className="px-2 text-xs font-semibold tracking-wider">Courses</p>
           </div>
