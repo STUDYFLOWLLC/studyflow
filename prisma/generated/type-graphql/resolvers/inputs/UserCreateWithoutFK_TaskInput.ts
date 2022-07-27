@@ -30,6 +30,11 @@ export class UserCreateWithoutFK_TaskInput {
   })
   SupabaseID!: string;
 
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: true
+  })
+  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
@@ -49,11 +54,6 @@ export class UserCreateWithoutFK_TaskInput {
     nullable: true
   })
   ProfilePictureLink?: string | undefined;
-
-  @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
-  })
-  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
 
   @TypeGraphQL.Field(_type => SchoolCreateNestedOneWithoutFK_UserInput, {
     nullable: true

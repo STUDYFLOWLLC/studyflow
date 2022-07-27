@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationListRelationFilter } from "../inputs/AutomationListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
-import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
+import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
 import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -56,6 +56,11 @@ export class UserWhereInput {
   })
   SupabaseID?: StringFilter | undefined;
 
+  @TypeGraphQL.Field(_type => EnumVisibilityFilter, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
@@ -75,11 +80,6 @@ export class UserWhereInput {
     nullable: true
   })
   ProfilePictureLink?: StringNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => EnumVisibilityNullableFilter, {
-    nullable: true
-  })
-  DefaultVisibility?: EnumVisibilityNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => SchoolRelationFilter, {
     nullable: true

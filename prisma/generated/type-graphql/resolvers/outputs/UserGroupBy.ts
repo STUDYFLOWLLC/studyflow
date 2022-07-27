@@ -34,6 +34,11 @@ export class UserGroupBy {
   })
   SupabaseID!: string;
 
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: false
+  })
+  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
@@ -53,11 +58,6 @@ export class UserGroupBy {
     nullable: true
   })
   ProfilePictureLink!: string | null;
-
-  @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
-  })
-  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

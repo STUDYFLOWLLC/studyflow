@@ -5,9 +5,9 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationUpdateManyWithoutFK_UserInput } from "../inputs/AutomationUpdateManyWithoutFK_UserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
+import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { FlowUpdateManyWithoutFK_UserInput } from "../inputs/FlowUpdateManyWithoutFK_UserInput";
 import { FlowViewUpdateManyWithoutFK_UserInput } from "../inputs/FlowViewUpdateManyWithoutFK_UserInput";
-import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
 import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
@@ -33,6 +33,11 @@ export class UserUpdateWithoutFK_TermsInput {
   })
   SupabaseID?: StringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => EnumVisibilityFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -52,11 +57,6 @@ export class UserUpdateWithoutFK_TermsInput {
     nullable: true
   })
   ProfilePictureLink?: NullableStringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableEnumVisibilityFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  DefaultVisibility?: NullableEnumVisibilityFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => SchoolUpdateOneWithoutFK_UserInput, {
     nullable: true

@@ -94,11 +94,11 @@ model User {
   CreatedTime        DateTime     @default(now())
   SetupStep          SetupStep    @default(PROFILE)
   SupabaseID         String
+  DefaultVisibility  Visibility   @default(PUBLIC)
   Email              String       @unique
   Name               String?
   Username           String?
   ProfilePictureLink String?
-  DefaultVisibility  Visibility?
   FK_School          School?      @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
   FK_SchoolID        Int?
   FK_Terms           Term[]

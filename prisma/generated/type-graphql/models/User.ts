@@ -37,6 +37,11 @@ export class User {
   })
   SupabaseID!: string;
 
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: false
+  })
+  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
@@ -56,11 +61,6 @@ export class User {
     nullable: true
   })
   ProfilePictureLink?: string | null;
-
-  @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
-  })
-  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
 
   FK_School?: School | null;
 
