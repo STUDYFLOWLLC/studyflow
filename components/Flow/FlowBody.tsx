@@ -7,12 +7,14 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import FlipMove from 'react-flip-move'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
+import { AddToCollectionCommand } from 'utils/commandPattern/common/commands/addToCollection'
+import { RemoveFromCollectionCommand } from 'utils/commandPattern/common/commands/removeFromCollection'
 import { setCaretToPosition } from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
-import getNextFromRef from 'utils/flows/getNextFromRef'
 import getPrevFromRef from 'utils/flows/getPrevFromRef'
 import getRawTextLength from 'utils/flows/getRawTextLength'
 import sliceBlock from 'utils/flows/sliceRichText'
@@ -42,29 +44,11 @@ export default function FlowBody({
 
   const [mounted, setMounted] = useState(false)
   const [blocks, setBlocks] = useStateCallback(initialBlocks)
-  const [changesMade, setChangesMade] = useState(false)
+  const [forceRerenderFromBody, setForceRerenderFromBody] = useState(true)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
-  const [animatingBlock, setAnimatingBlock] = useState(false)
 
-  const saveFlowLocal = async () => {
-    setFauxSaving(false)
-    if (changesMade) {
-      setChangesMade(false)
-      await saveFlow(blocks)
-    }
-  }
-
-  useEffect(() => {
-    const saveInterval = setInterval(() => {
-      saveFlowLocal()
-    }, 5000)
-    return () => clearInterval(saveInterval)
-  }, [changesMade])
-
-  // console.log(`Current Block ${currentBlock.index}`)
-  // console.log(`Current Caret Index ${currentCaretIndex}`)
-  // console.log('')
+  const saveFlowReal = () => saveFlow(blocks)
 
   const restoreBlockAndChangeColor = (
     commandHandler: CommandHandler,
@@ -132,7 +116,6 @@ export default function FlowBody({
     initialColor?: Color,
     insertAbove?: boolean,
   ) => {
-    const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
       index: beneathIndex + 1,
@@ -151,14 +134,18 @@ export default function FlowBody({
       ],
       color: initialColor || Color.DEFAULT,
     }
-    tempBlocks.splice(beneathIndex + 1, 0, newBlock)
-    for (let i = beneathIndex + 2; i < tempBlocks.length; i += 1) {
-      tempBlocks[i].index += 1
-    }
-    setBlocks(tempBlocks, () => {
-      const next: HTMLElement | null = getNextFromRef(ref)
-      if (next && !insertAbove) next.focus()
-    })
+    commandHandler.execute(
+      'add-to-collection',
+      new AddToCollectionCommand({
+        collection: [...blocks],
+        element: newBlock,
+        index: beneathIndex + 1,
+        setter: setBlocks,
+        ref,
+        shouldInsertAbove: insertAbove || false,
+      }),
+    )
+    saveFlowReal()
   }
 
   const deleteBlock = (index: number, ref: HTMLElement | null) => {
@@ -166,14 +153,26 @@ export default function FlowBody({
     const previous = getPrevFromRef(ref)
     if (!previous) return
 
-    const tempBlocks = [...blocks]
-    for (let i = index + 1; i < tempBlocks.length; i += 1) {
-      tempBlocks[i].index -= 1
-    }
-    tempBlocks.splice(index, 1)
-    setBlocks(tempBlocks, () => {
-      setCaretToPosition(previous)
-    })
+    commandHandler.execute(
+      'remove-from-collection',
+      new RemoveFromCollectionCommand({
+        collection: [...blocks],
+        element: blocks[index],
+        index,
+        setter: setBlocks,
+        ref: previous,
+      }),
+    )
+
+    // const tempBlocks = [...blocks]
+    // for (let i = index + 1; i < tempBlocks.length; i += 1) {
+    //   tempBlocks[i].index -= 1
+    // }
+    // tempBlocks.splice(index, 1)
+    // setBlocks(tempBlocks, () => {
+    //   setCaretToPosition(previous)
+    // })
+    saveFlowReal()
   }
 
   const joinBlocks = (
@@ -300,7 +299,6 @@ export default function FlowBody({
   }
 
   const onEnd = async (result: DropResult) => {
-    setAnimatingBlock(true)
     const { destination, source } = result
 
     if (!destination) return
@@ -318,7 +316,6 @@ export default function FlowBody({
     )
 
     setBlocks(newBlocks)
-    setTimeout(() => setAnimatingBlock(false), 500)
   }
 
   // useHotkeys(
@@ -334,33 +331,35 @@ export default function FlowBody({
   //   [],
   // )
 
-  // useHotkeys(
-  //   'cmd+z, ctrl+z',
-  //   (e) => {
-  //     e.preventDefault()
-  //     commandHandler.undo()
-  //     setRerenderDetector(currentBlock.index)
-  //   },
-  //   {
-  //     enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-  //     enableOnContentEditable: true,
-  //   },
-  //   [],
-  // )
+  useHotkeys(
+    'cmd+z, ctrl+z',
+    (e) => {
+      e.preventDefault()
+      commandHandler.undo()
+      setForceRerenderFromBody(true)
+      saveFlowReal()
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+      enableOnContentEditable: true,
+    },
+    [],
+  )
 
-  // useHotkeys(
-  //   'cmd+shift+z, ctrl+shift+z',
-  //   (e) => {
-  //     e.preventDefault()
-  //     commandHandler.redo()
-  //     setRerenderDetector(currentBlock.index)
-  //   },
-  //   {
-  //     enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-  //     enableOnContentEditable: true,
-  //   },
-  //   [],
-  // )
+  useHotkeys(
+    'cmd+shift+z, ctrl+shift+z',
+    (e) => {
+      e.preventDefault()
+      commandHandler.redo()
+      setForceRerenderFromBody(true)
+      saveFlowReal()
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+      enableOnContentEditable: true,
+    },
+    [],
+  )
 
   useEffect(() => setMounted(true), [])
 
@@ -391,9 +390,8 @@ export default function FlowBody({
                   key={block.id}
                   theme={theme}
                   setTheme={setTheme}
-                  setChangesMade={setChangesMade}
-                  setFauxSaving={setFauxSaving}
                   commandHandler={commandHandler}
+                  saveFlow={saveFlowReal}
                   updatePage={updatePageHandler}
                   block={block}
                   previousBlock={
@@ -413,6 +411,8 @@ export default function FlowBody({
                   swapBlocks={swapBlocks}
                   rerenderDetector={rerenderDetector}
                   setRerenderDetector={setRerenderDetector}
+                  forceRerenderFromBody={forceRerenderFromBody}
+                  setForceRerenderFromBody={setForceRerenderFromBody}
                 />
               ))}
             </FlipMove>

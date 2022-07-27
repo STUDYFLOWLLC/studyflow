@@ -34,8 +34,7 @@ export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
   public undo(): CommandResult {
     const { element } = this.commandData
 
-    this.updatePropertyWithCursor(this.previousValue)
-    this.previousValue = undefined
+    this.previousValue = this.updatePropertyWithCursor(this.previousValue)
 
     const tempIndex = getCaretIndex(element)
 
@@ -51,9 +50,7 @@ export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
   public redo(): CommandResult {
     const { element } = this.commandData
 
-    this.previousValue = this.updatePropertyWithCursor(
-      this.commandData.newValue,
-    )
+    this.previousValue = this.updatePropertyWithCursor(this.previousValue)
 
     const tempIndex = getCaretIndex(element)
 
@@ -71,6 +68,7 @@ export class UpdatePropertyWithCaretCommand<TTarget> implements Command {
 
     const currentValue = target[propertyName]
     target[propertyName] = newValue
+
     return currentValue
   }
 }

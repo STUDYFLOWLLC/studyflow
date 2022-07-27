@@ -116,8 +116,8 @@ export default class ContentEditable extends React.Component<Props> {
     this.lastHtml = html
 
     const isTargetFocused = document.activeElement === el
-    // // console.log(this.caret)
     if (isTargetFocused && this.caret !== 0) {
+      console.log('setting')
       setCaretToPosition(el, this.caret)
     } else if (this.caret !== 0) {
       replaceCaret(el)
