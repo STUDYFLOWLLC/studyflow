@@ -1,20 +1,21 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import { Switch } from '@headlessui/react'
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
-import SettingsButton from 'components/buttons/SettingsButton'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import InputEmail from 'components/Settings/InputEmail'
+import InputName from 'components/Settings/InputName'
+import InputPFP from 'components/Settings/InputPFP'
 import SettingsInfo from 'components/Settings/SettingsInfo'
 import SettingsNavBig from 'components/Settings/SettingsNavBig'
 import SettingsNavSmall from 'components/Settings/SettingsNavSmall'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
-import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 
 interface Props {
   user: User
@@ -74,6 +75,7 @@ export default function Settings({ user }: Props) {
         ```
       */}
       <div className="min-h-full">
+        <Toaster />
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
@@ -96,14 +98,14 @@ export default function Settings({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-          <div className="max-w-4xl mx-auto flex flex-col md:px-8 xl:px-0">
-            <div className="relative max-w-5xl mx-auto md:px-4 xl:px-0">
-              <div className="pt-10 pb-16">
+          <div className="w-full max-w-3xl mx-auto flex flex-col md:px-8 xl:px-0">
+            <div className="w-full relative mx-auto md:px-4 xl:px-0">
+              <div className="w-full pt-10 pb-16">
                 <div className="px-4 sm:px-6 md:px-0">
                   <h1 className="text-3xl font-extrabold">Settings</h1>
                 </div>
-                <div className="px-4 sm:px-6 md:px-0">
-                  <div className="py-6">
+                <div className="px-4 sm:px-6 md:px-0 w-full">
+                  <div className="py-6 w-full">
                     {/* Tabs */}
                     <SettingsNavSmall
                       tabs={tabs}
@@ -117,84 +119,21 @@ export default function Settings({ user }: Props) {
                     />
 
                     {/* Description list with inline editing */}
-                    <div className="mt-10 divide-y divide-gray-200">
+                    <div className="w-full mt-10 divide-y divide-gray-200">
                       <SettingsInfo
                         title="Profile"
-                        description="This information will be displayed publicly so be
-                          careful what you share."
+                        description="Edit your basic information."
                       />
-                      <div className="mt-6">
-                        <dl className="divide-y divide-gray-200">
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt className="text-sm text-info font-medium">
-                              Name
-                            </dt>
-                            <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                              <span className="flex-grow">
-                                {userDetails?.Name}
-                              </span>
-                              <SettingsButton text="Update" />
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
-                            <dt className="mt-3 text-sm font-medium text-info">
-                              Photo
-                            </dt>
-                            <dd className="mt-1 flex items-center text-sm sm:mt-0 sm:col-span-2">
-                              <div className="flex-grow">
-                                <div className="avatar placeholder online">
-                                  <div
-                                    className={classNames(
-                                      { 'bg-stone-200': theme === 'light' },
-                                      { 'bg-slate-700': theme === 'dark' },
-                                      'w-11 h-11 rounded-full flex-shrink-0',
-                                    )}
-                                  >
-                                    {userDetails?.ProfilePictureLink ? (
-                                      <img
-                                        className="rounded-full flex-shrink-0"
-                                        src={userDetails.ProfilePictureLink}
-                                        alt="the user's avatar"
-                                      />
-                                    ) : (
-                                      <span className="text-lg sm:text-xl rounded-full">
-                                        {getFirstAndLastInitialFromName(
-                                          userDetails?.Name,
-                                        )}
-                                      </span>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-
-                              <span className="ml-4 flex-shrink-0 flex items-start space-x-4">
-                                <SettingsButton text="Update" />
-                                <span
-                                  className="text-gray-300"
-                                  aria-hidden="true"
-                                >
-                                  |
-                                </span>
-                                <SettingsButton text="Remove" />
-                              </span>
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
-                            <dt className="text-sm font-medium text-info">
-                              Email
-                            </dt>
-                            <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                              <span className="flex-grow">
-                                {userDetails?.Email}
-                              </span>
-                              <SettingsButton text="Update" />
-                            </dd>
-                          </div>
-                        </dl>
+                      <div className="mt-6 w-full">
+                        <div className="divide-y divide-gray-200">
+                          <InputName />
+                          <InputPFP />
+                          <InputEmail />
+                        </div>
                       </div>
                     </div>
 
-                    <div className="mt-10 divide-y divide-gray-200">
+                    {/* <div className="mt-10 divide-y divide-gray-200">
                       <SettingsInfo
                         title="Account"
                         description="manage how information is displayed on your account."
@@ -272,7 +211,7 @@ export default function Settings({ user }: Props) {
                           </Switch.Group>
                         </dl>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

@@ -18,7 +18,7 @@ export default function LogLine({ log }: Props) {
       </div>
 
       <div className="col-span-4 flex justify-center">
-        {format(new Date(log.Time), 'MM/dd/yy HH:mm')}
+        {format(new Date(log?.Time), 'MM/dd/yy HH:mm')}
       </div>
       <div className="col-span-7 truncate px-2 text-center border-l">
         {log.Message}

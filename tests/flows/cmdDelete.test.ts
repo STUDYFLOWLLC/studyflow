@@ -1,6 +1,10 @@
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
+import { CommandHandler } from 'utils/commandPattern/commandHandler'
 import cmdDelete from 'utils/flows/cmdDelete'
+
+const commandHandler = new CommandHandler()
+const element = document.createElement('div')
 
 test('one item of rich text array caret at end', () => {
   const block: Block = {
@@ -24,7 +28,7 @@ test('one item of rich text array caret at end', () => {
   const blockBody = block[block.tag]
   if (!blockBody?.richText) fail('richText not found')
 
-  blockBody.richText = cmdDelete(block, 26)
+  blockBody.richText = cmdDelete(block, 26, commandHandler, element, false)
 
   expect(blockBody.richText).toEqual([
     {
@@ -58,7 +62,7 @@ test('one item of rich text array caret in middle', () => {
   const blockBody = block[block.tag]
   if (!blockBody?.richText) fail('richText not found')
 
-  blockBody.richText = cmdDelete(block, 13)
+  blockBody.richText = cmdDelete(block, 13, commandHandler, element, false)
 
   expect(blockBody.richText).toEqual([
     {
@@ -110,7 +114,7 @@ test('multiple items of rich text array caret at end', () => {
   const blockBody = block[block.tag]
   if (!blockBody?.richText) fail('richText not found')
 
-  blockBody.richText = cmdDelete(block, 16)
+  blockBody.richText = cmdDelete(block, 16, commandHandler, element, false)
 
   expect(blockBody.richText).toEqual([
     {
@@ -165,7 +169,7 @@ test('multiple items of rich text array caret in middle', () => {
   const blockBody = block[block.tag]
   if (!blockBody?.richText) fail('richText not found')
 
-  blockBody.richText = cmdDelete(block, 7)
+  blockBody.richText = cmdDelete(block, 7, commandHandler, element, false)
 
   expect(blockBody.richText).toEqual([
     {

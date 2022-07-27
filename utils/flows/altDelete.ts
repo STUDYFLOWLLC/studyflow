@@ -1,5 +1,7 @@
 import { reverse } from 'esrever'
-import { RichText } from 'types/Flow'
+import { Block, RichText } from 'types/Flow'
+import { CommandHandler } from 'utils/commandPattern/commandHandler'
+import { UpdatePropertyWithCaretCommand } from 'utils/commandPattern/common/commands/updatePropertyWithCaret'
 import findCurrentRichText from 'utils/flows/findCurrentRichText'
 import lengthOfPreviousRichText from 'utils/flows/lengthOfPreviousRichText'
 import numWhiteSpacesInEnd from 'utils/flows/numWhiteSpacesInEnd'
@@ -27,12 +29,19 @@ const findPunctuationOrSpaceOrSymbolIndex = (str: string) => {
 export default function altDelete(
   richTexts: RichText[],
   caretIndex: number,
+  block: Block,
+  commandHandler: CommandHandler,
+  element: HTMLElement | null,
+  shouldBackup: boolean,
   halt?: boolean,
-): RichText[] {
+): RichText[] | undefined {
+  if (!element) return
+
   const richTextsCopy = [...richTexts]
 
   const currentRichText = findCurrentRichText(richTextsCopy, caretIndex)
-  if (!currentRichText?.text) return [] as RichText[]
+
+  if (!currentRichText?.text) return
 
   const previousLength = lengthOfPreviousRichText(
     richTextsCopy,
@@ -67,6 +76,10 @@ export default function altDelete(
     return altDelete(
       richTextsCopy,
       caretIndex - currentRichText.text.content.length,
+      block,
+      commandHandler,
+      element,
+      shouldBackup,
       true,
     )
   }
@@ -79,7 +92,25 @@ export default function altDelete(
   }
   // this handles the case where we only delete one character
   else if (altDeleteIndex === relativeCaretIndex) {
-    if (halt) return richTextsCopy
+    if (halt) {
+      const prop = block[block.tag]
+      if (!prop) return [] as RichText[]
+      if (shouldBackup) {
+        commandHandler.execute(
+          'update-property-with-caret',
+          new UpdatePropertyWithCaretCommand({
+            target: prop,
+            propertyName: 'richText',
+            newValue: richTextsCopy,
+            element,
+            caretIndex,
+          }),
+        )
+      } else {
+        prop.richText = richTextsCopy
+      }
+      return richTextsCopy
+    }
     currentRichText.text.content =
       currentRichText.text.content.slice(0, altDeleteIndex - 1) +
       currentRichText.text.content.slice(relativeCaretIndex)
@@ -101,5 +132,23 @@ export default function altDelete(
     richTextsCopy.splice(richTextsCopy.indexOf(currentRichText), 1)
   }
 
+  const prop = block[block.tag]
+  if (!prop) return [] as RichText[]
+  if (shouldBackup) {
+    commandHandler.execute(
+      'update-property-with-caret',
+      new UpdatePropertyWithCaretCommand({
+        target: prop,
+        propertyName: 'richText',
+        newValue: richTextsCopy,
+        element,
+        caretIndex,
+      }),
+    )
+  } else {
+    prop.richText = richTextsCopy
+  }
+
+  // for test cases only
   return richTextsCopy
 }

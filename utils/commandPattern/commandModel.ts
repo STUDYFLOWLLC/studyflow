@@ -3,6 +3,7 @@ export interface CommandResult {
   success: boolean
   canUndo?: boolean
   canRedo?: boolean
+  retVal?: any
 }
 
 export interface Command {
