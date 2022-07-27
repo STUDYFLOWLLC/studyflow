@@ -36,8 +36,7 @@ import {
 interface Props {
   theme: string | undefined
   setTheme: (theme: string) => void
-  setChangesMade: (changesMade: boolean) => void
-  setFauxSaving: (fauxSaving: boolean) => void
+  saveFlow: () => Promise<void>
   commandHandler: CommandHandler
   block: Block
   previousBlock: Block | undefined
@@ -68,6 +67,8 @@ interface Props {
   swapBlocks: (block1: Block, block2: Block) => void
   rerenderDetector: number
   setRerenderDetector: (detector: number) => void
+  forceRerenderFromBody: boolean
+  setForceRerenderFromBody: (forceRerenderFromBody: boolean) => void
 }
 interface State {
   contentEditable: React.RefObject<HTMLElement>
@@ -82,6 +83,7 @@ interface State {
   showDragger: boolean
   focused: boolean
   forcererender: string
+  lastMovement: number
 }
 
 const CMD_KEY = '/'
@@ -112,6 +114,7 @@ class FlowBlock extends React.Component<Props, State> {
       showDragger: false,
       focused: false,
       forcererender: 'false',
+      lastMovement: 0,
     }
   }
 
@@ -119,19 +122,29 @@ class FlowBlock extends React.Component<Props, State> {
   // 1. user has changed the html content
   // 2. user has changed the tag
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const { block, theme, rerenderDetector, setRerenderDetector, updatePage } =
-      this.props
+    const {
+      block,
+      theme,
+      updatePage,
+      forceRerenderFromBody,
+      setForceRerenderFromBody,
+    } = this.props
     const tagChanged = prevProps.block.tag !== block.tag
 
-    // rerender for joinblock and set caret index
-    if (
-      prevProps.rerenderDetector !== rerenderDetector &&
-      block.index === rerenderDetector
-    ) {
-      this.setState({ html: blockParser(block, theme) }, () => {
-        setRerenderDetector(-1)
-      })
+    if (forceRerenderFromBody) {
+      this.setState({ html: blockParser(block, theme) })
+      setForceRerenderFromBody(false)
     }
+
+    // // rerender for joinblock and set caret index
+    // if (
+    //   prevProps.rerenderDetector !== rerenderDetector &&
+    //   block.index === rerenderDetector
+    // ) {
+    //   this.setState({ html: blockParser(block, theme) }, () => {
+    //     setRerenderDetector(-1)
+    //   })
+    // }
 
     if (tagChanged) {
       updatePage(block)
@@ -139,7 +152,7 @@ class FlowBlock extends React.Component<Props, State> {
   }
 
   onChangeHandler(e: ContentEditableEvent) {
-    const { theme, block, setChangesMade } = this.props
+    const { theme, block } = this.props
     // console.log(blockParser(block))
     // console.log(e.target.value)
 
@@ -168,8 +181,7 @@ class FlowBlock extends React.Component<Props, State> {
     const {
       theme,
       setTheme,
-      setChangesMade,
-      setFauxSaving,
+      saveFlow,
       commandHandler,
       block,
       previousBlock,
@@ -180,12 +192,10 @@ class FlowBlock extends React.Component<Props, State> {
       sliceBlockIntoNew,
       swapBlocks,
     } = this.props
-    const { contentEditable, selectMenuIsOpen } = this.state
+    const { contentEditable, html, selectMenuIsOpen, lastMovement } = this.state
 
-    setChangesMade(true)
-    setFauxSaving(true)
-    setTimeout(() => setFauxSaving(false), 500)
     this.setState({ forcererender: 'false' })
+    const shouldBackup = Date.now() - lastMovement > 500
 
     const caretIndex = getCaretIndex(contentEditable.current)
     const blockBody = block[block.tag]
@@ -225,7 +235,7 @@ class FlowBlock extends React.Component<Props, State> {
     }
 
     // block deletion takes priority over command+delete and alt+delete
-    if (e.key === 'Backspace' && blockParser(block) === '') {
+    if (e.key === 'Backspace' && html === '') {
       // dont delete the block if it is colored, set the color to default
       if (block[block.tag]?.color !== Color.DEFAULT)
         return changeBlockColor(
@@ -235,6 +245,7 @@ class FlowBlock extends React.Component<Props, State> {
           block,
           Color.DEFAULT,
         )
+      console.log('here')
       return deleteBlock(block.index, contentEditable.current)
     }
 
@@ -280,7 +291,15 @@ class FlowBlock extends React.Component<Props, State> {
           }
           break
         case 'Backspace':
-          blockBody.richText = cmdDelete(block, caretIndex)
+          cmdDelete(
+            block,
+            caretIndex,
+            commandHandler,
+            contentEditable.current,
+            shouldBackup,
+          )
+          if (shouldBackup) saveFlow()
+          this.setState({ lastMovement: Date.now() })
           break
         case 'ArrowUp':
           // focus on the highest block
@@ -301,7 +320,17 @@ class FlowBlock extends React.Component<Props, State> {
     if (e.altKey) {
       switch (e.key) {
         case 'Backspace':
-          blockBody.richText = altDelete(blockBody.richText, caretIndex)
+          // eslint-disable-next-line no-case-declarations
+          altDelete(
+            blockBody.richText,
+            caretIndex,
+            block,
+            commandHandler,
+            contentEditable.current,
+            shouldBackup,
+          )
+          if (shouldBackup) saveFlow()
+          this.setState({ lastMovement: Date.now() })
           break
         case 'ArrowUp':
           // swap this and the block above it if possible
@@ -331,12 +360,31 @@ class FlowBlock extends React.Component<Props, State> {
 
     // normal deletion
     if (e.key === 'Backspace' && !e.altKey) {
-      deleteInBlock(block, getCaretIndex(contentEditable.current))
+      deleteInBlock(
+        block,
+        getCaretIndex(contentEditable.current),
+        commandHandler,
+        contentEditable.current,
+        shouldBackup,
+      )
+      if (shouldBackup) saveFlow()
+      this.setState({ lastMovement: Date.now() })
+      return
     }
 
     // normal insertion
     if (isAlphaNumericOrSymbol(e.key)) {
-      insertIntoBlock(block, e.key, getCaretIndex(contentEditable.current))
+      insertIntoBlock(
+        block,
+        e.key,
+        getCaretIndex(contentEditable.current),
+        commandHandler,
+        contentEditable.current,
+        shouldBackup,
+      )
+      if (shouldBackup) saveFlow()
+      this.setState({ lastMovement: Date.now() })
+      return
     }
 
     // normal arrow navigation

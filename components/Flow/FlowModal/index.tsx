@@ -104,8 +104,6 @@ export default function index({
 
   if (!mounted) return null
 
-  console.log(dragSetter)
-
   return (
     <Transition show={!!flowId || !!createdFlowId} as={Fragment}>
       <Dialog
@@ -146,7 +144,7 @@ export default function index({
                   { 'bg-base-100': theme === 'dark' },
                   { 'w-full': dragSetter },
                   { 'w-[99%]': !dragSetter },
-                  'overflow-auto no-scrollbar h-5/6 max-w-4xl shadow-lg rounded-md',
+                  'overflow-y-auto overflow-x-none pb-16 h-5/6 max-w-4xl shadow-lg rounded-md',
                 )}
               >
                 {creatingFlow && (

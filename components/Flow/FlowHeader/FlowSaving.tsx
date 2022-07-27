@@ -17,9 +17,9 @@ export default function FlowSaving({ saving, loading }: Props) {
       delay={TOOLTIP_DELAY}
       offset={TOOLTIP_OFFSET}
     >
-      <div className="transition-all duration-500 w-6 h-6">
+      <div className="transition-all duration-500">
         {saving || loading ? (
-          <MainSpinner size={SpinnerSizes.small} />
+          <MainSpinner size={SpinnerSizes.smallmedium} />
         ) : (
           <CheckIcon className="w-6 h-6 text-info" />
         )}
