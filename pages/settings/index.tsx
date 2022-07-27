@@ -7,12 +7,14 @@ import SettingsButton from 'components/buttons/SettingsButton'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import InputName from 'components/Settings/InputName'
 import SettingsInfo from 'components/Settings/SettingsInfo'
 import SettingsNavBig from 'components/Settings/SettingsNavBig'
 import SettingsNavSmall from 'components/Settings/SettingsNavSmall'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 
@@ -74,6 +76,7 @@ export default function Settings({ user }: Props) {
         ```
       */}
       <div className="min-h-full">
+        <Toaster />
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
@@ -125,17 +128,7 @@ export default function Settings({ user }: Props) {
                       />
                       <div className="mt-6">
                         <dl className="divide-y divide-gray-200">
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt className="text-sm text-info font-medium">
-                              Name
-                            </dt>
-                            <dd className="mt-1 flex text-sm sm:mt-0 sm:col-span-2">
-                              <span className="flex-grow">
-                                {userDetails?.Name}
-                              </span>
-                              <SettingsButton text="Update" />
-                            </dd>
-                          </div>
+                          <InputName />
                           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
                             <dt className="mt-3 text-sm font-medium text-info">
                               Photo

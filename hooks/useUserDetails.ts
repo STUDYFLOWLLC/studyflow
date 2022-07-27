@@ -78,7 +78,7 @@ export default function useUserDetails(
 
   if (data?.mutate) {
     return {
-      userDetails: data,
+      userDetails: { ...data, mutate: false },
       userDetailsLoading: false,
       userDetailsError: null,
       mutateUserDetails: mutate,
