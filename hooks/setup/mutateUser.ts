@@ -25,6 +25,30 @@ export async function mutateName(email: string, name: string) {
   return data
 }
 
+export async function mutateUserEmail(email: string, newEmail: string) {
+  const query = gql`
+    mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+      updateUser(data: $data, where: $where) {
+        UserID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      Email: {
+        set: newEmail,
+      },
+    },
+    where: {
+      Email: email,
+    },
+  }
+
+  const data = await request('/api/graphql', query, variables)
+  return data
+}
+
 export async function mutateUsername(email: string, username: string) {
   const query = gql`
     mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
