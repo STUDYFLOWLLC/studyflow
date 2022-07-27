@@ -1,7 +1,7 @@
-import { TermType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowVisibility } from 'types/Flow'
+import { TermType } from 'types/School'
 import { SetupSteps } from 'types/SetupSteps'
 
 export interface SmallTerm {

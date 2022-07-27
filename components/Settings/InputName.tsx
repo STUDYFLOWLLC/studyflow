@@ -19,9 +19,9 @@ export default function InputName() {
   useEffect(() => setInputValue(userDetails?.Name), [userDetails])
 
   return (
-    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-      <dt className="text-sm text-info font-medium">Name</dt>
-      <div className="w-72 mx-auto relative">
+    <div className="py-4 sm:py-5 relative">
+      <dt className="text-sm text-info font-medium absolute left-0">Name</dt>
+      <div className="w-96 mx-auto relative">
         <input
           className="bg-transparent text-center first-line:outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-lg"
           value={inputValue}
@@ -54,15 +54,9 @@ export default function InputName() {
           )}
         />
         {editingName && (
-          <div
-            className={classNames(
-              { 'top-0': !saving },
-              { 'top-1 transition-none': saving },
-              'transition-all duration-300 w-6 h-6 absolute right-6',
-            )}
-          >
+          <div className="bottom-1 duration-300 w-6 h-6 absolute right-6">
             {saving ? (
-              <MainSpinner size={SpinnerSizes.small} />
+              <MainSpinner size={SpinnerSizes.smallmedium} />
             ) : (
               <CheckIcon className="w-6 h-6 text-info" />
             )}
