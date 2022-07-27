@@ -26,12 +26,11 @@ export interface Tab {
 }
 
 const tabs: Tab[] = [
-  { name: 'General', handler: () => console.log('General') },
-  { name: 'Security', handler: () => console.log('Security') },
+  { name: 'Profile', handler: () => console.log('Profile') },
+  { name: 'Sharing', handler: () => console.log('Security') },
   { name: 'Notifications', handler: () => console.log('Notifications') },
-  { name: 'Plan', handler: () => console.log('Plan') },
-  { name: 'Billing', handler: () => console.log('Billing') },
-  { name: 'Team Members', handler: () => console.log('Team Members') },
+  { name: 'Plus', handler: () => console.log('Plan') },
+  { name: 'Danger', handler: () => console.log('Danger') },
 ]
 
 export default function Settings({ user }: Props) {
@@ -43,7 +42,7 @@ export default function Settings({ user }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [activeTab, setActiveTab] = useState('General')
+  const [activeTab, setActiveTab] = useState('Profile')
   const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true)
   const [autoUpdateApplicantDataEnabled, setAutoUpdateApplicantDataEnabled] =
     useState(false)
