@@ -17,6 +17,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { ActionType } from 'types/CMDPalette'
@@ -88,6 +89,7 @@ export default function Dash({ user }: Props) {
       )}
     >
       <div className="min-h-full">
+        <Toaster />
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
