@@ -2,20 +2,13 @@
 
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
+import { PublicUser } from 'types/Social'
 
 export interface UserOnStudyGroup {
   SendDate: string
   AcceptDate: string
   RemoveDate: string
-  FK_User: {
-    UserID: number
-    ProfilePictureLink: string
-    Name: string
-    Username: string
-    FK_School: {
-      Name: string
-    }
-  }
+  FK_User: PublicUser
 }
 
 export interface StudyGroup {

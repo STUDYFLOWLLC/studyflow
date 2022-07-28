@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { Automation } from "../models/Automation";
 import { Flow } from "../models/Flow";
 import { FlowView } from "../models/FlowView";
+import { Friendship } from "../models/Friendship";
 import { School } from "../models/School";
 import { Setting } from "../models/Setting";
 import { StudyGroup } from "../models/StudyGroup";
@@ -86,6 +87,10 @@ export class User {
   FK_StudyGroups?: StudyGroup[];
 
   FK_UserOnStudyGroups?: UserOnStudyGroup[];
+
+  FK_FriendshipsInitiated?: Friendship[];
+
+  FK_FriendshipsAccepted?: Friendship[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

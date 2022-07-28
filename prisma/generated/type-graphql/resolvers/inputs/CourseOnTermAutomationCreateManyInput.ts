@@ -25,9 +25,9 @@ export class CourseOnTermAutomationCreateManyInput {
   DefaultType?: "LECTURE" | "DISCUSSION" | "NOTE" | "ASSIGNMENT" | "ASSESSMENT" | "SYNTHESIS" | undefined;
 
   @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
+    nullable: false
   })
-  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

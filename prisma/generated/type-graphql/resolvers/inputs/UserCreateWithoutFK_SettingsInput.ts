@@ -5,6 +5,8 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationCreateNestedManyWithoutFK_UserInput } from "../inputs/AutomationCreateNestedManyWithoutFK_UserInput";
 import { FlowCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowCreateNestedManyWithoutFK_UserInput";
 import { FlowViewCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_UserInput";
+import { FriendshipCreateNestedManyWithoutFK_UserFromInput } from "../inputs/FriendshipCreateNestedManyWithoutFK_UserFromInput";
+import { FriendshipCreateNestedManyWithoutFK_UserToInput } from "../inputs/FriendshipCreateNestedManyWithoutFK_UserToInput";
 import { SchoolCreateNestedOneWithoutFK_UserInput } from "../inputs/SchoolCreateNestedOneWithoutFK_UserInput";
 import { StudyGroupCreateNestedManyWithoutFK_UserInput } from "../inputs/StudyGroupCreateNestedManyWithoutFK_UserInput";
 import { TaskCreateNestedManyWithoutFK_UserInput } from "../inputs/TaskCreateNestedManyWithoutFK_UserInput";
@@ -96,4 +98,14 @@ export class UserCreateWithoutFK_SettingsInput {
     nullable: true
   })
   FK_UserOnStudyGroups?: UserOnStudyGroupCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipCreateNestedManyWithoutFK_UserFromInput, {
+    nullable: true
+  })
+  FK_FriendshipsInitiated?: FriendshipCreateNestedManyWithoutFK_UserFromInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipCreateNestedManyWithoutFK_UserToInput, {
+    nullable: true
+  })
+  FK_FriendshipsAccepted?: FriendshipCreateNestedManyWithoutFK_UserToInput | undefined;
 }

@@ -8,6 +8,8 @@ import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStep
 import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { FlowUpdateManyWithoutFK_UserInput } from "../inputs/FlowUpdateManyWithoutFK_UserInput";
 import { FlowViewUpdateManyWithoutFK_UserInput } from "../inputs/FlowViewUpdateManyWithoutFK_UserInput";
+import { FriendshipUpdateManyWithoutFK_UserFromInput } from "../inputs/FriendshipUpdateManyWithoutFK_UserFromInput";
+import { FriendshipUpdateManyWithoutFK_UserToInput } from "../inputs/FriendshipUpdateManyWithoutFK_UserToInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
 import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
@@ -99,4 +101,14 @@ export class UserUpdateWithoutFK_StudyGroupsInput {
     nullable: true
   })
   FK_UserOnStudyGroups?: UserOnStudyGroupUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipUpdateManyWithoutFK_UserFromInput, {
+    nullable: true
+  })
+  FK_FriendshipsInitiated?: FriendshipUpdateManyWithoutFK_UserFromInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipUpdateManyWithoutFK_UserToInput, {
+    nullable: true
+  })
+  FK_FriendshipsAccepted?: FriendshipUpdateManyWithoutFK_UserToInput | undefined;
 }

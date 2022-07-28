@@ -7,6 +7,7 @@ export { FlashCard } from "./FlashCard";
 export { FlashCardStack } from "./FlashCardStack";
 export { Flow } from "./Flow";
 export { FlowView } from "./FlowView";
+export { Friendship } from "./Friendship";
 export { Professor } from "./Professor";
 export { School } from "./School";
 export { Setting } from "./Setting";
