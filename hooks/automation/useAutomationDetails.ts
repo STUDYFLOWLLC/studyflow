@@ -16,7 +16,7 @@ export interface CourseOnTermAutomation {
   CourseOnTermAutomationID: number
   FolderID: string
   DefaultType: FlowType
-  DefaultVisibility: FlowVisibility
+  DefaultVisibility?: FlowVisibility
   AutomationLog: AutomationLog[]
   FK_AutomationID: number
   FK_CourseOnTermID: number

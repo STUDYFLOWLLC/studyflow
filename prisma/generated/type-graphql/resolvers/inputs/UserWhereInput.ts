@@ -8,6 +8,7 @@ import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
 import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
 import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
+import { FriendshipListRelationFilter } from "../inputs/FriendshipListRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
@@ -132,4 +133,14 @@ export class UserWhereInput {
     nullable: true
   })
   FK_UserOnStudyGroups?: UserOnStudyGroupListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipListRelationFilter, {
+    nullable: true
+  })
+  FK_FriendshipsInitiated?: FriendshipListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipListRelationFilter, {
+    nullable: true
+  })
+  FK_FriendshipsAccepted?: FriendshipListRelationFilter | undefined;
 }

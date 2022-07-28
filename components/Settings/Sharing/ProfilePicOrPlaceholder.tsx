@@ -5,9 +5,16 @@ import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 interface Props {
   link: string | undefined
   name: string | undefined
+  dimension?: string
+  textSize?: string
 }
 
-export default function ProfilePicOrPlaceholder({ link, name }: Props) {
+export default function ProfilePicOrPlaceholder({
+  link,
+  name,
+  dimension,
+  textSize,
+}: Props) {
   const { theme } = useTheme()
 
   return (
@@ -16,7 +23,9 @@ export default function ProfilePicOrPlaceholder({ link, name }: Props) {
         className={classNames(
           { 'bg-stone-200': theme === 'light' },
           { 'bg-slate-700': theme === 'dark' },
-          'w-8 h-8 rounded-full',
+          dimension,
+          { 'w-8 h-8': !dimension },
+          'rounded-full',
         )}
       >
         {link ? (
@@ -27,7 +36,7 @@ export default function ProfilePicOrPlaceholder({ link, name }: Props) {
             /* eslint-enable */
           />
         ) : (
-          <span className="text-lg">
+          <span className={classNames(textSize, { 'text-lg': !textSize })}>
             {getFirstAndLastInitialFromName(name)}
           </span>
         )}

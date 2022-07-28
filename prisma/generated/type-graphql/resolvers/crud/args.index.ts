@@ -7,6 +7,7 @@ export * from "./FlashCard/args";
 export * from "./FlashCardStack/args";
 export * from "./Flow/args";
 export * from "./FlowView/args";
+export * from "./Friendship/args";
 export * from "./Professor/args";
 export * from "./School/args";
 export * from "./Setting/args";

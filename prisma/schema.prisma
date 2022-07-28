@@ -68,11 +68,21 @@ model AutomationLog {
   FK_CourseOnTermAutomationID Int?
 }
 
+model Friendship {
+  FriendshipID  Int       @id @default(autoincrement())
+  SentTime      DateTime  @default(now())
+  AcceptedTime  DateTime?
+  FK_UserFrom   User?     @relation(name: "from", fields: [FK_UserFromID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserFromID Int?
+  FK_UserTo     User?     @relation(name: "to", fields: [FK_UserToID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserToID   Int?
+}
+
 model CourseOnTermAutomation {
   CourseOnTermAutomationID Int             @id @default(autoincrement())
   FolderID                 String          @default("No Folder Id")
   DefaultType              FlowType        @default(LECTURE)
-  DefaultVisibility        Visibility      @default(PUBLIC)
+  DefaultVisibility        Visibility
   AutomationLog            AutomationLog[]
   FK_Automation            Automation?     @relation(fields: [FK_AutomationID], references: [AutomationID], onDelete: Cascade, onUpdate: Cascade)
   FK_AutomationID          Int?
@@ -109,26 +119,28 @@ model StudyGroup {
 
 // holds user information. STANDARD: NULL IS A DELETED USER
 model User {
-  UserID               Int                @id @default(autoincrement())
-  CreatedTime          DateTime           @default(now())
-  SetupStep            SetupStep          @default(PROFILE)
-  SupabaseID           String
-  DefaultVisibility    Visibility         @default(PUBLIC)
-  Email                String             @unique
-  Name                 String?
-  Username             String?
-  ProfilePictureLink   String?
-  FK_School            School?            @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
-  FK_SchoolID          Int?
-  FK_Terms             Term[]
+  UserID                  Int                @id @default(autoincrement())
+  CreatedTime             DateTime           @default(now())
+  SetupStep               SetupStep          @default(PROFILE)
+  SupabaseID              String
+  DefaultVisibility       Visibility         @default(PUBLIC)
+  Email                   String             @unique
+  Name                    String?
+  Username                String?
+  ProfilePictureLink      String?
+  FK_School               School?            @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
+  FK_SchoolID             Int?
+  FK_Terms                Term[]
   //FK_FlowTags       FlowTag[]
-  FK_Task              Task[]
-  FK_Settings          Setting?
-  FK_FlowView          FlowView[]
-  FK_Flow              Flow[]
-  FK_Automation        Automation[]
-  FK_StudyGroups       StudyGroup[]
-  FK_UserOnStudyGroups UserOnStudyGroup[]
+  FK_Task                 Task[]
+  FK_Settings             Setting?
+  FK_FlowView             FlowView[]
+  FK_Flow                 Flow[]
+  FK_Automation           Automation[]
+  FK_StudyGroups          StudyGroup[]
+  FK_UserOnStudyGroups    UserOnStudyGroup[]
+  FK_FriendshipsInitiated Friendship[]       @relation(name: "from")
+  FK_FriendshipsAccepted  Friendship[]       @relation(name: "to")
 }
 
 model Term {

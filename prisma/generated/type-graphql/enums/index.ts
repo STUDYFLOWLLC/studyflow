@@ -8,6 +8,7 @@ export { FlashCardStackScalarFieldEnum } from "./FlashCardStackScalarFieldEnum";
 export { FlowScalarFieldEnum } from "./FlowScalarFieldEnum";
 export { FlowType } from "./FlowType";
 export { FlowViewScalarFieldEnum } from "./FlowViewScalarFieldEnum";
+export { FriendshipScalarFieldEnum } from "./FriendshipScalarFieldEnum";
 export { ProfessorScalarFieldEnum } from "./ProfessorScalarFieldEnum";
 export { QueryMode } from "./QueryMode";
 export { SchoolScalarFieldEnum } from "./SchoolScalarFieldEnum";
