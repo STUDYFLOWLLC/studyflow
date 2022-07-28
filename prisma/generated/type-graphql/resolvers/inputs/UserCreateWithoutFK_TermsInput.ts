@@ -7,7 +7,9 @@ import { FlowCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowCreateNes
 import { FlowViewCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_UserInput";
 import { SchoolCreateNestedOneWithoutFK_UserInput } from "../inputs/SchoolCreateNestedOneWithoutFK_UserInput";
 import { SettingCreateNestedOneWithoutFK_UserInput } from "../inputs/SettingCreateNestedOneWithoutFK_UserInput";
+import { StudyGroupCreateNestedManyWithoutFK_UserInput } from "../inputs/StudyGroupCreateNestedManyWithoutFK_UserInput";
 import { TaskCreateNestedManyWithoutFK_UserInput } from "../inputs/TaskCreateNestedManyWithoutFK_UserInput";
+import { UserOnStudyGroupCreateNestedManyWithoutFK_UserInput } from "../inputs/UserOnStudyGroupCreateNestedManyWithoutFK_UserInput";
 import { SetupStep } from "../../enums/SetupStep";
 import { Visibility } from "../../enums/Visibility";
 
@@ -30,6 +32,11 @@ export class UserCreateWithoutFK_TermsInput {
   })
   SupabaseID!: string;
 
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: true
+  })
+  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
@@ -49,11 +56,6 @@ export class UserCreateWithoutFK_TermsInput {
     nullable: true
   })
   ProfilePictureLink?: string | undefined;
-
-  @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
-  })
-  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
 
   @TypeGraphQL.Field(_type => SchoolCreateNestedOneWithoutFK_UserInput, {
     nullable: true
@@ -84,4 +86,14 @@ export class UserCreateWithoutFK_TermsInput {
     nullable: true
   })
   FK_Automation?: AutomationCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => StudyGroupCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_StudyGroups?: StudyGroupCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOnStudyGroupCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_UserOnStudyGroups?: UserOnStudyGroupCreateNestedManyWithoutFK_UserInput | undefined;
 }

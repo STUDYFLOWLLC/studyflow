@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
-import { EnumVisibilityNullableFilter } from "../inputs/EnumVisibilityNullableFilter";
+import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -49,6 +49,11 @@ export class UserScalarWhereInput {
   })
   SupabaseID?: StringFilter | undefined;
 
+  @TypeGraphQL.Field(_type => EnumVisibilityFilter, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
@@ -68,11 +73,6 @@ export class UserScalarWhereInput {
     nullable: true
   })
   ProfilePictureLink?: StringNullableFilter | undefined;
-
-  @TypeGraphQL.Field(_type => EnumVisibilityNullableFilter, {
-    nullable: true
-  })
-  DefaultVisibility?: EnumVisibilityNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

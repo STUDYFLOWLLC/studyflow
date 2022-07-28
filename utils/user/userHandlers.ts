@@ -3,10 +3,12 @@
 import {
   mutateName,
   mutateProfilePictureLink,
+  mutateUserDefaultVisibility,
   mutateUserEmail,
 } from 'hooks/setup/mutateUser'
 import { UserDetail } from 'hooks/useUserDetails'
 import { KeyedMutator } from 'swr'
+import { FlowVisibility } from 'types/Flow'
 import { supabase } from 'utils/supabase'
 
 export async function changeUserName(
@@ -108,4 +110,27 @@ export async function changeUserPFP(
       setSaving(false)
     }
   }
+}
+
+export function changeUserDefaultVisibility(
+  newVisibility: FlowVisibility,
+  userDetails: UserDetail | null,
+  mutateUserDetails: KeyedMutator<any>,
+) {
+  if (!userDetails) return
+
+  // mutate in backend
+  mutateUserDefaultVisibility(userDetails?.Email, newVisibility)
+
+  // mutate locally
+  mutateUserDetails(
+    {
+      ...userDetails,
+      DefaultVisibility: newVisibility,
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
 }
