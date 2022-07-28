@@ -1,12 +1,12 @@
-import { ClassType } from "type-graphql";
-import * as tslib from "tslib";
-import * as crudResolvers from "./resolvers/crud/resolvers-crud.index";
-import * as argsTypes from "./resolvers/crud/args.index";
-import * as actionResolvers from "./resolvers/crud/resolvers-actions.index";
-import * as relationResolvers from "./resolvers/relations/resolvers.index";
-import * as models from "./models";
-import * as outputTypes from "./resolvers/outputs";
-import * as inputTypes from "./resolvers/inputs";
+import * as tslib from "tslib"
+import { ClassType } from "type-graphql"
+import * as models from "./models"
+import * as argsTypes from "./resolvers/crud/args.index"
+import * as actionResolvers from "./resolvers/crud/resolvers-actions.index"
+import * as crudResolvers from "./resolvers/crud/resolvers-crud.index"
+import * as inputTypes from "./resolvers/inputs"
+import * as outputTypes from "./resolvers/outputs"
+import * as relationResolvers from "./resolvers/relations/resolvers.index"
 
 const crudResolversMap = {
   Setting: crudResolvers.SettingCrudResolver,
@@ -28,7 +28,7 @@ const crudResolversMap = {
   FlashCard: crudResolvers.FlashCardCrudResolver,
   Task: crudResolvers.TaskCrudResolver,
   TaskLabel: crudResolvers.TaskLabelCrudResolver
-};
+}
 const actionResolversMap = {
   Setting: {
     setting: actionResolvers.FindUniqueSettingResolver,
@@ -296,7 +296,7 @@ const actionResolversMap = {
     aggregateTaskLabel: actionResolvers.AggregateTaskLabelResolver,
     groupByTaskLabel: actionResolvers.GroupByTaskLabelResolver
   }
-};
+}
 const crudResolversInfo = {
   Setting: ["setting", "findFirstSetting", "settings", "createSetting", "createManySetting", "deleteSetting", "updateSetting", "deleteManySetting", "updateManySetting", "upsertSetting", "aggregateSetting", "groupBySetting"],
   AutomationLog: ["automationLog", "findFirstAutomationLog", "automationLogs", "createAutomationLog", "createManyAutomationLog", "deleteAutomationLog", "updateAutomationLog", "deleteManyAutomationLog", "updateManyAutomationLog", "upsertAutomationLog", "aggregateAutomationLog", "groupByAutomationLog"],
@@ -317,7 +317,7 @@ const crudResolversInfo = {
   FlashCard: ["flashCard", "findFirstFlashCard", "flashCards", "createFlashCard", "createManyFlashCard", "deleteFlashCard", "updateFlashCard", "deleteManyFlashCard", "updateManyFlashCard", "upsertFlashCard", "aggregateFlashCard", "groupByFlashCard"],
   Task: ["task", "findFirstTask", "tasks", "createTask", "createManyTask", "deleteTask", "updateTask", "deleteManyTask", "updateManyTask", "upsertTask", "aggregateTask", "groupByTask"],
   TaskLabel: ["taskLabel", "findFirstTaskLabel", "taskLabels", "createTaskLabel", "createManyTaskLabel", "deleteTaskLabel", "updateTaskLabel", "deleteManyTaskLabel", "updateManyTaskLabel", "upsertTaskLabel", "aggregateTaskLabel", "groupByTaskLabel"]
-};
+}
 const argsInfo = {
   FindUniqueSettingArgs: ["where"],
   FindFirstSettingArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
@@ -547,7 +547,7 @@ const argsInfo = {
   UpsertTaskLabelArgs: ["where", "create", "update"],
   AggregateTaskLabelArgs: ["where", "orderBy", "cursor", "take", "skip"],
   GroupByTaskLabelArgs: ["where", "orderBy", "by", "having", "take", "skip"]
-};
+}
 
 type ResolverModelNames = keyof typeof crudResolversMap;
 
@@ -567,33 +567,33 @@ export function applyResolversEnhanceMap(
   resolversEnhanceMap: ResolversEnhanceMap,
 ) {
   for (const resolversEnhanceMapKey of Object.keys(resolversEnhanceMap)) {
-    const modelName = resolversEnhanceMapKey as keyof typeof resolversEnhanceMap;
-    const crudTarget = crudResolversMap[modelName].prototype;
-    const resolverActionsConfig = resolversEnhanceMap[modelName]!;
-    const actionResolversConfig = actionResolversMap[modelName];
+    const modelName = resolversEnhanceMapKey as keyof typeof resolversEnhanceMap
+    const crudTarget = crudResolversMap[modelName].prototype
+    const resolverActionsConfig = resolversEnhanceMap[modelName]!
+    const actionResolversConfig = actionResolversMap[modelName]
     if (resolverActionsConfig._all) {
-      const allActionsDecorators = resolverActionsConfig._all;
-      const resolverActionNames = crudResolversInfo[modelName as keyof typeof crudResolversInfo];
+      const allActionsDecorators = resolverActionsConfig._all
+      const resolverActionNames = crudResolversInfo[modelName as keyof typeof crudResolversInfo]
       for (const resolverActionName of resolverActionNames) {
         const actionTarget = (actionResolversConfig[
           resolverActionName as keyof typeof actionResolversConfig
-        ] as Function).prototype;
-        tslib.__decorate(allActionsDecorators, crudTarget, resolverActionName, null);
-        tslib.__decorate(allActionsDecorators, actionTarget, resolverActionName, null);
+        ] as Function).prototype
+        tslib.__decorate(allActionsDecorators, crudTarget, resolverActionName, null)
+        tslib.__decorate(allActionsDecorators, actionTarget, resolverActionName, null)
       }
     }
     const resolverActionsToApply = Object.keys(resolverActionsConfig).filter(
       it => it !== "_all"
-    );
+    )
     for (const resolverActionName of resolverActionsToApply) {
       const decorators = resolverActionsConfig[
         resolverActionName as keyof typeof resolverActionsConfig
-      ] as MethodDecorator[];
+      ] as MethodDecorator[]
       const actionTarget = (actionResolversConfig[
         resolverActionName as keyof typeof actionResolversConfig
-      ] as Function).prototype;
-      tslib.__decorate(decorators, crudTarget, resolverActionName, null);
-      tslib.__decorate(decorators, actionTarget, resolverActionName, null);
+      ] as Function).prototype
+      tslib.__decorate(decorators, crudTarget, resolverActionName, null)
+      tslib.__decorate(decorators, actionTarget, resolverActionName, null)
     }
   }
 }
@@ -622,16 +622,16 @@ export function applyArgsTypesEnhanceMap(
   argsTypesEnhanceMap: ArgsTypesEnhanceMap,
 ) {
   for (const argsTypesEnhanceMapKey of Object.keys(argsTypesEnhanceMap)) {
-    const argsTypeName = argsTypesEnhanceMapKey as keyof typeof argsTypesEnhanceMap;
-    const typeConfig = argsTypesEnhanceMap[argsTypeName]!;
-    const typeClass = argsTypes[argsTypeName];
-    const typeTarget = typeClass.prototype;
+    const argsTypeName = argsTypesEnhanceMapKey as keyof typeof argsTypesEnhanceMap
+    const typeConfig = argsTypesEnhanceMap[argsTypeName]!
+    const typeClass = argsTypes[argsTypeName]
+    const typeTarget = typeClass.prototype
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       argsInfo[argsTypeName as keyof typeof argsInfo],
-    );
+    )
   }
 }
 
@@ -655,7 +655,7 @@ const relationResolversMap = {
   FlashCard: relationResolvers.FlashCardRelationsResolver,
   Task: relationResolvers.TaskRelationsResolver,
   TaskLabel: relationResolvers.TaskLabelRelationsResolver
-};
+}
 const relationResolversInfo = {
   Setting: ["FK_User"],
   AutomationLog: ["FK_CourseOnTermAutomation"],
@@ -676,7 +676,7 @@ const relationResolversInfo = {
   FlashCard: ["FK_FlashCardStack"],
   Task: ["FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm"],
   TaskLabel: ["FK_Task"]
-};
+}
 
 type RelationResolverModelNames = keyof typeof relationResolversMap;
 
@@ -695,24 +695,24 @@ export function applyRelationResolversEnhanceMap(
   relationResolversEnhanceMap: RelationResolversEnhanceMap,
 ) {
   for (const relationResolversEnhanceMapKey of Object.keys(relationResolversEnhanceMap)) {
-    const modelName = relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap;
-    const relationResolverTarget = relationResolversMap[modelName].prototype;
-    const relationResolverActionsConfig = relationResolversEnhanceMap[modelName]!;
+    const modelName = relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap
+    const relationResolverTarget = relationResolversMap[modelName].prototype
+    const relationResolverActionsConfig = relationResolversEnhanceMap[modelName]!
     if (relationResolverActionsConfig._all) {
-      const allActionsDecorators = relationResolverActionsConfig._all;
-      const relationResolverActionNames = relationResolversInfo[modelName as keyof typeof relationResolversInfo];
+      const allActionsDecorators = relationResolverActionsConfig._all
+      const relationResolverActionNames = relationResolversInfo[modelName as keyof typeof relationResolversInfo]
       for (const relationResolverActionName of relationResolverActionNames) {
-        tslib.__decorate(allActionsDecorators, relationResolverTarget, relationResolverActionName, null);
+        tslib.__decorate(allActionsDecorators, relationResolverTarget, relationResolverActionName, null)
       }
     }
     const relationResolverActionsToApply = Object.keys(relationResolverActionsConfig).filter(
       it => it !== "_all"
-    );
+    )
     for (const relationResolverActionName of relationResolverActionsToApply) {
       const decorators = relationResolverActionsConfig[
         relationResolverActionName as keyof typeof relationResolverActionsConfig
-      ] as MethodDecorator[];
-      tslib.__decorate(decorators, relationResolverTarget, relationResolverActionName, null);
+      ] as MethodDecorator[]
+      tslib.__decorate(decorators, relationResolverTarget, relationResolverActionName, null)
     }
   }
 }
@@ -736,21 +736,21 @@ function applyTypeClassEnhanceConfig<
   typeFieldNames: string[]
 ) {
   if (enhanceConfig.class) {
-    tslib.__decorate(enhanceConfig.class, typeClass);
+    tslib.__decorate(enhanceConfig.class, typeClass)
   }
   if (enhanceConfig.fields) {
     if (enhanceConfig.fields._all) {
-      const allFieldsDecorators = enhanceConfig.fields._all;
+      const allFieldsDecorators = enhanceConfig.fields._all
       for (const typeFieldName of typeFieldNames) {
-        tslib.__decorate(allFieldsDecorators, typePrototype, typeFieldName, void 0);
+        tslib.__decorate(allFieldsDecorators, typePrototype, typeFieldName, void 0)
       }
     }
     const configFieldsToApply = Object.keys(enhanceConfig.fields).filter(
       it => it !== "_all"
-    );
+    )
     for (const typeFieldName of configFieldsToApply) {
-      const fieldDecorators = enhanceConfig.fields[typeFieldName]!;
-      tslib.__decorate(fieldDecorators, typePrototype, typeFieldName, void 0);
+      const fieldDecorators = enhanceConfig.fields[typeFieldName]!
+      tslib.__decorate(fieldDecorators, typePrototype, typeFieldName, void 0)
     }
   }
 }
@@ -775,7 +775,7 @@ const modelsInfo = {
   FlashCard: ["FlashCardID", "CreatedTime", "FK_FlashCardStackID", "Position", "Front", "Back"],
   Task: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID"],
   TaskLabel: ["TaskLabelID", "CreatedTime", "Label", "FK_TaskID"]
-};
+}
 
 type ModelNames = keyof typeof models;
 
@@ -799,16 +799,16 @@ export type ModelsEnhanceMap = {
 
 export function applyModelsEnhanceMap(modelsEnhanceMap: ModelsEnhanceMap) {
   for (const modelsEnhanceMapKey of Object.keys(modelsEnhanceMap)) {
-    const modelName = modelsEnhanceMapKey as keyof typeof modelsEnhanceMap;
-    const modelConfig = modelsEnhanceMap[modelName]!;
-    const modelClass = models[modelName];
-    const modelTarget = modelClass.prototype;
+    const modelName = modelsEnhanceMapKey as keyof typeof modelsEnhanceMap
+    const modelConfig = modelsEnhanceMap[modelName]!
+    const modelClass = models[modelName]
+    const modelTarget = modelClass.prototype
     applyTypeClassEnhanceConfig(
       modelConfig,
       modelClass,
       modelTarget,
       modelsInfo[modelName as keyof typeof modelsInfo],
-    );
+    )
   }
 }
 
@@ -959,7 +959,7 @@ const outputsInfo = {
   TaskLabelSumAggregate: ["TaskLabelID"],
   TaskLabelMinAggregate: ["TaskLabelID", "CreatedTime", "Label", "FK_TaskID"],
   TaskLabelMaxAggregate: ["TaskLabelID", "CreatedTime", "Label", "FK_TaskID"]
-};
+}
 
 type OutputTypesNames = keyof typeof outputTypes;
 
@@ -985,16 +985,16 @@ export function applyOutputTypesEnhanceMap(
   outputTypesEnhanceMap: OutputTypesEnhanceMap,
 ) {
   for (const outputTypeEnhanceMapKey of Object.keys(outputTypesEnhanceMap)) {
-    const outputTypeName = outputTypeEnhanceMapKey as keyof typeof outputTypesEnhanceMap;
-    const typeConfig = outputTypesEnhanceMap[outputTypeName]!;
-    const typeClass = outputTypes[outputTypeName];
-    const typeTarget = typeClass.prototype;
+    const outputTypeName = outputTypeEnhanceMapKey as keyof typeof outputTypesEnhanceMap
+    const typeConfig = outputTypesEnhanceMap[outputTypeName]!
+    const typeClass = outputTypes[outputTypeName]
+    const typeTarget = typeClass.prototype
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       outputsInfo[outputTypeName as keyof typeof outputsInfo],
-    );
+    )
   }
 }
 
@@ -1845,7 +1845,7 @@ const inputsInfo = {
   FlashCardUpdateWithoutFK_FlashCardStackInput: ["CreatedTime", "Position", "Front", "Back"],
   TaskLabelCreateManyFK_TaskInput: ["TaskLabelID", "CreatedTime", "Label"],
   TaskLabelUpdateWithoutFK_TaskInput: ["CreatedTime", "Label"]
-};
+}
 
 type InputTypesNames = keyof typeof inputTypes;
 
@@ -1871,16 +1871,16 @@ export function applyInputTypesEnhanceMap(
   inputTypesEnhanceMap: InputTypesEnhanceMap,
 ) {
   for (const inputTypeEnhanceMapKey of Object.keys(inputTypesEnhanceMap)) {
-    const inputTypeName = inputTypeEnhanceMapKey as keyof typeof inputTypesEnhanceMap;
-    const typeConfig = inputTypesEnhanceMap[inputTypeName]!;
-    const typeClass = inputTypes[inputTypeName];
-    const typeTarget = typeClass.prototype;
+    const inputTypeName = inputTypeEnhanceMapKey as keyof typeof inputTypesEnhanceMap
+    const typeConfig = inputTypesEnhanceMap[inputTypeName]!
+    const typeClass = inputTypes[inputTypeName]
+    const typeTarget = typeClass.prototype
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       inputsInfo[inputTypeName as keyof typeof inputsInfo],
-    );
+    )
   }
 }
 
