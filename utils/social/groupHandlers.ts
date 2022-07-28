@@ -1,16 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 
-import { UserHit } from 'components/Settings/Sharing/InputPrivateGroup'
 import {
   mutateAddUserOnStudyGroup,
   mutateCreatePrivateGroup,
-} from 'hooks/social/mutateGroup'
+} from 'hooks/social/mutateStudyGroup'
 import { StudyGroup } from 'hooks/social/usePrivateGroupDetails'
 import { KeyedMutator } from 'swr'
+import { PublicUser } from 'types/Social'
 
 export async function addUserToGroup(
   userId: number | undefined,
-  newUser: UserHit,
+  newUser: PublicUser,
   privateGroupDetails: StudyGroup | null,
   mutatePrivateGroupDetails: KeyedMutator<any>,
   setLoading: (loading: boolean) => void,
@@ -29,10 +29,11 @@ export async function addUserToGroup(
   }
 
   // mutate in backend
-  mutateAddUserOnStudyGroup(
+  const data = await mutateAddUserOnStudyGroup(
     newUser.UserID,
     groupId || privateGroupDetails?.StudyGroupID,
   )
+  const userOnStudyGroupId = data?.createUserOnStudyGroup?.UserOnStudyGroupID
 
   // mutate locally
   mutatePrivateGroupDetails(
@@ -44,6 +45,7 @@ export async function addUserToGroup(
         FK_UserOnStudyGroup: [
           ...(privateGroupDetails?.FK_UserOnStudyGroup || []),
           {
+            UserOnStudyGroupID: userOnStudyGroupId,
             SendDate: new Date().toISOString(),
             FK_User: {
               UserID: newUser.UserID,
@@ -51,7 +53,7 @@ export async function addUserToGroup(
               Name: newUser.Name,
               Username: newUser.Username,
               FK_School: {
-                Name: newUser.school,
+                Name: newUser.FK_School.Name,
               },
             },
           },

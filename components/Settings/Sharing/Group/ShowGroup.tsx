@@ -27,7 +27,7 @@ export default function ShowGroup() {
     privateGroupDetails === null ||
     privateGroupDetails?.FK_UserOnStudyGroup?.length === 0
   ) {
-    return <span className="text-sm pb-4">no one in group :( Add below</span>
+    return <span className="text-sm pb-4">group empty! add below</span>
   }
 
   return (

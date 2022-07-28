@@ -15,17 +15,27 @@ export class UserOnStudyGroupMaxAggregate {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  SendDate!: Date | null;
+  SendTime!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  AcceptDate!: Date | null;
+  AcceptedTime!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  RemoveDate!: Date | null;
+  RejectedTime!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  RemovedTime!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  CanceledTime!: Date | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

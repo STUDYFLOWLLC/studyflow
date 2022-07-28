@@ -103,9 +103,11 @@ model Automation {
 
 model UserOnStudyGroup {
   UserOnStudyGroupID Int         @id @default(autoincrement())
-  SendDate           DateTime    @default(now())
-  AcceptDate         DateTime?
-  RemoveDate         DateTime?
+  SendTime           DateTime    @default(now())
+  AcceptedTime       DateTime?
+  RejectedTime       DateTime? // receiver rejects
+  RemovedTime        DateTime? // after accepting, joiner leaves or owner removes
+  CanceledTime       DateTime? // sender cancels
   FK_User            User?       @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
   FK_UserID          Int?
   FK_StudyGroup      StudyGroup? @relation(fields: [FK_StudyGroupID], references: [StudyGroupID], onDelete: Cascade, onUpdate: Cascade)

@@ -13,17 +13,27 @@ export class UserOnStudyGroupUpdateWithoutFK_UserInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  SendDate?: DateTimeFieldUpdateOperationsInput | undefined;
+  SendTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  AcceptDate?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+  AcceptedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  RemoveDate?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+  RejectedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  RemovedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  CanceledTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StudyGroupUpdateOneWithoutFK_UserOnStudyGroupInput, {
     nullable: true

@@ -2,7 +2,6 @@ import { Combobox } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import algoliasearch from 'algoliasearch/lite'
 import classNames from 'classnames'
-import { UserHit } from 'components/Settings/Sharing/InputPrivateGroup'
 import UserInput from 'components/Settings/Sharing/UserInput'
 import useFriends from 'hooks/social/useFriends'
 import useUserDetails from 'hooks/useUserDetails'
@@ -15,6 +14,17 @@ const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY || '',
 )
 const index = searchClient.initIndex('students')
+
+interface UserHit {
+  CreatedTime: string
+  FK_SchoolID: number
+  objectID: string
+  Name: string
+  Username: string
+  ProfilePictureLink: string
+  UserID: number
+  school: string
+}
 
 export default function FriendsSearcher() {
   const { theme } = useTheme()

@@ -5,9 +5,10 @@ import useSWR, { KeyedMutator } from 'swr'
 import { PublicUser } from 'types/Social'
 
 export interface UserOnStudyGroup {
+  UserOnStudyGroupID: number
   SendDate: string
-  AcceptDate: string
-  RemoveDate: string
+  AcceptTime: string
+  RemoveTime: string
   FK_User: PublicUser
 }
 
@@ -31,15 +32,16 @@ export default function usePrivateGroupDetails(
     query User(
       $where: UserWhereUniqueInput!
       $fkStudyGroupsWhere2: StudyGroupWhereInput
+      $fkUserOnStudyGroupWhere2: UserOnStudyGroupWhereInput
     ) {
       user(where: $where) {
         FK_StudyGroups(where: $fkStudyGroupsWhere2) {
           StudyGroupID
           Name
-          FK_UserOnStudyGroup {
-            SendDate
-            AcceptDate
-            RemoveDate
+          FK_UserOnStudyGroup(where: $fkUserOnStudyGroupWhere2) {
+            UserOnStudyGroupID
+            SendTime
+            AcceptedTime
             FK_User {
               UserID
               ProfilePictureLink
@@ -57,16 +59,37 @@ export default function usePrivateGroupDetails(
 
   const variables = {
     where: {
-      UserID: userId || 0,
+      UserID: userId,
     },
     fkStudyGroupsWhere2: {
       Name: {
         equals: 'Private',
       },
     },
+    fkUserOnStudyGroupWhere2: {
+      AND: [
+        {
+          CanceledTime: {
+            equals: null,
+          },
+        },
+        {
+          RejectedTime: {
+            equals: null,
+          },
+        },
+        {
+          RemovedTime: {
+            equals: null,
+          },
+        },
+      ],
+    },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(userId ? [query, variables] : null, {
+    revalidateOnMount: false,
+  })
 
   if (data?.mutate) {
     return {
