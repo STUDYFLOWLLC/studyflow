@@ -37,6 +37,7 @@ export default function useFriends(userId: number | undefined): Ret {
           UserID
           ProfilePictureLink
           Name
+          Username
           FK_School {
             Name
           }
@@ -52,12 +53,12 @@ export default function useFriends(userId: number | undefined): Ret {
           OR: [
             {
               FK_UserFromID: {
-                equals: userId || 0,
+                equals: userId,
               },
             },
             {
               FK_UserToID: {
-                equals: userId || 0,
+                equals: userId,
               },
             },
           ],
@@ -67,11 +68,21 @@ export default function useFriends(userId: number | undefined): Ret {
             equals: null,
           },
         },
+        {
+          RemovedTime: {
+            equals: null,
+          },
+        },
+        {
+          CanceledTime: {
+            equals: null,
+          },
+        },
       ],
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
 
   if (data?.newFriends) {
     return {

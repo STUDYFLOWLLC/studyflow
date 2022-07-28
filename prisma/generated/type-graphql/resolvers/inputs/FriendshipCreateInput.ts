@@ -24,6 +24,16 @@ export class FriendshipCreateInput {
   })
   RejectedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  RemovedTime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  CanceledTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFK_FriendshipsInitiatedInput, {
     nullable: true
   })

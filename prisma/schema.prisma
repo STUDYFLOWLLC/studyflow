@@ -72,7 +72,9 @@ model Friendship {
   FriendshipID  Int       @id @default(autoincrement())
   SentTime      DateTime  @default(now())
   AcceptedTime  DateTime?
-  RejectedTime  DateTime?
+  RejectedTime  DateTime? // receiver rejects
+  RemovedTime   DateTime? // after accepting, either removes
+  CanceledTime  DateTime? // sender cancels
   FK_UserFrom   User?     @relation(name: "from", fields: [FK_UserFromID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
   FK_UserFromID Int?
   FK_UserTo     User?     @relation(name: "to", fields: [FK_UserToID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)

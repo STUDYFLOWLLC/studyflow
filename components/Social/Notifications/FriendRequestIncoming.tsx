@@ -2,7 +2,6 @@ import { Menu } from '@headlessui/react'
 import { CheckIcon, XIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import ProfilePicOrPlaceholder from 'components/Settings/Sharing/ProfilePicOrPlaceholder'
 import useFriends from 'hooks/social/useFriends'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
@@ -12,6 +11,7 @@ import {
   acceptFriendship,
   rejectFriendship,
 } from 'utils/social/friendshipHandlers'
+import BasicStudentDisplay from '../Displays/BasicStudentDisplay'
 
 interface Props {
   friendship: Friendship
@@ -31,25 +31,7 @@ export default function FriendRequestIncoming({ friendship }: Props) {
           // onClick={() => mutator(item.name)}
           // onKeyDown={() => mutator(item.name)}
         >
-          <div className="w-64 cursor-pointer flex items-center">
-            <ProfilePicOrPlaceholder
-              link={friendship.FK_UserFrom.ProfilePictureLink}
-              name={friendship.FK_UserFrom.Name}
-              dimension="w-8 h-8"
-              textSize="text-md"
-            />
-            <div className="ml-2 truncate flex flex-col">
-              <span className="text-xs">
-                {friendship.FK_UserFrom.Name}{' '}
-                <span className="font-medium">
-                  @{friendship.FK_UserFrom.Username}
-                </span>
-              </span>
-              <span className="text-2xs">
-                {friendship.FK_UserFrom.FK_School.Name}
-              </span>
-            </div>
-          </div>
+          <BasicStudentDisplay publicUser={friendship.FK_UserFrom} />
           <div className="flex">
             <XIcon
               className={classNames(
