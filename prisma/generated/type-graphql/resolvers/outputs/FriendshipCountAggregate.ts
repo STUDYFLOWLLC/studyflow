@@ -25,6 +25,11 @@ export class FriendshipCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  RejectedTime!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_UserFromID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

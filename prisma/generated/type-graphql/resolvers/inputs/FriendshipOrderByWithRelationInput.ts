@@ -24,6 +24,11 @@ export class FriendshipOrderByWithRelationInput {
   })
   AcceptedTime?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  RejectedTime?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
     nullable: true
   })

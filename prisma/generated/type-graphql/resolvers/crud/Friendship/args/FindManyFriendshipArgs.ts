@@ -35,5 +35,5 @@ export class FindManyFriendshipArgs {
   @TypeGraphQL.Field(_type => [FriendshipScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"FriendshipID" | "SentTime" | "AcceptedTime" | "FK_UserFromID" | "FK_UserToID"> | undefined;
+  distinct?: Array<"FriendshipID" | "SentTime" | "AcceptedTime" | "RejectedTime" | "FK_UserFromID" | "FK_UserToID"> | undefined;
 }

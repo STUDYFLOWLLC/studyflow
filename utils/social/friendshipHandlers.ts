@@ -1,6 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 
-import { mutateAcceptFriendship } from 'hooks/social/mutateFriendship'
+import {
+  mutateAcceptFriendship,
+  mutateRejectFriendship,
+} from 'hooks/social/mutateFriendship'
 import { Friends } from 'hooks/social/useFriends'
 import { KeyedMutator } from 'swr'
 import { Friendship } from 'types/Social'
@@ -21,6 +24,33 @@ export function acceptFriendship(
       newFriends: {
         requested: friends.requested,
         accepted: [...friends.accepted, friendship],
+        incoming: friends.incoming.filter(
+          (f) => f.FriendshipID !== friendship.FriendshipID,
+        ),
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export function rejectFriendship(
+  friendship: Friendship,
+  friends: Friends | null,
+  mutateFriends: KeyedMutator<any>,
+) {
+  if (!friends) return
+
+  // mutate in backend
+  mutateRejectFriendship(friendship.FriendshipID)
+
+  // mutate locally
+  mutateFriends(
+    {
+      newFriends: {
+        requested: friends.requested,
+        accepted: friends.accepted,
         incoming: friends.incoming.filter(
           (f) => f.FriendshipID !== friendship.FriendshipID,
         ),

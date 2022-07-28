@@ -41,6 +41,11 @@ export class FriendshipScalarWhereWithAggregatesInput {
   })
   AcceptedTime?: DateTimeNullableWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  RejectedTime?: DateTimeNullableWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })

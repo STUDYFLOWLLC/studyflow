@@ -1,21 +1,24 @@
-import * as TypeGraphQL from "type-graphql"
-import { AutomationListRelationFilter } from "./AutomationListRelationFilter"
-import { DateTimeFilter } from "./DateTimeFilter"
-import { EnumSetupStepFilter } from "./EnumSetupStepFilter"
-import { EnumVisibilityFilter } from "./EnumVisibilityFilter"
-import { FlowListRelationFilter } from "./FlowListRelationFilter"
-import { FlowViewListRelationFilter } from "./FlowViewListRelationFilter"
-import { FriendshipListRelationFilter } from "./FriendshipListRelationFilter"
-import { IntFilter } from "./IntFilter"
-import { IntNullableFilter } from "./IntNullableFilter"
-import { SchoolRelationFilter } from "./SchoolRelationFilter"
-import { SettingRelationFilter } from "./SettingRelationFilter"
-import { StringFilter } from "./StringFilter"
-import { StringNullableFilter } from "./StringNullableFilter"
-import { StudyGroupListRelationFilter } from "./StudyGroupListRelationFilter"
-import { TaskListRelationFilter } from "./TaskListRelationFilter"
-import { TermListRelationFilter } from "./TermListRelationFilter"
-import { UserOnStudyGroupListRelationFilter } from "./UserOnStudyGroupListRelationFilter"
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { AutomationListRelationFilter } from "../inputs/AutomationListRelationFilter";
+import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
+import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
+import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
+import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
+import { FriendshipListRelationFilter } from "../inputs/FriendshipListRelationFilter";
+import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
+import { SettingRelationFilter } from "../inputs/SettingRelationFilter";
+import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
+import { StudyGroupListRelationFilter } from "../inputs/StudyGroupListRelationFilter";
+import { TaskListRelationFilter } from "../inputs/TaskListRelationFilter";
+import { TermListRelationFilter } from "../inputs/TermListRelationFilter";
+import { UserOnStudyGroupListRelationFilter } from "../inputs/UserOnStudyGroupListRelationFilter";
 
 @TypeGraphQL.InputType("UserWhereInput", {
   isAbstract: true
@@ -24,120 +27,120 @@ export class UserWhereInput {
   @TypeGraphQL.Field(_type => [UserWhereInput], {
     nullable: true
   })
-  AND?: UserWhereInput[] | undefined
+  AND?: UserWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [UserWhereInput], {
     nullable: true
   })
-  OR?: UserWhereInput[] | undefined
+  OR?: UserWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => [UserWhereInput], {
     nullable: true
   })
-  NOT?: UserWhereInput[] | undefined
+  NOT?: UserWhereInput[] | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  UserID?: IntFilter | undefined
+  UserID?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  CreatedTime?: DateTimeFilter | undefined
+  CreatedTime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumSetupStepFilter, {
     nullable: true
   })
-  SetupStep?: EnumSetupStepFilter | undefined
+  SetupStep?: EnumSetupStepFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  SupabaseID?: StringFilter | undefined
+  SupabaseID?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumVisibilityFilter, {
     nullable: true
   })
-  DefaultVisibility?: EnumVisibilityFilter | undefined
+  DefaultVisibility?: EnumVisibilityFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  Email?: StringFilter | undefined
+  Email?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  Name?: StringNullableFilter | undefined
+  Name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  Username?: StringNullableFilter | undefined
+  Username?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  ProfilePictureLink?: StringNullableFilter | undefined
+  ProfilePictureLink?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => SchoolRelationFilter, {
     nullable: true
   })
-  FK_School?: SchoolRelationFilter | undefined
+  FK_School?: SchoolRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true
   })
-  FK_SchoolID?: IntNullableFilter | undefined
+  FK_SchoolID?: IntNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => TermListRelationFilter, {
     nullable: true
   })
-  FK_Terms?: TermListRelationFilter | undefined
+  FK_Terms?: TermListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => TaskListRelationFilter, {
     nullable: true
   })
-  FK_Task?: TaskListRelationFilter | undefined
+  FK_Task?: TaskListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => SettingRelationFilter, {
     nullable: true
   })
-  FK_Settings?: SettingRelationFilter | undefined
+  FK_Settings?: SettingRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => FlowViewListRelationFilter, {
     nullable: true
   })
-  FK_FlowView?: FlowViewListRelationFilter | undefined
+  FK_FlowView?: FlowViewListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => FlowListRelationFilter, {
     nullable: true
   })
-  FK_Flow?: FlowListRelationFilter | undefined
+  FK_Flow?: FlowListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => AutomationListRelationFilter, {
     nullable: true
   })
-  FK_Automation?: AutomationListRelationFilter | undefined
+  FK_Automation?: AutomationListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => StudyGroupListRelationFilter, {
     nullable: true
   })
-  FK_StudyGroups?: StudyGroupListRelationFilter | undefined
+  FK_StudyGroups?: StudyGroupListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserOnStudyGroupListRelationFilter, {
     nullable: true
   })
-  FK_UserOnStudyGroups?: UserOnStudyGroupListRelationFilter | undefined
+  FK_UserOnStudyGroups?: UserOnStudyGroupListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => FriendshipListRelationFilter, {
     nullable: true
   })
-  FK_FriendshipsInitiated?: FriendshipListRelationFilter | undefined
+  FK_FriendshipsInitiated?: FriendshipListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => FriendshipListRelationFilter, {
     nullable: true
   })
-  FK_FriendshipsAccepted?: FriendshipListRelationFilter | undefined
+  FK_FriendshipsAccepted?: FriendshipListRelationFilter | undefined;
 }

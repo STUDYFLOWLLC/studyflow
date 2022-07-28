@@ -20,6 +20,11 @@ export class FriendshipUpdateWithoutFK_UserFromInput {
   })
   AcceptedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  RejectedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => UserUpdateOneWithoutFK_FriendshipsAcceptedInput, {
     nullable: true
   })

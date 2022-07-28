@@ -23,6 +23,11 @@ export class Friendship {
   })
   AcceptedTime?: Date | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  RejectedTime?: Date | null;
+
   FK_UserFrom?: User | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

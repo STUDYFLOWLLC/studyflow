@@ -42,6 +42,11 @@ export class FriendshipWhereInput {
   })
   AcceptedTime?: DateTimeNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  RejectedTime?: DateTimeNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true
   })

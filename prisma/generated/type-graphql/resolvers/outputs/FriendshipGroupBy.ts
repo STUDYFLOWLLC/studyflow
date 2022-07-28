@@ -27,6 +27,11 @@ export class FriendshipGroupBy {
   })
   AcceptedTime!: Date | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  RejectedTime!: Date | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

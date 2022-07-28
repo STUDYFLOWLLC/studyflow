@@ -26,6 +26,11 @@ export class FriendshipMaxOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  RejectedTime?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   FK_UserFromID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

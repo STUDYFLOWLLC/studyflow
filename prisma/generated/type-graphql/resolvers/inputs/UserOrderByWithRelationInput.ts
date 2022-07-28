@@ -1,15 +1,18 @@
-import * as TypeGraphQL from "type-graphql"
-import { SortOrder } from "../../enums/SortOrder"
-import { AutomationOrderByRelationAggregateInput } from "./AutomationOrderByRelationAggregateInput"
-import { FlowOrderByRelationAggregateInput } from "./FlowOrderByRelationAggregateInput"
-import { FlowViewOrderByRelationAggregateInput } from "./FlowViewOrderByRelationAggregateInput"
-import { FriendshipOrderByRelationAggregateInput } from "./FriendshipOrderByRelationAggregateInput"
-import { SchoolOrderByWithRelationInput } from "./SchoolOrderByWithRelationInput"
-import { SettingOrderByWithRelationInput } from "./SettingOrderByWithRelationInput"
-import { StudyGroupOrderByRelationAggregateInput } from "./StudyGroupOrderByRelationAggregateInput"
-import { TaskOrderByRelationAggregateInput } from "./TaskOrderByRelationAggregateInput"
-import { TermOrderByRelationAggregateInput } from "./TermOrderByRelationAggregateInput"
-import { UserOnStudyGroupOrderByRelationAggregateInput } from "./UserOnStudyGroupOrderByRelationAggregateInput"
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { AutomationOrderByRelationAggregateInput } from "../inputs/AutomationOrderByRelationAggregateInput";
+import { FlowOrderByRelationAggregateInput } from "../inputs/FlowOrderByRelationAggregateInput";
+import { FlowViewOrderByRelationAggregateInput } from "../inputs/FlowViewOrderByRelationAggregateInput";
+import { FriendshipOrderByRelationAggregateInput } from "../inputs/FriendshipOrderByRelationAggregateInput";
+import { SchoolOrderByWithRelationInput } from "../inputs/SchoolOrderByWithRelationInput";
+import { SettingOrderByWithRelationInput } from "../inputs/SettingOrderByWithRelationInput";
+import { StudyGroupOrderByRelationAggregateInput } from "../inputs/StudyGroupOrderByRelationAggregateInput";
+import { TaskOrderByRelationAggregateInput } from "../inputs/TaskOrderByRelationAggregateInput";
+import { TermOrderByRelationAggregateInput } from "../inputs/TermOrderByRelationAggregateInput";
+import { UserOnStudyGroupOrderByRelationAggregateInput } from "../inputs/UserOnStudyGroupOrderByRelationAggregateInput";
+import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("UserOrderByWithRelationInput", {
   isAbstract: true
@@ -18,105 +21,105 @@ export class UserOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UserID?: "asc" | "desc" | undefined
+  UserID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CreatedTime?: "asc" | "desc" | undefined
+  CreatedTime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  SetupStep?: "asc" | "desc" | undefined
+  SetupStep?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  SupabaseID?: "asc" | "desc" | undefined
+  SupabaseID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  DefaultVisibility?: "asc" | "desc" | undefined
+  DefaultVisibility?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  Email?: "asc" | "desc" | undefined
+  Email?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  Name?: "asc" | "desc" | undefined
+  Name?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  Username?: "asc" | "desc" | undefined
+  Username?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  ProfilePictureLink?: "asc" | "desc" | undefined
+  ProfilePictureLink?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SchoolOrderByWithRelationInput, {
     nullable: true
   })
-  FK_School?: SchoolOrderByWithRelationInput | undefined
+  FK_School?: SchoolOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_SchoolID?: "asc" | "desc" | undefined
+  FK_SchoolID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => TermOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Terms?: TermOrderByRelationAggregateInput | undefined
+  FK_Terms?: TermOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => TaskOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Task?: TaskOrderByRelationAggregateInput | undefined
+  FK_Task?: TaskOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => SettingOrderByWithRelationInput, {
     nullable: true
   })
-  FK_Settings?: SettingOrderByWithRelationInput | undefined
+  FK_Settings?: SettingOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => FlowViewOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_FlowView?: FlowViewOrderByRelationAggregateInput | undefined
+  FK_FlowView?: FlowViewOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => FlowOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Flow?: FlowOrderByRelationAggregateInput | undefined
+  FK_Flow?: FlowOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => AutomationOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_Automation?: AutomationOrderByRelationAggregateInput | undefined
+  FK_Automation?: AutomationOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => StudyGroupOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_StudyGroups?: StudyGroupOrderByRelationAggregateInput | undefined
+  FK_StudyGroups?: StudyGroupOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => UserOnStudyGroupOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_UserOnStudyGroups?: UserOnStudyGroupOrderByRelationAggregateInput | undefined
+  FK_UserOnStudyGroups?: UserOnStudyGroupOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => FriendshipOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_FriendshipsInitiated?: FriendshipOrderByRelationAggregateInput | undefined
+  FK_FriendshipsInitiated?: FriendshipOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => FriendshipOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_FriendshipsAccepted?: FriendshipOrderByRelationAggregateInput | undefined
+  FK_FriendshipsAccepted?: FriendshipOrderByRelationAggregateInput | undefined;
 }

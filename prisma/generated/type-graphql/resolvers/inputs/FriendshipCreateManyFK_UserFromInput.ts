@@ -22,6 +22,11 @@ export class FriendshipCreateManyFK_UserFromInput {
   })
   AcceptedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  RejectedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

@@ -1,25 +1,25 @@
-import * as TypeGraphQL from "type-graphql"
-import { getPrismaFromContext } from "../../../helpers"
-import { Automation } from "../../../models/Automation"
-import { Flow } from "../../../models/Flow"
-import { FlowView } from "../../../models/FlowView"
-import { Friendship } from "../../../models/Friendship"
-import { School } from "../../../models/School"
-import { Setting } from "../../../models/Setting"
-import { StudyGroup } from "../../../models/StudyGroup"
-import { Task } from "../../../models/Task"
-import { Term } from "../../../models/Term"
-import { User } from "../../../models/User"
-import { UserOnStudyGroup } from "../../../models/UserOnStudyGroup"
-import { UserFK_AutomationArgs } from "./args/UserFK_AutomationArgs"
-import { UserFK_FlowArgs } from "./args/UserFK_FlowArgs"
-import { UserFK_FlowViewArgs } from "./args/UserFK_FlowViewArgs"
-import { UserFK_FriendshipsAcceptedArgs } from "./args/UserFK_FriendshipsAcceptedArgs"
-import { UserFK_FriendshipsInitiatedArgs } from "./args/UserFK_FriendshipsInitiatedArgs"
-import { UserFK_StudyGroupsArgs } from "./args/UserFK_StudyGroupsArgs"
-import { UserFK_TaskArgs } from "./args/UserFK_TaskArgs"
-import { UserFK_TermsArgs } from "./args/UserFK_TermsArgs"
-import { UserFK_UserOnStudyGroupsArgs } from "./args/UserFK_UserOnStudyGroupsArgs"
+import * as TypeGraphQL from "type-graphql";
+import { Automation } from "../../../models/Automation";
+import { Flow } from "../../../models/Flow";
+import { FlowView } from "../../../models/FlowView";
+import { Friendship } from "../../../models/Friendship";
+import { School } from "../../../models/School";
+import { Setting } from "../../../models/Setting";
+import { StudyGroup } from "../../../models/StudyGroup";
+import { Task } from "../../../models/Task";
+import { Term } from "../../../models/Term";
+import { User } from "../../../models/User";
+import { UserOnStudyGroup } from "../../../models/UserOnStudyGroup";
+import { UserFK_AutomationArgs } from "./args/UserFK_AutomationArgs";
+import { UserFK_FlowArgs } from "./args/UserFK_FlowArgs";
+import { UserFK_FlowViewArgs } from "./args/UserFK_FlowViewArgs";
+import { UserFK_FriendshipsAcceptedArgs } from "./args/UserFK_FriendshipsAcceptedArgs";
+import { UserFK_FriendshipsInitiatedArgs } from "./args/UserFK_FriendshipsInitiatedArgs";
+import { UserFK_StudyGroupsArgs } from "./args/UserFK_StudyGroupsArgs";
+import { UserFK_TaskArgs } from "./args/UserFK_TaskArgs";
+import { UserFK_TermsArgs } from "./args/UserFK_TermsArgs";
+import { UserFK_UserOnStudyGroupsArgs } from "./args/UserFK_UserOnStudyGroupsArgs";
+import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => User)
 export class UserRelationsResolver {
@@ -31,7 +31,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_School({})
+    }).FK_School({});
   }
 
   @TypeGraphQL.FieldResolver(_type => [Term], {
@@ -42,7 +42,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_Terms(args)
+    }).FK_Terms(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [Task], {
@@ -53,7 +53,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_Task(args)
+    }).FK_Task(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => Setting, {
@@ -64,7 +64,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_Settings({})
+    }).FK_Settings({});
   }
 
   @TypeGraphQL.FieldResolver(_type => [FlowView], {
@@ -75,7 +75,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_FlowView(args)
+    }).FK_FlowView(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [Flow], {
@@ -86,7 +86,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_Flow(args)
+    }).FK_Flow(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [Automation], {
@@ -97,7 +97,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_Automation(args)
+    }).FK_Automation(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [StudyGroup], {
@@ -108,7 +108,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_StudyGroups(args)
+    }).FK_StudyGroups(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [UserOnStudyGroup], {
@@ -119,7 +119,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_UserOnStudyGroups(args)
+    }).FK_UserOnStudyGroups(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [Friendship], {
@@ -130,7 +130,7 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_FriendshipsInitiated(args)
+    }).FK_FriendshipsInitiated(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [Friendship], {
@@ -141,6 +141,6 @@ export class UserRelationsResolver {
       where: {
         UserID: user.UserID,
       },
-    }).FK_FriendshipsAccepted(args)
+    }).FK_FriendshipsAccepted(args);
   }
 }

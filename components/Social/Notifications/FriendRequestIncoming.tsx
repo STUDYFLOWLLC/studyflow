@@ -8,7 +8,10 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { ActiveProps } from 'types/ActiveProps'
 import { Friendship } from 'types/Social'
-import { acceptFriendship } from 'utils/social/friendshipHandlers'
+import {
+  acceptFriendship,
+  rejectFriendship,
+} from 'utils/social/friendshipHandlers'
 
 interface Props {
   friendship: Friendship
@@ -54,6 +57,12 @@ export default function FriendRequestIncoming({ friendship }: Props) {
                 { 'hover:bg-slate-600': theme === 'dark' },
                 'w-6 h-6 mr-1 text-red-400 p-0.5 rounded-md cursor-pointer',
               )}
+              onClick={() =>
+                rejectFriendship(friendship, friends, mutateFriends)
+              }
+              onKeyDown={() =>
+                rejectFriendship(friendship, friends, mutateFriends)
+              }
             />
             <CheckIcon
               className={classNames(

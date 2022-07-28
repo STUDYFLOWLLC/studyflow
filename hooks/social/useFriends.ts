@@ -47,15 +47,24 @@ export default function useFriends(userId: number | undefined): Ret {
 
   const variables = {
     where: {
-      OR: [
+      AND: [
         {
-          FK_UserFromID: {
-            equals: userId || 0,
-          },
+          OR: [
+            {
+              FK_UserFromID: {
+                equals: userId || 0,
+              },
+            },
+            {
+              FK_UserToID: {
+                equals: userId || 0,
+              },
+            },
+          ],
         },
         {
-          FK_UserToID: {
-            equals: userId || 0,
+          RejectedTime: {
+            equals: null,
           },
         },
       ],

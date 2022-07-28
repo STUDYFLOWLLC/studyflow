@@ -4,6 +4,7 @@ export enum FriendshipScalarFieldEnum {
   FriendshipID = "FriendshipID",
   SentTime = "SentTime",
   AcceptedTime = "AcceptedTime",
+  RejectedTime = "RejectedTime",
   FK_UserFromID = "FK_UserFromID",
   FK_UserToID = "FK_UserToID"
 }

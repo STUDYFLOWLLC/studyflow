@@ -18,4 +18,9 @@ export class FriendshipUpdateManyMutationInput {
     nullable: true
   })
   AcceptedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  RejectedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 }
