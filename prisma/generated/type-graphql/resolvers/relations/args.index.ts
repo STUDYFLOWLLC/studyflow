@@ -6,6 +6,7 @@ export * from "./FlashCardStack/args";
 export * from "./Flow/args";
 export * from "./Professor/args";
 export * from "./School/args";
+export * from "./StudyGroup/args";
 export * from "./Task/args";
 export * from "./Term/args";
 export * from "./User/args";

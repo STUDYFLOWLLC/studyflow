@@ -31,4 +31,14 @@ export class UserCount {
     nullable: false
   })
   FK_Automation!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  FK_StudyGroups!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  FK_UserOnStudyGroups!: number;
 }

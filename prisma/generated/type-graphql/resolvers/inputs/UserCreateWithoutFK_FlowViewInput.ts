@@ -6,8 +6,10 @@ import { AutomationCreateNestedManyWithoutFK_UserInput } from "../inputs/Automat
 import { FlowCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowCreateNestedManyWithoutFK_UserInput";
 import { SchoolCreateNestedOneWithoutFK_UserInput } from "../inputs/SchoolCreateNestedOneWithoutFK_UserInput";
 import { SettingCreateNestedOneWithoutFK_UserInput } from "../inputs/SettingCreateNestedOneWithoutFK_UserInput";
+import { StudyGroupCreateNestedManyWithoutFK_UserInput } from "../inputs/StudyGroupCreateNestedManyWithoutFK_UserInput";
 import { TaskCreateNestedManyWithoutFK_UserInput } from "../inputs/TaskCreateNestedManyWithoutFK_UserInput";
 import { TermCreateNestedManyWithoutFK_UserInput } from "../inputs/TermCreateNestedManyWithoutFK_UserInput";
+import { UserOnStudyGroupCreateNestedManyWithoutFK_UserInput } from "../inputs/UserOnStudyGroupCreateNestedManyWithoutFK_UserInput";
 import { SetupStep } from "../../enums/SetupStep";
 import { Visibility } from "../../enums/Visibility";
 
@@ -84,4 +86,14 @@ export class UserCreateWithoutFK_FlowViewInput {
     nullable: true
   })
   FK_Automation?: AutomationCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => StudyGroupCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_StudyGroups?: StudyGroupCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOnStudyGroupCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_UserOnStudyGroups?: UserOnStudyGroupCreateNestedManyWithoutFK_UserInput | undefined;
 }

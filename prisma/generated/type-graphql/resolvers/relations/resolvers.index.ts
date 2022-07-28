@@ -10,7 +10,9 @@ export { FlowViewRelationsResolver } from "./FlowView/FlowViewRelationsResolver"
 export { ProfessorRelationsResolver } from "./Professor/ProfessorRelationsResolver";
 export { SchoolRelationsResolver } from "./School/SchoolRelationsResolver";
 export { SettingRelationsResolver } from "./Setting/SettingRelationsResolver";
+export { StudyGroupRelationsResolver } from "./StudyGroup/StudyGroupRelationsResolver";
 export { TaskRelationsResolver } from "./Task/TaskRelationsResolver";
 export { TaskLabelRelationsResolver } from "./TaskLabel/TaskLabelRelationsResolver";
 export { TermRelationsResolver } from "./Term/TermRelationsResolver";
 export { UserRelationsResolver } from "./User/UserRelationsResolver";
+export { UserOnStudyGroupRelationsResolver } from "./UserOnStudyGroup/UserOnStudyGroupRelationsResolver";

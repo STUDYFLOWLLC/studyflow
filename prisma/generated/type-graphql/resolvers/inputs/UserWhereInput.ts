@@ -14,8 +14,10 @@ import { SchoolRelationFilter } from "../inputs/SchoolRelationFilter";
 import { SettingRelationFilter } from "../inputs/SettingRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
+import { StudyGroupListRelationFilter } from "../inputs/StudyGroupListRelationFilter";
 import { TaskListRelationFilter } from "../inputs/TaskListRelationFilter";
 import { TermListRelationFilter } from "../inputs/TermListRelationFilter";
+import { UserOnStudyGroupListRelationFilter } from "../inputs/UserOnStudyGroupListRelationFilter";
 
 @TypeGraphQL.InputType("UserWhereInput", {
   isAbstract: true
@@ -120,4 +122,14 @@ export class UserWhereInput {
     nullable: true
   })
   FK_Automation?: AutomationListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StudyGroupListRelationFilter, {
+    nullable: true
+  })
+  FK_StudyGroups?: StudyGroupListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => UserOnStudyGroupListRelationFilter, {
+    nullable: true
+  })
+  FK_UserOnStudyGroups?: UserOnStudyGroupListRelationFilter | undefined;
 }

@@ -7,8 +7,10 @@ import { Flow } from "../models/Flow";
 import { FlowView } from "../models/FlowView";
 import { School } from "../models/School";
 import { Setting } from "../models/Setting";
+import { StudyGroup } from "../models/StudyGroup";
 import { Task } from "../models/Task";
 import { Term } from "../models/Term";
+import { UserOnStudyGroup } from "../models/UserOnStudyGroup";
 import { SetupStep } from "../enums/SetupStep";
 import { Visibility } from "../enums/Visibility";
 import { UserCount } from "../resolvers/outputs/UserCount";
@@ -80,6 +82,10 @@ export class User {
   FK_Flow?: Flow[];
 
   FK_Automation?: Automation[];
+
+  FK_StudyGroups?: StudyGroup[];
+
+  FK_UserOnStudyGroups?: UserOnStudyGroup[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

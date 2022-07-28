@@ -12,7 +12,9 @@ import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStri
 import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
 import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { StudyGroupUpdateManyWithoutFK_UserInput } from "../inputs/StudyGroupUpdateManyWithoutFK_UserInput";
 import { TaskUpdateManyWithoutFK_UserInput } from "../inputs/TaskUpdateManyWithoutFK_UserInput";
+import { UserOnStudyGroupUpdateManyWithoutFK_UserInput } from "../inputs/UserOnStudyGroupUpdateManyWithoutFK_UserInput";
 
 @TypeGraphQL.InputType("UserUpdateWithoutFK_TermsInput", {
   isAbstract: true
@@ -87,4 +89,14 @@ export class UserUpdateWithoutFK_TermsInput {
     nullable: true
   })
   FK_Automation?: AutomationUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => StudyGroupUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_StudyGroups?: StudyGroupUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOnStudyGroupUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_UserOnStudyGroups?: UserOnStudyGroupUpdateManyWithoutFK_UserInput | undefined;
 }
