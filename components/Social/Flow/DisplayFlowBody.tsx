@@ -10,7 +10,7 @@ export default function DisplayFlowBody({ blocks }: Props) {
   return (
     <div
       className={classNames(
-        'max-w-3xl mx-auto overflow-none prose',
+        'max-w-3xl mx-auto overflow-x-none overflow-y-auto prose w-full',
         'prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
         'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
         'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
