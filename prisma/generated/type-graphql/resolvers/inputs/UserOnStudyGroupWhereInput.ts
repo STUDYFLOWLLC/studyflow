@@ -36,17 +36,27 @@ export class UserOnStudyGroupWhereInput {
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  SendDate?: DateTimeFilter | undefined;
+  SendTime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
     nullable: true
   })
-  AcceptDate?: DateTimeNullableFilter | undefined;
+  AcceptedTime?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
     nullable: true
   })
-  RemoveDate?: DateTimeNullableFilter | undefined;
+  RejectedTime?: DateTimeNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  RemovedTime?: DateTimeNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  CanceledTime?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true

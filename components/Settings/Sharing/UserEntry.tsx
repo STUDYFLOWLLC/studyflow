@@ -3,16 +3,16 @@
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
-import { UserHit } from 'components/Settings/Sharing/InputPrivateGroup'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { PublicUser } from 'types/Social'
 import ProfilePicOrPlaceholder from './ProfilePicOrPlaceholder'
 
 interface Props {
-  userHit: UserHit
+  displayUser: PublicUser
 }
 
-export default function UserEntry({ userHit }: Props) {
+export default function UserEntry({ displayUser }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -23,7 +23,7 @@ export default function UserEntry({ userHit }: Props) {
 
   return (
     <Combobox.Option
-      value={userHit}
+      value={displayUser}
       className={({ active }) =>
         classNames(
           {
@@ -42,8 +42,8 @@ export default function UserEntry({ userHit }: Props) {
         <>
           <div className="flex items-center">
             <ProfilePicOrPlaceholder
-              link={userHit.ProfilePictureLink}
-              name={userHit.Name}
+              link={displayUser.ProfilePictureLink}
+              name={displayUser.Name}
             />
             <span
               className={classNames(
@@ -51,16 +51,16 @@ export default function UserEntry({ userHit }: Props) {
                 'truncate text-md ml-3',
               )}
             >
-              {userHit.Name}
+              {displayUser.Name}
             </span>
-            {userHit.school && (
+            {displayUser.FK_School.Name && (
               <span
                 className={classNames(
                   { 'font-semibold': selected },
                   'truncate text-xs ml-1',
                 )}
               >
-                at {userHit.school}
+                at {displayUser.FK_School.Name}
               </span>
             )}
           </div>

@@ -35,5 +35,5 @@ export class UserFK_UserOnStudyGroupsArgs {
   @TypeGraphQL.Field(_type => [UserOnStudyGroupScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"UserOnStudyGroupID" | "SendDate" | "AcceptDate" | "RemoveDate" | "FK_UserID" | "FK_StudyGroupID"> | undefined;
+  distinct?: Array<"UserOnStudyGroupID" | "SendTime" | "AcceptedTime" | "RejectedTime" | "RemovedTime" | "CanceledTime" | "FK_UserID" | "FK_StudyGroupID"> | undefined;
 }

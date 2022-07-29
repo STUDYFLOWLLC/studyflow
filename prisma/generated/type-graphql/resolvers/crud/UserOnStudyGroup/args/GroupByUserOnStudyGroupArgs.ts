@@ -20,7 +20,7 @@ export class GroupByUserOnStudyGroupArgs {
   @TypeGraphQL.Field(_type => [UserOnStudyGroupScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"UserOnStudyGroupID" | "SendDate" | "AcceptDate" | "RemoveDate" | "FK_UserID" | "FK_StudyGroupID">;
+  by!: Array<"UserOnStudyGroupID" | "SendTime" | "AcceptedTime" | "RejectedTime" | "RemovedTime" | "CanceledTime" | "FK_UserID" | "FK_StudyGroupID">;
 
   @TypeGraphQL.Field(_type => UserOnStudyGroupScalarWhereWithAggregatesInput, {
     nullable: true

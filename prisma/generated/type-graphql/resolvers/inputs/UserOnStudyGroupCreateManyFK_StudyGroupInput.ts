@@ -15,17 +15,27 @@ export class UserOnStudyGroupCreateManyFK_StudyGroupInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  SendDate?: Date | undefined;
+  SendTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  AcceptDate?: Date | undefined;
+  AcceptedTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  RemoveDate?: Date | undefined;
+  RejectedTime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  RemovedTime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  CanceledTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

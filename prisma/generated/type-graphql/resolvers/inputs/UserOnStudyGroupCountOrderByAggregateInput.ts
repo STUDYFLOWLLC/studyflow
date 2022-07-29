@@ -16,17 +16,27 @@ export class UserOnStudyGroupCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  SendDate?: "asc" | "desc" | undefined;
+  SendTime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  AcceptDate?: "asc" | "desc" | undefined;
+  AcceptedTime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  RemoveDate?: "asc" | "desc" | undefined;
+  RejectedTime?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  RemovedTime?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  CanceledTime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

@@ -5,9 +5,10 @@ import useSWR, { KeyedMutator } from 'swr'
 import { PublicUser } from 'types/Social'
 
 export interface UserOnStudyGroup {
-  SendDate: string
-  AcceptDate: string
-  RemoveDate: string
+  UserOnStudyGroupID: number
+  SendTime: string
+  AcceptedTime: string
+  RemovedTime: string
   FK_User: PublicUser
 }
 
@@ -31,15 +32,16 @@ export default function usePrivateGroupDetails(
     query User(
       $where: UserWhereUniqueInput!
       $fkStudyGroupsWhere2: StudyGroupWhereInput
+      $fkUserOnStudyGroupWhere2: UserOnStudyGroupWhereInput
     ) {
       user(where: $where) {
         FK_StudyGroups(where: $fkStudyGroupsWhere2) {
           StudyGroupID
           Name
-          FK_UserOnStudyGroup {
-            SendDate
-            AcceptDate
-            RemoveDate
+          FK_UserOnStudyGroup(where: $fkUserOnStudyGroupWhere2) {
+            UserOnStudyGroupID
+            SendTime
+            AcceptedTime
             FK_User {
               UserID
               ProfilePictureLink
@@ -57,16 +59,35 @@ export default function usePrivateGroupDetails(
 
   const variables = {
     where: {
-      UserID: userId || 0,
+      UserID: userId,
     },
     fkStudyGroupsWhere2: {
       Name: {
         equals: 'Private',
       },
     },
+    fkUserOnStudyGroupWhere2: {
+      AND: [
+        {
+          CanceledTime: {
+            equals: null,
+          },
+        },
+        {
+          RejectedTime: {
+            equals: null,
+          },
+        },
+        {
+          RemovedTime: {
+            equals: null,
+          },
+        },
+      ],
+    },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
 
   if (data?.mutate) {
     return {
@@ -79,7 +100,8 @@ export default function usePrivateGroupDetails(
 
   if (data?.user?.FK_StudyGroups.length > 0) {
     return {
-      privateGroupDetails: data.user.FK_StudyGroups[0],
+      privateGroupDetails:
+        data.user.FK_StudyGroups[data.user.FK_StudyGroups.length - 1],
       privateGroupDetailsLoading: false,
       privateGroupDetailsError: null,
       mutatePrivateGroupDetails: mutate,

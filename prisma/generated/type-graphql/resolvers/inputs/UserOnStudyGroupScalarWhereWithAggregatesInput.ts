@@ -34,17 +34,27 @@ export class UserOnStudyGroupScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
-  SendDate?: DateTimeWithAggregatesFilter | undefined;
+  SendTime?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
     nullable: true
   })
-  AcceptDate?: DateTimeNullableWithAggregatesFilter | undefined;
+  AcceptedTime?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
     nullable: true
   })
-  RemoveDate?: DateTimeNullableWithAggregatesFilter | undefined;
+  RejectedTime?: DateTimeNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  RemovedTime?: DateTimeNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  CanceledTime?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true

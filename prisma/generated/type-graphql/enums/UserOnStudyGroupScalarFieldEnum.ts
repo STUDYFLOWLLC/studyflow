@@ -2,9 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 
 export enum UserOnStudyGroupScalarFieldEnum {
   UserOnStudyGroupID = "UserOnStudyGroupID",
-  SendDate = "SendDate",
-  AcceptDate = "AcceptDate",
-  RemoveDate = "RemoveDate",
+  SendTime = "SendTime",
+  AcceptedTime = "AcceptedTime",
+  RejectedTime = "RejectedTime",
+  RemovedTime = "RemovedTime",
+  CanceledTime = "CanceledTime",
   FK_UserID = "FK_UserID",
   FK_StudyGroupID = "FK_StudyGroupID"
 }

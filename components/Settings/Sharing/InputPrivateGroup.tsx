@@ -1,34 +1,19 @@
 import { Combobox } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import algoliasearch from 'algoliasearch/lite'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
+import useFriends from 'hooks/social/useFriends'
 import usePrivateGroupDetails from 'hooks/social/usePrivateGroupDetails'
 import useUserDetails from 'hooks/useUserDetails'
+import { matchSorter } from 'match-sorter'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
+import { PublicUser } from 'types/Social'
 import { addUserToGroup } from 'utils/social/groupHandlers'
 import ShowGroup from './Group/ShowGroup'
 import UserEntry from './UserEntry'
 import UserInput from './UserInput'
-
-const searchClient = algoliasearch(
-  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || '',
-  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY || '',
-)
-const index = searchClient.initIndex('students')
-
-export interface UserHit {
-  CreatedTime: string
-  FK_SchoolID: number
-  objectID: string
-  Name: string
-  Username: string
-  ProfilePictureLink: string
-  UserID: number
-  school: string
-}
 
 export default function InputPrivateGroup() {
   const { theme } = useTheme()
@@ -36,17 +21,28 @@ export default function InputPrivateGroup() {
   const { userDetails } = useUserDetails(user?.id)
   const { privateGroupDetails, mutatePrivateGroupDetails } =
     usePrivateGroupDetails(userDetails?.UserID)
+  const { friends } = useFriends(userDetails?.UserID)
 
   const [mounted, setMounted] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<UserHit | null>(null)
-  const [hits, setHits] = useState<UserHit[]>([])
+  const [selectedUser, setSelectedUser] = useState<PublicUser | null>(null)
+  const [hits, setHits] = useState<PublicUser[]>([])
   const [query, setQuery] = useState('')
 
   const filterUsers = async () => {
-    const result = await index.search(query)
-    const hitsTemp = result.hits as UserHit[]
-    setHits(hitsTemp)
+    console.log(friends?.accepted)
+    const friendshipsToOther = friends?.accepted.map((f) =>
+      f.FK_UserFrom.UserID === userDetails?.UserID
+        ? f.FK_UserTo
+        : f.FK_UserFrom,
+    )
+    const result = matchSorter(friendshipsToOther || [], query, {
+      keys: ['Name'],
+    })
+    const excluded = privateGroupDetails?.FK_UserOnStudyGroup.map(
+      (u) => u.FK_User.UserID,
+    )
+    setHits(result.filter((u) => !(excluded || []).includes(u.UserID)))
   }
 
   useEffect(() => setMounted(true), [])
@@ -67,7 +63,7 @@ export default function InputPrivateGroup() {
         as="div"
         value={selectedUser}
         disabled={loading}
-        onChange={(newUser: UserHit) =>
+        onChange={(newUser: PublicUser) =>
           addUserToGroup(
             userDetails?.UserID,
             newUser,
@@ -88,9 +84,8 @@ export default function InputPrivateGroup() {
               'm-0 p-0 list-none z-10 overflow-auto rounded-md shadow-lg focus:outline-none',
             )}
           >
-            {hits.slice(0, 5).map((user: UserHit) => (
-              <UserEntry key={user.objectID} userHit={user} />
-              // <SchoolEntry key={school.SchoolID} school={school} />
+            {hits.slice(0, 5).map((displayUser: PublicUser) => (
+              <UserEntry key={displayUser.UserID} displayUser={displayUser} />
             ))}
           </Combobox.Options>
         )}

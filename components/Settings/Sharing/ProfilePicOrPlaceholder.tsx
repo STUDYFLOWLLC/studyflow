@@ -22,7 +22,7 @@ export default function ProfilePicOrPlaceholder({
       <div
         className={classNames(
           { 'bg-stone-200': theme === 'light' },
-          { 'bg-slate-700': theme === 'dark' },
+          { 'bg-slate-600': theme === 'dark' },
           dimension,
           { 'w-8 h-8': !dimension },
           'rounded-full',

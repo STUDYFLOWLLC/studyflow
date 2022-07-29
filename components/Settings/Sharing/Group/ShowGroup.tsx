@@ -14,6 +14,10 @@ export default function ShowGroup() {
     mutatePrivateGroupDetails,
   } = usePrivateGroupDetails(userDetails?.UserID)
 
+  console.log('hi')
+
+  console.log(privateGroupDetails)
+
   if (privateGroupDetailsLoading) {
     return (
       <div className="flex flex-col items-center prose">
@@ -27,7 +31,7 @@ export default function ShowGroup() {
     privateGroupDetails === null ||
     privateGroupDetails?.FK_UserOnStudyGroup?.length === 0
   ) {
-    return <span className="text-sm pb-4">no one in group :( Add below</span>
+    return <span className="text-sm pb-4">group empty! add below</span>
   }
 
   return (
