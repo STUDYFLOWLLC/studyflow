@@ -79,7 +79,9 @@ export default async function setBasicProfile(FlowID: string) {
   }
 
   const data = await request(
-    'http://localhost:3000/api/graphql',
+    process.env.NODE_ENV === 'production'
+      ? 'https://studyflow.ai/api/graphql'
+      : 'http://localhost:3000/api/graphql',
     query,
     variables,
   )
