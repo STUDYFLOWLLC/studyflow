@@ -1,44 +1,37 @@
 // should get flow from server side and render it here
 
-import { CalendarIcon } from '@heroicons/react/outline'
-import FlowProperty from 'components/Flow/FlowProperty'
-import { FlowRet } from 'hooks/flows/getFlowDetails'
-import handleTimeStamp from 'utils/handleTimeStamp'
+import DisplayFlow from 'components/Social/Flow/DisplayFlow'
+import getFlowDetails, { PublicFlowDetail } from 'hooks/flows/getFlowDetails'
+import Head from 'next/head'
 
 interface Props {
-  flow?: FlowRet
+  flow?: PublicFlowDetail
 }
 
-const flowy: FlowRet = {
-  CreatedTime: '2022-06-16T18:31:36.566Z',
-  FlowID: 'f16634c0-31d2-4c84-819f-77944941f603',
-  Type: 'LECTURE',
-  Title: 'Flow title',
-  Body: 'Flow body',
-  Visibility: 'PUBLIC',
-}
+export default function FlowID({ flow }: Props) {
+  if (flow === undefined)
+    return <p>Flow not found! We will make this page prettier soon :)</p>
 
-export default function FlowID() {
   return (
-    <div className="prose p-32">
-      <h1 className="font-medium leading-3 m-0 p-0">{flowy.Title}</h1>
-      <div className="border-l-2">
-        <FlowProperty
-          Icon={CalendarIcon}
-          property="Date"
-          value={handleTimeStamp(flowy.CreatedTime)}
-        />
-      </div>
+    <div>
+      <Head>
+        <title>
+          {flow?.Title || 'Untitled'} in{' '}
+          {flow?.FK_CourseOnTerm.Nickname ||
+            flow?.FK_CourseOnTerm.FK_Course?.Code ||
+            'Untitled'}{' '}
+          by {flow?.FK_CourseOnTerm?.FK_Term?.FK_User?.Username || 'anonymous'}
+        </title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />{' '}
+      </Head>
+      <DisplayFlow flow={flow} />
     </div>
   )
 }
 
-/*
 export async function getServerSideProps(context: {
   query: { FlowID: string }
 }) {
   const data = await getFlowDetails(context.query.FlowID)
   return { props: { flow: data } }
 }
-
-*/

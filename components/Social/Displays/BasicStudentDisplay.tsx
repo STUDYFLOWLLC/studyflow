@@ -7,7 +7,7 @@ interface Props {
 
 export default function BasicStudentDisplay({ publicUser }: Props) {
   return (
-    <div className="w-64 cursor-pointer flex items-center">
+    <div className="cursor-pointer flex items-center">
       <ProfilePicOrPlaceholder
         link={publicUser.ProfilePictureLink}
         name={publicUser.Name}
