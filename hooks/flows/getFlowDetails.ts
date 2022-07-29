@@ -40,7 +40,6 @@ export default async function setBasicProfile(FlowID: string) {
         Body
         Visibility
         UserEnteredDate
-        WasAutomated
         FK_CourseOnTerm {
           Nickname
           Color
@@ -62,9 +61,6 @@ export default async function setBasicProfile(FlowID: string) {
               }
             }
           }
-        }
-        FK_FlowView {
-          FlowViewID
         }
       }
     }
