@@ -85,6 +85,9 @@ export default function DeleteFlow({ flowId }: Props) {
                   <p>
                     <b>Tasks: {flowDetails?._count.FK_Tasks}</b>
                   </p>
+                  <p className="text-2xs text-center w-full">
+                    <b>ID: {flowDetails?.FlowID}</b>
+                  </p>
                 </div>
               </div>
             )}
