@@ -6,9 +6,9 @@ import { PublicUser } from 'types/Social'
 
 export interface UserOnStudyGroup {
   UserOnStudyGroupID: number
-  SendDate: string
-  AcceptTime: string
-  RemoveTime: string
+  SendTime: string
+  AcceptedTime: string
+  RemovedTime: string
   FK_User: PublicUser
 }
 
@@ -87,9 +87,7 @@ export default function usePrivateGroupDetails(
     },
   }
 
-  const { data, error, mutate } = useSWR(userId ? [query, variables] : null, {
-    revalidateOnMount: false,
-  })
+  const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
 
   if (data?.mutate) {
     return {
@@ -102,7 +100,8 @@ export default function usePrivateGroupDetails(
 
   if (data?.user?.FK_StudyGroups.length > 0) {
     return {
-      privateGroupDetails: data.user.FK_StudyGroups[0],
+      privateGroupDetails:
+        data.user.FK_StudyGroups[data.user.FK_StudyGroups.length - 1],
       privateGroupDetailsLoading: false,
       privateGroupDetailsError: null,
       mutatePrivateGroupDetails: mutate,

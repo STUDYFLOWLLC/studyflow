@@ -59,12 +59,12 @@ export default function useCoursesOnTerm(
   const variables = {
     where: {
       TermID: {
-        equals: termID || 0,
+        equals: termID,
       },
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(termID ? [query, variables] : null)
 
   if (data?.mutate) {
     return {

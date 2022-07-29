@@ -8,7 +8,10 @@ import usePrivateGroupDetails, {
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
-import { cancelUserOnStudyGroup } from 'utils/social/userOnStudyGroupHandlers'
+import {
+  cancelUserOnStudyGroup,
+  removeUserOnStudyGroup,
+} from 'utils/social/userOnStudyGroupHandlers'
 import ProfilePicOrPlaceholder from '../ProfilePicOrPlaceholder'
 
 interface Props {
@@ -21,6 +24,9 @@ export default function GroupMember({ userOnStudyGroup }: Props) {
   const { userDetails } = useUserDetails(user?.id)
   const { privateGroupDetails, mutatePrivateGroupDetails } =
     usePrivateGroupDetails(userDetails?.UserID)
+
+  console.log(userOnStudyGroup)
+  console.log(!userOnStudyGroup.AcceptedTime)
 
   return (
     <div className="border flex items-center rounded-lg text-xs py-1 px-1 m-2">
@@ -35,7 +41,7 @@ export default function GroupMember({ userOnStudyGroup }: Props) {
           @{userOnStudyGroup.FK_User.Username}
         </span>
       </div>
-      {!userOnStudyGroup.AcceptTime && (
+      {!userOnStudyGroup.AcceptedTime ? (
         <>
           <Tippy
             content="Invite pending"
@@ -77,6 +83,34 @@ export default function GroupMember({ userOnStudyGroup }: Props) {
             />
           </Tippy>
         </>
+      ) : (
+        <Tippy
+          content="Remove student"
+          offset={TOOLTIP_OFFSET}
+          delay={TOOLTIP_DELAY}
+        >
+          <XIcon
+            className={classNames(
+              { 'hover:bg-gray-100': theme === 'light' },
+              { 'hover:bg-slate-600': theme === 'dark' },
+              'w-6 h-6 mr-1 text-red-400 p-0.5 rounded-md cursor-pointer',
+            )}
+            onClick={() =>
+              removeUserOnStudyGroup(
+                userOnStudyGroup.UserOnStudyGroupID,
+                privateGroupDetails,
+                mutatePrivateGroupDetails,
+              )
+            }
+            onKeyDown={() =>
+              removeUserOnStudyGroup(
+                userOnStudyGroup.UserOnStudyGroupID,
+                privateGroupDetails,
+                mutatePrivateGroupDetails,
+              )
+            }
+          />
+        </Tippy>
       )}
     </div>
   )

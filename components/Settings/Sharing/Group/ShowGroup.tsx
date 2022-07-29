@@ -14,6 +14,10 @@ export default function ShowGroup() {
     mutatePrivateGroupDetails,
   } = usePrivateGroupDetails(userDetails?.UserID)
 
+  console.log('hi')
+
+  console.log(privateGroupDetails)
+
   if (privateGroupDetailsLoading) {
     return (
       <div className="flex flex-col items-center prose">

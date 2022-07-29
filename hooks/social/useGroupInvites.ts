@@ -1,12 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { gql } from 'graphql-request'
-import useSWR from 'swr'
+import useSWR, { KeyedMutator } from 'swr'
+import { PublicUser } from 'types/Social'
 
-export default function useGroupInvites(userId: number) {
+interface StudyGroup {
+  StudyGroupID: number
+  Name: string
+  FK_User: PublicUser
+}
+
+export interface GroupInvite {
+  UserOnStudyGroupID: number
+  FK_StudyGroup: StudyGroup
+}
+
+interface Ret {
+  groupInvites: GroupInvite[] | null
+  groupInvitesLoading: boolean
+  groupInvitesError: any
+  mutateGroupInvites: KeyedMutator<any>
+}
+
+export default function useGroupInvites(userId: number | undefined): Ret {
   const query = gql`
     query Query($where: UserOnStudyGroupWhereInput) {
       userOnStudyGroups(where: $where) {
         UserOnStudyGroupID
         FK_StudyGroup {
+          StudyGroupID
           Name
           FK_User {
             UserID
@@ -59,5 +80,10 @@ export default function useGroupInvites(userId: number) {
     }
   }
 
-  return {}
+  return {
+    groupInvites: null,
+    groupInvitesLoading: !data && !error,
+    groupInvitesError: error,
+    mutateGroupInvites: mutate,
+  }
 }
