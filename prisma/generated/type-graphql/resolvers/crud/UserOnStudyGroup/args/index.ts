@@ -1,0 +1,12 @@
+export { AggregateUserOnStudyGroupArgs } from "./AggregateUserOnStudyGroupArgs";
+export { CreateManyUserOnStudyGroupArgs } from "./CreateManyUserOnStudyGroupArgs";
+export { CreateUserOnStudyGroupArgs } from "./CreateUserOnStudyGroupArgs";
+export { DeleteManyUserOnStudyGroupArgs } from "./DeleteManyUserOnStudyGroupArgs";
+export { DeleteUserOnStudyGroupArgs } from "./DeleteUserOnStudyGroupArgs";
+export { FindFirstUserOnStudyGroupArgs } from "./FindFirstUserOnStudyGroupArgs";
+export { FindManyUserOnStudyGroupArgs } from "./FindManyUserOnStudyGroupArgs";
+export { FindUniqueUserOnStudyGroupArgs } from "./FindUniqueUserOnStudyGroupArgs";
+export { GroupByUserOnStudyGroupArgs } from "./GroupByUserOnStudyGroupArgs";
+export { UpdateManyUserOnStudyGroupArgs } from "./UpdateManyUserOnStudyGroupArgs";
+export { UpdateUserOnStudyGroupArgs } from "./UpdateUserOnStudyGroupArgs";
+export { UpsertUserOnStudyGroupArgs } from "./UpsertUserOnStudyGroupArgs";

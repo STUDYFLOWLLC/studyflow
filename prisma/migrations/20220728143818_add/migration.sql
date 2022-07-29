@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "UserOnStudyGroup" ADD COLUMN     "HOLDER" TEXT NOT NULL DEFAULT E'';

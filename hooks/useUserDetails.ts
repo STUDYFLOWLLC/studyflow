@@ -69,12 +69,12 @@ export default function useUserDetails(
   const variables = {
     where: {
       SupabaseID: {
-        equals: supabaseId || null,
+        equals: supabaseId,
       },
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(supabaseId ? [query, variables] : null)
 
   if (data?.mutate) {
     return {

@@ -5,15 +5,19 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationUpdateManyWithoutFK_UserInput } from "../inputs/AutomationUpdateManyWithoutFK_UserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
+import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { FlowUpdateManyWithoutFK_UserInput } from "../inputs/FlowUpdateManyWithoutFK_UserInput";
 import { FlowViewUpdateManyWithoutFK_UserInput } from "../inputs/FlowViewUpdateManyWithoutFK_UserInput";
-import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
+import { FriendshipUpdateManyWithoutFK_UserFromInput } from "../inputs/FriendshipUpdateManyWithoutFK_UserFromInput";
+import { FriendshipUpdateManyWithoutFK_UserToInput } from "../inputs/FriendshipUpdateManyWithoutFK_UserToInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
 import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { StudyGroupUpdateManyWithoutFK_UserInput } from "../inputs/StudyGroupUpdateManyWithoutFK_UserInput";
 import { TaskUpdateManyWithoutFK_UserInput } from "../inputs/TaskUpdateManyWithoutFK_UserInput";
 import { TermUpdateManyWithoutFK_UserInput } from "../inputs/TermUpdateManyWithoutFK_UserInput";
+import { UserOnStudyGroupUpdateManyWithoutFK_UserInput } from "../inputs/UserOnStudyGroupUpdateManyWithoutFK_UserInput";
 
 @TypeGraphQL.InputType("UserUpdateInput", {
   isAbstract: true
@@ -34,6 +38,11 @@ export class UserUpdateInput {
   })
   SupabaseID?: StringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => EnumVisibilityFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -53,11 +62,6 @@ export class UserUpdateInput {
     nullable: true
   })
   ProfilePictureLink?: NullableStringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableEnumVisibilityFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  DefaultVisibility?: NullableEnumVisibilityFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => SchoolUpdateOneWithoutFK_UserInput, {
     nullable: true
@@ -93,4 +97,24 @@ export class UserUpdateInput {
     nullable: true
   })
   FK_Automation?: AutomationUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => StudyGroupUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_StudyGroups?: StudyGroupUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => UserOnStudyGroupUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_UserOnStudyGroups?: UserOnStudyGroupUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipUpdateManyWithoutFK_UserFromInput, {
+    nullable: true
+  })
+  FK_FriendshipsInitiated?: FriendshipUpdateManyWithoutFK_UserFromInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipUpdateManyWithoutFK_UserToInput, {
+    nullable: true
+  })
+  FK_FriendshipsAccepted?: FriendshipUpdateManyWithoutFK_UserToInput | undefined;
 }

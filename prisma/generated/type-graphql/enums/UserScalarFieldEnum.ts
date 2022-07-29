@@ -5,11 +5,11 @@ export enum UserScalarFieldEnum {
   CreatedTime = "CreatedTime",
   SetupStep = "SetupStep",
   SupabaseID = "SupabaseID",
+  DefaultVisibility = "DefaultVisibility",
   Email = "Email",
   Name = "Name",
   Username = "Username",
   ProfilePictureLink = "ProfilePictureLink",
-  DefaultVisibility = "DefaultVisibility",
   FK_SchoolID = "FK_SchoolID"
 }
 TypeGraphQL.registerEnumType(UserScalarFieldEnum, {

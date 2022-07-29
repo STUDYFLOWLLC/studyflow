@@ -1,4 +1,4 @@
-import { PlusCircleIcon } from '@heroicons/react/outline'
+import { PencilAltIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import CourseLine from 'components/Dashbar/Course/CourseLine'
@@ -102,15 +102,12 @@ export default function CourseNavs() {
         setOpen={setCourseModalOpen}
       />
       <div className="mt-6">
-        <div className="w-100 flex items-center justify-between">
+        <div className="w-full flex items-center text-info justify-between">
           <div>
-            <p className="px-2 text-xs font-semibold text-gray-500 tracking-wider">
-              Courses
-            </p>
+            <p className="px-2 text-xs font-semibold tracking-wider">Courses</p>
           </div>
-          <PlusCircleIcon
-            className="text-gray-500 cursor-pointer"
-            style={{ width: '1.125rem' }}
+          <PencilAltIcon
+            className="cursor-pointer w-4 mb-0.5"
             onClick={() => {
               if (!coursesOnTermLoading) setCourseModalOpen(true)
             }}

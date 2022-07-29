@@ -1,4 +1,5 @@
 import { gql, request } from 'graphql-request'
+import { FlowVisibility } from 'types/Flow'
 import { SetupSteps } from 'types/SetupSteps'
 
 export async function mutateName(email: string, name: string) {
@@ -110,6 +111,33 @@ export async function mutateSetupStep(email: string, setupStep: SetupSteps) {
     data: {
       SetupStep: {
         set: setupStep,
+      },
+    },
+    where: {
+      Email: email,
+    },
+  }
+
+  const data = await request('/api/graphql', query, variables)
+  return data
+}
+
+export async function mutateUserDefaultVisibility(
+  email: string,
+  defaultVisibility: FlowVisibility,
+) {
+  const query = gql`
+    mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+      updateUser(data: $data, where: $where) {
+        UserID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      DefaultVisibility: {
+        set: defaultVisibility,
       },
     },
     where: {

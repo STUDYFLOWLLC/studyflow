@@ -1,6 +1,7 @@
 import HideButton from 'components/Dashbar/HideButton'
 import CreateButton from 'components/Dashboard/CreateButton'
 import TasksNavbar from 'components/Dashboard/TasksNavbar'
+import NotificationBell from 'components/Social/Notifications/NotificationBell'
 import { Dispatch, SetStateAction } from 'react'
 import { FlowType } from 'types/Flow'
 import TermSelector from './TermSelector'
@@ -39,6 +40,7 @@ export default function index({
           {taskView && setTaskView && (
             <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
           )}
+          <NotificationBell />
         </div>
         <div className="flex sm:mt-0 items-center">
           <CreateButton disabled={disabled} setCreateFlowAs={setCreateFlowAs} />
