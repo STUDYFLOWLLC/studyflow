@@ -1,9 +1,5 @@
-import { useUser } from '@supabase/supabase-auth-helpers/react'
-import useAutomationDetails, {
-  CourseOnTermAutomation,
-} from 'hooks/automation/useAutomationDetails'
+import { CourseOnTermAutomation } from 'hooks/automation/useAutomationDetails'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import useUserDetails from 'hooks/useUserDetails'
 import AutomationCardBody from './AutomationCardBody'
 import CreateAutomationOnCourseOnTerm from './CreateAutomationOnCourseOnTerm'
 
@@ -16,12 +12,6 @@ export default function AutomationCard({
   courseOnTerm,
   courseOnTermAutomation,
 }: Props) {
-  const { user } = useUser()
-  const { userDetails } = useUserDetails(user?.id)
-  const { automationDetails, automationDetailsLoading } = useAutomationDetails(
-    userDetails?.UserID,
-  )
-
   return (
     <div className="w-96 border rounded-md mx-12 mb-8 px-4 prose py-2">
       <div className="mb-2 flex items-baseline justify-between">

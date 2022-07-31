@@ -71,14 +71,13 @@ export default function CreateAutomationOnCourseOnTerm({
       />
       <button
         type="button"
-        className="alex-button mb-2"
+        className="alex-button mt-2 mb-3"
         onClick={() => handleOpenPicker()}
       >
-        Select Drive folder *
+        Select Drive folder
       </button>
       <p className="mb-2 mt-0 p-0 text-sm">
-        * You must sign in with the same google account you previously
-        connected. Need help?
+        Please sign in with the same google account you previously connected.
       </p>
     </div>
   )
