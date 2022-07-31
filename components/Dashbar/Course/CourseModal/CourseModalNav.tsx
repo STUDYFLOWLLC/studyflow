@@ -28,7 +28,7 @@ export default function SettingsNavBig({ tabs, selectedCourse }: Props) {
       className={classNames(
         { 'border-gray-200': theme === 'light' },
         { 'border-gray-500': theme === 'dark' },
-        'border-b mt-2 mb-2',
+        'border-b mt-2 mb-2 w-full',
       )}
     >
       <nav className="flex justify-between">

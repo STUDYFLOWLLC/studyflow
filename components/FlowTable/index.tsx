@@ -40,7 +40,7 @@ export default function FlowList({ setCurrentFlow }: Props) {
       setSortedAndGroupedFlows(
         masterFlowSorterAndGrouper(dashFlows, sortBy, groupBy),
       ),
-    [dashFlows, dashFlowsLoading, sortBy, groupBy],
+    [!dashFlowsLoading && dashFlows, sortBy, groupBy],
   )
 
   if (!mounted) return null

@@ -3,12 +3,15 @@
 import {
   mutateName,
   mutateProfilePictureLink,
+  mutateSetupStep,
   mutateUserDefaultVisibility,
   mutateUserEmail,
+  mutateUsername,
 } from 'hooks/setup/mutateUser'
 import { UserDetail } from 'hooks/useUserDetails'
 import { KeyedMutator } from 'swr'
 import { FlowVisibility } from 'types/Flow'
+import { SetupSteps } from 'types/SetupSteps'
 import { supabase } from 'utils/supabase'
 
 export async function changeUserName(
@@ -38,6 +41,38 @@ export async function changeUserName(
 
   // mutate in backend
   const data = await mutateName(userDetails?.Email, newName)
+  if (data) {
+    setSaving(false)
+  }
+}
+
+export async function changeUserUsername(
+  newUsername: string,
+  userDetails: UserDetail | null,
+  mutateUserDetails: KeyedMutator<any>,
+  setSaving: (isSaving: boolean) => void,
+  shouldSaveToBackend: boolean, // needed to prevent saving to backend if username does not pass checks
+) {
+  if (!userDetails) return
+
+  setSaving(true)
+
+  // mutate locally
+  mutateUserDetails(
+    {
+      ...userDetails,
+      Username: newUsername,
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
+
+  if (!shouldSaveToBackend) return setSaving(false)
+
+  // mutate in backend
+  const data = await mutateUsername(userDetails?.Email, newUsername)
   if (data) {
     setSaving(false)
   }
@@ -127,6 +162,29 @@ export function changeUserDefaultVisibility(
     {
       ...userDetails,
       DefaultVisibility: newVisibility,
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export async function changeUserSetupStep(
+  newStep: SetupSteps,
+  userDetails: UserDetail | null,
+  mutateUserDetails: KeyedMutator<any>,
+) {
+  if (!userDetails) return
+
+  // mutate in backend
+  await mutateSetupStep(userDetails?.Email, newStep)
+
+  // mutate locally
+  mutateUserDetails(
+    {
+      ...userDetails,
+      SetupStep: newStep,
       mutate: true,
     },
     {

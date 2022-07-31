@@ -1,8 +1,5 @@
 import { LockClosedIcon } from '@heroicons/react/outline'
-import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import setBasicProfile from 'hooks/setup/setBasicProfile'
-import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import SetupHeader from '../Header'
@@ -10,37 +7,18 @@ import IncompleteProfile from '../Profile/IncompleteProfile'
 
 export default function DashProfileSetup() {
   const { theme } = useTheme()
-  const { user } = useUser()
-  const { userDetails, userDetailsLoading, mutateUserDetails } = useUserDetails(
-    user?.id,
-  )
 
   const [mounted, setMounted] = useState(false)
   const [begun, setBegun] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
-  const createBasicProfile = async () => {
-    if (userDetails?.Email) return
-    mutateUserDetails(
-      {
-        ...userDetails,
-        Email: user?.email || user?.user_metadata.email,
-      },
-      { revalidate: false },
-    )
-    await setBasicProfile(
-      user?.id || 'fucktheiruserdidntload',
-      user?.email || user?.user_metadata.email,
-    )
-  }
-
   if (!mounted) return null
 
   if (begun) {
     return (
       <div>
-        <SetupHeader step={0} />
+        <SetupHeader />
         <IncompleteProfile />
       </div>
     )
@@ -70,7 +48,6 @@ export default function DashProfileSetup() {
         type="button"
         className="text-md bg-primary mx-4 text-gray-800 inline-flex justify-center rounded-md border border-transparent px-4 py-2 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         onClick={() => {
-          createBasicProfile()
           setBegun(true)
         }}
       >

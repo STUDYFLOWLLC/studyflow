@@ -67,7 +67,7 @@ export default function useAutomationDetails(userId: number | undefined): Ret {
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
 
   if (data?.automation) {
     return {
@@ -80,7 +80,7 @@ export default function useAutomationDetails(userId: number | undefined): Ret {
 
   return {
     automationDetails: undefined,
-    automationDetailsLoading: true,
+    automationDetailsLoading: !data && !error,
     automationDetailsError: error,
     mutateAutomationDetails: mutate,
   }

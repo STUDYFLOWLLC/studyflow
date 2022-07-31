@@ -2,10 +2,10 @@
 
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
-import { School, TermType } from 'types/School'
+import { School } from 'types/School'
 
 interface SchoolDetails {
-  schoolDetails: School
+  schoolDetails: School | null
   schoolDetailsLoading: boolean
   schoolDetailsError: any
   mutateSchoolDetails: KeyedMutator<any>
@@ -29,12 +29,12 @@ export default function useSchoolDetails(
   const variables = {
     where: {
       SchoolID: {
-        equals: schoolId || 0,
+        equals: schoolId,
       },
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(schoolId ? [query, variables] : null)
 
   if (data?.mutate) {
     return {
@@ -55,13 +55,7 @@ export default function useSchoolDetails(
   }
 
   return {
-    schoolDetails: {
-      SchoolID: 0,
-      Name: '',
-      HasClassSupport: false,
-      SearchIndex: '',
-      TermType: TermType.SEMESTER,
-    },
+    schoolDetails: null,
     schoolDetailsLoading: !data && !error,
     schoolDetailsError: error,
     mutateSchoolDetails: mutate,
