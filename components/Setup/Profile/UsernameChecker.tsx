@@ -37,7 +37,7 @@ export default function UsernameChecker({
 
   return (
     <div className="w-full flex justify-center text-sm">
-      <div className="relative w-full sm:w-4/5 pr-3 sm:pr-0">
+      <div className="relative w-full max-w-xs sm:w-4/5 pr-3 sm:pr-0">
         <div
           className={classNames(
             { 'border-gray-300 border-2 bg-gray-50': theme === 'light' },

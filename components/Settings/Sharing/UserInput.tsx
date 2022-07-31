@@ -33,7 +33,7 @@ export default function UserInput({ query, setQuery }: Props) {
         onBlur={() => setFocused(false)}
         // displayValue={() => selectedSchool.Name}
         value={query}
-        placeholder="name/username/school"
+        placeholder="enter friend name"
         autoFocus
         autoComplete="off"
       />
