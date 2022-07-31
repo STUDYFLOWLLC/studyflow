@@ -7,6 +7,8 @@ export enum UserScalarFieldEnum {
   SupabaseID = "SupabaseID",
   DefaultVisibility = "DefaultVisibility",
   Email = "Email",
+  Bio = "Bio",
+  About = "About",
   Name = "Name",
   Username = "Username",
   ProfilePictureLink = "ProfilePictureLink",
