@@ -48,6 +48,16 @@ export class UserCreateInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
+  Bio?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  About?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
   Name?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {

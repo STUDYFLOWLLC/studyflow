@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 export interface PublicUser {
   UserID: number
   ProfilePictureLink: string
@@ -6,6 +8,15 @@ export interface PublicUser {
   FK_School: {
     Name: string
   }
+  Bio?: string
+  About?: string
+  Friends?: SmallFriend[]
+}
+
+export interface SmallFriend {
+  FriendshipID: number
+  AcceptedTime: string
+  Friend: PublicUser
 }
 
 export interface Friendship {

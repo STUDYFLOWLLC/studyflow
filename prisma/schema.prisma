@@ -130,6 +130,8 @@ model User {
   SupabaseID              String
   DefaultVisibility       Visibility         @default(PUBLIC)
   Email                   String             @unique
+  Bio                     String?
+  About                   String?
   Name                    String?
   Username                String?            @unique
   ProfilePictureLink      String?
