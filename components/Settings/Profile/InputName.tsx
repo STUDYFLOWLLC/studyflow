@@ -28,7 +28,7 @@ export default function InputName({ flex }: Props) {
 
     setInputValue(real)
     let shouldSaveToBackend = true
-    if (real.length < 3) {
+    if (!userDetailsLoading && real.length < 3) {
       toast.error('Name must be at least 3 characters long. Changes not saved.')
       shouldSaveToBackend = false
     }
@@ -42,10 +42,9 @@ export default function InputName({ flex }: Props) {
   }
 
   useEffect(() => {
-    if (!userDetails?.Name) {
-      setHasSetName(true)
-      return onChange(undefined, user?.user_metadata?.name)
-    }
+    if (!userDetails?.Name) return onChange(undefined, '')
+    onChange(undefined, userDetails?.Name)
+    setHasSetName(true)
   }, [!userDetailsLoading && !hasSetName && userDetails])
 
   return (
