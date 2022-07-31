@@ -7,10 +7,12 @@ import useUserCount from 'hooks/school/useUserCount'
 import Skeleton from 'react-loading-skeleton'
 
 interface Props {
-  selectedSchool: School
+  selectedSchool: School | null
 }
 
 export default function SchoolInfo({ selectedSchool }: Props) {
+  if (!selectedSchool) return null
+
   const { courseCount, courseCountLoading } = useCourseCount(
     selectedSchool.SchoolID,
   )
@@ -53,7 +55,7 @@ export default function SchoolInfo({ selectedSchool }: Props) {
         {userCountLoading ? (
           <Skeleton width={100} />
         ) : (
-          <span>{userCount} Users</span>
+          <span>{userCount} Students on Studyflow</span>
         )}
 
         {flowCountLoading ? (

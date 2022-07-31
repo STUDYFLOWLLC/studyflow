@@ -64,7 +64,7 @@ export default function CourseSearch({ courseOnTerm, query, setQuery }: Props) {
 
   useEffect(() => {
     setMounted(true)
-    if (schoolDetails.HasClassSupport) {
+    if (schoolDetails?.HasClassSupport) {
       const searchIndex = algoliasearch(
         process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || '',
         process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY || '',
@@ -107,7 +107,7 @@ export default function CourseSearch({ courseOnTerm, query, setQuery }: Props) {
                 'bg-gray-100': theme === 'light',
               },
               { 'bg-slate-700': theme === 'dark' },
-              'mt-2 absolute z-10 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+              'mt-2 absolute z-10 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
             )}
           >
             {hits.slice(0, 5).map((courseHit: any) => (

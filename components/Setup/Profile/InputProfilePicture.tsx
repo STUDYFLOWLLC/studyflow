@@ -2,41 +2,21 @@
 
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
-import { ChangeEvent, Dispatch, useEffect, useState } from 'react'
-import { toast } from 'react-hot-toast'
+import { useEffect, useState } from 'react'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
-import { supabase } from 'utils/supabase'
+import { changeUserPFP } from 'utils/user/userHandlers'
 
-interface Props {
-  tempPFPLink: string
-  setTempPFPLink: Dispatch<any>
-  name?: string
-}
-
-export default function InputProfilePicture({
-  tempPFPLink,
-  setTempPFPLink,
-  name,
-}: Props) {
+export default function InputProfilePicture() {
   const { theme } = useTheme()
   const { user } = useUser()
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
 
   const [mounted, setMounted] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => setMounted(true), [])
-
-  const uploadPFP = async (e: ChangeEvent<HTMLInputElement>) => {
-    const avatarFile = e.target && e.target.files ? e.target.files[0] : null
-    if (avatarFile === null) return
-    const { data, error } = await supabase.storage
-      .from('pfp')
-      .upload(`${user?.id}/${avatarFile.name}`, avatarFile)
-    if (error) {
-      toast.error('File Upload Failed. Continue in setup and upload later.')
-    }
-    if (data) setTempPFPLink(data.Key)
-  }
 
   if (!mounted) return null
 
@@ -52,16 +32,16 @@ export default function InputProfilePicture({
               'w-12 h-12 sm:w-16 sm:h-16 rounded-full',
             )}
           >
-            {tempPFPLink ? (
+            {userDetails?.ProfilePictureLink ? (
               <img
-                src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${tempPFPLink}`}
+                src={userDetails?.ProfilePictureLink}
                 /* eslint-disable */
                 alt="the user's avatar"
                 /* eslint-enable */
               />
             ) : (
               <span className="text-xl sm:text-2xl">
-                {getFirstAndLastInitialFromName(name)}
+                {getFirstAndLastInitialFromName(userDetails?.Name)}
               </span>
             )}
           </div>
@@ -79,7 +59,14 @@ export default function InputProfilePicture({
               'hover:cursor-pointer w-full file:border-0  text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full  file:text-sm file:font-semibold',
             )}
             accept="image/*"
-            onChange={async (e) => uploadPFP(e)}
+            onChange={(e) =>
+              changeUserPFP(
+                e.target.files?.[0],
+                userDetails,
+                mutateUserDetails,
+                setSaving,
+              )
+            }
           />
         </div>
       </div>

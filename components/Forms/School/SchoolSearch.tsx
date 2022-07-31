@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Combobox } from '@headlessui/react'
-import { School } from '@prisma/client'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import algoliasearch from 'algoliasearch/lite'
 import classnames from 'classnames'
 import SchoolEntry from 'components/Forms/School/SchoolEntry'
+import useSchoolDetails from 'hooks/school/useSchoolDetails'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { School } from 'types/School'
+import changeSchool from 'utils/setup/schoolHandlers'
 import SchoolInput from './SchoolInput'
-
-interface Props {
-  selectedSchool: School
-  updateSchoolinDB: (school: School) => void
-}
 
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || '',
@@ -20,15 +19,19 @@ const searchClient = algoliasearch(
 )
 const index = searchClient.initIndex('Schools')
 
-export default function SchoolSearch({
-  selectedSchool,
-  updateSchoolinDB,
-}: Props) {
+export default function SchoolSearch() {
   const { theme } = useTheme()
+  const { user } = useUser()
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
+  const { mutateSchoolDetails } = useSchoolDetails(userDetails?.FK_SchoolID)
 
+  const [selectedSchool, setSelectedSchool] = useState<School | undefined>(
+    undefined,
+  )
   const [mounted, setMounted] = useState(false)
   const [query, setQuery] = useState('')
   const [hits, setHits] = useState<any>([])
+  const [saving, setSaving] = useState(false)
 
   const filterSchools = async () => {
     const result = await index.search(query)
@@ -48,15 +51,19 @@ export default function SchoolSearch({
       className="w-96"
       as="div"
       value={selectedSchool}
-      onChange={(value: School) => updateSchoolinDB(value)}
+      onChange={(school: School) =>
+        changeSchool(
+          school,
+          userDetails,
+          mutateUserDetails,
+          mutateSchoolDetails,
+          setSaving,
+        )
+      }
     >
       <div className="relative mt-1">
         <div className="relative">
-          <SchoolInput
-            selectedSchool={selectedSchool}
-            query={query}
-            setQuery={setQuery}
-          />
+          <SchoolInput query={query} setQuery={setQuery} saving={saving} />
         </div>
 
         {hits.length > 0 && (
@@ -66,7 +73,7 @@ export default function SchoolSearch({
                 'bg-gray-100': theme === 'light',
               },
               { 'bg-slate-700': theme === 'dark' },
-              'absolute right-12 sm:right-0 z-10 w-3/4 sm:w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+              'absolute right-12 sm:right-0 z-10 w-3/4 sm:w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
             )}
           >
             {hits.slice(0, 5).map((school: any) => (
