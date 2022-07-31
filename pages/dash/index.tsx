@@ -89,7 +89,6 @@ export default function Dash({ user }: Props) {
       )}
     >
       <div className="min-h-full">
-        <Toaster />
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
@@ -113,8 +112,10 @@ export default function Dash({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-          {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
+          {(userDetails === undefined ||
+            userDetails?.SetupStep === SetupSteps.COMPLETE) && (
             <main className="flex-1">
+              <Toaster />
               <DashHeadBig
                 pageDisplayed="Term"
                 showDashBar={showDashBar}
@@ -130,18 +131,19 @@ export default function Dash({ user }: Props) {
               <FlowTable setCurrentFlow={setCurrentFlow} />
             </main>
           )}
-          {userDetails && userDetails.SetupStep !== SetupSteps.COMPLETE && (
-            <main className="flex-1">
-              <DashHeadBig
-                disabled
-                pageDisplayed="Welcome to Studyflow"
-                showDashBar={showDashBar}
-                setShowDashBar={setShowDashBar}
-                setCreateFlowAs={setCreateFlowAs}
-              />
-              <DashSetup />
-            </main>
-          )}
+          {userDetails !== undefined &&
+            userDetails?.SetupStep !== SetupSteps.COMPLETE && (
+              <main className="flex-1">
+                <DashHeadBig
+                  disabled
+                  pageDisplayed="Welcome to Studyflow"
+                  showDashBar={showDashBar}
+                  setShowDashBar={setShowDashBar}
+                  setCreateFlowAs={setCreateFlowAs}
+                />
+                <DashSetup />
+              </main>
+            )}
         </div>
         <Taskover />
         <CMDPalette

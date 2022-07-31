@@ -13,6 +13,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
+import { SetupSteps } from 'types/SetupSteps'
 import StudygroupInviteIncoming from '../Studygroups/StudygroupInviteIncoming'
 import FriendRequestIncoming from './FriendRequestIncoming'
 
@@ -39,7 +40,7 @@ export default function NotificationBell() {
           {
             'hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
           },
-          'relative flex items-center font-light m-0 mr-2 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'relative flex items-center font-light m-0 ml-2 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
         <BellIcon className="w-5 h-5" />
@@ -110,6 +111,12 @@ export default function NotificationBell() {
             <div className="flex flex-col items-center p-2">
               <BadgeCheckIcon className="w-8 h-8 text-green-500" />
               Relax! No notifications.
+            </div>
+          )}
+          {userDetails?.SetupStep !== SetupSteps.COMPLETE && (
+            <div className="text-center text-sm p-1">
+              Welcome to Studyflow! Notifications will be unlocked after you
+              complete setup.{' '}
             </div>
           )}
         </Menu.Items>

@@ -85,9 +85,18 @@ export default function useUserDetails(
     }
   }
 
-  if (data && data.findFirstUser) {
+  if (data && data.findFirstUser !== null) {
     return {
       userDetails: data.findFirstUser,
+      userDetailsLoading: !data && !error,
+      userDetailsError: error,
+      mutateUserDetails: mutate,
+    }
+  }
+
+  if (data && data.findFirstUser === null) {
+    return {
+      userDetails: null,
       userDetailsLoading: !data && !error,
       userDetailsError: error,
       mutateUserDetails: mutate,

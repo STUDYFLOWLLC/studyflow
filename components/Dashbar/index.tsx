@@ -6,7 +6,6 @@ import BigProfileButton from 'components/buttons/BigProfileButton'
 import CourseNavs from 'components/Dashbar/Course/CourseNavs'
 import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
-import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
@@ -35,8 +34,6 @@ export default function index({
   const { theme, setTheme } = useTheme()
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { coursesOnTerm, coursesOnTermLoading, mutateCoursesOnTerm } =
-    useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
 
   const [mounted, setMounted] = useState(false)
   const [showHideButton, setShowHideButton] = useState(false)
@@ -82,7 +79,8 @@ export default function index({
             className={classNames(
               {
                 'blur-sm pointer-events-none transition-all duration-1000':
-                  userDetails && userDetails?.SetupStep !== SetupSteps.COMPLETE,
+                  userDetails !== undefined &&
+                  userDetails?.SetupStep !== SetupSteps.COMPLETE,
               },
               { 'bg-slate-100': theme === 'light' },
               { 'bg-base-200': theme === 'dark' },

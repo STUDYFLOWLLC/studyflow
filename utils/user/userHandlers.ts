@@ -5,6 +5,7 @@ import {
   mutateProfilePictureLink,
   mutateUserDefaultVisibility,
   mutateUserEmail,
+  mutateUsername,
 } from 'hooks/setup/mutateUser'
 import { UserDetail } from 'hooks/useUserDetails'
 import { KeyedMutator } from 'swr'
@@ -38,6 +39,38 @@ export async function changeUserName(
 
   // mutate in backend
   const data = await mutateName(userDetails?.Email, newName)
+  if (data) {
+    setSaving(false)
+  }
+}
+
+export async function changeUserUsername(
+  newUsername: string,
+  userDetails: UserDetail | null,
+  mutateUserDetails: KeyedMutator<any>,
+  setSaving: (isSaving: boolean) => void,
+  shouldSaveToBackend: boolean, // needed to prevent saving to backend if username does not pass checks
+) {
+  if (!userDetails) return
+
+  setSaving(true)
+
+  // mutate locally
+  mutateUserDetails(
+    {
+      ...userDetails,
+      Username: newUsername,
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
+
+  if (!shouldSaveToBackend) return setSaving(false)
+
+  // mutate in backend
+  const data = await mutateUsername(userDetails?.Email, newUsername)
   if (data) {
     setSaving(false)
   }

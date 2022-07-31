@@ -5,7 +5,7 @@ import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import createTerm from 'hooks/school/createTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import getTermNameFromTermType from 'utils/getTermNameFromTermType'
 
 interface Props {
@@ -50,7 +50,6 @@ export default function TermCreate({ selectedSchool }: Props) {
       <p className="w-full text-left text-lg font-medium">Create a Term</p>
       <div className="pl-2 w-full flex flex-col">
         <div className="w-full flex flex-col">
-          <Toaster position="top-center" />
           {autocreate ? (
             <p>
               Automatically creating your term because {selectedSchool.Name} is

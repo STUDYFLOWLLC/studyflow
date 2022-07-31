@@ -1036,7 +1036,7 @@ const inputsInfo = {
   StudyGroupScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "StudyGroupID", "Name", "FK_UserID"],
   UserWhereInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_SchoolID", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted"],
   UserOrderByWithRelationInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_SchoolID", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted"],
-  UserWhereUniqueInput: ["UserID", "Email"],
+  UserWhereUniqueInput: ["UserID", "Email", "Username"],
   UserOrderByWithAggregationInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Name", "Username", "ProfilePictureLink", "FK_SchoolID", "_count", "_avg", "_max", "_min", "_sum"],
   UserScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
   TermWhereInput: ["AND", "OR", "NOT", "TermID", "CreatedTime", "TermType", "TermName", "FK_User", "FK_UserID", "FK_School", "FK_SchoolID", "FK_CourseOnTerm"],

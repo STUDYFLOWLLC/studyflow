@@ -3,45 +3,69 @@ import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useUserDetails from 'hooks/useUserDetails'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { SpinnerSizes } from 'types/Loading'
 import { changeUserName } from 'utils/user/userHandlers'
 
-export default function InputName() {
+interface Props {
+  flex?: boolean
+}
+
+export default function InputName({ flex }: Props) {
   const { user } = useUser()
-  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
+  const { userDetails, userDetailsLoading, mutateUserDetails } = useUserDetails(
+    user?.id,
+  )
 
   const [editingName, setEditingName] = useState(false)
   const [saving, setSaving] = useState(false)
   const [inputValue, setInputValue] = useState(userDetails?.Name)
 
-  useEffect(() => setInputValue(userDetails?.Name), [userDetails])
+  const onChange = (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
+    const real = e?.target?.value || fake || ''
+    setInputValue(real)
+    let shouldSaveToBackend = true
+    if (real.length < 3) {
+      toast.error('Name must be at least 3 characters long. Changes not saved.')
+      shouldSaveToBackend = false
+    }
+    changeUserName(
+      real,
+      userDetails,
+      mutateUserDetails,
+      setSaving,
+      shouldSaveToBackend,
+    )
+  }
+
+  useEffect(() => {
+    if (!userDetails?.Name)
+      return onChange(undefined, user?.user_metadata?.name)
+    setInputValue(userDetails?.Name)
+  }, [!userDetailsLoading && userDetails])
 
   return (
-    <div className="py-4 sm:py-5 relative">
-      <dt className="text-sm text-info font-medium absolute left-0">Name</dt>
+    <div
+      className={classNames(
+        { 'flex flex-col': flex },
+        { relative: !flex },
+        'py-2 sm:py-3',
+      )}
+    >
+      <dt
+        className={classNames(
+          { 'absolute left-0': !flex },
+          'text-sm text-info font-medium ',
+        )}
+      >
+        Name
+      </dt>
       <div className="w-96 mx-auto relative">
         <input
           className="bg-transparent text-center first-line:outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-lg"
           value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value)
-            let shouldSaveToBackend = true
-            if (e.target.value.length < 3) {
-              toast.error(
-                'Name must be at least 3 characters long. Changes not saved.',
-              )
-              shouldSaveToBackend = false
-            }
-            changeUserName(
-              e.target.value,
-              userDetails,
-              mutateUserDetails,
-              setSaving,
-              shouldSaveToBackend,
-            )
-          }}
+          onChange={(e) => onChange(e)}
           placeholder="Enter your name"
           onFocus={() => setEditingName(true)}
           onBlur={() => setEditingName(false)}
@@ -54,7 +78,7 @@ export default function InputName() {
           )}
         />
         {editingName && (
-          <div className="bottom-1 duration-300 w-6 h-6 absolute right-6">
+          <div className="bottom-1 duration-300 w-6 h-6 absolute right-8">
             {saving ? (
               <MainSpinner size={SpinnerSizes.smallmedium} />
             ) : (

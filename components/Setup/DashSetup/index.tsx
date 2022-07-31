@@ -1,24 +1,27 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import LoadWithText from 'components/spinners/LoadWithText'
 import useUserDetails from 'hooks/useUserDetails'
-import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { SpinnerSizes } from 'types/Loading'
 import { SetupSteps } from 'types/SetupSteps'
+import makeUser from 'utils/setup/setupHandlers'
 import DashEducationSetup from './DashEducationSetup'
 import DashProfileSetup from './DashProfileSetup'
 
 export default function index() {
-  const { theme } = useTheme()
   const { user } = useUser()
-  const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
 
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => setMounted(true), [])
-
-  if (!mounted) return null
+  useEffect(() => {
+    if (userDetails === null)
+      makeUser(
+        user?.id,
+        user?.email || user?.user_metadata.email,
+        userDetails,
+        mutateUserDetails,
+      )
+  }, [userDetails])
 
   if (!userDetails) {
     return (
@@ -33,6 +36,8 @@ export default function index() {
       </div>
     )
   }
+
+  console.log(userDetails)
 
   return (
     <div>
