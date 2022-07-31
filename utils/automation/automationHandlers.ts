@@ -47,7 +47,7 @@ export default async function createCourseOnTermAutomation(
             AutomationLog: [
               {
                 AutomationLogID: 0,
-                Time: new Date().toISOString,
+                Time: new Date().toISOString(),
                 Success: true,
                 Message: 'Created Automation',
                 FK_CourseOnTermAutomationID: 0,
