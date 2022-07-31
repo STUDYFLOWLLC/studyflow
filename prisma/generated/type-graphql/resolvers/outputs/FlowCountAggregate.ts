@@ -60,6 +60,11 @@ export class FlowCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  DeletedTime!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_CourseOnTermID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
