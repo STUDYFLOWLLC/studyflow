@@ -62,6 +62,16 @@ export class UserScalarWhereInput {
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
+  Bio?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  About?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
   Name?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringNullableFilter, {
