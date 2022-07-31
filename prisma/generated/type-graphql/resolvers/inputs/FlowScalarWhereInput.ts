@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
 import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
@@ -78,6 +79,11 @@ export class FlowScalarWhereInput {
     nullable: true
   })
   Body?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

@@ -64,6 +64,11 @@ export class FlowGroupBy {
   })
   Body!: string | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime!: Date | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

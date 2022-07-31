@@ -202,14 +202,14 @@ export async function deleteCourseOnTerm(
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
-  if (courseOnTermId === undefined) return
+  if (courseOnTermId === undefined || !userId) return
 
   // mutate in backend
   mutateDeleteCourseOnTerm(courseOnTermId)
   for (let i = 0; i < dashFlows.length; i += 1) {
     if (dashFlows[i].FK_CourseOnTerm?.CourseOnTermID === courseOnTermId) {
       mutateFlowUser(dashFlows[i].FlowID, userId || 0)
-      mutateTrashFLow(dashFlows[i].FlowID, true)
+      mutateTrashFLow(dashFlows[i].FlowID, userId, true)
     }
   }
 
