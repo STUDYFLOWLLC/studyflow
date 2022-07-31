@@ -56,6 +56,20 @@ module.exports = {
         },
       },
       {
+        light2: {
+          primary: '#7AE0D6',
+          secondary: '#EE81C3',
+          'secondary-focus': '#ED54A8',
+          accent: '#F4BB77',
+          neutral: '#333333',
+          'base-100': '#FFFFFF',
+          info: '#6C727F',
+          success: '#36D399',
+          warning: '#FBBD23',
+          error: '#F87272',
+        },
+      },
+      {
         dark: {
           primary: '#6EDDD2',
           secondary: '#EE81C3',

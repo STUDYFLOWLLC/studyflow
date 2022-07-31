@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseCreateNestedOneWithoutCourseOnTermInput } from "../inputs/CourseCreateNestedOneWithoutCourseOnTermInput";
+import { CourseOnTermAutomationCreateNestedManyWithoutFK_CourseOnTermInput } from "../inputs/CourseOnTermAutomationCreateNestedManyWithoutFK_CourseOnTermInput";
 import { FlowCreateNestedManyWithoutFK_CourseOnTermInput } from "../inputs/FlowCreateNestedManyWithoutFK_CourseOnTermInput";
 import { TaskCreateNestedManyWithoutFK_CourseOnTermInput } from "../inputs/TaskCreateNestedManyWithoutFK_CourseOnTermInput";
 
@@ -49,4 +50,9 @@ export class CourseOnTermCreateWithoutFK_TermInput {
     nullable: true
   })
   FK_Tasks?: TaskCreateNestedManyWithoutFK_CourseOnTermInput | undefined;
+
+  @TypeGraphQL.Field(_type => CourseOnTermAutomationCreateNestedManyWithoutFK_CourseOnTermInput, {
+    nullable: true
+  })
+  CourseOnTermAutomation?: CourseOnTermAutomationCreateNestedManyWithoutFK_CourseOnTermInput | undefined;
 }

@@ -1,3 +1,7 @@
+function delay(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time))
+}
+
 export const getCaretCoordinates = () => {
   let x
   let y
@@ -59,7 +63,7 @@ const getYoungestGeneration = (element: HTMLElement | undefined) => {
   return nextGen
 }
 
-export function setCaretToPosition(
+export async function setCaretToPosition(
   element: HTMLElement | null,
   position?: number,
 ) {

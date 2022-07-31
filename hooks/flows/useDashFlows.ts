@@ -13,6 +13,7 @@ export interface DashFlow {
   Type: FlowType
   Visibility: FlowVisibility
   Trashed: boolean
+  WasAutomated: boolean
   FK_CourseOnTerm?: {
     CourseOnTermID: number
     Nickname: string
@@ -49,6 +50,7 @@ export default function useDashFlows(
         Type
         Visibility
         Trashed
+        WasAutomated
         FK_CourseOnTerm {
           CourseOnTermID
           Nickname
@@ -92,9 +94,7 @@ export default function useDashFlows(
     ],
   }
 
-  const { data, error, mutate } = useSWR([query, variables], {
-    revalidateOnMount: false,
-  })
+  const { data, error, mutate } = useSWR([query, variables])
 
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>

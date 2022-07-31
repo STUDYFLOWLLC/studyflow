@@ -35,5 +35,5 @@ export class FindFirstFlowArgs {
   @TypeGraphQL.Field(_type => [FlowScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"FlowID" | "CreatedTime" | "LastOpened" | "UserEnteredDate" | "Type" | "Title" | "Body" | "Trashed" | "Visibility" | "FK_CourseOnTermID" | "FK_UserID"> | undefined;
+  distinct?: Array<"FlowID" | "CreatedTime" | "LastOpened" | "UserEnteredDate" | "Type" | "Title" | "Trashed" | "Visibility" | "WasAutomated" | "Body" | "FK_CourseOnTermID" | "FK_UserID"> | undefined;
 }

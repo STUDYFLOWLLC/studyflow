@@ -34,7 +34,7 @@ export default function EmptyTable({ type, courseName }: Props) {
               {type === 'All' ? (
                 <span>create a flow.</span>
               ) : (
-                <span>create your a flow in {courseName}</span>
+                <span>create a flow in {courseName}</span>
               )}
             </p>
           </div>

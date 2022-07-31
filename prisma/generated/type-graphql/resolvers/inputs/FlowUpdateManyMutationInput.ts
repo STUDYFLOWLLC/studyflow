@@ -43,11 +43,6 @@ export class FlowUpdateManyMutationInput {
   })
   Title?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  Body?: NullableStringFieldUpdateOperationsInput | undefined;
-
   @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -57,4 +52,14 @@ export class FlowUpdateManyMutationInput {
     nullable: true
   })
   Visibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  WasAutomated?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Body?: NullableStringFieldUpdateOperationsInput | undefined;
 }

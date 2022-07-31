@@ -1,9 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import { Course } from "../../../models/Course";
 import { CourseOnTerm } from "../../../models/CourseOnTerm";
+import { CourseOnTermAutomation } from "../../../models/CourseOnTermAutomation";
 import { Flow } from "../../../models/Flow";
 import { Task } from "../../../models/Task";
 import { Term } from "../../../models/Term";
+import { CourseOnTermCourseOnTermAutomationArgs } from "./args/CourseOnTermCourseOnTermAutomationArgs";
 import { CourseOnTermFK_FlowsArgs } from "./args/CourseOnTermFK_FlowsArgs";
 import { CourseOnTermFK_TasksArgs } from "./args/CourseOnTermFK_TasksArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
@@ -52,5 +54,16 @@ export class CourseOnTermRelationsResolver {
         CourseOnTermID: courseOnTerm.CourseOnTermID,
       },
     }).FK_Tasks(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [CourseOnTermAutomation], {
+    nullable: false
+  })
+  async CourseOnTermAutomation(@TypeGraphQL.Root() courseOnTerm: CourseOnTerm, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: CourseOnTermCourseOnTermAutomationArgs): Promise<CourseOnTermAutomation[]> {
+    return getPrismaFromContext(ctx).courseOnTerm.findUnique({
+      where: {
+        CourseOnTermID: courseOnTerm.CourseOnTermID,
+      },
+    }).CourseOnTermAutomation(args);
   }
 }

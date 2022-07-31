@@ -44,11 +44,6 @@ export class FlowGroupBy {
   })
   Title!: string;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Body!: string | null;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: false
   })
@@ -58,6 +53,16 @@ export class FlowGroupBy {
     nullable: false
   })
   Visibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  WasAutomated!: boolean;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Body!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

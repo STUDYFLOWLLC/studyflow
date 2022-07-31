@@ -1,7 +1,7 @@
-import { TermType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowVisibility } from 'types/Flow'
+import { TermType } from 'types/School'
 import { SetupSteps } from 'types/SetupSteps'
 
 export interface SmallTerm {
@@ -69,19 +69,16 @@ export default function useUserDetails(
   const variables = {
     where: {
       SupabaseID: {
-        equals: supabaseId || null,
+        equals: supabaseId,
       },
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables], {
-    revalidateOnMount: false,
-    revalidateOnFocus: false,
-  })
+  const { data, error, mutate } = useSWR(supabaseId ? [query, variables] : null)
 
   if (data?.mutate) {
     return {
-      userDetails: data,
+      userDetails: { ...data, mutate: false },
       userDetailsLoading: false,
       userDetailsError: null,
       mutateUserDetails: mutate,

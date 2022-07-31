@@ -7,11 +7,15 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import FlipMove from 'react-flip-move'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { Color } from 'types/Colors'
 import { Block, BlockTag, RichTextType } from 'types/Flow'
 import { CommandHandler } from 'utils/commandPattern/commandHandler'
+import { AddToCollectionCommand } from 'utils/commandPattern/common/commands/addToCollection'
+import { RemoveFromCollectionCommand } from 'utils/commandPattern/common/commands/removeFromCollection'
 import { setCaretToPosition } from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
+import getPrevFromRef from 'utils/flows/getPrevFromRef'
 import getRawTextLength from 'utils/flows/getRawTextLength'
 import sliceBlock from 'utils/flows/sliceRichText'
 import useStateCallback from 'utils/flows/useStateCallback'
@@ -21,100 +25,30 @@ export interface addDeleteParams {
   ref: HTMLElement | null
 }
 
-const initialBlocks: Block[] = Object.values(Color).map((color, index) => ({
-  id: uuidv4(),
-  index,
-  tag: BlockTag.PARAGRAPH,
-  tabs: 0,
-  p: {
-    richText: [
-      {
-        type: RichTextType.TEXT,
-        text: {
-          content: color,
-        },
-      },
-    ],
-    color,
-  },
-}))
-
-const initialBlock: Block = {
-  id: uuidv4(),
-  index: 0,
-  tag: BlockTag.PARAGRAPH,
-  tabs: 0,
-  p: {
-    richText: [
-      {
-        type: RichTextType.TEXT,
-        text: {
-          content: 'TESTING',
-        },
-      },
-    ],
-    color: Color.GREEN,
-  },
-}
-
-const secondBlock: Block = {
-  id: uuidv4(),
-  index: 1,
-  tag: BlockTag.PARAGRAPH,
-  tabs: 0,
-  p: {
-    richText: [
-      {
-        type: RichTextType.TEXT,
-        text: {
-          content: 'TESTING2',
-        },
-      },
-    ],
-    color: Color.RED,
-  },
-}
-
 const commandHandler = new CommandHandler()
 
 interface Props {
   initialBlocks: Block[]
   saveFlow: (blocks: Block[]) => Promise<void>
   setFauxSaving: (fauxSaving: boolean) => void
+  setDragSetter?: (value: boolean) => void
 }
 
 export default function FlowBody({
   initialBlocks,
   saveFlow,
   setFauxSaving,
+  setDragSetter,
 }: Props) {
   const { theme, setTheme } = useTheme()
 
+  const [mounted, setMounted] = useState(false)
   const [blocks, setBlocks] = useStateCallback(initialBlocks)
-  const [changesMade, setChangesMade] = useState(false)
+  const [forceRerenderFromBody, setForceRerenderFromBody] = useState(true)
   const [currentCaretIndex, setCurrentCaretIndex] = useState(0)
   const [rerenderDetector, setRerenderDetector] = useState(-1)
-  const [disableAnimations, setDisableAnimations] = useState(true)
-  const [animatingBlock, setAnimatingBlock] = useState(false)
 
-  const saveFlowLocal = async () => {
-    setFauxSaving(false)
-    if (changesMade) {
-      setChangesMade(false)
-      await saveFlow(blocks)
-    }
-  }
-
-  useEffect(() => {
-    const saveInterval = setInterval(() => {
-      saveFlowLocal()
-    }, 5000)
-    return () => clearInterval(saveInterval)
-  }, [changesMade])
-
-  // console.log(`Current Block ${currentBlock.index}`)
-  // console.log(`Current Caret Index ${currentCaretIndex}`)
-  // console.log('')
+  const saveFlowReal = () => saveFlow(blocks)
 
   const restoreBlockAndChangeColor = (
     commandHandler: CommandHandler,
@@ -144,28 +78,6 @@ export default function FlowBody({
       p: updatedBlock.p,
     }
     // this.setState({ blocks: updatedBlocks })
-  }
-
-  const blockCleanupAfterCommand = (block: any) => {
-    const blockRichTexts = block[block.tag]?.richText
-
-    if (!blockRichTexts) return
-    const { length } = blockRichTexts
-    const lastRichText = blockRichTexts[length - 1]
-
-    if (!lastRichText?.text?.content) return
-    const lastSlashIndex =
-      blockRichTexts[blockRichTexts.length - 1].text.content.lastIndexOf('/')
-
-    if (lastSlashIndex !== -1) {
-      const sliced = blockRichTexts[length - 1].text.content.substring(
-        0,
-        lastSlashIndex,
-      )
-      blockRichTexts[length - 1].text.content = sliced
-    }
-
-    return block
   }
 
   const changeBlockTag = (block: Block, tag: BlockTag) => {
@@ -202,9 +114,8 @@ export default function FlowBody({
     tag: BlockTag,
     initialContent?: string,
     initialColor?: Color,
+    insertAbove?: boolean,
   ) => {
-    setDisableAnimations(false)
-    const tempBlocks = [...blocks]
     const newBlock: Block = {
       id: uuidv4(),
       index: beneathIndex + 1,
@@ -223,41 +134,45 @@ export default function FlowBody({
       ],
       color: initialColor || Color.DEFAULT,
     }
-    tempBlocks.splice(beneathIndex + 1, 0, newBlock)
-    for (let i = beneathIndex + 2; i < tempBlocks.length; i += 1) {
-      tempBlocks[i].index += 1
-    }
-    setBlocks(tempBlocks, () => {
-      const next: HTMLElement | null = ref?.parentElement?.parentElement
-        ?.parentElement?.parentElement?.parentElement?.nextElementSibling
-        ?.childNodes[0].childNodes[0].childNodes[0].childNodes[0]
-        .childNodes[1] as HTMLElement
-      if (next) next.focus()
-    })
-    setTimeout(() => {
-      setDisableAnimations(true)
-    }, 150)
+    commandHandler.execute(
+      'add-to-collection',
+      new AddToCollectionCommand({
+        collection: [...blocks],
+        element: newBlock,
+        index: beneathIndex + 1,
+        setter: setBlocks,
+        ref,
+        shouldInsertAbove: insertAbove || false,
+      }),
+    )
+    saveFlowReal()
   }
 
   const deleteBlock = (index: number, ref: HTMLElement | null) => {
-    setDisableAnimations(false)
     // Only delete the block, if there is a preceding one
-    const previous = ref?.parentElement?.parentElement?.parentElement
-      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
-      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
+    const previous = getPrevFromRef(ref)
     if (!previous) return
 
-    const tempBlocks = [...blocks]
-    for (let i = index + 1; i < tempBlocks.length; i += 1) {
-      tempBlocks[i].index -= 1
-    }
-    tempBlocks.splice(index, 1)
-    setBlocks(tempBlocks, () => {
-      setCaretToPosition(previous)
-    })
-    setTimeout(() => {
-      setDisableAnimations(true)
-    }, 150)
+    commandHandler.execute(
+      'remove-from-collection',
+      new RemoveFromCollectionCommand({
+        collection: [...blocks],
+        element: blocks[index],
+        index,
+        setter: setBlocks,
+        ref: previous,
+      }),
+    )
+
+    // const tempBlocks = [...blocks]
+    // for (let i = index + 1; i < tempBlocks.length; i += 1) {
+    //   tempBlocks[i].index -= 1
+    // }
+    // tempBlocks.splice(index, 1)
+    // setBlocks(tempBlocks, () => {
+    //   setCaretToPosition(previous)
+    // })
+    saveFlowReal()
   }
 
   const joinBlocks = (
@@ -265,9 +180,7 @@ export default function FlowBody({
     block2: Block,
     ref: HTMLElement | null,
   ) => {
-    const previousBlock = ref?.parentElement?.parentElement?.parentElement
-      ?.parentElement?.parentElement?.previousElementSibling?.childNodes[0]
-      .childNodes[0].childNodes[0].childNodes[0].childNodes[1] as HTMLElement
+    const previousBlock = getPrevFromRef(ref)
     if (!previousBlock) return
 
     const block1RichText = block1[block1.tag]?.richText
@@ -386,7 +299,6 @@ export default function FlowBody({
   }
 
   const onEnd = async (result: DropResult) => {
-    setAnimatingBlock(true)
     const { destination, source } = result
 
     if (!destination) return
@@ -404,7 +316,6 @@ export default function FlowBody({
     )
 
     setBlocks(newBlocks)
-    setTimeout(() => setAnimatingBlock(false), 500)
   }
 
   // useHotkeys(
@@ -420,62 +331,67 @@ export default function FlowBody({
   //   [],
   // )
 
-  // useHotkeys(
-  //   'cmd+z, ctrl+z',
-  //   (e) => {
-  //     e.preventDefault()
-  //     commandHandler.undo()
-  //     setRerenderDetector(currentBlock.index)
-  //   },
-  //   {
-  //     enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-  //     enableOnContentEditable: true,
-  //   },
-  //   [],
-  // )
+  useHotkeys(
+    'cmd+z, ctrl+z',
+    (e) => {
+      e.preventDefault()
+      commandHandler.undo()
+      setForceRerenderFromBody(true)
+      saveFlowReal()
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+      enableOnContentEditable: true,
+    },
+    [],
+  )
 
-  // useHotkeys(
-  //   'cmd+shift+z, ctrl+shift+z',
-  //   (e) => {
-  //     e.preventDefault()
-  //     commandHandler.redo()
-  //     setRerenderDetector(currentBlock.index)
-  //   },
-  //   {
-  //     enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
-  //     enableOnContentEditable: true,
-  //   },
-  //   [],
-  // )
+  useHotkeys(
+    'cmd+shift+z, ctrl+shift+z',
+    (e) => {
+      e.preventDefault()
+      commandHandler.redo()
+      setForceRerenderFromBody(true)
+      saveFlowReal()
+    },
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA', 'SELECT'],
+      enableOnContentEditable: true,
+    },
+    [],
+  )
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <DragDropContext onDragEnd={onEnd}>
       <Droppable droppableId="fnasohghp893">
         {(provided) => (
           <div
+            onMouseDown={() => {
+              if (setDragSetter) setDragSetter(true)
+            }}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
             className={classNames(
-              'overflow-none max-h-5/6 max-w-none prose prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
+              'max-w-3xl mx-auto overflow-none prose',
+              'prose-h1:text-4xl prose-h1:my-0 prose-h1:py-[0.4rem] prose-h1:font-bold prose-h1:text-current prose-h1:leading-normal',
               'prose-h2:text-3xl prose-h2:my-0 prose-h2:py-[0.35rem] prose-h2:font-bold prose-h2:text-current prose-h2:leading-normal',
               'prose-h3:text-2xl prose-h3:my-0 prose-h3:py-[0.3rem] prose-h3:font-bold prose-h3:text-current prose-h3:leading-normal',
               'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] prose-p:text-current prose-p:leading-normal',
             )}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
           >
             {/* @ts-expect-error flipmove not in typescript */}
-            <FlipMove
-              duration={200}
-              disableAllAnimations={disableAnimations}
-              easing="ease-out"
-            >
+            <FlipMove duration={200} easing="ease-out" disableAllAnimations>
               {blocks.map((block: Block) => (
                 <FlowBlock
                   key={block.id}
                   theme={theme}
                   setTheme={setTheme}
-                  setChangesMade={setChangesMade}
-                  setFauxSaving={setFauxSaving}
                   commandHandler={commandHandler}
+                  saveFlow={saveFlowReal}
                   updatePage={updatePageHandler}
                   block={block}
                   previousBlock={
@@ -495,13 +411,12 @@ export default function FlowBody({
                   swapBlocks={swapBlocks}
                   rerenderDetector={rerenderDetector}
                   setRerenderDetector={setRerenderDetector}
-                  setDisableAnimations={setDisableAnimations}
-                  animatingBlock={animatingBlock}
-                  setAnimatingBlock={setAnimatingBlock}
+                  forceRerenderFromBody={forceRerenderFromBody}
+                  setForceRerenderFromBody={setForceRerenderFromBody}
                 />
               ))}
-              {provided.placeholder}
             </FlipMove>
+            {provided.placeholder}
           </div>
         )}
       </Droppable>

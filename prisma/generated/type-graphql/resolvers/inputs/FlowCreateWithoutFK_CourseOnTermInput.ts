@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { FlashCardStackCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlashCardStackCreateNestedManyWithoutFK_FlowInput";
 import { FlowViewCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_FlowInput";
 import { TaskCreateNestedManyWithoutFK_FlowInput } from "../inputs/TaskCreateNestedManyWithoutFK_FlowInput";
-import { UserCreateNestedOneWithoutFlowInput } from "../inputs/UserCreateNestedOneWithoutFlowInput";
+import { UserCreateNestedOneWithoutFK_FlowInput } from "../inputs/UserCreateNestedOneWithoutFK_FlowInput";
 import { FlowType } from "../../enums/FlowType";
 import { Visibility } from "../../enums/Visibility";
 
@@ -43,11 +43,6 @@ export class FlowCreateWithoutFK_CourseOnTermInput {
   })
   Title?: string | undefined;
 
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  Body?: string | undefined;
-
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true
   })
@@ -57,6 +52,16 @@ export class FlowCreateWithoutFK_CourseOnTermInput {
     nullable: true
   })
   Visibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  WasAutomated?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Body?: string | undefined;
 
   @TypeGraphQL.Field(_type => FlashCardStackCreateNestedManyWithoutFK_FlowInput, {
     nullable: true
@@ -73,8 +78,8 @@ export class FlowCreateWithoutFK_CourseOnTermInput {
   })
   FK_FlowView?: FlowViewCreateNestedManyWithoutFK_FlowInput | undefined;
 
-  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFlowInput, {
+  @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFK_FlowInput, {
     nullable: true
   })
-  FK_User?: UserCreateNestedOneWithoutFlowInput | undefined;
+  FK_User?: UserCreateNestedOneWithoutFK_FlowInput | undefined;
 }

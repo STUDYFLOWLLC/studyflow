@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { EnumSetupStepWithAggregatesFilter } from "../inputs/EnumSetupStepWithAggregatesFilter";
-import { EnumVisibilityNullableWithAggregatesFilter } from "../inputs/EnumVisibilityNullableWithAggregatesFilter";
+import { EnumVisibilityWithAggregatesFilter } from "../inputs/EnumVisibilityWithAggregatesFilter";
 import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
@@ -49,6 +49,11 @@ export class UserScalarWhereWithAggregatesInput {
   })
   SupabaseID?: StringWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => EnumVisibilityWithAggregatesFilter, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
@@ -68,11 +73,6 @@ export class UserScalarWhereWithAggregatesInput {
     nullable: true
   })
   ProfilePictureLink?: StringNullableWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => EnumVisibilityNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  DefaultVisibility?: EnumVisibilityNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true

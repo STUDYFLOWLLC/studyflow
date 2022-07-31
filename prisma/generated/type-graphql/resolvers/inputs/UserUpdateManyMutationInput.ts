@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
-import { NullableEnumVisibilityFieldUpdateOperationsInput } from "../inputs/NullableEnumVisibilityFieldUpdateOperationsInput";
+import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -27,6 +27,11 @@ export class UserUpdateManyMutationInput {
   })
   SupabaseID?: StringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => EnumVisibilityFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DefaultVisibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -46,9 +51,4 @@ export class UserUpdateManyMutationInput {
     nullable: true
   })
   ProfilePictureLink?: NullableStringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableEnumVisibilityFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  DefaultVisibility?: NullableEnumVisibilityFieldUpdateOperationsInput | undefined;
 }

@@ -56,8 +56,6 @@ export default function CourseDropDown({
 
   if (!mounted) return null
 
-  console.log(backgroundColor)
-
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
