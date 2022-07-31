@@ -12,15 +12,26 @@ import { SpinnerSizes } from 'types/Loading'
 import { changeUserUsername } from 'utils/user/userHandlers'
 
 interface Props {
+  checkingUnique: boolean
+  setCheckingUnique: (checkingUnique: boolean) => void
+  uniqueCheck: boolean
+  setUniqueCheck: (uniqueCheck: boolean) => void
   flex?: boolean
 }
 
-export default function InputName({ flex }: Props) {
+export default function InputName({
+  checkingUnique,
+  setCheckingUnique,
+  uniqueCheck,
+  setUniqueCheck,
+  flex,
+}: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading, mutateUserDetails } = useUserDetails(
     user?.id,
   )
 
+  const [initialUpdate, setInitialUpdate] = useState(false)
   const [editingUsername, setEditingUsername] = useState(false)
   const [saving, setSaving] = useState(false)
   const [inputValue, setInputValue] = useState(userDetails?.Username)
@@ -29,14 +40,57 @@ export default function InputName({ flex }: Props) {
   const [passesPeriodUnderscoresInside, setPassesPeriodUnderscoresInside] =
     useState(false)
   const [awesomeUsername, setAwesomeUsername] = useState(false)
-  const [checkingUnique, setCheckingUnique] = useState(false)
-  const [uniqueCheck, setUniqueCheck] = useState(false)
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const real = e?.target?.value
+  async function checkUniqueness(inputValue: string) {
+    setCheckingUnique(true)
+    if (inputValue.length < 3 || inputValue.length > 15) {
+      setCheckingUnique(false)
+      setUniqueCheck(false)
+    } else {
+      const unique = await checkUniqueUsername(
+        inputValue || '',
+        userDetails?.UserID || 0,
+      )
+      setCheckingUnique(false)
+      setUniqueCheck(unique)
+    }
+  }
+
+  const onChange = (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
+    const real = e?.target?.value || fake || ''
+
     setInputValue(real)
+
+    if (real.length >= 3 && real.length <= 15) {
+      setPassesLength(true)
+    } else {
+      setPassesLength(false)
+    }
+    if (/^[a-z0-9._]+$/.test(real)) {
+      setPassesLowercaseNumbers(true)
+    } else {
+      setPassesLowercaseNumbers(false)
+    }
+    if (
+      real.charAt(0) !== '.' &&
+      real.charAt(0) !== '_' &&
+      real.charAt(real.length - 1) !== '.' &&
+      real.charAt(real.length - 1) !== '_'
+    ) {
+      setPassesPeriodUnderscoresInside(true)
+    } else {
+      setPassesPeriodUnderscoresInside(false)
+    }
+
+    checkUniqueness(real)
+
     const shouldSaveToBackend =
-      passesLength && passesLowercaseNumbers && passesPeriodUnderscoresInside
+      passesLength &&
+      passesLowercaseNumbers &&
+      passesPeriodUnderscoresInside &&
+      !checkingUnique &&
+      uniqueCheck
+
     changeUserUsername(
       real,
       userDetails,
@@ -51,46 +105,10 @@ export default function InputName({ flex }: Props) {
   }, [!userDetailsLoading && userDetails])
 
   useEffect(() => {
-    if (!inputValue) return
-
-    if (inputValue.length >= 3 && inputValue.length <= 15) {
-      setPassesLength(true)
-    } else {
-      setPassesLength(false)
-    }
-    if (/^[a-z0-9._]+$/.test(inputValue)) {
-      setPassesLowercaseNumbers(true)
-    } else {
-      setPassesLowercaseNumbers(false)
-    }
-    if (
-      inputValue.charAt(0) !== '.' &&
-      inputValue.charAt(0) !== '_' &&
-      inputValue.charAt(inputValue.length - 1) !== '.' &&
-      inputValue.charAt(inputValue.length - 1) !== '_'
-    ) {
-      setPassesPeriodUnderscoresInside(true)
-    } else {
-      setPassesPeriodUnderscoresInside(false)
-    }
-
-    async function checkUniqueness(inputValue: string) {
-      setCheckingUnique(true)
-      if (inputValue.length < 3 || inputValue.length > 15) {
-        setCheckingUnique(false)
-        setUniqueCheck(false)
-      } else {
-        const unique = await checkUniqueUsername(
-          inputValue || '',
-          userDetails?.UserID || 0,
-        )
-        setCheckingUnique(false)
-        setUniqueCheck(unique)
-      }
-    }
-
-    checkUniqueness(inputValue)
-  }, [inputValue])
+    if (!userDetails?.Username) return onChange(undefined, '')
+    onChange(undefined, userDetails.Username)
+    setInitialUpdate(true)
+  }, [!userDetailsLoading && !initialUpdate && userDetails])
 
   return (
     <div

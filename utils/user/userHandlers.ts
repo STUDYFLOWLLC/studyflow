@@ -3,6 +3,7 @@
 import {
   mutateName,
   mutateProfilePictureLink,
+  mutateSetupStep,
   mutateUserDefaultVisibility,
   mutateUserEmail,
   mutateUsername,
@@ -10,6 +11,7 @@ import {
 import { UserDetail } from 'hooks/useUserDetails'
 import { KeyedMutator } from 'swr'
 import { FlowVisibility } from 'types/Flow'
+import { SetupSteps } from 'types/SetupSteps'
 import { supabase } from 'utils/supabase'
 
 export async function changeUserName(
@@ -160,6 +162,29 @@ export function changeUserDefaultVisibility(
     {
       ...userDetails,
       DefaultVisibility: newVisibility,
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export async function changeUserSetupStep(
+  newStep: SetupSteps,
+  userDetails: UserDetail | null,
+  mutateUserDetails: KeyedMutator<any>,
+) {
+  if (!userDetails) return
+
+  // mutate in backend
+  await mutateSetupStep(userDetails?.Email, newStep)
+
+  // mutate locally
+  mutateUserDetails(
+    {
+      ...userDetails,
+      SetupStep: newStep,
       mutate: true,
     },
     {

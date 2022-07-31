@@ -32,7 +32,7 @@ export default function SchoolEntry({ school }: Props) {
           },
           { 'text-gray-700': !active && theme === 'light' },
           { 'bg-slate-700': !active && theme === 'dark' },
-          'relative cursor-default select-none py-2 pl-3 pr-9 text-lg',
+          'relative cursor-default select-none py-2 pl-3 pr-9 text-md',
         )
       }
     >

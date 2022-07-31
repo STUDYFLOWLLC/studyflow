@@ -34,7 +34,7 @@ export default function CourseEntry({ course }: Props) {
           },
           { 'text-gray-700': !active && theme === 'light' },
           { 'bg-slate-700': !active && theme === 'dark' },
-          'w-full relative cursor-default select-none py-2 pl-3 pr-3 text-lg',
+          'w-full relative cursor-default select-none py-2 pl-3 pr-3 text-md',
         )
       }
     >

@@ -11,7 +11,7 @@ import DashProfileSetup from './DashProfileSetup'
 
 export default function index() {
   const { user } = useUser()
-  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id, false)
 
   useEffect(() => {
     if (userDetails === null)
@@ -36,8 +36,6 @@ export default function index() {
       </div>
     )
   }
-
-  console.log(userDetails)
 
   return (
     <div>

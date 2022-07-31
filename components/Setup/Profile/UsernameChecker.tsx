@@ -35,8 +35,6 @@ export default function UsernameChecker({
 
   if (!mounted) return null
 
-  console.log(passesPeriodsUnderscoresInside)
-
   return (
     <div className="w-full flex justify-center text-sm">
       <div className="relative w-full sm:w-4/5 pr-3 sm:pr-0">

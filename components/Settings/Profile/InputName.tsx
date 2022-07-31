@@ -18,12 +18,14 @@ export default function InputName({ flex }: Props) {
     user?.id,
   )
 
+  const [hasSetName, setHasSetName] = useState(false)
   const [editingName, setEditingName] = useState(false)
   const [saving, setSaving] = useState(false)
   const [inputValue, setInputValue] = useState(userDetails?.Name)
 
   const onChange = (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
     const real = e?.target?.value || fake || ''
+
     setInputValue(real)
     let shouldSaveToBackend = true
     if (real.length < 3) {
@@ -40,10 +42,11 @@ export default function InputName({ flex }: Props) {
   }
 
   useEffect(() => {
-    if (!userDetails?.Name)
+    if (!userDetails?.Name) {
+      setHasSetName(true)
       return onChange(undefined, user?.user_metadata?.name)
-    setInputValue(userDetails?.Name)
-  }, [!userDetailsLoading && userDetails])
+    }
+  }, [!userDetailsLoading && !hasSetName && userDetails])
 
   return (
     <div

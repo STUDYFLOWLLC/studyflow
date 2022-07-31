@@ -18,7 +18,7 @@ export default function DashProfileSetup() {
   if (begun) {
     return (
       <div>
-        <SetupHeader step={0} />
+        <SetupHeader />
         <IncompleteProfile />
       </div>
     )

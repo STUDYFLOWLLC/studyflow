@@ -1,20 +1,17 @@
 import { Combobox } from '@headlessui/react'
-import { School } from '@prisma/client'
 import classNames from 'classnames'
+import MainSpinner from 'components/spinners/MainSpinner'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { SpinnerSizes } from 'types/Loading'
 
 interface Props {
-  selectedSchool: School
   query: string
   setQuery: (query: string) => void
+  saving: boolean
 }
 
-export default function SchoolInput({
-  selectedSchool,
-  query,
-  setQuery,
-}: Props) {
+export default function SchoolInput({ query, setQuery, saving }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -26,23 +23,29 @@ export default function SchoolInput({
 
   return (
     <div>
-      <Combobox.Input
-        className={classNames(
-          { 'border-gray-300': theme === 'light' },
-          { 'bg-base-100': theme === 'dark' },
-          'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-2xl',
+      <div className="relative">
+        <Combobox.Input
+          className={classNames(
+            { 'border-gray-300': theme === 'light' },
+            { 'bg-base-100': theme === 'dark' },
+            'text-center outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-lg',
+          )}
+          onChange={(e: { target: { value: string } }) => {
+            setQuery(e.target.value)
+          }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          value={query}
+          placeholder="Enter your school"
+          autoFocus
+          autoComplete="off"
+        />
+        {saving && (
+          <span className="absolute right-10 top-3">
+            <MainSpinner size={SpinnerSizes.small} />
+          </span>
         )}
-        onChange={(e: { target: { value: string } }) => {
-          setQuery(e.target.value)
-        }}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        displayValue={() => selectedSchool.Name}
-        value={query}
-        placeholder="Enter your school"
-        autoFocus
-        autoComplete="off"
-      />
+      </div>
       <div
         className={classNames(
           { 'w-4/5': focused },

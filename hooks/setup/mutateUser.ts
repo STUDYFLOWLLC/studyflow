@@ -148,3 +148,29 @@ export async function mutateUserDefaultVisibility(
   const data = await request('/api/graphql', query, variables)
   return data
 }
+
+export async function mutateUserSchool(userId: number, schoolId: number) {
+  const query = gql`
+    mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+      updateUser(data: $data, where: $where) {
+        UserID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      FK_School: {
+        connect: {
+          SchoolID: schoolId,
+        },
+      },
+    },
+    where: {
+      UserID: userId,
+    },
+  }
+
+  const data = await request('/api/graphql', query, variables)
+  return data
+}
