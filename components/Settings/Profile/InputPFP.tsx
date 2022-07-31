@@ -8,18 +8,31 @@ import { SpinnerSizes } from 'types/Loading'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 import { changeUserPFP } from 'utils/user/userHandlers'
 
-export default function InputPFP() {
+interface Props {
+  flex?: boolean
+}
+
+export default function InputPFP({ flex }: Props) {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
 
   const [saving, setSaving] = useState(false)
 
-  console.log(userDetails)
-
   return (
-    <div className="sm:py-3 relative w-full">
-      <dt className="mt-3 text-sm font-medium text-info absolute left-0">
+    <div
+      className={classNames(
+        { 'flex flex-col': flex },
+        { relative: !flex },
+        'py-2 sm:py-3 w-full',
+      )}
+    >
+      <dt
+        className={classNames(
+          { 'absolute left-0': !flex },
+          'text-sm font-medium text-info',
+        )}
+      >
         Profile Picture
       </dt>
       <dd className="w-full flex justify-center mt-1 text-sm">
@@ -55,7 +68,7 @@ export default function InputPFP() {
                   theme === 'light',
               },
               { 'file:bg-slate-700 file:text-primary': theme === 'dark' },
-              'hover:cursor-pointer w-64 file:border-0  text-sm text-slate-500 file:py-2 file:px-4 file:rounded-full  file:text-sm file:font-semibold',
+              'w-64 file:border-0  file:cursor-pointer text-sm text-slate-500 file:py-2 file:px-4 file:rounded-full  file:text-sm file:font-semibold',
             )}
             accept="image/*"
             onChange={(e) =>

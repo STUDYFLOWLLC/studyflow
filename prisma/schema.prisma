@@ -131,7 +131,7 @@ model User {
   DefaultVisibility       Visibility         @default(PUBLIC)
   Email                   String             @unique
   Name                    String?
-  Username                String?
+  Username                String?            @unique
   ProfilePictureLink      String?
   FK_School               School?            @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
   FK_SchoolID             Int?

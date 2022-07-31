@@ -1,26 +1,25 @@
-import { School, TermType } from '@prisma/client'
+import { TermType } from '@prisma/client'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import SelectTermType from 'components/Setup/Education/SelectTermType'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import createTerm from 'hooks/school/createTerm'
+import useSchoolDetails from 'hooks/school/useSchoolDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import getTermNameFromTermType from 'utils/getTermNameFromTermType'
 
-interface Props {
-  selectedSchool: School
-}
-
-export default function TermCreate({ selectedSchool }: Props) {
+export default function TermCreate() {
   const { user } = useUser()
   const { userDetails, userDetailsLoading, mutateUserDetails } = useUserDetails(
     user?.id,
   )
+  const { schoolDetails } = useSchoolDetails(userDetails?.FK_SchoolID)
+
   const [autocreate, setAutocreate] = useState(false)
   const [creating, setCreating] = useState(false)
   const [termTypeNative, setTermTypeNative] = useState<TermType>(
-    selectedSchool.TermType || TermType.SEMESTER,
+    schoolDetails?.TermType || TermType.SEMESTER,
   )
 
   const createTermNative = async () => {
@@ -30,7 +29,7 @@ export default function TermCreate({ selectedSchool }: Props) {
       termTypeNative,
       getTermNameFromTermType(termTypeNative),
       user?.email || '',
-      userDetails?.FK_SchoolID || selectedSchool.SchoolID,
+      userDetails?.FK_SchoolID || schoolDetails?.SchoolID || 0,
     )
     if (data.createTerm.TermID) {
       mutateUserDetails({ ...userDetails, FK_Terms: [{}] })
@@ -40,7 +39,7 @@ export default function TermCreate({ selectedSchool }: Props) {
   }
 
   useEffect(() => {
-    if (selectedSchool.TermType && userDetails) {
+    if (schoolDetails?.TermType && userDetails) {
       createTermNative()
     }
   }, [userDetailsLoading])
@@ -50,10 +49,9 @@ export default function TermCreate({ selectedSchool }: Props) {
       <p className="w-full text-left text-lg font-medium">Create a Term</p>
       <div className="pl-2 w-full flex flex-col">
         <div className="w-full flex flex-col">
-          <Toaster position="top-center" />
           {autocreate ? (
             <p>
-              Automatically creating your term because {selectedSchool.Name} is
+              Automatically creating your term because {schoolDetails?.Name} is
               supported by Studyflow.{' '}
             </p>
           ) : (

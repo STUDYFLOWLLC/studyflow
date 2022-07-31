@@ -1,13 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
+import AddCourse from 'components/Dashbar/Course/CourseModal/AddCourse'
+import CourseModalNav from 'components/Dashbar/Course/CourseModal/CourseModalNav'
+import EditCourse from 'components/Dashbar/Course/CourseModal/EditCourse'
 import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
-import AddCourse from './AddCourse'
-import CourseModalNav from './CourseModalNav'
-import EditCourse from './EditCourse'
 
 interface Props {
   open: boolean

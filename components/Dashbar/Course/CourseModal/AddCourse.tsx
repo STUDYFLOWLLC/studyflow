@@ -11,9 +11,9 @@ import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useSchoolDetails from 'hooks/school/useSchoolDetails'
 import { mutateSetupStep } from 'hooks/setup/mutateUser'
 import useUserDetails from 'hooks/useUserDetails'
-import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { SetupSteps } from 'types/SetupSteps'
+import { changeUserSetupStep } from 'utils/user/userHandlers'
 import CourseBlurOver from './CourseBlurOver'
 import InputCourseNickname from './InputCourseNickname'
 
@@ -23,7 +23,6 @@ interface Props {
 }
 
 export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
-  const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
   const { schoolDetails } = useSchoolDetails(userDetails?.FK_SchoolID)
@@ -69,6 +68,7 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
           loading={loading}
           setLoading={setLoading}
           setShowAdd={setShowAdd}
+          inSetup={inSetup}
         />
       )}
       <div
@@ -81,7 +81,7 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
         )}
       >
         <p className="w-full text-left text-lg mt-2 font-semibold">
-          Add Courses from {schoolDetails.Name}
+          Add Courses from {schoolDetails?.Name}
         </p>
         <CourseSearch
           courseOnTerm={coursesOnTerm[coursesOnTerm.length - 1]}
@@ -121,8 +121,16 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
             </div>
             <button
               type="button"
-              className="mt-4 btn btn-primary btn-sm flex"
-              onClick={() => finishAddingCourses()}
+              className="mt-4 alex-button"
+              onClick={async () => {
+                setDoneAddingCourses(true)
+                await changeUserSetupStep(
+                  SetupSteps.COMPLETE,
+                  userDetails,
+                  mutateUserDetails,
+                )
+                setDoneAddingCourses(false)
+              }}
             >
               I&apos;m done adding courses
               <ButtonSpinner show={doneAddingCourses} />

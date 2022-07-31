@@ -38,6 +38,7 @@ interface Ret {
 
 export default function useUserDetails(
   supabaseId: string | undefined | null,
+  shouldRevalidateOnMount?: boolean,
 ): Ret {
   const query = gql`
     query Query($where: UserWhereInput) {
@@ -74,7 +75,12 @@ export default function useUserDetails(
     },
   }
 
-  const { data, error, mutate } = useSWR(supabaseId ? [query, variables] : null)
+  const { data, error, mutate } = useSWR(
+    supabaseId ? [query, variables] : null,
+    {
+      revalidateOnMount: true,
+    },
+  )
 
   if (data?.mutate) {
     return {
@@ -85,9 +91,18 @@ export default function useUserDetails(
     }
   }
 
-  if (data && data.findFirstUser) {
+  if (data && data.findFirstUser !== null) {
     return {
       userDetails: data.findFirstUser,
+      userDetailsLoading: !data && !error,
+      userDetailsError: error,
+      mutateUserDetails: mutate,
+    }
+  }
+
+  if (data && data.findFirstUser === null) {
+    return {
+      userDetails: null,
       userDetailsLoading: !data && !error,
       userDetailsError: error,
       mutateUserDetails: mutate,
