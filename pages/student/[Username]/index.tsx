@@ -1,8 +1,9 @@
-import { PencilIcon } from '@heroicons/react/outline'
+import { BadgeCheckIcon, PencilIcon } from '@heroicons/react/outline'
 import { MailIcon } from '@heroicons/react/solid'
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
+import useSchoolDetails from 'hooks/school/useSchoolDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { useRouter } from 'next/router'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
@@ -22,6 +23,7 @@ export default function index({ user }: Props) {
   const { Username } = router.query
 
   const { userDetails } = useUserDetails(user.id)
+  const { schoolDetails } = useSchoolDetails(userDetails?.FK_SchoolID)
   const { coursesOnTerm } = useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
 
   console.log(userDetails)
@@ -77,16 +79,29 @@ export default function index({ user }: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1">
-                    <h1 className="text-2xl font-bold text-gray-900 truncate">
-                      {userDetails?.Name || 'Studyflow'}
-                    </h1>
-                    <h1 className="text-2xl text-gray-400 truncate">
-                      @{userDetails?.Username || 'flowsurfer343'}
-                    </h1>
-                    <div className="text-gray-500 mt-1">
-                      ADD BIO TO USER DETAILS. 50 CHARS PROBABLY
-                    </div>
+
+                  <div className="mt-6 min-w-0 2xl:hidden flex flex-col items-start justify-between space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+                    <span>
+                      <div className="text-2xl font-bold text-gray-900 truncate">
+                        {userDetails?.Name || 'Studyflow'}
+                      </div>
+                      <div className="text-2xl text-gray-400 truncate">
+                        @{userDetails?.Username || 'flowsurfer343'}
+                      </div>
+                    </span>
+                    <h3 className="m-0 text-xl font-bold flex items-center">
+                      {schoolDetails?.Name || 'School'}{' '}
+                      <div
+                        className="tooltip tooltip-right pl-2"
+                        data-tip={`Studyflow officially supports ${schoolDetails?.Name} and actively updates their class roster.`}
+                      >
+                        <BadgeCheckIcon className="w-6 h-6" />
+                      </div>
+                    </h3>
+                  </div>
+
+                  <div className="text-gray-500 mt-1">
+                    ADD BIO TO USER DETAILS. 50 CHARS PROBABLY
                   </div>
                 </div>
               </div>
