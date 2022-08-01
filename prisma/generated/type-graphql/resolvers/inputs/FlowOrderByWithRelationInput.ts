@@ -63,6 +63,11 @@ export class FlowOrderByWithRelationInput {
   })
   Body?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  DeletedTime?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => CourseOnTermOrderByWithRelationInput, {
     nullable: true
   })

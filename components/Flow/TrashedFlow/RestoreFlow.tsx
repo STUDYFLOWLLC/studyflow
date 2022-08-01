@@ -81,6 +81,7 @@ export default function TrashedFlowOptions({ flowId, closeModal }: Props) {
                   onClick={() =>
                     restoreFlow(
                       flowId,
+                      userDetails,
                       courseOnTerm,
                       dashFlows,
                       mutateDashFlows,
@@ -90,6 +91,7 @@ export default function TrashedFlowOptions({ flowId, closeModal }: Props) {
                   onKeyDown={() =>
                     restoreFlow(
                       flowId,
+                      userDetails,
                       courseOnTerm,
                       dashFlows,
                       mutateDashFlows,
