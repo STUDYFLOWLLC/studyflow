@@ -4,29 +4,40 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
-import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
-@TypeGraphQL.InputType("FlashCardUpdateManyMutationInput", {
+@TypeGraphQL.InputType("FlashcardUpdateManyMutationInput", {
   isAbstract: true
 })
-export class FlashCardUpdateManyMutationInput {
+export class FlashcardUpdateManyMutationInput {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  FlashcardID?: StringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DeletedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
   })
   Position?: IntFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  Front?: NullableStringFieldUpdateOperationsInput | undefined;
+  Front?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  Back?: NullableStringFieldUpdateOperationsInput | undefined;
+  Back?: StringFieldUpdateOperationsInput | undefined;
 }

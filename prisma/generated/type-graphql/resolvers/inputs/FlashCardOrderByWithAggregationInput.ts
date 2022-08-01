@@ -2,21 +2,21 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardAvgOrderByAggregateInput } from "../inputs/FlashCardAvgOrderByAggregateInput";
-import { FlashCardCountOrderByAggregateInput } from "../inputs/FlashCardCountOrderByAggregateInput";
-import { FlashCardMaxOrderByAggregateInput } from "../inputs/FlashCardMaxOrderByAggregateInput";
-import { FlashCardMinOrderByAggregateInput } from "../inputs/FlashCardMinOrderByAggregateInput";
-import { FlashCardSumOrderByAggregateInput } from "../inputs/FlashCardSumOrderByAggregateInput";
+import { FlashcardAvgOrderByAggregateInput } from "../inputs/FlashcardAvgOrderByAggregateInput";
+import { FlashcardCountOrderByAggregateInput } from "../inputs/FlashcardCountOrderByAggregateInput";
+import { FlashcardMaxOrderByAggregateInput } from "../inputs/FlashcardMaxOrderByAggregateInput";
+import { FlashcardMinOrderByAggregateInput } from "../inputs/FlashcardMinOrderByAggregateInput";
+import { FlashcardSumOrderByAggregateInput } from "../inputs/FlashcardSumOrderByAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType("FlashCardOrderByWithAggregationInput", {
+@TypeGraphQL.InputType("FlashcardOrderByWithAggregationInput", {
   isAbstract: true
 })
-export class FlashCardOrderByWithAggregationInput {
+export class FlashcardOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FlashCardID?: "asc" | "desc" | undefined;
+  FlashcardID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -26,7 +26,12 @@ export class FlashCardOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_FlashCardStackID?: "asc" | "desc" | undefined;
+  DeletedTime?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_FlashcardStackID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -43,28 +48,28 @@ export class FlashCardOrderByWithAggregationInput {
   })
   Back?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardCountOrderByAggregateInput, {
+  @TypeGraphQL.Field(_type => FlashcardCountOrderByAggregateInput, {
     nullable: true
   })
-  _count?: FlashCardCountOrderByAggregateInput | undefined;
+  _count?: FlashcardCountOrderByAggregateInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardAvgOrderByAggregateInput, {
+  @TypeGraphQL.Field(_type => FlashcardAvgOrderByAggregateInput, {
     nullable: true
   })
-  _avg?: FlashCardAvgOrderByAggregateInput | undefined;
+  _avg?: FlashcardAvgOrderByAggregateInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardMaxOrderByAggregateInput, {
+  @TypeGraphQL.Field(_type => FlashcardMaxOrderByAggregateInput, {
     nullable: true
   })
-  _max?: FlashCardMaxOrderByAggregateInput | undefined;
+  _max?: FlashcardMaxOrderByAggregateInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardMinOrderByAggregateInput, {
+  @TypeGraphQL.Field(_type => FlashcardMinOrderByAggregateInput, {
     nullable: true
   })
-  _min?: FlashCardMinOrderByAggregateInput | undefined;
+  _min?: FlashcardMinOrderByAggregateInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardSumOrderByAggregateInput, {
+  @TypeGraphQL.Field(_type => FlashcardSumOrderByAggregateInput, {
     nullable: true
   })
-  _sum?: FlashCardSumOrderByAggregateInput | undefined;
+  _sum?: FlashcardSumOrderByAggregateInput | undefined;
 }

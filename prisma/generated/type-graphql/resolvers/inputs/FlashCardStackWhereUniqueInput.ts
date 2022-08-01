@@ -3,12 +3,12 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.InputType("FlashCardStackWhereUniqueInput", {
+@TypeGraphQL.InputType("FlashcardStackWhereUniqueInput", {
   isAbstract: true
 })
-export class FlashCardStackWhereUniqueInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+export class FlashcardStackWhereUniqueInput {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FlashCardStackID?: number | undefined;
+  FlashcardStackID?: string | undefined;
 }

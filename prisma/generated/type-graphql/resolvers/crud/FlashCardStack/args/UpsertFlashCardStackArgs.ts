@@ -1,23 +1,23 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardStackCreateInput } from "../../../inputs/FlashCardStackCreateInput";
-import { FlashCardStackUpdateInput } from "../../../inputs/FlashCardStackUpdateInput";
-import { FlashCardStackWhereUniqueInput } from "../../../inputs/FlashCardStackWhereUniqueInput";
+import { FlashcardStackCreateInput } from "../../../inputs/FlashcardStackCreateInput";
+import { FlashcardStackUpdateInput } from "../../../inputs/FlashcardStackUpdateInput";
+import { FlashcardStackWhereUniqueInput } from "../../../inputs/FlashcardStackWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
-export class UpsertFlashCardStackArgs {
-  @TypeGraphQL.Field(_type => FlashCardStackWhereUniqueInput, {
+export class UpsertFlashcardStackArgs {
+  @TypeGraphQL.Field(_type => FlashcardStackWhereUniqueInput, {
     nullable: false
   })
-  where!: FlashCardStackWhereUniqueInput;
+  where!: FlashcardStackWhereUniqueInput;
 
-  @TypeGraphQL.Field(_type => FlashCardStackCreateInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackCreateInput, {
     nullable: false
   })
-  create!: FlashCardStackCreateInput;
+  create!: FlashcardStackCreateInput;
 
-  @TypeGraphQL.Field(_type => FlashCardStackUpdateInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackUpdateInput, {
     nullable: false
   })
-  update!: FlashCardStackUpdateInput;
+  update!: FlashcardStackUpdateInput;
 }

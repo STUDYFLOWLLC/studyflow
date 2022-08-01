@@ -1,25 +1,25 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardStackOrderByWithRelationInput } from "../../../inputs/FlashCardStackOrderByWithRelationInput";
-import { FlashCardStackWhereInput } from "../../../inputs/FlashCardStackWhereInput";
-import { FlashCardStackWhereUniqueInput } from "../../../inputs/FlashCardStackWhereUniqueInput";
+import { FlashcardStackOrderByWithRelationInput } from "../../../inputs/FlashcardStackOrderByWithRelationInput";
+import { FlashcardStackWhereInput } from "../../../inputs/FlashcardStackWhereInput";
+import { FlashcardStackWhereUniqueInput } from "../../../inputs/FlashcardStackWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
-export class AggregateFlashCardStackArgs {
-  @TypeGraphQL.Field(_type => FlashCardStackWhereInput, {
+export class AggregateFlashcardStackArgs {
+  @TypeGraphQL.Field(_type => FlashcardStackWhereInput, {
     nullable: true
   })
-  where?: FlashCardStackWhereInput | undefined;
+  where?: FlashcardStackWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackOrderByWithRelationInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackOrderByWithRelationInput], {
     nullable: true
   })
-  orderBy?: FlashCardStackOrderByWithRelationInput[] | undefined;
+  orderBy?: FlashcardStackOrderByWithRelationInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackWhereUniqueInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackWhereUniqueInput, {
     nullable: true
   })
-  cursor?: FlashCardStackWhereUniqueInput | undefined;
+  cursor?: FlashcardStackWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

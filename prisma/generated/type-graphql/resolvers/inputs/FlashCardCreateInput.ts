@@ -2,21 +2,32 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardStackCreateNestedOneWithoutFlashCardsInput } from "../inputs/FlashCardStackCreateNestedOneWithoutFlashCardsInput";
+import { FlashcardReviewCreateNestedManyWithoutFK_FlashcardInput } from "../inputs/FlashcardReviewCreateNestedManyWithoutFK_FlashcardInput";
+import { FlashcardStackCreateNestedOneWithoutFK_FlashcardsInput } from "../inputs/FlashcardStackCreateNestedOneWithoutFK_FlashcardsInput";
 
-@TypeGraphQL.InputType("FlashCardCreateInput", {
+@TypeGraphQL.InputType("FlashcardCreateInput", {
   isAbstract: true
 })
-export class FlashCardCreateInput {
+export class FlashcardCreateInput {
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FlashcardID?: string | undefined;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackCreateNestedOneWithoutFlashCardsInput, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  FK_FlashCardStack?: FlashCardStackCreateNestedOneWithoutFlashCardsInput | undefined;
+  DeletedTime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardStackCreateNestedOneWithoutFK_FlashcardsInput, {
+    nullable: true
+  })
+  FK_FlashcardStack?: FlashcardStackCreateNestedOneWithoutFK_FlashcardsInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -32,4 +43,9 @@ export class FlashCardCreateInput {
     nullable: true
   })
   Back?: string | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardReviewCreateNestedManyWithoutFK_FlashcardInput, {
+    nullable: true
+  })
+  FK_FlashcardReviews?: FlashcardReviewCreateNestedManyWithoutFK_FlashcardInput | undefined;
 }

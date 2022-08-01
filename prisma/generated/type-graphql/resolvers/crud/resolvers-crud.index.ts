@@ -3,8 +3,9 @@ export { AutomationLogCrudResolver } from "./AutomationLog/AutomationLogCrudReso
 export { CourseCrudResolver } from "./Course/CourseCrudResolver";
 export { CourseOnTermCrudResolver } from "./CourseOnTerm/CourseOnTermCrudResolver";
 export { CourseOnTermAutomationCrudResolver } from "./CourseOnTermAutomation/CourseOnTermAutomationCrudResolver";
-export { FlashCardCrudResolver } from "./FlashCard/FlashCardCrudResolver";
-export { FlashCardStackCrudResolver } from "./FlashCardStack/FlashCardStackCrudResolver";
+export { FlashcardCrudResolver } from "./Flashcard/FlashcardCrudResolver";
+export { FlashcardReviewCrudResolver } from "./FlashcardReview/FlashcardReviewCrudResolver";
+export { FlashcardStackCrudResolver } from "./FlashcardStack/FlashcardStackCrudResolver";
 export { FlowCrudResolver } from "./Flow/FlowCrudResolver";
 export { FlowViewCrudResolver } from "./FlowView/FlowViewCrudResolver";
 export { FriendshipCrudResolver } from "./Friendship/FriendshipCrudResolver";

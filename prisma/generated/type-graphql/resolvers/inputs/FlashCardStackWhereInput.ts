@@ -3,39 +3,45 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
-import { FlashCardListRelationFilter } from "../inputs/FlashCardListRelationFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
+import { FlashcardListRelationFilter } from "../inputs/FlashcardListRelationFilter";
 import { FlowRelationFilter } from "../inputs/FlowRelationFilter";
-import { IntFilter } from "../inputs/IntFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
-@TypeGraphQL.InputType("FlashCardStackWhereInput", {
+@TypeGraphQL.InputType("FlashcardStackWhereInput", {
   isAbstract: true
 })
-export class FlashCardStackWhereInput {
-  @TypeGraphQL.Field(_type => [FlashCardStackWhereInput], {
+export class FlashcardStackWhereInput {
+  @TypeGraphQL.Field(_type => [FlashcardStackWhereInput], {
     nullable: true
   })
-  AND?: FlashCardStackWhereInput[] | undefined;
+  AND?: FlashcardStackWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackWhereInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackWhereInput], {
     nullable: true
   })
-  OR?: FlashCardStackWhereInput[] | undefined;
+  OR?: FlashcardStackWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackWhereInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackWhereInput], {
     nullable: true
   })
-  NOT?: FlashCardStackWhereInput[] | undefined;
+  NOT?: FlashcardStackWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  FlashCardStackID?: IntFilter | undefined;
+  FlashcardStackID?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
   CreatedTime?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FlowRelationFilter, {
     nullable: true
@@ -47,13 +53,18 @@ export class FlashCardStackWhereInput {
   })
   FK_FlowID?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardListRelationFilter, {
+  @TypeGraphQL.Field(_type => FlashcardListRelationFilter, {
     nullable: true
   })
-  FlashCards?: FlashCardListRelationFilter | undefined;
+  FK_Flashcards?: FlashcardListRelationFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  Title?: StringNullableFilter | undefined;
+  Title?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  Description?: StringFilter | undefined;
 }

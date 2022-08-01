@@ -18,11 +18,13 @@ import { FlowType, FlowVisibility } from 'types/Flow'
 export function changeVisibility(
   flowId: string,
   newVisibility: FlowVisibility,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowVisibility(flowId, newVisibility)
 
@@ -48,11 +50,13 @@ export function changeVisibility(
 export function changeTitle(
   flowId: string,
   newTitle: string,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowTitle(flowId, newTitle)
 
@@ -83,11 +87,13 @@ export function changeTitle(
 export function changeType(
   flowId: string,
   newType: FlowType,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowType(flowId, newType)
 
@@ -110,11 +116,13 @@ export function changeType(
 export function changeDate(
   flowId: string,
   newDate: Date,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   const dateAsString = newDate.toISOString()
 
   // change in backend
@@ -150,11 +158,13 @@ export function changeCourse(
   newNickname: string,
   newCode: string,
   newColor: string,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowCourseOnTerm(flowDetails.FlowID, newId)
   // we also have to change the task course in the backend

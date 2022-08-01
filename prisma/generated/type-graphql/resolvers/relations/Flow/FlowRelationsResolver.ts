@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import { CourseOnTerm } from "../../../models/CourseOnTerm";
-import { FlashCardStack } from "../../../models/FlashCardStack";
+import { FlashcardStack } from "../../../models/FlashcardStack";
 import { Flow } from "../../../models/Flow";
 import { FlowView } from "../../../models/FlowView";
 import { Task } from "../../../models/Task";
 import { User } from "../../../models/User";
-import { FlowFK_FlashCardStacksArgs } from "./args/FlowFK_FlashCardStacksArgs";
+import { FlowFK_FlashcardStacksArgs } from "./args/FlowFK_FlashcardStacksArgs";
 import { FlowFK_FlowViewArgs } from "./args/FlowFK_FlowViewArgs";
 import { FlowFK_TasksArgs } from "./args/FlowFK_TasksArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
@@ -23,15 +23,15 @@ export class FlowRelationsResolver {
     }).FK_CourseOnTerm({});
   }
 
-  @TypeGraphQL.FieldResolver(_type => [FlashCardStack], {
+  @TypeGraphQL.FieldResolver(_type => [FlashcardStack], {
     nullable: false
   })
-  async FK_FlashCardStacks(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlowFK_FlashCardStacksArgs): Promise<FlashCardStack[]> {
+  async FK_FlashcardStacks(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlowFK_FlashcardStacksArgs): Promise<FlashcardStack[]> {
     return getPrismaFromContext(ctx).flow.findUnique({
       where: {
         FlowID: flow.FlowID,
       },
-    }).FK_FlashCardStacks(args);
+    }).FK_FlashcardStacks(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => [Task], {

@@ -24,6 +24,7 @@
 }
 
 .deck {
+  touch-action: none;
   will-change: transform;
 }
 

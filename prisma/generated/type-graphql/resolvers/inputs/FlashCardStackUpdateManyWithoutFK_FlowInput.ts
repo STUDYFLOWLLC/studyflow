@@ -2,71 +2,71 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardStackCreateManyFK_FlowInputEnvelope } from "../inputs/FlashCardStackCreateManyFK_FlowInputEnvelope";
-import { FlashCardStackCreateOrConnectWithoutFK_FlowInput } from "../inputs/FlashCardStackCreateOrConnectWithoutFK_FlowInput";
-import { FlashCardStackCreateWithoutFK_FlowInput } from "../inputs/FlashCardStackCreateWithoutFK_FlowInput";
-import { FlashCardStackScalarWhereInput } from "../inputs/FlashCardStackScalarWhereInput";
-import { FlashCardStackUpdateManyWithWhereWithoutFK_FlowInput } from "../inputs/FlashCardStackUpdateManyWithWhereWithoutFK_FlowInput";
-import { FlashCardStackUpdateWithWhereUniqueWithoutFK_FlowInput } from "../inputs/FlashCardStackUpdateWithWhereUniqueWithoutFK_FlowInput";
-import { FlashCardStackUpsertWithWhereUniqueWithoutFK_FlowInput } from "../inputs/FlashCardStackUpsertWithWhereUniqueWithoutFK_FlowInput";
-import { FlashCardStackWhereUniqueInput } from "../inputs/FlashCardStackWhereUniqueInput";
+import { FlashcardStackCreateManyFK_FlowInputEnvelope } from "../inputs/FlashcardStackCreateManyFK_FlowInputEnvelope";
+import { FlashcardStackCreateOrConnectWithoutFK_FlowInput } from "../inputs/FlashcardStackCreateOrConnectWithoutFK_FlowInput";
+import { FlashcardStackCreateWithoutFK_FlowInput } from "../inputs/FlashcardStackCreateWithoutFK_FlowInput";
+import { FlashcardStackScalarWhereInput } from "../inputs/FlashcardStackScalarWhereInput";
+import { FlashcardStackUpdateManyWithWhereWithoutFK_FlowInput } from "../inputs/FlashcardStackUpdateManyWithWhereWithoutFK_FlowInput";
+import { FlashcardStackUpdateWithWhereUniqueWithoutFK_FlowInput } from "../inputs/FlashcardStackUpdateWithWhereUniqueWithoutFK_FlowInput";
+import { FlashcardStackUpsertWithWhereUniqueWithoutFK_FlowInput } from "../inputs/FlashcardStackUpsertWithWhereUniqueWithoutFK_FlowInput";
+import { FlashcardStackWhereUniqueInput } from "../inputs/FlashcardStackWhereUniqueInput";
 
-@TypeGraphQL.InputType("FlashCardStackUpdateManyWithoutFK_FlowInput", {
+@TypeGraphQL.InputType("FlashcardStackUpdateManyWithoutFK_FlowInput", {
   isAbstract: true
 })
-export class FlashCardStackUpdateManyWithoutFK_FlowInput {
-  @TypeGraphQL.Field(_type => [FlashCardStackCreateWithoutFK_FlowInput], {
+export class FlashcardStackUpdateManyWithoutFK_FlowInput {
+  @TypeGraphQL.Field(_type => [FlashcardStackCreateWithoutFK_FlowInput], {
     nullable: true
   })
-  create?: FlashCardStackCreateWithoutFK_FlowInput[] | undefined;
+  create?: FlashcardStackCreateWithoutFK_FlowInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackCreateOrConnectWithoutFK_FlowInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackCreateOrConnectWithoutFK_FlowInput], {
     nullable: true
   })
-  connectOrCreate?: FlashCardStackCreateOrConnectWithoutFK_FlowInput[] | undefined;
+  connectOrCreate?: FlashcardStackCreateOrConnectWithoutFK_FlowInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackUpsertWithWhereUniqueWithoutFK_FlowInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackUpsertWithWhereUniqueWithoutFK_FlowInput], {
     nullable: true
   })
-  upsert?: FlashCardStackUpsertWithWhereUniqueWithoutFK_FlowInput[] | undefined;
+  upsert?: FlashcardStackUpsertWithWhereUniqueWithoutFK_FlowInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackCreateManyFK_FlowInputEnvelope, {
+  @TypeGraphQL.Field(_type => FlashcardStackCreateManyFK_FlowInputEnvelope, {
     nullable: true
   })
-  createMany?: FlashCardStackCreateManyFK_FlowInputEnvelope | undefined;
+  createMany?: FlashcardStackCreateManyFK_FlowInputEnvelope | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackWhereUniqueInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackWhereUniqueInput], {
     nullable: true
   })
-  set?: FlashCardStackWhereUniqueInput[] | undefined;
+  set?: FlashcardStackWhereUniqueInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackWhereUniqueInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackWhereUniqueInput], {
     nullable: true
   })
-  disconnect?: FlashCardStackWhereUniqueInput[] | undefined;
+  disconnect?: FlashcardStackWhereUniqueInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackWhereUniqueInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackWhereUniqueInput], {
     nullable: true
   })
-  delete?: FlashCardStackWhereUniqueInput[] | undefined;
+  delete?: FlashcardStackWhereUniqueInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackWhereUniqueInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackWhereUniqueInput], {
     nullable: true
   })
-  connect?: FlashCardStackWhereUniqueInput[] | undefined;
+  connect?: FlashcardStackWhereUniqueInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackUpdateWithWhereUniqueWithoutFK_FlowInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackUpdateWithWhereUniqueWithoutFK_FlowInput], {
     nullable: true
   })
-  update?: FlashCardStackUpdateWithWhereUniqueWithoutFK_FlowInput[] | undefined;
+  update?: FlashcardStackUpdateWithWhereUniqueWithoutFK_FlowInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackUpdateManyWithWhereWithoutFK_FlowInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackUpdateManyWithWhereWithoutFK_FlowInput], {
     nullable: true
   })
-  updateMany?: FlashCardStackUpdateManyWithWhereWithoutFK_FlowInput[] | undefined;
+  updateMany?: FlashcardStackUpdateManyWithWhereWithoutFK_FlowInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackScalarWhereInput], {
     nullable: true
   })
-  deleteMany?: FlashCardStackScalarWhereInput[] | undefined;
+  deleteMany?: FlashcardStackScalarWhereInput[] | undefined;
 }

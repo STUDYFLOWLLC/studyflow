@@ -2,20 +2,20 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlowCreateWithoutFK_FlashCardStacksInput } from "../inputs/FlowCreateWithoutFK_FlashCardStacksInput";
-import { FlowUpdateWithoutFK_FlashCardStacksInput } from "../inputs/FlowUpdateWithoutFK_FlashCardStacksInput";
+import { FlowCreateWithoutFK_FlashcardStacksInput } from "../inputs/FlowCreateWithoutFK_FlashcardStacksInput";
+import { FlowUpdateWithoutFK_FlashcardStacksInput } from "../inputs/FlowUpdateWithoutFK_FlashcardStacksInput";
 
-@TypeGraphQL.InputType("FlowUpsertWithoutFK_FlashCardStacksInput", {
+@TypeGraphQL.InputType("FlowUpsertWithoutFK_FlashcardStacksInput", {
   isAbstract: true
 })
-export class FlowUpsertWithoutFK_FlashCardStacksInput {
-  @TypeGraphQL.Field(_type => FlowUpdateWithoutFK_FlashCardStacksInput, {
+export class FlowUpsertWithoutFK_FlashcardStacksInput {
+  @TypeGraphQL.Field(_type => FlowUpdateWithoutFK_FlashcardStacksInput, {
     nullable: false
   })
-  update!: FlowUpdateWithoutFK_FlashCardStacksInput;
+  update!: FlowUpdateWithoutFK_FlashcardStacksInput;
 
-  @TypeGraphQL.Field(_type => FlowCreateWithoutFK_FlashCardStacksInput, {
+  @TypeGraphQL.Field(_type => FlowCreateWithoutFK_FlashcardStacksInput, {
     nullable: false
   })
-  create!: FlowCreateWithoutFK_FlashCardStacksInput;
+  create!: FlowCreateWithoutFK_FlashcardStacksInput;
 }

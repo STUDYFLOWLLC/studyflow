@@ -50,6 +50,12 @@ enum TaskType {
   REVIEW
 }
 
+enum FlashcardStatus {
+  NEUTRAL
+  CORRECT
+  INCORRECT
+}
+
 model Setting {
   SettingID                Int       @id @default(autoincrement())
   HasSeenWelcomeMessage    Boolean?  @default(false)
@@ -269,22 +275,34 @@ model FlowView {
 //}
 
 model FlashcardStack {
-  FlashcardStackID Int         @id @default(autoincrement())
+  FlashcardStackID String      @id @default(uuid())
   CreatedTime      DateTime    @default(now())
+  DeletedTime      DateTime?
   FK_Flow          Flow?       @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
   FK_FlowID        String?
-  FlashCards       Flashcard[]
-  Title            String?     @default("Untitled")
+  FK_Flashcards    Flashcard[]
+  Title            String      @default("")
+  Description      String      @default("")
 }
 
 model Flashcard {
-  FlashcardID         Int             @id @default(autoincrement())
-  CreatedTime         DateTime        @default(now())
-  FK_FlashcardStack   FlashcardStack? @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID], onDelete: SetNull, onUpdate: Cascade)
-  FK_FlashcardStackID Int?
+  FlashcardID         String            @id @default(uuid())
+  CreatedTime         DateTime          @default(now())
+  DeletedTime         DateTime?
+  FK_FlashcardStack   FlashcardStack?   @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardStackID String?
   Position            Int
-  Front               String?
-  Back                String?
+  Front               String            @default("")
+  Back                String            @default("")
+  FK_FlashcardReviews FlashcardReview[]
+}
+
+model FlashcardReview {
+  FlashcardReviewID String          @id @default(uuid())
+  CreatedTime       DateTime        @default(now())
+  FK_Flashcard      Flashcard?      @relation(fields: [FK_FlashcardID], references: [FlashcardID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardID    String?
+  Status            FlashcardStatus @default(NEUTRAL)
 }
 
 model Task {

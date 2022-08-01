@@ -2,38 +2,38 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardAvgAggregate } from "../outputs/FlashCardAvgAggregate";
-import { FlashCardCountAggregate } from "../outputs/FlashCardCountAggregate";
-import { FlashCardMaxAggregate } from "../outputs/FlashCardMaxAggregate";
-import { FlashCardMinAggregate } from "../outputs/FlashCardMinAggregate";
-import { FlashCardSumAggregate } from "../outputs/FlashCardSumAggregate";
+import { FlashcardAvgAggregate } from "../outputs/FlashcardAvgAggregate";
+import { FlashcardCountAggregate } from "../outputs/FlashcardCountAggregate";
+import { FlashcardMaxAggregate } from "../outputs/FlashcardMaxAggregate";
+import { FlashcardMinAggregate } from "../outputs/FlashcardMinAggregate";
+import { FlashcardSumAggregate } from "../outputs/FlashcardSumAggregate";
 
-@TypeGraphQL.ObjectType("AggregateFlashCard", {
+@TypeGraphQL.ObjectType("AggregateFlashcard", {
   isAbstract: true
 })
-export class AggregateFlashCard {
-  @TypeGraphQL.Field(_type => FlashCardCountAggregate, {
+export class AggregateFlashcard {
+  @TypeGraphQL.Field(_type => FlashcardCountAggregate, {
     nullable: true
   })
-  _count!: FlashCardCountAggregate | null;
+  _count!: FlashcardCountAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardAvgAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardAvgAggregate, {
     nullable: true
   })
-  _avg!: FlashCardAvgAggregate | null;
+  _avg!: FlashcardAvgAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardSumAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardSumAggregate, {
     nullable: true
   })
-  _sum!: FlashCardSumAggregate | null;
+  _sum!: FlashcardSumAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardMinAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardMinAggregate, {
     nullable: true
   })
-  _min!: FlashCardMinAggregate | null;
+  _min!: FlashcardMinAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardMaxAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardMaxAggregate, {
     nullable: true
   })
-  _max!: FlashCardMaxAggregate | null;
+  _max!: FlashcardMaxAggregate | null;
 }

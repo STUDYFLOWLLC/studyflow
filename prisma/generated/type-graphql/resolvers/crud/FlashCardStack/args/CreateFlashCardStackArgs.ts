@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardStackCreateInput } from "../../../inputs/FlashCardStackCreateInput";
+import { FlashcardStackCreateInput } from "../../../inputs/FlashcardStackCreateInput";
 
 @TypeGraphQL.ArgsType()
-export class CreateFlashCardStackArgs {
-  @TypeGraphQL.Field(_type => FlashCardStackCreateInput, {
+export class CreateFlashcardStackArgs {
+  @TypeGraphQL.Field(_type => FlashcardStackCreateInput, {
     nullable: false
   })
-  data!: FlashCardStackCreateInput;
+  data!: FlashcardStackCreateInput;
 }
