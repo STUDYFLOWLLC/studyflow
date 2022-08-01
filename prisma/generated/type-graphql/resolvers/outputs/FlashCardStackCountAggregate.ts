@@ -3,19 +3,24 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.ObjectType("FlashCardStackCountAggregate", {
+@TypeGraphQL.ObjectType("FlashcardStackCountAggregate", {
   isAbstract: true
 })
-export class FlashCardStackCountAggregate {
+export class FlashcardStackCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  FlashCardStackID!: number;
+  FlashcardStackID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
   CreatedTime!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  DeletedTime!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -26,6 +31,11 @@ export class FlashCardStackCountAggregate {
     nullable: false
   })
   Title!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  Description!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

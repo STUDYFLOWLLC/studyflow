@@ -2,28 +2,35 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
-import { FlashCardStack } from "../models/FlashCardStack";
+import { FlashcardReview } from "../models/FlashcardReview";
+import { FlashcardStack } from "../models/FlashcardStack";
+import { FlashcardCount } from "../resolvers/outputs/FlashcardCount";
 
-@TypeGraphQL.ObjectType("FlashCard", {
+@TypeGraphQL.ObjectType("Flashcard", {
   isAbstract: true
 })
-export class FlashCard {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+export class Flashcard {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  FlashCardID!: number;
+  FlashcardID!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
   CreatedTime!: Date;
 
-  FK_FlashCardStack?: FlashCardStack | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  FK_FlashCardStackID?: number | null;
+  DeletedTime?: Date | null;
+
+  FK_FlashcardStack?: FlashcardStack | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_FlashcardStackID?: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -31,12 +38,19 @@ export class FlashCard {
   Position!: number;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: false
   })
-  Front?: string | null;
+  Front!: string;
 
   @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  Back!: string;
+
+  FK_FlashcardReviews?: FlashcardReview[];
+
+  @TypeGraphQL.Field(_type => FlashcardCount, {
     nullable: true
   })
-  Back?: string | null;
+  _count?: FlashcardCount | null;
 }

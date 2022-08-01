@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardWhereUniqueInput } from "../../../inputs/FlashCardWhereUniqueInput";
+import { FlashcardWhereUniqueInput } from "../../../inputs/FlashcardWhereUniqueInput";
 
 @TypeGraphQL.ArgsType()
-export class FindUniqueFlashCardArgs {
-  @TypeGraphQL.Field(_type => FlashCardWhereUniqueInput, {
+export class FindUniqueFlashcardArgs {
+  @TypeGraphQL.Field(_type => FlashcardWhereUniqueInput, {
     nullable: false
   })
-  where!: FlashCardWhereUniqueInput;
+  where!: FlashcardWhereUniqueInput;
 }

@@ -77,7 +77,7 @@ export default function Flow({ flowId, closeModal, setDragSetter }: Props) {
 
     // change in backend
     const data = await mutateFlowBody(
-      flowDetails.FlowID,
+      flowDetails?.FlowID || '',
       JSON.stringify(blocks),
     )
     if (data) {
@@ -98,12 +98,12 @@ export default function Flow({ flowId, closeModal, setDragSetter }: Props) {
       <FlowTop
         flowId={flowId}
         closeModal={closeModal}
-        flowTitle={flowDetails?.Title}
+        flowTitle={flowDetails?.Title || ''}
         saving={saving}
       />
       {!flowDetailsLoading ? (
         <FlowBody
-          initialBlocks={JSON.parse(flowDetails?.Body) || defaultBody}
+          initialBlocks={JSON.parse(flowDetails?.Body || '[]') || defaultBody}
           saveFlow={saveFlow}
           setFauxSaving={setFauxSaving}
           setDragSetter={setDragSetter}

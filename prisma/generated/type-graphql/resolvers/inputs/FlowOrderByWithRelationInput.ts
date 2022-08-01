@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermOrderByWithRelationInput } from "../inputs/CourseOnTermOrderByWithRelationInput";
-import { FlashCardStackOrderByRelationAggregateInput } from "../inputs/FlashCardStackOrderByRelationAggregateInput";
+import { FlashcardStackOrderByRelationAggregateInput } from "../inputs/FlashcardStackOrderByRelationAggregateInput";
 import { FlowViewOrderByRelationAggregateInput } from "../inputs/FlowViewOrderByRelationAggregateInput";
 import { TaskOrderByRelationAggregateInput } from "../inputs/TaskOrderByRelationAggregateInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
@@ -78,10 +78,10 @@ export class FlowOrderByWithRelationInput {
   })
   FK_CourseOnTermID?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackOrderByRelationAggregateInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackOrderByRelationAggregateInput, {
     nullable: true
   })
-  FK_FlashCardStacks?: FlashCardStackOrderByRelationAggregateInput | undefined;
+  FK_FlashcardStacks?: FlashcardStackOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => TaskOrderByRelationAggregateInput, {
     nullable: true

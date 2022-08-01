@@ -2,57 +2,63 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
-import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
+import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
 
-@TypeGraphQL.InputType("FlashCardScalarWhereWithAggregatesInput", {
+@TypeGraphQL.InputType("FlashcardScalarWhereWithAggregatesInput", {
   isAbstract: true
 })
-export class FlashCardScalarWhereWithAggregatesInput {
-  @TypeGraphQL.Field(_type => [FlashCardScalarWhereWithAggregatesInput], {
+export class FlashcardScalarWhereWithAggregatesInput {
+  @TypeGraphQL.Field(_type => [FlashcardScalarWhereWithAggregatesInput], {
     nullable: true
   })
-  AND?: FlashCardScalarWhereWithAggregatesInput[] | undefined;
+  AND?: FlashcardScalarWhereWithAggregatesInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardScalarWhereWithAggregatesInput], {
+  @TypeGraphQL.Field(_type => [FlashcardScalarWhereWithAggregatesInput], {
     nullable: true
   })
-  OR?: FlashCardScalarWhereWithAggregatesInput[] | undefined;
+  OR?: FlashcardScalarWhereWithAggregatesInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardScalarWhereWithAggregatesInput], {
+  @TypeGraphQL.Field(_type => [FlashcardScalarWhereWithAggregatesInput], {
     nullable: true
   })
-  NOT?: FlashCardScalarWhereWithAggregatesInput[] | undefined;
+  NOT?: FlashcardScalarWhereWithAggregatesInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  FlashCardID?: IntWithAggregatesFilter | undefined;
+  FlashcardID?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
   CreatedTime?: DateTimeWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
     nullable: true
   })
-  FK_FlashCardStackID?: IntNullableWithAggregatesFilter | undefined;
+  DeletedTime?: DateTimeNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  FK_FlashcardStackID?: StringNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
   })
   Position?: IntWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  Front?: StringNullableWithAggregatesFilter | undefined;
+  Front?: StringWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  Back?: StringNullableWithAggregatesFilter | undefined;
+  Back?: StringWithAggregatesFilter | undefined;
 }

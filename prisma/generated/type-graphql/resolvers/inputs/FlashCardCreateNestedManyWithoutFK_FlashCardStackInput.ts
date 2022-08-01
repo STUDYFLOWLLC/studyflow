@@ -2,32 +2,32 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardCreateManyFK_FlashCardStackInputEnvelope } from "../inputs/FlashCardCreateManyFK_FlashCardStackInputEnvelope";
-import { FlashCardCreateOrConnectWithoutFK_FlashCardStackInput } from "../inputs/FlashCardCreateOrConnectWithoutFK_FlashCardStackInput";
-import { FlashCardCreateWithoutFK_FlashCardStackInput } from "../inputs/FlashCardCreateWithoutFK_FlashCardStackInput";
-import { FlashCardWhereUniqueInput } from "../inputs/FlashCardWhereUniqueInput";
+import { FlashcardCreateManyFK_FlashcardStackInputEnvelope } from "../inputs/FlashcardCreateManyFK_FlashcardStackInputEnvelope";
+import { FlashcardCreateOrConnectWithoutFK_FlashcardStackInput } from "../inputs/FlashcardCreateOrConnectWithoutFK_FlashcardStackInput";
+import { FlashcardCreateWithoutFK_FlashcardStackInput } from "../inputs/FlashcardCreateWithoutFK_FlashcardStackInput";
+import { FlashcardWhereUniqueInput } from "../inputs/FlashcardWhereUniqueInput";
 
-@TypeGraphQL.InputType("FlashCardCreateNestedManyWithoutFK_FlashCardStackInput", {
+@TypeGraphQL.InputType("FlashcardCreateNestedManyWithoutFK_FlashcardStackInput", {
   isAbstract: true
 })
-export class FlashCardCreateNestedManyWithoutFK_FlashCardStackInput {
-  @TypeGraphQL.Field(_type => [FlashCardCreateWithoutFK_FlashCardStackInput], {
+export class FlashcardCreateNestedManyWithoutFK_FlashcardStackInput {
+  @TypeGraphQL.Field(_type => [FlashcardCreateWithoutFK_FlashcardStackInput], {
     nullable: true
   })
-  create?: FlashCardCreateWithoutFK_FlashCardStackInput[] | undefined;
+  create?: FlashcardCreateWithoutFK_FlashcardStackInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardCreateOrConnectWithoutFK_FlashCardStackInput], {
+  @TypeGraphQL.Field(_type => [FlashcardCreateOrConnectWithoutFK_FlashcardStackInput], {
     nullable: true
   })
-  connectOrCreate?: FlashCardCreateOrConnectWithoutFK_FlashCardStackInput[] | undefined;
+  connectOrCreate?: FlashcardCreateOrConnectWithoutFK_FlashcardStackInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardCreateManyFK_FlashCardStackInputEnvelope, {
+  @TypeGraphQL.Field(_type => FlashcardCreateManyFK_FlashcardStackInputEnvelope, {
     nullable: true
   })
-  createMany?: FlashCardCreateManyFK_FlashCardStackInputEnvelope | undefined;
+  createMany?: FlashcardCreateManyFK_FlashcardStackInputEnvelope | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardWhereUniqueInput], {
+  @TypeGraphQL.Field(_type => [FlashcardWhereUniqueInput], {
     nullable: true
   })
-  connect?: FlashCardWhereUniqueInput[] | undefined;
+  connect?: FlashcardWhereUniqueInput[] | undefined;
 }

@@ -2,30 +2,45 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardCreateNestedManyWithoutFK_FlashCardStackInput } from "../inputs/FlashCardCreateNestedManyWithoutFK_FlashCardStackInput";
-import { FlowCreateNestedOneWithoutFK_FlashCardStacksInput } from "../inputs/FlowCreateNestedOneWithoutFK_FlashCardStacksInput";
+import { FlashcardCreateNestedManyWithoutFK_FlashcardStackInput } from "../inputs/FlashcardCreateNestedManyWithoutFK_FlashcardStackInput";
+import { FlowCreateNestedOneWithoutFK_FlashcardStacksInput } from "../inputs/FlowCreateNestedOneWithoutFK_FlashcardStacksInput";
 
-@TypeGraphQL.InputType("FlashCardStackCreateInput", {
+@TypeGraphQL.InputType("FlashcardStackCreateInput", {
   isAbstract: true
 })
-export class FlashCardStackCreateInput {
+export class FlashcardStackCreateInput {
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FlashcardStackID?: string | undefined;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
   CreatedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => FlowCreateNestedOneWithoutFK_FlashCardStacksInput, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  FK_Flow?: FlowCreateNestedOneWithoutFK_FlashCardStacksInput | undefined;
+  DeletedTime?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardCreateNestedManyWithoutFK_FlashCardStackInput, {
+  @TypeGraphQL.Field(_type => FlowCreateNestedOneWithoutFK_FlashcardStacksInput, {
     nullable: true
   })
-  FlashCards?: FlashCardCreateNestedManyWithoutFK_FlashCardStackInput | undefined;
+  FK_Flow?: FlowCreateNestedOneWithoutFK_FlashcardStacksInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardCreateNestedManyWithoutFK_FlashcardStackInput, {
+    nullable: true
+  })
+  FK_Flashcards?: FlashcardCreateNestedManyWithoutFK_FlashcardStackInput | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   Title?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Description?: string | undefined;
 }

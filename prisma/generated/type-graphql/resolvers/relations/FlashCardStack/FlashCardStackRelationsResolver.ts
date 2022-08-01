@@ -1,31 +1,31 @@
 import * as TypeGraphQL from "type-graphql";
-import { FlashCard } from "../../../models/FlashCard";
-import { FlashCardStack } from "../../../models/FlashCardStack";
+import { Flashcard } from "../../../models/Flashcard";
+import { FlashcardStack } from "../../../models/FlashcardStack";
 import { Flow } from "../../../models/Flow";
-import { FlashCardStackFlashCardsArgs } from "./args/FlashCardStackFlashCardsArgs";
+import { FlashcardStackFK_FlashcardsArgs } from "./args/FlashcardStackFK_FlashcardsArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
-@TypeGraphQL.Resolver(_of => FlashCardStack)
-export class FlashCardStackRelationsResolver {
+@TypeGraphQL.Resolver(_of => FlashcardStack)
+export class FlashcardStackRelationsResolver {
   @TypeGraphQL.FieldResolver(_type => Flow, {
     nullable: true
   })
-  async FK_Flow(@TypeGraphQL.Root() flashCardStack: FlashCardStack, @TypeGraphQL.Ctx() ctx: any): Promise<Flow | null> {
-    return getPrismaFromContext(ctx).flashCardStack.findUnique({
+  async FK_Flow(@TypeGraphQL.Root() flashcardStack: FlashcardStack, @TypeGraphQL.Ctx() ctx: any): Promise<Flow | null> {
+    return getPrismaFromContext(ctx).flashcardStack.findUnique({
       where: {
-        FlashCardStackID: flashCardStack.FlashCardStackID,
+        FlashcardStackID: flashcardStack.FlashcardStackID,
       },
     }).FK_Flow({});
   }
 
-  @TypeGraphQL.FieldResolver(_type => [FlashCard], {
+  @TypeGraphQL.FieldResolver(_type => [Flashcard], {
     nullable: false
   })
-  async FlashCards(@TypeGraphQL.Root() flashCardStack: FlashCardStack, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlashCardStackFlashCardsArgs): Promise<FlashCard[]> {
-    return getPrismaFromContext(ctx).flashCardStack.findUnique({
+  async FK_Flashcards(@TypeGraphQL.Root() flashcardStack: FlashcardStack, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlashcardStackFK_FlashcardsArgs): Promise<Flashcard[]> {
+    return getPrismaFromContext(ctx).flashcardStack.findUnique({
       where: {
-        FlashCardStackID: flashCardStack.FlashCardStackID,
+        FlashcardStackID: flashcardStack.FlashcardStackID,
       },
-    }).FlashCards(args);
+    }).FK_Flashcards(args);
   }
 }

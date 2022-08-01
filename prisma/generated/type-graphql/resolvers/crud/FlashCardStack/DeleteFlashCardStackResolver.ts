@@ -1,20 +1,20 @@
 import * as TypeGraphQL from "type-graphql";
 import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
-import { DeleteFlashCardStackArgs } from "./args/DeleteFlashCardStackArgs";
-import { FlashCardStack } from "../../../models/FlashCardStack";
+import { DeleteFlashcardStackArgs } from "./args/DeleteFlashcardStackArgs";
+import { FlashcardStack } from "../../../models/FlashcardStack";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
-@TypeGraphQL.Resolver(_of => FlashCardStack)
-export class DeleteFlashCardStackResolver {
-  @TypeGraphQL.Mutation(_returns => FlashCardStack, {
+@TypeGraphQL.Resolver(_of => FlashcardStack)
+export class DeleteFlashcardStackResolver {
+  @TypeGraphQL.Mutation(_returns => FlashcardStack, {
     nullable: true
   })
-  async deleteFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteFlashCardStackArgs): Promise<FlashCardStack | null> {
+  async deleteFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteFlashcardStackArgs): Promise<FlashcardStack | null> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.delete({
+    return getPrismaFromContext(ctx).flashcardStack.delete({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });

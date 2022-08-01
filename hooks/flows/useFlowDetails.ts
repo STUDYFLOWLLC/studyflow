@@ -35,6 +35,14 @@ export interface FlowDetail {
   Trashed: boolean
   FK_CourseOnTerm: SmallCourse
   FK_Tasks: FlowTask[]
+  FK_FlashcardStacks: {
+    FlashcardStackID: string
+    Title: string
+    Description: string
+    FK_Flashcards: {
+      FlashcardID: string
+    }[]
+  }[]
   _count: {
     FK_FlowView: number
     FK_FlashcardStacks: number
@@ -43,7 +51,7 @@ export interface FlowDetail {
 }
 
 interface Ret {
-  flowDetails: FlowDetail
+  flowDetails: FlowDetail | null
   flowDetailsLoading: boolean
   flowDetailsError: any
   mutateFlowDetails: KeyedMutator<any>
@@ -51,7 +59,10 @@ interface Ret {
 
 export default function useFlowDetails(FlowID: string | undefined): Ret {
   const query = gql`
-    query FindFirstFlow($where: FlowWhereInput) {
+    query FindFirstFlow(
+      $where: FlowWhereInput
+      $fkFlashcardStacksWhere2: FlashcardStackWhereInput
+    ) {
       findFirstFlow(where: $where) {
         FlowID
         CreatedTime
@@ -78,9 +89,17 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
           DueDate
           Type
         }
+        FK_FlashcardStacks(where: $fkFlashcardStacksWhere2) {
+          FlashcardStackID
+          Title
+          Description
+          FK_Flashcards {
+            FlashcardID
+          }
+        }
         _count {
           FK_FlowView
-          FK_FlashCardStacks
+          FK_FlashcardStacks
           FK_Tasks
         }
       }
@@ -90,8 +109,22 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
   const variables = {
     where: {
       FlowID: {
-        equals: FlowID || '',
+        equals: FlowID,
       },
+    },
+    fkFlashcardStacksWhere2: {
+      AND: [
+        {
+          FK_FlowID: {
+            equals: FlowID,
+          },
+        },
+        {
+          DeletedTime: {
+            equals: null,
+          },
+        },
+      ],
     },
   }
 

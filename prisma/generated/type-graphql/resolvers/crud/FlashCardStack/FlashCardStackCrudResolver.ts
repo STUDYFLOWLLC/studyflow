@@ -1,73 +1,73 @@
 import * as TypeGraphQL from "type-graphql";
 import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
-import { AggregateFlashCardStackArgs } from "./args/AggregateFlashCardStackArgs";
-import { CreateFlashCardStackArgs } from "./args/CreateFlashCardStackArgs";
-import { CreateManyFlashCardStackArgs } from "./args/CreateManyFlashCardStackArgs";
-import { DeleteFlashCardStackArgs } from "./args/DeleteFlashCardStackArgs";
-import { DeleteManyFlashCardStackArgs } from "./args/DeleteManyFlashCardStackArgs";
-import { FindFirstFlashCardStackArgs } from "./args/FindFirstFlashCardStackArgs";
-import { FindManyFlashCardStackArgs } from "./args/FindManyFlashCardStackArgs";
-import { FindUniqueFlashCardStackArgs } from "./args/FindUniqueFlashCardStackArgs";
-import { GroupByFlashCardStackArgs } from "./args/GroupByFlashCardStackArgs";
-import { UpdateFlashCardStackArgs } from "./args/UpdateFlashCardStackArgs";
-import { UpdateManyFlashCardStackArgs } from "./args/UpdateManyFlashCardStackArgs";
-import { UpsertFlashCardStackArgs } from "./args/UpsertFlashCardStackArgs";
+import { AggregateFlashcardStackArgs } from "./args/AggregateFlashcardStackArgs";
+import { CreateFlashcardStackArgs } from "./args/CreateFlashcardStackArgs";
+import { CreateManyFlashcardStackArgs } from "./args/CreateManyFlashcardStackArgs";
+import { DeleteFlashcardStackArgs } from "./args/DeleteFlashcardStackArgs";
+import { DeleteManyFlashcardStackArgs } from "./args/DeleteManyFlashcardStackArgs";
+import { FindFirstFlashcardStackArgs } from "./args/FindFirstFlashcardStackArgs";
+import { FindManyFlashcardStackArgs } from "./args/FindManyFlashcardStackArgs";
+import { FindUniqueFlashcardStackArgs } from "./args/FindUniqueFlashcardStackArgs";
+import { GroupByFlashcardStackArgs } from "./args/GroupByFlashcardStackArgs";
+import { UpdateFlashcardStackArgs } from "./args/UpdateFlashcardStackArgs";
+import { UpdateManyFlashcardStackArgs } from "./args/UpdateManyFlashcardStackArgs";
+import { UpsertFlashcardStackArgs } from "./args/UpsertFlashcardStackArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
-import { FlashCardStack } from "../../../models/FlashCardStack";
+import { FlashcardStack } from "../../../models/FlashcardStack";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";
-import { AggregateFlashCardStack } from "../../outputs/AggregateFlashCardStack";
-import { FlashCardStackGroupBy } from "../../outputs/FlashCardStackGroupBy";
+import { AggregateFlashcardStack } from "../../outputs/AggregateFlashcardStack";
+import { FlashcardStackGroupBy } from "../../outputs/FlashcardStackGroupBy";
 
-@TypeGraphQL.Resolver(_of => FlashCardStack)
-export class FlashCardStackCrudResolver {
-  @TypeGraphQL.Query(_returns => FlashCardStack, {
+@TypeGraphQL.Resolver(_of => FlashcardStack)
+export class FlashcardStackCrudResolver {
+  @TypeGraphQL.Query(_returns => FlashcardStack, {
     nullable: true
   })
-  async flashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindUniqueFlashCardStackArgs): Promise<FlashCardStack | null> {
+  async flashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindUniqueFlashcardStackArgs): Promise<FlashcardStack | null> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.findUnique({
+    return getPrismaFromContext(ctx).flashcardStack.findUnique({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Query(_returns => FlashCardStack, {
+  @TypeGraphQL.Query(_returns => FlashcardStack, {
     nullable: true
   })
-  async findFirstFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstFlashCardStackArgs): Promise<FlashCardStack | null> {
+  async findFirstFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstFlashcardStackArgs): Promise<FlashcardStack | null> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.findFirst({
+    return getPrismaFromContext(ctx).flashcardStack.findFirst({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Query(_returns => [FlashCardStack], {
+  @TypeGraphQL.Query(_returns => [FlashcardStack], {
     nullable: false
   })
-  async flashCardStacks(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindManyFlashCardStackArgs): Promise<FlashCardStack[]> {
+  async flashcardStacks(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindManyFlashcardStackArgs): Promise<FlashcardStack[]> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.findMany({
+    return getPrismaFromContext(ctx).flashcardStack.findMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Mutation(_returns => FlashCardStack, {
+  @TypeGraphQL.Mutation(_returns => FlashcardStack, {
     nullable: false
   })
-  async createFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateFlashCardStackArgs): Promise<FlashCardStack> {
+  async createFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateFlashcardStackArgs): Promise<FlashcardStack> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.create({
+    return getPrismaFromContext(ctx).flashcardStack.create({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
@@ -76,37 +76,37 @@ export class FlashCardStackCrudResolver {
   @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
     nullable: false
   })
-  async createManyFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateManyFlashCardStackArgs): Promise<AffectedRowsOutput> {
+  async createManyFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateManyFlashcardStackArgs): Promise<AffectedRowsOutput> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.createMany({
+    return getPrismaFromContext(ctx).flashcardStack.createMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Mutation(_returns => FlashCardStack, {
+  @TypeGraphQL.Mutation(_returns => FlashcardStack, {
     nullable: true
   })
-  async deleteFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteFlashCardStackArgs): Promise<FlashCardStack | null> {
+  async deleteFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteFlashcardStackArgs): Promise<FlashcardStack | null> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.delete({
+    return getPrismaFromContext(ctx).flashcardStack.delete({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Mutation(_returns => FlashCardStack, {
+  @TypeGraphQL.Mutation(_returns => FlashcardStack, {
     nullable: true
   })
-  async updateFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateFlashCardStackArgs): Promise<FlashCardStack | null> {
+  async updateFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateFlashcardStackArgs): Promise<FlashcardStack | null> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.update({
+    return getPrismaFromContext(ctx).flashcardStack.update({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
@@ -115,11 +115,11 @@ export class FlashCardStackCrudResolver {
   @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
     nullable: false
   })
-  async deleteManyFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteManyFlashCardStackArgs): Promise<AffectedRowsOutput> {
+  async deleteManyFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: DeleteManyFlashcardStackArgs): Promise<AffectedRowsOutput> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.deleteMany({
+    return getPrismaFromContext(ctx).flashcardStack.deleteMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
@@ -128,47 +128,47 @@ export class FlashCardStackCrudResolver {
   @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
     nullable: false
   })
-  async updateManyFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateManyFlashCardStackArgs): Promise<AffectedRowsOutput> {
+  async updateManyFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateManyFlashcardStackArgs): Promise<AffectedRowsOutput> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.updateMany({
+    return getPrismaFromContext(ctx).flashcardStack.updateMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Mutation(_returns => FlashCardStack, {
+  @TypeGraphQL.Mutation(_returns => FlashcardStack, {
     nullable: false
   })
-  async upsertFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpsertFlashCardStackArgs): Promise<FlashCardStack> {
+  async upsertFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpsertFlashcardStackArgs): Promise<FlashcardStack> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.upsert({
+    return getPrismaFromContext(ctx).flashcardStack.upsert({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });
   }
 
-  @TypeGraphQL.Query(_returns => AggregateFlashCardStack, {
+  @TypeGraphQL.Query(_returns => AggregateFlashcardStack, {
     nullable: false
   })
-  async aggregateFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateFlashCardStackArgs): Promise<AggregateFlashCardStack> {
-    return getPrismaFromContext(ctx).flashCardStack.aggregate({
+  async aggregateFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: AggregateFlashcardStackArgs): Promise<AggregateFlashcardStack> {
+    return getPrismaFromContext(ctx).flashcardStack.aggregate({
       ...args,
       ...transformFields(graphqlFields(info as any)),
     });
   }
 
-  @TypeGraphQL.Query(_returns => [FlashCardStackGroupBy], {
+  @TypeGraphQL.Query(_returns => [FlashcardStackGroupBy], {
     nullable: false
   })
-  async groupByFlashCardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByFlashCardStackArgs): Promise<FlashCardStackGroupBy[]> {
+  async groupByFlashcardStack(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: GroupByFlashcardStackArgs): Promise<FlashcardStackGroupBy[]> {
     const { _count, _avg, _sum, _min, _max } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCardStack.groupBy({
+    return getPrismaFromContext(ctx).flashcardStack.groupBy({
       ...args,
       ...Object.fromEntries(
         Object.entries({ _count, _avg, _sum, _min, _max }).filter(([_, v]) => v != null)
