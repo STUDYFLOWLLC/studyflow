@@ -6,6 +6,7 @@ export enum FlashcardStatus {
 }
 
 export interface FlashcardProps {
+  index: number
   front: string
   back: string
   status: FlashcardStatus

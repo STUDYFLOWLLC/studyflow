@@ -5,12 +5,17 @@ import {
   XCircleIcon,
 } from '@heroicons/react/solid'
 import classnames from 'classnames'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FlashcardProps, FlashcardStatus } from 'types/Flashcards'
+import delay from 'utils/delay'
 
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
+interface Props {
+  card: FlashcardProps
+  shouldFlip?: number
+  setShouldFlip?: (shouldFlip: number) => void
+}
 
-export default function Flashcard({ front, back, status }: FlashcardProps) {
+export default function Flashcard({ card, shouldFlip, setShouldFlip }: Props) {
   const [flip, setFlip] = useState(false)
   const [showBack, setShowBack] = useState(false)
 
@@ -19,6 +24,13 @@ export default function Flashcard({ front, back, status }: FlashcardProps) {
     await delay(90)
     setShowBack(val)
   }
+
+  useEffect(() => {
+    if (shouldFlip === card.index) {
+      flipper(!flip)
+      if (setShouldFlip) setShouldFlip(-1)
+    }
+  }, [shouldFlip])
 
   return (
     <div
@@ -30,24 +42,24 @@ export default function Flashcard({ front, back, status }: FlashcardProps) {
       onClick={() => flipper(!flip)}
       onKeyDown={() => flipper(!flip)}
     >
-      {status === FlashcardStatus.right && (
+      {card.status === FlashcardStatus.right && (
         <div className="w-6 h-6 absolute top-1 left-1">
           <CheckCircleIcon className="text-green-500" />
         </div>
       )}
-      {status === FlashcardStatus.wrong && (
+      {card.status === FlashcardStatus.wrong && (
         <div className="w-6 h-6 absolute top-1 left-1">
           <XCircleIcon className="text-red-400" />
         </div>
       )}
-      {status === FlashcardStatus.neutral && (
+      {card.status === FlashcardStatus.neutral && (
         <div className="w-6 h-6 absolute top-1 left-1">
           <QuestionMarkCircleIcon className="text-stone-800" />
         </div>
       )}
-      <div className="card front text-stone-800">{front}</div>
+      <div className="card front text-stone-800">{card.front}</div>
       <div className={classnames('card back text-stone-800')}>
-        {showBack && back}
+        {showBack && card.back}
       </div>
     </div>
   )

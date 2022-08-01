@@ -3,23 +3,27 @@
 import AppleButton from 'components/buttons/AppleButton'
 import ToastTester from 'components/Design/ToastTester'
 import CourseDropDown, { Item } from 'components/dropdowns/CourseDropdown'
+import Deck from 'components/flowparts/Deck'
 import FlashCard3 from 'components/flowparts/FlashCard3'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { useTheme } from 'next-themes'
 import { FlashcardProps, FlashcardStatus } from 'types/Flashcards'
 
-const cards: FlashcardProps[] = [
+const cardsInit: FlashcardProps[] = [
   {
+    index: 0,
     front: 'front1',
     back: 'back1',
     status: FlashcardStatus.right,
   },
   {
+    index: 1,
     front: 'front2',
     back: 'back2',
     status: FlashcardStatus.wrong,
   },
   {
+    index: 2,
     front: 'front3',
     back: 'back3',
     status: FlashcardStatus.neutral,
@@ -51,7 +55,7 @@ export default function index() {
       <ToastTester />
       <AppleButton />
       <MainSpinner />
-      <FlashCard3 front="front" back="back" status={FlashcardStatus.neutral} />
+      <FlashCard3 card={cardsInit[0]} />
       <button
         type="button"
         className="btn btn-primary"
@@ -67,7 +71,7 @@ export default function index() {
           loading={false}
         />
       </div>
-      {/* <Deck cards={cards} /> */}
+      <Deck cards={cardsInit} />
     </div>
   )
 }
