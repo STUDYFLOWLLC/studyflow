@@ -2,20 +2,20 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardUpdateWithoutFK_FlashCardStackInput } from "../inputs/FlashCardUpdateWithoutFK_FlashCardStackInput";
-import { FlashCardWhereUniqueInput } from "../inputs/FlashCardWhereUniqueInput";
+import { FlashcardUpdateWithoutFK_FlashcardStackInput } from "../inputs/FlashcardUpdateWithoutFK_FlashcardStackInput";
+import { FlashcardWhereUniqueInput } from "../inputs/FlashcardWhereUniqueInput";
 
-@TypeGraphQL.InputType("FlashCardUpdateWithWhereUniqueWithoutFK_FlashCardStackInput", {
+@TypeGraphQL.InputType("FlashcardUpdateWithWhereUniqueWithoutFK_FlashcardStackInput", {
   isAbstract: true
 })
-export class FlashCardUpdateWithWhereUniqueWithoutFK_FlashCardStackInput {
-  @TypeGraphQL.Field(_type => FlashCardWhereUniqueInput, {
+export class FlashcardUpdateWithWhereUniqueWithoutFK_FlashcardStackInput {
+  @TypeGraphQL.Field(_type => FlashcardWhereUniqueInput, {
     nullable: false
   })
-  where!: FlashCardWhereUniqueInput;
+  where!: FlashcardWhereUniqueInput;
 
-  @TypeGraphQL.Field(_type => FlashCardUpdateWithoutFK_FlashCardStackInput, {
+  @TypeGraphQL.Field(_type => FlashcardUpdateWithoutFK_FlashcardStackInput, {
     nullable: false
   })
-  data!: FlashCardUpdateWithoutFK_FlashCardStackInput;
+  data!: FlashcardUpdateWithoutFK_FlashcardStackInput;
 }

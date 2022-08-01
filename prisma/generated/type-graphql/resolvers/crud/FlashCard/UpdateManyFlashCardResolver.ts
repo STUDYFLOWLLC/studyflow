@@ -1,21 +1,21 @@
 import * as TypeGraphQL from "type-graphql";
 import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
-import { UpdateManyFlashCardArgs } from "./args/UpdateManyFlashCardArgs";
-import { FlashCard } from "../../../models/FlashCard";
+import { UpdateManyFlashcardArgs } from "./args/UpdateManyFlashcardArgs";
+import { Flashcard } from "../../../models/Flashcard";
 import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
-@TypeGraphQL.Resolver(_of => FlashCard)
-export class UpdateManyFlashCardResolver {
+@TypeGraphQL.Resolver(_of => Flashcard)
+export class UpdateManyFlashcardResolver {
   @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
     nullable: false
   })
-  async updateManyFlashCard(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateManyFlashCardArgs): Promise<AffectedRowsOutput> {
+  async updateManyFlashcard(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UpdateManyFlashcardArgs): Promise<AffectedRowsOutput> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCard.updateMany({
+    return getPrismaFromContext(ctx).flashcard.updateMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });

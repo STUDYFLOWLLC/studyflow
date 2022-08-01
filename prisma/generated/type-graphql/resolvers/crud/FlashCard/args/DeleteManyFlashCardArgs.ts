@@ -1,11 +1,11 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardWhereInput } from "../../../inputs/FlashCardWhereInput";
+import { FlashcardWhereInput } from "../../../inputs/FlashcardWhereInput";
 
 @TypeGraphQL.ArgsType()
-export class DeleteManyFlashCardArgs {
-  @TypeGraphQL.Field(_type => FlashCardWhereInput, {
+export class DeleteManyFlashcardArgs {
+  @TypeGraphQL.Field(_type => FlashcardWhereInput, {
     nullable: true
   })
-  where?: FlashCardWhereInput | undefined;
+  where?: FlashcardWhereInput | undefined;
 }

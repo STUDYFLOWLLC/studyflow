@@ -2,20 +2,20 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardStackScalarWhereInput } from "../inputs/FlashCardStackScalarWhereInput";
-import { FlashCardStackUpdateManyMutationInput } from "../inputs/FlashCardStackUpdateManyMutationInput";
+import { FlashcardStackScalarWhereInput } from "../inputs/FlashcardStackScalarWhereInput";
+import { FlashcardStackUpdateManyMutationInput } from "../inputs/FlashcardStackUpdateManyMutationInput";
 
-@TypeGraphQL.InputType("FlashCardStackUpdateManyWithWhereWithoutFK_FlowInput", {
+@TypeGraphQL.InputType("FlashcardStackUpdateManyWithWhereWithoutFK_FlowInput", {
   isAbstract: true
 })
-export class FlashCardStackUpdateManyWithWhereWithoutFK_FlowInput {
-  @TypeGraphQL.Field(_type => FlashCardStackScalarWhereInput, {
+export class FlashcardStackUpdateManyWithWhereWithoutFK_FlowInput {
+  @TypeGraphQL.Field(_type => FlashcardStackScalarWhereInput, {
     nullable: false
   })
-  where!: FlashCardStackScalarWhereInput;
+  where!: FlashcardStackScalarWhereInput;
 
-  @TypeGraphQL.Field(_type => FlashCardStackUpdateManyMutationInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackUpdateManyMutationInput, {
     nullable: false
   })
-  data!: FlashCardStackUpdateManyMutationInput;
+  data!: FlashcardStackUpdateManyMutationInput;
 }

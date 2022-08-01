@@ -2,30 +2,35 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardAvgAggregate } from "../outputs/FlashCardAvgAggregate";
-import { FlashCardCountAggregate } from "../outputs/FlashCardCountAggregate";
-import { FlashCardMaxAggregate } from "../outputs/FlashCardMaxAggregate";
-import { FlashCardMinAggregate } from "../outputs/FlashCardMinAggregate";
-import { FlashCardSumAggregate } from "../outputs/FlashCardSumAggregate";
+import { FlashcardAvgAggregate } from "../outputs/FlashcardAvgAggregate";
+import { FlashcardCountAggregate } from "../outputs/FlashcardCountAggregate";
+import { FlashcardMaxAggregate } from "../outputs/FlashcardMaxAggregate";
+import { FlashcardMinAggregate } from "../outputs/FlashcardMinAggregate";
+import { FlashcardSumAggregate } from "../outputs/FlashcardSumAggregate";
 
-@TypeGraphQL.ObjectType("FlashCardGroupBy", {
+@TypeGraphQL.ObjectType("FlashcardGroupBy", {
   isAbstract: true
 })
-export class FlashCardGroupBy {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+export class FlashcardGroupBy {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  FlashCardID!: number;
+  FlashcardID!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
   CreatedTime!: Date;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  FK_FlashCardStackID!: number | null;
+  DeletedTime!: Date | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_FlashcardStackID!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -33,37 +38,37 @@ export class FlashCardGroupBy {
   Position!: number;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: false
   })
-  Front!: string | null;
+  Front!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
+    nullable: false
   })
-  Back!: string | null;
+  Back!: string;
 
-  @TypeGraphQL.Field(_type => FlashCardCountAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardCountAggregate, {
     nullable: true
   })
-  _count!: FlashCardCountAggregate | null;
+  _count!: FlashcardCountAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardAvgAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardAvgAggregate, {
     nullable: true
   })
-  _avg!: FlashCardAvgAggregate | null;
+  _avg!: FlashcardAvgAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardSumAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardSumAggregate, {
     nullable: true
   })
-  _sum!: FlashCardSumAggregate | null;
+  _sum!: FlashcardSumAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardMinAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardMinAggregate, {
     nullable: true
   })
-  _min!: FlashCardMinAggregate | null;
+  _min!: FlashcardMinAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardMaxAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardMaxAggregate, {
     nullable: true
   })
-  _max!: FlashCardMaxAggregate | null;
+  _max!: FlashcardMaxAggregate | null;
 }

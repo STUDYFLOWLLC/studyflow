@@ -1,14 +1,15 @@
 import * as TypeGraphQL from "type-graphql";
 
-export enum FlashCardScalarFieldEnum {
-  FlashCardID = "FlashCardID",
+export enum FlashcardScalarFieldEnum {
+  FlashcardID = "FlashcardID",
   CreatedTime = "CreatedTime",
-  FK_FlashCardStackID = "FK_FlashCardStackID",
+  DeletedTime = "DeletedTime",
+  FK_FlashcardStackID = "FK_FlashcardStackID",
   Position = "Position",
   Front = "Front",
   Back = "Back"
 }
-TypeGraphQL.registerEnumType(FlashCardScalarFieldEnum, {
-  name: "FlashCardScalarFieldEnum",
+TypeGraphQL.registerEnumType(FlashcardScalarFieldEnum, {
+  name: "FlashcardScalarFieldEnum",
   description: undefined,
 });

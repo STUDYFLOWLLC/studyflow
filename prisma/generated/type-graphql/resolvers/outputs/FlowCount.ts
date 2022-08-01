@@ -10,7 +10,7 @@ export class FlowCount {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  FK_FlashCardStacks!: number;
+  FK_FlashcardStacks!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

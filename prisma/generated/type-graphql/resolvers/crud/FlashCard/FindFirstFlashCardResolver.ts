@@ -1,20 +1,20 @@
 import * as TypeGraphQL from "type-graphql";
 import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
-import { FindFirstFlashCardArgs } from "./args/FindFirstFlashCardArgs";
-import { FlashCard } from "../../../models/FlashCard";
+import { FindFirstFlashcardArgs } from "./args/FindFirstFlashcardArgs";
+import { Flashcard } from "../../../models/Flashcard";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
-@TypeGraphQL.Resolver(_of => FlashCard)
-export class FindFirstFlashCardResolver {
-  @TypeGraphQL.Query(_returns => FlashCard, {
+@TypeGraphQL.Resolver(_of => Flashcard)
+export class FindFirstFlashcardResolver {
+  @TypeGraphQL.Query(_returns => Flashcard, {
     nullable: true
   })
-  async findFirstFlashCard(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstFlashCardArgs): Promise<FlashCard | null> {
+  async findFirstFlashcard(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindFirstFlashcardArgs): Promise<Flashcard | null> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCard.findFirst({
+    return getPrismaFromContext(ctx).flashcard.findFirst({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });

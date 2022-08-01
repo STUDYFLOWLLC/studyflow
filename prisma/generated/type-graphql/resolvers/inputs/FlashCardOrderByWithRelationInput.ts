@@ -2,32 +2,38 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardStackOrderByWithRelationInput } from "../inputs/FlashCardStackOrderByWithRelationInput";
+import { FlashcardReviewOrderByRelationAggregateInput } from "../inputs/FlashcardReviewOrderByRelationAggregateInput";
+import { FlashcardStackOrderByWithRelationInput } from "../inputs/FlashcardStackOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType("FlashCardOrderByWithRelationInput", {
+@TypeGraphQL.InputType("FlashcardOrderByWithRelationInput", {
   isAbstract: true
 })
-export class FlashCardOrderByWithRelationInput {
+export class FlashcardOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FlashCardID?: "asc" | "desc" | undefined;
+  FlashcardID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
   CreatedTime?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackOrderByWithRelationInput, {
+  @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_FlashCardStack?: FlashCardStackOrderByWithRelationInput | undefined;
+  DeletedTime?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardStackOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_FlashcardStack?: FlashcardStackOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_FlashCardStackID?: "asc" | "desc" | undefined;
+  FK_FlashcardStackID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -43,4 +49,9 @@ export class FlashCardOrderByWithRelationInput {
     nullable: true
   })
   Back?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardReviewOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_FlashcardReviews?: FlashcardReviewOrderByRelationAggregateInput | undefined;
 }
