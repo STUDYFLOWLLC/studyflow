@@ -65,6 +65,11 @@ export class Flow {
   })
   Body?: string | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime?: Date | null;
+
   FK_CourseOnTerm?: CourseOnTerm | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

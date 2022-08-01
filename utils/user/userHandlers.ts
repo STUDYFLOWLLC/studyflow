@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
+import { mutateEmptyFlowTrash } from 'hooks/flows/mutateFlow'
+import { DashFlow } from 'hooks/flows/useDashFlows'
 import {
   mutateName,
   mutateProfilePictureLink,
@@ -191,4 +193,31 @@ export async function changeUserSetupStep(
       revalidate: false,
     },
   )
+}
+
+export async function emptyTrash(
+  userId: number | undefined,
+  dashFlows: DashFlow[],
+  mutateDashFlows: KeyedMutator<any>,
+  setDeleting: (isDeleting: boolean) => void,
+) {
+  if (!userId) return
+
+  setDeleting(true)
+
+  // mutate in backend
+  await mutateEmptyFlowTrash(userId)
+
+  // mutate locally
+  mutateDashFlows(
+    {
+      mutate: true,
+      mutatedFlows: dashFlows.filter((flow) => !flow.Trashed),
+    },
+    {
+      revalidate: false,
+    },
+  )
+
+  setDeleting(false)
 }

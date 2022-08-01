@@ -211,10 +211,10 @@ export async function trashFlow(
   mutateDashFlows: KeyedMutator<any>,
   closeFlowModal: () => void,
 ) {
-  if (!flowId) return
+  if (!flowId || !userDetails) return
 
   // mutate in backend
-  mutateTrashFLow(flowId, true)
+  mutateTrashFLow(flowId, userDetails?.UserID, true)
 
   // mutate locally
   mutateDashFlows(
@@ -224,7 +224,7 @@ export async function trashFlow(
           return {
             ...flow,
             Trashed: true,
-            FK_UserID: userDetails?.UserID || 0,
+            FK_UserID: userDetails.UserID,
           }
         }
         return flow
@@ -239,15 +239,16 @@ export async function trashFlow(
 
 export async function restoreFlow(
   flowId: string,
+  userDetails: UserDetail | null,
   newCourse: CourseOnTerm,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
   closeFlowModal: () => void,
 ) {
-  if (!flowId) return
+  if (!flowId || !userDetails) return
 
   // mutate in backend
-  mutateTrashFLow(flowId, false)
+  mutateTrashFLow(flowId, userDetails.UserID, false)
   mutateFlowCourseOnTerm(flowId, newCourse.CourseOnTermID)
 
   // mutate locally

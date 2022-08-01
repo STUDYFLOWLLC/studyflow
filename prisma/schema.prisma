@@ -225,6 +225,7 @@ model Flow {
   Visibility         Visibility       @default(PUBLIC)
   WasAutomated       Boolean          @default(false)
   Body               String?
+  DeletedTime        DateTime?
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: SetNull, onUpdate: Cascade)
   FK_CourseOnTermID  Int?
   FK_FlashCardStacks FlashCardStack[]

@@ -66,24 +66,33 @@ export default function useDashFlows(
 
   const variables = {
     where: {
-      OR: [
+      AND: [
         {
-          FK_UserID: {
-            equals: userId,
+          DeletedTime: {
+            equals: null,
           },
         },
         {
-          FK_CourseOnTerm: {
-            is: {
-              FK_Term: {
+          OR: [
+            {
+              FK_UserID: {
+                equals: userId,
+              },
+            },
+            {
+              FK_CourseOnTerm: {
                 is: {
-                  FK_UserID: {
-                    equals: userId,
+                  FK_Term: {
+                    is: {
+                      FK_UserID: {
+                        equals: userId,
+                      },
+                    },
                   },
                 },
               },
             },
-          },
+          ],
         },
       ],
     },
@@ -95,6 +104,8 @@ export default function useDashFlows(
   }
 
   const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
+
+  console.log(data)
 
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>

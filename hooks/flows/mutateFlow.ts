@@ -198,7 +198,11 @@ export async function mutateLastOpened(flowId: string) {
   return data
 }
 
-export async function mutateTrashFLow(flowId: string, newBool: boolean) {
+export async function mutateTrashFLow(
+  flowId: string,
+  userId: number,
+  newBool: boolean,
+) {
   const mutation = gql`
     mutation UpdateFlow(
       $data: FlowUpdateInput!
@@ -214,6 +218,11 @@ export async function mutateTrashFLow(flowId: string, newBool: boolean) {
     data: {
       Trashed: {
         set: newBool,
+      },
+      FK_User: {
+        connect: {
+          UserID: userId,
+        },
       },
     },
     where: {
@@ -302,5 +311,35 @@ export async function mutateTrashedMany(
   }
 
   const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
+export async function mutateEmptyFlowTrash(userId: number) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: FlowUpdateManyMutationInput!
+      $where: FlowWhereInput
+    ) {
+      updateManyFlow(data: $data, where: $where) {
+        count
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      DeletedTime: {
+        set: new Date().toISOString(),
+      },
+    },
+    where: {
+      FK_UserID: {
+        equals: userId,
+      },
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  console.log(data)
   return data
 }
