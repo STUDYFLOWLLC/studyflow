@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-promise-executor-return, no-nested-ternary, react/no-array-index-key, arrow-body-style */
+// @ts-nocheck
+
 import { animated, to as interpolate, useSprings } from '@react-spring/web'
 import { createUseGesture, dragAction } from '@use-gesture/react'
 import FlashCard3 from 'components/flowparts/FlashCard3'
@@ -33,17 +36,11 @@ export default function Deck({ cards }: Props) {
   const useGesture = createUseGesture([dragAction])
   const bind = useGesture({
     onDrag: ({
-      // @ts-expect-error: This is a hack to get the type to work
       args: [index],
-      // @ts-expect-error: This is a hack to get the type to work
       active,
-      // @ts-expect-error: This is a hack to get the type to work
       distance,
-      // @ts-expect-error: This is a hack to get the type to work
       movement: [mx],
-      // @ts-expect-error: This is a hack to get the type to work
       direction: [xDir],
-      // @ts-expect-error: This is a hack to get the type to work
       velocity: [vx],
     }) => {
       const trigger = vx > 0.1 && mx > 200 // If you flick hard enough it should trigger the card to fly out
