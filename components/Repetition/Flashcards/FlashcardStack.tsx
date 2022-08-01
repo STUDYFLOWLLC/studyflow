@@ -33,11 +33,17 @@ export default function Deck({ cards }: Props) {
   const useGesture = createUseGesture([dragAction])
   const bind = useGesture({
     onDrag: ({
+      // @ts-expect-error: This is a hack to get the type to work
       args: [index],
+      // @ts-expect-error: This is a hack to get the type to work
       active,
+      // @ts-expect-error: This is a hack to get the type to work
       distance,
+      // @ts-expect-error: This is a hack to get the type to work
       movement: [mx],
+      // @ts-expect-error: This is a hack to get the type to work
       direction: [xDir],
+      // @ts-expect-error: This is a hack to get the type to work
       velocity: [vx],
     }) => {
       const trigger = vx > 0.1 && mx > 200 // If you flick hard enough it should trigger the card to fly out
@@ -65,7 +71,6 @@ export default function Deck({ cards }: Props) {
         }
       })
       if (!active && gone.size === cards.length) {
-        console.log('hi')
         setTimeout(() => {
           toast.success('Well done!')
           gone.clear()
@@ -107,6 +112,7 @@ export default function Deck({ cards }: Props) {
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
     <div className="bg-current w-full deck justify-center flex">
+      {/* eslint-disable-next-line react/prop-types */}
       {props.map(({ x, y, rot, scale, zIndex }, i) => (
         <animated.div
           key={i}
