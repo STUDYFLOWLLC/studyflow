@@ -46,7 +46,7 @@ class EnterFront extends React.Component<Props, State> {
     const { html, focused } = this.state
 
     return (
-      <div className="my-4">
+      <div className="my-2">
         <div className="min-h-8 relative">
           <ContentEditable
             html={html}
