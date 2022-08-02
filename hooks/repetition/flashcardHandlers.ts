@@ -6,6 +6,7 @@ import {
   mutateDeleteFlashcard,
   mutateFlashcardBack,
   mutateFlashcardFront,
+  mutateFlashcardPosition,
 } from 'hooks/repetition/mutateFlashcard'
 import toast from 'react-hot-toast'
 import { KeyedMutator } from 'swr'
@@ -160,4 +161,37 @@ export async function addFlashcard(
   setCreating(false)
 
   toast.success('Flashcard added')
+}
+
+export async function swapFlashcards(
+  upperIndex: number,
+  flashcardStack: FlashcardStack | null,
+  mutateFlashcardStack: KeyedMutator<any>,
+) {
+  if (!flashcardStack) return
+
+  // mutate in backend
+  const upper = structuredClone(flashcardStack.FK_Flashcards[upperIndex])
+  const lower = structuredClone(flashcardStack.FK_Flashcards[upperIndex + 1])
+
+  mutateFlashcardPosition(upper.FlashcardID, lower.Position)
+  mutateFlashcardPosition(lower.FlashcardID, upper.Position)
+
+  const copy = [...flashcardStack.FK_Flashcards]
+  copy[upperIndex] = { ...lower, Position: upper.Position }
+  copy[upperIndex + 1] = { ...upper, Position: lower.Position }
+
+  // mutate locally
+  mutateFlashcardStack(
+    {
+      mutate: true,
+      mutatedFlashcardStack: {
+        ...flashcardStack,
+        FK_Flashcards: copy,
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
 }

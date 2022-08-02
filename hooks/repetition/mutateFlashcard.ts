@@ -89,6 +89,36 @@ export async function mutateDeleteFlashcard(flashcardId: string) {
   return data
 }
 
+export async function mutateFlashcardPosition(
+  flashcardId: string,
+  newPosition: number,
+) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: FlashcardUpdateInput!
+      $where: FlashcardWhereUniqueInput!
+    ) {
+      updateFlashcard(data: $data, where: $where) {
+        FlashcardID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      Position: {
+        set: newPosition,
+      },
+    },
+    where: {
+      FlashcardID: flashcardId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
 export async function mutateAddFlashcard(
   newFlashcardId: string,
   flashcardStackId: string,

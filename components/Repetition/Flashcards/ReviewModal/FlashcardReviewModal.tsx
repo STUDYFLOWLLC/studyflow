@@ -64,7 +64,7 @@ export default function FlashcardReviewModal({
             className={classNames(
               { 'bg-white': theme === 'light' },
               { 'bg-base-100': theme === 'dark' },
-              'overflow-y-auto no-scrollbar max-w-2xl w-full h-4/5 mx-auto prose relative rounded-md p-2 transition-all',
+              'overflow-y-auto no-scrollbar max-w-2xl w-full h-full mx-auto prose relative rounded-md p-2 transition-all',
             )}
           >
             <MainFlashcard
