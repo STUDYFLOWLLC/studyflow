@@ -28,3 +28,33 @@ export default async function mutateDeleteFlashcardStack(
   const data = await request('/api/graphql', mutation, variables)
   return data
 }
+
+export async function mutateFlashcardStackTitle(
+  flashcardStackId: string,
+  newTitle: string,
+) {
+  const mutation = gql`
+    mutation Mutation(
+      $where: FlashcardStackWhereUniqueInput!
+      $data: FlashcardStackUpdateInput!
+    ) {
+      updateFlashcardStack(where: $where, data: $data) {
+        FlashcardStackID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      Title: {
+        set: newTitle,
+      },
+    },
+    where: {
+      FlashcardStackID: flashcardStackId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}

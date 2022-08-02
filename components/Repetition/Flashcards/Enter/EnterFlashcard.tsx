@@ -4,7 +4,7 @@ import {
   CheckIcon,
   TrashIcon,
 } from '@heroicons/react/outline'
-import EnterFront from 'components/Repetition/Flashcards/EnterFront'
+import EnterFront from 'components/Repetition/Flashcards/Enter/EnterFront'
 import MainSpinner from 'components/spinners/MainSpinner'
 import {
   deleteFlashcard,
@@ -14,7 +14,7 @@ import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
 import { useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 import { Flashcard } from 'types/Repetition'
-import EnterBack from '../EnterBack'
+import EnterBack from './EnterBack'
 
 interface Props {
   flashcard: Flashcard

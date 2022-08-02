@@ -33,8 +33,6 @@ export default function EnterFlashcardStack({ flashcardStackId }: Props) {
   const { flashcardStack, mutateFlashcardStack } =
     useFlashcardStack(flashcardStackId)
 
-  console.log(flashcardStack)
-
   return (
     <div>
       {/* @ts-expect-error this is a little outdated */}
