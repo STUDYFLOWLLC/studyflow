@@ -5,7 +5,7 @@ import useFlowDetails from 'hooks/flows/useFlowDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { ActiveProps } from 'types/ActiveProps'
-import { deleteFlashcardStack } from 'utils/repetition/flashcards/flashcardHandlers'
+import { deleteFlashcardStack } from 'utils/repetition/flashcards/flashcardStackHandlers'
 
 interface Props {
   flowId: string

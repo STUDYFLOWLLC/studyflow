@@ -1,10 +1,16 @@
 import { PencilAltIcon, RefreshIcon } from '@heroicons/react/outline'
 import MainSpinner from 'components/spinners/MainSpinner'
+import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
+import { useState } from 'react'
+import { mutate } from 'swr'
+import { SpinnerSizes } from 'types/Loading'
 import EnterFlashcardStack from './Enter/EnterFlashcardStack'
+import EnterTitle from './Enter/EnterTitle'
 import FlashcardStack from './FlashcardStack'
 
 interface Props {
+  flowId: string
   flashcardStackId: string
   setEditing: (editing: string) => void
   reviewing: boolean
@@ -12,13 +18,19 @@ interface Props {
 }
 
 export default function MainFlashcard({
+  flowId,
   flashcardStackId,
   setEditing,
   reviewing,
   setReviewing,
 }: Props) {
-  const { flashcardStack, flashcardStackLoading } =
+  const { flashcardStack, flashcardStackLoading, mutateFlashcardStack } =
     useFlashcardStack(flashcardStackId)
+  const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
+
+  const [saving, setSaving] = useState(false)
+
+  console.log(reviewing)
 
   return (
     <div>
@@ -28,10 +40,11 @@ export default function MainFlashcard({
         </div>
       ) : (
         <div>
-          <div className="absolute top-4 right-3 transition-all">
+          <div className="absolute flex items-center top-4 right-3 transition-all">
+            {saving && <MainSpinner size={SpinnerSizes.small} />}
             {reviewing ? (
               <PencilAltIcon
-                className="w-5 h-5 cursor-pointer"
+                className="ml-2 z-40 w-5 h-5 cursor-pointer"
                 onClick={() => {
                   setReviewing(false)
                   setEditing(flashcardStackId)
@@ -43,8 +56,9 @@ export default function MainFlashcard({
               />
             ) : (
               <RefreshIcon
-                className="w-5 h-5 cursor-pointer"
+                className="ml-2 z-40 w-5 h-5 cursor-pointer"
                 onClick={() => {
+                  console.log('hi')
                   setReviewing(true)
                 }}
                 onKeyDown={() => {
@@ -53,9 +67,14 @@ export default function MainFlashcard({
               />
             )}
           </div>
-          <h2 className="m-0 p-2 pb-0">
-            {flashcardStack?.Title || 'Untitled'}
-          </h2>
+          <EnterTitle
+            flowDetails={flowDetails}
+            mutateFlowDetails={mutateFlowDetails}
+            flashcardStack={flashcardStack}
+            mutateFlashcardStack={mutate}
+            setSaving={setSaving}
+            disabled={reviewing}
+          />
           {flashcardStack?.Description && (
             <p className="m-0 px-2 py-0">{flashcardStack.Description}</p>
           )}
