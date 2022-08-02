@@ -1,6 +1,7 @@
 import { CheckIcon, TrashIcon, ViewGridIcon } from '@heroicons/react/outline'
 import EnterFront from 'components/Repetition/Flashcards/EnterFront'
 import MainSpinner from 'components/spinners/MainSpinner'
+import { deleteFlashcard } from 'hooks/repetition/flashcardHandlers'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
 import { useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
@@ -21,7 +22,7 @@ export default function EnterFlashcard({ flashcard, flashcardStackId }: Props) {
   return (
     <div className="flex w-full justify-between px-2 py-2 my-4 border rounded-md relative">
       <p className="absolute top-0 left-2 m-0 p-0 font-semibold">
-        {flashcard.Position}
+        {(flashcardStack?.FK_Flashcards || []).indexOf(flashcard) + 1}
       </p>
       <EnterFront
         flashcard={flashcard}
@@ -44,7 +45,23 @@ export default function EnterFlashcard({ flashcard, flashcardStackId }: Props) {
             <MainSpinner size={SpinnerSizes.small} />
           </span>
         )}
-        <TrashIcon className="text-info cursor-pointer  w-5 h-5   m-0 p-0" />
+        <TrashIcon
+          className="text-info cursor-pointer  w-5 h-5 m-0 p-0"
+          onClick={() =>
+            deleteFlashcard(
+              flashcard.FlashcardID,
+              flashcardStack,
+              mutateFlashcardStack,
+            )
+          }
+          onKeyDown={() =>
+            deleteFlashcard(
+              flashcard.FlashcardID,
+              flashcardStack,
+              mutateFlashcardStack,
+            )
+          }
+        />
       </div>
     </div>
   )

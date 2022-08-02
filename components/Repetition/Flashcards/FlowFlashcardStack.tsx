@@ -42,7 +42,7 @@ export default function FlowFlashcardStack({
         <h3 className="m-0 p-0 truncate flex items-baseline">
           {title || flashcardStack?.Title || 'Untitled'}
           <p className="m-0 ml-2 p-0 text-sm">
-            {length || flashcardStack?.FK_Flashcards.length || 0} cards
+            {flashcardStack?.FK_Flashcards.length || length || 0} cards
           </p>
         </h3>
         <div className="w-full flex justify-center">

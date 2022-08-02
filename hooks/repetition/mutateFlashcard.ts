@@ -61,3 +61,59 @@ export async function mutateFlashcardBack(
   const data = await request('/api/graphql', mutation, variables)
   return data
 }
+
+export async function mutateDeleteFlashcard(flashcardId: string) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: FlashcardUpdateInput!
+      $where: FlashcardWhereUniqueInput!
+    ) {
+      updateFlashcard(data: $data, where: $where) {
+        FlashcardID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      DeletedTime: {
+        set: new Date().toISOString(),
+      },
+    },
+    where: {
+      FlashcardID: flashcardId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
+export async function mutateAddFlashcard(
+  newFlashcardId: string,
+  flashcardStackId: string,
+  position: number,
+) {
+  const mutation = gql`
+    mutation Mutation($data: FlashcardCreateInput!) {
+      createFlashcard(data: $data) {
+        FlashcardID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      FlashcardID: newFlashcardId,
+      FK_FlashcardStack: {
+        connect: {
+          FlashcardStackID: flashcardStackId,
+        },
+      },
+      Position: position,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
