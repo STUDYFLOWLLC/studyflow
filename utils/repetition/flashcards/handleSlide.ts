@@ -44,7 +44,7 @@ export default async function handleSlide(
 
   if (gone.size === cards.length) {
     setTimeout(() => {
-      toast.success('Well done!')
+      toast.success('Review complete!')
       gone.clear()
       setCurrent(cards.length - 1)
       api.start((i) => to(i))

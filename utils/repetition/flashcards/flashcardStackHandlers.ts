@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FlowDetail } from 'hooks/flows/useFlowDetails'
 import makeFlashcardStack from 'hooks/repetition/makeFlashcardStack'
-import mutateDeleteFlashcardStack from 'hooks/repetition/mutateFlashcardStack'
+import mutateDeleteFlashcardStack, {
+  mutateFlashcardStackTitle,
+} from 'hooks/repetition/mutateFlashcardStack'
 import toast from 'react-hot-toast'
 import { KeyedMutator } from 'swr'
+import { FlashcardStack } from 'types/Repetition'
 
 export default async function createFlashcardStack(
   flowId: string,
@@ -87,4 +90,57 @@ export function deleteFlashcardStack(
   )
 
   toast.success('Stack deleted')
+}
+
+export async function changeTitle(
+  newTitle: string,
+  flowDetails: FlowDetail | null,
+  mutateFlowDetails: KeyedMutator<any>,
+  flashcardStack: FlashcardStack | null,
+  mutateFlashcardStack: KeyedMutator<any>,
+  setSaving: (saving: boolean) => void,
+) {
+  if (!flashcardStack) return
+
+  setSaving(true)
+
+  // mutate locally
+  mutateFlashcardStack(
+    {
+      mutate: true,
+      mutatedFlashcardStack: {
+        ...flashcardStack,
+        Title: newTitle,
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
+  if (flowDetails) {
+    mutateFlowDetails(
+      {
+        mutate: true,
+        mutatedFlow: {
+          ...flowDetails,
+          FK_FlashcardStacks: flowDetails.FK_FlashcardStacks.map((fs) => {
+            if (fs.FlashcardStackID === flashcardStack.FlashcardStackID) {
+              return {
+                ...flashcardStack,
+                Title: newTitle,
+              }
+            }
+            return flashcardStack
+          }),
+        },
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
+
+  await mutateFlashcardStackTitle(flashcardStack.FlashcardStackID, newTitle)
+
+  setSaving(false)
 }

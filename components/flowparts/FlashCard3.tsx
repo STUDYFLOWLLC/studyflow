@@ -62,10 +62,7 @@ export default function Flashcard3({ card, shouldFlip, setShouldFlip }: Props) {
             <QuestionMarkCircleIcon className="text-stone-800" />
           </div>
         ))}
-      <div className="card front text-stone-800">
-        {card.Front}
-        {card.Position}
-      </div>
+      <div className="card front text-stone-800">{card.Front}</div>
       <div className={classnames('card back text-stone-800')}>
         {showBack && card.Back}
       </div>

@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from 'react'
 import MainFlashcard from '../MainFlashcard'
 
 interface Props {
+  flowId: string
   flashcardStackId: string
   editing: string
   setEditing: (editing: string) => void
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function FlashcardReviewModal({
+  flowId,
   flashcardStackId,
   editing,
   setEditing,
@@ -28,6 +30,8 @@ export default function FlashcardReviewModal({
   if (!mounted) return null
 
   if (!editing) return null
+
+  console.log(reviewing)
 
   return (
     <Transition show={!!editing || reviewing} as={Fragment}>
@@ -68,6 +72,7 @@ export default function FlashcardReviewModal({
             )}
           >
             <MainFlashcard
+              flowId={flowId}
               flashcardStackId={editing}
               reviewing={reviewing}
               setReviewing={setReviewing}
