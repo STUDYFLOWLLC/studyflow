@@ -1,11 +1,7 @@
-import { BadgeCheckIcon, PencilIcon } from '@heroicons/react/outline'
-import { MailIcon } from '@heroicons/react/solid'
-import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import { BadgeCheckIcon, MailIcon, PencilIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
-import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
-import useSchoolDetails from 'hooks/school/useSchoolDetails'
-import useUserDetails from 'hooks/useUserDetails'
-import { useRouter } from 'next/router'
+import getPublicProfile from 'hooks/social/getPublicProfile'
+import { PublicUser } from 'types/Social'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 
 const tabs = [
@@ -15,18 +11,11 @@ const tabs = [
 ]
 
 interface Props {
-  user: User
+  PublicUser: PublicUser | undefined
 }
 
-export default function index({ user }: Props) {
-  const router = useRouter()
-  const { Username } = router.query
-
-  const { userDetails } = useUserDetails(user.id)
-  const { schoolDetails } = useSchoolDetails(userDetails?.FK_SchoolID)
-  const { coursesOnTerm } = useCoursesOnTerm(userDetails?.FK_Terms?.[0]?.TermID)
-
-  console.log(userDetails)
+export default function index({ PublicUser }: Props) {
+  if (!PublicUser) return <span>no user found!</span>
 
   return (
     <div className="h-full flex mb-5">
@@ -42,15 +31,15 @@ export default function index({ user }: Props) {
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
                     <div className="flex">
-                      {userDetails?.ProfilePictureLink ? (
+                      {PublicUser.ProfilePictureLink ? (
                         <img
                           className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                          src={userDetails?.ProfilePictureLink}
+                          src={PublicUser?.ProfilePictureLink}
                           alt=""
                         />
                       ) : (
                         <span className="flex items-center justify-center h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32 text-6xl text-white bg-primary">
-                          {getFirstAndLastInitialFromName(userDetails?.Name)}
+                          {getFirstAndLastInitialFromName(PublicUser.Name)}
                         </span>
                       )}
                     </div>
@@ -83,17 +72,17 @@ export default function index({ user }: Props) {
                   <div className="mt-6 min-w-0 2xl:hidden flex flex-col items-start justify-between space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                     <span>
                       <div className="text-2xl font-bold text-gray-900 truncate">
-                        {userDetails?.Name || 'Studyflow'}
+                        {PublicUser.Name}
                       </div>
                       <div className="text-2xl text-gray-400 truncate">
-                        @{userDetails?.Username || 'flowsurfer343'}
+                        @{PublicUser.Username}
                       </div>
                     </span>
                     <h3 className="m-0 text-xl font-bold flex items-center">
-                      {schoolDetails?.Name || 'School'}{' '}
+                      {PublicUser.FK_School.Name || 'School'}
                       <div
                         className="tooltip tooltip-right pl-2"
-                        data-tip={`Studyflow officially supports ${schoolDetails?.Name} and actively updates their class roster.`}
+                        data-tip={`Studyflow officially supports ${PublicUser.FK_School.Name} and actively updates their class roster.`}
                       >
                         <BadgeCheckIcon className="w-6 h-6" />
                       </div>
@@ -101,7 +90,7 @@ export default function index({ user }: Props) {
                   </div>
 
                   <div className="text-gray-500 mt-1">
-                    ADD BIO TO USER DETAILS. 50 CHARS PROBABLY
+                    {PublicUser?.Bio || 'No bio available'}
                   </div>
                 </div>
               </div>
@@ -134,16 +123,10 @@ export default function index({ user }: Props) {
               {/* Description list */}
               <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                  <div className="sm:col-span-1">
-                    <dt className="text-sm font-medium text-gray-500">Email</dt>
-                    <dd className="mt-1 text-sm text-gray-900">
-                      {userDetails?.Email}
-                    </dd>
-                  </div>
                   <div className="sm:col-span-2">
                     <dt className="text-sm font-medium text-gray-500">About</dt>
                     <dd className="mt-1 max-w-prose text-sm text-gray-900 space-y-5">
-                      ADD ABOUT TO USER DETAILS
+                      {PublicUser?.About || 'No about provided.'}
                     </dd>
                   </div>
                 </dl>
@@ -156,4 +139,13 @@ export default function index({ user }: Props) {
   )
 }
 
-export const getServerSideProps = withPageAuth({ redirectTo: '/login' })
+export async function getServerSideProps(context: {
+  query: { Username: string }
+}) {
+  const data = await getPublicProfile(context.query.Username)
+  return {
+    props: {
+      PublicUser: data,
+    },
+  }
+}
