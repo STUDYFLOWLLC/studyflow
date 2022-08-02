@@ -1,4 +1,5 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import AddFlashcard from 'components/Repetition/Flashcards/Enter/AddFlashcard'
 import EnterFlashcard from 'components/Repetition/Flashcards/Enter/EnterFlashcard'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
 import useUserDetails from 'hooks/useUserDetails'
@@ -22,6 +23,7 @@ export default function EnterFlashcardStack({ flashcardStackId }: Props) {
           flashcardStackId={flashcardStackId}
         />
       ))}
+      <AddFlashcard flashcardStackId={flashcardStackId} />
     </div>
   )
 }

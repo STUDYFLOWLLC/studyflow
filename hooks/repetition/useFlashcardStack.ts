@@ -17,12 +17,13 @@ export default function useFlashcardStack(
     query Query(
       $where: FlashcardStackWhereUniqueInput!
       $orderBy: [FlashcardOrderByWithRelationInput!]
+      $fkFlashcardsWhere2: FlashcardWhereInput
     ) {
       flashcardStack(where: $where) {
         FlashcardStackID
         CreatedTime
         FK_FlowID
-        FK_Flashcards(orderBy: $orderBy) {
+        FK_Flashcards(orderBy: $orderBy, where: $fkFlashcardsWhere2) {
           FlashcardID
           CreatedTime
           FK_FlashcardStackID
@@ -51,6 +52,11 @@ export default function useFlashcardStack(
         Position: 'asc',
       },
     ],
+    fkFlashcardsWhere2: {
+      DeletedTime: {
+        equals: null,
+      },
+    },
   }
 
   const { data, error, mutate } = useSWR(
