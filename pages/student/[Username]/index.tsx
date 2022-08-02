@@ -1,6 +1,11 @@
 import { BadgeCheckIcon, MailIcon, PencilIcon } from '@heroicons/react/outline'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
+import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 import getPublicProfile from 'hooks/social/getPublicProfile'
+import useUserDetails from 'hooks/useUserDetails'
+import { useEffect, useState } from 'react'
+import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
 import { PublicUser } from 'types/Social'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
 
@@ -15,6 +20,18 @@ interface Props {
 }
 
 export default function index({ PublicUser }: Props) {
+  // THE FOLLOWING IS ONLY USED TO GIVE THE USER ACCESS, DON'T USE IT TO DISPLAY DATA!
+  const { user } = useUser()
+  const { userDetails } = useUserDetails(user?.id)
+  const [canEdit, setCanEdit] = useState(
+    userDetails?.Username === PublicUser?.Username,
+  )
+  useEffect(
+    () => setCanEdit(userDetails?.Username === PublicUser?.Username),
+    [userDetails, PublicUser],
+  )
+  // END. PASS canEdit TO COMPONENTS THAT SHOULD BE EDITABLE
+
   if (!PublicUser) return <span>no user found!</span>
 
   return (
@@ -45,26 +62,30 @@ export default function index({ PublicUser }: Props) {
                     </div>
                     <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                       <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                        <button
-                          type="button"
-                          className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                        >
-                          <MailIcon
-                            className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                          <span>Message</span>
-                        </button>
-                        <button
-                          type="button"
-                          className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                        >
-                          <PencilIcon
-                            className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                          <span>Edit</span>
-                        </button>
+                        {!canEdit && (
+                          <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                          >
+                            <MailIcon
+                              className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                            <span>Message</span>
+                          </button>
+                        )}
+                        {canEdit && (
+                          <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                          >
+                            <PencilIcon
+                              className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                            <span>Edit</span>
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -80,12 +101,17 @@ export default function index({ PublicUser }: Props) {
                     </span>
                     <h3 className="m-0 text-xl font-bold flex items-center">
                       {PublicUser.FK_School.Name || 'School'}
-                      <div
-                        className="tooltip tooltip-right pl-2"
-                        data-tip={`Studyflow officially supports ${PublicUser.FK_School.Name} and actively updates their class roster.`}
-                      >
-                        <BadgeCheckIcon className="w-6 h-6" />
-                      </div>
+                      {PublicUser.FK_School.HasClassSupport && (
+                        <Tippy
+                          content={`Studyflow offically supports ${PublicUser.FK_School.Name} and actively updates their course roster.`}
+                          offset={TOOLTIP_OFFSET}
+                          delay={TOOLTIP_DELAY}
+                        >
+                          <div className="pl-2">
+                            <BadgeCheckIcon className="w-6 h-6" />
+                          </div>
+                        </Tippy>
+                      )}
                     </h3>
                   </div>
 
