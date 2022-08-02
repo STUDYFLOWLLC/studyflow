@@ -8,6 +8,24 @@ export default async function setBasicProfile(
     mutation Mutation($data: UserCreateInput!) {
       createUser(data: $data) {
         UserID
+        CreatedTime
+        SetupStep
+        SupabaseID
+        Email
+        Name
+        Username
+        DefaultVisibility
+        FK_SchoolID
+        FK_Terms {
+          TermID
+          TermType
+          TermName
+        }
+        FK_Settings {
+          SettingID
+          HasSeenWelcomeMessage
+          LastSeenWelcomeMessageAt
+        }
       }
     }
   `

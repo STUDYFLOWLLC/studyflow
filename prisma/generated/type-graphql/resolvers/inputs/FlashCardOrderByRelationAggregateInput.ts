@@ -4,10 +4,10 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType("FlashCardOrderByRelationAggregateInput", {
+@TypeGraphQL.InputType("FlashcardOrderByRelationAggregateInput", {
   isAbstract: true
 })
-export class FlashCardOrderByRelationAggregateInput {
+export class FlashcardOrderByRelationAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })

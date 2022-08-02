@@ -18,11 +18,13 @@ import { FlowType, FlowVisibility } from 'types/Flow'
 export function changeVisibility(
   flowId: string,
   newVisibility: FlowVisibility,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowVisibility(flowId, newVisibility)
 
@@ -48,11 +50,13 @@ export function changeVisibility(
 export function changeTitle(
   flowId: string,
   newTitle: string,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowTitle(flowId, newTitle)
 
@@ -83,11 +87,13 @@ export function changeTitle(
 export function changeType(
   flowId: string,
   newType: FlowType,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowType(flowId, newType)
 
@@ -110,11 +116,13 @@ export function changeType(
 export function changeDate(
   flowId: string,
   newDate: Date,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   const dateAsString = newDate.toISOString()
 
   // change in backend
@@ -150,11 +158,13 @@ export function changeCourse(
   newNickname: string,
   newCode: string,
   newColor: string,
-  flowDetails: FlowDetail,
+  flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
 ) {
+  if (!flowDetails) return
+
   // change in backend
   mutateFlowCourseOnTerm(flowDetails.FlowID, newId)
   // we also have to change the task course in the backend
@@ -211,10 +221,10 @@ export async function trashFlow(
   mutateDashFlows: KeyedMutator<any>,
   closeFlowModal: () => void,
 ) {
-  if (!flowId) return
+  if (!flowId || !userDetails) return
 
   // mutate in backend
-  mutateTrashFLow(flowId, true)
+  mutateTrashFLow(flowId, userDetails?.UserID, true)
 
   // mutate locally
   mutateDashFlows(
@@ -224,7 +234,7 @@ export async function trashFlow(
           return {
             ...flow,
             Trashed: true,
-            FK_UserID: userDetails?.UserID || 0,
+            FK_UserID: userDetails.UserID,
           }
         }
         return flow
@@ -239,15 +249,16 @@ export async function trashFlow(
 
 export async function restoreFlow(
   flowId: string,
+  userDetails: UserDetail | null,
   newCourse: CourseOnTerm,
   dashFlows: DashFlow[],
   mutateDashFlows: KeyedMutator<any>,
   closeFlowModal: () => void,
 ) {
-  if (!flowId) return
+  if (!flowId || !userDetails) return
 
   // mutate in backend
-  mutateTrashFLow(flowId, false)
+  mutateTrashFLow(flowId, userDetails.UserID, false)
   mutateFlowCourseOnTerm(flowId, newCourse.CourseOnTermID)
 
   // mutate locally

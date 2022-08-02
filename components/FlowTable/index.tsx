@@ -40,7 +40,7 @@ export default function FlowList({ setCurrentFlow }: Props) {
       setSortedAndGroupedFlows(
         masterFlowSorterAndGrouper(dashFlows, sortBy, groupBy),
       ),
-    [dashFlows, dashFlowsLoading, sortBy, groupBy],
+    [!dashFlowsLoading && dashFlows, sortBy, groupBy],
   )
 
   if (!mounted) return null
@@ -53,7 +53,7 @@ export default function FlowList({ setCurrentFlow }: Props) {
           'align-middle inline-block min-w-full border-b',
         )}
       >
-        <table className="min-w-full">
+        <table className="min-w-full relative">
           <FlowTableHeader
             sortBy={sortBy}
             setSortBy={setSortBy}

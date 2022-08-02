@@ -9,10 +9,10 @@ import { UserCreateNestedOneWithoutFK_FlowInput } from "../inputs/UserCreateNest
 import { FlowType } from "../../enums/FlowType";
 import { Visibility } from "../../enums/Visibility";
 
-@TypeGraphQL.InputType("FlowCreateWithoutFK_FlashCardStacksInput", {
+@TypeGraphQL.InputType("FlowCreateWithoutFK_FlashcardStacksInput", {
   isAbstract: true
 })
-export class FlowCreateWithoutFK_FlashCardStacksInput {
+export class FlowCreateWithoutFK_FlashcardStacksInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
@@ -62,6 +62,11 @@ export class FlowCreateWithoutFK_FlashCardStacksInput {
     nullable: true
   })
   Body?: string | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => CourseOnTermCreateNestedOneWithoutFK_FlowsInput, {
     nullable: true

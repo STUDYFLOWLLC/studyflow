@@ -29,10 +29,25 @@ export class UserCreateManyInput {
   })
   SupabaseID!: string;
 
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: true
+  })
+  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   Email!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Bio?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  About?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -48,11 +63,6 @@ export class UserCreateManyInput {
     nullable: true
   })
   ProfilePictureLink?: string | undefined;
-
-  @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
-  })
-  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

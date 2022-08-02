@@ -62,7 +62,7 @@ export default function DeleteFlow({ flowId }: Props) {
                   <p>
                     <b>
                       Created:{' '}
-                      {new Date(flowDetails.CreatedTime)
+                      {new Date(flowDetails?.CreatedTime || 0)
                         .toString()
                         .slice(0, 21)}
                     </b>
@@ -70,7 +70,9 @@ export default function DeleteFlow({ flowId }: Props) {
                   <p>
                     <b>
                       Last Opened:{' '}
-                      {new Date(flowDetails.LastOpened).toString().slice(0, 21)}
+                      {new Date(flowDetails?.LastOpened || 0)
+                        .toString()
+                        .slice(0, 21)}
                     </b>
                   </p>
                   <p>
@@ -84,6 +86,9 @@ export default function DeleteFlow({ flowId }: Props) {
                   </p>
                   <p>
                     <b>Tasks: {flowDetails?._count.FK_Tasks}</b>
+                  </p>
+                  <p className="text-2xs text-center w-full">
+                    <b>ID: {flowDetails?.FlowID}</b>
                   </p>
                 </div>
               </div>

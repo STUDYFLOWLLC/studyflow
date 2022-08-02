@@ -1,0 +1,12 @@
+export { AggregateFlashcardReviewArgs } from "./AggregateFlashcardReviewArgs";
+export { CreateFlashcardReviewArgs } from "./CreateFlashcardReviewArgs";
+export { CreateManyFlashcardReviewArgs } from "./CreateManyFlashcardReviewArgs";
+export { DeleteFlashcardReviewArgs } from "./DeleteFlashcardReviewArgs";
+export { DeleteManyFlashcardReviewArgs } from "./DeleteManyFlashcardReviewArgs";
+export { FindFirstFlashcardReviewArgs } from "./FindFirstFlashcardReviewArgs";
+export { FindManyFlashcardReviewArgs } from "./FindManyFlashcardReviewArgs";
+export { FindUniqueFlashcardReviewArgs } from "./FindUniqueFlashcardReviewArgs";
+export { GroupByFlashcardReviewArgs } from "./GroupByFlashcardReviewArgs";
+export { UpdateFlashcardReviewArgs } from "./UpdateFlashcardReviewArgs";
+export { UpdateManyFlashcardReviewArgs } from "./UpdateManyFlashcardReviewArgs";
+export { UpsertFlashcardReviewArgs } from "./UpsertFlashcardReviewArgs";

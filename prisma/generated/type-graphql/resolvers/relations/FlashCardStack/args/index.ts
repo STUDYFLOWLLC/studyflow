@@ -1,1 +1,1 @@
-export { FlashCardStackFlashCardsArgs } from "./FlashCardStackFlashCardsArgs";
+export { FlashcardStackFK_FlashcardsArgs } from "./FlashcardStackFK_FlashcardsArgs";

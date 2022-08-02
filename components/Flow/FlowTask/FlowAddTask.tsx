@@ -93,7 +93,7 @@ export default function index({
         mutatedFlow: {
           ...flowDetails,
           FK_Tasks: [
-            ...flowDetails.FK_Tasks,
+            ...(flowDetails?.FK_Tasks || []),
             {
               TaskID: taskId,
               Title: taskName,
@@ -105,8 +105,8 @@ export default function index({
             },
           ],
           _count: {
-            ...flowDetails._count,
-            FK_Tasks: flowDetails._count.FK_Tasks + 1,
+            ...flowDetails?._count,
+            FK_Tasks: (flowDetails?._count?.FK_Tasks || 0) + 1,
           },
         },
         mutate: true,

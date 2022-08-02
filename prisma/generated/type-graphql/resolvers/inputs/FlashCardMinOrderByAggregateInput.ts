@@ -4,14 +4,14 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType("FlashCardMinOrderByAggregateInput", {
+@TypeGraphQL.InputType("FlashcardMinOrderByAggregateInput", {
   isAbstract: true
 })
-export class FlashCardMinOrderByAggregateInput {
+export class FlashcardMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FlashCardID?: "asc" | "desc" | undefined;
+  FlashcardID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -21,7 +21,12 @@ export class FlashCardMinOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  FK_FlashCardStackID?: "asc" | "desc" | undefined;
+  DeletedTime?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_FlashcardStackID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

@@ -4,20 +4,10 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { SortOrder } from "../../enums/SortOrder";
 
-@TypeGraphQL.InputType("FlashCardSumOrderByAggregateInput", {
+@TypeGraphQL.InputType("FlashcardSumOrderByAggregateInput", {
   isAbstract: true
 })
-export class FlashCardSumOrderByAggregateInput {
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FlashCardID?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  FK_FlashCardStackID?: "asc" | "desc" | undefined;
-
+export class FlashcardSumOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })

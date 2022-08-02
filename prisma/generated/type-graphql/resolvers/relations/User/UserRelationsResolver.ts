@@ -2,16 +2,23 @@ import * as TypeGraphQL from "type-graphql";
 import { Automation } from "../../../models/Automation";
 import { Flow } from "../../../models/Flow";
 import { FlowView } from "../../../models/FlowView";
+import { Friendship } from "../../../models/Friendship";
 import { School } from "../../../models/School";
 import { Setting } from "../../../models/Setting";
+import { StudyGroup } from "../../../models/StudyGroup";
 import { Task } from "../../../models/Task";
 import { Term } from "../../../models/Term";
 import { User } from "../../../models/User";
+import { UserOnStudyGroup } from "../../../models/UserOnStudyGroup";
 import { UserFK_AutomationArgs } from "./args/UserFK_AutomationArgs";
 import { UserFK_FlowArgs } from "./args/UserFK_FlowArgs";
 import { UserFK_FlowViewArgs } from "./args/UserFK_FlowViewArgs";
+import { UserFK_FriendshipsAcceptedArgs } from "./args/UserFK_FriendshipsAcceptedArgs";
+import { UserFK_FriendshipsInitiatedArgs } from "./args/UserFK_FriendshipsInitiatedArgs";
+import { UserFK_StudyGroupsArgs } from "./args/UserFK_StudyGroupsArgs";
 import { UserFK_TaskArgs } from "./args/UserFK_TaskArgs";
 import { UserFK_TermsArgs } from "./args/UserFK_TermsArgs";
+import { UserFK_UserOnStudyGroupsArgs } from "./args/UserFK_UserOnStudyGroupsArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => User)
@@ -91,5 +98,49 @@ export class UserRelationsResolver {
         UserID: user.UserID,
       },
     }).FK_Automation(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [StudyGroup], {
+    nullable: false
+  })
+  async FK_StudyGroups(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_StudyGroupsArgs): Promise<StudyGroup[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_StudyGroups(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [UserOnStudyGroup], {
+    nullable: false
+  })
+  async FK_UserOnStudyGroups(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_UserOnStudyGroupsArgs): Promise<UserOnStudyGroup[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_UserOnStudyGroups(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [Friendship], {
+    nullable: false
+  })
+  async FK_FriendshipsInitiated(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_FriendshipsInitiatedArgs): Promise<Friendship[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_FriendshipsInitiated(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [Friendship], {
+    nullable: false
+  })
+  async FK_FriendshipsAccepted(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_FriendshipsAcceptedArgs): Promise<Friendship[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_FriendshipsAccepted(args);
   }
 }

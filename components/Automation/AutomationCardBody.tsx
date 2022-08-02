@@ -48,7 +48,10 @@ export default function AutomationCardBody({ courseOnTermAutomation }: Props) {
             mutateAutomationDetails,
           )
         }
-        visibility={courseOnTermAutomation.DefaultVisibility}
+        visibility={
+          courseOnTermAutomation?.DefaultVisibility ||
+          userDetails?.DefaultVisibility
+        }
         loading={false}
       />
       <div className="w-full prose max-h-48 overflow-auto">

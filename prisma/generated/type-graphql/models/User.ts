@@ -5,10 +5,13 @@ import { DecimalJSScalar } from "../scalars";
 import { Automation } from "../models/Automation";
 import { Flow } from "../models/Flow";
 import { FlowView } from "../models/FlowView";
+import { Friendship } from "../models/Friendship";
 import { School } from "../models/School";
 import { Setting } from "../models/Setting";
+import { StudyGroup } from "../models/StudyGroup";
 import { Task } from "../models/Task";
 import { Term } from "../models/Term";
+import { UserOnStudyGroup } from "../models/UserOnStudyGroup";
 import { SetupStep } from "../enums/SetupStep";
 import { Visibility } from "../enums/Visibility";
 import { UserCount } from "../resolvers/outputs/UserCount";
@@ -37,10 +40,25 @@ export class User {
   })
   SupabaseID!: string;
 
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: false
+  })
+  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   Email!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Bio?: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  About?: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -56,11 +74,6 @@ export class User {
     nullable: true
   })
   ProfilePictureLink?: string | null;
-
-  @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
-  })
-  DefaultVisibility?: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
 
   FK_School?: School | null;
 
@@ -80,6 +93,14 @@ export class User {
   FK_Flow?: Flow[];
 
   FK_Automation?: Automation[];
+
+  FK_StudyGroups?: StudyGroup[];
+
+  FK_UserOnStudyGroups?: UserOnStudyGroup[];
+
+  FK_FriendshipsInitiated?: Friendship[];
+
+  FK_FriendshipsAccepted?: Friendship[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

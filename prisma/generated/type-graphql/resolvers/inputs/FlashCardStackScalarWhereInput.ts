@@ -3,45 +3,56 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
-import { IntFilter } from "../inputs/IntFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
-@TypeGraphQL.InputType("FlashCardStackScalarWhereInput", {
+@TypeGraphQL.InputType("FlashcardStackScalarWhereInput", {
   isAbstract: true
 })
-export class FlashCardStackScalarWhereInput {
-  @TypeGraphQL.Field(_type => [FlashCardStackScalarWhereInput], {
+export class FlashcardStackScalarWhereInput {
+  @TypeGraphQL.Field(_type => [FlashcardStackScalarWhereInput], {
     nullable: true
   })
-  AND?: FlashCardStackScalarWhereInput[] | undefined;
+  AND?: FlashcardStackScalarWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackScalarWhereInput], {
     nullable: true
   })
-  OR?: FlashCardStackScalarWhereInput[] | undefined;
+  OR?: FlashcardStackScalarWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackScalarWhereInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackScalarWhereInput], {
     nullable: true
   })
-  NOT?: FlashCardStackScalarWhereInput[] | undefined;
+  NOT?: FlashcardStackScalarWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  FlashCardStackID?: IntFilter | undefined;
+  FlashcardStackID?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
   CreatedTime?: DateTimeFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
   FK_FlowID?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  Title?: StringNullableFilter | undefined;
+  Title?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  Description?: StringFilter | undefined;
 }

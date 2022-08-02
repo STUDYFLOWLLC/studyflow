@@ -29,10 +29,25 @@ export class UserMaxAggregate {
   })
   SupabaseID!: string | null;
 
+  @TypeGraphQL.Field(_type => Visibility, {
+    nullable: true
+  })
+  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   Email!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Bio!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  About!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -48,11 +63,6 @@ export class UserMaxAggregate {
     nullable: true
   })
   ProfilePictureLink!: string | null;
-
-  @TypeGraphQL.Field(_type => Visibility, {
-    nullable: true
-  })
-  DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

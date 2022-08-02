@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { School } from '@prisma/client'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import { CourseHit } from 'components/Forms/Course/CourseSearch'
 import createCourseOnTerm from 'hooks/school/createCourseOnTerm'
+import useSchoolDetails from 'hooks/school/useSchoolDetails'
 import useTermDetails from 'hooks/school/useTermDetails'
 import { mutateSetupStep } from 'hooks/setup/mutateUser'
 import useUserDetails from 'hooks/useUserDetails'
@@ -13,17 +13,14 @@ import toast from 'react-hot-toast'
 import { bgColor } from 'types/Colors'
 import { SetupSteps } from 'types/SetupSteps'
 
-interface Props {
-  selectedSchool: School
-}
-
 const colors = Object.values(bgColor)
 
-export default function AddCourse({ selectedSchool }: Props) {
+export default function AddCourse() {
   const { user } = useUser()
   const router = useRouter()
 
   const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
+  const { schoolDetails } = useSchoolDetails(userDetails?.FK_SchoolID)
   const { termDetails, termDetailsLoading, mutateTermDetails } = useTermDetails(
     userDetails?.FK_Terms?.[0]?.TermID,
   )
@@ -43,6 +40,7 @@ export default function AddCourse({ selectedSchool }: Props) {
   const [doneAddingCourses, setDoneAddingCourses] = useState(false)
 
   const verifyUniqueCourse = () => {
+    if (!termDetails) return
     if (termDetails.CoursesOnTerm.length === 0) return true
     for (let i = 0; i < termDetails.CoursesOnTerm.length; i += 1) {
       if (termDetails.CoursesOnTerm[i].Code === selectedCourse.Code) {
@@ -81,7 +79,7 @@ export default function AddCourse({ selectedSchool }: Props) {
     }
     mutateTermDetails({
       ...termDetails,
-      CoursesOnTerm: [...termDetails.CoursesOnTerm, newCourse],
+      CoursesOnTerm: [...(termDetails?.CoursesOnTerm || []), newCourse],
       mutated: true,
     })
     setSelectedCourse({

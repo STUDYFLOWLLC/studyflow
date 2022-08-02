@@ -3,24 +3,29 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.ObjectType("FlashCardMaxAggregate", {
+@TypeGraphQL.ObjectType("FlashcardMaxAggregate", {
   isAbstract: true
 })
-export class FlashCardMaxAggregate {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+export class FlashcardMaxAggregate {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FlashCardID!: number | null;
+  FlashcardID!: string | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
   CreatedTime!: Date | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  FK_FlashCardStackID!: number | null;
+  DeletedTime!: Date | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_FlashcardStackID!: string | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

@@ -25,12 +25,8 @@ export default function index({ flowId, saving }: Props) {
     useFlowDetails(flowId)
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { dashFlows, dashFlowsLoading, mutateDashFlows } = useDashFlows(
-    userDetails?.UserID,
-  )
-  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
-    userDetails?.FK_Terms?.[0].TermID,
-  )
+  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
+  const { coursesOnTerm } = useCoursesOnTerm(userDetails?.FK_Terms?.[0].TermID)
 
   // mutators that are passed into flow properties. we need these because I don't
   // feel like passing in 1 millions props and making hooks inside the lower components
@@ -86,7 +82,7 @@ export default function index({ flowId, saving }: Props) {
     <div className="prose w-full mb-4">
       <div className="flex items-baseline">
         <FlowTitle
-          title={flowDetails?.Title}
+          title={flowDetails?.Title || ''}
           mutator={titleMutator}
           loading={flowDetailsLoading}
         />
@@ -106,10 +102,10 @@ export default function index({ flowId, saving }: Props) {
         />
         <FlowCourseChooser
           title={
-            flowDetailsLoading
+            (flowDetailsLoading
               ? 'Course'
               : flowDetails?.FK_CourseOnTerm?.Nickname ||
-                flowDetails?.FK_CourseOnTerm?.FK_Course?.Code
+                flowDetails?.FK_CourseOnTerm?.FK_Course?.Code) || ''
           }
           coursesOnTermSmall={
             coursesOnTerm

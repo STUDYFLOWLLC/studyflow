@@ -1,0 +1,12 @@
+export { AggregateStudyGroupArgs } from "./AggregateStudyGroupArgs";
+export { CreateManyStudyGroupArgs } from "./CreateManyStudyGroupArgs";
+export { CreateStudyGroupArgs } from "./CreateStudyGroupArgs";
+export { DeleteManyStudyGroupArgs } from "./DeleteManyStudyGroupArgs";
+export { DeleteStudyGroupArgs } from "./DeleteStudyGroupArgs";
+export { FindFirstStudyGroupArgs } from "./FindFirstStudyGroupArgs";
+export { FindManyStudyGroupArgs } from "./FindManyStudyGroupArgs";
+export { FindUniqueStudyGroupArgs } from "./FindUniqueStudyGroupArgs";
+export { GroupByStudyGroupArgs } from "./GroupByStudyGroupArgs";
+export { UpdateManyStudyGroupArgs } from "./UpdateManyStudyGroupArgs";
+export { UpdateStudyGroupArgs } from "./UpdateStudyGroupArgs";
+export { UpsertStudyGroupArgs } from "./UpsertStudyGroupArgs";

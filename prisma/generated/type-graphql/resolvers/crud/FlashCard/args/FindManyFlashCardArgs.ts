@@ -1,26 +1,26 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardOrderByWithRelationInput } from "../../../inputs/FlashCardOrderByWithRelationInput";
-import { FlashCardWhereInput } from "../../../inputs/FlashCardWhereInput";
-import { FlashCardWhereUniqueInput } from "../../../inputs/FlashCardWhereUniqueInput";
-import { FlashCardScalarFieldEnum } from "../../../../enums/FlashCardScalarFieldEnum";
+import { FlashcardOrderByWithRelationInput } from "../../../inputs/FlashcardOrderByWithRelationInput";
+import { FlashcardWhereInput } from "../../../inputs/FlashcardWhereInput";
+import { FlashcardWhereUniqueInput } from "../../../inputs/FlashcardWhereUniqueInput";
+import { FlashcardScalarFieldEnum } from "../../../../enums/FlashcardScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class FindManyFlashCardArgs {
-  @TypeGraphQL.Field(_type => FlashCardWhereInput, {
+export class FindManyFlashcardArgs {
+  @TypeGraphQL.Field(_type => FlashcardWhereInput, {
     nullable: true
   })
-  where?: FlashCardWhereInput | undefined;
+  where?: FlashcardWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardOrderByWithRelationInput], {
+  @TypeGraphQL.Field(_type => [FlashcardOrderByWithRelationInput], {
     nullable: true
   })
-  orderBy?: FlashCardOrderByWithRelationInput[] | undefined;
+  orderBy?: FlashcardOrderByWithRelationInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardWhereUniqueInput, {
+  @TypeGraphQL.Field(_type => FlashcardWhereUniqueInput, {
     nullable: true
   })
-  cursor?: FlashCardWhereUniqueInput | undefined;
+  cursor?: FlashcardWhereUniqueInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -32,8 +32,8 @@ export class FindManyFlashCardArgs {
   })
   skip?: number | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardScalarFieldEnum], {
+  @TypeGraphQL.Field(_type => [FlashcardScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"FlashCardID" | "CreatedTime" | "FK_FlashCardStackID" | "Position" | "Front" | "Back"> | undefined;
+  distinct?: Array<"FlashcardID" | "CreatedTime" | "DeletedTime" | "FK_FlashcardStackID" | "Position" | "Front" | "Back"> | undefined;
 }

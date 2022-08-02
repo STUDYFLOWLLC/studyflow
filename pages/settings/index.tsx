@@ -5,13 +5,10 @@ import classNames from 'classnames'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
-import InputEmail from 'components/Settings/InputEmail'
-import InputName from 'components/Settings/InputName'
-import InputPFP from 'components/Settings/InputPFP'
-import SettingsInfo from 'components/Settings/SettingsInfo'
+import SettingsProfile from 'components/Settings/Profile'
 import SettingsNavBig from 'components/Settings/SettingsNavBig'
 import SettingsNavSmall from 'components/Settings/SettingsNavSmall'
-import useUserDetails from 'hooks/useUserDetails'
+import SettingsSharing from 'components/Settings/Sharing'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -25,28 +22,24 @@ export interface Tab {
   handler: (param1?: any, ...params: any[]) => any
 }
 
-const tabs: Tab[] = [
-  { name: 'General', handler: () => console.log('General') },
-  { name: 'Security', handler: () => console.log('Security') },
-  { name: 'Notifications', handler: () => console.log('Notifications') },
-  { name: 'Plan', handler: () => console.log('Plan') },
-  { name: 'Billing', handler: () => console.log('Billing') },
-  { name: 'Team Members', handler: () => console.log('Team Members') },
-]
-
 export default function Settings({ user }: Props) {
   const { theme, setTheme } = useTheme()
-  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
 
   const [mounted, setMounted] = useState(false)
   const [showDashBar, setShowDashBar] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [activeTab, setActiveTab] = useState('General')
-  const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true)
-  const [autoUpdateApplicantDataEnabled, setAutoUpdateApplicantDataEnabled] =
-    useState(false)
+  const [activeTab, setActiveTab] = useState('Profile')
+
+  const tabs: Tab[] = [
+    { name: 'Profile', handler: () => setActiveTab('Profile') },
+    { name: 'Sharing', handler: () => setActiveTab('Sharing') },
+    { name: 'Notifications', handler: () => setActiveTab('Notifications') },
+    { name: 'Plus', handler: () => setActiveTab('Plus') },
+    { name: 'Export', handler: () => setActiveTab('Export') },
+    { name: 'Danger', handler: () => setActiveTab('Danger') },
+  ]
 
   useHotkeys(
     'cmd+l, ctrl+l',
@@ -118,20 +111,8 @@ export default function Settings({ user }: Props) {
                       setActiveTab={setActiveTab}
                     />
 
-                    {/* Description list with inline editing */}
-                    <div className="w-full mt-10 divide-y divide-gray-200">
-                      <SettingsInfo
-                        title="Profile"
-                        description="Edit your basic information."
-                      />
-                      <div className="mt-6 w-full">
-                        <div className="divide-y divide-gray-200">
-                          <InputName />
-                          <InputPFP />
-                          <InputEmail />
-                        </div>
-                      </div>
-                    </div>
+                    <SettingsProfile activeTab={activeTab} />
+                    <SettingsSharing activeTab={activeTab} />
 
                     {/* <div className="mt-10 divide-y divide-gray-200">
                       <SettingsInfo

@@ -1,17 +1,17 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardUpdateManyMutationInput } from "../../../inputs/FlashCardUpdateManyMutationInput";
-import { FlashCardWhereInput } from "../../../inputs/FlashCardWhereInput";
+import { FlashcardUpdateManyMutationInput } from "../../../inputs/FlashcardUpdateManyMutationInput";
+import { FlashcardWhereInput } from "../../../inputs/FlashcardWhereInput";
 
 @TypeGraphQL.ArgsType()
-export class UpdateManyFlashCardArgs {
-  @TypeGraphQL.Field(_type => FlashCardUpdateManyMutationInput, {
+export class UpdateManyFlashcardArgs {
+  @TypeGraphQL.Field(_type => FlashcardUpdateManyMutationInput, {
     nullable: false
   })
-  data!: FlashCardUpdateManyMutationInput;
+  data!: FlashcardUpdateManyMutationInput;
 
-  @TypeGraphQL.Field(_type => FlashCardWhereInput, {
+  @TypeGraphQL.Field(_type => FlashcardWhereInput, {
     nullable: true
   })
-  where?: FlashCardWhereInput | undefined;
+  where?: FlashcardWhereInput | undefined;
 }

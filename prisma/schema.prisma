@@ -50,6 +50,12 @@ enum TaskType {
   REVIEW
 }
 
+enum FlashcardStatus {
+  NEUTRAL
+  CORRECT
+  INCORRECT
+}
+
 model Setting {
   SettingID                Int       @id @default(autoincrement())
   HasSeenWelcomeMessage    Boolean?  @default(false)
@@ -68,11 +74,24 @@ model AutomationLog {
   FK_CourseOnTermAutomationID Int?
 }
 
+model Friendship {
+  FriendshipID  Int       @id @default(autoincrement())
+  SentTime      DateTime  @default(now())
+  AcceptedTime  DateTime?
+  RejectedTime  DateTime? // receiver rejects
+  RemovedTime   DateTime? // after accepting, either removes
+  CanceledTime  DateTime? // sender cancels
+  FK_UserFrom   User?     @relation(name: "from", fields: [FK_UserFromID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserFromID Int?
+  FK_UserTo     User?     @relation(name: "to", fields: [FK_UserToID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserToID   Int?
+}
+
 model CourseOnTermAutomation {
   CourseOnTermAutomationID Int             @id @default(autoincrement())
   FolderID                 String          @default("No Folder Id")
   DefaultType              FlowType        @default(LECTURE)
-  DefaultVisibility        Visibility      @default(PUBLIC)
+  DefaultVisibility        Visibility
   AutomationLog            AutomationLog[]
   FK_Automation            Automation?     @relation(fields: [FK_AutomationID], references: [AutomationID], onDelete: Cascade, onUpdate: Cascade)
   FK_AutomationID          Int?
@@ -88,26 +107,53 @@ model Automation {
   FK_UserID               Int                      @unique
 }
 
+model UserOnStudyGroup {
+  UserOnStudyGroupID Int         @id @default(autoincrement())
+  SendTime           DateTime    @default(now())
+  AcceptedTime       DateTime?
+  RejectedTime       DateTime? // receiver rejects
+  RemovedTime        DateTime? // after accepting, joiner leaves or owner removes
+  CanceledTime       DateTime? // sender cancels
+  FK_User            User?       @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserID          Int?
+  FK_StudyGroup      StudyGroup? @relation(fields: [FK_StudyGroupID], references: [StudyGroupID], onDelete: Cascade, onUpdate: Cascade)
+  FK_StudyGroupID    Int?
+}
+
+model StudyGroup {
+  StudyGroupID        Int                @id @default(autoincrement())
+  Name                String
+  FK_User             User?              @relation(fields: [FK_UserID], references: [UserID], onDelete: Cascade, onUpdate: Cascade)
+  FK_UserID           Int
+  FK_UserOnStudyGroup UserOnStudyGroup[]
+}
+
 // holds user information. STANDARD: NULL IS A DELETED USER
 model User {
-  UserID             Int          @id @default(autoincrement())
-  CreatedTime        DateTime     @default(now())
-  SetupStep          SetupStep    @default(PROFILE)
-  SupabaseID         String
-  Email              String       @unique
-  Name               String?
-  Username           String?
-  ProfilePictureLink String?
-  DefaultVisibility  Visibility?
-  FK_School          School?      @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
-  FK_SchoolID        Int?
-  FK_Terms           Term[]
+  UserID                  Int                @id @default(autoincrement())
+  CreatedTime             DateTime           @default(now())
+  SetupStep               SetupStep          @default(PROFILE)
+  SupabaseID              String
+  DefaultVisibility       Visibility         @default(PUBLIC)
+  Email                   String             @unique
+  Bio                     String?
+  About                   String?
+  Name                    String?
+  Username                String?            @unique
+  ProfilePictureLink      String?
+  FK_School               School?            @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
+  FK_SchoolID             Int?
+  FK_Terms                Term[]
   //FK_FlowTags       FlowTag[]
-  FK_Task            Task[]
-  FK_Settings        Setting?
-  FK_FlowView        FlowView[]
-  FK_Flow            Flow[]
-  FK_Automation      Automation[]
+  FK_Task                 Task[]
+  FK_Settings             Setting?
+  FK_FlowView             FlowView[]
+  FK_Flow                 Flow[]
+  FK_Automation           Automation[]
+  FK_StudyGroups          StudyGroup[]
+  FK_UserOnStudyGroups    UserOnStudyGroup[]
+  FK_FriendshipsInitiated Friendship[]       @relation(name: "from")
+  FK_FriendshipsAccepted  Friendship[]       @relation(name: "to")
 }
 
 model Term {
@@ -185,9 +231,10 @@ model Flow {
   Visibility         Visibility       @default(PUBLIC)
   WasAutomated       Boolean          @default(false)
   Body               String?
+  DeletedTime        DateTime?
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: SetNull, onUpdate: Cascade)
   FK_CourseOnTermID  Int?
-  FK_FlashCardStacks FlashCardStack[]
+  FK_FlashcardStacks FlashcardStack[]
   FK_Tasks           Task[]
   FK_FlowView        FlowView[]
   // Only use for trash/restore. CourseOnTermID is used for the rest.
@@ -227,23 +274,35 @@ model FlowView {
 // termTermID  Int?
 //}
 
-model FlashCardStack {
-  FlashCardStackID Int         @id @default(autoincrement())
+model FlashcardStack {
+  FlashcardStackID String      @id @default(uuid())
   CreatedTime      DateTime    @default(now())
+  DeletedTime      DateTime?
   FK_Flow          Flow?       @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
   FK_FlowID        String?
-  FlashCards       FlashCard[]
-  Title            String?     @default("Untitled")
+  FK_Flashcards    Flashcard[]
+  Title            String      @default("")
+  Description      String      @default("")
 }
 
-model FlashCard {
-  FlashCardID         Int             @id @default(autoincrement())
-  CreatedTime         DateTime        @default(now())
-  FK_FlashCardStack   FlashCardStack? @relation(fields: [FK_FlashCardStackID], references: [FlashCardStackID], onDelete: SetNull, onUpdate: Cascade)
-  FK_FlashCardStackID Int?
+model Flashcard {
+  FlashcardID         String            @id @default(uuid())
+  CreatedTime         DateTime          @default(now())
+  DeletedTime         DateTime?
+  FK_FlashcardStack   FlashcardStack?   @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardStackID String?
   Position            Int
-  Front               String?
-  Back                String?
+  Front               String            @default("")
+  Back                String            @default("")
+  FK_FlashcardReviews FlashcardReview[]
+}
+
+model FlashcardReview {
+  FlashcardReviewID String          @id @default(uuid())
+  CreatedTime       DateTime        @default(now())
+  FK_Flashcard      Flashcard?      @relation(fields: [FK_FlashcardID], references: [FlashcardID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardID    String?
+  Status            FlashcardStatus @default(NEUTRAL)
 }
 
 model Task {

@@ -2,7 +2,9 @@ import { useGoogleLogin } from '@react-oauth/google'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import makeAutomation from 'hooks/automation/makeAutomation'
-import useAutomationDetails from 'hooks/automation/useAutomationDetails'
+import useAutomationDetails, {
+  CourseOnTermAutomation,
+} from 'hooks/automation/useAutomationDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
@@ -43,10 +45,11 @@ export default function SetupAutomation() {
                   AutomationID: data2.AutomationID,
                   FK_UserID: userDetails?.UserID,
                   RefreshToken: data.refresh_token,
+                  CourseOnTermAutomations: [] as CourseOnTermAutomation[],
                 },
               },
               {
-                revalidate: false,
+                revalidate: true,
               },
             )
             toast.success('Account successfully connected')

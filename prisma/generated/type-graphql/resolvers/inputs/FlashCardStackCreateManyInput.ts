@@ -3,19 +3,24 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 
-@TypeGraphQL.InputType("FlashCardStackCreateManyInput", {
+@TypeGraphQL.InputType("FlashcardStackCreateManyInput", {
   isAbstract: true
 })
-export class FlashCardStackCreateManyInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+export class FlashcardStackCreateManyInput {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FlashCardStackID?: number | undefined;
+  FlashcardStackID?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
   CreatedTime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -26,4 +31,9 @@ export class FlashCardStackCreateManyInput {
     nullable: true
   })
   Title?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  Description?: string | undefined;
 }

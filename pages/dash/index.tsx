@@ -17,6 +17,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { ActionType } from 'types/CMDPalette'
@@ -63,6 +64,8 @@ export default function Dash({ user }: Props) {
     setMounted(true)
     // setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
   }, [])
+
+  console.log(userDetailsError)
 
   if (userDetailsError) return <p>error</p>
 
@@ -111,8 +114,10 @@ export default function Dash({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-          {(!userDetails || userDetails.SetupStep === SetupSteps.COMPLETE) && (
+          {(userDetails === undefined ||
+            userDetails?.SetupStep === SetupSteps.COMPLETE) && (
             <main className="flex-1">
+              <Toaster />
               <DashHeadBig
                 pageDisplayed="Term"
                 showDashBar={showDashBar}
@@ -128,18 +133,19 @@ export default function Dash({ user }: Props) {
               <FlowTable setCurrentFlow={setCurrentFlow} />
             </main>
           )}
-          {userDetails && userDetails.SetupStep !== SetupSteps.COMPLETE && (
-            <main className="flex-1">
-              <DashHeadBig
-                disabled
-                pageDisplayed="Welcome to Studyflow"
-                showDashBar={showDashBar}
-                setShowDashBar={setShowDashBar}
-                setCreateFlowAs={setCreateFlowAs}
-              />
-              <DashSetup />
-            </main>
-          )}
+          {userDetails !== undefined &&
+            userDetails?.SetupStep !== SetupSteps.COMPLETE && (
+              <main className="flex-1">
+                <DashHeadBig
+                  disabled
+                  pageDisplayed="Welcome to Studyflow"
+                  showDashBar={showDashBar}
+                  setShowDashBar={setShowDashBar}
+                  setCreateFlowAs={setCreateFlowAs}
+                />
+                <DashSetup />
+              </main>
+            )}
         </div>
         <Taskover />
         <CMDPalette

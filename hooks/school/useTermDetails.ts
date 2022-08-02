@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { TermType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
+import { TermType } from 'types/School'
 
 interface CourseOnTermRaw {
   CourseOnTermID: number
@@ -40,7 +40,7 @@ interface TermInfo {
 }
 
 interface TermDetails {
-  termDetails: TermInfo
+  termDetails: TermInfo | null
   termDetailsLoading: boolean
   termDetailsError: any
   mutateTermDetails: KeyedMutator<any>
@@ -49,42 +49,40 @@ interface TermDetails {
 export default function useTermDetails(
   termId: number | undefined,
 ): TermDetails {
-  const realTermId = termId === undefined ? 0 : termId
-  const variables = {
-    where: {
-      TermID: {
-        equals: realTermId,
-      },
-    },
-  }
-
-  const { data, error, mutate } = useSWR([
-    gql`
-      query Query($where: TermWhereInput) {
-        findFirstTerm(where: $where) {
-          TermID
-          TermType
-          TermName
-          FK_CourseOnTerm {
-            CourseOnTermID
-            Color
-            Nickname
-            FK_Course {
-              IsOfficial
-              Title
-              Code
-              Term
-              FK_Professor {
-                Name
-                Email
-              }
+  const query = gql`
+    query Query($where: TermWhereInput) {
+      findFirstTerm(where: $where) {
+        TermID
+        TermType
+        TermName
+        FK_CourseOnTerm {
+          CourseOnTermID
+          Color
+          Nickname
+          FK_Course {
+            IsOfficial
+            Title
+            Code
+            Term
+            FK_Professor {
+              Name
+              Email
             }
           }
         }
       }
-    `,
-    variables,
-  ])
+    }
+  `
+
+  const variables = {
+    where: {
+      TermID: {
+        equals: termId,
+      },
+    },
+  }
+
+  const { data, error, mutate } = useSWR(termId ? [query, variables] : null)
 
   if (data?.mutated === true) {
     return {
@@ -127,12 +125,7 @@ export default function useTermDetails(
   }
 
   return {
-    termDetails: {
-      TermID: 0,
-      TermType: TermType.SEMESTER,
-      TermName: '',
-      CoursesOnTerm: [],
-    },
+    termDetails: null,
     termDetailsLoading: !data && !error,
     termDetailsError: error,
     mutateTermDetails: mutate,

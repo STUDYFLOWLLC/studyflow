@@ -5,9 +5,10 @@ import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { CourseOnTermRelationFilter } from "../inputs/CourseOnTermRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
 import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
-import { FlashCardStackListRelationFilter } from "../inputs/FlashCardStackListRelationFilter";
+import { FlashcardStackListRelationFilter } from "../inputs/FlashcardStackListRelationFilter";
 import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -84,6 +85,11 @@ export class FlowWhereInput {
   })
   Body?: StringNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => CourseOnTermRelationFilter, {
     nullable: true
   })
@@ -94,10 +100,10 @@ export class FlowWhereInput {
   })
   FK_CourseOnTermID?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackListRelationFilter, {
+  @TypeGraphQL.Field(_type => FlashcardStackListRelationFilter, {
     nullable: true
   })
-  FK_FlashCardStacks?: FlashCardStackListRelationFilter | undefined;
+  FK_FlashcardStacks?: FlashcardStackListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => TaskListRelationFilter, {
     nullable: true
