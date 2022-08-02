@@ -1,4 +1,3 @@
-import { TermType } from '@prisma/client'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import SelectTermType from 'components/Setup/Education/SelectTermType'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
@@ -7,6 +6,7 @@ import useSchoolDetails from 'hooks/school/useSchoolDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { TermType } from 'types/School'
 import getTermNameFromTermType from 'utils/getTermNameFromTermType'
 
 export default function TermCreate() {
