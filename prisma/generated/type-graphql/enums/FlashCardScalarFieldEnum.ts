@@ -7,7 +7,9 @@ export enum FlashcardScalarFieldEnum {
   FK_FlashcardStackID = "FK_FlashcardStackID",
   Position = "Position",
   Front = "Front",
-  Back = "Back"
+  FrontImageUrl = "FrontImageUrl",
+  Back = "Back",
+  BackImageUrl = "BackImageUrl"
 }
 TypeGraphQL.registerEnumType(FlashcardScalarFieldEnum, {
   name: "FlashcardScalarFieldEnum",

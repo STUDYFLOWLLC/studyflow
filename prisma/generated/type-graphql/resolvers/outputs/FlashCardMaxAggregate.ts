@@ -40,5 +40,15 @@ export class FlashcardMaxAggregate {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
+  FrontImageUrl!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
   Back!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  BackImageUrl!: string | null;
 }

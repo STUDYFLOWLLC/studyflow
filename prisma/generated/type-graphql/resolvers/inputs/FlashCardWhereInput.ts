@@ -64,10 +64,20 @@ export class FlashcardWhereInput {
   })
   Front?: StringFilter | undefined;
 
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  FrontImageUrl?: StringNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
   Back?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  BackImageUrl?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => FlashcardReviewListRelationFilter, {
     nullable: true

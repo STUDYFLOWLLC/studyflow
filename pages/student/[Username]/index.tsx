@@ -2,6 +2,8 @@ import { BadgeCheckIcon, MailIcon, PencilIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
+import { DashFlow } from 'hooks/flows/useDashFlows'
+import getPublicFlows from 'hooks/social/getPublicFlows'
 import getPublicProfile from 'hooks/social/getPublicProfile'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
@@ -17,9 +19,10 @@ const tabs = [
 
 interface Props {
   PublicUser: PublicUser | undefined
+  PublicFlows: DashFlow[] | undefined
 }
 
-export default function index({ PublicUser }: Props) {
+export default function index({ PublicUser, PublicFlows }: Props) {
   // THE FOLLOWING IS ONLY USED TO GIVE THE USER ACCESS, DON'T USE IT TO DISPLAY DATA!
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
@@ -168,10 +171,14 @@ export default function index({ PublicUser }: Props) {
 export async function getServerSideProps(context: {
   query: { Username: string }
 }) {
-  const data = await getPublicProfile(context.query.Username)
+  const [publicUser, publicFlows] = await Promise.all([
+    getPublicProfile(context.query.Username),
+    getPublicFlows(context.query.Username),
+  ])
   return {
     props: {
-      PublicUser: data,
+      PublicUser: publicUser,
+      PublicFlows: publicFlows,
     },
   }
 }

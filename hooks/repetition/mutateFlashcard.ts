@@ -32,6 +32,36 @@ export async function mutateFlashcardFront(
   return data
 }
 
+export async function mutateFlashcardFrontImageUrl(
+  flashcardId: string,
+  newFrontImageURL: string,
+) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: FlashcardUpdateInput!
+      $where: FlashcardWhereUniqueInput!
+    ) {
+      updateFlashcard(data: $data, where: $where) {
+        FlashcardID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      FrontImageUrl: {
+        set: newFrontImageURL,
+      },
+    },
+    where: {
+      FlashcardID: flashcardId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
 export async function mutateFlashcardBack(
   flashcardId: string,
   newBack: string,
@@ -51,6 +81,36 @@ export async function mutateFlashcardBack(
     data: {
       Back: {
         set: newBack,
+      },
+    },
+    where: {
+      FlashcardID: flashcardId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
+export async function mutateFlashcardBackImageUrl(
+  flashcardId: string,
+  newBackImageUrl: string,
+) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: FlashcardUpdateInput!
+      $where: FlashcardWhereUniqueInput!
+    ) {
+      updateFlashcard(data: $data, where: $where) {
+        FlashcardID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      BackImageUrl: {
+        set: newBackImageUrl,
       },
     },
     where: {

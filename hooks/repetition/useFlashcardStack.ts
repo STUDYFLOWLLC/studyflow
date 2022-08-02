@@ -29,7 +29,9 @@ export default function useFlashcardStack(
           FK_FlashcardStackID
           Position
           Front
+          FrontImageUrl
           Back
+          BackImageUrl
           FK_FlashcardReviews {
             FlashcardReviewID
             CreatedTime
@@ -62,6 +64,8 @@ export default function useFlashcardStack(
   const { data, error, mutate } = useSWR(
     flashcardStackId ? [query, variables] : null,
   )
+
+  console.log(error)
 
   if (data?.mutate) {
     return {
