@@ -1,4 +1,4 @@
-import { TermType } from '@prisma/client'
+import { TermType } from 'types/School'
 
 const seasons = ['Winter', 'Spring', 'Summer', 'Fall']
 const getSeason = (d: Date) => seasons[Math.floor((d.getMonth() / 12) * 4) % 4]

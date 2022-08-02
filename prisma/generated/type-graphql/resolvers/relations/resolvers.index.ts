@@ -3,8 +3,9 @@ export { AutomationLogRelationsResolver } from "./AutomationLog/AutomationLogRel
 export { CourseRelationsResolver } from "./Course/CourseRelationsResolver";
 export { CourseOnTermRelationsResolver } from "./CourseOnTerm/CourseOnTermRelationsResolver";
 export { CourseOnTermAutomationRelationsResolver } from "./CourseOnTermAutomation/CourseOnTermAutomationRelationsResolver";
-export { FlashCardRelationsResolver } from "./FlashCard/FlashCardRelationsResolver";
-export { FlashCardStackRelationsResolver } from "./FlashCardStack/FlashCardStackRelationsResolver";
+export { FlashcardRelationsResolver } from "./Flashcard/FlashcardRelationsResolver";
+export { FlashcardReviewRelationsResolver } from "./FlashcardReview/FlashcardReviewRelationsResolver";
+export { FlashcardStackRelationsResolver } from "./FlashcardStack/FlashcardStackRelationsResolver";
 export { FlowRelationsResolver } from "./Flow/FlowRelationsResolver";
 export { FlowViewRelationsResolver } from "./FlowView/FlowViewRelationsResolver";
 export { FriendshipRelationsResolver } from "./Friendship/FriendshipRelationsResolver";

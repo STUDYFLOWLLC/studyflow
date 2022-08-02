@@ -1,31 +1,31 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardStackOrderByWithAggregationInput } from "../../../inputs/FlashCardStackOrderByWithAggregationInput";
-import { FlashCardStackScalarWhereWithAggregatesInput } from "../../../inputs/FlashCardStackScalarWhereWithAggregatesInput";
-import { FlashCardStackWhereInput } from "../../../inputs/FlashCardStackWhereInput";
-import { FlashCardStackScalarFieldEnum } from "../../../../enums/FlashCardStackScalarFieldEnum";
+import { FlashcardStackOrderByWithAggregationInput } from "../../../inputs/FlashcardStackOrderByWithAggregationInput";
+import { FlashcardStackScalarWhereWithAggregatesInput } from "../../../inputs/FlashcardStackScalarWhereWithAggregatesInput";
+import { FlashcardStackWhereInput } from "../../../inputs/FlashcardStackWhereInput";
+import { FlashcardStackScalarFieldEnum } from "../../../../enums/FlashcardStackScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class GroupByFlashCardStackArgs {
-  @TypeGraphQL.Field(_type => FlashCardStackWhereInput, {
+export class GroupByFlashcardStackArgs {
+  @TypeGraphQL.Field(_type => FlashcardStackWhereInput, {
     nullable: true
   })
-  where?: FlashCardStackWhereInput | undefined;
+  where?: FlashcardStackWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackOrderByWithAggregationInput], {
+  @TypeGraphQL.Field(_type => [FlashcardStackOrderByWithAggregationInput], {
     nullable: true
   })
-  orderBy?: FlashCardStackOrderByWithAggregationInput[] | undefined;
+  orderBy?: FlashcardStackOrderByWithAggregationInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => [FlashCardStackScalarFieldEnum], {
+  @TypeGraphQL.Field(_type => [FlashcardStackScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"FlashCardStackID" | "CreatedTime" | "FK_FlowID" | "Title">;
+  by!: Array<"FlashcardStackID" | "CreatedTime" | "DeletedTime" | "FK_FlowID" | "Title" | "Description">;
 
-  @TypeGraphQL.Field(_type => FlashCardStackScalarWhereWithAggregatesInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackScalarWhereWithAggregatesInput, {
     nullable: true
   })
-  having?: FlashCardStackScalarWhereWithAggregatesInput | undefined;
+  having?: FlashcardStackScalarWhereWithAggregatesInput | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

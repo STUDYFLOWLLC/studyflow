@@ -2,38 +2,26 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardStackAvgAggregate } from "../outputs/FlashCardStackAvgAggregate";
-import { FlashCardStackCountAggregate } from "../outputs/FlashCardStackCountAggregate";
-import { FlashCardStackMaxAggregate } from "../outputs/FlashCardStackMaxAggregate";
-import { FlashCardStackMinAggregate } from "../outputs/FlashCardStackMinAggregate";
-import { FlashCardStackSumAggregate } from "../outputs/FlashCardStackSumAggregate";
+import { FlashcardStackCountAggregate } from "../outputs/FlashcardStackCountAggregate";
+import { FlashcardStackMaxAggregate } from "../outputs/FlashcardStackMaxAggregate";
+import { FlashcardStackMinAggregate } from "../outputs/FlashcardStackMinAggregate";
 
-@TypeGraphQL.ObjectType("AggregateFlashCardStack", {
+@TypeGraphQL.ObjectType("AggregateFlashcardStack", {
   isAbstract: true
 })
-export class AggregateFlashCardStack {
-  @TypeGraphQL.Field(_type => FlashCardStackCountAggregate, {
+export class AggregateFlashcardStack {
+  @TypeGraphQL.Field(_type => FlashcardStackCountAggregate, {
     nullable: true
   })
-  _count!: FlashCardStackCountAggregate | null;
+  _count!: FlashcardStackCountAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardStackAvgAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardStackMinAggregate, {
     nullable: true
   })
-  _avg!: FlashCardStackAvgAggregate | null;
+  _min!: FlashcardStackMinAggregate | null;
 
-  @TypeGraphQL.Field(_type => FlashCardStackSumAggregate, {
+  @TypeGraphQL.Field(_type => FlashcardStackMaxAggregate, {
     nullable: true
   })
-  _sum!: FlashCardStackSumAggregate | null;
-
-  @TypeGraphQL.Field(_type => FlashCardStackMinAggregate, {
-    nullable: true
-  })
-  _min!: FlashCardStackMinAggregate | null;
-
-  @TypeGraphQL.Field(_type => FlashCardStackMaxAggregate, {
-    nullable: true
-  })
-  _max!: FlashCardStackMaxAggregate | null;
+  _max!: FlashcardStackMaxAggregate | null;
 }

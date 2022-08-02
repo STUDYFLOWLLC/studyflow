@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { CourseOnTerm } from "../models/CourseOnTerm";
-import { FlashCardStack } from "../models/FlashCardStack";
+import { FlashcardStack } from "../models/FlashcardStack";
 import { FlowView } from "../models/FlowView";
 import { Task } from "../models/Task";
 import { User } from "../models/User";
@@ -77,7 +77,7 @@ export class Flow {
   })
   FK_CourseOnTermID?: number | null;
 
-  FK_FlashCardStacks?: FlashCardStack[];
+  FK_FlashcardStacks?: FlashcardStack[];
 
   FK_Tasks?: Task[];
 

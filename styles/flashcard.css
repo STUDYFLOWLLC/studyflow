@@ -24,12 +24,8 @@
 }
 
 .deck {
-  will-change: transform;
-}
-
-.deck > div {
   touch-action: none;
-  background-color: white;
+  will-change: transform;
 }
 
 .flashcard-holder {

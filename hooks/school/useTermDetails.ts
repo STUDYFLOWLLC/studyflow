@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { TermType } from '@prisma/client'
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
+import { TermType } from 'types/School'
 
 interface CourseOnTermRaw {
   CourseOnTermID: number

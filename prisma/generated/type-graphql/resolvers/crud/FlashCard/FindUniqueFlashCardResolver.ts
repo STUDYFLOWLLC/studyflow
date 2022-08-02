@@ -1,20 +1,20 @@
 import * as TypeGraphQL from "type-graphql";
 import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
-import { FindUniqueFlashCardArgs } from "./args/FindUniqueFlashCardArgs";
-import { FlashCard } from "../../../models/FlashCard";
+import { FindUniqueFlashcardArgs } from "./args/FindUniqueFlashcardArgs";
+import { Flashcard } from "../../../models/Flashcard";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
-@TypeGraphQL.Resolver(_of => FlashCard)
-export class FindUniqueFlashCardResolver {
-  @TypeGraphQL.Query(_returns => FlashCard, {
+@TypeGraphQL.Resolver(_of => Flashcard)
+export class FindUniqueFlashcardResolver {
+  @TypeGraphQL.Query(_returns => Flashcard, {
     nullable: true
   })
-  async flashCard(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindUniqueFlashCardArgs): Promise<FlashCard | null> {
+  async flashcard(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: FindUniqueFlashcardArgs): Promise<Flashcard | null> {
     const { _count } = transformFields(
       graphqlFields(info as any)
     );
-    return getPrismaFromContext(ctx).flashCard.findUnique({
+    return getPrismaFromContext(ctx).flashcard.findUnique({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });

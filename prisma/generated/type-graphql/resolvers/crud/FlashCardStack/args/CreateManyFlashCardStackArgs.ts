@@ -1,13 +1,13 @@
 import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
-import { FlashCardStackCreateManyInput } from "../../../inputs/FlashCardStackCreateManyInput";
+import { FlashcardStackCreateManyInput } from "../../../inputs/FlashcardStackCreateManyInput";
 
 @TypeGraphQL.ArgsType()
-export class CreateManyFlashCardStackArgs {
-  @TypeGraphQL.Field(_type => [FlashCardStackCreateManyInput], {
+export class CreateManyFlashcardStackArgs {
+  @TypeGraphQL.Field(_type => [FlashcardStackCreateManyInput], {
     nullable: false
   })
-  data!: FlashCardStackCreateManyInput[];
+  data!: FlashcardStackCreateManyInput[];
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true

@@ -2,19 +2,19 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardStackWhereInput } from "../inputs/FlashCardStackWhereInput";
+import { FlashcardStackWhereInput } from "../inputs/FlashcardStackWhereInput";
 
-@TypeGraphQL.InputType("FlashCardStackRelationFilter", {
+@TypeGraphQL.InputType("FlashcardStackRelationFilter", {
   isAbstract: true
 })
-export class FlashCardStackRelationFilter {
-  @TypeGraphQL.Field(_type => FlashCardStackWhereInput, {
+export class FlashcardStackRelationFilter {
+  @TypeGraphQL.Field(_type => FlashcardStackWhereInput, {
     nullable: true
   })
-  is?: FlashCardStackWhereInput | undefined;
+  is?: FlashcardStackWhereInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackWhereInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackWhereInput, {
     nullable: true
   })
-  isNot?: FlashCardStackWhereInput | undefined;
+  isNot?: FlashcardStackWhereInput | undefined;
 }

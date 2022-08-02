@@ -50,6 +50,12 @@ enum TaskType {
   REVIEW
 }
 
+enum FlashcardStatus {
+  NEUTRAL
+  CORRECT
+  INCORRECT
+}
+
 model Setting {
   SettingID                Int       @id @default(autoincrement())
   HasSeenWelcomeMessage    Boolean?  @default(false)
@@ -228,7 +234,7 @@ model Flow {
   DeletedTime        DateTime?
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: SetNull, onUpdate: Cascade)
   FK_CourseOnTermID  Int?
-  FK_FlashCardStacks FlashCardStack[]
+  FK_FlashcardStacks FlashcardStack[]
   FK_Tasks           Task[]
   FK_FlowView        FlowView[]
   // Only use for trash/restore. CourseOnTermID is used for the rest.
@@ -268,23 +274,35 @@ model FlowView {
 // termTermID  Int?
 //}
 
-model FlashCardStack {
-  FlashCardStackID Int         @id @default(autoincrement())
+model FlashcardStack {
+  FlashcardStackID String      @id @default(uuid())
   CreatedTime      DateTime    @default(now())
+  DeletedTime      DateTime?
   FK_Flow          Flow?       @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
   FK_FlowID        String?
-  FlashCards       FlashCard[]
-  Title            String?     @default("Untitled")
+  FK_Flashcards    Flashcard[]
+  Title            String      @default("")
+  Description      String      @default("")
 }
 
-model FlashCard {
-  FlashCardID         Int             @id @default(autoincrement())
-  CreatedTime         DateTime        @default(now())
-  FK_FlashCardStack   FlashCardStack? @relation(fields: [FK_FlashCardStackID], references: [FlashCardStackID], onDelete: SetNull, onUpdate: Cascade)
-  FK_FlashCardStackID Int?
+model Flashcard {
+  FlashcardID         String            @id @default(uuid())
+  CreatedTime         DateTime          @default(now())
+  DeletedTime         DateTime?
+  FK_FlashcardStack   FlashcardStack?   @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardStackID String?
   Position            Int
-  Front               String?
-  Back                String?
+  Front               String            @default("")
+  Back                String            @default("")
+  FK_FlashcardReviews FlashcardReview[]
+}
+
+model FlashcardReview {
+  FlashcardReviewID String          @id @default(uuid())
+  CreatedTime       DateTime        @default(now())
+  FK_Flashcard      Flashcard?      @relation(fields: [FK_FlashcardID], references: [FlashcardID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardID    String?
+  Status            FlashcardStatus @default(NEUTRAL)
 }
 
 model Task {

@@ -14,10 +14,10 @@ import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOpe
 import { TaskUpdateManyWithoutFK_FlowInput } from "../inputs/TaskUpdateManyWithoutFK_FlowInput";
 import { UserUpdateOneWithoutFK_FlowInput } from "../inputs/UserUpdateOneWithoutFK_FlowInput";
 
-@TypeGraphQL.InputType("FlowUpdateWithoutFK_FlashCardStacksInput", {
+@TypeGraphQL.InputType("FlowUpdateWithoutFK_FlashcardStacksInput", {
   isAbstract: true
 })
-export class FlowUpdateWithoutFK_FlashCardStacksInput {
+export class FlowUpdateWithoutFK_FlashcardStacksInput {
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })

@@ -3,36 +3,53 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { FlashCardStackUpdateOneWithoutFlashCardsInput } from "../inputs/FlashCardStackUpdateOneWithoutFlashCardsInput";
+import { FlashcardReviewUpdateManyWithoutFK_FlashcardInput } from "../inputs/FlashcardReviewUpdateManyWithoutFK_FlashcardInput";
+import { FlashcardStackUpdateOneWithoutFK_FlashcardsInput } from "../inputs/FlashcardStackUpdateOneWithoutFK_FlashcardsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
-import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
-@TypeGraphQL.InputType("FlashCardUpdateInput", {
+@TypeGraphQL.InputType("FlashcardUpdateInput", {
   isAbstract: true
 })
-export class FlashCardUpdateInput {
+export class FlashcardUpdateInput {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  FlashcardID?: StringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackUpdateOneWithoutFlashCardsInput, {
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  FK_FlashCardStack?: FlashCardStackUpdateOneWithoutFlashCardsInput | undefined;
+  DeletedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardStackUpdateOneWithoutFK_FlashcardsInput, {
+    nullable: true
+  })
+  FK_FlashcardStack?: FlashcardStackUpdateOneWithoutFK_FlashcardsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
   })
   Position?: IntFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  Front?: NullableStringFieldUpdateOperationsInput | undefined;
+  Front?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  Back?: NullableStringFieldUpdateOperationsInput | undefined;
+  Back?: StringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardReviewUpdateManyWithoutFK_FlashcardInput, {
+    nullable: true
+  })
+  FK_FlashcardReviews?: FlashcardReviewUpdateManyWithoutFK_FlashcardInput | undefined;
 }

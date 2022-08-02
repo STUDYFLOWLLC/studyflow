@@ -2,16 +2,16 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
-import { FlashCardCreateManyFK_FlashCardStackInput } from "../inputs/FlashCardCreateManyFK_FlashCardStackInput";
+import { FlashcardCreateManyFK_FlashcardStackInput } from "../inputs/FlashcardCreateManyFK_FlashcardStackInput";
 
-@TypeGraphQL.InputType("FlashCardCreateManyFK_FlashCardStackInputEnvelope", {
+@TypeGraphQL.InputType("FlashcardCreateManyFK_FlashcardStackInputEnvelope", {
   isAbstract: true
 })
-export class FlashCardCreateManyFK_FlashCardStackInputEnvelope {
-  @TypeGraphQL.Field(_type => [FlashCardCreateManyFK_FlashCardStackInput], {
+export class FlashcardCreateManyFK_FlashcardStackInputEnvelope {
+  @TypeGraphQL.Field(_type => [FlashcardCreateManyFK_FlashcardStackInput], {
     nullable: false
   })
-  data!: FlashCardCreateManyFK_FlashCardStackInput[];
+  data!: FlashcardCreateManyFK_FlashcardStackInput[];
 
   @TypeGraphQL.Field(_type => Boolean, {
     nullable: true

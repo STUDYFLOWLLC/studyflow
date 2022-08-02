@@ -7,7 +7,7 @@ import { CourseOnTermUpdateOneWithoutFK_FlowsInput } from "../inputs/CourseOnTer
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumFlowTypeFieldUpdateOperationsInput } from "../inputs/EnumFlowTypeFieldUpdateOperationsInput";
 import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
-import { FlashCardStackUpdateManyWithoutFK_FlowInput } from "../inputs/FlashCardStackUpdateManyWithoutFK_FlowInput";
+import { FlashcardStackUpdateManyWithoutFK_FlowInput } from "../inputs/FlashcardStackUpdateManyWithoutFK_FlowInput";
 import { FlowViewUpdateManyWithoutFK_FlowInput } from "../inputs/FlowViewUpdateManyWithoutFK_FlowInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
@@ -78,10 +78,10 @@ export class FlowUpdateWithoutFK_TasksInput {
   })
   FK_CourseOnTerm?: CourseOnTermUpdateOneWithoutFK_FlowsInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlashCardStackUpdateManyWithoutFK_FlowInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackUpdateManyWithoutFK_FlowInput, {
     nullable: true
   })
-  FK_FlashCardStacks?: FlashCardStackUpdateManyWithoutFK_FlowInput | undefined;
+  FK_FlashcardStacks?: FlashcardStackUpdateManyWithoutFK_FlowInput | undefined;
 
   @TypeGraphQL.Field(_type => FlowViewUpdateManyWithoutFK_FlowInput, {
     nullable: true
