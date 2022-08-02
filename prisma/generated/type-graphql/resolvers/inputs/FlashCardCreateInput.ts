@@ -42,7 +42,17 @@ export class FlashcardCreateInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
+  FrontImageUrl?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
   Back?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  BackImageUrl?: string | undefined;
 
   @TypeGraphQL.Field(_type => FlashcardReviewCreateNestedManyWithoutFK_FlashcardInput, {
     nullable: true
