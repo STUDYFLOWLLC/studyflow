@@ -78,4 +78,9 @@ export class TaskScalarWhereWithAggregatesInput {
     nullable: true
   })
   FK_CourseOnTermID?: IntNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  FK_RepetitionID?: StringNullableWithAggregatesFilter | undefined;
 }

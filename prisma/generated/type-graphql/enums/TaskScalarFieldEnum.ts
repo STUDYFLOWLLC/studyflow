@@ -10,7 +10,8 @@ export enum TaskScalarFieldEnum {
   Type = "Type",
   FK_UserID = "FK_UserID",
   FK_FlowID = "FK_FlowID",
-  FK_CourseOnTermID = "FK_CourseOnTermID"
+  FK_CourseOnTermID = "FK_CourseOnTermID",
+  FK_RepetitionID = "FK_RepetitionID"
 }
 TypeGraphQL.registerEnumType(TaskScalarFieldEnum, {
   name: "TaskScalarFieldEnum",

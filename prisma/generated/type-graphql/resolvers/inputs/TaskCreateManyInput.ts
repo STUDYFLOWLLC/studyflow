@@ -57,4 +57,9 @@ export class TaskCreateManyInput {
     nullable: true
   })
   FK_CourseOnTermID?: number | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_RepetitionID?: string | undefined;
 }

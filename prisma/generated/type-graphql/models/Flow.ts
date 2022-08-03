@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { CourseOnTerm } from "../models/CourseOnTerm";
 import { FlashcardStack } from "../models/FlashcardStack";
 import { FlowView } from "../models/FlowView";
+import { Repetition } from "../models/Repetition";
 import { Task } from "../models/Task";
 import { User } from "../models/User";
 import { FlowType } from "../enums/FlowType";
@@ -89,6 +90,8 @@ export class Flow {
     nullable: true
   })
   FK_UserID?: number | null;
+
+  FK_Repetition?: Repetition | null;
 
   @TypeGraphQL.Field(_type => FlowCount, {
     nullable: true

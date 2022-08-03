@@ -56,9 +56,18 @@ export default function useTasks(userId: number | undefined): Ret {
 
   const variables = {
     where: {
-      FK_UserID: {
-        equals: userId || 0,
-      },
+      AND: [
+        {
+          FK_UserID: {
+            equals: userId,
+          },
+        },
+        {
+          FK_RepetitionID: {
+            equals: null,
+          },
+        },
+      ],
     },
   }
 

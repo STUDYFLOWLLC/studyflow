@@ -63,6 +63,11 @@ export class TaskOrderByWithAggregationInput {
   })
   FK_CourseOnTermID?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_RepetitionID?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => TaskCountOrderByAggregateInput, {
     nullable: true
   })

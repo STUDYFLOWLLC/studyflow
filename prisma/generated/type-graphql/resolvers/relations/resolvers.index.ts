@@ -10,6 +10,7 @@ export { FlowRelationsResolver } from "./Flow/FlowRelationsResolver";
 export { FlowViewRelationsResolver } from "./FlowView/FlowViewRelationsResolver";
 export { FriendshipRelationsResolver } from "./Friendship/FriendshipRelationsResolver";
 export { ProfessorRelationsResolver } from "./Professor/ProfessorRelationsResolver";
+export { RepetitionRelationsResolver } from "./Repetition/RepetitionRelationsResolver";
 export { SchoolRelationsResolver } from "./School/SchoolRelationsResolver";
 export { SettingRelationsResolver } from "./Setting/SettingRelationsResolver";
 export { StudyGroupRelationsResolver } from "./StudyGroup/StudyGroupRelationsResolver";

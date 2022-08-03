@@ -1,6 +1,7 @@
 import * as TypeGraphQL from "type-graphql";
 import { CourseOnTerm } from "../../../models/CourseOnTerm";
 import { Flow } from "../../../models/Flow";
+import { Repetition } from "../../../models/Repetition";
 import { Task } from "../../../models/Task";
 import { TaskLabel } from "../../../models/TaskLabel";
 import { User } from "../../../models/User";
@@ -51,5 +52,16 @@ export class TaskRelationsResolver {
         TaskID: task.TaskID,
       },
     }).FK_CourseOnTerm({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => Repetition, {
+    nullable: true
+  })
+  async FK_Repetition(@TypeGraphQL.Root() task: Task, @TypeGraphQL.Ctx() ctx: any): Promise<Repetition | null> {
+    return getPrismaFromContext(ctx).task.findUnique({
+      where: {
+        TaskID: task.TaskID,
+      },
+    }).FK_Repetition({});
   }
 }
