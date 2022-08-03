@@ -46,7 +46,17 @@ export class FlashcardOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  FrontImageUrl?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   Back?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  BackImageUrl?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => FlashcardCountOrderByAggregateInput, {
     nullable: true

@@ -57,8 +57,18 @@ export class FlashcardScalarWhereWithAggregatesInput {
   })
   Front?: StringWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  FrontImageUrl?: StringNullableWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
   Back?: StringWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  BackImageUrl?: StringNullableWithAggregatesFilter | undefined;
 }
