@@ -8,8 +8,9 @@ import LoadingLine from './LoadingLine'
 interface Props {
   flows: DashFlow[]
   setCurrentFlow?: (flowId: string) => void
-  loading: boolean
-  dashFlowsLoading: boolean
+  loading?: boolean
+  dashFlowsLoading?: boolean
+  social?: boolean
 }
 
 export default function ActualFlowTable({
@@ -17,6 +18,7 @@ export default function ActualFlowTable({
   setCurrentFlow,
   loading,
   dashFlowsLoading,
+  social,
 }: Props) {
   const { theme } = useTheme()
 
@@ -36,15 +38,24 @@ export default function ActualFlowTable({
       )}
     >
       {flows.length > 0 &&
-        flows.map((flow) => (
-          <FlowTableLine
-            key={flow.FlowID}
-            flow={flow}
-            setCurrentFlow={setCurrentFlow}
-            loading={loading}
-            nextReview="in 3 days"
-          />
-        ))}
+        flows.map((flow) =>
+          !social ? (
+            <FlowTableLine
+              key={flow.FlowID}
+              flow={flow}
+              setCurrentFlow={setCurrentFlow}
+              loading={loading}
+              nextReview="in 3 days"
+            />
+          ) : (
+            <FlowTableLine
+              key={flow.FlowID}
+              flow={flow}
+              setCurrentFlow={setCurrentFlow}
+              loading={loading}
+            />
+          ),
+        )}
 
       {dashFlowsLoading &&
         [...Array(8).keys()].map((_, index) => (
