@@ -7,7 +7,7 @@ import LoadingLine from './LoadingLine'
 
 interface Props {
   flows: DashFlow[]
-  setCurrentFlow: (flowId: string) => void
+  setCurrentFlow?: (flowId: string) => void
   loading: boolean
   dashFlowsLoading: boolean
 }
