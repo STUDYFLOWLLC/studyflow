@@ -39,11 +39,11 @@ export default function FlowTableLine({
       <td
         onClick={() => {
           if (setCurrentFlow) setCurrentFlow(flow.FlowID)
-          else router.push(`/flows/${flow.FlowID}`)
+          else router.push(`/flow/${flow.FlowID}`)
         }}
         onKeyDown={() => {
           if (setCurrentFlow) setCurrentFlow(flow.FlowID)
-          else router.push(`/flows/${flow.FlowID}`)
+          else router.push(`/flow/${flow.FlowID}`)
         }}
         onMouseOver={() => setShowOpenIcon(true)}
         onMouseLeave={() => setShowOpenIcon(false)}
