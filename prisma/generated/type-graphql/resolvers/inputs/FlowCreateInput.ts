@@ -98,5 +98,5 @@ export class FlowCreateInput {
   @TypeGraphQL.Field(_type => RepetitionCreateNestedManyWithoutFK_FlowInput, {
     nullable: true
   })
-  Repetition?: RepetitionCreateNestedManyWithoutFK_FlowInput | undefined;
+  FK_Repetitions?: RepetitionCreateNestedManyWithoutFK_FlowInput | undefined;
 }

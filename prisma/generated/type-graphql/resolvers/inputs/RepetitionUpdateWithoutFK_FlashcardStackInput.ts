@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumRepetitionTypeFieldUpdateOperationsInput } from "../inputs/EnumRepetitionTypeFieldUpdateOperationsInput";
-import { FlowUpdateOneWithoutRepetitionInput } from "../inputs/FlowUpdateOneWithoutRepetitionInput";
+import { FlowUpdateOneWithoutFK_RepetitionsInput } from "../inputs/FlowUpdateOneWithoutFK_RepetitionsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskUpdateManyWithoutFK_RepetitionInput } from "../inputs/TaskUpdateManyWithoutFK_RepetitionInput";
 
@@ -27,10 +27,10 @@ export class RepetitionUpdateWithoutFK_FlashcardStackInput {
   })
   RepetitionType?: EnumRepetitionTypeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlowUpdateOneWithoutRepetitionInput, {
+  @TypeGraphQL.Field(_type => FlowUpdateOneWithoutFK_RepetitionsInput, {
     nullable: true
   })
-  FK_Flow?: FlowUpdateOneWithoutRepetitionInput | undefined;
+  FK_Flow?: FlowUpdateOneWithoutFK_RepetitionsInput | undefined;
 
   @TypeGraphQL.Field(_type => TaskUpdateManyWithoutFK_RepetitionInput, {
     nullable: true

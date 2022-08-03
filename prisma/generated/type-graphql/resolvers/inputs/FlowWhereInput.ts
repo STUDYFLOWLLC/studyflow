@@ -129,5 +129,5 @@ export class FlowWhereInput {
   @TypeGraphQL.Field(_type => RepetitionListRelationFilter, {
     nullable: true
   })
-  Repetition?: RepetitionListRelationFilter | undefined;
+  FK_Repetitions?: RepetitionListRelationFilter | undefined;
 }

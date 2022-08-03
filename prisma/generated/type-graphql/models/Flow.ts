@@ -91,7 +91,7 @@ export class Flow {
   })
   FK_UserID?: number | null;
 
-  Repetition?: Repetition[];
+  FK_Repetitions?: Repetition[];
 
   @TypeGraphQL.Field(_type => FlowCount, {
     nullable: true

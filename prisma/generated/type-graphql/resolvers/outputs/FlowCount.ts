@@ -25,5 +25,5 @@ export class FlowCount {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  Repetition!: number;
+  FK_Repetitions!: number;
 }

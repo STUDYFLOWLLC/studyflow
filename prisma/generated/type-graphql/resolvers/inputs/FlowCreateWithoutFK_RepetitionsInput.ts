@@ -10,10 +10,10 @@ import { UserCreateNestedOneWithoutFK_FlowInput } from "../inputs/UserCreateNest
 import { FlowType } from "../../enums/FlowType";
 import { Visibility } from "../../enums/Visibility";
 
-@TypeGraphQL.InputType("FlowCreateWithoutRepetitionInput", {
+@TypeGraphQL.InputType("FlowCreateWithoutFK_RepetitionsInput", {
   isAbstract: true
 })
-export class FlowCreateWithoutRepetitionInput {
+export class FlowCreateWithoutFK_RepetitionsInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })

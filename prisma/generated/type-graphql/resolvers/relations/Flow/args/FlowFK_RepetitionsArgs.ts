@@ -6,7 +6,7 @@ import { RepetitionWhereUniqueInput } from "../../../inputs/RepetitionWhereUniqu
 import { RepetitionScalarFieldEnum } from "../../../../enums/RepetitionScalarFieldEnum";
 
 @TypeGraphQL.ArgsType()
-export class FlowRepetitionArgs {
+export class FlowFK_RepetitionsArgs {
   @TypeGraphQL.Field(_type => RepetitionWhereInput, {
     nullable: true
   })

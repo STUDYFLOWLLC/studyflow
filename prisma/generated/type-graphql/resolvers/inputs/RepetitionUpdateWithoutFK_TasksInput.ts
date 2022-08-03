@@ -5,7 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumRepetitionTypeFieldUpdateOperationsInput } from "../inputs/EnumRepetitionTypeFieldUpdateOperationsInput";
 import { FlashcardStackUpdateOneWithoutFK_RepetitionInput } from "../inputs/FlashcardStackUpdateOneWithoutFK_RepetitionInput";
-import { FlowUpdateOneWithoutRepetitionInput } from "../inputs/FlowUpdateOneWithoutRepetitionInput";
+import { FlowUpdateOneWithoutFK_RepetitionsInput } from "../inputs/FlowUpdateOneWithoutFK_RepetitionsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("RepetitionUpdateWithoutFK_TasksInput", {
@@ -27,10 +27,10 @@ export class RepetitionUpdateWithoutFK_TasksInput {
   })
   RepetitionType?: EnumRepetitionTypeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlowUpdateOneWithoutRepetitionInput, {
+  @TypeGraphQL.Field(_type => FlowUpdateOneWithoutFK_RepetitionsInput, {
     nullable: true
   })
-  FK_Flow?: FlowUpdateOneWithoutRepetitionInput | undefined;
+  FK_Flow?: FlowUpdateOneWithoutFK_RepetitionsInput | undefined;
 
   @TypeGraphQL.Field(_type => FlashcardStackUpdateOneWithoutFK_RepetitionInput, {
     nullable: true

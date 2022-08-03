@@ -97,5 +97,5 @@ export class FlowUpdateWithoutFK_CourseOnTermInput {
   @TypeGraphQL.Field(_type => RepetitionUpdateManyWithoutFK_FlowInput, {
     nullable: true
   })
-  Repetition?: RepetitionUpdateManyWithoutFK_FlowInput | undefined;
+  FK_Repetitions?: RepetitionUpdateManyWithoutFK_FlowInput | undefined;
 }

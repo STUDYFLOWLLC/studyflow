@@ -107,5 +107,5 @@ export class FlowOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => RepetitionOrderByRelationAggregateInput, {
     nullable: true
   })
-  Repetition?: RepetitionOrderByRelationAggregateInput | undefined;
+  FK_Repetitions?: RepetitionOrderByRelationAggregateInput | undefined;
 }

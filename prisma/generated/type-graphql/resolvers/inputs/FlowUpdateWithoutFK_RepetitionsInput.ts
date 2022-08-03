@@ -15,10 +15,10 @@ import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOpe
 import { TaskUpdateManyWithoutFK_FlowInput } from "../inputs/TaskUpdateManyWithoutFK_FlowInput";
 import { UserUpdateOneWithoutFK_FlowInput } from "../inputs/UserUpdateOneWithoutFK_FlowInput";
 
-@TypeGraphQL.InputType("FlowUpdateWithoutRepetitionInput", {
+@TypeGraphQL.InputType("FlowUpdateWithoutFK_RepetitionsInput", {
   isAbstract: true
 })
-export class FlowUpdateWithoutRepetitionInput {
+export class FlowUpdateWithoutFK_RepetitionsInput {
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
