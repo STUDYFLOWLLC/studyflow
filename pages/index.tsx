@@ -44,11 +44,11 @@ export default function index() {
           <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
             <div className="flex justify-start items-center">
               <a href="#">
-                <div className="w-14 h-14 mr-2">
+                <div className="w-10 h-10 mr-2">
                   <Image src={logo} alt="wave" />
                 </div>
               </a>
-              <div className="text-5xl font-semibold text-primary">
+              <div className="text-4xl font-semibold text-primary">
                 Studyflow
               </div>
             </div>
