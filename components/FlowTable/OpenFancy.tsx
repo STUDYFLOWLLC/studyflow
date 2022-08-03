@@ -1,10 +1,11 @@
 import { ArrowsExpandIcon } from '@heroicons/react/outline'
 import { animated, useSpring } from '@react-spring/web'
+import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction } from 'react'
 import Skeleton from 'react-loading-skeleton'
 
 interface Props {
-  setCurrentFlow: (flowId: string) => void
+  setCurrentFlow?: (flowId: string) => void
   flowID: string
   loading: boolean
   showOpenIcon: boolean
@@ -29,6 +30,7 @@ export default function OpenFancy({
       tension: 300,
     },
   })
+  const router = useRouter()
 
   const openIconAnimationProps = useSpring({
     opacity: showOpenIcon ? 1 : 0,
@@ -45,10 +47,12 @@ export default function OpenFancy({
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <td
         onClick={() => {
-          setCurrentFlow(flowID)
+          if (setCurrentFlow) setCurrentFlow(flowID)
+          else router.push(`/flows/${flowID}`)
         }}
         onKeyDown={() => {
-          setCurrentFlow(flowID)
+          if (setCurrentFlow) setCurrentFlow(flowID)
+          else router.push(`/flows/${flowID}`)
         }}
         onMouseOver={() => setShowOpenIcon(true)}
         onMouseLeave={() => setShowOpenIcon(false)}

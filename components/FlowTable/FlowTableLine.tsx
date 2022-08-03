@@ -4,13 +4,14 @@ import RainbowPublicIcon from 'components/Flow/RainbowPublicIcon'
 import OpenFancy from 'components/FlowTable/OpenFancy'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { bgColor } from 'types/Colors'
 import { FlowVisibility } from 'types/Flow'
 
 interface Props {
-  setCurrentFlow: (flowId: string) => void
+  setCurrentFlow?: (flowId: string) => void
   flow: DashFlow
   loading: boolean
   nextReview: string
@@ -23,6 +24,7 @@ export default function FlowTableLine({
   nextReview,
 }: Props) {
   const { theme } = useTheme()
+  const router = useRouter()
 
   const [mounted, setMounted] = useState(false)
   const [showOpenIcon, setShowOpenIcon] = useState(false)
@@ -36,10 +38,12 @@ export default function FlowTableLine({
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <td
         onClick={() => {
-          setCurrentFlow(flow.FlowID)
+          if (setCurrentFlow) setCurrentFlow(flow.FlowID)
+          else router.push(`/flows/${flow.FlowID}`)
         }}
         onKeyDown={() => {
-          setCurrentFlow(flow.FlowID)
+          if (setCurrentFlow) setCurrentFlow(flow.FlowID)
+          else router.push(`/flows/${flow.FlowID}`)
         }}
         onMouseOver={() => setShowOpenIcon(true)}
         onMouseLeave={() => setShowOpenIcon(false)}
