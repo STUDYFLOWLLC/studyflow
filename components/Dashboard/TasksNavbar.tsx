@@ -52,7 +52,7 @@ export default function TasksNavbar({ taskView, setTaskView }: Props) {
                 'hover:cursor-pointer hover:text-default hover:border-b-2 hover:border-gray-300':
                   taskDisplay !== taskView && theme === 'dark',
               },
-              'flex mx-3 pb-4 items-center border-b-2 border-transparent',
+              'flex mx-3 pb-4 items-center',
             )}
             onClick={() => setTaskView(taskDisplay)}
             onKeyDown={() => setTaskView(taskDisplay)}

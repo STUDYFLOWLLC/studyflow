@@ -17,7 +17,9 @@ export interface Flashcard {
   FK_FlashcardStackID: string
   Position: number
   Front: string
+  FrontImageUrl?: string
   Back: string
+  BackImageUrl?: string
   FK_FlashcardReviews: FlashcardReview[]
 }
 
