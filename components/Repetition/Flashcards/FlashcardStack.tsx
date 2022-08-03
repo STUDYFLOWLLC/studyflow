@@ -227,7 +227,7 @@ export default function Deck({ cards }: Props) {
             </div>
           </div>
         </div>
-        <div className="cursor-pointer border border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-md px-2 py-1 flex items-center">
+        <div className="cursor-pointer border border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-md px-2 py-1 flex items-center mt-2">
           <RefreshIcon className="w-7 h-7 text-gray-500 mr-1" />
           <div
             className="text-xl font-semibold text-gray-700"
