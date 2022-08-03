@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { FlashcardOrderByRelationAggregateInput } from "../inputs/FlashcardOrderByRelationAggregateInput";
 import { FlowOrderByWithRelationInput } from "../inputs/FlowOrderByWithRelationInput";
+import { RepetitionOrderByWithRelationInput } from "../inputs/RepetitionOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("FlashcardStackOrderByWithRelationInput", {
@@ -39,6 +40,11 @@ export class FlashcardStackOrderByWithRelationInput {
     nullable: true
   })
   FK_Flashcards?: FlashcardOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionOrderByWithRelationInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

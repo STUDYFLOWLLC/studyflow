@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermOrderByWithRelationInput } from "../inputs/CourseOnTermOrderByWithRelationInput";
 import { FlowOrderByWithRelationInput } from "../inputs/FlowOrderByWithRelationInput";
+import { RepetitionOrderByWithRelationInput } from "../inputs/RepetitionOrderByWithRelationInput";
 import { TaskLabelOrderByRelationAggregateInput } from "../inputs/TaskLabelOrderByRelationAggregateInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -81,4 +82,14 @@ export class TaskOrderByWithRelationInput {
     nullable: true
   })
   FK_CourseOnTermID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionOrderByWithRelationInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FK_RepetitionID?: "asc" | "desc" | undefined;
 }

@@ -63,6 +63,11 @@ export class TaskGroupBy {
   })
   FK_CourseOnTermID!: number | null;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_RepetitionID!: string | null;
+
   @TypeGraphQL.Field(_type => TaskCountAggregate, {
     nullable: true
   })

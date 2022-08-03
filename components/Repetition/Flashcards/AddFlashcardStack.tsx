@@ -63,7 +63,7 @@ export default function AddFlashcardStack({
             'w-5 h-5 mr-3 font-thin',
           )}
         >
-          <PlusIcon className="w-5 h-5" />
+          <PlusIcon />
         </span>
       ) : (
         <span className="mr-3">

@@ -10,6 +10,7 @@ import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibili
 import { FlashcardStackUpdateManyWithoutFK_FlowInput } from "../inputs/FlashcardStackUpdateManyWithoutFK_FlowInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { RepetitionUpdateOneWithoutFK_FlowInput } from "../inputs/RepetitionUpdateOneWithoutFK_FlowInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskUpdateManyWithoutFK_FlowInput } from "../inputs/TaskUpdateManyWithoutFK_FlowInput";
 import { UserUpdateOneWithoutFK_FlowInput } from "../inputs/UserUpdateOneWithoutFK_FlowInput";
@@ -92,4 +93,9 @@ export class FlowUpdateWithoutFK_FlowViewInput {
     nullable: true
   })
   FK_User?: UserUpdateOneWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionUpdateOneWithoutFK_FlowInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionUpdateOneWithoutFK_FlowInput | undefined;
 }
