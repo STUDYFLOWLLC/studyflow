@@ -48,11 +48,11 @@ export default function OpenFancy({
       <td
         onClick={() => {
           if (setCurrentFlow) setCurrentFlow(flowID)
-          else router.push(`/flows/${flowID}`)
+          else router.push(`/flow/${flowID}`)
         }}
         onKeyDown={() => {
           if (setCurrentFlow) setCurrentFlow(flowID)
-          else router.push(`/flows/${flowID}`)
+          else router.push(`/flow/${flowID}`)
         }}
         onMouseOver={() => setShowOpenIcon(true)}
         onMouseLeave={() => setShowOpenIcon(false)}
