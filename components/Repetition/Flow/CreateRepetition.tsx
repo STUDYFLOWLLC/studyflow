@@ -6,6 +6,7 @@ import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 import { RepetitionType } from 'types/Repetition'
+import { v4 as uuid } from 'uuid'
 
 interface Props {
   flowId: string
@@ -19,7 +20,8 @@ export default function CreateRepetition({
   setCurrentRepetition,
 }: Props) {
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
-  const { mutateRepetitionDetails } = useRepetitionDetails(currentRepetition)
+  const { repetitionDetails, mutateRepetitionDetails } =
+    useRepetitionDetails(currentRepetition)
 
   const [creating, setCreating] = useState(false)
   const [creatingType, setCreatingType] = useState<RepetitionType | null>(null)
@@ -78,17 +80,21 @@ export default function CreateRepetition({
             disabled={creating}
             type="button"
             className="w-48 h-14 mb-12 lg:mb-2 alex-button bg-primary/80 flex flex-col items-center"
-            onClick={async () =>
-              createRepetition(
-                flowId,
-                flowDetails?.Title,
+            onClick={async () => {
+              const repetitionId = uuid()
+              setCurrentRepetition(repetitionId)
+              await createRepetition(
+                repetitionId,
                 RepetitionType.FOURTHIRTY,
                 mutateRepetitionDetails,
+                flowDetails,
+                mutateFlowDetails,
                 setCreating,
                 setCreatingType,
-                setCurrentRepetition,
               )
-            }
+              console.log(flowDetails)
+              console.log(repetitionDetails)
+            }}
           >
             {creatingType === RepetitionType.FOURTHIRTY ? (
               <MainSpinner size={SpinnerSizes.medium} />

@@ -13,9 +13,15 @@ interface Props {
   card: Flashcard
   shouldFlip?: number
   setShouldFlip?: (shouldFlip: number) => void
+  cute: boolean
 }
 
-export default function Flashcard3({ card, shouldFlip, setShouldFlip }: Props) {
+export default function Flashcard3({
+  card,
+  shouldFlip,
+  setShouldFlip,
+  cute,
+}: Props) {
   const [flip, setFlip] = useState(false)
   const [showBack, setShowBack] = useState(false)
 
@@ -39,8 +45,10 @@ export default function Flashcard3({ card, shouldFlip, setShouldFlip }: Props) {
   return (
     <div
       className={classnames(
+        { 'w-24 h-12': cute },
+        { 'w-96 h-48': !cute },
         'card',
-        'flex touch-none justify-center items-center relative rounded shadow-lg cursor-pointer w-96 h-48 border-2 border-gray-100 bg-white',
+        'flex touch-none justify-center items-center relative rounded shadow-lg cursor-pointer border-2 border-gray-100 bg-white',
         { flip },
       )}
       onClick={() => flipper(!flip)}

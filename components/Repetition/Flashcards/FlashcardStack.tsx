@@ -8,6 +8,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/outline'
 import { animated, to as interpolate, useSprings } from '@react-spring/web'
+import classNames from 'classnames'
 import FlashCard3 from 'components/flowparts/FlashCard3'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
@@ -20,13 +21,16 @@ import to from 'utils/repetition/flashcards/to'
 
 interface Props {
   cards: Flashcard[]
+  hideControls?: boolean
+  disabled?: boolean
+  cute?: boolean
 }
 
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r: number, s: number) =>
   `perspective(1500px) rotateY(${r / 10}deg) scale(${s})`
 
-export default function Deck({ cards }: Props) {
+export default function Deck({ cards, hideControls, disabled, cute }: Props) {
   const [current, setCurrent] = useState(cards.length - 1)
   const [gone] = useState(() => new Set<number>()) // The set flags all the cards that are flicked out]
   const [shouldFlip, setShouldFlip] = useState(-1)
@@ -85,7 +89,10 @@ export default function Deck({ cards }: Props) {
     'up',
     () =>
       // @ts-expect-error it doesn't like async, but this is ok
-      handleSlide(SlideDirection.UP, api, cards, gone, current, setCurrent),
+      {
+        if (!disabled)
+          handleSlide(SlideDirection.UP, api, cards, gone, current, setCurrent)
+      },
     [current],
   )
 
@@ -93,7 +100,17 @@ export default function Deck({ cards }: Props) {
     'right',
     () =>
       // @ts-expect-error it doesn't like async, but this is ok
-      handleSlide(SlideDirection.RIGHT, api, cards, gone, current, setCurrent),
+      {
+        if (!disabled)
+          handleSlide(
+            SlideDirection.RIGHT,
+            api,
+            cards,
+            gone,
+            current,
+            setCurrent,
+          )
+      },
     [current],
   )
 
@@ -101,17 +118,33 @@ export default function Deck({ cards }: Props) {
     'left',
     () =>
       // @ts-expect-error it doesn't like async, but this is ok
-      handleSlide(SlideDirection.LEFT, api, cards, gone, current, setCurrent),
+      {
+        if (!disabled)
+          handleSlide(
+            SlideDirection.LEFT,
+            api,
+            cards,
+            gone,
+            current,
+            setCurrent,
+          )
+      },
     [current],
   )
 
   useHotkeys('space', () => {
-    setShouldFlip(gone.size + 1)
+    if (!disabled) setShouldFlip(gone.size + 1)
   })
 
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className="w-full deck touch-none justify-center flex">
+    <div
+      className={classNames(
+        { 'w-96 h-48': !cute },
+        { 'w-24 h-12': cute },
+        'w-full deck touch-none justify-center flex',
+      )}
+    >
       {/* eslint-disable-next-line react/prop-types */}
       {props.map(({ x, y, rot, scale, zIndex }, i) => (
         <animated.div
@@ -135,43 +168,19 @@ export default function Deck({ cards }: Props) {
               card={cards[cards.length - 1 - i]}
               shouldFlip={shouldFlip}
               setShouldFlip={setShouldFlip}
+              cute={cute}
             />
           </animated.div>
         </animated.div>
       ))}
-      <div className="md:">
-        <div className="mt-56 relative w-96 h-12 mx-auto">
-          <div
-            className="cursor-pointer w-24 h-12 border rounded absolute border-slate-300 bg-slate-100 opacity-50 top-0 left-36"
-            onClick={() =>
-              handleSlide(
-                SlideDirection.UP,
-                api,
-                cards,
-                gone,
-                current,
-                setCurrent,
-              )
-            }
-            onKeyDown={() =>
-              handleSlide(
-                SlideDirection.UP,
-                api,
-                cards,
-                gone,
-                current,
-                setCurrent,
-              )
-            }
-          >
-            <MinusCircleIcon className="w-8 h-8 ml-8 mt-2 text-slate-500" />
-          </div>
-          <div className="flex items-baseline">
+      {!hideControls && (
+        <div className="md:">
+          <div className="mt-56 relative w-96 h-12 mx-auto">
             <div
-              className="cursor-pointer w-16 h-24 border border-red-300 bg-red-100 opacity-50 rounded-md"
+              className="cursor-pointer w-24 h-12 border rounded absolute border-slate-300 bg-slate-100 opacity-50 top-0 left-36"
               onClick={() =>
                 handleSlide(
-                  SlideDirection.LEFT,
+                  SlideDirection.UP,
                   api,
                   cards,
                   gone,
@@ -181,7 +190,7 @@ export default function Deck({ cards }: Props) {
               }
               onKeyDown={() =>
                 handleSlide(
-                  SlideDirection.LEFT,
+                  SlideDirection.UP,
                   api,
                   cards,
                   gone,
@@ -190,41 +199,68 @@ export default function Deck({ cards }: Props) {
                 )
               }
             >
-              <XCircleIcon className="w-8 h-8 ml-4 mt-8 text-red-500" />
+              <MinusCircleIcon className="w-8 h-8 ml-8 mt-2 text-slate-500" />
             </div>
-            <div
-              className="cursor-pointer w-64 h-12 border rounded-md"
-              onClick={() => setShouldFlip(gone.size + 1)}
-              onKeyDown={() => setShouldFlip(gone.size + 1)}
-            />
-            <div
-              className="cursor-pointer w-16 h-24 border border-green-300 bg-green-100 opacity-50 rounded-md"
-              onClick={() =>
-                handleSlide(
-                  SlideDirection.RIGHT,
-                  api,
-                  cards,
-                  gone,
-                  current,
-                  setCurrent,
-                )
-              }
-              onKeyDown={() =>
-                handleSlide(
-                  SlideDirection.RIGHT,
-                  api,
-                  cards,
-                  gone,
-                  current,
-                  setCurrent,
-                )
-              }
-            >
-              <CheckCircleIcon className="w-8 h-8 ml-4 mt-8 text-green-500" />
+            <div className="flex items-baseline">
+              <div
+                className="cursor-pointer w-16 h-24 border border-red-300 bg-red-100 opacity-50 rounded-md"
+                onClick={() =>
+                  handleSlide(
+                    SlideDirection.LEFT,
+                    api,
+                    cards,
+                    gone,
+                    current,
+                    setCurrent,
+                  )
+                }
+                onKeyDown={() =>
+                  handleSlide(
+                    SlideDirection.LEFT,
+                    api,
+                    cards,
+                    gone,
+                    current,
+                    setCurrent,
+                  )
+                }
+              >
+                <XCircleIcon className="w-8 h-8 ml-4 mt-8 text-red-500" />
+              </div>
+              <div
+                className="cursor-pointer w-64 h-12 border rounded-md"
+                onClick={() => setShouldFlip(gone.size + 1)}
+                onKeyDown={() => setShouldFlip(gone.size + 1)}
+              />
+              <div
+                className="cursor-pointer w-16 h-24 border border-green-300 bg-green-100 opacity-50 rounded-md"
+                onClick={() =>
+                  handleSlide(
+                    SlideDirection.RIGHT,
+                    api,
+                    cards,
+                    gone,
+                    current,
+                    setCurrent,
+                  )
+                }
+                onKeyDown={() =>
+                  handleSlide(
+                    SlideDirection.RIGHT,
+                    api,
+                    cards,
+                    gone,
+                    current,
+                    setCurrent,
+                  )
+                }
+              >
+                <CheckCircleIcon className="w-8 h-8 ml-4 mt-8 text-green-500" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

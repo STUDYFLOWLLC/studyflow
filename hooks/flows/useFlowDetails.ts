@@ -43,6 +43,9 @@ export interface FlowDetail {
       FlashcardID: string
     }[]
   }[]
+  FK_Repetitions: {
+    RepetitionID: string
+  }[]
   _count: {
     FK_FlowView: number
     FK_FlashcardStacks: number
@@ -97,6 +100,9 @@ export default function useFlowDetails(flowId: string | undefined): Ret {
           FK_Flashcards {
             FlashcardID
           }
+        }
+        FK_Repetitions {
+          RepetitionID
         }
         _count {
           FK_FlowView

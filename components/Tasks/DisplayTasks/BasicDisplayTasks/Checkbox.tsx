@@ -9,9 +9,10 @@ import toast from 'react-hot-toast'
 
 interface Props {
   TaskID: string
+  cute?: boolean
 }
 
-export default function Checkbox({ TaskID }: Props) {
+export default function Checkbox({ TaskID, cute }: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
@@ -91,7 +92,9 @@ export default function Checkbox({ TaskID }: Props) {
         className={classNames(
           { 'border-transparent bg-gray-700': completed },
           { 'border-2 hover:bg-gray-100': !completed },
-          'cursor-pointer w-6 mr-3 mt-0.5 h-6 border rounded-full border-gray-400 transition-all duration-200 ease-in-out',
+          { 'w-4 h-4': cute },
+          { 'w-6 h-6': !cute },
+          'cursor-pointer mr-3 mt-0.5  border rounded-full border-gray-400 transition-all duration-200 ease-in-out',
         )}
       >
         <CheckIcon

@@ -14,42 +14,73 @@ interface Ret {
 export default function useRepetitionDetails(
   repetitionId: string | undefined | null,
 ): Ret {
-  const query = gql`query Repetition($where: RepetitionWhereUniqueInput!) {
-    repetition(where: $where) {
-      RepetitionID
+  const query = gql`
+    query Repetition(
+      $where: RepetitionWhereUniqueInput!
+      $orderBy: [FlashcardOrderByWithRelationInput!]
+      $fkFlashcardsWhere2: FlashcardWhereInput
+    ) {
+      repetition(where: $where) {
+        RepetitionID
+        CreatedTime
+        FK_FlowID
+        FK_FlashcardStackID
+        FK_Tasks {
+          TaskID
+          Title
+          Completed
+          Description
+          DueDate
+          Type
+        }
+        FK_FlashcardStack {
+          FlashcardStackID
           CreatedTime
-          FK_FlowID
-          FK_FlashcardStackID
-          FK_Tasks {
-            TaskID
-            Title
-            Completed
-            Description
-            DueDate
-            Type
-          }
-          FK_FlashcardStack {
-            FlashcardStackID
+          Title
+          Description
+          FK_Flashcards(orderBy: $orderBy, where: $fkFlashcardsWhere2) {
+            FlashcardID
             CreatedTime
-            Title
-            Description
-            FK_Flashcards {
-              FlashcardID
+            FK_FlashcardStackID
+            Position
+            Front
+            FrontImageUrl
+            Back
+            BackImageUrl
+            FK_FlashcardReviews {
+              FlashcardReviewID
+              CreatedTime
+              FK_FlashcardID
+              Status
             }
           }
         }
+      }
     }
-  }`
+  `
 
   const variables = {
     where: {
       RepetitionID: repetitionId,
+    },
+    orderBy: [
+      {
+        Position: 'asc',
+      },
+    ],
+    fkFlashcardsWhere2: {
+      DeletedTime: {
+        equals: null,
+      },
     },
   }
 
   const { data, error, mutate } = useSWR(
     repetitionId ? [query, variables] : null,
   )
+
+  console.log(data)
+  console.log(error)
 
   if (data?.mutate) {
     return {

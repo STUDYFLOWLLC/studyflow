@@ -10,6 +10,7 @@ import { TaskType } from 'types/Task'
 import { v4 as uuid } from 'uuid'
 
 export default async function makeRepetition(
+  repetitionId: string,
   flowId: string,
   flowTitle: string | undefined,
   repetitionType: RepetitionType,
@@ -39,6 +40,19 @@ export default async function makeRepetition(
           Description
           FK_Flashcards {
             FlashcardID
+            CreatedTime
+            FK_FlashcardStackID
+            Position
+            Front
+            FrontImageUrl
+            Back
+            BackImageUrl
+            FK_FlashcardReviews {
+              FlashcardReviewID
+              CreatedTime
+              FK_FlashcardID
+              Status
+            }
           }
         }
       }
@@ -108,10 +122,9 @@ export default async function makeRepetition(
     },
   ] as FlowTask[]
 
-  console.log(fourThirty)
-
   const variables = {
     data: {
+      RepetitionID: repetitionId,
       RepetitionType: repetitionType,
       FK_Flow: {
         connect: {

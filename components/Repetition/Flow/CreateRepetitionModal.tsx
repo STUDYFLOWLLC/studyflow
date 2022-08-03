@@ -60,7 +60,11 @@ export default function FlashcardReviewModal({
               'overflow-y-auto no-scrollbar max-w-3xl w-full h-full mx-auto prose relative rounded-md p-2 transition-all',
             )}
           >
-            <CreateRepetition flowId={flowId} />
+            <CreateRepetition
+              flowId={flowId}
+              currentRepetition={currentRepetition}
+              setCurrentRepetition={setCurrentRepetition}
+            />
           </Dialog.Panel>
         </Transition.Child>
       </Dialog>
