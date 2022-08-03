@@ -110,7 +110,7 @@ export default async function getPublicProfile(
     query,
     variables,
   )
-
+  console.log(data)
   if (data.user) {
     return {
       UserID: data.user.UserID,

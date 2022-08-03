@@ -6,7 +6,6 @@ import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdat
 import { FlashcardReviewUpdateManyWithoutFK_FlashcardInput } from "../inputs/FlashcardReviewUpdateManyWithoutFK_FlashcardInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
-import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("FlashcardUpdateWithoutFK_FlashcardStackInput", {
@@ -38,20 +37,10 @@ export class FlashcardUpdateWithoutFK_FlashcardStackInput {
   })
   Front?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  FrontImageUrl?: NullableStringFieldUpdateOperationsInput | undefined;
-
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
   Back?: StringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  BackImageUrl?: NullableStringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => FlashcardReviewUpdateManyWithoutFK_FlashcardInput, {
     nullable: true

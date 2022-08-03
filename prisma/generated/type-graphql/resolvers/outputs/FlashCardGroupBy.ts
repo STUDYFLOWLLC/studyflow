@@ -43,19 +43,9 @@ export class FlashcardGroupBy {
   Front!: string;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  FrontImageUrl!: string | null;
-
-  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   Back!: string;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  BackImageUrl!: string | null;
 
   @TypeGraphQL.Field(_type => FlashcardCountAggregate, {
     nullable: true

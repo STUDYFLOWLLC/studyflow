@@ -57,18 +57,8 @@ export class FlashcardScalarWhereInput {
   })
   Front?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
-  })
-  FrontImageUrl?: StringNullableFilter | undefined;
-
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
   Back?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringNullableFilter, {
-    nullable: true
-  })
-  BackImageUrl?: StringNullableFilter | undefined;
 }

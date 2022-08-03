@@ -20,7 +20,7 @@ export class GroupByFlashcardArgs {
   @TypeGraphQL.Field(_type => [FlashcardScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"FlashcardID" | "CreatedTime" | "DeletedTime" | "FK_FlashcardStackID" | "Position" | "Front" | "FrontImageUrl" | "Back" | "BackImageUrl">;
+  by!: Array<"FlashcardID" | "CreatedTime" | "DeletedTime" | "FK_FlashcardStackID" | "Position" | "Front" | "Back">;
 
   @TypeGraphQL.Field(_type => FlashcardScalarWhereWithAggregatesInput, {
     nullable: true

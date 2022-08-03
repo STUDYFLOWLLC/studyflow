@@ -293,9 +293,7 @@ model Flashcard {
   FK_FlashcardStackID String?
   Position            Int
   Front               String            @default("")
-  FrontImageUrl       String?
   Back                String            @default("")
-  BackImageUrl        String?
   FK_FlashcardReviews FlashcardReview[]
 }
 

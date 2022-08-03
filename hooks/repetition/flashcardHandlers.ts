@@ -5,15 +5,12 @@ import {
   mutateAddFlashcard,
   mutateDeleteFlashcard,
   mutateFlashcardBack,
-  mutateFlashcardBackImageUrl,
   mutateFlashcardFront,
-  mutateFlashcardFrontImageUrl,
   mutateFlashcardPosition,
 } from 'hooks/repetition/mutateFlashcard'
 import toast from 'react-hot-toast'
 import { KeyedMutator } from 'swr'
 import { FlashcardStack } from 'types/Repetition'
-import { supabase } from 'utils/supabase'
 import { v4 as uuid } from 'uuid'
 
 export async function changeFront(
@@ -54,77 +51,6 @@ export async function changeFront(
   setSaving(false)
 }
 
-export async function changeFrontImage(
-  flashcardId: string,
-  file: File | undefined,
-  flashcardStack: FlashcardStack | null,
-  mutateFlashcardStack: KeyedMutator<any>,
-) {
-  if (!file) return
-  if (!flashcardStack) return
-
-  const fileId = uuid()
-  const { data, error } = await supabase.storage
-    .from('flashcard')
-    .upload(`${flashcardStack.FlashcardStackID}/${flashcardId}/${fileId}`, file)
-
-  if (data) {
-    const link = `https://afmrynysmeogummgkkrb.supabase.co/storage/v1/object/public/${data.Key}`
-    await mutateFlashcardFrontImageUrl(flashcardId, link)
-    mutateFlashcardStack(
-      {
-        mutate: true,
-        mutatedFlashcardStack: {
-          ...flashcardStack,
-          FK_Flashcards: flashcardStack.FK_Flashcards.map((flashcard) => {
-            if (flashcard.FlashcardID === flashcardId) {
-              return {
-                ...flashcard,
-                FrontImageUrl: link,
-              }
-            }
-            return flashcard
-          }),
-        },
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
-}
-
-export async function removeFlashcardFrontImage(
-  flashcardId: string,
-  flashcardStack: FlashcardStack | null,
-  mutateFlashcardStack: KeyedMutator<any>,
-) {
-  if (!flashcardStack) return
-
-  mutateFlashcardFrontImageUrl(flashcardId, '')
-
-  mutateFlashcardStack(
-    {
-      mutate: true,
-      mutatedFlashcardStack: {
-        ...flashcardStack,
-        FK_Flashcards: flashcardStack.FK_Flashcards.map((flashcard) => {
-          if (flashcard.FlashcardID === flashcardId) {
-            return {
-              ...flashcard,
-              FrontImageUrl: '',
-            }
-          }
-          return flashcard
-        }),
-      },
-    },
-    {
-      revalidate: false,
-    },
-  )
-}
-
 export async function changeBack(
   flashcardId: string,
   newBack: string,
@@ -161,77 +87,6 @@ export async function changeBack(
   await mutateFlashcardBack(flashcardId, newBack)
 
   setSaving(false)
-}
-
-export async function changeBackImage(
-  flashcardId: string,
-  file: File | undefined,
-  flashcardStack: FlashcardStack | null,
-  mutateFlashcardStack: KeyedMutator<any>,
-) {
-  if (!file) return
-  if (!flashcardStack) return
-
-  const fileId = uuid()
-  const { data, error } = await supabase.storage
-    .from('flashcard')
-    .upload(`${flashcardStack.FlashcardStackID}/${flashcardId}/${fileId}`, file)
-
-  if (data) {
-    const link = `https://afmrynysmeogummgkkrb.supabase.co/storage/v1/object/public/${data.Key}`
-    await mutateFlashcardBackImageUrl(flashcardId, link)
-    mutateFlashcardStack(
-      {
-        mutate: true,
-        mutatedFlashcardStack: {
-          ...flashcardStack,
-          FK_Flashcards: flashcardStack.FK_Flashcards.map((flashcard) => {
-            if (flashcard.FlashcardID === flashcardId) {
-              return {
-                ...flashcard,
-                BackImageUrl: link,
-              }
-            }
-            return flashcard
-          }),
-        },
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
-}
-
-export async function removeFlashcardBackImage(
-  flashcardId: string,
-  flashcardStack: FlashcardStack | null,
-  mutateFlashcardStack: KeyedMutator<any>,
-) {
-  if (!flashcardStack) return
-
-  mutateFlashcardBackImageUrl(flashcardId, '')
-
-  mutateFlashcardStack(
-    {
-      mutate: true,
-      mutatedFlashcardStack: {
-        ...flashcardStack,
-        FK_Flashcards: flashcardStack.FK_Flashcards.map((flashcard) => {
-          if (flashcard.FlashcardID === flashcardId) {
-            return {
-              ...flashcard,
-              BackImageUrl: '',
-            }
-          }
-          return flashcard
-        }),
-      },
-    },
-    {
-      revalidate: false,
-    },
-  )
 }
 
 export async function deleteFlashcard(
