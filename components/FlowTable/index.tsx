@@ -14,7 +14,7 @@ import ActualFlowTable from './ActualFlowTable'
 import EmptyTable from './EmptyTable'
 
 interface Props {
-  setCurrentFlow: (flowId: string) => void
+  setCurrentFlow?: (flowId: string) => void
 }
 
 export default function FlowList({ setCurrentFlow }: Props) {
