@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../scalars";
 import { FlashcardStack } from "../models/FlashcardStack";
 import { Flow } from "../models/Flow";
 import { Task } from "../models/Task";
+import { RepetitionType } from "../enums/RepetitionType";
 import { RepetitionCount } from "../resolvers/outputs/RepetitionCount";
 
 @TypeGraphQL.ObjectType("Repetition", {
@@ -20,6 +21,11 @@ export class Repetition {
     nullable: false
   })
   CreatedTime!: Date;
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: false
+  })
+  RepetitionType!: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY";
 
   FK_Flow?: Flow | null;
 

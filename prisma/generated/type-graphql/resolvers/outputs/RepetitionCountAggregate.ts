@@ -20,6 +20,11 @@ export class RepetitionCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  RepetitionType!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_FlowID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

@@ -1,3 +1,5 @@
+import { FlowTask } from 'hooks/flows/useFlowDetails'
+
 export enum FlashcardStatus {
   NEUTRAL = 'NEUTRAL',
   CORRECT = 'CORRECT',
@@ -26,8 +28,24 @@ export interface Flashcard {
 export interface FlashcardStack {
   FlashcardStackID: string
   CreatedTime: string
-  FK_FlowID: string
+  FK_FlowID?: string
   FK_Flashcards: Flashcard[]
   Title: string
   Description: string
+}
+
+export enum RepetitionType {
+  FOURTEN = 'FOURTEN',
+  FOURTHIRTY = 'FOURTHIRTY',
+  SIXTHIRTY = 'SIXTHIRTY',
+}
+
+export interface Repetition {
+  RepetitionID: string
+  CreatedTime: string
+  RepetitionType: RepetitionType
+  FK_FlashcardStack: FlashcardStack
+  FK_FlashcardStackID: string
+  FK_FlowID: string
+  FK_Tasks: FlowTask[]
 }

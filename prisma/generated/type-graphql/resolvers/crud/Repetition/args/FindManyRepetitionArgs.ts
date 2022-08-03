@@ -35,5 +35,5 @@ export class FindManyRepetitionArgs {
   @TypeGraphQL.Field(_type => [RepetitionScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"RepetitionID" | "CreatedTime" | "FK_FlowID" | "FK_FlashcardStackID"> | undefined;
+  distinct?: Array<"RepetitionID" | "CreatedTime" | "RepetitionType" | "FK_FlowID" | "FK_FlashcardStackID"> | undefined;
 }

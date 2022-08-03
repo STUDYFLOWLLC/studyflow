@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { RepetitionCountAggregate } from "../outputs/RepetitionCountAggregate";
 import { RepetitionMaxAggregate } from "../outputs/RepetitionMaxAggregate";
 import { RepetitionMinAggregate } from "../outputs/RepetitionMinAggregate";
+import { RepetitionType } from "../../enums/RepetitionType";
 
 @TypeGraphQL.ObjectType("RepetitionGroupBy", {
   isAbstract: true
@@ -19,6 +20,11 @@ export class RepetitionGroupBy {
     nullable: false
   })
   CreatedTime!: Date;
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: false
+  })
+  RepetitionType!: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY";
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

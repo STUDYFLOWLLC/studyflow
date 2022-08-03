@@ -56,6 +56,12 @@ enum FlashcardStatus {
   INCORRECT
 }
 
+enum RepetitionType {
+  FOURTEN
+  FOURTHIRTY
+  SIXTHIRTY
+}
+
 model Setting {
   SettingID                Int       @id @default(autoincrement())
   HasSeenWelcomeMessage    Boolean?  @default(false)
@@ -240,7 +246,7 @@ model Flow {
   // Only use for trash/restore. CourseOnTermID is used for the rest.
   FK_User            User?            @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID          Int?
-  Repetition         Repetition[]
+  FK_Repetitions     Repetition[]
 }
 
 model FlowView {
@@ -339,6 +345,7 @@ model TaskLabel {
 model Repetition {
   RepetitionID        String          @id @default(uuid())
   CreatedTime         DateTime        @default(now())
+  RepetitionType      RepetitionType  @default(FOURTHIRTY)
   FK_Flow             Flow?           @relation(fields: [FK_FlowID], references: [FlowID])
   FK_FlowID           String?
   FK_FlashcardStack   FlashcardStack? @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID])

@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { FlashcardStackCreateNestedOneWithoutFK_RepetitionInput } from "../inputs/FlashcardStackCreateNestedOneWithoutFK_RepetitionInput";
 import { FlowCreateNestedOneWithoutRepetitionInput } from "../inputs/FlowCreateNestedOneWithoutRepetitionInput";
 import { TaskCreateNestedManyWithoutFK_RepetitionInput } from "../inputs/TaskCreateNestedManyWithoutFK_RepetitionInput";
+import { RepetitionType } from "../../enums/RepetitionType";
 
 @TypeGraphQL.InputType("RepetitionCreateInput", {
   isAbstract: true
@@ -19,6 +20,11 @@ export class RepetitionCreateInput {
     nullable: true
   })
   CreatedTime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: true
+  })
+  RepetitionType?: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY" | undefined;
 
   @TypeGraphQL.Field(_type => FlowCreateNestedOneWithoutRepetitionInput, {
     nullable: true

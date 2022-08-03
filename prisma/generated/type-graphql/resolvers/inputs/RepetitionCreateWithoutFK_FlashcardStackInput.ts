@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { FlowCreateNestedOneWithoutRepetitionInput } from "../inputs/FlowCreateNestedOneWithoutRepetitionInput";
 import { TaskCreateNestedManyWithoutFK_RepetitionInput } from "../inputs/TaskCreateNestedManyWithoutFK_RepetitionInput";
+import { RepetitionType } from "../../enums/RepetitionType";
 
 @TypeGraphQL.InputType("RepetitionCreateWithoutFK_FlashcardStackInput", {
   isAbstract: true
@@ -18,6 +19,11 @@ export class RepetitionCreateWithoutFK_FlashcardStackInput {
     nullable: true
   })
   CreatedTime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: true
+  })
+  RepetitionType?: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY" | undefined;
 
   @TypeGraphQL.Field(_type => FlowCreateNestedOneWithoutRepetitionInput, {
     nullable: true

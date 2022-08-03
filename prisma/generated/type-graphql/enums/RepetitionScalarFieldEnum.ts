@@ -3,6 +3,7 @@ import * as TypeGraphQL from "type-graphql";
 export enum RepetitionScalarFieldEnum {
   RepetitionID = "RepetitionID",
   CreatedTime = "CreatedTime",
+  RepetitionType = "RepetitionType",
   FK_FlowID = "FK_FlowID",
   FK_FlashcardStackID = "FK_FlashcardStackID"
 }

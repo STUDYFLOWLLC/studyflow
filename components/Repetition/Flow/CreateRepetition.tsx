@@ -1,12 +1,28 @@
 import Tippy from '@tippyjs/react'
+import MainSpinner from 'components/spinners/MainSpinner'
+import useFlowDetails from 'hooks/flows/useFlowDetails'
+import { createRepetition } from 'hooks/repetition/repetitionHandlers'
+import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useState } from 'react'
+import { SpinnerSizes } from 'types/Loading'
+import { RepetitionType } from 'types/Repetition'
 
 interface Props {
   flowId: string
+  currentRepetition: string | null
+  setCurrentRepetition: (currentRepetition: string | null) => void
 }
 
-export default function CreateRepetition({ flowId }: Props) {
+export default function CreateRepetition({
+  flowId,
+  currentRepetition,
+  setCurrentRepetition,
+}: Props) {
+  const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
+  const { mutateRepetitionDetails } = useRepetitionDetails(currentRepetition)
+
   const [creating, setCreating] = useState(false)
+  const [creatingType, setCreatingType] = useState<RepetitionType | null>(null)
 
   return (
     <div className="prose mx-auto max-w-none w-full px-2">
@@ -44,8 +60,9 @@ export default function CreateRepetition({ flowId }: Props) {
           trigger="manual"
         >
           <button
+            disabled={creating}
             type="button"
-            className="mb-12 lg:mb-2 alex-button bg-rose-300 flex flex-col items-center"
+            className="w-48 h-14 mb-12 lg:mb-2 alex-button bg-rose-300 flex flex-col items-center"
           >
             <p className="m-0 p-0">4/10</p>
             <p className="m-0 p-0">4 repetitions in 10 days</p>
@@ -58,11 +75,29 @@ export default function CreateRepetition({ flowId }: Props) {
           trigger="manual"
         >
           <button
+            disabled={creating}
             type="button"
-            className="mb-12 lg:mb-2 alex-button bg-primary/80 flex flex-col items-center"
+            className="w-48 h-14 mb-12 lg:mb-2 alex-button bg-primary/80 flex flex-col items-center"
+            onClick={async () =>
+              createRepetition(
+                flowId,
+                flowDetails?.Title,
+                RepetitionType.FOURTHIRTY,
+                mutateRepetitionDetails,
+                setCreating,
+                setCreatingType,
+                setCurrentRepetition,
+              )
+            }
           >
-            <p className="m-0 p-0">4/30</p>
-            <p className="m-0 p-0">4 repetitions in 30 days</p>
+            {creatingType === RepetitionType.FOURTHIRTY ? (
+              <MainSpinner size={SpinnerSizes.medium} />
+            ) : (
+              <>
+                <p className="m-0 p-0">4/30</p>
+                <p className="m-0 p-0">4 repetitions in 30 days</p>
+              </>
+            )}
           </button>
         </Tippy>
         <Tippy
@@ -72,8 +107,9 @@ export default function CreateRepetition({ flowId }: Props) {
           trigger="manual"
         >
           <button
+            disabled={creating}
             type="button"
-            className="mb-12 lg:mb-2 alex-button bg-green-300 flex flex-col items-center"
+            className="w-48 h-14 mb-12 lg:mb-2 alex-button bg-amber-300 flex flex-col items-center"
           >
             <p className="m-0 p-0">6/30</p>
             <p className="m-0 p-0">6 repetitions in 30 days</p>

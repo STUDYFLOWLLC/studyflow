@@ -21,6 +21,11 @@ export class RepetitionOrderByWithRelationInput {
   })
   CreatedTime?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  RepetitionType?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => FlowOrderByWithRelationInput, {
     nullable: true
   })
