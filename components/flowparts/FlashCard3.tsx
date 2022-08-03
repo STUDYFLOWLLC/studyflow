@@ -40,7 +40,7 @@ export default function Flashcard3({ card, shouldFlip, setShouldFlip }: Props) {
     <div
       className={classnames(
         'card',
-        'flex justify-center items-center relative rounded shadow-lg cursor-pointer w-96 h-48 border-2 border-gray-100 bg-white',
+        'flex touch-none justify-center items-center relative rounded shadow-lg cursor-pointer w-96 h-48 border-2 border-gray-100 bg-white',
         { flip },
       )}
       onClick={() => flipper(!flip)}
