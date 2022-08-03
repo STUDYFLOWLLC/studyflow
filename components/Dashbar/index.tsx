@@ -21,6 +21,7 @@ interface Props {
   setSearchValue: Dispatch<SetStateAction<string>>
   cmdPaletteOpen: boolean
   setCmdPaletteOpen: Dispatch<SetStateAction<boolean>>
+  social?: boolean
 }
 
 export default function index({
@@ -29,6 +30,7 @@ export default function index({
   searchValue,
   setSearchValue,
   cmdPaletteOpen,
+  social,
   setCmdPaletteOpen,
 }: Props) {
   const { theme, setTheme } = useTheme()
@@ -92,6 +94,7 @@ export default function index({
             <LogoHeader
               showHideButton={showHideButton}
               setShowDashBar={setShowDashBar}
+              social={social}
             />
             <div className="mt-4 h-full flex-1 flex flex-col overflow-y-auto">
               <BigProfileButton
