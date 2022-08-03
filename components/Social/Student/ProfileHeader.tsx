@@ -15,7 +15,7 @@ export default function ProfileHeader({ PublicUser, canEdit }: Props) {
   return (
     <div>
       <div>
-        <div className="h-32 w-full object-cover lg:h-48 bg-primary/50" />
+        <div className="h-40 w-full object-cover bg-primary/50" />
       </div>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">

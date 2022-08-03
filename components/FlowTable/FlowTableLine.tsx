@@ -13,8 +13,8 @@ import { FlowVisibility } from 'types/Flow'
 interface Props {
   setCurrentFlow?: (flowId: string) => void
   flow: DashFlow
-  loading: boolean
-  nextReview: string
+  loading?: boolean
+  nextReview?: string
 }
 
 export default function FlowTableLine({
@@ -128,7 +128,8 @@ export default function FlowTableLine({
           'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
         )}
       >
-        {!loading ? <p>{nextReview}</p> : <Skeleton width={60} />}
+        {!loading && nextReview && <p>{nextReview}</p>}
+        {loading && !nextReview && <Skeleton width={60} />}
       </td>
       <OpenFancy
         setCurrentFlow={setCurrentFlow}

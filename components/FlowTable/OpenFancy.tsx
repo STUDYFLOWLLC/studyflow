@@ -7,7 +7,7 @@ import Skeleton from 'react-loading-skeleton'
 interface Props {
   setCurrentFlow?: (flowId: string) => void
   flowID: string
-  loading: boolean
+  loading?: boolean
   showOpenIcon: boolean
   setShowOpenIcon: Dispatch<SetStateAction<boolean>>
 }
