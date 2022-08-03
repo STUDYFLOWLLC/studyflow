@@ -54,7 +54,7 @@ export default function index({ flowId, flowTitle }: Props) {
                 'uppercase text-sm font-medium cursor-pointer rounded-md px-0.5 py-0.5',
               )}
               onClick={() => setTasksHidden(false)}
-              onKeyDown={() => setTasksHidden(true)}
+              onKeyDown={() => setTasksHidden(false)}
             >
               Show tasks
             </span>

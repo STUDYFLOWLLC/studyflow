@@ -144,7 +144,7 @@ export default function index({
                   { 'bg-base-100': theme === 'dark' },
                   { 'w-full': dragSetter },
                   { 'w-[99%]': !dragSetter },
-                  ' pb-16 h-5/6 max-w-4xl shadow-lg rounded-md',
+                  ' pb-16 h-5/6 overflow-y-auto max-w-4xl shadow-lg rounded-md',
                 )}
               >
                 {creatingFlow && (

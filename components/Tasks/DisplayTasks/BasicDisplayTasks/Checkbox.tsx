@@ -103,7 +103,9 @@ export default function Checkbox({ TaskID, cute }: Props) {
             {
               'text-gray-400 opacity-0 hover:opacity-100': !completed,
             },
-            'w-5 h-5 transition-all duration-200 ease-in-out mt-0.5 ml-px',
+            { 'w-3 h-3': cute },
+            { 'w-5 h-5 mt-0.5 ml-px': !cute },
+            'transition-all duration-200 ease-in-out ',
           )}
         />
       </div>

@@ -141,7 +141,7 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
     <div
       className={classNames(
         { 'w-96 h-48': !cute },
-        { 'w-24 h-12': cute },
+        { 'w-24 h-20': cute },
         'w-full deck touch-none justify-center flex',
       )}
     >

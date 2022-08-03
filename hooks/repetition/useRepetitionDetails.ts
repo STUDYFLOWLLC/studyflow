@@ -79,9 +79,6 @@ export default function useRepetitionDetails(
     repetitionId ? [query, variables] : null,
   )
 
-  console.log(data)
-  console.log(error)
-
   if (data?.mutate) {
     return {
       repetitionDetails: data.newRepetition,

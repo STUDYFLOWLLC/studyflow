@@ -246,7 +246,7 @@ model Flow {
   // Only use for trash/restore. CourseOnTermID is used for the rest.
   FK_User            User?            @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID          Int?
-  FK_Repetitions     Repetition[]
+  FK_Repetition      Repetition?
 }
 
 model FlowView {
@@ -347,7 +347,7 @@ model Repetition {
   CreatedTime         DateTime        @default(now())
   RepetitionType      RepetitionType  @default(FOURTHIRTY)
   FK_Flow             Flow?           @relation(fields: [FK_FlowID], references: [FlowID])
-  FK_FlowID           String?
+  FK_FlowID           String?         @unique
   FK_FlashcardStack   FlashcardStack? @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID])
   FK_FlashcardStackID String?         @unique
   FK_Tasks            Task[]

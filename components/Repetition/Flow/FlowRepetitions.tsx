@@ -23,10 +23,7 @@ export default function FlowRepetitions({ flowId }: Props) {
         currentRepetition={currentRepetition}
         setCurrentRepetition={setCurrentRepetition}
       />
-      <AddRepetition
-        flowId={flowId}
-        setCurrentRepetition={setCurrentRepetition}
-      />
+
       {flowDetails?.FK_Repetitions?.map((repetition) => (
         <FlowRepetition
           key={repetition.RepetitionID}
@@ -34,6 +31,10 @@ export default function FlowRepetitions({ flowId }: Props) {
           repetitionId={repetition.RepetitionID}
         />
       ))}
+      <AddRepetition
+        flowId={flowId}
+        setCurrentRepetition={setCurrentRepetition}
+      />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import {
   QuestionMarkCircleIcon,
   XCircleIcon,
 } from '@heroicons/react/solid'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { Flashcard, FlashcardReview, FlashcardStatus } from 'types/Repetition'
 import delay from 'utils/delay'
@@ -42,10 +42,12 @@ export default function Flashcard3({
   const lastReview: FlashcardReview | undefined =
     card.FK_FlashcardReviews[card.FK_FlashcardReviews.length - 1]
 
+  console.log(card)
+
   return (
     <div
-      className={classnames(
-        { 'w-24 h-12': cute },
+      className={classNames(
+        { 'w-36 h-20': cute },
         { 'w-96 h-48': !cute },
         'card',
         'flex touch-none justify-center items-center relative rounded shadow-lg cursor-pointer border-2 border-gray-100 bg-white',
@@ -70,8 +72,10 @@ export default function Flashcard3({
             <QuestionMarkCircleIcon className="text-stone-800" />
           </div>
         ))}
-      <div className="card front text-stone-800">{card.Front}</div>
-      <div className={classnames('card back text-stone-800')}>
+      <div className={classNames({ 'text-2xs': cute }, 'card front')}>
+        {card.Front}
+      </div>
+      <div className={classNames({ 'text-2xs': cute }, 'card back')}>
         {showBack && card.Back}
       </div>
     </div>

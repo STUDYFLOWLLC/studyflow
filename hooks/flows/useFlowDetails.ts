@@ -45,7 +45,7 @@ export interface FlowDetail {
   }[]
   FK_Repetitions: {
     RepetitionID: string
-  }[]
+  }
   _count: {
     FK_FlowView: number
     FK_FlashcardStacks: number
