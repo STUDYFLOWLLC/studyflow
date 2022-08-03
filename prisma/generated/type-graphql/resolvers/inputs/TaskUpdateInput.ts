@@ -9,6 +9,7 @@ import { FlowUpdateOneWithoutFK_TasksInput } from "../inputs/FlowUpdateOneWithou
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { NullableEnumTaskTypeFieldUpdateOperationsInput } from "../inputs/NullableEnumTaskTypeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { RepetitionUpdateOneWithoutFK_TasksInput } from "../inputs/RepetitionUpdateOneWithoutFK_TasksInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskLabelUpdateManyWithoutFK_TaskInput } from "../inputs/TaskLabelUpdateManyWithoutFK_TaskInput";
 import { UserUpdateOneWithoutFK_TaskInput } from "../inputs/UserUpdateOneWithoutFK_TaskInput";
@@ -71,4 +72,9 @@ export class TaskUpdateInput {
     nullable: true
   })
   FK_CourseOnTerm?: CourseOnTermUpdateOneWithoutFK_TasksInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionUpdateOneWithoutFK_TasksInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionUpdateOneWithoutFK_TasksInput | undefined;
 }

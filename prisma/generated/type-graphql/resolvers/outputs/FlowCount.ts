@@ -21,4 +21,9 @@ export class FlowCount {
     nullable: false
   })
   FK_FlowView!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  Repetition!: number;
 }

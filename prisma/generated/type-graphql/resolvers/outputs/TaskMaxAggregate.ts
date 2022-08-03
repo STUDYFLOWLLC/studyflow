@@ -57,4 +57,9 @@ export class TaskMaxAggregate {
     nullable: true
   })
   FK_CourseOnTermID!: number | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_RepetitionID!: string | null;
 }

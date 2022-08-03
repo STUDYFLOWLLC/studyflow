@@ -10,6 +10,7 @@ export { Flow } from "./Flow";
 export { FlowView } from "./FlowView";
 export { Friendship } from "./Friendship";
 export { Professor } from "./Professor";
+export { Repetition } from "./Repetition";
 export { School } from "./School";
 export { Setting } from "./Setting";
 export { StudyGroup } from "./StudyGroup";

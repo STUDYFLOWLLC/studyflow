@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import { Flashcard } from "../../../models/Flashcard";
 import { FlashcardStack } from "../../../models/FlashcardStack";
 import { Flow } from "../../../models/Flow";
+import { Repetition } from "../../../models/Repetition";
 import { FlashcardStackFK_FlashcardsArgs } from "./args/FlashcardStackFK_FlashcardsArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -27,5 +28,16 @@ export class FlashcardStackRelationsResolver {
         FlashcardStackID: flashcardStack.FlashcardStackID,
       },
     }).FK_Flashcards(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => Repetition, {
+    nullable: true
+  })
+  async FK_Repetition(@TypeGraphQL.Root() flashcardStack: FlashcardStack, @TypeGraphQL.Ctx() ctx: any): Promise<Repetition | null> {
+    return getPrismaFromContext(ctx).flashcardStack.findUnique({
+      where: {
+        FlashcardStackID: flashcardStack.FlashcardStackID,
+      },
+    }).FK_Repetition({});
   }
 }

@@ -13,6 +13,7 @@ export { FlowViewScalarFieldEnum } from "./FlowViewScalarFieldEnum";
 export { FriendshipScalarFieldEnum } from "./FriendshipScalarFieldEnum";
 export { ProfessorScalarFieldEnum } from "./ProfessorScalarFieldEnum";
 export { QueryMode } from "./QueryMode";
+export { RepetitionScalarFieldEnum } from "./RepetitionScalarFieldEnum";
 export { SchoolScalarFieldEnum } from "./SchoolScalarFieldEnum";
 export { SettingScalarFieldEnum } from "./SettingScalarFieldEnum";
 export { SetupStep } from "./SetupStep";

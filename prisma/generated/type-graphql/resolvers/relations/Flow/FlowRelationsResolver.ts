@@ -3,11 +3,13 @@ import { CourseOnTerm } from "../../../models/CourseOnTerm";
 import { FlashcardStack } from "../../../models/FlashcardStack";
 import { Flow } from "../../../models/Flow";
 import { FlowView } from "../../../models/FlowView";
+import { Repetition } from "../../../models/Repetition";
 import { Task } from "../../../models/Task";
 import { User } from "../../../models/User";
 import { FlowFK_FlashcardStacksArgs } from "./args/FlowFK_FlashcardStacksArgs";
 import { FlowFK_FlowViewArgs } from "./args/FlowFK_FlowViewArgs";
 import { FlowFK_TasksArgs } from "./args/FlowFK_TasksArgs";
+import { FlowRepetitionArgs } from "./args/FlowRepetitionArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
 @TypeGraphQL.Resolver(_of => Flow)
@@ -65,5 +67,16 @@ export class FlowRelationsResolver {
         FlowID: flow.FlowID,
       },
     }).FK_User({});
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [Repetition], {
+    nullable: false
+  })
+  async Repetition(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlowRepetitionArgs): Promise<Repetition[]> {
+    return getPrismaFromContext(ctx).flow.findUnique({
+      where: {
+        FlowID: flow.FlowID,
+      },
+    }).Repetition(args);
   }
 }

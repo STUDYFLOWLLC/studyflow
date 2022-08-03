@@ -52,4 +52,9 @@ export class TaskCreateManyFK_CourseOnTermInput {
     nullable: true
   })
   FK_FlowID?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_RepetitionID?: string | undefined;
 }

@@ -6,6 +6,7 @@ import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { FlashcardListRelationFilter } from "../inputs/FlashcardListRelationFilter";
 import { FlowRelationFilter } from "../inputs/FlowRelationFilter";
+import { RepetitionRelationFilter } from "../inputs/RepetitionRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -57,6 +58,11 @@ export class FlashcardStackWhereInput {
     nullable: true
   })
   FK_Flashcards?: FlashcardListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionRelationFilter, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true

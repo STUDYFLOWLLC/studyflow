@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermCreateNestedOneWithoutFK_TasksInput } from "../inputs/CourseOnTermCreateNestedOneWithoutFK_TasksInput";
 import { FlowCreateNestedOneWithoutFK_TasksInput } from "../inputs/FlowCreateNestedOneWithoutFK_TasksInput";
+import { RepetitionCreateNestedOneWithoutFK_TasksInput } from "../inputs/RepetitionCreateNestedOneWithoutFK_TasksInput";
 import { UserCreateNestedOneWithoutFK_TaskInput } from "../inputs/UserCreateNestedOneWithoutFK_TaskInput";
 import { TaskType } from "../../enums/TaskType";
 
@@ -60,4 +61,9 @@ export class TaskCreateWithoutFK_TaskLabelInput {
     nullable: true
   })
   FK_CourseOnTerm?: CourseOnTermCreateNestedOneWithoutFK_TasksInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionCreateNestedOneWithoutFK_TasksInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionCreateNestedOneWithoutFK_TasksInput | undefined;
 }

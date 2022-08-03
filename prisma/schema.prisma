@@ -240,6 +240,7 @@ model Flow {
   // Only use for trash/restore. CourseOnTermID is used for the rest.
   FK_User            User?            @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID          Int?
+  Repetition         Repetition[]
 }
 
 model FlowView {
@@ -281,6 +282,7 @@ model FlashcardStack {
   FK_Flow          Flow?       @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
   FK_FlowID        String?
   FK_Flashcards    Flashcard[]
+  FK_Repetition    Repetition?
   Title            String      @default("")
   Description      String      @default("")
 }
@@ -322,6 +324,8 @@ model Task {
   FK_FlowID         String?
   FK_CourseOnTerm   CourseOnTerm? @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID])
   FK_CourseOnTermID Int?
+  FK_Repetition     Repetition?   @relation(fields: [FK_RepetitionID], references: [RepetitionID])
+  FK_RepetitionID   String?
 }
 
 model TaskLabel {
@@ -330,4 +334,14 @@ model TaskLabel {
   Label       String   @default("Untitled")
   FK_Task     Task?    @relation(fields: [FK_TaskID], references: [TaskID])
   FK_TaskID   String?
+}
+
+model Repetition {
+  RepetitionID        String          @id @default(uuid())
+  CreatedTime         DateTime        @default(now())
+  FK_Flow             Flow?           @relation(fields: [FK_FlowID], references: [FlowID])
+  FK_FlowID           String?
+  FK_FlashcardStack   FlashcardStack? @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID])
+  FK_FlashcardStackID String?         @unique
+  FK_Tasks            Task[]
 }

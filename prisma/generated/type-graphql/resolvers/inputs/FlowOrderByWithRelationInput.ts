@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermOrderByWithRelationInput } from "../inputs/CourseOnTermOrderByWithRelationInput";
 import { FlashcardStackOrderByRelationAggregateInput } from "../inputs/FlashcardStackOrderByRelationAggregateInput";
 import { FlowViewOrderByRelationAggregateInput } from "../inputs/FlowViewOrderByRelationAggregateInput";
+import { RepetitionOrderByRelationAggregateInput } from "../inputs/RepetitionOrderByRelationAggregateInput";
 import { TaskOrderByRelationAggregateInput } from "../inputs/TaskOrderByRelationAggregateInput";
 import { UserOrderByWithRelationInput } from "../inputs/UserOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -102,4 +103,9 @@ export class FlowOrderByWithRelationInput {
     nullable: true
   })
   FK_UserID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  Repetition?: RepetitionOrderByRelationAggregateInput | undefined;
 }

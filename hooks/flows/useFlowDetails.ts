@@ -57,13 +57,14 @@ interface Ret {
   mutateFlowDetails: KeyedMutator<any>
 }
 
-export default function useFlowDetails(FlowID: string | undefined): Ret {
+export default function useFlowDetails(flowId: string | undefined): Ret {
   const query = gql`
-    query FindFirstFlow(
-      $where: FlowWhereInput
+    query Flow(
+      $where: FlowWhereUniqueInput!
       $fkFlashcardStacksWhere2: FlashcardStackWhereInput
+      $fkTasksWhere2: TaskWhereInput
     ) {
-      findFirstFlow(where: $where) {
+      flow(where: $where) {
         FlowID
         CreatedTime
         LastOpened
@@ -81,7 +82,7 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
             Code
           }
         }
-        FK_Tasks {
+        FK_Tasks(where: $fkTasksWhere2) {
           TaskID
           Title
           Completed
@@ -108,15 +109,22 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
 
   const variables = {
     where: {
-      FlowID: {
-        equals: FlowID,
-      },
+      FlowID: flowId,
     },
     fkFlashcardStacksWhere2: {
       AND: [
         {
           FK_FlowID: {
-            equals: FlowID,
+            equals: flowId,
+          },
+        },
+        {
+          FK_Repetition: {
+            is: {
+              RepetitionID: {
+                equals: '',
+              },
+            },
           },
         },
         {
@@ -125,6 +133,11 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
           },
         },
       ],
+    },
+    fkTasksWhere2: {
+      FK_RepetitionID: {
+        equals: null,
+      },
     },
   }
 
@@ -139,9 +152,9 @@ export default function useFlowDetails(FlowID: string | undefined): Ret {
     }
   }
 
-  if (data?.findFirstFlow) {
+  if (data?.flow) {
     return {
-      flowDetails: data.findFirstFlow,
+      flowDetails: data.flow,
       flowDetailsLoading: false,
       flowDetailsError: null,
       mutateFlowDetails: mutate,
