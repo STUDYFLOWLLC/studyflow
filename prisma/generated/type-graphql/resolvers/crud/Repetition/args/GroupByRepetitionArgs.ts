@@ -20,7 +20,7 @@ export class GroupByRepetitionArgs {
   @TypeGraphQL.Field(_type => [RepetitionScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"RepetitionID" | "CreatedTime" | "RepetitionType" | "FK_FlowID" | "FK_FlashcardStackID">;
+  by!: Array<"RepetitionID" | "CreatedTime" | "DeletedTime" | "RepetitionType" | "FK_FlowID" | "FK_FlashcardStackID">;
 
   @TypeGraphQL.Field(_type => RepetitionScalarWhereWithAggregatesInput, {
     nullable: true

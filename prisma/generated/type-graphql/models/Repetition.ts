@@ -22,6 +22,11 @@ export class Repetition {
   })
   CreatedTime!: Date;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime?: Date | null;
+
   @TypeGraphQL.Field(_type => RepetitionType, {
     nullable: false
   })

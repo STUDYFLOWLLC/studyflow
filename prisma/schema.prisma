@@ -345,6 +345,7 @@ model TaskLabel {
 model Repetition {
   RepetitionID        String          @id @default(uuid())
   CreatedTime         DateTime        @default(now())
+  DeletedTime         DateTime?
   RepetitionType      RepetitionType  @default(FOURTHIRTY)
   FK_Flow             Flow?           @relation(fields: [FK_FlowID], references: [FlowID])
   FK_FlowID           String?         @unique

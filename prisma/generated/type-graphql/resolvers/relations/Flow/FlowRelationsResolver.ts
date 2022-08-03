@@ -8,7 +8,6 @@ import { Task } from "../../../models/Task";
 import { User } from "../../../models/User";
 import { FlowFK_FlashcardStacksArgs } from "./args/FlowFK_FlashcardStacksArgs";
 import { FlowFK_FlowViewArgs } from "./args/FlowFK_FlowViewArgs";
-import { FlowFK_RepetitionsArgs } from "./args/FlowFK_RepetitionsArgs";
 import { FlowFK_TasksArgs } from "./args/FlowFK_TasksArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -69,14 +68,14 @@ export class FlowRelationsResolver {
     }).FK_User({});
   }
 
-  @TypeGraphQL.FieldResolver(_type => [Repetition], {
-    nullable: false
+  @TypeGraphQL.FieldResolver(_type => Repetition, {
+    nullable: true
   })
-  async FK_Repetitions(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlowFK_RepetitionsArgs): Promise<Repetition[]> {
+  async FK_Repetition(@TypeGraphQL.Root() flow: Flow, @TypeGraphQL.Ctx() ctx: any): Promise<Repetition | null> {
     return getPrismaFromContext(ctx).flow.findUnique({
       where: {
         FlowID: flow.FlowID,
       },
-    }).FK_Repetitions(args);
+    }).FK_Repetition({});
   }
 }

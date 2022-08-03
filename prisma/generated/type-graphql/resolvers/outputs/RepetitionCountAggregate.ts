@@ -20,6 +20,11 @@ export class RepetitionCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  DeletedTime!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   RepetitionType!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

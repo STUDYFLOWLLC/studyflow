@@ -20,7 +20,7 @@ export default function AddFlashcardStack({
     <div
       className={classNames(
         { 'cursor-pointer': showSeduce },
-        'flex items-center mt-2',
+        'flex items-center mb-2',
       )}
       onClick={() => setCurrentRepetition('')}
       onKeyDown={() => setCurrentRepetition('')}

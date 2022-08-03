@@ -43,7 +43,7 @@ export interface FlowDetail {
       FlashcardID: string
     }[]
   }[]
-  FK_Repetitions: {
+  FK_Repetition: {
     RepetitionID: string
   }
   _count: {
@@ -101,7 +101,7 @@ export default function useFlowDetails(flowId: string | undefined): Ret {
             FlashcardID
           }
         }
-        FK_Repetitions {
+        FK_Repetition {
           RepetitionID
         }
         _count {
@@ -148,6 +148,8 @@ export default function useFlowDetails(flowId: string | undefined): Ret {
   }
 
   const { data, error, mutate } = useSWR([query, variables])
+
+  console.log(error)
 
   if (data?.mutate) {
     return {

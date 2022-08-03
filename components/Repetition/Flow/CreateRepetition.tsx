@@ -82,7 +82,6 @@ export default function CreateRepetition({
             className="w-48 h-14 mb-12 lg:mb-2 alex-button bg-primary/80 flex flex-col items-center"
             onClick={async () => {
               const repetitionId = uuid()
-              setCurrentRepetition(repetitionId)
               await createRepetition(
                 repetitionId,
                 RepetitionType.FOURTHIRTY,
@@ -92,8 +91,7 @@ export default function CreateRepetition({
                 setCreating,
                 setCreatingType,
               )
-              console.log(flowDetails)
-              console.log(repetitionDetails)
+              setCurrentRepetition(null)
             }}
           >
             {creatingType === RepetitionType.FOURTHIRTY ? (

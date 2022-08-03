@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { EnumRepetitionTypeFilter } from "../inputs/EnumRepetitionTypeFilter";
 import { FlashcardStackRelationFilter } from "../inputs/FlashcardStackRelationFilter";
 import { FlowRelationFilter } from "../inputs/FlowRelationFilter";
@@ -38,6 +39,11 @@ export class RepetitionWhereInput {
     nullable: true
   })
   CreatedTime?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumRepetitionTypeFilter, {
     nullable: true

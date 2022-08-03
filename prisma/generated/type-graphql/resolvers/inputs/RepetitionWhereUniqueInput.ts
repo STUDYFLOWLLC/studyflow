@@ -15,5 +15,10 @@ export class RepetitionWhereUniqueInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
+  FK_FlowID?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
   FK_FlashcardStackID?: string | undefined;
 }

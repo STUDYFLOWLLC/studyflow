@@ -1,15 +1,19 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { EyeOffIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import FlashcardStack from 'components/Repetition/Flashcards/FlashcardStack'
 import FlashcardReviewModal from 'components/Repetition/Flashcards/ReviewModal/FlashcardReviewModal'
+import LoadWithText from 'components/spinners/LoadWithText'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
-import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { Task } from 'hooks/tasks/useTasks'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { SpinnerSizes } from 'types/Loading'
 import abbreviateDate from 'utils/abbreviateDate'
+import DeleteRepetition from './DeleteRepetition'
 
 interface Props {
   flowId: string
@@ -18,17 +22,11 @@ interface Props {
 
 export default function FlowRepetition({ flowId, repetitionId }: Props) {
   const { theme } = useTheme()
-  const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
-  const {
-    repetitionDetails,
-    repetitionDetailsLoading,
-    mutateRepetitionDetails,
-  } = useRepetitionDetails(repetitionId)
-  const { flashcardStack, mutateFlashcardStack } = useFlashcardStack(
+  const { repetitionDetails, repetitionDetailsLoading } =
+    useRepetitionDetails(repetitionId)
+  const { flashcardStack, flashcardStackLoading } = useFlashcardStack(
     repetitionDetails?.FK_FlashcardStackID,
   )
-
-  console.log(repetitionDetails)
 
   const [mounted, setMounted] = useState(false)
   const [repetitionHidden, setRepetitionHidden] = useState(false)
@@ -50,9 +48,17 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
         onClick={() => setRepetitionHidden(false)}
         onKeyDown={() => setRepetitionHidden(false)}
       >
-        Show repetition
+        Show {flashcardStack?.Title}
       </span>
     )
+
+  if (repetitionDetailsLoading || flashcardStackLoading) {
+    return (
+      <div className="flex flex-col items-center">
+        <LoadWithText size={SpinnerSizes.medium} text="Loading repetition" />
+      </div>
+    )
+  }
 
   return (
     <div
@@ -70,15 +76,25 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
       />
       <div className="w-1/2 pl-2">
         <div className="flex h-16 justify-center absolute top-0 right-0">
+          <DeleteRepetition flowId={flowId} repetitionId={repetitionId} />
           <EyeOffIcon
-            className="w-5 h-5 cursor-pointer"
+            className="mt-0.5 w-5 h-5 cursor-pointer"
             onClick={() => setRepetitionHidden(true)}
+            onKeyDown={() => setRepetitionHidden(true)}
           />
         </div>
-        <p className="p-0 m-0 font-semibold">
+        <p
+          className="p-0 m-0 font-semibold cursor-pointer"
+          onClick={() => {
+            setEditing(flashcardStack?.FlashcardStackID || '')
+          }}
+          onKeyDown={() => {
+            setEditing(flashcardStack?.FlashcardStackID || '')
+          }}
+        >
           {repetitionDetails?.FK_FlashcardStack.Title}
           <span className="text-sm text-info/70 ml-2">
-            created{' '}
+            started{' '}
             {abbreviateDate(new Date(repetitionDetails?.CreatedTime || 0))}
           </span>
         </p>
@@ -91,10 +107,12 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
           }
           cute
           readOnly
+          shouldNotUseUndo
+          showCompleted
         />
       </div>
       {flashcardStack?.FK_Flashcards && (
-        <div className="my-auto w-1/2 ">
+        <div className="my-auto w-1/2">
           <div className="mb-6 flex justify-center items-center">
             <button
               type="button"
@@ -103,12 +121,14 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
                 { 'hover:bg-slate-600': theme === 'dark' },
                 'uppercase text-md mx-2 font-medium cursor-pointer rounded-md px-1 py-0.5',
               )}
-              onClick={() =>
+              onClick={() => {
                 setEditing(repetitionDetails?.FK_FlashcardStackID || '')
-              }
-              onKeyDown={() =>
+                setReviewing(false)
+              }}
+              onKeyDown={() => {
                 setEditing(repetitionDetails?.FK_FlashcardStackID || '')
-              }
+                setReviewing(false)
+              }}
             >
               Edit
             </button>
@@ -119,10 +139,19 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
                 { 'hover:bg-slate-600': theme === 'dark' },
                 'uppercase text-md mx-2 font-medium cursor-pointer rounded-md px-0.5 py-0.5',
               )}
+              onClick={() => {
+                setEditing(flashcardStack?.FlashcardStackID)
+                setReviewing(true)
+              }}
+              onKeyDown={() => {
+                setEditing(flashcardStack?.FlashcardStackID)
+                setReviewing(true)
+              }}
             >
               Review
             </button>
           </div>
+
           <FlashcardStack
             cards={flashcardStack.FK_Flashcards}
             hideControls

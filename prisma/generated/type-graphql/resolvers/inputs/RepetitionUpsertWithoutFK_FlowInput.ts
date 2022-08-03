@@ -4,17 +4,11 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { RepetitionCreateWithoutFK_FlowInput } from "../inputs/RepetitionCreateWithoutFK_FlowInput";
 import { RepetitionUpdateWithoutFK_FlowInput } from "../inputs/RepetitionUpdateWithoutFK_FlowInput";
-import { RepetitionWhereUniqueInput } from "../inputs/RepetitionWhereUniqueInput";
 
-@TypeGraphQL.InputType("RepetitionUpsertWithWhereUniqueWithoutFK_FlowInput", {
+@TypeGraphQL.InputType("RepetitionUpsertWithoutFK_FlowInput", {
   isAbstract: true
 })
-export class RepetitionUpsertWithWhereUniqueWithoutFK_FlowInput {
-  @TypeGraphQL.Field(_type => RepetitionWhereUniqueInput, {
-    nullable: false
-  })
-  where!: RepetitionWhereUniqueInput;
-
+export class RepetitionUpsertWithoutFK_FlowInput {
   @TypeGraphQL.Field(_type => RepetitionUpdateWithoutFK_FlowInput, {
     nullable: false
   })

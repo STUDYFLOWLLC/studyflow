@@ -23,6 +23,8 @@ export default function FlashcardReviewModal({
 
   if (!mounted) return null
 
+  console.log(currentRepetition)
+
   return (
     <Transition show={currentRepetition !== null} as={Fragment}>
       <Dialog

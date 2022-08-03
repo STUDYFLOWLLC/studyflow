@@ -11,7 +11,7 @@ import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { FlashcardStackListRelationFilter } from "../inputs/FlashcardStackListRelationFilter";
 import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
-import { RepetitionListRelationFilter } from "../inputs/RepetitionListRelationFilter";
+import { RepetitionRelationFilter } from "../inputs/RepetitionRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TaskListRelationFilter } from "../inputs/TaskListRelationFilter";
@@ -126,8 +126,8 @@ export class FlowWhereInput {
   })
   FK_UserID?: IntNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => RepetitionListRelationFilter, {
+  @TypeGraphQL.Field(_type => RepetitionRelationFilter, {
     nullable: true
   })
-  FK_Repetitions?: RepetitionListRelationFilter | undefined;
+  FK_Repetition?: RepetitionRelationFilter | undefined;
 }

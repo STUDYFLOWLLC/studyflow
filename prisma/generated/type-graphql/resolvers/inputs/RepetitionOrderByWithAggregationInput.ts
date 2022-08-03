@@ -24,6 +24,11 @@ export class RepetitionOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  DeletedTime?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   RepetitionType?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

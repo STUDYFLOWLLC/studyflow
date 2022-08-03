@@ -5,6 +5,7 @@ import { FlowDetail } from 'hooks/flows/useFlowDetails'
 import makeRepetition from 'hooks/repetition/makeRepetition'
 import { KeyedMutator } from 'swr'
 import { RepetitionType } from 'types/Repetition'
+import { mutateDeleteRepetition } from './mutateRepetition'
 
 export async function createRepetition(
   repetitionId: string,
@@ -44,12 +45,9 @@ export async function createRepetition(
       mutate: true,
       mutatedFlow: {
         ...flowDetails,
-        FK_Repetitions: [
-          ...flowDetails.FK_Repetitions,
-          {
-            RepetitionID: repetition.RepetitionID,
-          },
-        ],
+        FK_Repetition: {
+          RepetitionID: repetition.RepetitionID,
+        },
       },
     },
     {
@@ -59,4 +57,27 @@ export async function createRepetition(
 
   setCreating(false)
   if (setCreatingType) setCreatingType(null)
+}
+
+export async function deleteRepetition(
+  repetitionId: string,
+  flowDetails: FlowDetail | null,
+  mutateFlowDetails: KeyedMutator<any>,
+) {
+  if (!flowDetails) return
+
+  mutateDeleteRepetition(repetitionId)
+
+  mutateFlowDetails(
+    {
+      mutate: true,
+      mutatedFlow: {
+        ...flowDetails,
+        FK_Repetition: undefined,
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
 }

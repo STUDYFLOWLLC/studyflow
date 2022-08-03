@@ -12,9 +12,15 @@ interface Props {
   task: Task
   readOnly?: boolean
   cute?: boolean
+  shouldNotUseUndo?: boolean
 }
 
-export default function BasicTask({ task, readOnly, cute }: Props) {
+export default function BasicTask({
+  task,
+  readOnly,
+  cute,
+  shouldNotUseUndo,
+}: Props) {
   const [editing, setEditing] = useState(false)
 
   return editing ? (
@@ -33,7 +39,11 @@ export default function BasicTask({ task, readOnly, cute }: Props) {
       key={task.TaskID}
     >
       <div className="flex">
-        <Checkbox TaskID={task.TaskID} cute={cute} />
+        <Checkbox
+          TaskID={task.TaskID}
+          cute={cute}
+          shouldNotUseUndo={shouldNotUseUndo}
+        />
         <div
           className={classNames(
             { 'flex-col': !cute },

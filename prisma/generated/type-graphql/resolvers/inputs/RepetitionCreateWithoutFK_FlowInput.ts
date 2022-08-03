@@ -20,6 +20,11 @@ export class RepetitionCreateWithoutFK_FlowInput {
   })
   CreatedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => RepetitionType, {
     nullable: true
   })

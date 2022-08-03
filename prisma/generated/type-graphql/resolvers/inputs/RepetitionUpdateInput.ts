@@ -5,7 +5,8 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumRepetitionTypeFieldUpdateOperationsInput } from "../inputs/EnumRepetitionTypeFieldUpdateOperationsInput";
 import { FlashcardStackUpdateOneWithoutFK_RepetitionInput } from "../inputs/FlashcardStackUpdateOneWithoutFK_RepetitionInput";
-import { FlowUpdateOneWithoutFK_RepetitionsInput } from "../inputs/FlowUpdateOneWithoutFK_RepetitionsInput";
+import { FlowUpdateOneWithoutFK_RepetitionInput } from "../inputs/FlowUpdateOneWithoutFK_RepetitionInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskUpdateManyWithoutFK_RepetitionInput } from "../inputs/TaskUpdateManyWithoutFK_RepetitionInput";
 
@@ -23,15 +24,20 @@ export class RepetitionUpdateInput {
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DeletedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => EnumRepetitionTypeFieldUpdateOperationsInput, {
     nullable: true
   })
   RepetitionType?: EnumRepetitionTypeFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => FlowUpdateOneWithoutFK_RepetitionsInput, {
+  @TypeGraphQL.Field(_type => FlowUpdateOneWithoutFK_RepetitionInput, {
     nullable: true
   })
-  FK_Flow?: FlowUpdateOneWithoutFK_RepetitionsInput | undefined;
+  FK_Flow?: FlowUpdateOneWithoutFK_RepetitionInput | undefined;
 
   @TypeGraphQL.Field(_type => FlashcardStackUpdateOneWithoutFK_RepetitionInput, {
     nullable: true

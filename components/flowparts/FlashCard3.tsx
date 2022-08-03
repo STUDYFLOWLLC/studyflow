@@ -50,7 +50,7 @@ export default function Flashcard3({
         { 'w-36 h-20': cute },
         { 'w-96 h-48': !cute },
         'card',
-        'flex touch-none justify-center items-center relative rounded shadow-lg cursor-pointer border-2 border-gray-100 bg-white',
+        'flex touch-none justify-center items-center relative rounded shadow-lg cursor-pointer border-2 border-info/10 bg-base-100',
         { flip },
       )}
       onClick={() => flipper(!flip)}
@@ -69,7 +69,7 @@ export default function Flashcard3({
       {!lastReview ||
         (lastReview?.Status === FlashcardStatus.NEUTRAL && (
           <div className="w-6 h-6 absolute top-1 left-1">
-            <QuestionMarkCircleIcon className="text-stone-800" />
+            <QuestionMarkCircleIcon />
           </div>
         ))}
       <div className={classNames({ 'text-2xs': cute }, 'card front')}>

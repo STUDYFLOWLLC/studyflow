@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { EnumRepetitionTypeWithAggregatesFilter } from "../inputs/EnumRepetitionTypeWithAggregatesFilter";
 import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
@@ -35,6 +36,11 @@ export class RepetitionScalarWhereWithAggregatesInput {
     nullable: true
   })
   CreatedTime?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => EnumRepetitionTypeWithAggregatesFilter, {
     nullable: true
