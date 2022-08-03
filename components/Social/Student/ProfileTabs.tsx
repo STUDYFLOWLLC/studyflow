@@ -1,15 +1,17 @@
 import classNames from 'classnames'
+import PublicFlowsDisplay from 'components/Social/Student/PublicFlowsDisplay'
+import { DashFlow } from 'hooks/flows/useDashFlows'
 import { useState } from 'react'
 import { PublicUser } from 'types/Social'
-import Flows from './Flows'
 import Friends from './Friends'
 
 interface Props {
   PublicUser: PublicUser | undefined
   tab: string
+  PublicFlows: DashFlow[]
 }
 
-export default function ProfileTabs({ PublicUser, tab }: Props) {
+export default function ProfileTabs({ PublicUser, tab, PublicFlows }: Props) {
   const [activeTab, setActiveTab] = useState(tab)
 
   return (
@@ -48,7 +50,9 @@ export default function ProfileTabs({ PublicUser, tab }: Props) {
           </nav>
         </div>
       </div>
-      {activeTab === 'Flows' && <Flows PublicUser={PublicUser} />}
+      {activeTab === 'Flows' && (
+        <PublicFlowsDisplay PublicFlows={PublicFlows} />
+      )}
       {activeTab === 'Friends' && <Friends PublicUser={PublicUser} />}
     </div>
   )

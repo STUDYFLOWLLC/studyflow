@@ -28,8 +28,6 @@ export default function index({ PublicUser, PublicFlows }: Props) {
 
   if (!PublicUser) return <span>no user found!</span>
 
-  console.log(PublicFlows)
-
   return (
     <div className="h-full flex mb-5">
       <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
@@ -37,7 +35,11 @@ export default function index({ PublicUser, PublicFlows }: Props) {
           <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last">
             <article>
               <ProfileHeader PublicUser={PublicUser} canEdit={canEdit} />
-              <ProfileTabs PublicUser={PublicUser} tab="Flows" />
+              <ProfileTabs
+                PublicUser={PublicUser}
+                PublicFlows={PublicFlows}
+                tab="Flows"
+              />
             </article>
           </main>
         </div>
