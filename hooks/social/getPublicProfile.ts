@@ -66,19 +66,17 @@ export default async function getPublicProfile(
       AND: [
         {
           RejectedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           RemovedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           CanceledTime: {
-            not: {
-              not: null,
-            },
+            equals: null,
           },
         },
       ],
@@ -87,19 +85,17 @@ export default async function getPublicProfile(
       AND: [
         {
           RejectedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           RemovedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           CanceledTime: {
-            not: {
-              not: null,
-            },
+            equals: null,
           },
         },
       ],
@@ -115,6 +111,7 @@ export default async function getPublicProfile(
   )
 
   if (data.user) {
+    console.log(data)
     const friendships = data.user.FK_FriendshipsInitiated.concat(
       data.user.FK_FriendshipsAccepted,
     ) as SmallFriend[]
