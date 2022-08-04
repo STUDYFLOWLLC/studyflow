@@ -11,7 +11,11 @@ export interface PublicUser {
   }
   Bio?: string
   About?: string
-  Friends?: SmallFriend[]
+  Friends?: {
+    requested: Friendship[]
+    accepted: Friendship[]
+    incoming: Friendship[]
+  }
 }
 
 export interface SmallFriend {
