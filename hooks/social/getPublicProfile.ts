@@ -111,10 +111,9 @@ export default async function getPublicProfile(
   )
 
   if (data.user) {
-    console.log(data)
     const friendships = data.user.FK_FriendshipsInitiated.concat(
       data.user.FK_FriendshipsAccepted,
-    ) as SmallFriend[]
+    )
     return {
       UserID: data.user.UserID,
       ProfilePictureLink: data.user.ProfilePictureLink,
@@ -123,7 +122,12 @@ export default async function getPublicProfile(
       FK_School: data.user.FK_School,
       Bio: data.user.Bio,
       About: data.user.About,
-      Friends: friendships,
+      Friends: friendships.map((fs: any) => ({
+        FriendshipID: fs.FriendshipID,
+        SentTime: fs.SentTime,
+        AcceptedTime: fs.AcceptedTime,
+        Friend: fs.FK_UserTo || fs.FK_UserFrom,
+      })) as SmallFriend[],
     } as unknown as PublicUser
   }
   return undefined
