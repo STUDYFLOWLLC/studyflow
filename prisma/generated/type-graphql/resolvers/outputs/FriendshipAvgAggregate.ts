@@ -10,11 +10,6 @@ export class FriendshipAvgAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
-  FriendshipID!: number | null;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
-    nullable: true
-  })
   FK_UserFromID!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {

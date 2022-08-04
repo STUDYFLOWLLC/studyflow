@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { UserUpdateOneWithoutFK_FriendshipsAcceptedInput } from "../inputs/UserUpdateOneWithoutFK_FriendshipsAcceptedInput";
 import { UserUpdateOneWithoutFK_FriendshipsInitiatedInput } from "../inputs/UserUpdateOneWithoutFK_FriendshipsInitiatedInput";
 
@@ -11,6 +12,11 @@ import { UserUpdateOneWithoutFK_FriendshipsInitiatedInput } from "../inputs/User
   isAbstract: true
 })
 export class FriendshipUpdateInput {
+  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  FriendshipID?: StringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })

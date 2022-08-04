@@ -7,10 +7,10 @@ import { DecimalJSScalar } from "../../scalars";
   isAbstract: true
 })
 export class FriendshipCreateManyFK_UserToInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FriendshipID?: number | undefined;
+  FriendshipID?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
