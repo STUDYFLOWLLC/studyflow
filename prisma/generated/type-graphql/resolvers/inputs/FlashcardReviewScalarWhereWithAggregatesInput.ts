@@ -36,13 +36,18 @@ export class FlashcardReviewScalarWhereWithAggregatesInput {
   })
   CreatedTime?: DateTimeWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => EnumFlashcardStatusWithAggregatesFilter, {
+    nullable: true
+  })
+  Status?: EnumFlashcardStatusWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
   FK_FlashcardID?: StringNullableWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => EnumFlashcardStatusWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
     nullable: true
   })
-  Status?: EnumFlashcardStatusWithAggregatesFilter | undefined;
+  FK_FlashcardStackReviewID?: StringNullableWithAggregatesFilter | undefined;
 }

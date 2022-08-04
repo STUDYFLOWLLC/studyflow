@@ -20,7 +20,7 @@ export class GroupByFlashcardReviewArgs {
   @TypeGraphQL.Field(_type => [FlashcardReviewScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"FlashcardReviewID" | "CreatedTime" | "FK_FlashcardID" | "Status">;
+  by!: Array<"FlashcardReviewID" | "CreatedTime" | "Status" | "FK_FlashcardID" | "FK_FlashcardStackReviewID">;
 
   @TypeGraphQL.Field(_type => FlashcardReviewScalarWhereWithAggregatesInput, {
     nullable: true

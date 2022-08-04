@@ -12,8 +12,6 @@ export default function FlowFlashcardStacks({ flowId }: Props) {
 
   const [editing, setEditing] = useState('')
 
-  console.log(flowDetails?.FK_FlashcardStacks)
-
   return (
     <div>
       <AddFlashcardStack

@@ -18,13 +18,18 @@ export class FlashcardReviewCreateManyInput {
   })
   CreatedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => FlashcardStatus, {
+    nullable: true
+  })
+  Status?: "NEUTRAL" | "CORRECT" | "INCORRECT" | undefined;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   FK_FlashcardID?: string | undefined;
 
-  @TypeGraphQL.Field(_type => FlashcardStatus, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  Status?: "NEUTRAL" | "CORRECT" | "INCORRECT" | undefined;
+  FK_FlashcardStackReviewID?: string | undefined;
 }

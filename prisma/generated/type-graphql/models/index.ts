@@ -6,6 +6,7 @@ export { CourseOnTermAutomation } from "./CourseOnTermAutomation";
 export { Flashcard } from "./Flashcard";
 export { FlashcardReview } from "./FlashcardReview";
 export { FlashcardStack } from "./FlashcardStack";
+export { FlashcardStackReview } from "./FlashcardStackReview";
 export { Flow } from "./Flow";
 export { FlowView } from "./FlowView";
 export { Friendship } from "./Friendship";

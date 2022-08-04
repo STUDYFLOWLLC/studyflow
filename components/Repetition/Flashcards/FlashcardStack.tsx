@@ -11,6 +11,8 @@ import {
 import { animated, to as interpolate, useSprings } from '@react-spring/web'
 import classNames from 'classnames'
 import FlashCard3 from 'components/flowparts/FlashCard3'
+import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
+import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Flashcard } from 'types/Repetition'
@@ -19,9 +21,11 @@ import handleSlide, {
   SlideDirection,
 } from 'utils/repetition/flashcards/handleSlide'
 import to from 'utils/repetition/flashcards/to'
+import ReviewBody from './ReviewModal/ReviewBody'
 
 interface Props {
   cards: Flashcard[]
+  repetitionId?: string
   hideControls?: boolean
   disabled?: boolean
   cute?: boolean
@@ -31,7 +35,20 @@ interface Props {
 const trans = (r: number, s: number) =>
   `perspective(1500px) rotateY(${r / 10}deg) scale(${s})`
 
-export default function Deck({ cards, hideControls, disabled, cute }: Props) {
+export default function Deck({
+  cards,
+  repetitionId,
+  hideControls,
+  disabled,
+  cute,
+}: Props) {
+  const { repetitionDetails, mutateRepetitionDetails } =
+    useRepetitionDetails(repetitionId)
+  const { flashcardStack, mutateFlashcardStack } = useFlashcardStack(
+    cards[0]?.FK_FlashcardStackID,
+  )
+
+  const [tempDisabled, setTempDisabled] = useState(false)
   const [current, setCurrent] = useState(cards.length - 1)
   const [gone] = useState(() => new Set<number>()) // The set flags all the cards that are flicked out]
   const [shouldFlip, setShouldFlip] = useState(-1)
@@ -91,8 +108,20 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
     () =>
       // @ts-expect-error it doesn't like async, but this is ok
       {
-        if (!disabled)
-          handleSlide(SlideDirection.UP, api, cards, gone, current, setCurrent)
+        if (!disabled && !tempDisabled)
+          handleSlide(
+            SlideDirection.UP,
+            api,
+            cards,
+            gone,
+            current,
+            setCurrent,
+            setTempDisabled,
+            flashcardStack,
+            mutateFlashcardStack,
+            repetitionDetails,
+            mutateRepetitionDetails,
+          )
       },
     [current],
   )
@@ -102,7 +131,7 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
     () =>
       // @ts-expect-error it doesn't like async, but this is ok
       {
-        if (!disabled)
+        if (!disabled && !tempDisabled)
           handleSlide(
             SlideDirection.RIGHT,
             api,
@@ -110,6 +139,11 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
             gone,
             current,
             setCurrent,
+            setTempDisabled,
+            flashcardStack,
+            mutateFlashcardStack,
+            repetitionDetails,
+            mutateRepetitionDetails,
           )
       },
     [current],
@@ -120,7 +154,7 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
     () =>
       // @ts-expect-error it doesn't like async, but this is ok
       {
-        if (!disabled)
+        if (!disabled && !tempDisabled)
           handleSlide(
             SlideDirection.LEFT,
             api,
@@ -128,78 +162,101 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
             gone,
             current,
             setCurrent,
+            setTempDisabled,
+            flashcardStack,
+            mutateFlashcardStack,
+            repetitionDetails,
+            mutateRepetitionDetails,
           )
       },
     [current],
   )
 
   useHotkeys('space', () => {
-    if (!disabled) setShouldFlip(gone.size + 1)
+    if (!disabled && !tempDisabled) setShouldFlip(gone.size + 1)
   })
 
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div
-      className={classNames(
-        { 'w-96 h-48': !cute },
-        { 'w-24 h-20': cute },
-        'w-full deck touch-none justify-center mx-auto flex',
-      )}
-    >
-      {/* eslint-disable-next-line react/prop-types */}
-      {props.map(({ x, y, rot, scale, zIndex }, i) => (
-        <animated.div
-          key={i}
-          className="w-full h-48 absolute touch-none flex items-start justify-center"
-          style={{
-            x,
-            y,
-            zIndex,
-          }}
-        >
-          {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
+    <div className="w-full">
+      <div
+        className={classNames(
+          { 'w-96 h-48': !cute },
+          { 'w-24 h-20': cute },
+          'w-full deck touch-none justify-center mx-auto flex flex-col',
+        )}
+      >
+        {/* eslint-disable-next-line react/prop-types */}
+        {props.map(({ x, y, rot, scale, zIndex }, i) => (
           <animated.div
-            // {...bind(i)}
+            key={i}
+            className={classNames(
+              { 'w-96 h-48': !cute },
+              { 'w-24 h-20': cute },
+              'absolute',
+            )}
             style={{
-              transform: interpolate([rot, scale], trans),
+              x,
+              y,
+              zIndex,
             }}
-            className="touch-none"
           >
-            <FlashCard3
-              card={cards[cards.length - 1 - i]}
-              shouldFlip={shouldFlip}
-              setShouldFlip={setShouldFlip}
-              cute={cute}
-            />
+            {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
+            <animated.div
+              // {...bind(i)}
+              style={{
+                transform: interpolate([rot, scale], trans),
+              }}
+              className="touch-none"
+            >
+              <FlashCard3
+                card={cards[cards.length - 1 - i]}
+                shouldFlip={shouldFlip}
+                setShouldFlip={setShouldFlip}
+                cute={cute}
+              />
+            </animated.div>
           </animated.div>
-        </animated.div>
-      ))}
+        ))}
+      </div>
       {!hideControls && (
-        <div className="">
-          <div className="mt-56 w-96 mx-auto">
+        <div className="w-full">
+          <div className="w-96 mx-auto mt-8">
             <div className="flex justify-around">
               <div
                 className="cursor-pointer border border-red-300 bg-red-50 hover:bg-red-100 rounded-md flex items-center px-2 py-1"
-                onClick={() =>
-                  handleSlide(
-                    SlideDirection.LEFT,
-                    api,
-                    cards,
-                    gone,
-                    current,
-                    setCurrent,
-                  )
-                }
-                onKeyDown={() =>
-                  handleSlide(
-                    SlideDirection.LEFT,
-                    api,
-                    cards,
-                    gone,
-                    current,
-                    setCurrent,
-                  )
-                }
+                onClick={() => {
+                  if (!disabled && !tempDisabled)
+                    handleSlide(
+                      SlideDirection.LEFT,
+                      api,
+                      cards,
+                      gone,
+                      current,
+                      setCurrent,
+                      setTempDisabled,
+                      flashcardStack,
+                      mutateFlashcardStack,
+                      repetitionDetails,
+                      mutateRepetitionDetails,
+                    )
+                }}
+                onKeyDown={() => {
+                  if (!disabled && !tempDisabled)
+                    handleSlide(
+                      SlideDirection.LEFT,
+                      api,
+                      cards,
+                      gone,
+                      current,
+                      setCurrent,
+                      setTempDisabled,
+                      flashcardStack,
+                      mutateFlashcardStack,
+                      repetitionDetails,
+                      mutateRepetitionDetails,
+                    )
+                }}
               >
                 <XCircleIcon className="w-7 h-7 text-red-500 mr-1" />
                 <div className="text-xl font-semibold text-red-500">
@@ -208,26 +265,38 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
               </div>
               <div
                 className="cursor-pointer border border-slate-300 bg-slate-50 hover:bg-slate-200 rounded-md flex items-center px-2 py-1"
-                onClick={() =>
-                  handleSlide(
-                    SlideDirection.UP,
-                    api,
-                    cards,
-                    gone,
-                    current,
-                    setCurrent,
-                  )
-                }
-                onKeyDown={() =>
-                  handleSlide(
-                    SlideDirection.UP,
-                    api,
-                    cards,
-                    gone,
-                    current,
-                    setCurrent,
-                  )
-                }
+                onClick={() => {
+                  if (!disabled && !tempDisabled)
+                    handleSlide(
+                      SlideDirection.UP,
+                      api,
+                      cards,
+                      gone,
+                      current,
+                      setCurrent,
+                      setTempDisabled,
+                      flashcardStack,
+                      mutateFlashcardStack,
+                      repetitionDetails,
+                      mutateRepetitionDetails,
+                    )
+                }}
+                onKeyDown={() => {
+                  if (!disabled && !tempDisabled)
+                    handleSlide(
+                      SlideDirection.UP,
+                      api,
+                      cards,
+                      gone,
+                      current,
+                      setCurrent,
+                      setTempDisabled,
+                      flashcardStack,
+                      mutateFlashcardStack,
+                      repetitionDetails,
+                      mutateRepetitionDetails,
+                    )
+                }}
               >
                 <MinusCircleIcon className="w-7 h-7 text-slate-500 mr-1" />
                 <div className="text-xl font-semibold text-slate-500">
@@ -236,26 +305,38 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
               </div>
               <div
                 className="cursor-pointer border border-green-300 bg-green-50 hover:bg-green-100 rounded-md flex items-center px-2 py-1"
-                onClick={() =>
-                  handleSlide(
-                    SlideDirection.RIGHT,
-                    api,
-                    cards,
-                    gone,
-                    current,
-                    setCurrent,
-                  )
-                }
-                onKeyDown={() =>
-                  handleSlide(
-                    SlideDirection.RIGHT,
-                    api,
-                    cards,
-                    gone,
-                    current,
-                    setCurrent,
-                  )
-                }
+                onClick={() => {
+                  if (!disabled && !tempDisabled)
+                    handleSlide(
+                      SlideDirection.RIGHT,
+                      api,
+                      cards,
+                      gone,
+                      current,
+                      setCurrent,
+                      setTempDisabled,
+                      flashcardStack,
+                      mutateFlashcardStack,
+                      repetitionDetails,
+                      mutateRepetitionDetails,
+                    )
+                }}
+                onKeyDown={() => {
+                  if (!disabled && !tempDisabled)
+                    handleSlide(
+                      SlideDirection.RIGHT,
+                      api,
+                      cards,
+                      gone,
+                      current,
+                      setCurrent,
+                      setTempDisabled,
+                      flashcardStack,
+                      mutateFlashcardStack,
+                      repetitionDetails,
+                      mutateRepetitionDetails,
+                    )
+                }}
               >
                 <CheckCircleIcon className="w-7 h-7 text-green-500 mr-1" />
                 <div className="text-xl font-semibold text-green-500">
@@ -263,17 +344,16 @@ export default function Deck({ cards, hideControls, disabled, cute }: Props) {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="cursor-pointer border border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-md px-2 py-1 flex items-center mt-2">
-            <RefreshIcon className="w-7 h-7 text-gray-500 mr-1" />
             <div
-              className="text-xl font-semibold text-gray-700"
+              className="cursor-pointer border border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-md px-2 py-1 flex items-center mt-2"
               onClick={() => setShouldFlip(gone.size + 1)}
               onKeyDown={() => setShouldFlip(gone.size + 1)}
             >
-              Flip
+              <RefreshIcon className="w-7 h-7 text-gray-500 mr-1" />
+              <div className="text-xl font-semibold text-gray-700">Flip</div>
             </div>
           </div>
+          <ReviewBody repetitionId={repetitionId} />
         </div>
       )}
     </div>

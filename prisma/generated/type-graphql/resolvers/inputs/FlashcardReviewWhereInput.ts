@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumFlashcardStatusFilter } from "../inputs/EnumFlashcardStatusFilter";
 import { FlashcardRelationFilter } from "../inputs/FlashcardRelationFilter";
+import { FlashcardStackReviewRelationFilter } from "../inputs/FlashcardStackReviewRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 
@@ -37,6 +38,11 @@ export class FlashcardReviewWhereInput {
   })
   CreatedTime?: DateTimeFilter | undefined;
 
+  @TypeGraphQL.Field(_type => EnumFlashcardStatusFilter, {
+    nullable: true
+  })
+  Status?: EnumFlashcardStatusFilter | undefined;
+
   @TypeGraphQL.Field(_type => FlashcardRelationFilter, {
     nullable: true
   })
@@ -47,8 +53,13 @@ export class FlashcardReviewWhereInput {
   })
   FK_FlashcardID?: StringNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => EnumFlashcardStatusFilter, {
+  @TypeGraphQL.Field(_type => FlashcardStackReviewRelationFilter, {
     nullable: true
   })
-  Status?: EnumFlashcardStatusFilter | undefined;
+  FK_FlashcardStackReview?: FlashcardStackReviewRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  FK_FlashcardStackReviewID?: StringNullableFilter | undefined;
 }

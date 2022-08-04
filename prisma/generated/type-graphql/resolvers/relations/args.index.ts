@@ -4,6 +4,7 @@ export * from "./CourseOnTerm/args";
 export * from "./CourseOnTermAutomation/args";
 export * from "./Flashcard/args";
 export * from "./FlashcardStack/args";
+export * from "./FlashcardStackReview/args";
 export * from "./Flow/args";
 export * from "./Professor/args";
 export * from "./Repetition/args";
