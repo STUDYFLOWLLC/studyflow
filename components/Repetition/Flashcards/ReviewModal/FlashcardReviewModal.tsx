@@ -6,6 +6,7 @@ import MainFlashcard from '../MainFlashcard'
 
 interface Props {
   flowId: string
+  repetitionId?: string
   flashcardStackId: string
   editing: string
   setEditing: (editing: string) => void
@@ -15,6 +16,7 @@ interface Props {
 
 export default function FlashcardReviewModal({
   flowId,
+  repetitionId,
   flashcardStackId,
   editing,
   setEditing,
@@ -73,6 +75,7 @@ export default function FlashcardReviewModal({
           >
             <MainFlashcard
               flowId={flowId}
+              repetitionId={repetitionId}
               flashcardStackId={editing}
               reviewing={reviewing}
               setReviewing={setReviewing}

@@ -1,8 +1,10 @@
 import * as TypeGraphQL from "type-graphql";
 import { Flashcard } from "../../../models/Flashcard";
 import { FlashcardStack } from "../../../models/FlashcardStack";
+import { FlashcardStackReview } from "../../../models/FlashcardStackReview";
 import { Flow } from "../../../models/Flow";
 import { Repetition } from "../../../models/Repetition";
+import { FlashcardStackFK_FlashcardStackReviewsArgs } from "./args/FlashcardStackFK_FlashcardStackReviewsArgs";
 import { FlashcardStackFK_FlashcardsArgs } from "./args/FlashcardStackFK_FlashcardsArgs";
 import { transformFields, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -28,6 +30,17 @@ export class FlashcardStackRelationsResolver {
         FlashcardStackID: flashcardStack.FlashcardStackID,
       },
     }).FK_Flashcards(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [FlashcardStackReview], {
+    nullable: false
+  })
+  async FK_FlashcardStackReviews(@TypeGraphQL.Root() flashcardStack: FlashcardStack, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: FlashcardStackFK_FlashcardStackReviewsArgs): Promise<FlashcardStackReview[]> {
+    return getPrismaFromContext(ctx).flashcardStack.findUnique({
+      where: {
+        FlashcardStackID: flashcardStack.FlashcardStackID,
+      },
+    }).FK_FlashcardStackReviews(args);
   }
 
   @TypeGraphQL.FieldResolver(_type => Repetition, {

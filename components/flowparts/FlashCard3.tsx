@@ -26,7 +26,6 @@ export default function Flashcard3({
   const [showBack, setShowBack] = useState(false)
 
   const flipper = async (val: boolean) => {
-    console.log(card.Position)
     setFlip(val)
     await delay(90)
     setShowBack(val)
@@ -41,8 +40,6 @@ export default function Flashcard3({
 
   const lastReview: FlashcardReview | undefined =
     card.FK_FlashcardReviews[card.FK_FlashcardReviews.length - 1]
-
-  console.log(card)
 
   return (
     <div
@@ -66,12 +63,11 @@ export default function Flashcard3({
           <XCircleIcon className="text-red-400" />
         </div>
       )}
-      {!lastReview ||
-        (lastReview?.Status === FlashcardStatus.NEUTRAL && (
-          <div className="w-6 h-6 absolute top-1 left-1">
-            <QuestionMarkCircleIcon />
-          </div>
-        ))}
+      {(!lastReview || lastReview?.Status === FlashcardStatus.NEUTRAL) && (
+        <div className="w-6 h-6 absolute top-1 left-1">
+          <QuestionMarkCircleIcon />
+        </div>
+      )}
       <div className={classNames({ 'text-2xs': cute }, 'card front')}>
         {card.Front}
       </div>

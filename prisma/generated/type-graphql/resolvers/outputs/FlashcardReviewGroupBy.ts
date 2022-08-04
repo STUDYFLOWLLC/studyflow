@@ -21,15 +21,20 @@ export class FlashcardReviewGroupBy {
   })
   CreatedTime!: Date;
 
+  @TypeGraphQL.Field(_type => FlashcardStatus, {
+    nullable: false
+  })
+  Status!: "NEUTRAL" | "CORRECT" | "INCORRECT";
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   FK_FlashcardID!: string | null;
 
-  @TypeGraphQL.Field(_type => FlashcardStatus, {
-    nullable: false
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
   })
-  Status!: "NEUTRAL" | "CORRECT" | "INCORRECT";
+  FK_FlashcardStackReviewID!: string | null;
 
   @TypeGraphQL.Field(_type => FlashcardReviewCountAggregate, {
     nullable: true

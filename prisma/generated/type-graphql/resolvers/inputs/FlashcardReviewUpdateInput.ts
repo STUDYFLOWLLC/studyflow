@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumFlashcardStatusFieldUpdateOperationsInput } from "../inputs/EnumFlashcardStatusFieldUpdateOperationsInput";
+import { FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput } from "../inputs/FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput";
 import { FlashcardUpdateOneWithoutFK_FlashcardReviewsInput } from "../inputs/FlashcardUpdateOneWithoutFK_FlashcardReviewsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -21,13 +22,18 @@ export class FlashcardReviewUpdateInput {
   })
   CreatedTime?: DateTimeFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => EnumFlashcardStatusFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  Status?: EnumFlashcardStatusFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => FlashcardUpdateOneWithoutFK_FlashcardReviewsInput, {
     nullable: true
   })
   FK_Flashcard?: FlashcardUpdateOneWithoutFK_FlashcardReviewsInput | undefined;
 
-  @TypeGraphQL.Field(_type => EnumFlashcardStatusFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput, {
     nullable: true
   })
-  Status?: EnumFlashcardStatusFieldUpdateOperationsInput | undefined;
+  FK_FlashcardStackReview?: FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput | undefined;
 }

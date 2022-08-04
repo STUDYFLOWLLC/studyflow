@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumFlashcardStatusFieldUpdateOperationsInput } from "../inputs/EnumFlashcardStatusFieldUpdateOperationsInput";
+import { FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput } from "../inputs/FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
 @TypeGraphQL.InputType("FlashcardReviewUpdateWithoutFK_FlashcardInput", {
@@ -24,4 +25,9 @@ export class FlashcardReviewUpdateWithoutFK_FlashcardInput {
     nullable: true
   })
   Status?: EnumFlashcardStatusFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput, {
+    nullable: true
+  })
+  FK_FlashcardStackReview?: FlashcardStackReviewUpdateOneWithoutFK_FlashcardReviewsInput | undefined;
 }

@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
+import { FlashcardStackReviewUpdateManyWithoutFK_FlashcardStackInput } from "../inputs/FlashcardStackReviewUpdateManyWithoutFK_FlashcardStackInput";
 import { FlashcardUpdateManyWithoutFK_FlashcardStackInput } from "../inputs/FlashcardUpdateManyWithoutFK_FlashcardStackInput";
 import { FlowUpdateOneWithoutFK_FlashcardStacksInput } from "../inputs/FlowUpdateOneWithoutFK_FlashcardStacksInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
@@ -37,6 +38,11 @@ export class FlashcardStackUpdateInput {
     nullable: true
   })
   FK_Flashcards?: FlashcardUpdateManyWithoutFK_FlashcardStackInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardStackReviewUpdateManyWithoutFK_FlashcardStackInput, {
+    nullable: true
+  })
+  FK_FlashcardStackReviews?: FlashcardStackReviewUpdateManyWithoutFK_FlashcardStackInput | undefined;
 
   @TypeGraphQL.Field(_type => RepetitionUpdateOneWithoutFK_FlashcardStackInput, {
     nullable: true

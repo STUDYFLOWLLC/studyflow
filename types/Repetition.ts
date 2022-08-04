@@ -40,11 +40,27 @@ export enum RepetitionType {
   SIXTHIRTY = 'SIXTHIRTY',
 }
 
+export interface FlashcardStackReview {
+  FlashcardStackReviewID: string
+  CreatedTime: string
+  EndTime?: string
+  FK_FlashcardStackID: string
+  FK_FlashcardReviews: FlashcardReview[]
+}
+
+export interface RepetitionFlashcardStack {
+  FlashcardStackID: string
+  CreatedTime: string
+  Title: string
+  Description: string
+  FK_FlashcardStackReviews: FlashcardStackReview[]
+}
+
 export interface Repetition {
   RepetitionID: string
   CreatedTime: string
   RepetitionType: RepetitionType
-  FK_FlashcardStack: FlashcardStack
+  FK_FlashcardStack: RepetitionFlashcardStack
   FK_FlashcardStackID: string
   FK_FlowID: string
   FK_Tasks: FlowTask[]

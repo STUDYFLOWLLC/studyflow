@@ -282,15 +282,25 @@ model FlowView {
 //}
 
 model FlashcardStack {
-  FlashcardStackID String      @id @default(uuid())
-  CreatedTime      DateTime    @default(now())
-  DeletedTime      DateTime?
-  FK_Flow          Flow?       @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
-  FK_FlowID        String?
-  FK_Flashcards    Flashcard[]
-  FK_Repetition    Repetition?
-  Title            String      @default("")
-  Description      String      @default("")
+  FlashcardStackID         String                 @id @default(uuid())
+  CreatedTime              DateTime               @default(now())
+  DeletedTime              DateTime?
+  FK_Flow                  Flow?                  @relation(fields: [FK_FlowID], references: [FlowID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlowID                String?
+  FK_Flashcards            Flashcard[]
+  FK_FlashcardStackReviews FlashcardStackReview[]
+  FK_Repetition            Repetition?
+  Title                    String                 @default("")
+  Description              String                 @default("")
+}
+
+model FlashcardStackReview {
+  FlashcardStackReviewID String            @id @default(uuid())
+  CreatedTime            DateTime          @default(now())
+  EndTime                DateTime?
+  FK_FlashcardStack      FlashcardStack?   @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardStackID    String?
+  FK_FlashcardReviews    FlashcardReview[]
 }
 
 model Flashcard {
@@ -308,11 +318,13 @@ model Flashcard {
 }
 
 model FlashcardReview {
-  FlashcardReviewID String          @id @default(uuid())
-  CreatedTime       DateTime        @default(now())
-  FK_Flashcard      Flashcard?      @relation(fields: [FK_FlashcardID], references: [FlashcardID], onDelete: SetNull, onUpdate: Cascade)
-  FK_FlashcardID    String?
-  Status            FlashcardStatus @default(NEUTRAL)
+  FlashcardReviewID         String                @id @default(uuid())
+  CreatedTime               DateTime              @default(now())
+  Status                    FlashcardStatus       @default(NEUTRAL)
+  FK_Flashcard              Flashcard?            @relation(fields: [FK_FlashcardID], references: [FlashcardID], onDelete: SetNull, onUpdate: Cascade)
+  FK_FlashcardID            String?
+  FK_FlashcardStackReview   FlashcardStackReview? @relation(fields: [FK_FlashcardStackReviewID], references: [FlashcardStackReviewID])
+  FK_FlashcardStackReviewID String?
 }
 
 model Task {
