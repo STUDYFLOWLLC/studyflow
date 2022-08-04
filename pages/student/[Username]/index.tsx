@@ -9,6 +9,7 @@ import get10PublicFlows from 'hooks/social/getPublicFlows'
 import getPublicProfile from 'hooks/social/getPublicProfile'
 import useUserDetails from 'hooks/useUserDetails'
 import logo from 'images/logo.svg'
+import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { PublicUser } from 'types/Social'
@@ -39,6 +40,10 @@ export default function index({ PublicUser, PublicFlows }: Props) {
 
   return (
     <>
+      <Head>
+        <title>{PublicUser.Username || PublicUser.Name}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {userDetails ? (
         <Dashbar
           showDashBar={showDashBar}
