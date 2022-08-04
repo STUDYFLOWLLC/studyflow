@@ -1,1 +1,0 @@
-export { CourseOnTermAutomationAutomationLogArgs } from "./CourseOnTermAutomationAutomationLogArgs";
