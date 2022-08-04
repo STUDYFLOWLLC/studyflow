@@ -5,18 +5,55 @@ import {
   mutateCancelFriendship,
   mutateRejectFriendship,
   mutateRemoveFriendship,
+  mutateSendFriendship,
 } from 'hooks/social/mutateFriendship'
 import { Friends } from 'hooks/social/useFriends'
+import { UserDetail } from 'hooks/useUserDetails'
 import toast from 'react-hot-toast'
 import { KeyedMutator } from 'swr'
-import { Friendship } from 'types/Social'
+import { Friendship, PublicUser } from 'types/Social'
+import { v4 as uuid } from 'uuid'
 
-export function acceptFriendship(
-  friendship: Friendship,
+export async function sendFriendship(
+  userFrom: UserDetail | null,
+  userTo: PublicUser | undefined,
   friends: Friends | null,
   mutateFriends: KeyedMutator<any>,
 ) {
-  if (!friends) return
+  if (!friends || !userFrom || !userTo) return
+
+  // mutate in backend
+  const newId = uuid()
+  mutateSendFriendship(newId, userFrom.UserID, userTo.UserID)
+
+  // mutate in frontend
+  mutateFriends(
+    {
+      newFriends: {
+        ...friends,
+        requested: [
+          ...friends.requested,
+          {
+            FriendshipID: newId,
+            SentTime: new Date().toISOString(),
+            FK_UserFrom: userFrom as unknown as PublicUser,
+            FK_UserTo: userTo,
+          },
+        ],
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export function acceptFriendship(
+  friendship: Friendship | undefined,
+  friends: Friends | null,
+  mutateFriends: KeyedMutator<any>,
+) {
+  if (!friends || !friendship) return
 
   // mutate in backend
   mutateAcceptFriendship(friendship.FriendshipID)
@@ -41,11 +78,11 @@ export function acceptFriendship(
 }
 
 export function rejectFriendship(
-  friendship: Friendship,
+  friendship: Friendship | undefined,
   friends: Friends | null,
   mutateFriends: KeyedMutator<any>,
 ) {
-  if (!friends) return
+  if (!friends || !friendship) return
 
   // mutate in backend
   mutateRejectFriendship(friendship.FriendshipID)
@@ -68,11 +105,11 @@ export function rejectFriendship(
 }
 
 export function removeFriendship(
-  friendship: Friendship,
+  friendship: Friendship | undefined,
   friends: Friends | null,
   mutateFriends: KeyedMutator<any>,
 ) {
-  if (!friends) return
+  if (!friends || !friendship) return
 
   // mutate in backend
   mutateRemoveFriendship(friendship.FriendshipID)
@@ -95,11 +132,11 @@ export function removeFriendship(
 }
 
 export function cancelFriendship(
-  friendship: Friendship,
+  friendship: Friendship | undefined,
   friends: Friends | null,
   mutateFriends: KeyedMutator<any>,
 ) {
-  if (!friends) return
+  if (!friends || !friendship) return
 
   // mutate in backend
   mutateCancelFriendship(friendship.FriendshipID)

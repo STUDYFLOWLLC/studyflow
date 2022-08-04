@@ -7,10 +7,10 @@ import { DecimalJSScalar } from "../../scalars";
   isAbstract: true
 })
 export class FriendshipMinAggregate {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FriendshipID!: number | null;
+  FriendshipID!: string | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

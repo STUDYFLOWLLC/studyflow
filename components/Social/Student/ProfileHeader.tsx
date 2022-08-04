@@ -3,6 +3,7 @@ import Tippy from '@tippyjs/react'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
 import { PublicUser } from 'types/Social'
 import getFirstAndLastInitialFromName from 'utils/getFirstAndLastIntial'
+import FriendButton from './ProfileHeader/FriendButton'
 
 interface Props {
   PublicUser: PublicUser | undefined
@@ -34,6 +35,7 @@ export default function ProfileHeader({ PublicUser, canEdit }: Props) {
           </div>
           <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
             <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+              <FriendButton PublicUser={PublicUser} />
               {!canEdit && (
                 <button
                   type="button"

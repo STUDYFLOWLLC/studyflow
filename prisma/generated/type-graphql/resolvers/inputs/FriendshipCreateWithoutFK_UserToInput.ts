@@ -8,6 +8,11 @@ import { UserCreateNestedOneWithoutFK_FriendshipsInitiatedInput } from "../input
   isAbstract: true
 })
 export class FriendshipCreateWithoutFK_UserToInput {
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FriendshipID?: string | undefined;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })

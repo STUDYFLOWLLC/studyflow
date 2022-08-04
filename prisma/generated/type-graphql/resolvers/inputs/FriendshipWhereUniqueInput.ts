@@ -7,8 +7,8 @@ import { DecimalJSScalar } from "../../scalars";
   isAbstract: true
 })
 export class FriendshipWhereUniqueInput {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  FriendshipID?: number | undefined;
+  FriendshipID?: string | undefined;
 }

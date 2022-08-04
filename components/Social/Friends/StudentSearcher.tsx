@@ -2,10 +2,10 @@ import { Combobox } from '@headlessui/react'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import algoliasearch from 'algoliasearch/lite'
 import classNames from 'classnames'
-import UserInput from 'components/Settings/Sharing/UserInput'
-import useFriends from 'hooks/social/useFriends'
+import UserSearchModern from 'components/Social/Displays/UserSearchModern'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import BasicStudentDisplay from '../Displays/BasicStudentDisplay'
 
@@ -27,10 +27,10 @@ interface UserHit {
 }
 
 export default function FriendsSearcher() {
+  const router = useRouter()
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { friends, friendsLoading } = useFriends(userDetails?.UserID)
 
   const [excludedUserIDs, setExcludedUsersIDs] = useState<number[]>([])
   const [mounted, setMounted] = useState(false)
@@ -57,7 +57,7 @@ export default function FriendsSearcher() {
     //   )
     //   .concat([userDetails?.UserID || 0])
     // setHits(hitsTemp.filter((h) => !excluded.includes(h.UserID)))
-    setHits(hitsTemp)
+    setHits(hitsTemp.filter((h) => h.Username))
   }
 
   useEffect(() => setMounted(true), [])
@@ -69,58 +69,50 @@ export default function FriendsSearcher() {
   if (!mounted) return null
 
   return (
-    <div className="py-4 sm:py-5 prose w-full text-center flex flex-col items-center">
-      <Combobox
-        as="div"
-        value={selectedUser}
-        disabled={loading}
-        onChange={(newUser: UserHit) =>
-          // addUserToGroup(
-          //   userDetails?.UserID,
-          //   newUser,
-          //   privateGroupDetails,
-          //   mutatePrivateGroupDetails,
-          //   setLoading,
-          // )
-          console.log('test')
-        }
-      >
-        <UserInput query={query} setQuery={setQuery} />
-        {hits.length > 0 && (
-          <Combobox.Options
-            className={classNames(
-              {
-                'ring-1 ring-black ring-opacity-5': theme === 'light',
-              },
-              { 'bg-slate-700': theme === 'dark' },
-              'm-0 p-0 list-none z-10 overflow-auto rounded-md shadow-lg focus:outline-none',
-            )}
-          >
-            {hits.slice(0, 5).map((user: UserHit) => (
-              <div
-                key={user.UserID}
-                className={classNames(
-                  { 'hover:bg-gray-100': theme === 'light' },
-                  { 'hover:bg-slate-600': theme === 'dark' },
-                  'p-2 cursor-pointer',
-                )}
-              >
-                <BasicStudentDisplay
-                  publicUser={{
-                    UserID: user.UserID,
-                    ProfilePictureLink: user.ProfilePictureLink,
-                    Name: user.Name,
-                    Username: user.Username,
-                    FK_School: {
-                      Name: user.school,
-                    },
-                  }}
-                />
-              </div>
-            ))}
-          </Combobox.Options>
-        )}
-      </Combobox>
-    </div>
+    <Combobox
+      as="div"
+      value={selectedUser}
+      disabled={loading}
+      onChange={(newUser: UserHit) => false}
+      className="w-96 p-2 h-14 mx-auto flex flex-col items-center relative"
+    >
+      <UserSearchModern query={query} setQuery={setQuery} />
+      {hits.length > 0 && (
+        <Combobox.Options
+          className={classNames(
+            {
+              'ring-1 ring-black ring-opacity-5 bg-white': theme === 'light',
+            },
+            { 'bg-slate-700': theme === 'dark' },
+            'w-96 absolute z-40 top-12 max-h-96 overflow-y-auto m-0 p-0 list-none overflow-auto rounded-md shadow-lg focus:outline-none',
+          )}
+        >
+          {hits.slice(0, 15).map((user: UserHit) => (
+            <div
+              key={user.UserID}
+              className={classNames(
+                { 'hover:bg-gray-100': theme === 'light' },
+                { 'hover:bg-slate-600': theme === 'dark' },
+                'p-2 cursor-pointer',
+              )}
+              onClick={() => router.push(`/student/${user.Username}`)}
+              onKeyDown={() => router.push(`/student/${user.Username}`)}
+            >
+              <BasicStudentDisplay
+                publicUser={{
+                  UserID: user.UserID,
+                  ProfilePictureLink: user.ProfilePictureLink,
+                  Name: user.Name,
+                  Username: user.Username,
+                  FK_School: {
+                    Name: user.school,
+                  },
+                }}
+              />
+            </div>
+          ))}
+        </Combobox.Options>
+      )}
+    </Combobox>
   )
 }

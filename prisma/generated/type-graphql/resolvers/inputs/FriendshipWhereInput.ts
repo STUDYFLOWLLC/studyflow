@@ -4,8 +4,8 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
-import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { StringFilter } from "../inputs/StringFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("FriendshipWhereInput", {
@@ -27,10 +27,10 @@ export class FriendshipWhereInput {
   })
   NOT?: FriendshipWhereInput[] | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  FriendshipID?: IntFilter | undefined;
+  FriendshipID?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
