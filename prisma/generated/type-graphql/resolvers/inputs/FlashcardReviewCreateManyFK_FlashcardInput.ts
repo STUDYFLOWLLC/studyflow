@@ -22,4 +22,9 @@ export class FlashcardReviewCreateManyFK_FlashcardInput {
     nullable: true
   })
   Status?: "NEUTRAL" | "CORRECT" | "INCORRECT" | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_FlashcardStackReviewID?: string | undefined;
 }

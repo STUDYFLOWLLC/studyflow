@@ -6,6 +6,7 @@ export * from "./CourseOnTermAutomation/args";
 export * from "./Flashcard/args";
 export * from "./FlashcardReview/args";
 export * from "./FlashcardStack/args";
+export * from "./FlashcardStackReview/args";
 export * from "./Flow/args";
 export * from "./FlowView/args";
 export * from "./Friendship/args";

@@ -18,13 +18,18 @@ export class FlashcardReviewMinAggregate {
   })
   CreatedTime!: Date | null;
 
+  @TypeGraphQL.Field(_type => FlashcardStatus, {
+    nullable: true
+  })
+  Status!: "NEUTRAL" | "CORRECT" | "INCORRECT" | null;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   FK_FlashcardID!: string | null;
 
-  @TypeGraphQL.Field(_type => FlashcardStatus, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  Status!: "NEUTRAL" | "CORRECT" | "INCORRECT" | null;
+  FK_FlashcardStackReviewID!: string | null;
 }

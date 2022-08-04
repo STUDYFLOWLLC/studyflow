@@ -149,8 +149,6 @@ export default function useFlowDetails(flowId: string | undefined): Ret {
 
   const { data, error, mutate } = useSWR([query, variables])
 
-  console.log(error)
-
   if (data?.mutate) {
     return {
       flowDetails: data.mutatedFlow,

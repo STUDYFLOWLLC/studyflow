@@ -2,6 +2,7 @@ import { PencilAltIcon, RefreshIcon } from '@heroicons/react/outline'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
+import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useState } from 'react'
 import { mutate } from 'swr'
 import { SpinnerSizes } from 'types/Loading'
@@ -11,6 +12,7 @@ import FlashcardStack from './FlashcardStack'
 
 interface Props {
   flowId: string
+  repetitionId?: string
   flashcardStackId: string
   setEditing: (editing: string) => void
   reviewing: boolean
@@ -19,18 +21,19 @@ interface Props {
 
 export default function MainFlashcard({
   flowId,
+  repetitionId,
   flashcardStackId,
   setEditing,
   reviewing,
   setReviewing,
 }: Props) {
+  const { repetitionDetails, mutateRepetitionDetails } =
+    useRepetitionDetails(repetitionId)
   const { flashcardStack, flashcardStackLoading, mutateFlashcardStack } =
     useFlashcardStack(flashcardStackId)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   const [saving, setSaving] = useState(false)
-
-  console.log(reviewing)
 
   return (
     <div>
@@ -80,7 +83,10 @@ export default function MainFlashcard({
           )}
           {reviewing ? (
             <div className="mt-4 transition-all">
-              <FlashcardStack cards={flashcardStack?.FK_Flashcards || []} />
+              <FlashcardStack
+                cards={flashcardStack?.FK_Flashcards || []}
+                repetitionId={repetitionId}
+              />
             </div>
           ) : (
             <EnterFlashcardStack flashcardStackId={flashcardStackId} />

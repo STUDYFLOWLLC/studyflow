@@ -6,6 +6,7 @@ export { CourseOnTermAutomationCrudResolver } from "./CourseOnTermAutomation/Cou
 export { FlashcardCrudResolver } from "./Flashcard/FlashcardCrudResolver";
 export { FlashcardReviewCrudResolver } from "./FlashcardReview/FlashcardReviewCrudResolver";
 export { FlashcardStackCrudResolver } from "./FlashcardStack/FlashcardStackCrudResolver";
+export { FlashcardStackReviewCrudResolver } from "./FlashcardStackReview/FlashcardStackReviewCrudResolver";
 export { FlowCrudResolver } from "./Flow/FlowCrudResolver";
 export { FlowViewCrudResolver } from "./FlowView/FlowViewCrudResolver";
 export { FriendshipCrudResolver } from "./Friendship/FriendshipCrudResolver";
