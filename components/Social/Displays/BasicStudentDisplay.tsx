@@ -7,20 +7,20 @@ interface Props {
 
 export default function BasicStudentDisplay({ publicUser }: Props) {
   return (
-    <div className="cursor-pointer flex items-center">
-      <ProfilePicOrPlaceholder
-        link={publicUser.ProfilePictureLink}
-        name={publicUser.Name}
-        dimension="w-8 h-8"
-        textSize="text-md"
-      />
-      <div className="ml-2 truncate flex flex-col">
-        <span className="text-xs">
-          {publicUser.Name}{' '}
-          <span className="font-medium">@{publicUser.Username}</span>
-        </span>
-        <span className="text-2xs">{publicUser.FK_School.Name}</span>
+    <div className="cursor-pointer flex items-center justify-between">
+      <div className="flex items-center">
+        <ProfilePicOrPlaceholder
+          link={publicUser.ProfilePictureLink}
+          name={publicUser.Name}
+          dimension="w-12 h-12"
+          textSize="text-md"
+        />
+        <div className="ml-2 truncate flex flex-col">
+          <span className="font-medium text-md">{publicUser.Name} </span>
+          <span className="text-sm txt-info">@{publicUser.Username}</span>
+        </div>
       </div>
+      <span className="text-sm">{publicUser.FK_School.Name}</span>
     </div>
   )
 }

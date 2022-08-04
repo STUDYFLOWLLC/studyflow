@@ -81,7 +81,7 @@ model AutomationLog {
 }
 
 model Friendship {
-  FriendshipID  Int       @id @default(autoincrement())
+  FriendshipID  String    @id @default(uuid())
   SentTime      DateTime  @default(now())
   AcceptedTime  DateTime?
   RejectedTime  DateTime? // receiver rejects

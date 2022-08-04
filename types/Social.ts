@@ -19,13 +19,13 @@ export interface PublicUser {
 }
 
 export interface SmallFriend {
-  FriendshipID: number
+  FriendshipID: string
   AcceptedTime: string
   Friend: PublicUser
 }
 
 export interface Friendship {
-  FriendshipID: number
+  FriendshipID: string
   SentTime: string
   AcceptedTime: string | null
   FK_UserFrom: PublicUser

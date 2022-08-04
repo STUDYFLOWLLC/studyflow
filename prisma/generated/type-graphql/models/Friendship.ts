@@ -8,10 +8,10 @@ import { User } from "../models/User";
   isAbstract: true
 })
 export class Friendship {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  FriendshipID!: number;
+  FriendshipID!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false

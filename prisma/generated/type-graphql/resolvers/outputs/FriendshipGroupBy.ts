@@ -12,10 +12,10 @@ import { FriendshipSumAggregate } from "../outputs/FriendshipSumAggregate";
   isAbstract: true
 })
 export class FriendshipGroupBy {
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  FriendshipID!: number;
+  FriendshipID!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
