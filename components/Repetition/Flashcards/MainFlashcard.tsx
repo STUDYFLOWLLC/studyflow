@@ -30,8 +30,6 @@ export default function MainFlashcard({
 
   const [saving, setSaving] = useState(false)
 
-  console.log(reviewing)
-
   return (
     <div>
       {flashcardStackLoading ? (
