@@ -1,10 +1,10 @@
 import { BadgeCheckIcon } from '@heroicons/react/outline'
-import { School } from '@prisma/client'
 import useCourseCount from 'hooks/school/useCourseCount'
 import useFlowCount from 'hooks/school/useFlowCount'
 import useProfessorCount from 'hooks/school/useProfessorCount'
 import useUserCount from 'hooks/school/useUserCount'
 import Skeleton from 'react-loading-skeleton'
+import { School } from 'types/School'
 
 interface Props {
   selectedSchool: School | null

@@ -7,6 +7,7 @@ export interface PublicUser {
   Username: string
   FK_School: {
     Name: string
+    HasClassSupport?: boolean
   }
   Bio?: string
   About?: string

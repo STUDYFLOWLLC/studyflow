@@ -35,5 +35,5 @@ export class FindManyFlashcardArgs {
   @TypeGraphQL.Field(_type => [FlashcardScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"FlashcardID" | "CreatedTime" | "DeletedTime" | "FK_FlashcardStackID" | "Position" | "Front" | "Back"> | undefined;
+  distinct?: Array<"FlashcardID" | "CreatedTime" | "DeletedTime" | "FK_FlashcardStackID" | "Position" | "Front" | "FrontImageUrl" | "Back" | "BackImageUrl"> | undefined;
 }

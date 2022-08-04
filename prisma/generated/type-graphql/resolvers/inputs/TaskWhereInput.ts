@@ -9,6 +9,7 @@ import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { EnumTaskTypeNullableFilter } from "../inputs/EnumTaskTypeNullableFilter";
 import { FlowRelationFilter } from "../inputs/FlowRelationFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { RepetitionRelationFilter } from "../inputs/RepetitionRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TaskLabelListRelationFilter } from "../inputs/TaskLabelListRelationFilter";
@@ -102,4 +103,14 @@ export class TaskWhereInput {
     nullable: true
   })
   FK_CourseOnTermID?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionRelationFilter, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  FK_RepetitionID?: StringNullableFilter | undefined;
 }

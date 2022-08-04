@@ -10,6 +10,7 @@ export { FlowCrudResolver } from "./Flow/FlowCrudResolver";
 export { FlowViewCrudResolver } from "./FlowView/FlowViewCrudResolver";
 export { FriendshipCrudResolver } from "./Friendship/FriendshipCrudResolver";
 export { ProfessorCrudResolver } from "./Professor/ProfessorCrudResolver";
+export { RepetitionCrudResolver } from "./Repetition/RepetitionCrudResolver";
 export { SchoolCrudResolver } from "./School/SchoolCrudResolver";
 export { SettingCrudResolver } from "./Setting/SettingCrudResolver";
 export { StudyGroupCrudResolver } from "./StudyGroup/StudyGroupCrudResolver";

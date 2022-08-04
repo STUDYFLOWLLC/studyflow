@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { CourseOnTerm } from "../models/CourseOnTerm";
 import { Flow } from "../models/Flow";
+import { Repetition } from "../models/Repetition";
 import { TaskLabel } from "../models/TaskLabel";
 import { User } from "../models/User";
 import { TaskType } from "../enums/TaskType";
@@ -70,6 +71,13 @@ export class Task {
     nullable: true
   })
   FK_CourseOnTermID?: number | null;
+
+  FK_Repetition?: Repetition | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  FK_RepetitionID?: string | null;
 
   @TypeGraphQL.Field(_type => TaskCount, {
     nullable: true

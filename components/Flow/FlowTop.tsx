@@ -2,6 +2,7 @@ import FlowHeader from 'components/Flow/FlowHeader'
 import FlowProperties from 'components/Flow/FlowProperties'
 import FlowTask from 'components/Flow/FlowTask'
 import FlowFlashcardStacks from 'components/Repetition/Flashcards/FlowFlashcardStacks'
+import FlowRepetitions from 'components/Repetition/Flow/FlowRepetitions'
 import { useEffect, useState } from 'react'
 
 export interface Props {
@@ -28,6 +29,7 @@ export default function FlowTop({
       <FlowHeader flowId={flowId} closeModal={closeModal} saving={saving} />
       <div className="border-b pb-4 mb-4 prose max-w-3xl mx-auto">
         <FlowProperties flowId={flowId} saving={saving} />
+        <FlowRepetitions flowId={flowId} />
         <FlowTask flowId={flowId} flowTitle={flowTitle} />
         <FlowFlashcardStacks flowId={flowId} />
       </div>

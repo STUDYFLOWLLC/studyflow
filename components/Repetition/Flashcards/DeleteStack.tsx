@@ -5,7 +5,7 @@ import useFlowDetails from 'hooks/flows/useFlowDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { ActiveProps } from 'types/ActiveProps'
-import { deleteFlashcardStack } from 'utils/repetition/flashcards/flashcardHandlers'
+import { deleteFlashcardStack } from 'utils/repetition/flashcards/flashcardStackHandlers'
 
 interface Props {
   flowId: string
@@ -34,7 +34,7 @@ export default function DeleteStack({ flowId, flashcardStackId }: Props) {
             'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
               theme === 'dark',
           },
-          'flex items-center font-light m-0 text-xl px-1.5 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'flex items-center font-light m-0 text-xl px-1.5 mr-1 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
         <TrashIcon className="h-6 w-6" />

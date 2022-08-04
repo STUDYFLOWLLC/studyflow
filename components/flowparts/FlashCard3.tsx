@@ -4,7 +4,7 @@ import {
   QuestionMarkCircleIcon,
   XCircleIcon,
 } from '@heroicons/react/solid'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { Flashcard, FlashcardReview, FlashcardStatus } from 'types/Repetition'
 import delay from 'utils/delay'
@@ -13,9 +13,15 @@ interface Props {
   card: Flashcard
   shouldFlip?: number
   setShouldFlip?: (shouldFlip: number) => void
+  cute: boolean
 }
 
-export default function Flashcard3({ card, shouldFlip, setShouldFlip }: Props) {
+export default function Flashcard3({
+  card,
+  shouldFlip,
+  setShouldFlip,
+  cute,
+}: Props) {
   const [flip, setFlip] = useState(false)
   const [showBack, setShowBack] = useState(false)
 
@@ -36,11 +42,15 @@ export default function Flashcard3({ card, shouldFlip, setShouldFlip }: Props) {
   const lastReview: FlashcardReview | undefined =
     card.FK_FlashcardReviews[card.FK_FlashcardReviews.length - 1]
 
+  console.log(card)
+
   return (
     <div
-      className={classnames(
+      className={classNames(
+        { 'w-36 h-20': cute },
+        { 'w-96 h-48': !cute },
         'card',
-        'flex justify-center items-center relative rounded shadow-lg cursor-pointer w-96 h-48 border-2 border-gray-100 bg-white',
+        'flex touch-none justify-center items-center relative rounded shadow-lg cursor-pointer border-2 border-info/10 bg-base-100',
         { flip },
       )}
       onClick={() => flipper(!flip)}
@@ -59,14 +69,13 @@ export default function Flashcard3({ card, shouldFlip, setShouldFlip }: Props) {
       {!lastReview ||
         (lastReview?.Status === FlashcardStatus.NEUTRAL && (
           <div className="w-6 h-6 absolute top-1 left-1">
-            <QuestionMarkCircleIcon className="text-stone-800" />
+            <QuestionMarkCircleIcon />
           </div>
         ))}
-      <div className="card front text-stone-800">
+      <div className={classNames({ 'text-2xs': cute }, 'card front')}>
         {card.Front}
-        {card.Position}
       </div>
-      <div className={classnames('card back text-stone-800')}>
+      <div className={classNames({ 'text-2xs': cute }, 'card back')}>
         {showBack && card.Back}
       </div>
     </div>

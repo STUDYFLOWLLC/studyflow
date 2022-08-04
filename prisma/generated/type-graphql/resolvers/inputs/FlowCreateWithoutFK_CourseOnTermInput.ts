@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { FlashcardStackCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlashcardStackCreateNestedManyWithoutFK_FlowInput";
 import { FlowViewCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_FlowInput";
+import { RepetitionCreateNestedOneWithoutFK_FlowInput } from "../inputs/RepetitionCreateNestedOneWithoutFK_FlowInput";
 import { TaskCreateNestedManyWithoutFK_FlowInput } from "../inputs/TaskCreateNestedManyWithoutFK_FlowInput";
 import { UserCreateNestedOneWithoutFK_FlowInput } from "../inputs/UserCreateNestedOneWithoutFK_FlowInput";
 import { FlowType } from "../../enums/FlowType";
@@ -87,4 +88,9 @@ export class FlowCreateWithoutFK_CourseOnTermInput {
     nullable: true
   })
   FK_User?: UserCreateNestedOneWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionCreateNestedOneWithoutFK_FlowInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionCreateNestedOneWithoutFK_FlowInput | undefined;
 }

@@ -11,6 +11,7 @@ import { FlashcardStackUpdateManyWithoutFK_FlowInput } from "../inputs/Flashcard
 import { FlowViewUpdateManyWithoutFK_FlowInput } from "../inputs/FlowViewUpdateManyWithoutFK_FlowInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { RepetitionUpdateOneWithoutFK_FlowInput } from "../inputs/RepetitionUpdateOneWithoutFK_FlowInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TaskUpdateManyWithoutFK_FlowInput } from "../inputs/TaskUpdateManyWithoutFK_FlowInput";
 
@@ -92,4 +93,9 @@ export class FlowUpdateWithoutFK_UserInput {
     nullable: true
   })
   FK_FlowView?: FlowViewUpdateManyWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionUpdateOneWithoutFK_FlowInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionUpdateOneWithoutFK_FlowInput | undefined;
 }

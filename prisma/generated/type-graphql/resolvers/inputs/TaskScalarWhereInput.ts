@@ -78,4 +78,9 @@ export class TaskScalarWhereInput {
     nullable: true
   })
   FK_CourseOnTermID?: IntNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  FK_RepetitionID?: StringNullableFilter | undefined;
 }

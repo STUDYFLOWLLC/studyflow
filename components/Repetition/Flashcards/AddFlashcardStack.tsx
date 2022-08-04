@@ -5,7 +5,7 @@ import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
 import { useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
-import createFlashcardStack from 'utils/repetition/flashcards/flashcardHandlers'
+import createFlashcardStack from 'utils/repetition/flashcards/flashcardStackHandlers'
 
 interface Props {
   flowId: string
@@ -63,7 +63,7 @@ export default function AddFlashcardStack({
             'w-5 h-5 mr-3 font-thin',
           )}
         >
-          <PlusIcon className="w-5 h-5" />
+          <PlusIcon />
         </span>
       ) : (
         <span className="mr-3">

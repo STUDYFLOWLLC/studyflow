@@ -1,6 +1,5 @@
-import { FlowType } from '@prisma/client'
 import { gql, request } from 'graphql-request'
-import { FlowVisibility } from 'types/Flow'
+import { FlowType, FlowVisibility } from 'types/Flow'
 import { PublicUser } from 'types/Social'
 
 export interface PublicFlowDetail {

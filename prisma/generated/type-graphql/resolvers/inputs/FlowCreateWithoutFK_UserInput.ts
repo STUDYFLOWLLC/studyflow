@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { CourseOnTermCreateNestedOneWithoutFK_FlowsInput } from "../inputs/CourseOnTermCreateNestedOneWithoutFK_FlowsInput";
 import { FlashcardStackCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlashcardStackCreateNestedManyWithoutFK_FlowInput";
 import { FlowViewCreateNestedManyWithoutFK_FlowInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_FlowInput";
+import { RepetitionCreateNestedOneWithoutFK_FlowInput } from "../inputs/RepetitionCreateNestedOneWithoutFK_FlowInput";
 import { TaskCreateNestedManyWithoutFK_FlowInput } from "../inputs/TaskCreateNestedManyWithoutFK_FlowInput";
 import { FlowType } from "../../enums/FlowType";
 import { Visibility } from "../../enums/Visibility";
@@ -87,4 +88,9 @@ export class FlowCreateWithoutFK_UserInput {
     nullable: true
   })
   FK_FlowView?: FlowViewCreateNestedManyWithoutFK_FlowInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionCreateNestedOneWithoutFK_FlowInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionCreateNestedOneWithoutFK_FlowInput | undefined;
 }

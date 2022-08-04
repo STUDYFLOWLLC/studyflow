@@ -29,6 +29,7 @@ export default function FlowFlashcardStack({
   return (
     <div className="p-2">
       <FlashcardReviewModal
+        flowId={flowId}
         flashcardStackId={flashcardStackId}
         editing={editing}
         reviewing={reviewing}
@@ -39,10 +40,10 @@ export default function FlowFlashcardStack({
         <div className="absolute top-0 right-0">
           <DeleteStack flowId={flowId} flashcardStackId={flashcardStackId} />
         </div>
-        <h3 className="m-0 p-0 truncate flex items-baseline">
+        <h3 className="m-0 p-0 max-w-[75%] truncate flex items-baseline">
           {title || flashcardStack?.Title || 'Untitled'}
           <p className="m-0 ml-2 p-0 text-sm">
-            {length || flashcardStack?.FK_Flashcards.length || 0} cards
+            {flashcardStack?.FK_Flashcards.length || length || 0} cards
           </p>
         </h3>
         <div className="w-full flex justify-center">

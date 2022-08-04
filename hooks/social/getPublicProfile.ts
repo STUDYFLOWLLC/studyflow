@@ -17,6 +17,7 @@ export default async function getPublicProfile(
         Username
         FK_School {
           Name
+          HasClassSupport
         }
         Bio
         About
@@ -29,6 +30,7 @@ export default async function getPublicProfile(
             Username
             FK_School {
               Name
+              HasClassSupport
             }
             Bio
             About
@@ -43,6 +45,7 @@ export default async function getPublicProfile(
             Name
             FK_School {
               Name
+              HasClassSupport
             }
             Bio
             About
@@ -107,6 +110,7 @@ export default async function getPublicProfile(
     query,
     variables,
   )
+
   if (data.user) {
     return {
       UserID: data.user.UserID,

@@ -1,9 +1,9 @@
 import { Listbox } from '@headlessui/react'
 import { SelectorIcon } from '@heroicons/react/outline'
-import { TermType } from '@prisma/client'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { TermType } from 'types/School'
 
 interface Props {
   termTypeNative: TermType

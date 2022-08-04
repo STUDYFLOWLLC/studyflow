@@ -1,5 +1,5 @@
-import { TermType } from '@prisma/client'
 import { gql, request } from 'graphql-request'
+import { TermType } from 'types/School'
 
 export default async function createTerm(
   termType: TermType,

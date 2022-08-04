@@ -25,6 +25,11 @@ export default function index({ flowId, flowTitle }: Props) {
 
   return (
     <>
+      <FlowAddTask
+        flowId={flowId}
+        flowTitle={flowTitle}
+        courseOnTerm={flowDetails?.FK_CourseOnTerm}
+      />
       <div className="relative">
         <div
           className={classNames(
@@ -46,10 +51,10 @@ export default function index({ flowId, flowTitle }: Props) {
               className={classNames(
                 { 'hover:bg-gray-200': theme === 'light' },
                 { 'hover:bg-slate-600': theme === 'dark' },
-                'uppercase text-sm font-medium cursor-pointer rounded-md px-1.5 py-0.5',
+                'uppercase text-sm font-medium cursor-pointer rounded-md px-0.5 py-0.5',
               )}
               onClick={() => setTasksHidden(false)}
-              onKeyDown={() => setTasksHidden(true)}
+              onKeyDown={() => setTasksHidden(false)}
             >
               Show tasks
             </span>
@@ -75,11 +80,6 @@ export default function index({ flowId, flowTitle }: Props) {
           </div>
         )}
       </div>
-      <FlowAddTask
-        flowId={flowId}
-        flowTitle={flowTitle}
-        courseOnTerm={flowDetails?.FK_CourseOnTerm}
-      />
     </>
   )
 }

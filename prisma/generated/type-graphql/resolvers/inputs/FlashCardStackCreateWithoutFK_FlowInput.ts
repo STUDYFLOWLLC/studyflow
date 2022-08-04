@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { FlashcardCreateNestedManyWithoutFK_FlashcardStackInput } from "../inputs/FlashcardCreateNestedManyWithoutFK_FlashcardStackInput";
+import { RepetitionCreateNestedOneWithoutFK_FlashcardStackInput } from "../inputs/RepetitionCreateNestedOneWithoutFK_FlashcardStackInput";
 
 @TypeGraphQL.InputType("FlashcardStackCreateWithoutFK_FlowInput", {
   isAbstract: true
@@ -27,6 +28,11 @@ export class FlashcardStackCreateWithoutFK_FlowInput {
     nullable: true
   })
   FK_Flashcards?: FlashcardCreateNestedManyWithoutFK_FlashcardStackInput | undefined;
+
+  @TypeGraphQL.Field(_type => RepetitionCreateNestedOneWithoutFK_FlashcardStackInput, {
+    nullable: true
+  })
+  FK_Repetition?: RepetitionCreateNestedOneWithoutFK_FlashcardStackInput | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
