@@ -1,5 +1,5 @@
 import request, { gql } from 'graphql-request'
-import { Friendship, PublicUser } from 'types/Social'
+import { PublicUser, SmallFriend } from 'types/Social'
 
 export default async function getPublicProfile(
   username: string,
@@ -37,35 +37,11 @@ export default async function getPublicProfile(
             Bio
             About
           }
-          FK_UserFrom {
-            UserID
-            ProfilePictureLink
-            Name
-            Username
-            FK_School {
-              Name
-              HasClassSupport
-            }
-            Bio
-            About
-          }
         }
         FK_FriendshipsAccepted(where: $fkFriendshipsAcceptedWhere2) {
           FriendshipID
           SentTime
           AcceptedTime
-          FK_UserTo {
-            UserID
-            ProfilePictureLink
-            Name
-            Username
-            FK_School {
-              Name
-              HasClassSupport
-            }
-            Bio
-            About
-          }
           FK_UserFrom {
             UserID
             ProfilePictureLink
@@ -90,19 +66,17 @@ export default async function getPublicProfile(
       AND: [
         {
           RejectedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           RemovedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           CanceledTime: {
-            not: {
-              not: null,
-            },
+            equals: null,
           },
         },
       ],
@@ -111,19 +85,17 @@ export default async function getPublicProfile(
       AND: [
         {
           RejectedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           RemovedTime: {
-            not: null,
+            equals: null,
           },
         },
         {
           CanceledTime: {
-            not: {
-              not: null,
-            },
+            equals: null,
           },
         },
       ],
@@ -139,9 +111,10 @@ export default async function getPublicProfile(
   )
 
   if (data.user) {
-    const friendShips = data.user.FK_FriendshipsInitiated.concat(
+    console.log(data)
+    const friendships = data.user.FK_FriendshipsInitiated.concat(
       data.user.FK_FriendshipsAccepted,
-    ) as Friendship[]
+    ) as SmallFriend[]
     return {
       UserID: data.user.UserID,
       ProfilePictureLink: data.user.ProfilePictureLink,
@@ -150,21 +123,7 @@ export default async function getPublicProfile(
       FK_School: data.user.FK_School,
       Bio: data.user.Bio,
       About: data.user.About,
-      Friends: {
-        requested: friendShips.filter(
-          (friendship) =>
-            friendship.FK_UserFrom.Username === username &&
-            friendship.AcceptedTime === null,
-        ) as Friendship[],
-        accepted: friendShips.filter(
-          (friendship) => friendship.AcceptedTime !== null,
-        ) as Friendship[],
-        incoming: friendShips.filter(
-          (friendship) =>
-            friendship.FK_UserTo.Username === username &&
-            friendship.AcceptedTime === null,
-        ) as Friendship[],
-      },
+      Friends: friendships,
     } as unknown as PublicUser
   }
   return undefined
