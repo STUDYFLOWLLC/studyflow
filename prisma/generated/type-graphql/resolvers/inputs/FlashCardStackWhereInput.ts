@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { FlashcardListRelationFilter } from "../inputs/FlashcardListRelationFilter";
+import { FlashcardStackReviewListRelationFilter } from "../inputs/FlashcardStackReviewListRelationFilter";
 import { FlowRelationFilter } from "../inputs/FlowRelationFilter";
 import { RepetitionRelationFilter } from "../inputs/RepetitionRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
@@ -58,6 +59,11 @@ export class FlashcardStackWhereInput {
     nullable: true
   })
   FK_Flashcards?: FlashcardListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardStackReviewListRelationFilter, {
+    nullable: true
+  })
+  FK_FlashcardStackReviews?: FlashcardStackReviewListRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => RepetitionRelationFilter, {
     nullable: true

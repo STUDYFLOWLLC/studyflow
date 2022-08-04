@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Flashcard } from "../models/Flashcard";
+import { FlashcardStackReview } from "../models/FlashcardStackReview";
 import { Flow } from "../models/Flow";
 import { Repetition } from "../models/Repetition";
 import { FlashcardStackCount } from "../resolvers/outputs/FlashcardStackCount";
@@ -34,6 +35,8 @@ export class FlashcardStack {
   FK_FlowID?: string | null;
 
   FK_Flashcards?: Flashcard[];
+
+  FK_FlashcardStackReviews?: FlashcardStackReview[];
 
   FK_Repetition?: Repetition | null;
 

@@ -21,10 +21,15 @@ export class FlashcardReviewCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  Status?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   FK_FlashcardID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  Status?: "asc" | "desc" | undefined;
+  FK_FlashcardStackReviewID?: "asc" | "desc" | undefined;
 }

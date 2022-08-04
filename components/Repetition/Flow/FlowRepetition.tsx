@@ -6,6 +6,7 @@ import FlashcardStack from 'components/Repetition/Flashcards/FlashcardStack'
 import FlashcardReviewModal from 'components/Repetition/Flashcards/ReviewModal/FlashcardReviewModal'
 import LoadWithText from 'components/spinners/LoadWithText'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
+import { FlowTask } from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { Task } from 'hooks/tasks/useTasks'
@@ -68,6 +69,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
     >
       <FlashcardReviewModal
         flowId={flowId}
+        repetitionId={repetitionId}
         flashcardStackId={repetitionDetails?.FK_FlashcardStackID || ''}
         editing={editing}
         setEditing={setEditing}
@@ -100,7 +102,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
         </p>
         <BasicDisplayTasks
           tasks={
-            (repetitionDetails?.FK_Tasks.map((task) => ({
+            (repetitionDetails?.FK_Tasks.map((task: FlowTask) => ({
               ...task,
               FK_CourseOnTerm: repetitionDetails?.FK_Tasks,
             })) || []) as unknown as Task[]

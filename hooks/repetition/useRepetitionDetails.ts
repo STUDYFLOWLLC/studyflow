@@ -15,11 +15,7 @@ export default function useRepetitionDetails(
   repetitionId: string | undefined | null,
 ): Ret {
   const query = gql`
-    query Repetition(
-      $where: RepetitionWhereUniqueInput!
-      $orderBy: [FlashcardOrderByWithRelationInput!]
-      $fkFlashcardsWhere2: FlashcardWhereInput
-    ) {
+    query Repetition($where: RepetitionWhereUniqueInput!) {
       repetition(where: $where) {
         RepetitionID
         CreatedTime
@@ -38,15 +34,11 @@ export default function useRepetitionDetails(
           CreatedTime
           Title
           Description
-          FK_Flashcards(orderBy: $orderBy, where: $fkFlashcardsWhere2) {
-            FlashcardID
+          FK_FlashcardStackReviews {
+            FlashcardStackReviewID
             CreatedTime
+            EndTime
             FK_FlashcardStackID
-            Position
-            Front
-            FrontImageUrl
-            Back
-            BackImageUrl
             FK_FlashcardReviews {
               FlashcardReviewID
               CreatedTime
@@ -62,16 +54,6 @@ export default function useRepetitionDetails(
   const variables = {
     where: {
       RepetitionID: repetitionId,
-    },
-    orderBy: [
-      {
-        Position: 'asc',
-      },
-    ],
-    fkFlashcardsWhere2: {
-      DeletedTime: {
-        equals: null,
-      },
     },
   }
 

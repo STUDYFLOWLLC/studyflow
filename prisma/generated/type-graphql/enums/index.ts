@@ -5,6 +5,7 @@ export { CourseOnTermScalarFieldEnum } from "./CourseOnTermScalarFieldEnum";
 export { CourseScalarFieldEnum } from "./CourseScalarFieldEnum";
 export { FlashcardReviewScalarFieldEnum } from "./FlashcardReviewScalarFieldEnum";
 export { FlashcardScalarFieldEnum } from "./FlashcardScalarFieldEnum";
+export { FlashcardStackReviewScalarFieldEnum } from "./FlashcardStackReviewScalarFieldEnum";
 export { FlashcardStackScalarFieldEnum } from "./FlashcardStackScalarFieldEnum";
 export { FlashcardStatus } from "./FlashcardStatus";
 export { FlowScalarFieldEnum } from "./FlowScalarFieldEnum";

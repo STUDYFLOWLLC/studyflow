@@ -65,8 +65,6 @@ export default function useFlashcardStack(
     flashcardStackId ? [query, variables] : null,
   )
 
-  console.log(error)
-
   if (data?.mutate) {
     return {
       flashcardStack: data.mutatedFlashcardStack,

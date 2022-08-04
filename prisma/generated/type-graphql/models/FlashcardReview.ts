@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Flashcard } from "../models/Flashcard";
+import { FlashcardStackReview } from "../models/FlashcardStackReview";
 import { FlashcardStatus } from "../enums/FlashcardStatus";
 
 @TypeGraphQL.ObjectType("FlashcardReview", {
@@ -19,6 +20,11 @@ export class FlashcardReview {
   })
   CreatedTime!: Date;
 
+  @TypeGraphQL.Field(_type => FlashcardStatus, {
+    nullable: false
+  })
+  Status!: "NEUTRAL" | "CORRECT" | "INCORRECT";
+
   FK_Flashcard?: Flashcard | null;
 
   @TypeGraphQL.Field(_type => String, {
@@ -26,8 +32,10 @@ export class FlashcardReview {
   })
   FK_FlashcardID?: string | null;
 
-  @TypeGraphQL.Field(_type => FlashcardStatus, {
-    nullable: false
+  FK_FlashcardStackReview?: FlashcardStackReview | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
   })
-  Status!: "NEUTRAL" | "CORRECT" | "INCORRECT";
+  FK_FlashcardStackReviewID?: string | null;
 }

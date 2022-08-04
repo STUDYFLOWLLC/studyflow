@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { FlashcardOrderByRelationAggregateInput } from "../inputs/FlashcardOrderByRelationAggregateInput";
+import { FlashcardStackReviewOrderByRelationAggregateInput } from "../inputs/FlashcardStackReviewOrderByRelationAggregateInput";
 import { FlowOrderByWithRelationInput } from "../inputs/FlowOrderByWithRelationInput";
 import { RepetitionOrderByWithRelationInput } from "../inputs/RepetitionOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
@@ -40,6 +41,11 @@ export class FlashcardStackOrderByWithRelationInput {
     nullable: true
   })
   FK_Flashcards?: FlashcardOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => FlashcardStackReviewOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_FlashcardStackReviews?: FlashcardStackReviewOrderByRelationAggregateInput | undefined;
 
   @TypeGraphQL.Field(_type => RepetitionOrderByWithRelationInput, {
     nullable: true

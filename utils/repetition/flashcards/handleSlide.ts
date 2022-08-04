@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 
 import { SpringRef } from '@react-spring/web'
+import handleSlideInBackend from 'hooks/repetition/handleSlideInBackend'
 import toast from 'react-hot-toast'
+import { KeyedMutator } from 'swr'
 import { FlashcardProps } from 'types/Flashcards'
+import { FlashcardStack, Repetition } from 'types/Repetition'
 import delay from 'utils/delay'
 import runApiSlide from 'utils/repetition/flashcards/runApiSlide'
 import to from 'utils/repetition/flashcards/to'
@@ -26,7 +30,14 @@ export default async function handleSlide(
   gone: Set<number>,
   current: number,
   setCurrent: (newCurrent: number) => void,
+  setTempDisabled: (tempDisabled: boolean) => void,
+  flashcardStack?: FlashcardStack | null,
+  mutateFlashcardStack?: KeyedMutator<any>,
+  repetitionDetails?: Repetition | null,
+  mutateRepetitionDetails?: KeyedMutator<any>,
 ) {
+  setTempDisabled(true)
+
   const x =
     direction === SlideDirection.LEFT
       ? -500
@@ -42,6 +53,22 @@ export default async function handleSlide(
 
   runApiSlide(api, current, 0, 0, 400)
 
+  if (
+    flashcardStack &&
+    mutateFlashcardStack &&
+    repetitionDetails &&
+    mutateRepetitionDetails
+  )
+    handleSlideInBackend(
+      direction,
+      cards,
+      current,
+      flashcardStack,
+      mutateFlashcardStack,
+      repetitionDetails,
+      mutateRepetitionDetails,
+    )
+
   if (gone.size === cards.length) {
     setTimeout(() => {
       toast.success('Review complete!')
@@ -50,4 +77,6 @@ export default async function handleSlide(
       api.start((i) => to(i))
     }, 600)
   }
+
+  setTempDisabled(false)
 }
