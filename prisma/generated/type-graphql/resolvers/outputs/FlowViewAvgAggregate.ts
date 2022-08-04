@@ -1,0 +1,19 @@
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+
+@TypeGraphQL.ObjectType("FlowViewAvgAggregate", {
+  isAbstract: true
+})
+export class FlowViewAvgAggregate {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  FlowViewID!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  FK_UserID!: number | null;
+}

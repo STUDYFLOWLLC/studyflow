@@ -1,0 +1,1 @@
+export { CourseCourseOnTermArgs } from "./CourseCourseOnTermArgs";
