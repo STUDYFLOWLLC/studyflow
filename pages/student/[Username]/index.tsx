@@ -52,7 +52,7 @@ export default function index({ PublicUser, PublicFlows }: Props) {
           setSearchValue={setSearchValue}
           cmdPaletteOpen={cmdPaletteOpen}
           setCmdPaletteOpen={setCmdPaletteOpen}
-          social
+          noClosePrompt
         />
       ) : (
         <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8">

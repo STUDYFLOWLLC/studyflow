@@ -6,12 +6,12 @@ import { Dispatch, SetStateAction } from 'react'
 interface Props {
   showHideButton?: boolean
   setShowDashBar?: Dispatch<SetStateAction<boolean>>
-  social?: boolean
+  noClosePrompt?: boolean
 }
 export default function LogoHeader({
   showHideButton,
   setShowDashBar,
-  social,
+  noClosePrompt,
 }: Props) {
   return (
     <div className="flex items-center justify-between flex-shrink-0 px-4">
@@ -21,7 +21,7 @@ export default function LogoHeader({
         </div>
         <p className="mx-2 font-semibold text-xl">Studyflow</p>
       </div>
-      {showHideButton && setShowDashBar && !social && (
+      {showHideButton && setShowDashBar && !noClosePrompt && (
         <HideButton direction="hide" setShowDashBar={setShowDashBar} />
       )}
     </div>
