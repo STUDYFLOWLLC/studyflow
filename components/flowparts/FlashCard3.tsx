@@ -38,8 +38,7 @@ export default function Flashcard3({
     }
   }, [shouldFlip])
 
-  const lastReview: FlashcardReview | undefined =
-    card.FK_FlashcardReviews[card.FK_FlashcardReviews.length - 1]
+  const lastReview: FlashcardReview | undefined = card.FK_FlashcardReviews[0]
 
   return (
     <div
@@ -55,17 +54,31 @@ export default function Flashcard3({
     >
       {lastReview?.Status === FlashcardStatus.CORRECT && (
         <div className="w-6 h-6 absolute top-1 left-1">
-          <CheckCircleIcon className="text-green-500" />
+          <CheckCircleIcon
+            className={classNames(
+              { 'h-6 w-6': !cute },
+              { 'h-3 w-3': cute },
+              'text-green-500',
+            )}
+          />
         </div>
       )}
       {lastReview?.Status === FlashcardStatus.INCORRECT && (
         <div className="w-6 h-6 absolute top-1 left-1">
-          <XCircleIcon className="text-red-400" />
+          <XCircleIcon
+            className={classNames(
+              { 'h-6 w-6': !cute },
+              { 'h-3 w-3': cute },
+              'text-red-400',
+            )}
+          />
         </div>
       )}
       {(!lastReview || lastReview?.Status === FlashcardStatus.NEUTRAL) && (
         <div className="w-6 h-6 absolute top-1 left-1">
-          <QuestionMarkCircleIcon />
+          <QuestionMarkCircleIcon
+            className={classNames({ 'h-6 w-6': !cute }, { 'h-3 w-3': cute })}
+          />
         </div>
       )}
       <div className={classNames({ 'text-2xs': cute }, 'card front')}>
