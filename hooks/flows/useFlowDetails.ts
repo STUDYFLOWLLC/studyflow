@@ -43,7 +43,7 @@ export interface FlowDetail {
       FlashcardID: string
     }[]
   }[]
-  FK_Repetition: {
+  FK_Repetition?: {
     RepetitionID: string
   }
   _count: {

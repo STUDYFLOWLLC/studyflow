@@ -46,12 +46,12 @@ export default function MainNavs() {
     //   handler: () => router.push('/calendar'),
     // },
     {
-      name: 'Social',
+      name: 'Explore',
       href: '#',
       icon: UserGroupIcon,
       keyboard: 'S',
-      current: router.pathname === '/social',
-      handler: () => router.push('/social'),
+      current: router.pathname === '/explore',
+      handler: () => router.push('/explore'),
     },
     {
       name: 'Automation',

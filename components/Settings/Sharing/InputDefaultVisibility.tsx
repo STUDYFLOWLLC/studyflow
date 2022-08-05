@@ -43,7 +43,7 @@ export default function InputDefaultVisibility() {
 
   return (
     <div className="py-4 sm:py-5 relative">
-      <dt className="text-sm text-info font-medium absolute left-0">
+      <dt className="text-sm text-info font-medium text-center">
         Default Flow Visibility
       </dt>
       <div className="flex justify-center w-full">
