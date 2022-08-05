@@ -1,8 +1,10 @@
+import classNames from 'classnames'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import createFlashcardStackReview from 'hooks/repetition/reviewHandlers'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useState } from 'react'
-import findNextReview from 'utils/repetition/findNextReview'
+import abbreviateDate from 'utils/abbreviateDate'
+import findNextReviewTask from 'utils/repetition/findNextReviewTask'
 import FlashcardReviewLine from './FlashcardReviewLine'
 import FlashcardStackReviewHeader from './FlashcardStackReviewHeader'
 
@@ -17,17 +19,22 @@ export default function ReviewBody({ repetitionId }: Props) {
   const [creating, setCreating] = useState(false)
   const [reviewExpanded, setReviewExpanded] = useState(false)
 
-  const nextReview = findNextReview(repetitionDetails)
-
-  console.log(repetitionDetails)
+  const nextReviewTask = findNextReviewTask(repetitionDetails)
+  const reviewDue =
+    nextReviewTask &&
+    nextReviewTask.DueDate &&
+    new Date().getTime() - new Date(nextReviewTask.DueDate).getTime() > 0
 
   return (
     <div className="border-t mt-4 pt-4 w-full px-4">
       <h3 className="m-0 p-0 flex items-baseline">
         Reviews{' '}
-        {nextReview !== false ? (
+        {nextReviewTask !== false ? (
           <p className="ml-2 p-0 m-0 font-medium text-sm text-info">
-            Next review: {nextReview}
+            Next review:{' '}
+            <span className={classNames({ 'text-red-400': reviewDue })}>
+              {abbreviateDate(new Date(nextReviewTask?.DueDate || 0))}
+            </span>
           </p>
         ) : (
           <p className="ml-2 p-0 m-0 font-medium text-sm text-info">
@@ -39,7 +46,7 @@ export default function ReviewBody({ repetitionId }: Props) {
         .EndTime && (
         <div className="flex flex-col items-center mb-4">
           <div>
-            {nextReview === 'Today' ? (
+            {reviewDue ? (
               <button
                 type="button"
                 className="mx-auto alex-button"
@@ -51,12 +58,36 @@ export default function ReviewBody({ repetitionId }: Props) {
                     setCreating,
                   )
                 }
+                onKeyDown={() =>
+                  createFlashcardStackReview(
+                    repetitionDetails,
+                    mutateRepetitionDetails,
+                    setCreating,
+                  )
+                }
               >
                 Review now <ButtonSpinner show={creating} />
               </button>
             ) : (
-              <button type="button" className="mx-auto alex-button">
-                Start extra review
+              <button
+                type="button"
+                className="mx-auto alex-button"
+                onClick={() =>
+                  createFlashcardStackReview(
+                    repetitionDetails,
+                    mutateRepetitionDetails,
+                    setCreating,
+                  )
+                }
+                onKeyDown={() =>
+                  createFlashcardStackReview(
+                    repetitionDetails,
+                    mutateRepetitionDetails,
+                    setCreating,
+                  )
+                }
+              >
+                Start extra review <ButtonSpinner show={creating} />
               </button>
             )}
           </div>

@@ -3,8 +3,11 @@
 import mutateCreateFlashcardStackReview, {
   mutateFlashcardStackReviewEndTime,
 } from 'hooks/repetition/mutateReviews'
+import { completeOrUncompleteTask } from 'hooks/tasks/handleTask'
+import { Task } from 'hooks/tasks/useTasks'
 import { KeyedMutator } from 'swr'
 import { Repetition } from 'types/Repetition'
+import findNextReviewTask from 'utils/repetition/findNextReviewTask'
 
 export default async function createFlashcardStackReview(
   repetitionDetails: Repetition | null,
@@ -47,6 +50,9 @@ export function finishReview(
   flashcardStackReviewId: string,
   repetitionDetails: Repetition | null,
   mutateRepetitionDetails: KeyedMutator<any>,
+  completeTask?: boolean,
+  tasks?: Task[],
+  mutateTasks?: KeyedMutator<any>,
 ) {
   if (!repetitionDetails) return
 
@@ -56,12 +62,25 @@ export function finishReview(
     new Date().toISOString(),
   )
 
+  const nextReviewTask = findNextReviewTask(repetitionDetails)
+
   // mutate locally
   mutateRepetitionDetails(
     {
       mutate: true,
       newRepetition: {
         ...repetitionDetails,
+        FK_Tasks: completeTask
+          ? repetitionDetails.FK_Tasks.map((task) => {
+              if (nextReviewTask && task.TaskID === nextReviewTask.TaskID) {
+                return {
+                  ...task,
+                  Completed: true,
+                }
+              }
+              return task
+            })
+          : repetitionDetails.FK_Tasks,
         FK_FlashcardStack: {
           ...repetitionDetails.FK_FlashcardStack,
           FK_FlashcardStackReviews:
@@ -84,4 +103,14 @@ export function finishReview(
     },
     { revalidate: false },
   )
+
+  if (completeTask && nextReviewTask && tasks && mutateTasks) {
+    completeOrUncompleteTask(
+      nextReviewTask.TaskID,
+      true,
+      tasks,
+      mutateTasks,
+      true,
+    )
+  }
 }
