@@ -35,7 +35,6 @@ export default function richTextEditor(
 
     // detect if the user deletes a character
     if (textContent.length >= stripped.length) {
-      console.log('deleted a character')
       return (
         textContent.slice(0, relativeCaretIndex - 1) +
         textContent.slice(relativeCaretIndex)

@@ -52,6 +52,7 @@ export default function index({
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
   const [taskType, setTaskType] = useState<TaskType | undefined>(undefined)
+  const [forceColor, setForceColor] = useState('')
 
   useEffect(() => setMounted(true), [])
 
@@ -83,6 +84,7 @@ export default function index({
     )
     setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
     setTaskType(undefined)
+    setForceColor('')
   }
 
   return (
@@ -122,11 +124,35 @@ export default function index({
         <div className="flex flex-col border-gray-400 border rounded-md">
           <div className="pt-1 px-1 flex flex-col">
             <TaskNameInput
+              theme={theme || 'light'}
               taskName={taskName}
               setTaskName={setTaskName}
               setTaskDueDateExact={setTaskDueDateExact}
               defaultDate={dueDate}
               addTask={addTaskWithLocal}
+              items={coursesOnTerm
+                .map((course) => ({
+                  color: course.Color,
+                  name: course.Nickname || course.FK_Course?.Code || '',
+                  handler: () => {
+                    setTaskCourse(course.CourseOnTermID)
+                    setCourseDropDownTitle(
+                      course.Nickname || course.FK_Course?.Code || '',
+                    )
+                    setForceColor(course.Color)
+                  },
+                }))
+                .concat([
+                  {
+                    color: '',
+                    name: 'General',
+                    handler: () => {
+                      setTaskCourse(0)
+                      setCourseDropDownTitle('General')
+                      setForceColor('')
+                    },
+                  },
+                ])}
             />
             <textarea
               rows={1}
@@ -160,7 +186,7 @@ export default function index({
                   setTaskCourse(0)
                   setCourseDropDownTitle('General')
                 }}
-                color={courseOnTerm?.Color}
+                color={forceColor || courseOnTerm?.Color}
                 general={general}
               />
               <TypeDropdown taskType={taskType} setTaskType={setTaskType} />
@@ -193,6 +219,7 @@ export default function index({
                   )
                   setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
                   setTaskType(undefined)
+                  setForceColor('')
                 }}
               >
                 <div>Cancel</div>
