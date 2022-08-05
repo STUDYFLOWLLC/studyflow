@@ -41,6 +41,7 @@ export default function BasicTask({
       <div className="flex">
         <Checkbox
           TaskID={task.TaskID}
+          isCompleted={task.Completed}
           cute={cute}
           shouldNotUseUndo={shouldNotUseUndo}
         />

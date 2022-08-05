@@ -1,6 +1,7 @@
 import { CheckIcon } from '@heroicons/react/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
+import { completeOrUncompleteTask } from 'hooks/tasks/handleTask'
 import { archiveTask } from 'hooks/tasks/mutateTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
@@ -9,11 +10,17 @@ import toast from 'react-hot-toast'
 
 interface Props {
   TaskID: string
+  isCompleted?: boolean
   cute?: boolean
   shouldNotUseUndo?: boolean
 }
 
-export default function Checkbox({ TaskID, cute, shouldNotUseUndo }: Props) {
+export default function Checkbox({
+  TaskID,
+  isCompleted,
+  cute,
+  shouldNotUseUndo,
+}: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
@@ -27,7 +34,6 @@ export default function Checkbox({ TaskID, cute, shouldNotUseUndo }: Props) {
         tasks: tasks.map((task) => {
           if (task.TaskID === TaskID) {
             flagg = !task.Completed
-            console.log(!task.Completed)
             return { ...task, Completed: !task.Completed }
           }
           return task
@@ -87,15 +93,16 @@ export default function Checkbox({ TaskID, cute, shouldNotUseUndo }: Props) {
     <div>
       <div
         onClick={() => {
-          toast.remove()
-          let flagg = true
-          setTimeout(() => {
-            notify()
-            flagg = archiveTaskLocal(TaskID)
-          }, 400)
-          console.log(flagg)
-          setCompleted(flagg)
+          completeOrUncompleteTask(TaskID, !isCompleted, tasks, mutateTasks)
+          // notify()
         }}
+        // toast.remove()
+        // let flagg = true
+        // setTimeout(() => {
+        //   notify()
+        //   flagg = archiveTaskLocal(TaskID)
+        // }, 400)
+        // setCompleted(flagg)
         onKeyDown={() => archiveTask(TaskID, true)}
         className={classNames(
           { 'border-transparent bg-gray-700': completed },
