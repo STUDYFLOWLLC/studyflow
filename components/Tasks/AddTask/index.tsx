@@ -6,13 +6,13 @@ import DateDropdown from 'components/dropdowns/DateDropdown'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import TypeDropdown from 'components/Tasks/AddTask/TypeDropdown'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import makeTask from 'hooks/tasks/makeTask'
+import addTask from 'hooks/tasks/handleTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { TaskType } from 'types/Task'
-import { v4 as uuid } from 'uuid'
 
 interface Props {
   user: User
@@ -32,12 +32,9 @@ export default function index({
   dueDate,
 }: Props) {
   const { theme } = useTheme()
-
-  // Retrieving tasks from backend
-  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { userDetails } = useUserDetails(user.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
 
-  // States
   const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
@@ -60,40 +57,17 @@ export default function index({
 
   if (!mounted) return null
 
-  const addTask = async () => {
-    const taskId = uuid()
-
-    // manufacture new task
-    const newTask = {
-      CreatedTime: new Date().toISOString(),
-      Title: taskName,
-      TaskID: taskId,
-      Description: taskDescription,
-      DueDate: taskDueDateExact?.toISOString(),
-      Type: taskType,
-      FK_CourseOnTermID: taskCourse,
-      FK_CourseOnTerm: {
-        CourseOnTermID: taskCourse,
-        Color: coursesOnTerm.find(
-          (course) => course.CourseOnTermID === taskCourse,
-        )?.Color,
-        Nickname: courseDropDownTitle,
-        FK_Course: {
-          Code: courseDropDownTitle,
-        },
-      },
-    }
-
-    // mutate locally
-    mutateTasks(
-      {
-        tasks: [...tasks, newTask],
-        mutate: true,
-      },
-      {
-        revalidate: false,
-        populateCache: true,
-      },
+  const addTaskWithLocal = async () => {
+    addTask(
+      taskName,
+      taskDescription,
+      taskDueDateExact,
+      taskType,
+      taskCourse,
+      user.email || user.user_metadata.email,
+      tasks,
+      mutateTasks,
+      coursesOnTerm,
     )
 
     // reset local state
@@ -109,18 +83,6 @@ export default function index({
     )
     setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
     setTaskType(undefined)
-
-    // TODO: error handling
-    // send to backend
-    makeTask(
-      taskId,
-      taskName,
-      taskDescription,
-      taskDueDateExact?.toISOString(),
-      user.email || user.user_metadata.email,
-      taskCourse,
-      taskType,
-    )
   }
 
   return (
@@ -256,12 +218,16 @@ export default function index({
                 )}
                 onClick={() => {
                   if (taskName) {
-                    addTask()
+                    addTaskWithLocal()
+                  } else {
+                    toast.error('Task name is required')
                   }
                 }}
                 onKeyDown={() => {
                   if (taskName) {
-                    addTask()
+                    addTaskWithLocal()
+                  } else {
+                    toast.error('Task name is required')
                   }
                 }}
               >
