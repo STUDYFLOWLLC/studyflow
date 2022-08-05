@@ -18,6 +18,7 @@ export default function useFlashcardStack(
       $where: FlashcardStackWhereUniqueInput!
       $orderBy: [FlashcardOrderByWithRelationInput!]
       $fkFlashcardsWhere2: FlashcardWhereInput
+      $fkFlashcardReviewsOrderBy2: [FlashcardReviewOrderByWithRelationInput!]
     ) {
       flashcardStack(where: $where) {
         FlashcardStackID
@@ -32,7 +33,7 @@ export default function useFlashcardStack(
           FrontImageUrl
           Back
           BackImageUrl
-          FK_FlashcardReviews {
+          FK_FlashcardReviews(orderBy: $fkFlashcardReviewsOrderBy2) {
             FlashcardReviewID
             CreatedTime
             FK_FlashcardID
@@ -59,6 +60,11 @@ export default function useFlashcardStack(
         equals: null,
       },
     },
+    fkFlashcardReviewsOrderBy2: [
+      {
+        CreatedTime: 'desc',
+      },
+    ],
   }
 
   const { data, error, mutate } = useSWR(

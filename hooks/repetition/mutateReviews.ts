@@ -70,3 +70,33 @@ export async function mutateCreateFlashcardReview(
   const data = await request('/api/graphql', mutation, variables)
   return data.createFlashcardReview
 }
+
+export async function mutateFlashcardStackReviewEndTime(
+  flashcardStackReviewId: string,
+  newEndTime: string,
+) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: FlashcardStackReviewUpdateInput!
+      $where: FlashcardStackReviewWhereUniqueInput!
+    ) {
+      updateFlashcardStackReview(data: $data, where: $where) {
+        FlashcardStackReviewID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      EndTime: {
+        set: newEndTime,
+      },
+    },
+    where: {
+      FlashcardStackReviewID: flashcardStackReviewId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data.updateFlashcardStackReview
+}

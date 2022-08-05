@@ -114,14 +114,14 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
         />
       </div>
       {flashcardStack?.FK_Flashcards && (
-        <div className="my-auto w-1/2">
-          <div className="mb-6 flex justify-center items-center">
+        <div className="my-auto mx-auto">
+          <div className="mb-3 flex justify-center items-center">
             <button
               type="button"
               className={classNames(
                 { 'hover:bg-gray-200': theme === 'light' },
                 { 'hover:bg-slate-600': theme === 'dark' },
-                'uppercase text-md mx-2 font-medium cursor-pointer rounded-md px-1 py-0.5',
+                'uppercase text-md mx-2 font-medium cursor-pointer rounded-md px-2 py-0.5',
               )}
               onClick={() => {
                 setEditing(repetitionDetails?.FK_FlashcardStackID || '')
@@ -139,7 +139,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
               className={classNames(
                 { 'hover:bg-gray-200': theme === 'light' },
                 { 'hover:bg-slate-600': theme === 'dark' },
-                'uppercase text-md mx-2 font-medium cursor-pointer rounded-md px-0.5 py-0.5',
+                'uppercase text-md mx-2 font-medium cursor-pointer rounded-md px-2 py-0.5',
               )}
               onClick={() => {
                 setEditing(flashcardStack?.FlashcardStackID)
@@ -153,7 +153,6 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
               Review
             </button>
           </div>
-
           <FlashcardStack
             cards={flashcardStack.FK_Flashcards}
             hideControls

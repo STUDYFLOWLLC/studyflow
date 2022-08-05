@@ -15,12 +15,9 @@ export default function handleSlideInBackend(
   repetitionDetails: Repetition,
   mutateRepetitionDetails: KeyedMutator<any>,
 ) {
-  const reviewLength =
-    repetitionDetails.FK_FlashcardStack.FK_FlashcardStackReviews.length
   const currentStackReview =
-    repetitionDetails.FK_FlashcardStack.FK_FlashcardStackReviews[
-      reviewLength - 1
-    ]
+    repetitionDetails.FK_FlashcardStack.FK_FlashcardStackReviews[0]
+
   if (currentStackReview.EndTime) return
 
   const currentFlash = flashcardStack.FK_Flashcards[cards.length - 1 - current]
@@ -64,8 +61,8 @@ export default function handleSlideInBackend(
                   return {
                     ...stackReview,
                     FK_FlashcardReviews: [
-                      ...stackReview.FK_FlashcardReviews,
                       artificialReview,
+                      ...stackReview.FK_FlashcardReviews,
                     ],
                   }
                 }
@@ -88,8 +85,8 @@ export default function handleSlideInBackend(
           return {
             ...flashcard,
             FK_FlashcardReviews: [
-              ...flashcard.FK_FlashcardReviews,
               artificialReview,
+              ...flashcard.FK_FlashcardReviews,
             ],
           }
         }
