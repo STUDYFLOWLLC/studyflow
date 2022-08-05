@@ -18,7 +18,7 @@ export function changeTimezone(date: Date, timezone: string) {
   return new Date(date.getTime() - diff) // needs to substract
 }
 
-const now = changeTimezone(new Date(), 'America/Los_Angeles')
+const now = changeTimezone(new Date(), 'America/New_York')
 
 // Todo: add valentines day, halloween, thanksgiving, new years, new years eve (with auto next year if already passed)
 custom.parsers.push({
@@ -59,15 +59,17 @@ custom.parsers.push(
 custom.refiners.push({
   refine: (context, results) => {
     results.forEach((result) => {
-      result.start.assign('hour', 23)
-      result.start.assign('minute', 59)
-      result.start.assign('second', 59)
+      result.start.assign('hour', now.getHours())
+      result.start.assign('minute', now.getMinutes())
+      result.start.assign('second', now.getSeconds())
     })
     return results
   },
 })
 
 export default function dateParser(date: string): chrono.ParsedResult[] {
-  const parsed = custom.parse(date, now, { forwardDate: true })
+  console.log(chrono.parseDate(date))
+  const parsed = custom.parse(date, undefined, { forwardDate: true })
+  console.log(parsed)
   return parsed
 }

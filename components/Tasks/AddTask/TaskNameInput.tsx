@@ -1,32 +1,32 @@
 import classNames from 'classnames'
 import { Component, createRef, RefObject } from 'react'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
+import toast from 'react-hot-toast'
 import dateParser from 'utils/dateParser'
 import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import taskParser from 'utils/taskParser'
 
 interface Props {
+  taskName: string
   setTaskName: (taskName: string) => void
   setTaskDueDateExact: (taskDueDateExact: Date | undefined) => void
-  dueDate?: Date | undefined
+  addTask: () => void
+  defaultDate?: Date
 }
 
 interface State {
   contentEditable: RefObject<HTMLElement>
   html: string
-  exemptWords: number
 }
 
 export default class TaskNameInput extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.taskNameChange = this.taskNameChange.bind(this)
-    this.onKeyDownHandler = this.onKeyDownHandler.bind(this)
-
+    this.onKeyDown = this.onKeyDown.bind(this)
     this.state = {
       contentEditable: createRef(),
-      html: taskParser('', dateParser(''), 0),
-      exemptWords: 0,
+      html: '',
     }
   }
 
@@ -35,55 +35,41 @@ export default class TaskNameInput extends Component<Props, State> {
     contentEditable.current?.focus()
   }
 
-  onKeyDownHandler(e: { key: string; preventDefault: () => void }) {
-    const { setTaskDueDateExact } = this.props
-    const { html, exemptWords } = this.state
+  onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const { taskName, addTask } = this.props
 
-    if (e.key === 'Delete' || e.key === 'Backspace') {
+    if (e.key === 'Enter' && taskName.length > 0) {
       e.preventDefault()
-      // check for empty span tag (most recent entry is date)
-      if (
-        html.substring(html.length - 17, html.length - 4) === '<span></span>'
-      ) {
-        const stripped = removeHTMLTags(html)
-        this.setState({
-          exemptWords: exemptWords + 1,
-          html: taskParser(stripped, dateParser(stripped), exemptWords + 1),
-        })
-        setTaskDueDateExact(undefined)
-      } else {
-        const stripped = removeHTMLTags(html)
-        if (stripped.length === 1) {
-          this.setState({
-            exemptWords: 0,
-          })
-        }
-        const lastCharRemoved = stripped.substring(0, stripped.length - 1)
-        this.setState({
-          html: taskParser(
-            lastCharRemoved,
-            dateParser(lastCharRemoved),
-            exemptWords,
-          ),
-        })
-      }
+      addTask()
+    }
+    if (e.key === 'Enter' && taskName.length === 0) {
+      e.preventDefault()
+      toast.error('Task name is required')
     }
   }
 
   taskNameChange = (e: ContentEditableEvent) => {
-    const { setTaskName, setTaskDueDateExact, dueDate } = this.props
-    const { exemptWords } = this.state
-    const stripped = removeHTMLTags(e.target.value)
-    const taskDueDate = dateParser(stripped)
-    if (taskDueDate.length > exemptWords) {
-      setTaskDueDateExact(taskDueDate[taskDueDate.length - 1].date())
+    const { setTaskName, setTaskDueDateExact, defaultDate } = this.props
+
+    const stripper = removeHTMLTags(e.target.value)
+    const parseResult = dateParser(stripper).slice(-1)[0]
+    const textDate = parseResult?.date()
+    if (textDate) {
+      setTaskDueDateExact(textDate)
+      setTaskName(
+        stripper.substring(0, parseResult.index) +
+          stripper.substring(parseResult.index + parseResult.text.length + 1),
+      )
+      this.setState({
+        html: taskParser(stripper, parseResult),
+      })
     } else {
-      setTaskDueDateExact(dueDate || undefined)
+      if (defaultDate) setTaskDueDateExact(defaultDate)
+      setTaskName(e.target.value)
+      this.setState({
+        html: e.target.value,
+      })
     }
-    setTaskName(stripped)
-    this.setState({
-      html: taskParser(e.target.value, taskDueDate, exemptWords),
-    })
   }
 
   render() {
@@ -94,10 +80,10 @@ export default class TaskNameInput extends Component<Props, State> {
         innerRef={contentEditable}
         html={html}
         onChange={(e) => this.taskNameChange(e)}
-        onKeyDown={(e) => this.onKeyDownHandler(e)}
+        onKeyDown={this.onKeyDown}
         className={classNames(
-          { 'text-gray-400': html === '' },
-          'task-name border-none focus:ring-0 text-lg font-medium outline-none mx-2.5 mt-1 caret-black',
+          { 'text-info/80': html === '' },
+          'w-full task-name border-none focus:ring-0 text-lg font-medium outline-none mx-2.5 mt-1 cursor-text',
         )}
         placeholder="Task name"
       />

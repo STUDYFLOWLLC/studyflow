@@ -122,9 +122,11 @@ export default function index({
         <div className="flex flex-col border-gray-400 border rounded-md">
           <div className="pt-1 px-1 flex flex-col">
             <TaskNameInput
+              taskName={taskName}
               setTaskName={setTaskName}
               setTaskDueDateExact={setTaskDueDateExact}
-              dueDate={dueDate}
+              defaultDate={dueDate}
+              addTask={addTaskWithLocal}
             />
             <textarea
               rows={1}
