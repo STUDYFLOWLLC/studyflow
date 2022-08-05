@@ -178,12 +178,12 @@ export default function Deck({
 
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col items-center">
       <div
         className={classNames(
           { 'w-96 h-48': !cute },
-          { 'w-24 h-20': cute },
-          'w-full deck touch-none justify-center mx-auto flex flex-col',
+          { 'w-36 h-20': cute },
+          'w-full deck touch-none justify-center flex flex-col',
         )}
       >
         {/* eslint-disable-next-line react/prop-types */}
@@ -192,7 +192,7 @@ export default function Deck({
             key={i}
             className={classNames(
               { 'w-96 h-48': !cute },
-              { 'w-24 h-20': cute },
+              { 'w-36 h-20': cute },
               'absolute',
             )}
             style={{
@@ -220,11 +220,11 @@ export default function Deck({
         ))}
       </div>
       {!hideControls && (
-        <div className="w-full">
-          <div className="w-96 mx-auto mt-8">
-            <div className="flex justify-around">
+        <>
+          <div className="w-96 mt-8">
+            <div className="w-96 flex justify-between">
               <div
-                className="cursor-pointer border border-red-300 bg-red-50 hover:bg-red-100 rounded-md flex items-center px-2 py-1"
+                className="w-32 cursor-pointer border mr-1 border-red-300 bg-base-100 hover:bg-red-100 rounded-md flex items-center px-2 py-1 transition-all duration-200"
                 onClick={() => {
                   if (!disabled && !tempDisabled)
                     handleSlide(
@@ -258,13 +258,13 @@ export default function Deck({
                     )
                 }}
               >
-                <XCircleIcon className="w-7 h-7 text-red-500 mr-1" />
-                <div className="text-xl font-semibold text-red-500">
+                <XCircleIcon className="w-5 h-5 text-red-400 mr-1" />
+                <div className="text-xl font-semibold text-red-400">
                   Incorrect
                 </div>
               </div>
               <div
-                className="cursor-pointer border border-slate-300 bg-slate-50 hover:bg-slate-200 rounded-md flex items-center px-2 py-1"
+                className="w-32 cursor-pointer border border-info bg-base-100 hover:bg-info/30 rounded-md flex items-center px-2 py-1 mx-1 transition-all duration-200"
                 onClick={() => {
                   if (!disabled && !tempDisabled)
                     handleSlide(
@@ -298,13 +298,11 @@ export default function Deck({
                     )
                 }}
               >
-                <MinusCircleIcon className="w-7 h-7 text-slate-500 mr-1" />
-                <div className="text-xl font-semibold text-slate-500">
-                  Almost
-                </div>
+                <MinusCircleIcon className="w-5 h-5 text-info mr-1" />
+                <div className="text-xl font-semibold text-info">Almost</div>
               </div>
               <div
-                className="cursor-pointer border border-green-300 bg-green-50 hover:bg-green-100 rounded-md flex items-center px-2 py-1"
+                className="w-32 cursor-pointer border border-green-300 hover:bg-green-100 rounded-md flex items-center px-2 py-1 ml-1 transition-all duration-200"
                 onClick={() => {
                   if (!disabled && !tempDisabled)
                     handleSlide(
@@ -338,23 +336,23 @@ export default function Deck({
                     )
                 }}
               >
-                <CheckCircleIcon className="w-7 h-7 text-green-500 mr-1" />
+                <CheckCircleIcon className="w-5 h-5 text-green-500 mr-1" />
                 <div className="text-xl font-semibold text-green-500">
                   Correct
                 </div>
               </div>
             </div>
             <div
-              className="cursor-pointer border border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-md px-2 py-1 flex items-center mt-2"
+              className="cursor-pointer border border-info bg-base-100 hover:bg-info/30 rounded-md px-2 py-1 flex items-center mt-2  transition-all duration-200"
               onClick={() => setShouldFlip(gone.size + 1)}
               onKeyDown={() => setShouldFlip(gone.size + 1)}
             >
-              <RefreshIcon className="w-7 h-7 text-gray-500 mr-1" />
-              <div className="text-xl font-semibold text-gray-700">Flip</div>
+              <RefreshIcon className="w-7 h-7 text-info mr-1" />
+              <div className="text-xl font-semibold text-info">Flip</div>
             </div>
           </div>
           <ReviewBody repetitionId={repetitionId} />
-        </div>
+        </>
       )}
     </div>
   )
