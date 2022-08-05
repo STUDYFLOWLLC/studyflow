@@ -24,6 +24,8 @@ export default function AddFlashcardStack({
   const [showSeduce, setShowSeduce] = useState(false)
   const [creating, setCreating] = useState(false)
 
+  console.log(editing)
+
   return (
     <div
       className={classNames(

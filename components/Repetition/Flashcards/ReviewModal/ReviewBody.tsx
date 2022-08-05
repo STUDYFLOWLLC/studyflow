@@ -38,12 +38,15 @@ export default function ReviewBody({ repetitionId }: Props) {
           </p>
         ) : (
           <p className="ml-2 p-0 m-0 font-medium text-sm text-info">
-            No review scheduled
+            No review scheduled. Create a repetition for flashcard statuses to
+            be tracked.
           </p>
         )}
       </h3>
-      {repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews[0]
-        .EndTime && (
+      {(repetitionDetails?.FK_FlashcardStack?.FK_FlashcardStackReviews
+        .length === 0 ||
+        repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews?.[0]
+          .EndTime) && (
         <div className="flex flex-col items-center mb-4">
           <div>
             {reviewDue ? (
@@ -93,38 +96,41 @@ export default function ReviewBody({ repetitionId }: Props) {
           </div>
         </div>
       )}
-      <div className="border-y my-2 py-2">
-        {repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews.map(
-          (flashcardStackReview) => (
-            <div
-              key={flashcardStackReview.FlashcardStackReviewID}
-              className="overflow-y-auto max-h-24"
-            >
-              <FlashcardStackReviewHeader
-                repetitionId={repetitionId}
-                flashcardStackReview={flashcardStackReview}
-              />
-              {!flashcardStackReview.EndTime && (
-                <div>
-                  {(flashcardStackReview.FK_FlashcardReviews || []).map(
-                    (flashcardReview) => (
-                      <FlashcardReviewLine
-                        key={flashcardReview.FlashcardReviewID}
-                        flashcardReview={flashcardReview}
-                      />
-                    ),
-                  )}
-                  {flashcardStackReview.FK_FlashcardReviews.length === 0 && (
-                    <p className="px-0 m-0 py-1 text-sm">
-                      No reviews yet! Use a flashcard for a review to show.
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          ),
-        )}
-      </div>
+      {(repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews || [])
+        .length > 0 && (
+        <div className="border-y my-2 py-2">
+          {repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews.map(
+            (flashcardStackReview) => (
+              <div
+                key={flashcardStackReview.FlashcardStackReviewID}
+                className="overflow-y-auto max-h-24"
+              >
+                <FlashcardStackReviewHeader
+                  repetitionId={repetitionId}
+                  flashcardStackReview={flashcardStackReview}
+                />
+                {!flashcardStackReview.EndTime && (
+                  <div>
+                    {(flashcardStackReview.FK_FlashcardReviews || []).map(
+                      (flashcardReview) => (
+                        <FlashcardReviewLine
+                          key={flashcardReview.FlashcardReviewID}
+                          flashcardReview={flashcardReview}
+                        />
+                      ),
+                    )}
+                    {flashcardStackReview.FK_FlashcardReviews.length === 0 && (
+                      <p className="px-0 m-0 py-1 text-sm">
+                        No reviews yet! Use a flashcard for a review to show.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            ),
+          )}
+        </div>
+      )}
     </div>
   )
 }
