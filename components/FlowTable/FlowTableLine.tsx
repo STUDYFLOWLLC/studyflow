@@ -1,5 +1,6 @@
 import { BeakerIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import NextReview from 'components/Flow/FlowHeader/NextReview'
 import RainbowPublicIcon from 'components/Flow/RainbowPublicIcon'
 import OpenFancy from 'components/FlowTable/OpenFancy'
 import { DashFlow } from 'hooks/flows/useDashFlows'
@@ -128,8 +129,7 @@ export default function FlowTableLine({
           'w-12 hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-right',
         )}
       >
-        {!loading && nextReview && <p>{nextReview}</p>}
-        {loading && !nextReview && <Skeleton width={60} />}
+        <NextReview repetitionId={flow.FK_Repetition?.RepetitionID} />
       </td>
       <OpenFancy
         setCurrentFlow={setCurrentFlow}

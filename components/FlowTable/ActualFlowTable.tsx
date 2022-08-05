@@ -45,7 +45,6 @@ export default function ActualFlowTable({
               flow={flow}
               setCurrentFlow={setCurrentFlow}
               loading={loading}
-              nextReview="in 3 days"
             />
           ) : (
             <FlowTableLine

@@ -45,7 +45,7 @@ export default function FlowHeader({ flowId, closeModal, saving }: Props) {
           visibility={flowDetails?.Visibility}
           mutator={visbilityMutator}
         />
-        <NextReview />
+        <NextReview repetitionId={flowDetails?.FK_Repetition.RepetitionID} />
       </div>
       <div className="flex items-center w-36">
         <DeleteFlow flowId={flowId} closeModal={closeModal} />
