@@ -12,6 +12,7 @@ import useGroupInvites from 'hooks/social/useGroupInvites'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
 import { SetupSteps } from 'types/SetupSteps'
 import StudygroupInviteIncoming from '../Studygroups/StudygroupInviteIncoming'
@@ -21,8 +22,10 @@ export default function NotificationBell() {
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { friends } = useFriends(userDetails?.UserID)
-  const { groupInvites } = useGroupInvites(userDetails?.UserID)
+  const { friends, friendsLoading } = useFriends(userDetails?.UserID)
+  const { groupInvites, groupInvitesLoading } = useGroupInvites(
+    userDetails?.UserID,
+  )
 
   const [mounted, setMounted] = useState(false)
 
@@ -33,6 +36,7 @@ export default function NotificationBell() {
   return (
     <Menu as="div" className="relative">
       <Menu.Button
+        disabled={friendsLoading || groupInvitesLoading}
         className={classNames(
           {
             'hover:bg-gray-50 hover:border-gray-300': theme === 'light',
@@ -43,11 +47,17 @@ export default function NotificationBell() {
           'relative flex items-center font-light m-0 ml-2 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
-        <BellIcon className="w-5 h-5" />
-        {(friends?.incoming || []).length > 0 ||
-          ((groupInvites || []).length > 0 && (
-            <div className="absolute top-0 right-0 bg-rose-400 h-1.5 w-1.5 rounded-full" />
-          ))}
+        {friendsLoading || groupInvitesLoading ? (
+          <Skeleton width={24} height={24} />
+        ) : (
+          <>
+            <BellIcon className="w-5 h-5" />
+            {(friends?.incoming || []).length > 0 ||
+              ((groupInvites || []).length > 0 && (
+                <div className="absolute top-0 right-0 bg-rose-400 h-1.5 w-1.5 rounded-full" />
+              ))}
+          </>
+        )}
       </Menu.Button>
       <Transition
         as={Fragment}

@@ -4,6 +4,7 @@ import {
   FolderIcon,
 } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import NotificationBell from 'components/Social/Notifications/NotificationBell'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
@@ -61,6 +62,7 @@ export default function TasksNavbar({ taskView, setTaskView }: Props) {
             <span>{taskDisplay}</span>
           </span>
         ))}
+        <NotificationBell />
       </div>
     </div>
   )
