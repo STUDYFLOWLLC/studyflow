@@ -107,6 +107,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
               FK_CourseOnTerm: repetitionDetails?.FK_Tasks,
             })) || []) as unknown as Task[]
           }
+          repetitionId={repetitionId}
           cute
           readOnly
           shouldNotUseUndo

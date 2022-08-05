@@ -10,7 +10,14 @@ import abbreviateDate from 'utils/abbreviateDate'
 export default function findNextReview(repetition: Repetition | null) {
   if (!repetition) return false
 
-  for (let i = 0; i < repetition.FK_Tasks.length; i += 1) {
+  for (
+    let i = 0;
+    i <
+    repetition.FK_Tasks.sort((tA, tB) =>
+      tA.Title.slice(1, 2) > tB.Title.slice(1, 2) ? 1 : -1,
+    ).length;
+    i += 1
+  ) {
     const task = repetition.FK_Tasks[i]
     if (task.Type === TaskType.REVIEW && !task.Completed) {
       return abbreviateDate(new Date(task.DueDate || ''))
