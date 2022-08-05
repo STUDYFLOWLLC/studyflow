@@ -127,15 +127,19 @@ export default function CalendarView({ user }: Props) {
           {days.map((day) => (
             <div
               key={day.toString()}
-              className="flex flex-col border-t border-r h-20"
+              className="cursor-pointer flex flex-col border-t border-r h-20"
+              onClick={() => {
+                setDateToDisplay(day)
+                setOpen(true)
+              }}
+              onKeyDown={() => {
+                setDateToDisplay(day)
+                setOpen(true)
+              }}
             >
               <div className="flex justify-center">
                 <button
                   type="button"
-                  onClick={() => {
-                    setDateToDisplay(day)
-                    setOpen(true)
-                  }}
                   className={classNames(
                     sameDate(day, dateToDisplay) && 'text-white',
                     !sameDate(day, dateToDisplay) &&
