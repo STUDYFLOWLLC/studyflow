@@ -51,15 +51,15 @@ export default function CourseDropDown({
 
   const bgColor = (date: Date) => {
     if (isBefore(date, startOfToday())) {
-      return 'bg-red-300'
+      return 'bg-red-400'
     }
     if (isToday(date)) {
-      return 'bg-amber-300'
+      return 'bg-amber-500'
     }
     if (isTomorrow(date)) {
-      return 'bg-blue-300'
+      return 'bg-blue-400'
     }
-    return 'bg-gray-300'
+    return theme === 'light' ? 'bg-stone-400' : 'bg-slate-700'
   }
 
   return (
@@ -69,7 +69,7 @@ export default function CourseDropDown({
           <Menu.Button
             className={classNames(
               {
-                'ring-black border-transparent hover:opacity-80':
+                'text-white  ring-black border-transparent hover:opacity-80':
                   theme === 'light' && taskDueDateExact,
               },
               {
@@ -77,7 +77,7 @@ export default function CourseDropDown({
                   theme === 'light' && !taskDueDateExact,
               },
               {
-                'hover:bg-slate-600 text-white border-transparent':
+                'text-white border-transparent hover:brightness-125':
                   theme === 'dark' && taskDueDateExact,
               },
               {
