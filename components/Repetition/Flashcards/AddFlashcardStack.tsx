@@ -3,7 +3,8 @@ import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
-import { useState } from 'react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 import createFlashcardStack from 'utils/repetition/flashcards/flashcardStackHandlers'
 
@@ -18,13 +19,17 @@ export default function AddFlashcardStack({
   editing,
   setEditing,
 }: Props) {
+  const { theme } = useTheme()
   const { mutateFlashcardStack } = useFlashcardStack(editing)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
+  const [mounted, setMounted] = useState(false)
   const [showSeduce, setShowSeduce] = useState(false)
   const [creating, setCreating] = useState(false)
 
-  console.log(editing)
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <div
@@ -60,7 +65,11 @@ export default function AddFlashcardStack({
           className={classNames(
             {
               'text-white border rounded-full border-transparent bg-black':
-                showSeduce,
+                showSeduce && theme === 'light',
+            },
+            {
+              'text-black border rounded-full border-transparent bg-white':
+                showSeduce && theme === 'dark',
             },
             'w-5 h-5 mr-3 font-thin',
           )}

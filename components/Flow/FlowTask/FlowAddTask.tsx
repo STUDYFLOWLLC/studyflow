@@ -96,7 +96,7 @@ export default function index({
             className={classNames(
               {
                 'text-white border rounded-full border-transparent bg-black':
-                  showAddTask,
+                  showAddTask && theme === 'light',
               },
               {
                 'text-black border rounded-full border-transparent bg-white':
@@ -126,6 +126,7 @@ export default function index({
               setTaskDueDateExact={setTaskDueDateExact}
               addTask={addTaskWithLocal}
               defaultDate={dueDate}
+              setTaskType={setTaskType}
             />
             <textarea
               rows={1}

@@ -157,7 +157,12 @@ export default function CalendarView({ user }: Props) {
                     sameDate(day, dateToDisplay) &&
                       isToday(day) &&
                       'bg-primary/70',
-                    !sameDate(day, dateToDisplay) && 'hover:bg-gray-200',
+                    !sameDate(day, dateToDisplay) &&
+                      theme === 'light' &&
+                      'hover:bg-gray-200',
+                    !sameDate(day, dateToDisplay) &&
+                      theme === 'dark' &&
+                      'hover:bg-slate-600',
                     (sameDate(day, dateToDisplay) || isToday(day)) &&
                       'font-semibold',
                     'h-6 w-6 mt-0.5 ml-0.5 text-sm border border-transparent rounded-full',

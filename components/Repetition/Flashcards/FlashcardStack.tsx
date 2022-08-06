@@ -183,7 +183,7 @@ export default function Deck({
         className={classNames(
           { 'w-96 h-48': !cute },
           { 'w-36 h-20': cute },
-          'w-full deck touch-none justify-center flex flex-col',
+          'deck touch-none justify-center mx-auto flex flex-col',
         )}
       >
         {/* eslint-disable-next-line react/prop-types */}
