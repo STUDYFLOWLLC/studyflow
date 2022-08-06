@@ -1,14 +1,22 @@
 import { offset } from 'caret-pos'
 import classNames from 'classnames'
 import { Item } from 'components/dropdowns/DateDropdown'
-import { Component, createRef, RefObject } from 'react'
+import {
+  Component,
+  createRef,
+  Dispatch,
+  RefObject,
+  SetStateAction,
+} from 'react'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import toast from 'react-hot-toast'
+import { TaskType } from 'types/Task'
 import dateParser from 'utils/dateParser'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import taskParser from 'utils/taskParser'
 import DynamicCourseMenu from './DynamicCourseMenu'
+import DynamicTypeMenu from './DynamicTypeMenu'
 
 interface Props {
   theme: string
@@ -16,15 +24,17 @@ interface Props {
   setTaskName: (taskName: string) => void
   setTaskDueDateExact: (taskDueDateExact: Date | undefined) => void
   addTask: () => void
+  setTaskType: Dispatch<SetStateAction<TaskType | undefined>>
   defaultDate?: Date
-  items?: Item[]
+  courseItems?: Item[]
 }
 
 interface State {
   contentEditable: RefObject<HTMLElement>
   html: string
   courseMenuOpen: boolean
-  courseMenuPosition: {
+  typeMenuOpen: boolean
+  menuPosition: {
     x: number | null | undefined
     y: number | null | undefined
   }
@@ -38,11 +48,14 @@ export default class TaskNameInput extends Component<Props, State> {
     this.onKeyDown = this.onKeyDown.bind(this)
     this.openCourseMenu = this.openCourseMenu.bind(this)
     this.closeCourseMenu = this.closeCourseMenu.bind(this)
+    this.openTypeMenu = this.openTypeMenu.bind(this)
+    this.closeTypeMenu = this.closeTypeMenu.bind(this)
     this.state = {
       contentEditable: createRef(),
       html: '',
       courseMenuOpen: false,
-      courseMenuPosition: {
+      typeMenuOpen: false,
+      menuPosition: {
         x: null,
         y: null,
       },
@@ -56,11 +69,11 @@ export default class TaskNameInput extends Component<Props, State> {
   }
 
   onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const { taskName, addTask, items } = this.props
-    const { courseMenuOpen, html } = this.state
+    const { taskName, addTask, courseItems } = this.props
+    const { html, courseMenuOpen, typeMenuOpen } = this.state
 
     if (
-      courseMenuOpen &&
+      (courseMenuOpen || typeMenuOpen) &&
       (isAlphaNumericOrSymbol(e.key) ||
         e.key === 'Delete' ||
         e.key === 'Backspace')
@@ -68,11 +81,11 @@ export default class TaskNameInput extends Component<Props, State> {
       const input = document.getElementById('task-name') as HTMLInputElement
       const caretOffset = offset(input)
       this.setState({
-        courseMenuPosition: { x: caretOffset.left, y: caretOffset.top },
+        menuPosition: { x: caretOffset.left, y: caretOffset.top },
       })
     }
 
-    if (e.key === 'Enter' && !courseMenuOpen) {
+    if (e.key === 'Enter' && !courseMenuOpen && !typeMenuOpen) {
       e.preventDefault()
       if (taskName.length > 0) addTask()
       else if (taskName.length === 0) {
@@ -84,13 +97,29 @@ export default class TaskNameInput extends Component<Props, State> {
     //   this.closeCourseMenu()
     // }
 
-    if (e.key === '@' && items) {
+    if (e.key === '@' && courseItems) {
+      if (typeMenuOpen) this.closeTypeMenu()
       this.openCourseMenu()
+    }
+
+    if (e.key === '#') {
+      if (courseMenuOpen) this.closeCourseMenu()
+      this.openTypeMenu()
     }
 
     if (
       (e.key === 'Backspace' || e.key === 'Delete') &&
-      html.slice(-1) === '@'
+      html.slice(-1) === '@' &&
+      courseMenuOpen
+    ) {
+      e.preventDefault()
+      this.closeCourseMenu()
+    }
+
+    if (
+      (e.key === 'Backspace' || e.key === 'Delete') &&
+      html.slice(-1) === '#' &&
+      typeMenuOpen
     ) {
       e.preventDefault()
       this.closeCourseMenu()
@@ -129,7 +158,19 @@ export default class TaskNameInput extends Component<Props, State> {
 
     this.setState({
       courseMenuOpen: true,
-      courseMenuPosition: { x: caretOffset.left, y: caretOffset.top },
+      menuPosition: { x: caretOffset.left, y: caretOffset.top },
+      restorage: html,
+    })
+  }
+
+  openTypeMenu() {
+    const input = document.getElementById('task-name') as HTMLInputElement
+    const caretOffset = offset(input)
+    const { html } = this.state
+
+    this.setState({
+      typeMenuOpen: true,
+      menuPosition: { x: caretOffset.left, y: caretOffset.top },
       restorage: html,
     })
   }
@@ -145,14 +186,34 @@ export default class TaskNameInput extends Component<Props, State> {
 
     this.setState({
       courseMenuOpen: false,
-      courseMenuPosition: { x: null, y: null },
+      menuPosition: { x: null, y: null },
+    })
+  }
+
+  closeTypeMenu(skipRestore?: boolean) {
+    const { restorage } = this.state
+
+    if (!skipRestore) {
+      this.taskNameChange({
+        target: { value: restorage },
+      } as ContentEditableEvent)
+    }
+
+    this.setState({
+      typeMenuOpen: false,
+      menuPosition: { x: null, y: null },
     })
   }
 
   render() {
-    const { theme, items } = this.props
-    const { contentEditable, html, courseMenuOpen, courseMenuPosition } =
-      this.state
+    const { theme, setTaskType, courseItems } = this.props
+    const {
+      contentEditable,
+      html,
+      courseMenuOpen,
+      typeMenuOpen,
+      menuPosition,
+    } = this.state
 
     return (
       <div className="">
@@ -166,14 +227,22 @@ export default class TaskNameInput extends Component<Props, State> {
             'w-full task-name border-none focus:ring-0 text-lg font-medium outline-none mx-2.5 mt-1 cursor-text',
           )}
           id="task-name"
-          placeholder="Enter task name, due date, type @ for course, and # for type"
+          placeholder="Enter task name, due date, @ for course, and # for type"
         />
-        {courseMenuOpen && items && (
+        {courseMenuOpen && courseItems && (
           <DynamicCourseMenu
             theme={theme}
-            position={courseMenuPosition}
+            position={menuPosition}
             close={this.closeCourseMenu}
-            items={items}
+            items={courseItems}
+          />
+        )}
+        {typeMenuOpen && (
+          <DynamicTypeMenu
+            theme={theme}
+            position={menuPosition}
+            close={this.closeTypeMenu}
+            setTaskType={setTaskType}
           />
         )}
       </div>

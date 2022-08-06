@@ -68,8 +68,6 @@ custom.refiners.push({
 })
 
 export default function dateParser(date: string): chrono.ParsedResult[] {
-  console.log(chrono.parseDate(date))
   const parsed = custom.parse(date, undefined, { forwardDate: true })
-  console.log(parsed)
   return parsed
 }

@@ -130,7 +130,8 @@ export default function index({
               setTaskDueDateExact={setTaskDueDateExact}
               defaultDate={dueDate}
               addTask={addTaskWithLocal}
-              items={coursesOnTerm
+              setTaskType={setTaskType}
+              courseItems={coursesOnTerm
                 .map((course) => ({
                   color: course.Color,
                   name: course.Nickname || course.FK_Course?.Code || '',

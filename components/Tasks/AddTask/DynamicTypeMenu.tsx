@@ -1,11 +1,14 @@
 /* eslint-disable no-case-declarations */
-import { InboxIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
-import { Item } from 'components/dropdowns/DateDropdown'
 import { matchSorter } from 'match-sorter'
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
+import { TaskType } from 'types/Task'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
-import shorten from 'utils/shorten'
+
+interface TaskTypeItem {
+  type: TaskType
+  display: string
+}
 
 interface Props {
   theme: string
@@ -14,13 +17,14 @@ interface Props {
     y: number | null | undefined
   }
   close: (skipRestore?: boolean) => void
-  items: Item[]
+  setTaskType: Dispatch<SetStateAction<TaskType | undefined>>
 }
 
 interface State {
   selectedItem: number
   command: string
-  filteredItems: Item[]
+  baseItems: TaskTypeItem[]
+  filteredItems: TaskTypeItem[]
 }
 
 class DynamicCourseMenu extends React.Component<Props, State> {
@@ -31,7 +35,16 @@ class DynamicCourseMenu extends React.Component<Props, State> {
     this.state = {
       selectedItem: 0,
       command: '',
-      filteredItems: props.items,
+      baseItems: [
+        { type: TaskType.WORK_ON, display: 'Work' },
+        { type: TaskType.DUE, display: 'Due' },
+        { type: TaskType.REVIEW, display: 'Review' },
+      ],
+      filteredItems: [
+        { type: TaskType.WORK_ON, display: 'Work' },
+        { type: TaskType.DUE, display: 'Due' },
+        { type: TaskType.REVIEW, display: 'Review' },
+      ],
     }
   }
 
@@ -47,21 +60,23 @@ class DynamicCourseMenu extends React.Component<Props, State> {
   }
 
   search(searchVal: string) {
-    const { items, close } = this.props
-    const { filteredItems } = this.state
+    const { close } = this.props
+    const { baseItems } = this.state
 
-    const itemsSorted = matchSorter(items, searchVal, {
-      keys: ['name'],
+    console.log(searchVal)
+
+    const itemsSorted = matchSorter(baseItems, searchVal, {
+      keys: ['display'],
       // @ts-expect-error base sorter weird typing error but it works
       baseSort: (a: Command, b: Command) =>
-        items.indexOf(a) < items.indexOf(b) ? -1 : 1,
+        baseItems.indexOf(a) < baseItems.indexOf(b) ? -1 : 1,
     })
     if (itemsSorted.length === 0) close(true)
     this.setState({ filteredItems: itemsSorted })
   }
 
   keyDownHandler(e: KeyboardEvent) {
-    const { close } = this.props
+    const { setTaskType, close } = this.props
     const { filteredItems, selectedItem, command } = this.state
 
     if (
@@ -79,8 +94,8 @@ class DynamicCourseMenu extends React.Component<Props, State> {
     switch (e.key) {
       case 'Enter':
         e.preventDefault()
-        const selectedCourse = filteredItems[selectedItem]
-        if (selectedCourse?.handler) selectedCourse.handler()
+        const selectedType = filteredItems[selectedItem]
+        if (selectedType?.type && setTaskType) setTaskType(selectedType.type)
         close()
         break
       case 'Backspace':
@@ -114,7 +129,6 @@ class DynamicCourseMenu extends React.Component<Props, State> {
         }
         this.setState({ selectedItem: tempSelected })
         break
-
       default:
         this.setState({ command: command + e.key })
         break
@@ -122,8 +136,10 @@ class DynamicCourseMenu extends React.Component<Props, State> {
   }
 
   render() {
-    const { theme, position, close } = this.props
+    const { theme, position, setTaskType, close } = this.props
     const { filteredItems, selectedItem } = this.state
+
+    console.log(filteredItems)
 
     return (
       <div
@@ -155,7 +171,7 @@ class DynamicCourseMenu extends React.Component<Props, State> {
           }}
         >
           {filteredItems.map((item, index) => (
-            <div key={item.name}>
+            <div key={item.display}>
               <div
                 className={classNames(
                   {
@@ -176,28 +192,16 @@ class DynamicCourseMenu extends React.Component<Props, State> {
                   'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md last-of-type:rounded-b-md',
                 )}
                 onClick={() => {
-                  if (item.handler) item.handler()
+                  setTaskType(item.type)
                   close()
                 }}
                 onKeyDown={() => {
-                  if (item.handler) item.handler()
+                  setTaskType(item.type)
                   close()
                 }}
                 onMouseEnter={() => this.setState({ selectedItem: index })}
               >
-                {item.color ? (
-                  <div
-                    className={classNames(
-                      item.color,
-                      'ring-offset-1 w-3 h-3 mx-2 rounded-full',
-                    )}
-                  />
-                ) : (
-                  <InboxIcon className="w-4 h-4 mx-1.5" />
-                )}
-                <span className="block py-2 text-sm">
-                  {shorten(item.name, 18)}
-                </span>
+                <span className="block py-2 text-sm">{item.display}</span>
               </div>
             </div>
           ))}
