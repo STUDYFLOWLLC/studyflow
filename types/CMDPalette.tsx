@@ -14,6 +14,7 @@ export enum ActionType {
   JUMPTO = 'Jump To',
   SCHOOL = 'Schools',
   STUDENT = 'Students',
+  FLOW = 'Flows',
 }
 
 export interface QuickAction {
@@ -79,3 +80,13 @@ export const schools: QuickAction[] = [
     action: (router: NextRouter) => router.push('/school/cornell'),
   },
 ]
+
+export interface FlowHit {
+  Title: string
+  CreatedTime: string
+  FlowID: string
+  Visibility: string
+  Type: string
+  UserEnteredDate: string
+  WasAutomated: boolean
+}

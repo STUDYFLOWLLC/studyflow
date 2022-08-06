@@ -105,9 +105,13 @@ export default function EditTask({
     <div className="flex flex-col border-gray-400 border rounded-md">
       <div className="pt-1 px-1 flex flex-col">
         <TaskNameInput
+          theme={theme || ''}
+          taskName={taskName}
           setTaskName={setTaskName}
+          addTask={editTaskLocal}
           setTaskDueDateExact={setTaskDueDateExact}
-          dueDate={taskDueDateExact}
+          defaultDate={taskDueDateExact}
+          setTaskType={setTaskType}
         />
         <textarea
           rows={1}

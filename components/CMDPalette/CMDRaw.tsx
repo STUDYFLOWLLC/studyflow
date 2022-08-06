@@ -1,12 +1,14 @@
 import { Combobox } from '@headlessui/react'
 import { EmojiSadIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import MainSpinner from 'components/spinners/MainSpinner'
 import { groupBy } from 'lodash'
 import { matchSorter } from 'match-sorter'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ActionType, QuickAction } from 'types/CMDPalette'
+import { SpinnerSizes } from 'types/Loading'
 import buildQuickActions from 'utils/commandPalette/buildQuickActions'
 import scrapeActionTypes from 'utils/commandPalette/scrapeActionTypes'
 import CMDEntry from './CMDEntry'
@@ -37,6 +39,7 @@ export default function CMDRaw({
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [filtered, setFiltered] = useState<QuickAction[]>([] as QuickAction[])
   const [availableActionTypes, setAvailableActionTypes] =
     useState<ActionType[]>(include)
@@ -69,6 +72,7 @@ export default function CMDRaw({
 
   useEffect(() => {
     async function buildItBaby() {
+      setLoading(true)
       const quickActions = await buildQuickActions(include, query)
       const filteredTemp = matchSorter(quickActions, query, {
         keys: ['name'],
@@ -79,6 +83,7 @@ export default function CMDRaw({
       const filteredGrouped = prioritizeAndGroupCommands(filteredTemp)
       setFiltered(filteredGrouped)
       setAvailableActionTypes(scrapeActionTypes(filteredGrouped))
+      setLoading(false)
     }
 
     buildItBaby()
@@ -98,9 +103,12 @@ export default function CMDRaw({
       onChange={(item: QuickAction) => {
         setSelectedAction(item)
         if (
-          [ActionType.JUMPTO, ActionType.STUDENT, ActionType.SCHOOL].includes(
-            item.actionType,
-          ) &&
+          [
+            ActionType.JUMPTO,
+            ActionType.STUDENT,
+            ActionType.SCHOOL,
+            ActionType.FLOW,
+          ].includes(item.actionType) &&
           item.action
         )
           item.action(router)
@@ -112,6 +120,11 @@ export default function CMDRaw({
         open={open}
         setOpen={setOpen}
       />
+      {loading && (
+        <div className="flex flex-col items-center h-24 justify-center">
+          <MainSpinner size={SpinnerSizes.medium} />
+        </div>
+      )}
       {query === '' || filtered.length > 0 ? (
         <Combobox.Options
           static
