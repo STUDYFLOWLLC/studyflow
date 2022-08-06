@@ -104,7 +104,11 @@ export default function index({
             className={classNames(
               {
                 'text-white border rounded-full border-transparent bg-black':
-                  showAddTask,
+                  showAddTask && theme === 'light',
+              },
+              {
+                'text-black border rounded-full border-transparent bg-white':
+                  showAddTask && theme === 'dark',
               },
               'w-5 h-5 mr-3 font-thin',
             )}
@@ -113,7 +117,7 @@ export default function index({
           </span>
           <span
             className={classNames({
-              'text-gray-400': !showAddTask,
+              'text-info': !showAddTask,
             })}
           >
             Add Task
@@ -158,11 +162,11 @@ export default function index({
             <textarea
               rows={1}
               onChange={(e) => setTaskDescription(e.target.value)}
-              className="border-none focus:ring-0 bg-transparent placeholder:text-gray-400 text-sm resize-none caret-black"
+              className="border-none focus:ring-0 bg-transparent placeholder:text-info text-sm resize-none caret-black"
               placeholder="Description"
             />
           </div>
-          <div className="w-full border-t border-gray-300" />
+          <div className="w-full border-t border-info/80" />
           <div className="flex justify-between mx-2 my-1">
             <span className="flex items-center">
               <DateDropdown

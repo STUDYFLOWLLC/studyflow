@@ -98,6 +98,10 @@ export default function index({
                 'text-white border rounded-full border-transparent bg-black':
                   showAddTask,
               },
+              {
+                'text-black border rounded-full border-transparent bg-white':
+                  showAddTask && theme === 'dark',
+              },
               'w-5 h-5 mr-3 font-thin',
             )}
           >

@@ -18,7 +18,8 @@ import {
 } from 'date-fns'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
-import React from 'react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 import DayPopup from './DayPopup'
 
@@ -36,10 +37,12 @@ const sameDate = (date1: Date | undefined, date2: Date | undefined) => {
 }
 
 export default function CalendarView({ user }: Props) {
-  const [open, setOpen] = React.useState(false)
-
+  const { theme } = useTheme()
   const { userDetails } = useUserDetails(user.id)
   const { tasks } = useTasks(userDetails?.UserID)
+
+  const [mounted, setMounted] = useState(false)
+  const [open, setOpen] = useState(false)
 
   // Number of tasks for each due-type on a given date. The completed if before the current date.
   const numDueTasksByType = (date: Date, type?: TaskType, past?: boolean) => {
@@ -64,11 +67,9 @@ export default function CalendarView({ user }: Props) {
   const today = startOfToday()
 
   // Current month
-  const [currentMonth, setCurrentMonth] = React.useState(
-    format(today, 'MMM-yyyy'),
-  )
+  const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
   // State of date that will show tasks displayed
-  const [dateToDisplay, setDateToDisplay] = React.useState(today)
+  const [dateToDisplay, setDateToDisplay] = useState(today)
 
   // First day of current month
   const firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
@@ -91,30 +92,34 @@ export default function CalendarView({ user }: Props) {
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'))
   }
 
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   return (
     <div className="flex">
       {/* Calendar Display */}
       <div className="grid gird-cols-2 w-full my-6 mx-4 h-full">
         <div className="flex justify-left mb-2">
-          <h2 className="text-2xl font-semibold text-gray-900 mr-4">
+          <h2 className="text-2xl font-semibold mr-4">
             {format(firstDayCurrentMonth, 'MMM yyyy')}
           </h2>
           <button
             onClick={previousMonth}
             type="button"
-            className="text-gray-400 hover:text-gray-800 mr-4"
+            className="text-info hover:text-gray-800 mr-4"
           >
             <ChevronLeftIcon className="h-7 w-7" aria-hidden="true" />
           </button>
           <button
             onClick={nextMonth}
             type="button"
-            className="text-gray-400 hover:text-gray-800"
+            className="text-info hover:text-gray-800"
           >
             <ChevronRightIcon className="h-7 w-7" aria-hidden="true" />
           </button>
         </div>
-        <div className="isolate grid grid-cols-7 text-center text-xl text-gray-500 mb-2">
+        <div className="isolate grid grid-cols-7 text-center text-xl text-info mb-2">
           <div>Sun</div>
           <div>Mon</div>
           <div>Tue</div>
@@ -147,18 +152,11 @@ export default function CalendarView({ user }: Props) {
                       'text-primary',
                     !sameDate(day, dateToDisplay) &&
                       !isToday(day) &&
-                      isSameMonth(day, firstDayCurrentMonth) &&
-                      'text-gray-900',
-                    !sameDate(day, dateToDisplay) &&
-                      !isToday(day) &&
                       !isSameMonth(day, firstDayCurrentMonth) &&
-                      'text-gray-400',
+                      'text-info',
                     sameDate(day, dateToDisplay) &&
                       isToday(day) &&
                       'bg-primary/70',
-                    sameDate(day, dateToDisplay) &&
-                      !isToday(day) &&
-                      'bg-gray-900',
                     !sameDate(day, dateToDisplay) && 'hover:bg-gray-200',
                     (sameDate(day, dateToDisplay) || isToday(day)) &&
                       'font-semibold',
@@ -176,7 +174,7 @@ export default function CalendarView({ user }: Props) {
               {isAfter(day, startOfYesterday()) ? (
                 <div className="text-xs ml-2 mt-1">
                   {numDueTasksByType(day) > 0 && (
-                    <div className="text-slate-900">
+                    <div>
                       {numDueTasksByType(day)}{' '}
                       {numDueTasksByType(day) > 1 ? 'Tasks' : 'Task'}
                     </div>
@@ -190,7 +188,7 @@ export default function CalendarView({ user }: Props) {
               ) : (
                 <div className="text-xs ml-2 mt-1 opacity-40">
                   {numDueTasksByType(day, undefined, true) > 0 && (
-                    <div className="text-slate-900">
+                    <div>
                       {numDueTasksByType(day, undefined, true)}{' '}
                       {numDueTasksByType(day, undefined, true) > 1
                         ? 'Tasks Completed'
