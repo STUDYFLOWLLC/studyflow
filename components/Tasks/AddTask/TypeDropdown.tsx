@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import { TagIcon } from '@heroicons/react/outline'
+import {
+  BriefcaseIcon,
+  ExclamationCircleIcon,
+  RefreshIcon,
+  TagIcon,
+} from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 
 const items = [
-  { type: TaskType.WORK_ON, display: 'Work' },
-  { type: TaskType.DUE, display: 'Due' },
-  { type: TaskType.REVIEW, display: 'Review' },
+  { type: TaskType.WORK_ON, display: 'Work', icon: BriefcaseIcon },
+  { type: TaskType.DUE, display: 'Due', icon: ExclamationCircleIcon },
+  { type: TaskType.REVIEW, display: 'Review', icon: RefreshIcon },
 ]
 
 interface activeProps {
@@ -134,6 +139,7 @@ export default function TypeDropdown({ taskType, setTaskType }: Props) {
                         setTaskType(item.type)
                       }}
                     >
+                      <item.icon className="w-4 h-4 mx-1.5" />
                       <span className="block py-2 text-sm">{item.display}</span>
                     </div>
                   )}

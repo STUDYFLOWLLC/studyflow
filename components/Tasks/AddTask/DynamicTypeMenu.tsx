@@ -1,13 +1,19 @@
 /* eslint-disable no-case-declarations */
+import {
+  BriefcaseIcon,
+  ExclamationCircleIcon,
+  RefreshIcon,
+} from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { matchSorter } from 'match-sorter'
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, SVGProps } from 'react'
 import { TaskType } from 'types/Task'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 
 interface TaskTypeItem {
   type: TaskType
   display: string
+  icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
 }
 
 interface Props {
@@ -36,14 +42,14 @@ class DynamicCourseMenu extends React.Component<Props, State> {
       selectedItem: 0,
       command: '',
       baseItems: [
-        { type: TaskType.WORK_ON, display: 'Work' },
-        { type: TaskType.DUE, display: 'Due' },
-        { type: TaskType.REVIEW, display: 'Review' },
+        { type: TaskType.WORK_ON, display: 'Work', icon: BriefcaseIcon },
+        { type: TaskType.DUE, display: 'Due', icon: ExclamationCircleIcon },
+        { type: TaskType.REVIEW, display: 'Review', icon: RefreshIcon },
       ],
       filteredItems: [
-        { type: TaskType.WORK_ON, display: 'Work' },
-        { type: TaskType.DUE, display: 'Due' },
-        { type: TaskType.REVIEW, display: 'Review' },
+        { type: TaskType.WORK_ON, display: 'Work', icon: BriefcaseIcon },
+        { type: TaskType.DUE, display: 'Due', icon: ExclamationCircleIcon },
+        { type: TaskType.REVIEW, display: 'Review', icon: RefreshIcon },
       ],
     }
   }
@@ -62,8 +68,6 @@ class DynamicCourseMenu extends React.Component<Props, State> {
   search(searchVal: string) {
     const { close } = this.props
     const { baseItems } = this.state
-
-    console.log(searchVal)
 
     const itemsSorted = matchSorter(baseItems, searchVal, {
       keys: ['display'],
@@ -139,8 +143,6 @@ class DynamicCourseMenu extends React.Component<Props, State> {
     const { theme, position, setTaskType, close } = this.props
     const { filteredItems, selectedItem } = this.state
 
-    console.log(filteredItems)
-
     return (
       <div
         id="command-menu"
@@ -164,7 +166,7 @@ class DynamicCourseMenu extends React.Component<Props, State> {
               'bg-white ring-black ring-1 ring-opacity-5': theme === 'light',
             },
             { 'bg-slate-700': theme === 'dark' },
-            'absolute left-2 w-48 origin-top-left rounded-md shadow-lg focus:outline-none',
+            'absolute left-2 w-28 origin-top-left rounded-md shadow-lg focus:outline-none',
           )}
           style={{
             zIndex: 4500,
@@ -201,6 +203,7 @@ class DynamicCourseMenu extends React.Component<Props, State> {
                 }}
                 onMouseEnter={() => this.setState({ selectedItem: index })}
               >
+                <item.icon className="w-4 h-4 mx-1.5" />
                 <span className="block py-2 text-sm">{item.display}</span>
               </div>
             </div>

@@ -122,7 +122,7 @@ export default class TaskNameInput extends Component<Props, State> {
       typeMenuOpen
     ) {
       e.preventDefault()
-      this.closeCourseMenu()
+      this.closeTypeMenu()
     }
   }
 
