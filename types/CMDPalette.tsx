@@ -13,6 +13,7 @@ import { SVGProps } from 'react'
 export enum ActionType {
   JUMPTO = 'Jump To',
   SCHOOL = 'Schools',
+  STUDENT = 'Students',
 }
 
 export interface QuickAction {
@@ -47,11 +48,11 @@ export const jumpTo: QuickAction[] = [
     action: (router: NextRouter) => router.push('/calendar'),
   },
   {
-    name: 'Social',
+    name: 'Explore',
     CmdIcon: UserGroupIcon,
     shortcut: 'cmd+shift+4',
     actionType: ActionType.JUMPTO,
-    action: (router: NextRouter) => router.push('/social'),
+    action: (router: NextRouter) => router.push('/explore'),
   },
   {
     name: 'Automation',

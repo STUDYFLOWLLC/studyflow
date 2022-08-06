@@ -15,7 +15,7 @@ const searchClient = algoliasearch(
 )
 const index = searchClient.initIndex('students')
 
-interface UserHit {
+export interface UserHit {
   CreatedTime: string
   FK_SchoolID: number
   objectID: string

@@ -7,13 +7,14 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ActionType, QuickAction } from 'types/CMDPalette'
+import buildQuickActions from 'utils/commandPalette/buildQuickActions'
 import scrapeActionTypes from 'utils/commandPalette/scrapeActionTypes'
 import CMDEntry from './CMDEntry'
 import CMDSearch from './CMDSearch'
 
 interface Props {
   placeholder: string
-  quickActions: QuickAction[]
+  include: ActionType[]
   query: string
   setQuery: (query: string) => void
   selectedAction: QuickAction | null
@@ -24,7 +25,7 @@ interface Props {
 
 export default function CMDRaw({
   placeholder,
-  quickActions,
+  include,
   query,
   setQuery,
   selectedAction,
@@ -36,12 +37,9 @@ export default function CMDRaw({
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
-  const [filtered, setFiltered] = useState<QuickAction[]>(quickActions)
-  const [availableActionTypes, setAvailableActionTypes] = useState<
-    ActionType[]
-  >(scrapeActionTypes(quickActions))
-
-  useEffect(() => setMounted(true), [])
+  const [filtered, setFiltered] = useState<QuickAction[]>([] as QuickAction[])
+  const [availableActionTypes, setAvailableActionTypes] =
+    useState<ActionType[]>(include)
 
   const prioritizeAndGroupCommands = (matchSortedItems: QuickAction[]) => {
     const keysSoFar: string[] = []
@@ -65,16 +63,26 @@ export default function CMDRaw({
   }
 
   useEffect(() => {
-    const filteredTemp = matchSorter(quickActions, query, {
-      keys: ['name'],
-      // @ts-expect-error base sorter weird typing error but it works
-      baseSort: (a: QuickAction, b: QuickAction) =>
-        quickActions.indexOf(a) < quickActions.indexOf(b) ? -1 : 1,
-    })
-    const filteredGrouped = prioritizeAndGroupCommands(filteredTemp)
-    setFiltered(filteredGrouped)
-    setAvailableActionTypes(scrapeActionTypes(filteredGrouped))
-  }, [query])
+    // buildItBaby()
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    async function buildItBaby() {
+      const quickActions = await buildQuickActions(include, query)
+      const filteredTemp = matchSorter(quickActions, query, {
+        keys: ['name'],
+        // @ts-expect-error base sorter weird typing error but it works
+        baseSort: (a: QuickAction, b: QuickAction) =>
+          quickActions.indexOf(a) < quickActions.indexOf(b) ? -1 : 1,
+      })
+      const filteredGrouped = prioritizeAndGroupCommands(filteredTemp)
+      setFiltered(filteredGrouped)
+      setAvailableActionTypes(scrapeActionTypes(filteredGrouped))
+    }
+
+    buildItBaby()
+  }, [query, open])
 
   if (!mounted) return null
 
@@ -89,7 +97,12 @@ export default function CMDRaw({
       value={selectedAction}
       onChange={(item: QuickAction) => {
         setSelectedAction(item)
-        if (item.actionType === ActionType.JUMPTO && item.action)
+        if (
+          [ActionType.JUMPTO, ActionType.STUDENT, ActionType.SCHOOL].includes(
+            item.actionType,
+          ) &&
+          item.action
+        )
           item.action(router)
       }}
     >
