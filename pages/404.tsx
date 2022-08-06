@@ -1,7 +1,6 @@
 import CMDRaw from 'components/CMDPalette/CMDRaw'
 import { useState } from 'react'
 import { ActionType, QuickAction } from 'types/CMDPalette'
-import buildQuickActions from 'utils/commandPalette/buildQuickActions'
 
 export default function FourOFour() {
   const [query, setQuery] = useState('')
@@ -13,7 +12,7 @@ export default function FourOFour() {
         <div className="h-80 max-h-80 mt-4">
           <CMDRaw
             placeholder="Search for pages, flows, etc."
-            quickActions={buildQuickActions([ActionType.JUMPTO])}
+            include={[ActionType.JUMPTO]}
             query={query}
             setQuery={setQuery}
             selectedAction={selectedAction}

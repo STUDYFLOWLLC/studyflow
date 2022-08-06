@@ -74,7 +74,7 @@ export default function DayPopup({
             className={classNames(
               { 'bg-slate-100': theme !== 'dark' },
               { 'bg-base-200': theme === 'dark' },
-              'max-w-3xl mx-auto transform divide-y divide-gray-100 pt-4 h-full px-4 overflow-hidden rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
+              'max-w-3xl mx-auto transform pt-4 h-full px-4 overflow-hidden rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 transition-all',
             )}
           >
             {/* Header */}
@@ -82,7 +82,7 @@ export default function DayPopup({
               <span className="mt-4 text-xl mr-2">
                 {dateToDisplay.toDateString().substring(0, 10)}
               </span>
-              <span className="text-sm text-gray-400">
+              <span className="text-sm text-info">
                 {numTasks} {numTasks === 1 ? 'Task' : 'Tasks'}
               </span>
             </div>
@@ -96,7 +96,7 @@ export default function DayPopup({
               />
             </div>
             {/* Add Task, with correct Due Date */}
-            <div>
+            <div className="mt-3">
               <AddTask
                 user={user}
                 coursesOnTerm={coursesOnTerm}

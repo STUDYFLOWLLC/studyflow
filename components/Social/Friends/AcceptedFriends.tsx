@@ -1,3 +1,4 @@
+import { CakeIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import AcceptedFriend from 'components/Social/Displays/AcceptedFriend'
 import MainSpinner from 'components/spinners/MainSpinner'
@@ -11,11 +12,15 @@ export default function AcceptedFriends() {
   const { friends, friendsLoading } = useFriends(userDetails?.UserID)
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center max-h-32 overflow-y-auto">
       <p className="px-2 uppercase text-xs font-semibold tracking-wider rounded-md">
         Your friends
       </p>
-      {friendsLoading && <MainSpinner size={SpinnerSizes.medium} />}
+      {friendsLoading && (
+        <div className="mb-6">
+          <MainSpinner size={SpinnerSizes.medium} />
+        </div>
+      )}
       {friends?.accepted.map((friendship) => (
         <AcceptedFriend
           key={friendship.FriendshipID}
@@ -27,7 +32,14 @@ export default function AcceptedFriends() {
           }
         />
       ))}
-      {friends?.accepted.length === 0 && <span>No friends yet</span>}
+      {friends?.accepted.length === 0 && (
+        <div className="flex flex-col items-center">
+          <CakeIcon className="w-6 h-6" />
+          <p className="text-center text-xs mx-0 p-0 mt-2">
+            A lone wolf! Search for other students above.
+          </p>
+        </div>
+      )}
     </div>
   )
 }

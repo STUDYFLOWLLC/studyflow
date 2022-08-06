@@ -1,32 +1,65 @@
+import { offset } from 'caret-pos'
 import classNames from 'classnames'
-import { Component, createRef, RefObject } from 'react'
+import { Item } from 'components/dropdowns/DateDropdown'
+import {
+  Component,
+  createRef,
+  Dispatch,
+  RefObject,
+  SetStateAction,
+} from 'react'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
+import toast from 'react-hot-toast'
+import { TaskType } from 'types/Task'
 import dateParser from 'utils/dateParser'
+import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import taskParser from 'utils/taskParser'
+import DynamicCourseMenu from './DynamicCourseMenu'
+import DynamicTypeMenu from './DynamicTypeMenu'
 
 interface Props {
+  theme: string
+  taskName: string
   setTaskName: (taskName: string) => void
   setTaskDueDateExact: (taskDueDateExact: Date | undefined) => void
-  dueDate?: Date | undefined
+  addTask: () => void
+  setTaskType: Dispatch<SetStateAction<TaskType | undefined>>
+  defaultDate?: Date
+  courseItems?: Item[]
 }
 
 interface State {
   contentEditable: RefObject<HTMLElement>
   html: string
-  exemptWords: number
+  courseMenuOpen: boolean
+  typeMenuOpen: boolean
+  menuPosition: {
+    x: number | null | undefined
+    y: number | null | undefined
+  }
+  restorage: string
 }
 
 export default class TaskNameInput extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.taskNameChange = this.taskNameChange.bind(this)
-    this.onKeyDownHandler = this.onKeyDownHandler.bind(this)
-
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.openCourseMenu = this.openCourseMenu.bind(this)
+    this.closeCourseMenu = this.closeCourseMenu.bind(this)
+    this.openTypeMenu = this.openTypeMenu.bind(this)
+    this.closeTypeMenu = this.closeTypeMenu.bind(this)
     this.state = {
       contentEditable: createRef(),
-      html: taskParser('', dateParser(''), 0),
-      exemptWords: 0,
+      html: '',
+      courseMenuOpen: false,
+      typeMenuOpen: false,
+      menuPosition: {
+        x: null,
+        y: null,
+      },
+      restorage: '',
     }
   }
 
@@ -35,72 +68,184 @@ export default class TaskNameInput extends Component<Props, State> {
     contentEditable.current?.focus()
   }
 
-  onKeyDownHandler(e: { key: string; preventDefault: () => void }) {
-    const { setTaskDueDateExact } = this.props
-    const { html, exemptWords } = this.state
+  onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const { taskName, addTask, courseItems } = this.props
+    const { html, courseMenuOpen, typeMenuOpen } = this.state
 
-    if (e.key === 'Delete' || e.key === 'Backspace') {
+    if (
+      (courseMenuOpen || typeMenuOpen) &&
+      (isAlphaNumericOrSymbol(e.key) ||
+        e.key === 'Delete' ||
+        e.key === 'Backspace')
+    ) {
+      const input = document.getElementById('task-name') as HTMLInputElement
+      const caretOffset = offset(input)
+      this.setState({
+        menuPosition: { x: caretOffset.left, y: caretOffset.top },
+      })
+    }
+
+    if (e.key === 'Enter' && !courseMenuOpen && !typeMenuOpen) {
       e.preventDefault()
-      // check for empty span tag (most recent entry is date)
-      if (
-        html.substring(html.length - 17, html.length - 4) === '<span></span>'
-      ) {
-        const stripped = removeHTMLTags(html)
-        this.setState({
-          exemptWords: exemptWords + 1,
-          html: taskParser(stripped, dateParser(stripped), exemptWords + 1),
-        })
-        setTaskDueDateExact(undefined)
-      } else {
-        const stripped = removeHTMLTags(html)
-        if (stripped.length === 1) {
-          this.setState({
-            exemptWords: 0,
-          })
-        }
-        const lastCharRemoved = stripped.substring(0, stripped.length - 1)
-        this.setState({
-          html: taskParser(
-            lastCharRemoved,
-            dateParser(lastCharRemoved),
-            exemptWords,
-          ),
-        })
+      if (taskName.length > 0) addTask()
+      else if (taskName.length === 0) {
+        toast.error('Task name cannot be empty')
       }
+    }
+
+    // if (e.key === 'Delete' || e.key === 'Backspace') {
+    //   this.closeCourseMenu()
+    // }
+
+    if (e.key === '@' && courseItems) {
+      if (typeMenuOpen) this.closeTypeMenu()
+      this.openCourseMenu()
+    }
+
+    if (e.key === '#') {
+      if (courseMenuOpen) this.closeCourseMenu()
+      this.openTypeMenu()
+    }
+
+    if (
+      (e.key === 'Backspace' || e.key === 'Delete') &&
+      html.slice(-1) === '@' &&
+      courseMenuOpen
+    ) {
+      e.preventDefault()
+      this.closeCourseMenu()
+    }
+
+    if (
+      (e.key === 'Backspace' || e.key === 'Delete') &&
+      html.slice(-1) === '#' &&
+      typeMenuOpen
+    ) {
+      e.preventDefault()
+      this.closeTypeMenu()
     }
   }
 
   taskNameChange = (e: ContentEditableEvent) => {
-    const { setTaskName, setTaskDueDateExact, dueDate } = this.props
-    const { exemptWords } = this.state
-    const stripped = removeHTMLTags(e.target.value)
-    const taskDueDate = dateParser(stripped)
-    if (taskDueDate.length > exemptWords) {
-      setTaskDueDateExact(taskDueDate[taskDueDate.length - 1].date())
+    const { setTaskName, setTaskDueDateExact, defaultDate } = this.props
+
+    const stripper = removeHTMLTags(e.target.value)
+
+    const parseResult = dateParser(stripper).slice(-1)[0]
+    const textDate = parseResult?.date()
+    if (textDate) {
+      setTaskDueDateExact(textDate)
+      setTaskName(
+        stripper.substring(0, parseResult.index) +
+          stripper.substring(parseResult.index + parseResult.text.length + 1),
+      )
+      this.setState({
+        html: taskParser(stripper, parseResult),
+      })
     } else {
-      setTaskDueDateExact(dueDate || undefined)
+      if (defaultDate) setTaskDueDateExact(defaultDate)
+      setTaskName(e.target.value)
+      this.setState({
+        html: e.target.value,
+      })
     }
-    setTaskName(stripped)
+  }
+
+  openCourseMenu() {
+    const input = document.getElementById('task-name') as HTMLInputElement
+    const caretOffset = offset(input)
+    const { html } = this.state
+
     this.setState({
-      html: taskParser(e.target.value, taskDueDate, exemptWords),
+      courseMenuOpen: true,
+      menuPosition: { x: caretOffset.left, y: caretOffset.top },
+      restorage: html,
+    })
+  }
+
+  openTypeMenu() {
+    const input = document.getElementById('task-name') as HTMLInputElement
+    const caretOffset = offset(input)
+    const { html } = this.state
+
+    this.setState({
+      typeMenuOpen: true,
+      menuPosition: { x: caretOffset.left, y: caretOffset.top },
+      restorage: html,
+    })
+  }
+
+  closeCourseMenu(skipRestore?: boolean) {
+    const { restorage } = this.state
+
+    if (!skipRestore) {
+      this.taskNameChange({
+        target: { value: restorage },
+      } as ContentEditableEvent)
+    }
+
+    this.setState({
+      courseMenuOpen: false,
+      menuPosition: { x: null, y: null },
+    })
+  }
+
+  closeTypeMenu(skipRestore?: boolean) {
+    const { restorage } = this.state
+
+    if (!skipRestore) {
+      this.taskNameChange({
+        target: { value: restorage },
+      } as ContentEditableEvent)
+    }
+
+    this.setState({
+      typeMenuOpen: false,
+      menuPosition: { x: null, y: null },
     })
   }
 
   render() {
-    const { contentEditable, html } = this.state
+    const { theme, setTaskType, courseItems } = this.props
+    const {
+      contentEditable,
+      html,
+      courseMenuOpen,
+      typeMenuOpen,
+      menuPosition,
+    } = this.state
 
     return (
-      <ContentEditable
-        innerRef={contentEditable}
-        html={html}
-        onChange={(e) => this.taskNameChange(e)}
-        onKeyDown={(e) => this.onKeyDownHandler(e)}
-        className={classNames(
-          { 'text-gray-400': html === '' },
-          'task-name border-none focus:ring-0 text-lg font-medium outline-none mx-2.5 mt-1 caret-black',
+      <div className="">
+        <ContentEditable
+          innerRef={contentEditable}
+          html={html}
+          onChange={(e) => this.taskNameChange(e)}
+          onKeyDown={this.onKeyDown}
+          className={classNames(
+            { 'text-info/80': html === '' },
+            'w-full task-name border-none focus:ring-0 text-lg font-medium outline-none mx-2.5 mt-1 cursor-text',
+          )}
+          id="task-name"
+          placeholder="Enter task name, due date, @ for course, and # for type"
+        />
+        {courseMenuOpen && courseItems && (
+          <DynamicCourseMenu
+            theme={theme}
+            position={menuPosition}
+            close={this.closeCourseMenu}
+            items={courseItems}
+          />
         )}
-        placeholder="Task name"
-      />
+        {typeMenuOpen && (
+          <DynamicTypeMenu
+            theme={theme}
+            position={menuPosition}
+            close={this.closeTypeMenu}
+            setTaskType={setTaskType}
+          />
+        )}
+      </div>
     )
   }
 }

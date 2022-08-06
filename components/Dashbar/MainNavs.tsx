@@ -2,6 +2,7 @@ import {
   BeakerIcon,
   CheckCircleIcon,
   ClipboardListIcon,
+  SupportIcon,
   UserGroupIcon,
 } from '@heroicons/react/outline'
 import classNames from 'classnames'
@@ -46,12 +47,20 @@ export default function MainNavs() {
     //   handler: () => router.push('/calendar'),
     // },
     {
-      name: 'Social',
+      name: 'Explore',
       href: '#',
       icon: UserGroupIcon,
       keyboard: 'S',
-      current: router.pathname === '/social',
-      handler: () => router.push('/social'),
+      current: router.pathname === '/explore',
+      handler: () => router.push('/explore'),
+    },
+    {
+      name: 'Beta Center',
+      href: '#',
+      icon: SupportIcon,
+      keyboard: 'S',
+      current: router.pathname === '/beta',
+      handler: () => router.push('/beta'),
     },
     {
       name: 'Automation',

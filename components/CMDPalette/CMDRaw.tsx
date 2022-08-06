@@ -1,19 +1,22 @@
 import { Combobox } from '@headlessui/react'
 import { EmojiSadIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
+import MainSpinner from 'components/spinners/MainSpinner'
 import { groupBy } from 'lodash'
 import { matchSorter } from 'match-sorter'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ActionType, QuickAction } from 'types/CMDPalette'
+import { SpinnerSizes } from 'types/Loading'
+import buildQuickActions from 'utils/commandPalette/buildQuickActions'
 import scrapeActionTypes from 'utils/commandPalette/scrapeActionTypes'
 import CMDEntry from './CMDEntry'
 import CMDSearch from './CMDSearch'
 
 interface Props {
   placeholder: string
-  quickActions: QuickAction[]
+  include: ActionType[]
   query: string
   setQuery: (query: string) => void
   selectedAction: QuickAction | null
@@ -24,7 +27,7 @@ interface Props {
 
 export default function CMDRaw({
   placeholder,
-  quickActions,
+  include,
   query,
   setQuery,
   selectedAction,
@@ -36,12 +39,10 @@ export default function CMDRaw({
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
-  const [filtered, setFiltered] = useState<QuickAction[]>(quickActions)
-  const [availableActionTypes, setAvailableActionTypes] = useState<
-    ActionType[]
-  >(scrapeActionTypes(quickActions))
-
-  useEffect(() => setMounted(true), [])
+  const [loading, setLoading] = useState(false)
+  const [filtered, setFiltered] = useState<QuickAction[]>([] as QuickAction[])
+  const [availableActionTypes, setAvailableActionTypes] =
+    useState<ActionType[]>(include)
 
   const prioritizeAndGroupCommands = (matchSortedItems: QuickAction[]) => {
     const keysSoFar: string[] = []
@@ -65,16 +66,28 @@ export default function CMDRaw({
   }
 
   useEffect(() => {
-    const filteredTemp = matchSorter(quickActions, query, {
-      keys: ['name'],
-      // @ts-expect-error base sorter weird typing error but it works
-      baseSort: (a: QuickAction, b: QuickAction) =>
-        quickActions.indexOf(a) < quickActions.indexOf(b) ? -1 : 1,
-    })
-    const filteredGrouped = prioritizeAndGroupCommands(filteredTemp)
-    setFiltered(filteredGrouped)
-    setAvailableActionTypes(scrapeActionTypes(filteredGrouped))
-  }, [query])
+    // buildItBaby()
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    async function buildItBaby() {
+      setLoading(true)
+      const quickActions = await buildQuickActions(include, query)
+      const filteredTemp = matchSorter(quickActions, query, {
+        keys: ['name'],
+        // @ts-expect-error base sorter weird typing error but it works
+        baseSort: (a: QuickAction, b: QuickAction) =>
+          quickActions.indexOf(a) < quickActions.indexOf(b) ? -1 : 1,
+      })
+      const filteredGrouped = prioritizeAndGroupCommands(filteredTemp)
+      setFiltered(filteredGrouped)
+      setAvailableActionTypes(scrapeActionTypes(filteredGrouped))
+      setLoading(false)
+    }
+
+    buildItBaby()
+  }, [query, open])
 
   if (!mounted) return null
 
@@ -89,7 +102,15 @@ export default function CMDRaw({
       value={selectedAction}
       onChange={(item: QuickAction) => {
         setSelectedAction(item)
-        if (item.actionType === ActionType.JUMPTO && item.action)
+        if (
+          [
+            ActionType.JUMPTO,
+            ActionType.STUDENT,
+            ActionType.SCHOOL,
+            ActionType.FLOW,
+          ].includes(item.actionType) &&
+          item.action
+        )
           item.action(router)
       }}
     >
@@ -99,6 +120,11 @@ export default function CMDRaw({
         open={open}
         setOpen={setOpen}
       />
+      {loading && (
+        <div className="flex flex-col items-center h-24 justify-center">
+          <MainSpinner size={SpinnerSizes.medium} />
+        </div>
+      )}
       {query === '' || filtered.length > 0 ? (
         <Combobox.Options
           static

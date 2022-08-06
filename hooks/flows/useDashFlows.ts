@@ -23,6 +23,9 @@ export interface DashFlow {
     }
   }
   FK_UserID?: number
+  FK_Repetition?: {
+    RepetitionID: string
+  }
 }
 
 interface Ret {
@@ -60,6 +63,9 @@ export default function useDashFlows(
           }
         }
         FK_UserID
+        FK_Repetition {
+          RepetitionID
+        }
       }
     }
   `

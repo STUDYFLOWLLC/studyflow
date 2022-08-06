@@ -54,6 +54,8 @@ export default function CourseDropDown({
 
   useEffect(() => setMounted(true), [])
 
+  useEffect(() => setBackgroundColor(color || ''), [color])
+
   if (!mounted) return null
 
   return (

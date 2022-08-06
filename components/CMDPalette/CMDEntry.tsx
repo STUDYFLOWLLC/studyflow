@@ -18,6 +18,8 @@ export default function CMDEntry({ quickAction, isFirst }: Props) {
 
   if (!mounted) return null
 
+  console.log(isFirst)
+
   return (
     <>
       {isFirst && (
@@ -32,7 +34,7 @@ export default function CMDEntry({ quickAction, isFirst }: Props) {
           classNames(
             { 'bg-primary text-stone-100': active && theme === 'light' },
             { 'bg-primary text-stone-200': active && theme === 'dark' },
-            'flex cursor-default select-none items-center rounded-md px-3 py-2',
+            'flex cursor-pointer select-none items-center rounded-md px-3 py-2',
           )
         }
       >
