@@ -38,9 +38,9 @@ const solutions = [
 
 export default function index() {
   return (
-    <div className="bg-white">
+    <div className="bg-base-100">
       <header>
-        <Popover className="relative bg-white">
+        <Popover className="relative bg-base-100">
           <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
             <div className="flex justify-start items-center">
               <a href="#">
@@ -56,13 +56,13 @@ export default function index() {
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <a
                 href="#"
-                className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                className="whitespace-nowrap text-base font-medium text-info px-4 py-2 border rounded-md hover:border-primary border-transparent transition-all"
               >
                 Sign in
               </a>
               <a
                 href="#"
-                className="ml-8 whitespace-nowrap inline-flex items-center justify-center bg-primary bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white"
+                className="ml-4 whitespace-nowrap inline-flex items-center justify-center bg-primary bg-origin-border px-4 py-2  border border-transparent rounded-md shadow-sm text-base font-medium hover:text-primary hover:bg-base-100 transition-all hover:border-primary  text-white"
               >
                 Sign up
               </a>
@@ -74,7 +74,7 @@ export default function index() {
       <main>
         {/* Hero section */}
         <div className="relative">
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-info/10" />
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
               <div className="absolute inset-0 bg-[url('../images/404bg.svg')] bg-cover min-h-full h-screen">
@@ -86,8 +86,14 @@ export default function index() {
                     Fall in love with learning again.
                   </span>
                 </h1>
-                <p className="mt-6 max-w-lg mx-auto text-center text-2xl text-gray-800 sm:max-w-3xl">
-                  One platform for your entire workflow.
+                <p className="mt-6 max-w-lg mx-auto text-center text-2xl sm:max-w-3xl">
+                  One platform for your entire{' '}
+                  <span className="line-through decoration-4 mr-2">
+                    workflow
+                  </span>
+                  <span className="underline decoration-primary decoration-4">
+                    studyflow
+                  </span>
                 </p>
                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
                   <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 rounded-md sm:p-8 lg:grid-cols-2">
