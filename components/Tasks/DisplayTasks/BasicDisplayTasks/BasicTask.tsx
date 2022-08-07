@@ -13,6 +13,7 @@ interface Props {
   readOnly?: boolean
   cute?: boolean
   shouldNotUseUndo?: boolean
+  repetitionId?: string
 }
 
 export default function BasicTask({
@@ -20,6 +21,7 @@ export default function BasicTask({
   readOnly,
   cute,
   shouldNotUseUndo,
+  repetitionId,
 }: Props) {
   const [editing, setEditing] = useState(false)
 
@@ -41,8 +43,9 @@ export default function BasicTask({
       <div className="flex">
         <Checkbox
           TaskID={task.TaskID}
+          isCompleted={task.Completed}
           cute={cute}
-          shouldNotUseUndo={shouldNotUseUndo}
+          repetitionId={repetitionId}
         />
         <div
           className={classNames(

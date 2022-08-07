@@ -35,12 +35,14 @@ export default function index({
           {pageDisplayed !== 'Term' ? (
             <h1 className="ml-2 text-lg font-medium">{pageDisplayed}</h1>
           ) : (
-            <TermSelector />
+            <div className="flex items-center">
+              <TermSelector />
+              <NotificationBell />
+            </div>
           )}
           {taskView && setTaskView && (
             <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
           )}
-          <NotificationBell />
         </div>
         <div className="flex sm:mt-0 items-center">
           <CreateButton disabled={disabled} setCreateFlowAs={setCreateFlowAs} />

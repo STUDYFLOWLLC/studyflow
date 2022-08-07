@@ -36,6 +36,7 @@
     "algoliasearch": "^4.13.1",
     "apollo-server-micro": "^3.6.7",
     "autoprefixer": "^10.4.4",
+    "caret-pos": "^2.0.0",
     "chrono-node": "^2.3.8",
     "class-validator": "^0.13.2",
     "classnames": "^2.3.1",

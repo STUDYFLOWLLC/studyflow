@@ -11,7 +11,7 @@ export default function FriendsDisplay() {
   const { friends, friendsLoading } = useFriends(userDetails?.UserID)
 
   return (
-    <div>
+    <div className="w-4/5 flex flex-wrap mx-auto justify-around border rounded-md">
       <RequestedFriends />
       <AcceptedFriends />
       <IncomingFriends />

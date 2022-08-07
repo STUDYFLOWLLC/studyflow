@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import { TagIcon } from '@heroicons/react/outline'
+import {
+  BriefcaseIcon,
+  ExclamationCircleIcon,
+  RefreshIcon,
+  TagIcon,
+} from '@heroicons/react/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 
 const items = [
-  { type: TaskType.WORK_ON, display: 'Work' },
-  { type: TaskType.DUE, display: 'Due' },
-  { type: TaskType.REVIEW, display: 'Review' },
+  { type: TaskType.WORK_ON, display: 'Work', icon: BriefcaseIcon },
+  { type: TaskType.DUE, display: 'Due', icon: ExclamationCircleIcon },
+  { type: TaskType.REVIEW, display: 'Review', icon: RefreshIcon },
 ]
 
 interface activeProps {
@@ -57,6 +62,10 @@ export default function TypeDropdown({ taskType, setTaskType }: Props) {
 
   if (!mounted) return null
 
+  const ActiveIcon = items.find(
+    (t) => t.display === taskTypeToString(taskType),
+  )?.icon
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
@@ -64,7 +73,7 @@ export default function TypeDropdown({ taskType, setTaskType }: Props) {
           <Menu.Button
             className={classNames(
               {
-                'ring-black border-transparent hover:opacity-80':
+                'text-white ring-black border-transparent hover:opacity-80':
                   theme === 'light' && taskType,
               },
               {
@@ -72,7 +81,7 @@ export default function TypeDropdown({ taskType, setTaskType }: Props) {
                   theme === 'light' && !taskType,
               },
               {
-                'hover:bg-slate-600 text-white border-transparent':
+                'hover:opacity-80 text-white border-transparent':
                   theme === 'dark' && taskType,
               },
               {
@@ -83,7 +92,11 @@ export default function TypeDropdown({ taskType, setTaskType }: Props) {
               'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm text-sm font-medium border',
             )}
           >
-            <TagIcon className="w-5 h-5 mr-0.5" />
+            {ActiveIcon ? (
+              <ActiveIcon className="w-5 h-5 mr-0.5" />
+            ) : (
+              <TagIcon className="w-5 h-5 mr-0.5" />
+            )}
             {taskTypeToString(taskType) || 'Type'}
           </Menu.Button>
 
@@ -134,6 +147,7 @@ export default function TypeDropdown({ taskType, setTaskType }: Props) {
                         setTaskType(item.type)
                       }}
                     >
+                      <item.icon className="w-4 h-4 mx-1.5" />
                       <span className="block py-2 text-sm">{item.display}</span>
                     </div>
                   )}

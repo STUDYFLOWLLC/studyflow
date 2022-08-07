@@ -61,12 +61,11 @@ export default function InputPrivateGroup() {
       offset={TOOLTIP_OFFSET}
       delay={TOOLTIP_DELAY}
     >
-      <div className="py-4 sm:py-5 prose max-w-none w-full text-center flex flex-col items-center">
+      <div className="py-4 sm:py-5 prose max-w-none text-center flex flex-col items-center">
         <h3 className="text-sm text-info font-medium">Your Private Group</h3>
         <p className="text-xs">Choose who can see your private flows. </p>
         <ShowGroup />
         {loading && <MainSpinner size={SpinnerSizes.medium} />}
-
         <Combobox
           as="div"
           value={selectedUser}

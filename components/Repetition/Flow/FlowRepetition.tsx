@@ -107,6 +107,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
               FK_CourseOnTerm: repetitionDetails?.FK_Tasks,
             })) || []) as unknown as Task[]
           }
+          repetitionId={repetitionId}
           cute
           readOnly
           shouldNotUseUndo
@@ -115,7 +116,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
       </div>
       {flashcardStack?.FK_Flashcards && (
         <div className="my-auto mx-auto">
-          <div className="mb-3 flex justify-center items-center">
+          <div className="mb-8 flex justify-center items-center">
             <button
               type="button"
               className={classNames(
