@@ -1,6 +1,10 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable global-require */
+/* eslint-disable react/sort-comp */
 import { PlusIcon, ViewGridIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import FlowMenu from 'components/Flow/FlowMenu'
+import DeltaStatic from 'quill-delta'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { Color } from 'types/Colors'
@@ -15,11 +19,7 @@ import {
 } from 'utils/flows/caretHelpers'
 import changeBlockColor from 'utils/flows/changeBlockColor'
 import cmdDelete from 'utils/flows/cmdDelete'
-import ContentEditable, {
-  ContentEditableEvent,
-} from 'utils/flows/ContentEditable'
 import deleteInBlock from 'utils/flows/deleteInBlock'
-import determinePlaceholder from 'utils/flows/determinePlaceholder'
 import getNextFromRef from 'utils/flows/getNextFromRef'
 import getPrevFromRef from 'utils/flows/getPrevFromRef'
 import getRawTextLength from 'utils/flows/getRawTextLength'
@@ -84,13 +84,23 @@ interface State {
   focused: boolean
   forcererender: string
   lastMovement: number
+  quillContents: DeltaStatic | undefined
 }
 
 const CMD_KEY = '/'
 
 class FlowBlock extends React.Component<Props, State> {
+  quill: any
+
+  reactQuillRef: any
+
+  quillRef: any
+
   constructor(props: Props) {
     super(props)
+    if (document) {
+      this.quill = require('react-quill')
+    }
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this)
     this.onKeyUpHandler = this.onKeyUpHandler.bind(this)
@@ -99,6 +109,9 @@ class FlowBlock extends React.Component<Props, State> {
     this.convertTagSelectionHandler = this.convertTagSelectionHandler.bind(this)
     this.tagSelectionHandler = this.tagSelectionHandler.bind(this)
     this.colorSelectionHandler = this.colorSelectionHandler.bind(this)
+    this.quillChangeHandler = this.quillChangeHandler.bind(this)
+    this.quillRef = null // Quill instance
+    this.reactQuillRef = null // ReactQuill component
 
     const { block, theme } = props
     this.state = {
@@ -115,13 +128,29 @@ class FlowBlock extends React.Component<Props, State> {
       focused: false,
       forcererender: 'false',
       lastMovement: 0,
+      quillContents: block.quillContents,
     }
+  }
+
+  attachQuillRefs = () => {
+    if (typeof this.reactQuillRef.getEditor !== 'function') return
+    this.quillRef = this.reactQuillRef.getEditor()
+  }
+
+  componentDidMount() {
+    this.attachQuillRefs()
   }
 
   // Update the page component if one of the following is true:
   // 1. user has changed the html content
   // 2. user has changed the tag
   componentDidUpdate(prevProps: Props, prevState: State) {
+    if (this.reactQuillRef.current) {
+      this.reactQuillRef.current.getEditor().root.dataset.placeholder = 'test'
+    }
+
+    this.attachQuillRefs()
+
     const {
       block,
       theme,
@@ -245,7 +274,6 @@ class FlowBlock extends React.Component<Props, State> {
           block,
           Color.DEFAULT,
         )
-      console.log('here')
       return deleteBlock(block.index, contentEditable.current)
     }
 
@@ -518,7 +546,75 @@ class FlowBlock extends React.Component<Props, State> {
     this.closeSelectMenuHandler()
   }
 
+  modules = {
+    toolbar: {
+      container: '#toolbar',
+      handlers: {
+        h1It: () =>
+          this.quillRef.format(
+            'header',
+            this.quillRef.getFormat().header !== 1,
+          ),
+        boldIt: () =>
+          this.quillRef.format('bold', !this.quillRef.getFormat().bold),
+        italicIt: () =>
+          this.quillRef.format('italic', !this.quillRef.getFormat().italic),
+        underlineIt: () =>
+          this.quillRef.format(
+            'underline',
+            !this.quillRef.getFormat().underline,
+          ),
+        strikeIt: () =>
+          this.quillRef.format('strike', !this.quillRef.getFormat().strike),
+        codeIt: () =>
+          this.quillRef.format('code', !this.quillRef.getFormat().code),
+        blockquoteIt: () =>
+          this.quillRef.format(
+            'blockquote',
+            !this.quillRef.getFormat().blockquote,
+          ),
+        bulletIt: () =>
+          this.quillRef.format(
+            'list',
+            this.quillRef.getFormat().list !== 'bullet',
+          ),
+      },
+    },
+    keyboard: {
+      bindings: {
+        enter: {
+          key: 13,
+          handler: () => {},
+        },
+      },
+    },
+  }
+
+  quillChangeHandler(
+    content: string,
+    delta: DeltaStatic,
+    source: Sources,
+    editor: UnprivilegedEditor,
+  ) {
+    console.log('hi')
+    console.log(editor.getContents())
+    this.setState({
+      quillContents: editor.getContents(),
+    })
+  }
+
   render() {
+    const Quill = this.quill
+
+    const isH1 = this.quillRef?.getFormat().header === 1
+    const isBold = this.quillRef?.getFormat().bold
+    const isItalic = this.quillRef?.getFormat().italic
+    const isUnderline = this.quillRef?.getFormat().underline
+    const isStrike = this.quillRef?.getFormat().strike
+    const isCode = this.quillRef?.getFormat().code
+    const isBlockquote = this.quillRef?.getFormat().blockquote
+    const isBullet = this.quillRef?.getFormat().list === 'bullet'
+
     const { theme, block } = this.props
     const {
       selectMenuIsOpen,
@@ -528,6 +624,7 @@ class FlowBlock extends React.Component<Props, State> {
       showDragger,
       focused,
       forcererender,
+      quillContents,
     } = this.state
 
     return (
@@ -568,74 +665,126 @@ class FlowBlock extends React.Component<Props, State> {
                   />
                 </span>
               </div>
-              {/*  @ts-expect-error: Let's ignore a compile error like this unreachable code */}
-              <ContentEditable
+
+              {Quill && (
+                <Quill
+                  theme={null}
+                  className="w-full"
+                  modules={this.modules}
+                  onChange={this.quillChangeHandler}
+                  value={quillContents}
+                  ref={(el) => {
+                    this.reactQuillRef = el
+                  }}
+                />
+              )}
+            </div>
+            <div
+              id="toolbar"
+              className={classNames(
+                { 'bg-slate-50': theme === 'light' },
+                { 'bg-slate-700': theme === 'dark' },
+                'border shadow-xl rounded-md text-lg pt-0 pb-2 px-2 absolute -right-14 top-0 flex flex-col',
+              )}
+              style={{ zIndex: 5000 }}
+            >
+              <button
+                type="button"
                 className={classNames(
                   {
-                    'text-lg py-[0.25rem] leading-normal':
-                      html === '' && block.tag === BlockTag.PARAGRAPH,
+                    'text-stone-600': theme === 'light' && !isH1,
                   },
-                  {
-                    'text-4xl font-bold py-[0.4rem] leading-normal':
-                      html === '' && block.tag === BlockTag.HEADING_1,
-                  },
-                  {
-                    'text-3xl font-bold py-[0.35rem] leading-normal':
-                      html === '' && block.tag === BlockTag.HEADING_2,
-                  },
-                  {
-                    'text-2xl font-bold py-[0.3rem] leading-normal':
-                      html === '' && block.tag === BlockTag.HEADING_3,
-                  },
-                  {
-                    'caret-black':
-                      block[block.tag]?.color === Color.DEFAULT &&
-                      theme === 'light',
-                  },
-                  {
-                    'caret-white':
-                      block[block.tag]?.color === Color.DEFAULT &&
-                      theme === 'dark',
-                  },
-                  {
-                    'opacity-0':
-                      !focused &&
-                      html === '' &&
-                      block.tag === BlockTag.PARAGRAPH,
-                  },
-                  {
-                    'opacity-80':
-                      focused &&
-                      html === '' &&
-                      block.tag === BlockTag.PARAGRAPH,
-                  },
-                  {
-                    'opacity-80':
-                      !focused &&
-                      html === '' &&
-                      block.tag !== BlockTag.PARAGRAPH,
-                  },
-                  {
-                    'opacity-90':
-                      focused &&
-                      html === '' &&
-                      block.tag !== BlockTag.PARAGRAPH,
-                  },
-                  block[block.tag]?.color !== Color.DEFAULT
-                    ? block[block.tag]?.color
-                    : '',
-                  'break-words outline-none cursor-text w-full',
+                  { 'text-primary': isH1 },
+                  'ql-h1It',
                 )}
-                innerRef={contentEditable}
-                html={html}
-                placeholder={determinePlaceholder(block.tag)}
-                onFocus={() => this.setState({ focused: true })}
-                onBlur={() => this.setState({ focused: false })}
-                onChange={this.onChangeHandler}
-                onKeyDown={this.onKeyDownHandler}
-                onKeyUp={this.onKeyUpHandler}
-                forcererender={forcererender}
-              />
+                value="1"
+              >
+                H1
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  {
+                    'text-stone-600': theme === 'light' && !isBold,
+                  },
+                  { 'text-primary': isBold },
+                  'ql-boldIt font-bold',
+                )}
+              >
+                B
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  {
+                    'text-stone-600': theme === 'light' && !isItalic,
+                  },
+                  { 'text-primary': isItalic },
+                  'ql-italicIt italic',
+                )}
+              >
+                i
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  {
+                    'text-stone-600': theme === 'light' && !isUnderline,
+                  },
+                  { 'text-primary': isUnderline },
+                  'ql-underlineIt underline',
+                )}
+              >
+                U
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  {
+                    'text-stone-600': theme === 'light' && !isStrike,
+                  },
+                  { 'text-primary': isStrike },
+                  'ql-strikeIt line-through',
+                )}
+              >
+                S
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  {
+                    'text-stone-600': theme === 'light' && !isCode,
+                  },
+                  { 'text-primary': isCode },
+                  'ql-codeIt',
+                )}
+              >
+                {'<>'}
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  {
+                    'text-stone-600': theme === 'light' && !isBlockquote,
+                  },
+                  { 'text-primary': isBlockquote },
+                  'ql-blockquoteIt',
+                )}
+              >
+                &quot;&quot;
+              </button>
+              <button
+                type="button"
+                className={classNames(
+                  {
+                    'text-stone-600': theme === 'light' && !isBullet,
+                  },
+                  { 'text-primary': isBullet },
+                  'ql-bulletIt',
+                )}
+              >
+                ●
+              </button>
             </div>
             {selectMenuIsOpen && (
               <FlowMenu

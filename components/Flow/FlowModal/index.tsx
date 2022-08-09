@@ -110,6 +110,7 @@ export default function index({
         open={!!flowId || !!createdFlowId}
         onClose={() => closeFlowModal()}
         className="relative z-50 w-full h-screen"
+        id="flow-modal"
       >
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
         <Transition.Child
