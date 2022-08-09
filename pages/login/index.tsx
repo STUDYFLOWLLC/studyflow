@@ -1,10 +1,8 @@
 /* eslint-disable no-shadow */
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import EmailLogin from 'components/Auth/Login/EmailLogin'
 import LoginHeader from 'components/Auth/Login/LoginHeader'
 import LoginImage from 'components/Auth/Login/LoginImage'
-import OrLine from 'components/Auth/Login/OrLine'
 import ProviderButtonGroup from 'components/Auth/Login/ProviderButtonGroup'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
@@ -56,11 +54,11 @@ export default function Login() {
         <div className="mx-auto w-full max-w-sm lg:w-96 pb-36 xl:pb-18">
           <div className="w-5/6 sm:w-full mx-auto">
             <LoginHeader />
-            <div className="mt-4 w-full">
+            <div className="mt-12 w-full">
               <ProviderButtonGroup />
-              <OrLine succeed={succeed} />
+              {/* <OrLine succeed={succeed} /> */}
             </div>
-            <EmailLogin succeed={succeed} setSucceed={setSucceed} />
+            {/* <EmailLogin succeed={succeed} setSucceed={setSucceed} /> */}
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { mutateEmptyFlowTrash } from 'hooks/flows/mutateFlow'
 import { DashFlow } from 'hooks/flows/useDashFlows'
 import {
+  mutateHasRequestedAutomationAccess,
   mutateName,
   mutateProfilePictureLink,
   mutateSetupStep,
@@ -220,4 +221,30 @@ export async function emptyTrash(
   )
 
   setDeleting(false)
+}
+
+export async function changeUserHasRequestedAutomationAccess(
+  newAutomationAccess: boolean,
+  userDetails: UserDetail | null,
+  mutateUserDetails: KeyedMutator<any>,
+) {
+  if (!userDetails) return
+
+  // mutate in backend
+  await mutateHasRequestedAutomationAccess(
+    userDetails.Email,
+    newAutomationAccess,
+  )
+
+  // mutate locally
+  mutateUserDetails(
+    {
+      ...userDetails,
+      HasRequestedAutomationAccess: newAutomationAccess,
+      mutate: true,
+    },
+    {
+      revalidate: false,
+    },
+  )
 }

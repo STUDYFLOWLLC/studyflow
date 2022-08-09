@@ -76,6 +76,16 @@ export class UserOrderByWithRelationInput {
   })
   ProfilePictureLink?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  HasRequestedAutomationAccess?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  HasAutomationAccess?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => SchoolOrderByWithRelationInput, {
     nullable: true
   })
