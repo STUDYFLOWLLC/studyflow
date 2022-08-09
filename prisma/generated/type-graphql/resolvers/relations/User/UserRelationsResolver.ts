@@ -1,5 +1,8 @@
 import * as TypeGraphQL from "type-graphql";
 import { Automation } from "../../../models/Automation";
+import { Blog } from "../../../models/Blog";
+import { BugReport } from "../../../models/BugReport";
+import { FeatureRequest } from "../../../models/FeatureRequest";
 import { Flow } from "../../../models/Flow";
 import { FlowView } from "../../../models/FlowView";
 import { Friendship } from "../../../models/Friendship";
@@ -11,6 +14,9 @@ import { Term } from "../../../models/Term";
 import { User } from "../../../models/User";
 import { UserOnStudyGroup } from "../../../models/UserOnStudyGroup";
 import { UserFK_AutomationArgs } from "./args/UserFK_AutomationArgs";
+import { UserFK_BlogArgs } from "./args/UserFK_BlogArgs";
+import { UserFK_BugReportArgs } from "./args/UserFK_BugReportArgs";
+import { UserFK_FeatureRequestArgs } from "./args/UserFK_FeatureRequestArgs";
 import { UserFK_FlowArgs } from "./args/UserFK_FlowArgs";
 import { UserFK_FlowViewArgs } from "./args/UserFK_FlowViewArgs";
 import { UserFK_FriendshipsAcceptedArgs } from "./args/UserFK_FriendshipsAcceptedArgs";
@@ -142,5 +148,38 @@ export class UserRelationsResolver {
         UserID: user.UserID,
       },
     }).FK_FriendshipsAccepted(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [Blog], {
+    nullable: false
+  })
+  async FK_Blog(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_BlogArgs): Promise<Blog[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_Blog(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [BugReport], {
+    nullable: false
+  })
+  async FK_BugReport(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_BugReportArgs): Promise<BugReport[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_BugReport(args);
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [FeatureRequest], {
+    nullable: false
+  })
+  async FK_FeatureRequest(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Args() args: UserFK_FeatureRequestArgs): Promise<FeatureRequest[]> {
+    return getPrismaFromContext(ctx).user.findUnique({
+      where: {
+        UserID: user.UserID,
+      },
+    }).FK_FeatureRequest(args);
   }
 }

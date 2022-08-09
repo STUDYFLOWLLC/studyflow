@@ -3,6 +3,9 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AutomationCreateNestedManyWithoutFK_UserInput } from "../inputs/AutomationCreateNestedManyWithoutFK_UserInput";
+import { BlogCreateNestedManyWithoutFK_UserInput } from "../inputs/BlogCreateNestedManyWithoutFK_UserInput";
+import { BugReportCreateNestedManyWithoutFK_UserInput } from "../inputs/BugReportCreateNestedManyWithoutFK_UserInput";
+import { FeatureRequestCreateNestedManyWithoutFK_UserInput } from "../inputs/FeatureRequestCreateNestedManyWithoutFK_UserInput";
 import { FlowCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowCreateNestedManyWithoutFK_UserInput";
 import { FlowViewCreateNestedManyWithoutFK_UserInput } from "../inputs/FlowViewCreateNestedManyWithoutFK_UserInput";
 import { FriendshipCreateNestedManyWithoutFK_UserFromInput } from "../inputs/FriendshipCreateNestedManyWithoutFK_UserFromInput";
@@ -118,4 +121,19 @@ export class UserCreateWithoutFK_SettingsInput {
     nullable: true
   })
   FK_FriendshipsAccepted?: FriendshipCreateNestedManyWithoutFK_UserToInput | undefined;
+
+  @TypeGraphQL.Field(_type => BlogCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_Blog?: BlogCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => BugReportCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_BugReport?: BugReportCreateNestedManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FeatureRequestCreateNestedManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_FeatureRequest?: FeatureRequestCreateNestedManyWithoutFK_UserInput | undefined;
 }

@@ -160,6 +160,9 @@ model User {
   FK_UserOnStudyGroups    UserOnStudyGroup[]
   FK_FriendshipsInitiated Friendship[]       @relation(name: "from")
   FK_FriendshipsAccepted  Friendship[]       @relation(name: "to")
+  FK_Blog                 Blog[]
+  FK_BugReport            BugReport[]
+  FK_FeatureRequest       FeatureRequest[]
 }
 
 model Term {
@@ -364,4 +367,34 @@ model Repetition {
   FK_FlashcardStack   FlashcardStack? @relation(fields: [FK_FlashcardStackID], references: [FlashcardStackID])
   FK_FlashcardStackID String?         @unique
   FK_Tasks            Task[]
+}
+
+model Blog {
+  BlogID      String    @id @default(uuid())
+  CreatedTime DateTime  @default(now())
+  DeletedTime DateTime?
+  FK_User     User?     @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID   Int?
+  Title       String    @default("")
+  Body        String    @default("")
+}
+
+model BugReport {
+  BugReportID String    @id @default(uuid())
+  CreatedTime DateTime  @default(now())
+  DeletedTime DateTime?
+  FK_User     User?     @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID   Int?
+  Title       String    @default("")
+  Body        String    @default("")
+}
+
+model FeatureRequest {
+  FeatureRequestID String    @id @default(uuid())
+  CreatedTime      DateTime  @default(now())
+  DeletedTime      DateTime?
+  FK_User          User?     @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
+  FK_UserID        Int?
+  Title            String    @default("")
+  Body             String    @default("")
 }

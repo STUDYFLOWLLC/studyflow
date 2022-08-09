@@ -1,9 +1,10 @@
 import { BanIcon } from '@heroicons/react/outline'
 import DisplayFlowBody from 'components/Social/Flow/DisplayFlowBody'
 import DisplayFlowHeader from 'components/Social/Flow/DisplayFlowHeader'
+import { MyValue } from 'dinnerplate/types/plateTypes'
 import { PublicFlowDetail } from 'hooks/flows/getFlowDetails'
 import { useEffect, useState } from 'react'
-import { Block, FlowVisibility } from 'types/Flow'
+import { FlowVisibility } from 'types/Flow'
 import DisplayPrivateFlow from './DisplayPrivateFlow'
 
 interface Props {
@@ -11,23 +12,23 @@ interface Props {
 }
 
 export default function DisplayFlow({ flow }: Props) {
-  const [blocks, setBlocks] = useState<Block[]>(
-    JSON.parse(flow.Body) as Block[],
-  )
+  const [value, setValue] = useState<MyValue>(JSON.parse(flow.Body) as MyValue)
 
-  useEffect(() => setBlocks(JSON.parse(flow.Body) as Block[]), [flow])
+  useEffect(() => setValue(JSON.parse(flow.Body) as MyValue), [flow])
+
+  console.log(value)
 
   if (flow.Visibility === FlowVisibility.PUBLIC) {
     return (
       <>
         <DisplayFlowHeader flow={flow} />
-        <DisplayFlowBody blocks={blocks} />
+        <DisplayFlowBody value={value} />
       </>
     )
   }
 
   if (flow.Visibility === FlowVisibility.PRIVATE) {
-    return <DisplayPrivateFlow flow={flow} blocks={blocks} />
+    return <DisplayPrivateFlow flow={flow} value={value} />
   }
 
   if (flow.Visibility === FlowVisibility.HIDDEN) {
@@ -45,7 +46,7 @@ export default function DisplayFlow({ flow }: Props) {
   return (
     <>
       <DisplayFlowHeader flow={flow} />
-      <DisplayFlowBody blocks={blocks} />
+      <DisplayFlowBody value={value} />
     </>
   )
 }
