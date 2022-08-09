@@ -24,6 +24,11 @@ export class BugReportOrderByWithRelationInput {
   })
   DeletedTime?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  FixedTime?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
     nullable: true
   })

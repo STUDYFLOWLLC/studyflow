@@ -23,6 +23,11 @@ export class FeatureRequestCreateInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  ImplementedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFK_FeatureRequestInput, {
     nullable: true
   })

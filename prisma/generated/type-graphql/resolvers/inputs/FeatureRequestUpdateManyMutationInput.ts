@@ -25,6 +25,11 @@ export class FeatureRequestUpdateManyMutationInput {
   })
   DeletedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  ImplementedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })

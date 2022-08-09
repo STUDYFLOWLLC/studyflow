@@ -22,6 +22,11 @@ export class FeatureRequestCreateManyFK_UserInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  ImplementedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })

@@ -22,6 +22,11 @@ export class FeatureRequestMinAggregate {
   })
   DeletedTime!: Date | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  ImplementedTime!: Date | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

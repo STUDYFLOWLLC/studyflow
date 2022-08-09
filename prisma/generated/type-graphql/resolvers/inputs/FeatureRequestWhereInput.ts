@@ -42,6 +42,11 @@ export class FeatureRequestWhereInput {
   })
   DeletedTime?: DateTimeNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  ImplementedTime?: DateTimeNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true
   })

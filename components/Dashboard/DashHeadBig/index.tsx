@@ -1,3 +1,4 @@
+import BetaNavbar, { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
 import HideButton from 'components/Dashbar/HideButton'
 import CreateButton from 'components/Dashboard/CreateButton'
 import TasksNavbar from 'components/Dashboard/TasksNavbar'
@@ -14,6 +15,8 @@ interface Props {
   disabled?: boolean
   taskView?: string
   setTaskView?: (taskView: string) => void
+  betaView?: BetaDisplays
+  setBetaView?: (betaView: BetaDisplays) => void
 }
 
 export default function index({
@@ -24,6 +27,8 @@ export default function index({
   disabled,
   taskView,
   setTaskView,
+  betaView,
+  setBetaView,
 }: Props) {
   return (
     <div className="relative">
@@ -42,6 +47,9 @@ export default function index({
           )}
           {taskView && setTaskView && (
             <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
+          )}
+          {betaView && setBetaView && (
+            <BetaNavbar betaView={betaView} setBetaView={setBetaView} />
           )}
         </div>
         <div className="flex sm:mt-0 items-center">

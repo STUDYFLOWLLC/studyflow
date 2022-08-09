@@ -22,6 +22,11 @@ export class BugReportCreateManyInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  FixedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

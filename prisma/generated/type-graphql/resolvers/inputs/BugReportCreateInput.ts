@@ -23,6 +23,11 @@ export class BugReportCreateInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  FixedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutFK_BugReportInput, {
     nullable: true
   })

@@ -20,7 +20,7 @@ export class GroupByBugReportArgs {
   @TypeGraphQL.Field(_type => [BugReportScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"BugReportID" | "CreatedTime" | "DeletedTime" | "FK_UserID" | "Title" | "Body">;
+  by!: Array<"BugReportID" | "CreatedTime" | "DeletedTime" | "FixedTime" | "FK_UserID" | "Title" | "Body">;
 
   @TypeGraphQL.Field(_type => BugReportScalarWhereWithAggregatesInput, {
     nullable: true

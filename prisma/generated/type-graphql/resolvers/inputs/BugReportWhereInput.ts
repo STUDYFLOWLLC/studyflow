@@ -42,6 +42,11 @@ export class BugReportWhereInput {
   })
   DeletedTime?: DateTimeNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  FixedTime?: DateTimeNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true
   })

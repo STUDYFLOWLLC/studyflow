@@ -25,6 +25,11 @@ export class FeatureRequestCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  ImplementedTime!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_UserID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

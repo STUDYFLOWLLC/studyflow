@@ -41,6 +41,11 @@ export class FeatureRequestScalarWhereWithAggregatesInput {
   })
   DeletedTime?: DateTimeNullableWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  ImplementedTime?: DateTimeNullableWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })

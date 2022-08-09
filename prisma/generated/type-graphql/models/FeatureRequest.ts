@@ -23,6 +23,11 @@ export class FeatureRequest {
   })
   DeletedTime?: Date | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  ImplementedTime?: Date | null;
+
   FK_User?: User | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

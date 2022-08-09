@@ -22,6 +22,11 @@ export class BugReportCreateManyFK_UserInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  FixedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })

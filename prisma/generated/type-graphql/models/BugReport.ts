@@ -23,6 +23,11 @@ export class BugReport {
   })
   DeletedTime?: Date | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  FixedTime?: Date | null;
+
   FK_User?: User | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

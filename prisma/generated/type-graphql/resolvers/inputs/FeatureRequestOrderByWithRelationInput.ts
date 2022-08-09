@@ -24,6 +24,11 @@ export class FeatureRequestOrderByWithRelationInput {
   })
   DeletedTime?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  ImplementedTime?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => UserOrderByWithRelationInput, {
     nullable: true
   })

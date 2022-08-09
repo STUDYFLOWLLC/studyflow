@@ -20,7 +20,7 @@ export class GroupByFeatureRequestArgs {
   @TypeGraphQL.Field(_type => [FeatureRequestScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"FeatureRequestID" | "CreatedTime" | "DeletedTime" | "FK_UserID" | "Title" | "Body">;
+  by!: Array<"FeatureRequestID" | "CreatedTime" | "DeletedTime" | "ImplementedTime" | "FK_UserID" | "Title" | "Body">;
 
   @TypeGraphQL.Field(_type => FeatureRequestScalarWhereWithAggregatesInput, {
     nullable: true
