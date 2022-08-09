@@ -26,8 +26,6 @@ export default function FlowFlashcardStack({
 
   const [reviewing, setReviewing] = useState(false)
 
-  console.log(editing)
-
   return (
     <div className="p-2">
       <FlashcardReviewModal

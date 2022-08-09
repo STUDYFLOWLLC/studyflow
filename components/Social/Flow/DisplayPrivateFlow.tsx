@@ -2,10 +2,10 @@ import { LockClosedIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
 import MainSpinner from 'components/spinners/MainSpinner'
+import { MyValue } from 'dinnerplate/types/plateTypes'
 import { PublicFlowDetail } from 'hooks/flows/getFlowDetails'
 import usePrivateAccess from 'hooks/flows/usePrivateAccess'
 import useUserDetails from 'hooks/useUserDetails'
-import { Block } from 'types/Flow'
 import { SpinnerSizes } from 'types/Loading'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
 import BasicStudentDisplay from '../Displays/BasicStudentDisplay'
@@ -14,10 +14,10 @@ import DisplayFlowHeader from './DisplayFlowHeader'
 
 interface Props {
   flow: PublicFlowDetail
-  blocks: Block[]
+  value: MyValue
 }
 
-export default function DisplayPrivateFlow({ flow, blocks }: Props) {
+export default function DisplayPrivateFlow({ flow, value }: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
   const { privateAccess, privateAccessLoading } = usePrivateAccess(
@@ -47,7 +47,7 @@ export default function DisplayPrivateFlow({ flow, blocks }: Props) {
       {privateAccess.indexOf(userDetails?.UserID || 0) !== -1 ? (
         <>
           <DisplayFlowHeader flow={flow} />
-          <DisplayFlowBody blocks={blocks} />
+          <DisplayFlowBody value={value} />
         </>
       ) : (
         <div className="max-w-3xl mx-auto overflow-x-none overflow-y-auto prose">

@@ -1,31 +1,14 @@
 import request, { gql } from 'graphql-request'
-import { Color } from 'types/Colors'
-import {
-  Block,
-  BlockTag,
-  FlowType,
-  FlowVisibility,
-  RichTextType,
-} from 'types/Flow'
-import { v4 as uuid } from 'uuid'
+import { FlowType, FlowVisibility } from 'types/Flow'
 
-export const defaultBody: Block[] = [
+export const defaultBody = [
   {
-    id: uuid(),
-    index: 0,
-    tag: BlockTag.PARAGRAPH,
-    tabs: 0,
-    p: {
-      richText: [
-        {
-          type: RichTextType.TEXT,
-          text: {
-            content: '',
-          },
-        },
-      ],
-      color: Color.DEFAULT,
-    },
+    type: 'p',
+    children: [
+      {
+        text: '',
+      },
+    ],
   },
 ]
 

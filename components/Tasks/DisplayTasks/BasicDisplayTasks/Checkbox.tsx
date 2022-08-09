@@ -72,7 +72,7 @@ export default function Checkbox({
             },
             { 'w-3 h-3 ml-px mt-px': cute },
             { 'w-5 h-5 mt-0.5 ml-px': !cute },
-            'transition-all duration-200 ease-in-out ',
+            'transition-all duration-200 ease-in-out text-white',
           )}
         />
       </div>

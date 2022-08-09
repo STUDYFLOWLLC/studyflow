@@ -1,22 +1,24 @@
 /* eslint-disable no-case-declarations */
 
+import { offset, position } from 'caret-pos'
 import classNames from 'classnames'
 import ColorMenuItem from 'components/Flow/Menu/ColorMenuItem'
 import NewBlockMenuItem from 'components/Flow/Menu/NewBlockMenuItem'
 import { groupBy } from 'lodash'
 import { matchSorter } from 'match-sorter'
 import React from 'react'
+import { BaseEditor } from 'slate'
+import { HistoryEditor } from 'slate-history'
+import { ReactEditor } from 'slate-react'
 import { Color } from 'types/Colors'
 import { BlockTag, Command, commandItems } from 'types/Flow'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
+import customEditor from 'utils/slate/customEditor'
 import TurnIntoMenuItem from './Menu/TurnIntoMenuItem'
 
 interface Props {
+  editor: BaseEditor & ReactEditor & HistoryEditor
   theme: string | undefined
-  position: {
-    x: number | null | undefined
-    y: number | null | undefined
-  }
   onTagSelect: (tag: BlockTag, convert?: boolean) => void
   onColorSelect: (color: Color) => void
   close: () => void
@@ -27,6 +29,11 @@ interface State {
   items: Command[]
   selectedItem: number
   justScrolled: boolean
+  position: {
+    x: number | null | undefined
+    y: number | null | undefined
+  }
+  closeIfNotDelete: boolean
 }
 
 class SelectMenu extends React.Component<Props, State> {
@@ -35,30 +42,52 @@ class SelectMenu extends React.Component<Props, State> {
     this.keyDownHandler = this.keyDownHandler.bind(this)
     this.selectionHandler = this.selectionHandler.bind(this)
     this.prioritizeAndGroupCommands = this.prioritizeAndGroupCommands.bind(this)
+    this.updatePosition = this.updatePosition.bind(this)
+    this.selectIt = this.selectIt.bind(this)
 
     this.state = {
       command: '',
       items: commandItems,
       selectedItem: 0,
       justScrolled: false,
+      position: {
+        x: null,
+        y: null,
+      },
+      closeIfNotDelete: false,
     }
   }
 
   // Attach a key listener to add any given key to the command
   componentDidMount() {
+    this.updatePosition()
     document.addEventListener('keydown', this.keyDownHandler)
   }
 
   // Whenever the command changes, look for matching tags in the list
   componentDidUpdate(prevProps: Props, prevState: State) {
+    const input = document.getElementById('editor') as HTMLInputElement
+    const caretPosition = position(input)
+    const { left, top } = caretPosition
+    if (prevState.position.x !== left) {
+      this.updatePosition()
+    }
+
     const { command, items } = this.state
     if (prevState.command !== command) {
-      const itemsSorted = matchSorter(commandItems, command, {
-        keys: ['label', 'description'],
-        // @ts-expect-error base sorter weird typing error but it works
-        baseSort: (a: Command, b: Command) =>
-          commandItems.indexOf(a) < commandItems.indexOf(b) ? -1 : 1,
-      })
+      const itemsSorted = matchSorter(
+        commandItems,
+        command.slice(0, 1) === '/' ? command.slice(1) : command,
+        {
+          keys: ['label', 'description'],
+          // @ts-expect-error base sorter weird typing error but it works
+          baseSort: (a: Command, b: Command) =>
+            commandItems.indexOf(a) < commandItems.indexOf(b) ? -1 : 1,
+        },
+      )
+      if (itemsSorted.length === 0) {
+        this.setState({ closeIfNotDelete: true })
+      }
       this.prioritizeAndGroupCommands(itemsSorted)
     }
   }
@@ -77,11 +106,19 @@ class SelectMenu extends React.Component<Props, State> {
   }
 
   keyDownHandler(e: KeyboardEvent) {
-    const { items, selectedItem, command } = this.state
-    const { close } = this.props
+    const { items, selectedItem, command, closeIfNotDelete } = this.state
+    const { close, editor } = this.props
 
     // commands are 56px, colors are 36px.
     const el = document.getElementById('command-menu')
+
+    // if (isAlphaNumericOrSymbol(e.key))
+    //   this.setState({ command: command + e.key })
+
+    if (e.key !== 'Backspace' && closeIfNotDelete) close()
+
+    if (e.key === 'Backspace' && (command.length === 0 || command === '/'))
+      close()
 
     if (
       !isAlphaNumericOrSymbol(e.key) &&
@@ -98,8 +135,7 @@ class SelectMenu extends React.Component<Props, State> {
     switch (e.key) {
       case 'Enter':
         e.preventDefault()
-        const selectedCommand = items[selectedItem]
-        this.selectionHandler(selectedCommand)
+        this.selectIt()
         break
       case 'Backspace':
         if (!command) close()
@@ -170,12 +206,39 @@ class SelectMenu extends React.Component<Props, State> {
     this.setState({ items: joinedBumpy.flat(), selectedItem: 0 })
   }
 
+  updatePosition() {
+    const input = document.getElementById('editor') as HTMLInputElement
+    const caretOffset = offset(input)
+    const caretPosition = position(input)
+    const { left } = caretPosition
+    const { top } = caretOffset
+    this.setState({ position: { x: left, y: top } })
+  }
+
+  selectIt() {
+    const { editor, close } = this.props
+    const { items, selectedItem } = this.state
+
+    const selectedCommand = items[selectedItem]
+    console.log(selectedCommand)
+    if (selectedCommand.commandType === 'new') {
+      // editor.insertBreak()
+      customEditor.toggleBlock(editor, selectedCommand.format)
+      // console.log(Point.create(editor.value.selection.start))
+      // Transforms.select(editor, {
+      //   anchor: Editor.start(editor, []),
+      //   focus: Editor.end(editor, []),
+      // })
+      // close()
+    }
+  }
+
   render() {
     // Define the absolute position before rendering
-    const { theme } = this.props
-    const { items } = this.state
-    const { position } = this.props
+    const { theme, editor, close } = this.props
+    const { items, position } = this.state
     const x = position?.x || 0
+    const y = position?.y || 0
 
     const joinedBumpy = []
     const grouped = groupBy(items, 'commandType')
@@ -189,10 +252,12 @@ class SelectMenu extends React.Component<Props, State> {
         className={classNames(
           { 'bg-slate-100': theme === 'light' },
           { 'bg-slate-700': theme === 'dark' },
-          'overflow-y-scroll no-scrollbar scroll-smooth ml-1 rounded-lg absolute w-64 max-h-80 p-0 shadow-md z-10  transition-all duration-500',
+          'overflow-y-scroll no-scrollbar scroll-smooth ml-1 rounded-lg fixed w-64 max-h-80 p-0 shadow-md z-10  transition-all duration-200',
         )}
         style={{
-          left: x || 0,
+          left: x + 60,
+          top: y - 40,
+          zIndex: 5000,
         }}
         id="command-menu"
       >
@@ -219,7 +284,9 @@ class SelectMenu extends React.Component<Props, State> {
                   key={item.description}
                   item={item}
                   isSelected={isSelected}
-                  onSelect={() => this.selectionHandler(item)}
+                  onSelect={() => {
+                    this.selectIt()
+                  }}
                   onMouseEnter={onMouseEnter}
                   isTop={
                     index === 0 || joinedFlat[index - 1].commandType !== 'new'
