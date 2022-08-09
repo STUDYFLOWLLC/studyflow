@@ -41,7 +41,9 @@ export default function BugReportLine({
           )}
         >
           {!bugReport.FixedTime
-            ? `Created ${abbreviateDate(new Date(bugReport.CreatedTime))}`
+            ? `Not fixed. Created ${abbreviateDate(
+                new Date(bugReport.CreatedTime),
+              )}`
             : `Fixed ${abbreviateDate(new Date(bugReport.FixedTime))}`}
         </p>
       </div>

@@ -1,7 +1,10 @@
 import { MyValue } from 'dinnerplate/types/plateTypes'
 import request, { gql } from 'graphql-request'
 
-export default async function makeBugReport(value: MyValue, username?: string) {
+export default async function makeFeatureRequest(
+  value: MyValue,
+  username?: string,
+) {
   const mutation = gql`
     mutation Mutation($data: FeatureRequestCreateInput!) {
       createFeatureRequest(data: $data) {
@@ -44,5 +47,5 @@ export default async function makeBugReport(value: MyValue, username?: string) {
   }
 
   const data = await request('/api/graphql', mutation, variables)
-  return data.createBugReport
+  return data.createFeatureRequest
 }

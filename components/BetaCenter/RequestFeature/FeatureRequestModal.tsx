@@ -1,18 +1,18 @@
 import { Dialog, Transition } from '@headlessui/react'
 import classNames from 'classnames'
 import BugPlate from 'dinnerplate/BugPlate'
-import { BugReport } from 'hooks/beta/useBugReports'
+import { FeatureRequest } from 'hooks/beta/useFeatureRequests'
 import { Fragment } from 'react'
 import abbreviateDate from 'utils/abbreviateDate'
 
 interface Props {
-  bugReport: BugReport | null
+  featureRequest: FeatureRequest | null
   modalOpen: boolean
   setModalOpen: (modalOpen: boolean) => void
 }
 
 export default function BugReportModal({
-  bugReport,
+  featureRequest,
   modalOpen,
   setModalOpen,
 }: Props) {
@@ -45,37 +45,37 @@ export default function BugReportModal({
           leaveTo="opacity-0 scale-95"
         >
           <Dialog.Panel className="bg-base-100 overflow-y-auto no-scrollbar max-w-4xl w-full h-full mx-auto prose relative rounded-md p-2 transition-all">
-            {bugReport ? (
+            {featureRequest ? (
               <div className="my-3">
                 <div className="border-b pb-3">
                   <p className="p-0 m-0">
                     <span className="font-bold">
-                      {bugReport.Title || 'Untitled'}{' '}
+                      {featureRequest.Title || 'Untitled'}{' '}
                     </span>
                     <span className="text-info">
-                      by {bugReport.FK_User?.Name || 'Anonymous'}
+                      by {featureRequest.FK_User?.Name || 'Anonymous'}
                     </span>
                   </p>
                   <p
                     className={classNames(
-                      { 'text-red-500': !bugReport.FixedTime },
-                      { 'text-green-500': bugReport.FixedTime },
+                      { 'text-red-500': !featureRequest.ImplementedTime },
+                      { 'text-green-500': featureRequest.ImplementedTime },
                       'p-0 m-0',
                     )}
                   >
-                    {!bugReport.FixedTime
-                      ? `Not fixed. Created ${abbreviateDate(
-                          new Date(bugReport.CreatedTime),
+                    {!featureRequest.ImplementedTime
+                      ? `Not implemented. Created ${abbreviateDate(
+                          new Date(featureRequest.CreatedTime),
                         )}`
-                      : `Fixed ${abbreviateDate(
-                          new Date(bugReport.FixedTime),
+                      : `Implemented ${abbreviateDate(
+                          new Date(featureRequest.ImplementedTime),
                         )}`}
                   </p>
                 </div>
-                <BugPlate value={JSON.parse(bugReport.Body)} readonly />
+                <BugPlate value={JSON.parse(featureRequest.Body)} readonly />
               </div>
             ) : (
-              <p>No report found!</p>
+              <p>No request found!</p>
             )}
           </Dialog.Panel>
         </Transition.Child>

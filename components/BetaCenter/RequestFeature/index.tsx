@@ -1,30 +1,35 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import BugButtons from 'components/BetaCenter/ReportBug/BugButtons'
 import MainSpinner from 'components/spinners/MainSpinner'
 import BugPlate from 'dinnerplate/BugPlate'
 import { MyValue } from 'dinnerplate/types/plateTypes'
-import useBugReports, { BugReport } from 'hooks/beta/useBugReports'
+import useFeatureRequests, {
+  FeatureRequest,
+} from 'hooks/beta/useFeatureRequests'
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
-import BugReportLine from './BugReportLine'
-import BugReportModal from './BugReportModal'
+import FeatureButtons from './FeatureButtons'
+import FeatureRequestLine from './FeatureRequestLine'
+import FeatureRequestModal from './FeatureRequestModal'
 
-export default function ReportBug() {
+export default function RequestFeature() {
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { bugReports, bugReportsLoading, mutateBugReports } = useBugReports()
+  const { featureRequests, featureRequestsLoading, mutateFeatureRequests } =
+    useFeatureRequests()
 
-  const [showReport, setShowReport] = useState(false)
+  const [showRequest, setShowRequest] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const [currentReport, setCurrentReport] = useState<BugReport | null>(null)
+  const [currentRequest, setCurrentRequest] = useState<FeatureRequest | null>(
+    null,
+  )
 
   const [value, setValue] = useState<MyValue>([
     {
       type: 'h1',
       children: [
         {
-          text: 'Bug Title',
+          text: 'Request title',
         },
       ],
     },
@@ -32,7 +37,7 @@ export default function ReportBug() {
       type: 'p',
       children: [
         {
-          text: "Thanks for reporting a bug! Please enter as many details as you can below and we'll get it fixed soon!",
+          text: "Thanks for a requesting a feature! Please enter as many details as you can below and we'll try to implement it soon!",
         },
       ],
     },
@@ -40,34 +45,34 @@ export default function ReportBug() {
 
   return (
     <div className="flex flex-col items-center">
-      <BugReportModal
-        bugReport={currentReport}
+      <FeatureRequestModal
+        featureRequest={currentRequest}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />
-      {!showReport ? (
+      {!showRequest ? (
         <div className="prose max-w-3xl mx-auto w-full py-2">
-          {bugReportsLoading ? (
+          {featureRequestsLoading ? (
             <MainSpinner size={SpinnerSizes.medium} />
           ) : (
             <div>
-              <h1 className="mb-0 pb-0">Bug Reports</h1>
+              <h1 className="mb-0 pb-0">Feature Requests</h1>
               <p className="my-1 p-0">
-                Please check to see if your bug has already been reported!
+                Please check to see if your feature has already been requested!
               </p>
               <button
                 type="button"
                 className="alex-button my-2 mx-auto"
-                onClick={() => setShowReport(true)}
+                onClick={() => setShowRequest(true)}
               >
-                Report Bug
+                Request Feature
               </button>
-              {bugReports.map((br) => (
-                <BugReportLine
-                  key={br.BugReportID}
-                  bugReport={br}
+              {featureRequests.map((fr) => (
+                <FeatureRequestLine
+                  key={fr.FeatureRequestID}
+                  featureRequest={fr}
                   setModalOpen={setModalOpen}
-                  setCurrentReport={setCurrentReport}
+                  setCurrentRequest={setCurrentRequest}
                 />
               ))}
             </div>
@@ -75,7 +80,7 @@ export default function ReportBug() {
         </div>
       ) : (
         <div>
-          <BugButtons value={value} setShowReport={setShowReport} />
+          <FeatureButtons value={value} setShowRequest={setShowRequest} />
           <BugPlate value={value} setValue={setValue} />
         </div>
       )}

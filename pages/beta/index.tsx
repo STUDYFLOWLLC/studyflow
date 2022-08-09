@@ -2,6 +2,7 @@ import withPageAuth from '@supabase/supabase-auth-helpers/nextjs/utils/withPageA
 import classNames from 'classnames'
 import { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
 import ReportBug from 'components/BetaCenter/ReportBug/index'
+import RequestFeature from 'components/BetaCenter/RequestFeature'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
@@ -76,6 +77,7 @@ export default function beta() {
             setCreateFlowAs={() => {}}
           />
           {betaView === BetaDisplays.REPORT_BUG && <ReportBug />}
+          {betaView === BetaDisplays.REQUEST_FEATURE && <RequestFeature />}
         </div>
       </div>
     </SkeletonTheme>
