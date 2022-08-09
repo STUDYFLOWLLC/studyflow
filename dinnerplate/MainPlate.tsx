@@ -110,8 +110,7 @@ export default function MainPlate({
   defaultValue,
   readonly,
 }: Props) {
-  const { flowDetails, flowDetailsLoading, mutateFlowDetails } =
-    useFlowDetails(flowId)
+  const { flowDetails } = useFlowDetails(flowId)
 
   const containerRef = useRef(null)
 
@@ -200,13 +199,12 @@ export default function MainPlate({
       <MainItem
         item={item.item.data.itemDetails}
         onSelect={() => {
+          // @ts-expect-error its not picking up my custom typing, but this works.
           item.item.data.onSelect(item.item.data.itemDetails, editor)
         }}
       />
     )
   }
-
-  console.log(defaultValue)
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -263,6 +261,7 @@ export default function MainPlate({
               }}
               id="test"
               trigger="/"
+              // @ts-expect-error again its not picking up my custom types but it works
               items={COMMAND_MENU_ITEMS}
               filter={(search) => {
                 const itemsSorted = matchSorter(COMMAND_MENU_ITEMS, search, {

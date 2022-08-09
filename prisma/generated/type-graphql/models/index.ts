@@ -1,8 +1,11 @@
 export { Automation } from "./Automation";
 export { AutomationLog } from "./AutomationLog";
+export { Blog } from "./Blog";
+export { BugReport } from "./BugReport";
 export { Course } from "./Course";
 export { CourseOnTerm } from "./CourseOnTerm";
 export { CourseOnTermAutomation } from "./CourseOnTermAutomation";
+export { FeatureRequest } from "./FeatureRequest";
 export { Flashcard } from "./Flashcard";
 export { FlashcardReview } from "./FlashcardReview";
 export { FlashcardStack } from "./FlashcardStack";

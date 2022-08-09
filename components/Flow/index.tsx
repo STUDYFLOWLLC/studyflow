@@ -101,13 +101,6 @@ export default function Flow({ flowId, closeModal, setDragSetter }: Props) {
         saving={saving}
       />
       {!flowDetailsLoading ? (
-        // <FlowBody
-        //   initialBlocks={JSON.parse(flowDetails?.Body || '[]') || defaultBody}
-        //   saveFlow={saveFlow}
-        //   setFauxSaving={setFauxSaving}
-        //   setDragSetter={setDragSetter}
-        // />
-        // <SlateMain />
         <MainPlate flowId={flowId} saveFlow={saveFlow} />
       ) : (
         <div className="flex flex-col justify-center w-full h-80 max-h-full">

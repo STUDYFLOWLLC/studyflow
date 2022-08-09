@@ -3,6 +3,9 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Automation } from "../models/Automation";
+import { Blog } from "../models/Blog";
+import { BugReport } from "../models/BugReport";
+import { FeatureRequest } from "../models/FeatureRequest";
 import { Flow } from "../models/Flow";
 import { FlowView } from "../models/FlowView";
 import { Friendship } from "../models/Friendship";
@@ -101,6 +104,12 @@ export class User {
   FK_FriendshipsInitiated?: Friendship[];
 
   FK_FriendshipsAccepted?: Friendship[];
+
+  FK_Blog?: Blog[];
+
+  FK_BugReport?: BugReport[];
+
+  FK_FeatureRequest?: FeatureRequest[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true

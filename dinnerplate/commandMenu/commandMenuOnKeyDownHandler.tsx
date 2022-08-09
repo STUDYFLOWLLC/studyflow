@@ -33,6 +33,7 @@ export const commandMenuOnKeyDownHandler: <V extends Value>(
         comboboxStore.get.highlightedIndex()
       ] as TCommandMenuItem
       if (item) {
+        // @ts-expect-error stop being so picky
         item.data.onSelect(item, editor)
       }
     }

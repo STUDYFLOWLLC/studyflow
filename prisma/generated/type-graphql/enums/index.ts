@@ -1,8 +1,11 @@
 export { AutomationLogScalarFieldEnum } from "./AutomationLogScalarFieldEnum";
 export { AutomationScalarFieldEnum } from "./AutomationScalarFieldEnum";
+export { BlogScalarFieldEnum } from "./BlogScalarFieldEnum";
+export { BugReportScalarFieldEnum } from "./BugReportScalarFieldEnum";
 export { CourseOnTermAutomationScalarFieldEnum } from "./CourseOnTermAutomationScalarFieldEnum";
 export { CourseOnTermScalarFieldEnum } from "./CourseOnTermScalarFieldEnum";
 export { CourseScalarFieldEnum } from "./CourseScalarFieldEnum";
+export { FeatureRequestScalarFieldEnum } from "./FeatureRequestScalarFieldEnum";
 export { FlashcardReviewScalarFieldEnum } from "./FlashcardReviewScalarFieldEnum";
 export { FlashcardScalarFieldEnum } from "./FlashcardScalarFieldEnum";
 export { FlashcardStackReviewScalarFieldEnum } from "./FlashcardStackReviewScalarFieldEnum";
