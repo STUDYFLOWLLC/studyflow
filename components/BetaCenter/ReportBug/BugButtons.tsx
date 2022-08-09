@@ -19,8 +19,6 @@ export default function BugButtons({ value, setShowReport }: Props) {
   const [enabled, setEnabled] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
-  console.log(userDetails?.Username)
-
   return (
     <div className="mb-6 flex flex-col items-center relative">
       <div className="flex items-center prose my-3">

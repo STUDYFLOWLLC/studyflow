@@ -100,7 +100,7 @@ const styles: Record<string, CSSProperties> = {
 
 interface Props {
   value: MyValue
-  setValue: (value: MyValue) => void
+  setValue?: (value: MyValue) => void
   readonly?: boolean
 }
 
@@ -209,9 +209,11 @@ export default function MainPlate({ value, setValue, readonly }: Props) {
           'prose-p:text-lg prose-p:my-0 prose-p:py-[0.25rem] t prose-p:leading-normal',
         )}
       >
-        <Toolbar>
-          <ToolbarButtons />
-        </Toolbar>
+        {!readonly && (
+          <Toolbar>
+            <ToolbarButtons />
+          </Toolbar>
+        )}
 
         <div ref={containerRef} style={styles.container}>
           <Plate<MyValue, MyEditor>
@@ -220,7 +222,7 @@ export default function MainPlate({ value, setValue, readonly }: Props) {
             initialValue={value}
             plugins={plugins}
             onChange={(value) => {
-              setValue(value)
+              if (setValue) setValue(value)
             }}
           >
             <MarkBalloonToolbar />

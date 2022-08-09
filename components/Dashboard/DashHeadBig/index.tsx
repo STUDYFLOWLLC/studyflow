@@ -52,9 +52,14 @@ export default function index({
             <BetaNavbar betaView={betaView} setBetaView={setBetaView} />
           )}
         </div>
-        <div className="flex sm:mt-0 items-center">
-          <CreateButton disabled={disabled} setCreateFlowAs={setCreateFlowAs} />
-        </div>
+        {!taskView && !betaView && (
+          <div className="flex sm:mt-0 items-center">
+            <CreateButton
+              disabled={disabled}
+              setCreateFlowAs={setCreateFlowAs}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

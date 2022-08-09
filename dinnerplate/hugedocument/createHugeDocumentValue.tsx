@@ -20,7 +20,7 @@ export const createHugeDocumentValue = () => {
       ) as any,
     )
 
-    for (let p = 0; p < PARAGRAPHS; p+=1) {
+    for (let p = 0; p < PARAGRAPHS; p += 1) {
       hugeDocument.push(
         (
           <hp>

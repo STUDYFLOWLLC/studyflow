@@ -3,11 +3,12 @@ import BugButtons from 'components/BetaCenter/ReportBug/BugButtons'
 import MainSpinner from 'components/spinners/MainSpinner'
 import BugPlate from 'dinnerplate/BugPlate'
 import { MyValue } from 'dinnerplate/types/plateTypes'
-import useBugReports from 'hooks/beta/useBugReports'
+import useBugReports, { BugReport } from 'hooks/beta/useBugReports'
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 import { SpinnerSizes } from 'types/Loading'
 import BugReportLine from './BugReportLine'
+import BugReportModal from './BugReportModal'
 
 export default function ReportBug() {
   const { user } = useUser()
@@ -15,6 +16,8 @@ export default function ReportBug() {
   const { bugReports, bugReportsLoading, mutateBugReports } = useBugReports()
 
   const [showReport, setShowReport] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [currentReport, setCurrentReport] = useState<BugReport | null>(null)
 
   const [value, setValue] = useState<MyValue>([
     {
@@ -37,6 +40,11 @@ export default function ReportBug() {
 
   return (
     <div className="flex flex-col items-center">
+      <BugReportModal
+        bugReport={currentReport}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
       {!showReport ? (
         <div className="prose max-w-3xl mx-auto w-full py-2">
           {bugReportsLoading ? (
@@ -55,7 +63,12 @@ export default function ReportBug() {
                 Report Bug
               </button>
               {bugReports.map((br) => (
-                <BugReportLine key={br.BugReportID} bugReport={br} />
+                <BugReportLine
+                  key={br.BugReportID}
+                  bugReport={br}
+                  setModalOpen={setModalOpen}
+                  setCurrentReport={setCurrentReport}
+                />
               ))}
             </div>
           )}

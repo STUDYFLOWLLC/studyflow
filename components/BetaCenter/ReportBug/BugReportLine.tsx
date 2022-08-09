@@ -5,11 +5,27 @@ import abbreviateDate from 'utils/abbreviateDate'
 
 interface Props {
   bugReport: BugReport
+  setModalOpen: (modalOpen: boolean) => void
+  setCurrentReport: (bugReport: BugReport) => void
 }
 
-export default function BugReportLine({ bugReport }: Props) {
+export default function BugReportLine({
+  bugReport,
+  setModalOpen,
+  setCurrentReport,
+}: Props) {
   return (
-    <div className="max-h-80 overflow-auto border p-1 flex items-center justify-between cursor-pointer">
+    <div
+      className="max-h-80 overflow-auto border p-1 flex items-center justify-between cursor-pointer"
+      onClick={() => {
+        setCurrentReport(bugReport)
+        setModalOpen(true)
+      }}
+      onKeyDown={() => {
+        setCurrentReport(bugReport)
+        setModalOpen(true)
+      }}
+    >
       <div className="">
         <p className="p-0 m-0">
           <span className="font-bold">{bugReport.Title || 'Untitled'} </span>
