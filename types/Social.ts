@@ -11,21 +11,18 @@ export interface PublicUser {
   }
   Bio?: string
   About?: string
-  Friends?: {
-    requested: Friendship[]
-    accepted: Friendship[]
-    incoming: Friendship[]
-  }
+  Friends?: SmallFriend[]
 }
 
 export interface SmallFriend {
-  FriendshipID: number
+  FriendshipID: string
+  SentTime: string
   AcceptedTime: string
   Friend: PublicUser
 }
 
 export interface Friendship {
-  FriendshipID: number
+  FriendshipID: string
   SentTime: string
   AcceptedTime: string | null
   FK_UserFrom: PublicUser

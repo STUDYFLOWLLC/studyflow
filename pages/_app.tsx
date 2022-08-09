@@ -6,6 +6,7 @@ import { request, RequestDocument } from 'graphql-request'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import NextNProgress from 'nextjs-progressbar'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'styles/flashcard.css'
 import 'styles/flows.css'
@@ -29,6 +30,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <ThemeProvider defaultTheme="light" enableSystem>
           <UserProvider supabaseClient={supabaseClient}>
+            <NextNProgress
+              color="#7AE0D6"
+              options={{
+                trickle: true,
+                showSpinner: false,
+                trickleSpeed: 200,
+              }}
+            />
             <Component {...pageProps} />
           </UserProvider>
         </ThemeProvider>

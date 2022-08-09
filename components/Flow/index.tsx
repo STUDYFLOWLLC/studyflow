@@ -2,15 +2,14 @@ import { useUser } from '@supabase/supabase-auth-helpers/react'
 import FlowTop from 'components/Flow/FlowTop'
 import TrashedFlow from 'components/Flow/TrashedFlow'
 import MainSpinner from 'components/spinners/MainSpinner'
-import { defaultBody } from 'hooks/flows/makeFlow'
+import MainPlate from 'dinnerplate/MainPlate'
+import { MyValue } from 'dinnerplate/types/plateTypes'
 import { mutateFlowBody, mutateLastOpened } from 'hooks/flows/mutateFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
-import { Block } from 'types/Flow'
 import { SpinnerSizes } from 'types/Loading'
-import FlowBody from './FlowBody'
 
 interface Props {
   flowId: string
@@ -52,7 +51,7 @@ export default function Flow({ flowId, closeModal, setDragSetter }: Props) {
   const [fauxSaving, setFauxSaving] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const saveFlow = async (blocks: Block[]) => {
+  const saveFlow = async (blocks: MyValue) => {
     setSaving(true)
 
     // mutate locally
@@ -102,12 +101,7 @@ export default function Flow({ flowId, closeModal, setDragSetter }: Props) {
         saving={saving}
       />
       {!flowDetailsLoading ? (
-        <FlowBody
-          initialBlocks={JSON.parse(flowDetails?.Body || '[]') || defaultBody}
-          saveFlow={saveFlow}
-          setFauxSaving={setFauxSaving}
-          setDragSetter={setDragSetter}
-        />
+        <MainPlate flowId={flowId} saveFlow={saveFlow} />
       ) : (
         <div className="flex flex-col justify-center w-full h-80 max-h-full">
           <div className="flex justify-center">

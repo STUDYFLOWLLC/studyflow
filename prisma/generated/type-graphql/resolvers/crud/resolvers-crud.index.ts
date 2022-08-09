@@ -1,8 +1,11 @@
 export { AutomationCrudResolver } from "./Automation/AutomationCrudResolver";
 export { AutomationLogCrudResolver } from "./AutomationLog/AutomationLogCrudResolver";
+export { BlogCrudResolver } from "./Blog/BlogCrudResolver";
+export { BugReportCrudResolver } from "./BugReport/BugReportCrudResolver";
 export { CourseCrudResolver } from "./Course/CourseCrudResolver";
 export { CourseOnTermCrudResolver } from "./CourseOnTerm/CourseOnTermCrudResolver";
 export { CourseOnTermAutomationCrudResolver } from "./CourseOnTermAutomation/CourseOnTermAutomationCrudResolver";
+export { FeatureRequestCrudResolver } from "./FeatureRequest/FeatureRequestCrudResolver";
 export { FlashcardCrudResolver } from "./Flashcard/FlashcardCrudResolver";
 export { FlashcardReviewCrudResolver } from "./FlashcardReview/FlashcardReviewCrudResolver";
 export { FlashcardStackCrudResolver } from "./FlashcardStack/FlashcardStackCrudResolver";

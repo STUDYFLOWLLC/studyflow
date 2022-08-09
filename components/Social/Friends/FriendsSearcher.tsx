@@ -43,20 +43,21 @@ export default function FriendsSearcher() {
     const result = await index.search(query)
     const hitsTemp = result.hits as UserHit[]
     // users you are friends with, have send requests to, or have received requests from, or yourself
-    const excluded = (
-      friends?.accepted.map((f) =>
-        f.FK_UserFrom.UserID === userDetails?.UserID
-          ? f.FK_UserTo.UserID
-          : f.FK_UserFrom.UserID,
-      ) || []
-    )
-      .concat(
-        (friends?.incoming.map((f) => f.FK_UserFrom.UserID) || []).concat(
-          friends?.requested.map((f) => f.FK_UserTo.UserID) || [],
-        ),
-      )
-      .concat([userDetails?.UserID || 0])
-    setHits(hitsTemp.filter((h) => !excluded.includes(h.UserID)))
+    // const excluded = (
+    //   friends?.accepted.map((f) =>
+    //     f.FK_UserFrom.UserID === userDetails?.UserID
+    //       ? f.FK_UserTo.UserID
+    //       : f.FK_UserFrom.UserID,
+    //   ) || []
+    // )
+    //   .concat(
+    //     (friends?.incoming.map((f) => f.FK_UserFrom.UserID) || []).concat(
+    //       friends?.requested.map((f) => f.FK_UserTo.UserID) || [],
+    //     ),
+    //   )
+    //   .concat([userDetails?.UserID || 0])
+    // setHits(hitsTemp.filter((h) => !excluded.includes(h.UserID)))
+    setHits(hitsTemp)
   }
 
   useEffect(() => setMounted(true), [])

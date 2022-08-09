@@ -43,7 +43,7 @@ export interface FlowDetail {
       FlashcardID: string
     }[]
   }[]
-  FK_Repetition: {
+  FK_Repetition?: {
     RepetitionID: string
   }
   _count: {
@@ -126,9 +126,9 @@ export default function useFlowDetails(flowId: string | undefined): Ret {
         },
         {
           FK_Repetition: {
-            is: {
+            isNot: {
               RepetitionID: {
-                equals: '',
+                equals: '1',
               },
             },
           },

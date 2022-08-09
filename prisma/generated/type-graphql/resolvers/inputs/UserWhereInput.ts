@@ -3,9 +3,12 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AutomationListRelationFilter } from "../inputs/AutomationListRelationFilter";
+import { BlogListRelationFilter } from "../inputs/BlogListRelationFilter";
+import { BugReportListRelationFilter } from "../inputs/BugReportListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
 import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
+import { FeatureRequestListRelationFilter } from "../inputs/FeatureRequestListRelationFilter";
 import { FlowListRelationFilter } from "../inputs/FlowListRelationFilter";
 import { FlowViewListRelationFilter } from "../inputs/FlowViewListRelationFilter";
 import { FriendshipListRelationFilter } from "../inputs/FriendshipListRelationFilter";
@@ -153,4 +156,19 @@ export class UserWhereInput {
     nullable: true
   })
   FK_FriendshipsAccepted?: FriendshipListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BlogListRelationFilter, {
+    nullable: true
+  })
+  FK_Blog?: BlogListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BugReportListRelationFilter, {
+    nullable: true
+  })
+  FK_BugReport?: BugReportListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FeatureRequestListRelationFilter, {
+    nullable: true
+  })
+  FK_FeatureRequest?: FeatureRequestListRelationFilter | undefined;
 }

@@ -5,7 +5,6 @@ import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { ActionType, QuickAction } from 'types/CMDPalette'
-import buildQuickActions from 'utils/commandPalette/buildQuickActions'
 import CMDRaw from './CMDRaw'
 
 interface Props {
@@ -68,7 +67,12 @@ export default function CMDPalette({ include, open, setOpen }: Props) {
           <Dialog.Panel className="max-w-2xl mx-auto">
             <CMDRaw
               placeholder="Search for common actions, pages, flows, users, or schools."
-              quickActions={buildQuickActions(include)}
+              include={[
+                ActionType.JUMPTO,
+                ActionType.STUDENT,
+                ActionType.SCHOOL,
+                ActionType.FLOW,
+              ]}
               query={query}
               setQuery={setQuery}
               selectedAction={selectedAction}

@@ -1,9 +1,11 @@
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
+import MainSpinner from 'components/spinners/MainSpinner'
 import AddTask from 'components/Tasks/AddTask'
 import { isToday, isYesterday } from 'date-fns'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
+import { SpinnerSizes } from 'types/Loading'
 import BasicDisplayTasks from './BasicDisplayTasks'
 
 interface Props {
@@ -12,7 +14,7 @@ interface Props {
 
 export default function TodayView({ user }: Props) {
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { tasks, tasksLoading, mutateTasks } = useTasks(userDetails?.UserID)
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )
@@ -24,11 +26,14 @@ export default function TodayView({ user }: Props) {
 
   return (
     <div className="w-8/12 flex flex-col mb-16">
-      <div className="mt-5 mb-1">
+      <div className="mt-5 mb-1 flex items-baseline">
         {/* Header, which is date and num of tasks */}
         <span className="mt-4 text-xl mr-2">{today}</span>
         <span className="text-sm text-gray-400">
           {numTasksToday} {numTasksToday === 1 ? 'Task' : 'Tasks'}
+        </span>
+        <span className="ml-3 mt-1">
+          {tasksLoading && <MainSpinner size={SpinnerSizes.small} />}
         </span>
       </div>
 

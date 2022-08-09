@@ -9,6 +9,7 @@ interface Props {
   cute?: boolean
   shouldNotUseUndo?: boolean
   showCompleted?: boolean
+  repetitionId?: string
 }
 
 export default function BasicDisplayTasks({
@@ -17,6 +18,7 @@ export default function BasicDisplayTasks({
   cute,
   shouldNotUseUndo,
   showCompleted,
+  repetitionId,
 }: Props) {
   return (
     <div className="w-full">
@@ -31,6 +33,7 @@ export default function BasicDisplayTasks({
                 cute={cute}
                 readOnly={readOnly}
                 shouldNotUseUndo={shouldNotUseUndo}
+                repetitionId={repetitionId}
               />
             ),
         )}

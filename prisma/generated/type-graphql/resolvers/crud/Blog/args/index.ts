@@ -1,0 +1,12 @@
+export { AggregateBlogArgs } from "./AggregateBlogArgs";
+export { CreateBlogArgs } from "./CreateBlogArgs";
+export { CreateManyBlogArgs } from "./CreateManyBlogArgs";
+export { DeleteBlogArgs } from "./DeleteBlogArgs";
+export { DeleteManyBlogArgs } from "./DeleteManyBlogArgs";
+export { FindFirstBlogArgs } from "./FindFirstBlogArgs";
+export { FindManyBlogArgs } from "./FindManyBlogArgs";
+export { FindUniqueBlogArgs } from "./FindUniqueBlogArgs";
+export { GroupByBlogArgs } from "./GroupByBlogArgs";
+export { UpdateBlogArgs } from "./UpdateBlogArgs";
+export { UpdateManyBlogArgs } from "./UpdateManyBlogArgs";
+export { UpsertBlogArgs } from "./UpsertBlogArgs";

@@ -6,13 +6,13 @@ import DateDropdown from 'components/dropdowns/DateDropdown'
 import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import TypeDropdown from 'components/Tasks/AddTask/TypeDropdown'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
-import makeTask from 'hooks/tasks/makeTask'
+import addTask from 'hooks/tasks/handleTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { TaskType } from 'types/Task'
-import { v4 as uuid } from 'uuid'
 
 interface Props {
   user: User
@@ -32,12 +32,9 @@ export default function index({
   dueDate,
 }: Props) {
   const { theme } = useTheme()
-
-  // Retrieving tasks from backend
-  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const { userDetails } = useUserDetails(user.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
 
-  // States
   const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')
   const [taskDescription, setTaskDescription] = useState('')
@@ -55,45 +52,23 @@ export default function index({
   const [showMain, setShowMain] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
   const [taskType, setTaskType] = useState<TaskType | undefined>(undefined)
+  const [forceColor, setForceColor] = useState('')
 
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
 
-  const addTask = async () => {
-    const taskId = uuid()
-
-    // manufacture new task
-    const newTask = {
-      CreatedTime: new Date().toISOString(),
-      Title: taskName,
-      TaskID: taskId,
-      Description: taskDescription,
-      DueDate: taskDueDateExact?.toISOString(),
-      Type: taskType,
-      FK_CourseOnTermID: taskCourse,
-      FK_CourseOnTerm: {
-        CourseOnTermID: taskCourse,
-        Color: coursesOnTerm.find(
-          (course) => course.CourseOnTermID === taskCourse,
-        )?.Color,
-        Nickname: courseDropDownTitle,
-        FK_Course: {
-          Code: courseDropDownTitle,
-        },
-      },
-    }
-
-    // mutate locally
-    mutateTasks(
-      {
-        tasks: [...tasks, newTask],
-        mutate: true,
-      },
-      {
-        revalidate: false,
-        populateCache: true,
-      },
+  const addTaskWithLocal = async () => {
+    addTask(
+      taskName,
+      taskDescription,
+      taskDueDateExact,
+      taskType,
+      taskCourse,
+      user.email || user.user_metadata.email,
+      tasks,
+      mutateTasks,
+      coursesOnTerm,
     )
 
     // reset local state
@@ -109,18 +84,7 @@ export default function index({
     )
     setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
     setTaskType(undefined)
-
-    // TODO: error handling
-    // send to backend
-    makeTask(
-      taskId,
-      taskName,
-      taskDescription,
-      taskDueDateExact?.toISOString(),
-      user.email || user.user_metadata.email,
-      taskCourse,
-      taskType,
-    )
+    setForceColor('')
   }
 
   return (
@@ -140,7 +104,11 @@ export default function index({
             className={classNames(
               {
                 'text-white border rounded-full border-transparent bg-black':
-                  showAddTask,
+                  showAddTask && theme === 'light',
+              },
+              {
+                'text-black border rounded-full border-transparent bg-white':
+                  showAddTask && theme === 'dark',
               },
               'w-5 h-5 mr-3 font-thin',
             )}
@@ -149,7 +117,7 @@ export default function index({
           </span>
           <span
             className={classNames({
-              'text-gray-400': !showAddTask,
+              'text-info': !showAddTask,
             })}
           >
             Add Task
@@ -160,18 +128,45 @@ export default function index({
         <div className="flex flex-col border-gray-400 border rounded-md">
           <div className="pt-1 px-1 flex flex-col">
             <TaskNameInput
+              theme={theme || 'light'}
+              taskName={taskName}
               setTaskName={setTaskName}
               setTaskDueDateExact={setTaskDueDateExact}
-              dueDate={dueDate}
+              defaultDate={dueDate}
+              addTask={addTaskWithLocal}
+              setTaskType={setTaskType}
+              courseItems={coursesOnTerm
+                .map((course) => ({
+                  color: course.Color,
+                  name: course.Nickname || course.FK_Course?.Code || '',
+                  handler: () => {
+                    setTaskCourse(course.CourseOnTermID)
+                    setCourseDropDownTitle(
+                      course.Nickname || course.FK_Course?.Code || '',
+                    )
+                    setForceColor(course.Color)
+                  },
+                }))
+                .concat([
+                  {
+                    color: '',
+                    name: 'General',
+                    handler: () => {
+                      setTaskCourse(0)
+                      setCourseDropDownTitle('General')
+                      setForceColor('')
+                    },
+                  },
+                ])}
             />
             <textarea
               rows={1}
               onChange={(e) => setTaskDescription(e.target.value)}
-              className="border-none focus:ring-0 bg-transparent placeholder:text-gray-400 text-sm resize-none caret-black"
+              className="border-none focus:ring-0 bg-transparent placeholder:text-info text-sm resize-none caret-black"
               placeholder="Description"
             />
           </div>
-          <div className="w-full border-t border-gray-300" />
+          <div className="w-full border-t border-info/80" />
           <div className="flex justify-between mx-2 my-1">
             <span className="flex items-center">
               <DateDropdown
@@ -196,7 +191,7 @@ export default function index({
                   setTaskCourse(0)
                   setCourseDropDownTitle('General')
                 }}
-                color={courseOnTerm?.Color}
+                color={forceColor || courseOnTerm?.Color}
                 general={general}
               />
               <TypeDropdown taskType={taskType} setTaskType={setTaskType} />
@@ -229,6 +224,7 @@ export default function index({
                   )
                   setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
                   setTaskType(undefined)
+                  setForceColor('')
                 }}
               >
                 <div>Cancel</div>
@@ -256,12 +252,16 @@ export default function index({
                 )}
                 onClick={() => {
                   if (taskName) {
-                    addTask()
+                    addTaskWithLocal()
+                  } else {
+                    toast.error('Task name is required')
                   }
                 }}
                 onKeyDown={() => {
                   if (taskName) {
-                    addTask()
+                    addTaskWithLocal()
+                  } else {
+                    toast.error('Task name is required')
                   }
                 }}
               >

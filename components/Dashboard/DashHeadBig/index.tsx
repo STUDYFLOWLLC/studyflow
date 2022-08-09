@@ -1,3 +1,4 @@
+import BetaNavbar, { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
 import HideButton from 'components/Dashbar/HideButton'
 import CreateButton from 'components/Dashboard/CreateButton'
 import TasksNavbar from 'components/Dashboard/TasksNavbar'
@@ -14,6 +15,8 @@ interface Props {
   disabled?: boolean
   taskView?: string
   setTaskView?: (taskView: string) => void
+  betaView?: BetaDisplays
+  setBetaView?: (betaView: BetaDisplays) => void
 }
 
 export default function index({
@@ -24,6 +27,8 @@ export default function index({
   disabled,
   taskView,
   setTaskView,
+  betaView,
+  setBetaView,
 }: Props) {
   return (
     <div className="relative">
@@ -35,16 +40,26 @@ export default function index({
           {pageDisplayed !== 'Term' ? (
             <h1 className="ml-2 text-lg font-medium">{pageDisplayed}</h1>
           ) : (
-            <TermSelector />
+            <div className="flex items-center">
+              <TermSelector />
+              <NotificationBell />
+            </div>
           )}
           {taskView && setTaskView && (
             <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
           )}
-          <NotificationBell />
+          {betaView && setBetaView && (
+            <BetaNavbar betaView={betaView} setBetaView={setBetaView} />
+          )}
         </div>
-        <div className="flex sm:mt-0 items-center">
-          <CreateButton disabled={disabled} setCreateFlowAs={setCreateFlowAs} />
-        </div>
+        {!taskView && !betaView && (
+          <div className="flex sm:mt-0 items-center">
+            <CreateButton
+              disabled={disabled}
+              setCreateFlowAs={setCreateFlowAs}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

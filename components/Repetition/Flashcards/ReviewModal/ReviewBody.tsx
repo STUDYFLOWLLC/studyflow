@@ -1,16 +1,12 @@
-import {
-  CheckCircleIcon,
-  QuestionMarkCircleIcon,
-  XCircleIcon,
-} from '@heroicons/react/solid'
 import classNames from 'classnames'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
-import { format } from 'date-fns'
 import createFlashcardStackReview from 'hooks/repetition/reviewHandlers'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useState } from 'react'
-import { FlashcardStatus } from 'types/Repetition'
-import findNextReview from 'utils/repetition/findNextReview'
+import abbreviateDate from 'utils/abbreviateDate'
+import findNextReviewTask from 'utils/repetition/findNextReviewTask'
+import FlashcardReviewLine from './FlashcardReviewLine'
+import FlashcardStackReviewHeader from './FlashcardStackReviewHeader'
 
 interface Props {
   repetitionId: string
@@ -23,100 +19,37 @@ export default function ReviewBody({ repetitionId }: Props) {
   const [creating, setCreating] = useState(false)
   const [reviewExpanded, setReviewExpanded] = useState(false)
 
-  const nextReview = findNextReview(repetitionDetails)
+  const nextReviewTask = findNextReviewTask(repetitionDetails)
+  const reviewDue =
+    nextReviewTask &&
+    nextReviewTask.DueDate &&
+    new Date().getTime() - new Date(nextReviewTask.DueDate).getTime() > 0
 
   return (
-    <div className="border-t mt-4 pt-4">
+    <div className="border-t mt-4 pt-4 w-full px-4">
       <h3 className="m-0 p-0 flex items-baseline">
         Reviews{' '}
-        {nextReview !== false ? (
+        {nextReviewTask !== false ? (
           <p className="ml-2 p-0 m-0 font-medium text-sm text-info">
-            Next review: {nextReview}
+            Next review:{' '}
+            <span className={classNames({ 'text-red-400': reviewDue })}>
+              {abbreviateDate(new Date(nextReviewTask?.DueDate || 0))}
+            </span>
           </p>
         ) : (
           <p className="ml-2 p-0 m-0 font-medium text-sm text-info">
-            No review scheduled
+            No review scheduled. Create a repetition for flashcard statuses to
+            be tracked.
           </p>
         )}
       </h3>
       {(repetitionDetails?.FK_FlashcardStack?.FK_FlashcardStackReviews
-        ?.length || []) > 0 ? (
-        <div className="divide-y">
-          {repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews.map(
-            (flashcardStackReview) => (
-              <div
-                key={flashcardStackReview.FlashcardStackReviewID}
-                className={classNames(
-                  { 'h-24': !reviewExpanded && flashcardStackReview.EndTime },
-                  'overflow-y-auto',
-                )}
-              >
-                <p className="p-0 m-0 font-semibold flex items-center">
-                  {format(
-                    new Date(flashcardStackReview.CreatedTime || 0),
-                    'MM/dd',
-                  )}{' '}
-                  <span className="uppercase text-sm">
-                    {!flashcardStackReview.EndTime ? (
-                      <div className="flex items-baseline">
-                        <span className="text-red-400 ml-3">active</span>
-                        <button
-                          type="button"
-                          className="ml-2 text-green-400 border border-green-400 rounded-md hover:text-white hover:bg-green-400 bg-white py-0 px-1 transition-all duration-200"
-                        >
-                          Finish review
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-green-400">complete</span>
-                    )}
-                  </span>
-                </p>
-                <div>
-                  {(flashcardStackReview.FK_FlashcardReviews || []).map(
-                    (flashcardReview) => (
-                      <div
-                        key={flashcardReview.FlashcardReviewID}
-                        className="flex items-center"
-                      >
-                        {flashcardReview?.Status ===
-                          FlashcardStatus.CORRECT && (
-                          <div className="w-4 h-4">
-                            <CheckCircleIcon className="text-green-500" />
-                          </div>
-                        )}
-                        {flashcardReview?.Status ===
-                          FlashcardStatus.INCORRECT && (
-                          <div className="w-4 h-4">
-                            <XCircleIcon className="text-red-400" />
-                          </div>
-                        )}
-                        {flashcardReview?.Status ===
-                          FlashcardStatus.NEUTRAL && (
-                          <div className="w-4 h-4">
-                            <QuestionMarkCircleIcon className="text-info" />
-                          </div>
-                        )}
-                        {format(
-                          new Date(flashcardReview.CreatedTime),
-                          'hh:mm aaa',
-                        )}
-                        <p className="ml-2 text-xs p-0 m-0 font-semibold truncate cursor-pointer">
-                          {' '}
-                          ({flashcardReview.FK_FlashcardID})
-                        </p>
-                      </div>
-                    ),
-                  )}
-                </div>
-              </div>
-            ),
-          )}
-        </div>
-      ) : (
-        <div>
-          <div className="flex flex-col items-center mb-4">
-            {nextReview === 'Today' ? (
+        .length === 0 ||
+        repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews?.[0]
+          .EndTime) && (
+        <div className="flex flex-col items-center mb-4">
+          <div>
+            {reviewDue ? (
               <button
                 type="button"
                 className="mx-auto alex-button"
@@ -128,15 +61,74 @@ export default function ReviewBody({ repetitionId }: Props) {
                     setCreating,
                   )
                 }
+                onKeyDown={() =>
+                  createFlashcardStackReview(
+                    repetitionDetails,
+                    mutateRepetitionDetails,
+                    setCreating,
+                  )
+                }
               >
                 Review now <ButtonSpinner show={creating} />
               </button>
             ) : (
-              <button type="button" className="mx-auto alex-button">
-                Start extra review
+              <button
+                type="button"
+                className="mx-auto alex-button"
+                onClick={() =>
+                  createFlashcardStackReview(
+                    repetitionDetails,
+                    mutateRepetitionDetails,
+                    setCreating,
+                  )
+                }
+                onKeyDown={() =>
+                  createFlashcardStackReview(
+                    repetitionDetails,
+                    mutateRepetitionDetails,
+                    setCreating,
+                  )
+                }
+              >
+                Start extra review <ButtonSpinner show={creating} />
               </button>
             )}
           </div>
+        </div>
+      )}
+      {(repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews || [])
+        .length > 0 && (
+        <div className="border-y my-2 py-2">
+          {repetitionDetails?.FK_FlashcardStack.FK_FlashcardStackReviews.map(
+            (flashcardStackReview) => (
+              <div
+                key={flashcardStackReview.FlashcardStackReviewID}
+                className="overflow-y-auto max-h-24"
+              >
+                <FlashcardStackReviewHeader
+                  repetitionId={repetitionId}
+                  flashcardStackReview={flashcardStackReview}
+                />
+                {!flashcardStackReview.EndTime && (
+                  <div>
+                    {(flashcardStackReview.FK_FlashcardReviews || []).map(
+                      (flashcardReview) => (
+                        <FlashcardReviewLine
+                          key={flashcardReview.FlashcardReviewID}
+                          flashcardReview={flashcardReview}
+                        />
+                      ),
+                    )}
+                    {flashcardStackReview.FK_FlashcardReviews.length === 0 && (
+                      <p className="px-0 m-0 py-1 text-sm">
+                        No reviews yet! Use a flashcard for a review to show.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            ),
+          )}
         </div>
       )}
     </div>

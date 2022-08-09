@@ -37,12 +37,13 @@ export default function DashSearch({ searchValue, setSearchValue }: Props) {
           type="text"
           name="Search"
           id="search"
+          disabled
           className={classnames(
             { 'border-gray-300': theme === 'light' },
             { 'bg-base-200': theme === 'dark' },
-            'h-10 focus:ring-primary focus:border-primary w-full pl-9 sm:text-sm rounded-md',
+            'h-10 cursor-pointer focus:ring-primary focus:border-primary w-full pl-9 sm:text-sm rounded-md',
           )}
-          placeholder="Flow Search"
+          placeholder="Search for anything"
           onChange={(e) => setSearchValue(e.target.value)}
           value={searchValue}
         />

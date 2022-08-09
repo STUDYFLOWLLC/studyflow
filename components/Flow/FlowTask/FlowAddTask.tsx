@@ -8,13 +8,13 @@ import TaskNameInput from 'components/Tasks/AddTask/TaskNameInput'
 import TypeDropdown from 'components/Tasks/AddTask/TypeDropdown'
 import useFlowDetails, { SmallCourse } from 'hooks/flows/useFlowDetails'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
-import makeTask from 'hooks/tasks/makeTask'
+import addTask from 'hooks/tasks/handleTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { TaskType } from 'types/Task'
-import { v4 as uuid } from 'uuid'
 import FlowTaskButton from './FlowTaskButton'
 
 interface Props {
@@ -55,65 +55,19 @@ export default function index({
 
   if (!mounted) return null
 
-  const addTask = async () => {
-    const taskId = uuid()
-
-    // manufacture new task
-    const newTask = {
-      TaskID: taskId,
-      CreatedTime: new Date().toISOString(),
-      Title: taskName,
-      Description: taskDescription,
-      DueDate: taskDueDateExact?.toISOString(),
-      Type: taskType,
-      FK_FlowID: flowId,
-      FK_CourseOnTermID: courseOnTerm?.CourseOnTermID,
-      FK_CourseOnTerm: {
-        Color: courseOnTerm?.Color,
-        Nickname: courseOnTerm?.Nickname,
-        FK_Course: {
-          Code: courseOnTerm?.FK_Course?.Code,
-        },
-      },
-    }
-
-    // mutate locally
-    mutateTasks(
-      {
-        tasks: [...tasks, newTask],
-        mutate: true,
-      },
-      {
-        revalidate: false,
-        populateCache: true,
-      },
-    )
-    mutateFlowDetails(
-      {
-        mutatedFlow: {
-          ...flowDetails,
-          FK_Tasks: [
-            ...(flowDetails?.FK_Tasks || []),
-            {
-              TaskID: taskId,
-              Title: taskName,
-              Completed: false,
-              Description: taskDescription,
-              DueDate: taskDueDateExact?.toISOString(),
-              Type: taskType,
-              FK_CourseOnTerm: courseOnTerm,
-            },
-          ],
-          _count: {
-            ...flowDetails?._count,
-            FK_Tasks: (flowDetails?._count?.FK_Tasks || 0) + 1,
-          },
-        },
-        mutate: true,
-      },
-      {
-        revalidate: false,
-      },
+  const addTaskWithLocal = async () => {
+    addTask(
+      taskName,
+      taskDescription,
+      taskDueDateExact,
+      taskType,
+      courseOnTerm?.CourseOnTermID || 0,
+      user?.email || user?.user_metadata.email || '',
+      tasks,
+      mutateTasks,
+      coursesOnTerm,
+      flowDetails,
+      mutateFlowDetails,
     )
 
     // reset local state
@@ -123,19 +77,6 @@ export default function index({
     setTaskDescription('')
     setTaskDueDateExact(dueDate || undefined)
     setTaskType(undefined)
-
-    // TODO: error handling
-    // send to backend
-    makeTask(
-      taskId,
-      taskName,
-      taskDescription,
-      taskDueDateExact?.toISOString(),
-      user?.email || user?.user_metadata.email,
-      courseOnTerm?.CourseOnTermID || 0,
-      taskType,
-      flowId,
-    )
   }
 
   return (
@@ -155,7 +96,11 @@ export default function index({
             className={classNames(
               {
                 'text-white border rounded-full border-transparent bg-black':
-                  showAddTask,
+                  showAddTask && theme === 'light',
+              },
+              {
+                'text-black border rounded-full border-transparent bg-white':
+                  showAddTask && theme === 'dark',
               },
               'w-5 h-5 mr-3 font-thin',
             )}
@@ -175,9 +120,13 @@ export default function index({
         <div className="flex flex-col border-gray-400 border rounded-md">
           <div className="pt-1 px-1 flex flex-col">
             <TaskNameInput
+              theme={theme || 'light'}
+              taskName={taskName}
               setTaskName={setTaskName}
               setTaskDueDateExact={setTaskDueDateExact}
-              dueDate={dueDate}
+              addTask={addTaskWithLocal}
+              defaultDate={dueDate}
+              setTaskType={setTaskType}
             />
             <textarea
               rows={1}
@@ -255,12 +204,16 @@ export default function index({
                 )}
                 onClick={() => {
                   if (taskName) {
-                    addTask()
+                    addTaskWithLocal()
+                  } else {
+                    toast.error('Task name is required')
                   }
                 }}
                 onKeyDown={() => {
                   if (taskName) {
-                    addTask()
+                    addTaskWithLocal()
+                  } else {
+                    toast.error('Task name is required')
                   }
                 }}
               >

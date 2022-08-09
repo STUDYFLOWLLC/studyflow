@@ -1,4 +1,7 @@
 export { UserFK_AutomationArgs } from "./UserFK_AutomationArgs";
+export { UserFK_BlogArgs } from "./UserFK_BlogArgs";
+export { UserFK_BugReportArgs } from "./UserFK_BugReportArgs";
+export { UserFK_FeatureRequestArgs } from "./UserFK_FeatureRequestArgs";
 export { UserFK_FlowArgs } from "./UserFK_FlowArgs";
 export { UserFK_FlowViewArgs } from "./UserFK_FlowViewArgs";
 export { UserFK_FriendshipsAcceptedArgs } from "./UserFK_FriendshipsAcceptedArgs";

@@ -1,119 +1,78 @@
 import { CheckIcon } from '@heroicons/react/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
-import { archiveTask } from 'hooks/tasks/mutateTask'
+import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
+import { completeOrUncompleteTask } from 'hooks/tasks/handleTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
 
 interface Props {
   TaskID: string
+  isCompleted?: boolean
   cute?: boolean
-  shouldNotUseUndo?: boolean
+  repetitionId?: string
 }
 
-export default function Checkbox({ TaskID, cute, shouldNotUseUndo }: Props) {
+export default function Checkbox({
+  TaskID,
+  isCompleted,
+  cute,
+  repetitionId,
+}: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
-  const [completed, setCompleted] = useState(false)
-
-  const archiveTaskLocal = (TaskID: string) => {
-    let flagg = true
-    mutateTasks(
-      {
-        mutate: true,
-        tasks: tasks.map((task) => {
-          if (task.TaskID === TaskID) {
-            flagg = !task.Completed
-            console.log(!task.Completed)
-            return { ...task, Completed: !task.Completed }
-          }
-          return task
-        }),
-      },
-      {
-        revalidate: false,
-      },
-    )
-    return flagg
-  }
-
-  const undoArchiveLocal = () => {
-    mutateTasks(
-      {
-        mutate: true,
-        tasks,
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
-
-  const notify = () => {
-    let undo = false
-    if (!shouldNotUseUndo)
-      toast.custom(
-        <div
-          className="border bg-secondary/80 text-white p-2 rounded-md rounded-mdn hover:cursor-pointer"
-          onClick={() => {
-            undoArchiveLocal()
-            undo = true
-            toast.remove()
-          }}
-          onKeyDown={() => {
-            undoArchiveLocal()
-            undo = true
-            toast.remove()
-          }}
-        >
-          Undo
-        </div>,
-        {
-          position: 'bottom-right',
-        },
-      )
-    setTimeout(() => {
-      if (!undo) {
-        toast.remove()
-        archiveTask(TaskID, true)
-      }
-    }, 4000)
-  }
+  const { repetitionDetails, mutateRepetitionDetails } =
+    useRepetitionDetails(repetitionId)
 
   return (
     <div>
       <div
         onClick={() => {
-          toast.remove()
-          let flagg = true
-          setTimeout(() => {
-            notify()
-            flagg = archiveTaskLocal(TaskID)
-          }, 400)
-          console.log(flagg)
-          setCompleted(flagg)
+          completeOrUncompleteTask(
+            TaskID,
+            !isCompleted,
+            tasks,
+            mutateTasks,
+            !!repetitionId,
+            repetitionDetails,
+            mutateRepetitionDetails,
+          )
         }}
-        onKeyDown={() => archiveTask(TaskID, true)}
+        onKeyDown={() => {
+          completeOrUncompleteTask(
+            TaskID,
+            !isCompleted,
+            tasks,
+            mutateTasks,
+            !!repetitionId,
+            repetitionDetails,
+            mutateRepetitionDetails,
+          )
+        }}
         className={classNames(
-          { 'border-transparent bg-gray-700': completed },
-          { 'border-2 hover:bg-gray-100': !completed },
+          {
+            'border-transparent bg-gray-700': isCompleted,
+          },
+          {
+            'border-2 hover:bg-base-200': !isCompleted,
+          },
           { 'w-4 h-4': cute },
           { 'w-6 h-6': !cute },
-          'cursor-pointer mr-3 mt-0.5  border rounded-full border-gray-400 transition-all duration-200 ease-in-out',
+          'cursor-pointer mr-3 mt-0.5  border rounded-full border-info transition-all duration-200 ease-in-out',
         )}
       >
         <CheckIcon
           className={classNames(
-            { 'text-white opacity-100': completed },
             {
-              'text-gray-400 opacity-0 hover:opacity-100': !completed,
+              'opacity-100': isCompleted,
             },
-            { 'w-3 h-3': cute },
+            {
+              'text-info opacity-0 hover:opacity-100': !isCompleted,
+            },
+            { 'w-3 h-3 ml-px mt-px': cute },
             { 'w-5 h-5 mt-0.5 ml-px': !cute },
-            'transition-all duration-200 ease-in-out ',
+            'transition-all duration-200 ease-in-out text-white',
           )}
         />
       </div>
