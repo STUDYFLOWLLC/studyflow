@@ -1,8 +1,11 @@
 export { AutomationRelationsResolver } from "./Automation/AutomationRelationsResolver";
 export { AutomationLogRelationsResolver } from "./AutomationLog/AutomationLogRelationsResolver";
+export { BlogRelationsResolver } from "./Blog/BlogRelationsResolver";
+export { BugReportRelationsResolver } from "./BugReport/BugReportRelationsResolver";
 export { CourseRelationsResolver } from "./Course/CourseRelationsResolver";
 export { CourseOnTermRelationsResolver } from "./CourseOnTerm/CourseOnTermRelationsResolver";
 export { CourseOnTermAutomationRelationsResolver } from "./CourseOnTermAutomation/CourseOnTermAutomationRelationsResolver";
+export { FeatureRequestRelationsResolver } from "./FeatureRequest/FeatureRequestRelationsResolver";
 export { FlashcardRelationsResolver } from "./Flashcard/FlashcardRelationsResolver";
 export { FlashcardReviewRelationsResolver } from "./FlashcardReview/FlashcardReviewRelationsResolver";
 export { FlashcardStackRelationsResolver } from "./FlashcardStack/FlashcardStackRelationsResolver";

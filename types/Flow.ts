@@ -1,4 +1,3 @@
-import DeltaStatic from 'quill-delta'
 import { SVGProps } from 'react'
 import { bgColor, Color } from 'types/Colors'
 import { Format } from './CustomSlate'
@@ -110,7 +109,6 @@ export interface Block {
   h1?: Heading_1
   h2?: Heading_2
   h3?: Heading_3
-  quillContents?: DeltaStatic
 }
 
 export interface Command {

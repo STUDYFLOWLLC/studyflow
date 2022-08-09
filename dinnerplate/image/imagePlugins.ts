@@ -5,8 +5,8 @@ import {
   createSelectOnBackspacePlugin,
 } from '@udecode/plate'
 import { plateUI } from 'dinnerplate/common/plateUI'
+import { selectOnBackspacePlugin } from 'dinnerplate/common/selectOnBackspacePlugin'
 import { basicMarksPlugins } from 'dinnerplate/marks/basicMarksPlugins'
-import { selectOnBackspacePlugin } from 'dinnerplate/selectonbackspace/selectOnBackspacePlugin'
 import { createMyPlugins } from 'dinnerplate/types/plateTypes'
 
 export const imagePlugins = createMyPlugins(

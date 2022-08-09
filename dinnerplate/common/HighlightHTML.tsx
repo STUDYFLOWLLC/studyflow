@@ -1,6 +1,7 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable import/prefer-default-export */
 
-import { formatHTML } from 'dinnerplate/common/formatHTML'
+import formatHTML from 'dinnerplate/common/formatHTML'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/dracula'
 
@@ -16,7 +17,7 @@ export const HighlightHTML = ({ code }: { code: string }) => (
         {tokens.map((line, i) => (
           <div {...getLineProps({ line, key: i })} key={i}>
             {line.map((token, key) => (
-              <span {...getTokenProps({ token, key })} />
+              <span key={key} {...getTokenProps({ token, key })} />
             ))}
           </div>
         ))}

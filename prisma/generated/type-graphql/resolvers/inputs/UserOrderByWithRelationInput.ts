@@ -3,6 +3,9 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AutomationOrderByRelationAggregateInput } from "../inputs/AutomationOrderByRelationAggregateInput";
+import { BlogOrderByRelationAggregateInput } from "../inputs/BlogOrderByRelationAggregateInput";
+import { BugReportOrderByRelationAggregateInput } from "../inputs/BugReportOrderByRelationAggregateInput";
+import { FeatureRequestOrderByRelationAggregateInput } from "../inputs/FeatureRequestOrderByRelationAggregateInput";
 import { FlowOrderByRelationAggregateInput } from "../inputs/FlowOrderByRelationAggregateInput";
 import { FlowViewOrderByRelationAggregateInput } from "../inputs/FlowViewOrderByRelationAggregateInput";
 import { FriendshipOrderByRelationAggregateInput } from "../inputs/FriendshipOrderByRelationAggregateInput";
@@ -132,4 +135,19 @@ export class UserOrderByWithRelationInput {
     nullable: true
   })
   FK_FriendshipsAccepted?: FriendshipOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => BlogOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_Blog?: BlogOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => BugReportOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_BugReport?: BugReportOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => FeatureRequestOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  FK_FeatureRequest?: FeatureRequestOrderByRelationAggregateInput | undefined;
 }

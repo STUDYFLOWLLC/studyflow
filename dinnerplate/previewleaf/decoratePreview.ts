@@ -1,5 +1,5 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable import/prefer-default-export */
-/* eslint-disable simple-import-sort/imports */
 import { isText } from '@udecode/plate-core' // noinspection CommaExpressionJS
 import Prism from 'prismjs'
 import 'prismjs/components/prism-markdown'
@@ -9,6 +9,7 @@ import 'prismjs/components/prism-markdown'
  */
 export const decoratePreview =
   () =>
+  // @ts-expect-error trust me
   ([node, path]) => {
     const ranges: any[] = []
 

@@ -1,15 +1,12 @@
-import { PlateEditor, Value } from '@udecode/plate'
 import classNames from 'classnames'
-import {
-  CommandItem,
-  TCommandMenuItem,
-} from 'dinnerplate/commandMenu/commandMenuItems'
+import { CommandItem } from 'dinnerplate/commandMenu/commandMenuItems'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 interface Props {
   item: CommandItem
-  onSelect: (item: TCommandMenuItem, editor: PlateEditor<Value> | null) => void
+  onSelect: () => void
+  // onSelect: (item: TCommandMenuItem, editor: PlateEditor<Value> | null) => void
 }
 
 export default function NewBlockMenuItem({ item, onSelect }: Props) {
@@ -31,8 +28,8 @@ export default function NewBlockMenuItem({ item, onSelect }: Props) {
       )}
       role="button"
       tabIndex={0}
-      onClick={() => onSelect(item)}
-      onKeyDown={() => onSelect(item)}
+      onClick={() => onSelect()}
+      onKeyDown={() => onSelect()}
       // onMouseEnter={() => onMouseEnter()}
     >
       <div

@@ -3,9 +3,12 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AutomationUpdateManyWithoutFK_UserInput } from "../inputs/AutomationUpdateManyWithoutFK_UserInput";
+import { BlogUpdateManyWithoutFK_UserInput } from "../inputs/BlogUpdateManyWithoutFK_UserInput";
+import { BugReportUpdateManyWithoutFK_UserInput } from "../inputs/BugReportUpdateManyWithoutFK_UserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
 import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
+import { FeatureRequestUpdateManyWithoutFK_UserInput } from "../inputs/FeatureRequestUpdateManyWithoutFK_UserInput";
 import { FlowUpdateManyWithoutFK_UserInput } from "../inputs/FlowUpdateManyWithoutFK_UserInput";
 import { FlowViewUpdateManyWithoutFK_UserInput } from "../inputs/FlowViewUpdateManyWithoutFK_UserInput";
 import { FriendshipUpdateManyWithoutFK_UserFromInput } from "../inputs/FriendshipUpdateManyWithoutFK_UserFromInput";
@@ -121,4 +124,19 @@ export class UserUpdateWithoutFK_TaskInput {
     nullable: true
   })
   FK_FriendshipsAccepted?: FriendshipUpdateManyWithoutFK_UserToInput | undefined;
+
+  @TypeGraphQL.Field(_type => BlogUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_Blog?: BlogUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => BugReportUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_BugReport?: BugReportUpdateManyWithoutFK_UserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FeatureRequestUpdateManyWithoutFK_UserInput, {
+    nullable: true
+  })
+  FK_FeatureRequest?: FeatureRequestUpdateManyWithoutFK_UserInput | undefined;
 }
