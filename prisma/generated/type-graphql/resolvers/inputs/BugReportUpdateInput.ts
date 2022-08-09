@@ -26,6 +26,11 @@ export class BugReportUpdateInput {
   })
   DeletedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  FixedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => UserUpdateOneWithoutFK_BugReportInput, {
     nullable: true
   })

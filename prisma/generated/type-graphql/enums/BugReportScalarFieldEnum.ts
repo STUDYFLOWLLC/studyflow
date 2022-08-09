@@ -4,6 +4,7 @@ export enum BugReportScalarFieldEnum {
   BugReportID = "BugReportID",
   CreatedTime = "CreatedTime",
   DeletedTime = "DeletedTime",
+  FixedTime = "FixedTime",
   FK_UserID = "FK_UserID",
   Title = "Title",
   Body = "Body"

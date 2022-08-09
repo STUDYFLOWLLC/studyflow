@@ -35,5 +35,5 @@ export class UserFK_FeatureRequestArgs {
   @TypeGraphQL.Field(_type => [FeatureRequestScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"FeatureRequestID" | "CreatedTime" | "DeletedTime" | "FK_UserID" | "Title" | "Body"> | undefined;
+  distinct?: Array<"FeatureRequestID" | "CreatedTime" | "DeletedTime" | "ImplementedTime" | "FK_UserID" | "Title" | "Body"> | undefined;
 }

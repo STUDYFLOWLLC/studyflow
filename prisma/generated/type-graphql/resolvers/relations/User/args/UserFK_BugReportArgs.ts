@@ -35,5 +35,5 @@ export class UserFK_BugReportArgs {
   @TypeGraphQL.Field(_type => [BugReportScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"BugReportID" | "CreatedTime" | "DeletedTime" | "FK_UserID" | "Title" | "Body"> | undefined;
+  distinct?: Array<"BugReportID" | "CreatedTime" | "DeletedTime" | "FixedTime" | "FK_UserID" | "Title" | "Body"> | undefined;
 }

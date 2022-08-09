@@ -25,6 +25,11 @@ export class BugReportCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  FixedTime!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_UserID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

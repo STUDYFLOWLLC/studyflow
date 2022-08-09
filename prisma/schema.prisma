@@ -383,6 +383,7 @@ model BugReport {
   BugReportID String    @id @default(uuid())
   CreatedTime DateTime  @default(now())
   DeletedTime DateTime?
+  FixedTime   DateTime?
   FK_User     User?     @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID   Int?
   Title       String    @default("")
@@ -393,6 +394,7 @@ model FeatureRequest {
   FeatureRequestID String    @id @default(uuid())
   CreatedTime      DateTime  @default(now())
   DeletedTime      DateTime?
+  ImplementedTime  DateTime?
   FK_User          User?     @relation(fields: [FK_UserID], references: [UserID], onDelete: SetNull, onUpdate: Cascade)
   FK_UserID        Int?
   Title            String    @default("")
