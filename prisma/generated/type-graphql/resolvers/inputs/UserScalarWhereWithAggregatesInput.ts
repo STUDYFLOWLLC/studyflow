@@ -2,6 +2,8 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolNullableWithAggregatesFilter } from "../inputs/BoolNullableWithAggregatesFilter";
+import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { EnumSetupStepWithAggregatesFilter } from "../inputs/EnumSetupStepWithAggregatesFilter";
 import { EnumVisibilityWithAggregatesFilter } from "../inputs/EnumVisibilityWithAggregatesFilter";
@@ -83,6 +85,16 @@ export class UserScalarWhereWithAggregatesInput {
     nullable: true
   })
   ProfilePictureLink?: StringNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
+    nullable: true
+  })
+  HasRequestedAutomationAccess?: BoolWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  HasAutomationAccess?: BoolNullableWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true

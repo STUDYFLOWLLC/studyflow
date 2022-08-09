@@ -174,3 +174,30 @@ export async function mutateUserSchool(userId: number, schoolId: number) {
   const data = await request('/api/graphql', query, variables)
   return data
 }
+
+export async function mutateHasRequestedAutomationAccess(
+  email: string,
+  newBool: boolean,
+) {
+  const query = gql`
+    mutation Mutation($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+      updateUser(data: $data, where: $where) {
+        UserID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      HasRequestedAutomationAccess: {
+        set: newBool,
+      },
+    },
+    where: {
+      Email: email,
+    },
+  }
+
+  const data = await request('/api/graphql', query, variables)
+  return data
+}

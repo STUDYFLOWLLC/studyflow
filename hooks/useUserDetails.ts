@@ -15,6 +15,8 @@ export interface UserDetail {
   CreatedTime: string
   SetupStep: SetupSteps
   SupabaseID: string
+  HasRequestedAutomationAccess: boolean
+  HasAutomationAccess: boolean
   Email: string
   Name?: string
   Username?: string
@@ -52,6 +54,8 @@ export default function useUserDetails(
         Name
         ProfilePictureLink
         DefaultVisibility
+        HasRequestedAutomationAccess
+        HasAutomationAccess
         FK_SchoolID
         FK_Terms {
           TermType
