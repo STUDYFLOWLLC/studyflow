@@ -1,13 +1,16 @@
 import withPageAuth from '@supabase/supabase-auth-helpers/nextjs/utils/withPageAuth'
 import classNames from 'classnames'
 import { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
+import ContactUs from 'components/BetaCenter/ContactUs'
 import ReportBug from 'components/BetaCenter/ReportBug/index'
 import RequestFeature from 'components/BetaCenter/RequestFeature'
+import Tutorials from 'components/BetaCenter/Tutorials'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import { useTheme } from 'next-themes'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { SkeletonTheme } from 'react-loading-skeleton'
 
@@ -19,9 +22,7 @@ export default function beta() {
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [betaView, setBetaView] = useState<BetaDisplays>(
-    BetaDisplays.REPORT_BUG,
-  )
+  const [betaView, setBetaView] = useState<BetaDisplays>(BetaDisplays.TUTORIAL)
 
   useEffect(() => setMounted(true), [])
 
@@ -38,6 +39,10 @@ export default function beta() {
         { '#5C7599': theme === 'dark' },
       )}
     >
+      <Head>
+        <title>Beta | Studyflow</title>
+        <meta property="og:title" content="Beta | Studyflow" key="title" />
+      </Head>
       <div className="min-h-full">
         <Dashbar
           showDashBar={showDashBar}
@@ -76,8 +81,12 @@ export default function beta() {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             setCreateFlowAs={() => {}}
           />
+          {betaView === BetaDisplays.TUTORIAL && (
+            <Tutorials setBetaView={setBetaView} />
+          )}
           {betaView === BetaDisplays.REPORT_BUG && <ReportBug />}
           {betaView === BetaDisplays.REQUEST_FEATURE && <RequestFeature />}
+          {betaView === BetaDisplays.CONTACT_US && <ContactUs />}
         </div>
       </div>
     </SkeletonTheme>

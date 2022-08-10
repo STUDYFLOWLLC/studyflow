@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AutomationUpdateManyWithoutFK_UserInput } from "../inputs/AutomationUpdateManyWithoutFK_UserInput";
 import { BlogUpdateManyWithoutFK_UserInput } from "../inputs/BlogUpdateManyWithoutFK_UserInput";
+import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { BugReportUpdateManyWithoutFK_UserInput } from "../inputs/BugReportUpdateManyWithoutFK_UserInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { EnumSetupStepFieldUpdateOperationsInput } from "../inputs/EnumSetupStepFieldUpdateOperationsInput";
@@ -13,6 +14,7 @@ import { FlowUpdateManyWithoutFK_UserInput } from "../inputs/FlowUpdateManyWitho
 import { FlowViewUpdateManyWithoutFK_UserInput } from "../inputs/FlowViewUpdateManyWithoutFK_UserInput";
 import { FriendshipUpdateManyWithoutFK_UserFromInput } from "../inputs/FriendshipUpdateManyWithoutFK_UserFromInput";
 import { FriendshipUpdateManyWithoutFK_UserToInput } from "../inputs/FriendshipUpdateManyWithoutFK_UserToInput";
+import { NullableBoolFieldUpdateOperationsInput } from "../inputs/NullableBoolFieldUpdateOperationsInput";
 import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { SchoolUpdateOneWithoutFK_UserInput } from "../inputs/SchoolUpdateOneWithoutFK_UserInput";
 import { SettingUpdateOneWithoutFK_UserInput } from "../inputs/SettingUpdateOneWithoutFK_UserInput";
@@ -74,6 +76,16 @@ export class UserUpdateWithoutFK_UserOnStudyGroupsInput {
     nullable: true
   })
   ProfilePictureLink?: NullableStringFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  HasRequestedAutomationAccess?: BoolFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableBoolFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  HasAutomationAccess?: NullableBoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => SchoolUpdateOneWithoutFK_UserInput, {
     nullable: true

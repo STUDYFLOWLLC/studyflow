@@ -9,6 +9,7 @@ import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import Taskover from 'components/Taskover'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
+import Head from 'next/head'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { ActionType } from 'types/CMDPalette'
@@ -38,10 +39,14 @@ export default function index({ user }: Props) {
 
   return (
     <>
-      {!showDashBar && (
-        <HideButton direction="show" setShowDashBar={setShowDashBar} />
-      )}
+      <Head>
+        <title>Tasks | Studyflow</title>
+        <meta property="og:title" content="Tasks | Studyflow" key="title" />
+      </Head>
       <div className="min-h-full">
+        {!showDashBar && (
+          <HideButton direction="show" setShowDashBar={setShowDashBar} />
+        )}
         <DashBar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
