@@ -121,7 +121,8 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute right-0 z-10 max-w-sm transform w-72">
-              <div
+              <Popover.Button
+                as="div"
                 className={classNames(
                   {
                     'bg-white ring-1 ring-black ring-opacity-5':
@@ -137,7 +138,7 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
                   ))}
                 </div>
                 <FlowInfo />
-              </div>
+              </Popover.Button>
             </Popover.Panel>
           </Transition>
         </>

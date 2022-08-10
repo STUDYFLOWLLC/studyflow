@@ -111,6 +111,8 @@ export default function useDashFlows(
 
   const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
 
+  console.log(data)
+
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>
       sortByLastOpened(flowA, flowB),

@@ -20,6 +20,7 @@ export default async function makeFlow(
   title?: string,
   body?: string,
 ) {
+  console.log(courseOnTermId)
   const mutation = gql`
     mutation Mutation($data: FlowCreateInput!) {
       createFlow(data: $data) {

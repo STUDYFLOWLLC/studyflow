@@ -5,7 +5,7 @@ import Flow from 'components/Flow'
 import LoadWithText from 'components/spinners/LoadWithText'
 import makeFlow from 'hooks/flows/makeFlow'
 import useDashFlows from 'hooks/flows/useDashFlows'
-import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
@@ -15,7 +15,6 @@ import { v4 as uuid } from 'uuid'
 
 interface Props {
   isOpen: boolean
-  firstCourse?: CourseOnTerm
   flowId?: string
   setCurrentFlow?: (flowId: string) => void
   createAs?: FlowType | null // only pass this if you want to create a new flow on mount
@@ -24,7 +23,6 @@ interface Props {
 
 export default function index({
   isOpen,
-  firstCourse,
   flowId,
   setCurrentFlow,
   createAs,
@@ -34,20 +32,25 @@ export default function index({
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
   const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
+  const { coursesOnTerm, mutateCoursesOnTerm } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0].TermID,
+  )
 
   const [mounted, setMounted] = useState(false)
   const [dragSetter, setDragSetter] = useState(false)
   const [creatingFlow, setCreatingFlow] = useState(false)
   const [createdFlowId, setCreatedFlowId] = useState<string>('')
+  const [showChooseCourse, setShowChooseCourse] = useState(false)
 
   const closeFlowModal = () => {
     if (setCurrentFlow) setCurrentFlow('')
     if (setCreateAs) setCreateAs(null)
     if (createdFlowId) setCreatedFlowId('')
+    setShowChooseCourse(false)
   }
 
-  const createFlow = async () => {
-    if (!createAs || createdFlowId) return
+  const createFlow = async (course: CourseOnTerm) => {
+    if (!createAs || createdFlowId || creatingFlow) return
     setCreatingFlow(true)
 
     const id = uuid()
@@ -66,10 +69,10 @@ export default function index({
             UserEnteredDate: new Date().toISOString(),
             Visibility: FlowVisibility.PRIVATE,
             FK_CourseOnTerm: {
-              Nickname: firstCourse?.Nickname,
-              Color: firstCourse?.Color,
+              Nickname: course?.Nickname,
+              Color: course?.Color,
               FK_Course: {
-                Code: firstCourse?.FK_Course?.Code,
+                Code: course?.FK_Course?.Code,
               },
             },
           },
@@ -84,7 +87,7 @@ export default function index({
     const data = await makeFlow(
       id,
       createAs || FlowType.LECTURE,
-      firstCourse?.CourseOnTermID || 0,
+      course?.CourseOnTermID || 0,
     )
 
     if (data) {
@@ -98,16 +101,19 @@ export default function index({
   }, [])
 
   useEffect(() => {
-    createFlow()
+    setShowChooseCourse(!!createAs)
     setDragSetter(false)
   }, [isOpen])
 
   if (!mounted) return null
 
   return (
-    <Transition show={!!flowId || !!createdFlowId} as={Fragment}>
+    <Transition
+      show={!!flowId || !!createdFlowId || creatingFlow || showChooseCourse}
+      as={Fragment}
+    >
       <Dialog
-        open={!!flowId || !!createdFlowId}
+        open={!!flowId || !!createdFlowId || creatingFlow || showChooseCourse}
         onClose={() => closeFlowModal()}
         className="relative z-50 w-full h-screen"
         id="flow-modal"
@@ -148,18 +154,47 @@ export default function index({
                   ' pb-16 h-5/6 overflow-y-auto overflow-x-hidden max-w-4xl shadow-lg rounded-md',
                 )}
               >
-                {creatingFlow && (
-                  <LoadWithText
-                    size={SpinnerSizes.large}
-                    text="Creating your flow"
-                  />
-                )}
-                {(flowId || createdFlowId) && (
-                  <Flow
-                    flowId={flowId || createdFlowId}
-                    closeModal={closeFlowModal}
-                    setDragSetter={setDragSetter}
-                  />
+                {showChooseCourse ? (
+                  <div className="prose mx-auto mt-12">
+                    <h2 className="text-center">
+                      Which course would you like to create your new{' '}
+                      {createAs?.toString().toLowerCase()} in?
+                    </h2>
+                    <div className="flex justify-between">
+                      {coursesOnTerm.map((course) => (
+                        <button
+                          key={course.CourseOnTermID}
+                          type="button"
+                          className={classNames(
+                            course.Color,
+                            'alex-button w-32 text-white',
+                          )}
+                          onClick={() => {
+                            setShowChooseCourse(false)
+                            createFlow(course)
+                          }}
+                        >
+                          {course.Nickname}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    {creatingFlow && (
+                      <LoadWithText
+                        size={SpinnerSizes.large}
+                        text="Creating your flow"
+                      />
+                    )}
+                    {(flowId || createdFlowId) && (
+                      <Flow
+                        flowId={flowId || createdFlowId}
+                        closeModal={closeFlowModal}
+                        setDragSetter={setDragSetter}
+                      />
+                    )}
+                  </div>
                 )}
               </Dialog.Panel>
             </Transition.Child>

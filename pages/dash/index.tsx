@@ -158,7 +158,6 @@ export default function Dash({ user }: Props) {
         />
         <FlowModal
           isOpen={!!currentFlow || !!createFlowAs}
-          firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}
           setCurrentFlow={setCurrentFlow}
           createAs={createFlowAs}
