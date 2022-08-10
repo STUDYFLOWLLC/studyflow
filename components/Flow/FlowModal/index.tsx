@@ -11,6 +11,8 @@ import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { FlowType, FlowVisibility } from 'types/Flow'
 import { SpinnerSizes } from 'types/Loading'
+import bodyFromType from 'utils/flows/bodyFromType'
+import titleFromType from 'utils/flows/titleFromType'
 import { v4 as uuid } from 'uuid'
 
 interface Props {
@@ -62,7 +64,8 @@ export default function index({
           ...dashFlows,
           {
             FlowID: id,
-            Title: 'Untitled',
+            Title: titleFromType(createAs),
+            Body: bodyFromType(createAs),
             Type: createAs || FlowType.LECTURE,
             CreatedTime: new Date().toISOString(),
             LastOpened: new Date().toISOString(),
@@ -88,6 +91,9 @@ export default function index({
       id,
       createAs || FlowType.LECTURE,
       course?.CourseOnTermID || 0,
+      userDetails?.DefaultVisibility,
+      titleFromType(createAs),
+      bodyFromType(createAs),
     )
 
     if (data) {
@@ -183,7 +189,7 @@ export default function index({
                   <div>
                     {creatingFlow && (
                       <LoadWithText
-                        size={SpinnerSizes.large}
+                        size={SpinnerSizes.medium}
                         text="Creating your flow"
                       />
                     )}
