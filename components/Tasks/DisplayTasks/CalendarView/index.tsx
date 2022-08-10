@@ -99,7 +99,7 @@ export default function CalendarView({ user }: Props) {
   if (!mounted) return null
 
   return (
-    <div className="flex">
+    <div className="flex justify-center w-full">
       {tasksLoading ? (
         <LoadWithText
           size={SpinnerSizes.medium}

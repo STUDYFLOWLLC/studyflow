@@ -84,7 +84,7 @@ export default function CourseListDropdown({ course, user }: Props) {
               {showCompleted ? 'Hide' : 'Show'} Completed
             </span>
           )}
-          <span className="ml-1 mt-1">
+          <span className="ml-3">
             {tasksLoading && <MainSpinner size={SpinnerSizes.small} />}
           </span>
         </span>

@@ -21,6 +21,14 @@ export interface Task {
     }
   }
   Type: TaskType
+  FK_Flow?: {
+    Title: string
+  }
+  FK_Repetition?: {
+    FK_Flow?: {
+      Title: string
+    }
+  }
 }
 
 interface Ret {
@@ -53,6 +61,14 @@ export default function useTasks(
           }
         }
         Type
+        FK_Flow {
+          Title
+        }
+        FK_Repetition {
+          FK_Flow {
+            Title
+          }
+        }
       }
     }
   `
@@ -64,10 +80,36 @@ export default function useTasks(
       where: {
         AND: [
           {
-            FK_UserID: {
-              equals: userId,
-            },
+            OR: [
+              {
+                FK_UserID: {
+                  equals: userId,
+                },
+              },
+              {
+                FK_Repetition: {
+                  is: {
+                    FK_Flow: {
+                      is: {
+                        FK_CourseOnTerm: {
+                          is: {
+                            FK_Term: {
+                              is: {
+                                FK_UserID: {
+                                  equals: userId,
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           },
+
           {
             DeletedTime: {
               equals: null,
@@ -85,9 +127,51 @@ export default function useTasks(
       where: {
         AND: [
           {
-            FK_UserID: {
-              equals: userId,
-            },
+            OR: [
+              {
+                FK_UserID: {
+                  equals: userId,
+                },
+              },
+              {
+                FK_Repetition: {
+                  is: {
+                    FK_Flow: {
+                      is: {
+                        FK_CourseOnTerm: {
+                          is: {
+                            FK_Term: {
+                              is: {
+                                FK_UserID: {
+                                  equals: userId,
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                FK_Flow: {
+                  is: {
+                    FK_CourseOnTerm: {
+                      is: {
+                        FK_Term: {
+                          is: {
+                            FK_UserID: {
+                              equals: userId,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           },
           {
             DeletedTime: {
@@ -108,18 +192,30 @@ export default function useTasks(
       where: {
         AND: [
           {
-            FK_UserID: {
-              equals: userId,
-            },
+            OR: [
+              {
+                FK_Repetition: {
+                  is: {
+                    FK_Flow: {
+                      is: {
+                        FK_CourseOnTermID: {
+                          equals: groupBy,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                FK_CourseOnTermID: {
+                  equals: groupBy,
+                },
+              },
+            ],
           },
           {
             DeletedTime: {
               equals: null,
-            },
-          },
-          {
-            FK_CourseOnTermID: {
-              equals: groupBy,
             },
           },
         ],

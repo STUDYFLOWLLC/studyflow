@@ -1,6 +1,7 @@
 import { CheckIcon } from '@heroicons/react/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
+import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { completeOrUncompleteTask } from 'hooks/tasks/handleTask'
 import useTasks from 'hooks/tasks/useTasks'
@@ -12,6 +13,7 @@ interface Props {
   isCompleted?: boolean
   cute?: boolean
   repetitionId?: string
+  flowId?: string
 }
 
 export default function Checkbox({
@@ -20,12 +22,14 @@ export default function Checkbox({
   isCompleted,
   cute,
   repetitionId,
+  flowId,
 }: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
   const { repetitionDetails, mutateRepetitionDetails } =
     useRepetitionDetails(repetitionId)
+  const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   return (
     <div>
@@ -36,9 +40,11 @@ export default function Checkbox({
             !isCompleted,
             tasks,
             mutateTasks,
-            !!repetitionId,
+            !!repetitionId || !!flowId,
             repetitionDetails,
             mutateRepetitionDetails,
+            flowDetails,
+            mutateFlowDetails,
           )
         }}
         onKeyDown={() => {
@@ -50,6 +56,8 @@ export default function Checkbox({
             !!repetitionId,
             repetitionDetails,
             mutateRepetitionDetails,
+            flowDetails,
+            mutateFlowDetails,
           )
         }}
         className={classNames(

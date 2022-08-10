@@ -23,7 +23,7 @@ const taskTypeToString = (taskType: TaskType | undefined) => {
   if (!taskType) return
   switch (taskType) {
     case 'WORK_ON':
-      return 'Work-on'
+      return 'Work on'
     case 'DUE':
       return 'Due'
     case 'REVIEW':

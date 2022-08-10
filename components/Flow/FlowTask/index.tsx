@@ -29,6 +29,7 @@ export default function index({ flowId, flowTitle }: Props) {
         flowId={flowId}
         flowTitle={flowTitle}
         courseOnTerm={flowDetails?.FK_CourseOnTerm}
+        groupBy={flowDetails?.FK_CourseOnTerm.CourseOnTermID || 0}
       />
       <div className="relative">
         <div
@@ -38,14 +39,19 @@ export default function index({ flowId, flowTitle }: Props) {
           )}
         >
           {!tasksHidden ? (
-            <BasicDisplayTasks
-              tasks={
-                (flowDetails?.FK_Tasks.map((task) => ({
-                  ...task,
-                  FK_CourseOnTerm: flowDetails?.FK_CourseOnTerm,
-                })) || []) as unknown as Task[]
-              }
-            />
+            <div className="px-2 w-full">
+              <BasicDisplayTasks
+                tasks={
+                  (flowDetails?.FK_Tasks.map((task) => ({
+                    ...task,
+                    FK_CourseOnTerm: flowDetails?.FK_CourseOnTerm,
+                  })) || []) as unknown as Task[]
+                }
+                groupBy={flowDetails?.FK_CourseOnTerm.CourseOnTermID || 0}
+                flowId={flowId}
+                showCompleted
+              />
+            </div>
           ) : (
             <span
               className={classNames(

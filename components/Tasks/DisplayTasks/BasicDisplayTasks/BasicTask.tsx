@@ -7,6 +7,7 @@ import EditTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/EditTask'
 import TypeIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/TypeIcon'
 import { Task } from 'hooks/tasks/useTasks'
 import { useState } from 'react'
+import FlowIcon from './FlowIcon'
 
 interface Props {
   task: Task
@@ -15,6 +16,7 @@ interface Props {
   cute?: boolean
   shouldNotUseUndo?: boolean
   repetitionId?: string
+  flowId?: string
 }
 
 export default function BasicTask({
@@ -24,6 +26,7 @@ export default function BasicTask({
   cute,
   shouldNotUseUndo,
   repetitionId,
+  flowId,
 }: Props) {
   const [editing, setEditing] = useState(false)
 
@@ -53,6 +56,7 @@ export default function BasicTask({
           isCompleted={task.Completed}
           cute={cute}
           repetitionId={repetitionId}
+          flowId={flowId}
         />
         <div
           className={classNames(
@@ -75,14 +79,14 @@ export default function BasicTask({
               <span className="flex">
                 {!task.Completed && (
                   <span
-                    className="text-sm mr-1 text-gray-500 hover:text-black hover:cursor-pointer"
+                    className="text-sm mr-1 text-info hover:text-info/80 hover:cursor-pointer"
                     onClick={() => setEditing(true)}
                     onKeyDown={() => setEditing(true)}
                   >
                     Edit
                   </span>
                 )}
-                <DeleteTask task={task} groupBy={groupBy} />
+                <DeleteTask task={task} groupBy={groupBy} flowId={flowId} />
               </span>
             )}
           </div>
@@ -91,10 +95,17 @@ export default function BasicTask({
             <span className="flex">
               <DateIcon date={task.DueDate} />
               {!cute && <TypeIcon taskType={task.Type} />}
+              <FlowIcon
+                title={
+                  task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title
+                }
+              />
             </span>
-            <span className="flex justify-end mr-1">
-              <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
-            </span>
+            {(groupBy === 'All' || groupBy === 'Today') && (
+              <span className="flex justify-end mr-1">
+                <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
+              </span>
+            )}
           </div>
         </div>
       </div>

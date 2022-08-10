@@ -3,6 +3,7 @@ import { TrashIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import { deleteRepetition } from 'hooks/repetition/repetitionHandlers'
+import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
 import { ActiveProps } from 'types/ActiveProps'
@@ -15,6 +16,7 @@ interface Props {
 export default function DeleteStack({ flowId, repetitionId }: Props) {
   const { theme } = useTheme()
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
+  const { repetitionDetails } = useRepetitionDetails(repetitionId)
 
   const [mounted, setMounted] = useState(false)
 
@@ -75,14 +77,14 @@ export default function DeleteStack({ flowId, repetitionId }: Props) {
                       className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
                       onClick={() =>
                         deleteRepetition(
-                          repetitionId,
+                          repetitionDetails,
                           flowDetails,
                           mutateFlowDetails,
                         )
                       }
                       onKeyDown={() =>
                         deleteRepetition(
-                          repetitionId,
+                          repetitionDetails,
                           flowDetails,
                           mutateFlowDetails,
                         )

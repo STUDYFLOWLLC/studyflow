@@ -42,7 +42,7 @@ export default function TodayView({ user }: Props) {
     <div className="w-8/12 flex flex-col mb-16">
       <div className="mt-5 mb-1 flex items-baseline w-full justify-between">
         {/* Header, which is date and num of tasks */}
-        <div>
+        <div className="flex items-baseline">
           <span className="mt-4 text-xl mr-2">{today}</span>
           <span
             className={classNames(

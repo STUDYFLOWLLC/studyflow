@@ -3,8 +3,9 @@
 
 import { FlowDetail } from 'hooks/flows/useFlowDetails'
 import makeRepetition from 'hooks/repetition/makeRepetition'
+import { deleteManyTask } from 'hooks/tasks/mutateTask'
 import { KeyedMutator } from 'swr'
-import { RepetitionType } from 'types/Repetition'
+import { Repetition, RepetitionType } from 'types/Repetition'
 import { mutateDeleteRepetition } from './mutateRepetition'
 
 export async function createRepetition(
@@ -60,13 +61,15 @@ export async function createRepetition(
 }
 
 export async function deleteRepetition(
-  repetitionId: string,
+  repetitionDetails: Repetition | null,
   flowDetails: FlowDetail | null,
   mutateFlowDetails: KeyedMutator<any>,
 ) {
-  if (!flowDetails) return
+  if (!flowDetails || !repetitionDetails) return
 
-  mutateDeleteRepetition(repetitionId)
+  mutateDeleteRepetition(repetitionDetails.RepetitionID)
+
+  deleteManyTask(repetitionDetails.FK_Tasks.map((task) => task.TaskID))
 
   mutateFlowDetails(
     {

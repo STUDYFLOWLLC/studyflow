@@ -11,6 +11,7 @@ interface Props {
   shouldNotUseUndo?: boolean
   showCompleted?: boolean
   repetitionId?: string
+  flowId?: string
 }
 
 export default function BasicDisplayTasks({
@@ -21,6 +22,7 @@ export default function BasicDisplayTasks({
   shouldNotUseUndo,
   showCompleted,
   repetitionId,
+  flowId,
 }: Props) {
   return (
     <div className="w-full">
@@ -46,6 +48,7 @@ export default function BasicDisplayTasks({
                 readOnly={readOnly}
                 shouldNotUseUndo={shouldNotUseUndo}
                 repetitionId={repetitionId}
+                flowId={flowId}
               />
             ),
         )}

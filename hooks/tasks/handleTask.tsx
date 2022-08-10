@@ -56,6 +56,7 @@ export default function addTask(
     email,
     taskCourseId,
     taskType,
+    flowDetails?.FlowID,
   )
 
   // mutate locally
@@ -97,6 +98,8 @@ export async function completeOrUncompleteTask(
   hideUndo?: boolean,
   repetitionDetails?: Repetition | null,
   mutateRepetitionDetails?: KeyedMutator<any>,
+  flowDetails?: FlowDetail | null,
+  mutateFlowDetails?: KeyedMutator<any>,
 ) {
   // mutate in backend
   archiveTask(taskId, newCompletion)
@@ -139,6 +142,24 @@ export async function completeOrUncompleteTask(
         revalidate: false,
       },
     )
+  }
+
+  if (flowDetails && mutateFlowDetails) {
+    mutateFlowDetails({
+      mutate: true,
+      mutatedFlow: {
+        ...flowDetails,
+        FK_Tasks: flowDetails?.FK_Tasks.map((task) => {
+          if (task.TaskID === taskId) {
+            return {
+              ...task,
+              Completed: newCompletion,
+            }
+          }
+          return task
+        }),
+      },
+    })
   }
 
   let show = true
@@ -236,6 +257,8 @@ export async function deleteOrUndeleteTask(
   newDeletion: boolean,
   tasks: Task[],
   mutateTasks: KeyedMutator<any>,
+  flowDetails?: FlowDetail | null,
+  mutateFlowDetails?: KeyedMutator<any>,
   hideUndo?: boolean,
 ) {
   // mutate in backend
@@ -253,6 +276,23 @@ export async function deleteOrUndeleteTask(
     },
     { revalidate: false },
   )
+
+  if (flowDetails && mutateFlowDetails) {
+    mutateFlowDetails(
+      {
+        mutate: true,
+        mutatedFlow: {
+          ...flowDetails,
+          FK_Tasks: flowDetails?.FK_Tasks.filter(
+            (t) => t.TaskID !== task.TaskID,
+          ),
+        },
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
 
   let show = true
 
@@ -294,6 +334,8 @@ export async function deleteOrUndeleteTask(
                           !newDeletion,
                           newTasks,
                           mutateTasks,
+                          flowDetails,
+                          mutateFlowDetails,
                           hideUndo,
                         )
                       }}
@@ -305,6 +347,8 @@ export async function deleteOrUndeleteTask(
                           !newDeletion,
                           newTasks,
                           mutateTasks,
+                          flowDetails,
+                          mutateFlowDetails,
                           hideUndo,
                         )
                       }}

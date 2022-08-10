@@ -20,6 +20,7 @@ import FlowTaskButton from './FlowTaskButton'
 interface Props {
   flowId: string
   flowTitle: string
+  groupBy: 'Today' | 'All' | number
   courseOnTerm?: SmallCourse
   dueDate?: Date
 }
@@ -27,6 +28,7 @@ interface Props {
 export default function index({
   flowId,
   flowTitle,
+  groupBy,
   courseOnTerm,
   dueDate,
 }: Props) {
@@ -37,7 +39,7 @@ export default function index({
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0].TermID,
   )
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   // States

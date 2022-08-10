@@ -141,13 +141,22 @@ export default function useFlowDetails(flowId: string | undefined): Ret {
       ],
     },
     fkTasksWhere2: {
-      FK_RepetitionID: {
-        equals: null,
-      },
+      AND: [
+        {
+          FK_RepetitionID: {
+            equals: null,
+          },
+        },
+        {
+          DeletedTime: {
+            equals: null,
+          },
+        },
+      ],
     },
   }
 
-  const { data, error, mutate } = useSWR([query, variables])
+  const { data, error, mutate } = useSWR(flowId ? [query, variables] : null)
 
   if (data?.mutate) {
     return {

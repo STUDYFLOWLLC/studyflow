@@ -123,3 +123,31 @@ export async function editTaskCourse(taskId: string, newCourseId: number) {
   const data = await request('/api/graphql', mutation, variables)
   return data
 }
+
+export function deleteManyTask(taskIds: string[]) {
+  const mutation = gql`
+    mutation Mutation(
+      $data: TaskUpdateManyMutationInput!
+      $where: TaskWhereInput
+    ) {
+      updateManyTask(data: $data, where: $where) {
+        count
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      DeletedTime: {
+        set: new Date().toISOString(),
+      },
+    },
+    where: {
+      TaskID: {
+        in: taskIds,
+      },
+    },
+  }
+
+  return request('/api/graphql', mutation, variables)
+}
