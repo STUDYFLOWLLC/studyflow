@@ -10,12 +10,13 @@ interface Props {
   task: Task
   groupBy?: 'Today' | 'All' | number
   flowId?: string
+  index?: number
 }
 
-export default function DeleteTask({ task, groupBy, flowId }: Props) {
+export default function DeleteTask({ task, groupBy, flowId, index }: Props) {
   const user = useUser()
   const { userDetails } = useUserDetails(user.user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   return (

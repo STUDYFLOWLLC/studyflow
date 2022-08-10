@@ -14,6 +14,7 @@ interface Props {
   cute?: boolean
   repetitionId?: string
   flowId?: string
+  index?: number
 }
 
 export default function Checkbox({
@@ -23,10 +24,11 @@ export default function Checkbox({
   cute,
   repetitionId,
   flowId,
+  index,
 }: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
   const { repetitionDetails, mutateRepetitionDetails } =
     useRepetitionDetails(repetitionId)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)

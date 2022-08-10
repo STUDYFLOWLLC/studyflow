@@ -28,6 +28,7 @@ interface Props {
   oldType: TaskType | undefined
   taskId: string
   setEditing: (editing: boolean) => void
+  index?: number
 }
 
 export default function EditTask({
@@ -39,13 +40,14 @@ export default function EditTask({
   oldType,
   taskId,
   setEditing,
+  index,
 }: Props) {
   const { theme } = useTheme()
 
   // Retrieving tasks and courses from backend
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )

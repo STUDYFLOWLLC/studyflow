@@ -17,6 +17,7 @@ interface Props {
   shouldNotUseUndo?: boolean
   repetitionId?: string
   flowId?: string
+  index?: number
 }
 
 export default function BasicTask({
@@ -27,6 +28,7 @@ export default function BasicTask({
   shouldNotUseUndo,
   repetitionId,
   flowId,
+  index,
 }: Props) {
   const [editing, setEditing] = useState(false)
 
@@ -40,6 +42,7 @@ export default function BasicTask({
       oldType={task.Type}
       taskId={task.TaskID}
       setEditing={setEditing}
+      index={index}
     />
   ) : (
     <div
@@ -57,6 +60,7 @@ export default function BasicTask({
           cute={cute}
           repetitionId={repetitionId}
           flowId={flowId}
+          index={index}
         />
         <div
           className={classNames(
@@ -86,7 +90,12 @@ export default function BasicTask({
                     Edit
                   </span>
                 )}
-                <DeleteTask task={task} groupBy={groupBy} flowId={flowId} />
+                <DeleteTask
+                  task={task}
+                  groupBy={groupBy}
+                  flowId={flowId}
+                  index={index}
+                />
               </span>
             )}
           </div>

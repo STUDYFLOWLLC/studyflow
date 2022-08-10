@@ -41,10 +41,11 @@ interface Ret {
 export default function useTasks(
   userId: number | undefined,
   groupBy?: 'Today' | 'All' | number,
+  index?: number,
 ): Ret {
   const query = gql`
-    query Tasks($where: TaskWhereInput) {
-      tasks(where: $where) {
+    query Tasks($where: TaskWhereInput, $take: Int, $skip: Int) {
+      tasks(where: $where, take: $take, skip: $skip) {
         CreatedTime
         Title
         TaskID
@@ -221,6 +222,11 @@ export default function useTasks(
         ],
       },
     }
+  }
+
+  if (index !== undefined) {
+    variables.take = 8
+    variables.skip = index * 8
   }
 
   const { data, error, mutate } = useSWR([query, variables], {

@@ -1,3 +1,4 @@
+import FlowPaginationButtons from 'components/FlowTable/FlowPaginationButtons'
 import BasicTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/BasicTask'
 import { Task } from 'hooks/tasks/useTasks'
 import { Toaster } from 'react-hot-toast'
@@ -6,6 +7,8 @@ import sortByDueDate from 'utils/tasks/sortTasks'
 interface Props {
   tasks: Task[]
   groupBy: 'Today' | 'All' | number
+  index?: number
+  setIndex?: (index: number) => void
   readOnly?: boolean
   cute?: boolean
   shouldNotUseUndo?: boolean
@@ -16,6 +19,8 @@ interface Props {
 
 export default function BasicDisplayTasks({
   tasks,
+  index,
+  setIndex,
   groupBy,
   readOnly,
   cute,
@@ -26,6 +31,7 @@ export default function BasicDisplayTasks({
 }: Props) {
   return (
     <div className="w-full">
+      <Toaster />
       {tasks
         .sort((taskA, taskB) => sortByDueDate(taskA, taskB, true))
         .sort((taskA, taskB) => {
@@ -49,10 +55,21 @@ export default function BasicDisplayTasks({
                 shouldNotUseUndo={shouldNotUseUndo}
                 repetitionId={repetitionId}
                 flowId={flowId}
+                index={index}
               />
             ),
         )}
-      <Toaster />
+      {index !== undefined && setIndex && (
+        <div>
+          {(index > 0 || tasks.length >= 8) && (
+            <FlowPaginationButtons
+              index={index}
+              setIndex={setIndex}
+              flowLength={tasks.length}
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }

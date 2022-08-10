@@ -5,6 +5,10 @@ import MainSpinner from 'components/spinners/MainSpinner'
 import AddTask from 'components/Tasks/AddTask'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import {
+  useCompletedTaskCount,
+  useUncompletedTaskCount,
+} from 'hooks/tasks/useTaskCount'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
@@ -23,10 +27,17 @@ export default function CourseListDropdown({ course, user }: Props) {
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )
+
+  const [index, setIndex] = useState(0)
   const { tasks, tasksLoading } = useTasks(
     userDetails?.UserID,
     course.CourseOnTermID,
+    index,
   )
+  const { completedTaskCount, completedTaskCountLoading } =
+    useCompletedTaskCount(userDetails?.UserID, course.CourseOnTermID)
+  const { uncompletedTaskCount, uncompletedTaskCountLoading } =
+    useUncompletedTaskCount(userDetails?.UserID, course.CourseOnTermID)
 
   const [mounted, setMounted] = useState(false)
   const [showCompleted, setShowCompleted] = useState(false)
@@ -35,10 +46,6 @@ export default function CourseListDropdown({ course, user }: Props) {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
-
-  // Number of tasks in a course
-  const numTasksCourseActive = tasks.filter((task) => !task.Completed).length
-  const numTasksCourseCompleted = tasks.filter((task) => task.Completed).length
 
   return (
     <div>
@@ -88,15 +95,19 @@ export default function CourseListDropdown({ course, user }: Props) {
             {tasksLoading && <MainSpinner size={SpinnerSizes.small} />}
           </span>
         </span>
-        <span className="text-xs text-gray-400 mt-3">
-          {numTasksCourseActive} Active, {numTasksCourseCompleted} Completed
-        </span>
+        {!completedTaskCountLoading && !uncompletedTaskCountLoading && (
+          <span className="text-xs text-gray-400 mt-3">
+            {uncompletedTaskCount} Active, {completedTaskCount} Completed
+          </span>
+        )}
       </div>
 
       {/* Class Tasks */}
       {showTasks && (
         <BasicDisplayTasks
           tasks={tasks}
+          index={index}
+          setIndex={setIndex}
           groupBy={course.CourseOnTermID}
           showCompleted={showCompleted}
         />
@@ -111,6 +122,8 @@ export default function CourseListDropdown({ course, user }: Props) {
             coursesOnTermLoading={coursesOnTermLoading}
             courseOnTerm={course}
             groupBy={course.CourseOnTermID}
+            index={index}
+            setIndex={setIndex}
           />
         </div>
       )}

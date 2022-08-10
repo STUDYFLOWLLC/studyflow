@@ -26,6 +26,7 @@ export default function DayPopup({
 }: Props) {
   const { theme } = useTheme()
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
+  const [index, setIndex] = useState(0)
   const { tasks, mutateTasks } = useTasks(userDetails?.UserID, 'All')
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
@@ -94,6 +95,8 @@ export default function DayPopup({
                   sameDate(new Date(task.DueDate), dateToDisplay),
                 )}
                 groupBy="All"
+                index={index}
+                setIndex={setIndex}
               />
             </div>
             {/* Add Task, with correct Due Date */}
