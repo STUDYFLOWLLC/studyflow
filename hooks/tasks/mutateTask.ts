@@ -26,16 +26,21 @@ export async function archiveTask(taskId: string, completed: boolean) {
   return data
 }
 
-export async function deleteTask(taskId: string) {
+export async function deleteTask(taskId: string, isBringBack?: boolean) {
   const mutation = gql`
-    mutation Mutation($where: TaskWhereUniqueInput!) {
-      deleteTask(where: $where) {
+    mutation Mutation($data: TaskUpdateInput!, $where: TaskWhereUniqueInput!) {
+      updateTask(data: $data, where: $where) {
         TaskID
       }
     }
   `
 
   const variables = {
+    data: {
+      DeletedTime: {
+        set: isBringBack ? null : new Date().toISOString(),
+      },
+    },
     where: {
       TaskID: taskId,
     },

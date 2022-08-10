@@ -1,12 +1,12 @@
-import * as tslib from "tslib"
-import { ClassType } from "type-graphql"
-import * as models from "./models"
-import * as argsTypes from "./resolvers/crud/args.index"
-import * as actionResolvers from "./resolvers/crud/resolvers-actions.index"
-import * as crudResolvers from "./resolvers/crud/resolvers-crud.index"
-import * as inputTypes from "./resolvers/inputs"
-import * as outputTypes from "./resolvers/outputs"
-import * as relationResolvers from "./resolvers/relations/resolvers.index"
+import { ClassType } from "type-graphql";
+import * as tslib from "tslib";
+import * as crudResolvers from "./resolvers/crud/resolvers-crud.index";
+import * as argsTypes from "./resolvers/crud/args.index";
+import * as actionResolvers from "./resolvers/crud/resolvers-actions.index";
+import * as relationResolvers from "./resolvers/relations/resolvers.index";
+import * as models from "./models";
+import * as outputTypes from "./resolvers/outputs";
+import * as inputTypes from "./resolvers/inputs";
 
 const crudResolversMap = {
   Setting: crudResolvers.SettingCrudResolver,
@@ -34,7 +34,7 @@ const crudResolversMap = {
   Blog: crudResolvers.BlogCrudResolver,
   BugReport: crudResolvers.BugReportCrudResolver,
   FeatureRequest: crudResolvers.FeatureRequestCrudResolver
-}
+};
 const actionResolversMap = {
   Setting: {
     setting: actionResolvers.FindUniqueSettingResolver,
@@ -386,7 +386,7 @@ const actionResolversMap = {
     aggregateFeatureRequest: actionResolvers.AggregateFeatureRequestResolver,
     groupByFeatureRequest: actionResolvers.GroupByFeatureRequestResolver
   }
-}
+};
 const crudResolversInfo = {
   Setting: ["setting", "findFirstSetting", "settings", "createSetting", "createManySetting", "deleteSetting", "updateSetting", "deleteManySetting", "updateManySetting", "upsertSetting", "aggregateSetting", "groupBySetting"],
   AutomationLog: ["automationLog", "findFirstAutomationLog", "automationLogs", "createAutomationLog", "createManyAutomationLog", "deleteAutomationLog", "updateAutomationLog", "deleteManyAutomationLog", "updateManyAutomationLog", "upsertAutomationLog", "aggregateAutomationLog", "groupByAutomationLog"],
@@ -413,7 +413,7 @@ const crudResolversInfo = {
   Blog: ["blog", "findFirstBlog", "blogs", "createBlog", "createManyBlog", "deleteBlog", "updateBlog", "deleteManyBlog", "updateManyBlog", "upsertBlog", "aggregateBlog", "groupByBlog"],
   BugReport: ["bugReport", "findFirstBugReport", "bugReports", "createBugReport", "createManyBugReport", "deleteBugReport", "updateBugReport", "deleteManyBugReport", "updateManyBugReport", "upsertBugReport", "aggregateBugReport", "groupByBugReport"],
   FeatureRequest: ["featureRequest", "findFirstFeatureRequest", "featureRequests", "createFeatureRequest", "createManyFeatureRequest", "deleteFeatureRequest", "updateFeatureRequest", "deleteManyFeatureRequest", "updateManyFeatureRequest", "upsertFeatureRequest", "aggregateFeatureRequest", "groupByFeatureRequest"]
-}
+};
 const argsInfo = {
   FindUniqueSettingArgs: ["where"],
   FindFirstSettingArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
@@ -715,7 +715,7 @@ const argsInfo = {
   UpsertFeatureRequestArgs: ["where", "create", "update"],
   AggregateFeatureRequestArgs: ["where", "orderBy", "cursor", "take", "skip"],
   GroupByFeatureRequestArgs: ["where", "orderBy", "by", "having", "take", "skip"]
-}
+};
 
 type ResolverModelNames = keyof typeof crudResolversMap;
 
@@ -735,33 +735,33 @@ export function applyResolversEnhanceMap(
   resolversEnhanceMap: ResolversEnhanceMap,
 ) {
   for (const resolversEnhanceMapKey of Object.keys(resolversEnhanceMap)) {
-    const modelName = resolversEnhanceMapKey as keyof typeof resolversEnhanceMap
-    const crudTarget = crudResolversMap[modelName].prototype
-    const resolverActionsConfig = resolversEnhanceMap[modelName]!
-    const actionResolversConfig = actionResolversMap[modelName]
+    const modelName = resolversEnhanceMapKey as keyof typeof resolversEnhanceMap;
+    const crudTarget = crudResolversMap[modelName].prototype;
+    const resolverActionsConfig = resolversEnhanceMap[modelName]!;
+    const actionResolversConfig = actionResolversMap[modelName];
     if (resolverActionsConfig._all) {
-      const allActionsDecorators = resolverActionsConfig._all
-      const resolverActionNames = crudResolversInfo[modelName as keyof typeof crudResolversInfo]
+      const allActionsDecorators = resolverActionsConfig._all;
+      const resolverActionNames = crudResolversInfo[modelName as keyof typeof crudResolversInfo];
       for (const resolverActionName of resolverActionNames) {
         const actionTarget = (actionResolversConfig[
           resolverActionName as keyof typeof actionResolversConfig
-        ] as Function).prototype
-        tslib.__decorate(allActionsDecorators, crudTarget, resolverActionName, null)
-        tslib.__decorate(allActionsDecorators, actionTarget, resolverActionName, null)
+        ] as Function).prototype;
+        tslib.__decorate(allActionsDecorators, crudTarget, resolverActionName, null);
+        tslib.__decorate(allActionsDecorators, actionTarget, resolverActionName, null);
       }
     }
     const resolverActionsToApply = Object.keys(resolverActionsConfig).filter(
       it => it !== "_all"
-    )
+    );
     for (const resolverActionName of resolverActionsToApply) {
       const decorators = resolverActionsConfig[
         resolverActionName as keyof typeof resolverActionsConfig
-      ] as MethodDecorator[]
+      ] as MethodDecorator[];
       const actionTarget = (actionResolversConfig[
         resolverActionName as keyof typeof actionResolversConfig
-      ] as Function).prototype
-      tslib.__decorate(decorators, crudTarget, resolverActionName, null)
-      tslib.__decorate(decorators, actionTarget, resolverActionName, null)
+      ] as Function).prototype;
+      tslib.__decorate(decorators, crudTarget, resolverActionName, null);
+      tslib.__decorate(decorators, actionTarget, resolverActionName, null);
     }
   }
 }
@@ -790,16 +790,16 @@ export function applyArgsTypesEnhanceMap(
   argsTypesEnhanceMap: ArgsTypesEnhanceMap,
 ) {
   for (const argsTypesEnhanceMapKey of Object.keys(argsTypesEnhanceMap)) {
-    const argsTypeName = argsTypesEnhanceMapKey as keyof typeof argsTypesEnhanceMap
-    const typeConfig = argsTypesEnhanceMap[argsTypeName]!
-    const typeClass = argsTypes[argsTypeName]
-    const typeTarget = typeClass.prototype
+    const argsTypeName = argsTypesEnhanceMapKey as keyof typeof argsTypesEnhanceMap;
+    const typeConfig = argsTypesEnhanceMap[argsTypeName]!;
+    const typeClass = argsTypes[argsTypeName];
+    const typeTarget = typeClass.prototype;
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       argsInfo[argsTypeName as keyof typeof argsInfo],
-    )
+    );
   }
 }
 
@@ -829,7 +829,7 @@ const relationResolversMap = {
   Blog: relationResolvers.BlogRelationsResolver,
   BugReport: relationResolvers.BugReportRelationsResolver,
   FeatureRequest: relationResolvers.FeatureRequestRelationsResolver
-}
+};
 const relationResolversInfo = {
   Setting: ["FK_User"],
   AutomationLog: ["FK_CourseOnTermAutomation"],
@@ -856,7 +856,7 @@ const relationResolversInfo = {
   Blog: ["FK_User"],
   BugReport: ["FK_User"],
   FeatureRequest: ["FK_User"]
-}
+};
 
 type RelationResolverModelNames = keyof typeof relationResolversMap;
 
@@ -875,24 +875,24 @@ export function applyRelationResolversEnhanceMap(
   relationResolversEnhanceMap: RelationResolversEnhanceMap,
 ) {
   for (const relationResolversEnhanceMapKey of Object.keys(relationResolversEnhanceMap)) {
-    const modelName = relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap
-    const relationResolverTarget = relationResolversMap[modelName].prototype
-    const relationResolverActionsConfig = relationResolversEnhanceMap[modelName]!
+    const modelName = relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap;
+    const relationResolverTarget = relationResolversMap[modelName].prototype;
+    const relationResolverActionsConfig = relationResolversEnhanceMap[modelName]!;
     if (relationResolverActionsConfig._all) {
-      const allActionsDecorators = relationResolverActionsConfig._all
-      const relationResolverActionNames = relationResolversInfo[modelName as keyof typeof relationResolversInfo]
+      const allActionsDecorators = relationResolverActionsConfig._all;
+      const relationResolverActionNames = relationResolversInfo[modelName as keyof typeof relationResolversInfo];
       for (const relationResolverActionName of relationResolverActionNames) {
-        tslib.__decorate(allActionsDecorators, relationResolverTarget, relationResolverActionName, null)
+        tslib.__decorate(allActionsDecorators, relationResolverTarget, relationResolverActionName, null);
       }
     }
     const relationResolverActionsToApply = Object.keys(relationResolverActionsConfig).filter(
       it => it !== "_all"
-    )
+    );
     for (const relationResolverActionName of relationResolverActionsToApply) {
       const decorators = relationResolverActionsConfig[
         relationResolverActionName as keyof typeof relationResolverActionsConfig
-      ] as MethodDecorator[]
-      tslib.__decorate(decorators, relationResolverTarget, relationResolverActionName, null)
+      ] as MethodDecorator[];
+      tslib.__decorate(decorators, relationResolverTarget, relationResolverActionName, null);
     }
   }
 }
@@ -916,21 +916,21 @@ function applyTypeClassEnhanceConfig<
   typeFieldNames: string[]
 ) {
   if (enhanceConfig.class) {
-    tslib.__decorate(enhanceConfig.class, typeClass)
+    tslib.__decorate(enhanceConfig.class, typeClass);
   }
   if (enhanceConfig.fields) {
     if (enhanceConfig.fields._all) {
-      const allFieldsDecorators = enhanceConfig.fields._all
+      const allFieldsDecorators = enhanceConfig.fields._all;
       for (const typeFieldName of typeFieldNames) {
-        tslib.__decorate(allFieldsDecorators, typePrototype, typeFieldName, void 0)
+        tslib.__decorate(allFieldsDecorators, typePrototype, typeFieldName, void 0);
       }
     }
     const configFieldsToApply = Object.keys(enhanceConfig.fields).filter(
       it => it !== "_all"
-    )
+    );
     for (const typeFieldName of configFieldsToApply) {
-      const fieldDecorators = enhanceConfig.fields[typeFieldName]!
-      tslib.__decorate(fieldDecorators, typePrototype, typeFieldName, void 0)
+      const fieldDecorators = enhanceConfig.fields[typeFieldName]!;
+      tslib.__decorate(fieldDecorators, typePrototype, typeFieldName, void 0);
     }
   }
 }
@@ -955,13 +955,13 @@ const modelsInfo = {
   FlashcardStackReview: ["FlashcardStackReviewID", "CreatedTime", "EndTime", "FK_FlashcardStackID"],
   Flashcard: ["FlashcardID", "CreatedTime", "DeletedTime", "FK_FlashcardStackID", "Position", "Front", "FrontImageUrl", "Back", "BackImageUrl"],
   FlashcardReview: ["FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardID", "FK_FlashcardStackReviewID"],
-  Task: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  Task: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
   TaskLabel: ["TaskLabelID", "CreatedTime", "Label", "FK_TaskID"],
   Repetition: ["RepetitionID", "CreatedTime", "DeletedTime", "RepetitionType", "FK_FlowID", "FK_FlashcardStackID"],
   Blog: ["BlogID", "CreatedTime", "DeletedTime", "FK_UserID", "Title", "Body"],
   BugReport: ["BugReportID", "CreatedTime", "DeletedTime", "FixedTime", "FK_UserID", "Title", "Body"],
   FeatureRequest: ["FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "FK_UserID", "Title", "Body"]
-}
+};
 
 type ModelNames = keyof typeof models;
 
@@ -985,16 +985,16 @@ export type ModelsEnhanceMap = {
 
 export function applyModelsEnhanceMap(modelsEnhanceMap: ModelsEnhanceMap) {
   for (const modelsEnhanceMapKey of Object.keys(modelsEnhanceMap)) {
-    const modelName = modelsEnhanceMapKey as keyof typeof modelsEnhanceMap
-    const modelConfig = modelsEnhanceMap[modelName]!
-    const modelClass = models[modelName]
-    const modelTarget = modelClass.prototype
+    const modelName = modelsEnhanceMapKey as keyof typeof modelsEnhanceMap;
+    const modelConfig = modelsEnhanceMap[modelName]!;
+    const modelClass = models[modelName];
+    const modelTarget = modelClass.prototype;
     applyTypeClassEnhanceConfig(
       modelConfig,
       modelClass,
       modelTarget,
       modelsInfo[modelName as keyof typeof modelsInfo],
-    )
+    );
   }
 }
 
@@ -1038,7 +1038,7 @@ const outputsInfo = {
   AggregateFlashcardReview: ["_count", "_min", "_max"],
   FlashcardReviewGroupBy: ["FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardID", "FK_FlashcardStackReviewID", "_count", "_min", "_max"],
   AggregateTask: ["_count", "_avg", "_sum", "_min", "_max"],
-  TaskGroupBy: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID", "_count", "_avg", "_sum", "_min", "_max"],
+  TaskGroupBy: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateTaskLabel: ["_count", "_avg", "_sum", "_min", "_max"],
   TaskLabelGroupBy: ["TaskLabelID", "CreatedTime", "Label", "FK_TaskID", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateRepetition: ["_count", "_min", "_max"],
@@ -1153,11 +1153,11 @@ const outputsInfo = {
   FlashcardReviewMinAggregate: ["FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardID", "FK_FlashcardStackReviewID"],
   FlashcardReviewMaxAggregate: ["FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardID", "FK_FlashcardStackReviewID"],
   TaskCount: ["FK_TaskLabel"],
-  TaskCountAggregate: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID", "_all"],
+  TaskCountAggregate: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID", "_all"],
   TaskAvgAggregate: ["FK_UserID", "FK_CourseOnTermID"],
   TaskSumAggregate: ["FK_UserID", "FK_CourseOnTermID"],
-  TaskMinAggregate: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
-  TaskMaxAggregate: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskMinAggregate: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskMaxAggregate: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
   TaskLabelCountAggregate: ["TaskLabelID", "CreatedTime", "Label", "FK_TaskID", "_all"],
   TaskLabelAvgAggregate: ["TaskLabelID"],
   TaskLabelSumAggregate: ["TaskLabelID"],
@@ -1182,7 +1182,7 @@ const outputsInfo = {
   FeatureRequestSumAggregate: ["FK_UserID"],
   FeatureRequestMinAggregate: ["FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "FK_UserID", "Title", "Body"],
   FeatureRequestMaxAggregate: ["FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "FK_UserID", "Title", "Body"]
-}
+};
 
 type OutputTypesNames = keyof typeof outputTypes;
 
@@ -1208,16 +1208,16 @@ export function applyOutputTypesEnhanceMap(
   outputTypesEnhanceMap: OutputTypesEnhanceMap,
 ) {
   for (const outputTypeEnhanceMapKey of Object.keys(outputTypesEnhanceMap)) {
-    const outputTypeName = outputTypeEnhanceMapKey as keyof typeof outputTypesEnhanceMap
-    const typeConfig = outputTypesEnhanceMap[outputTypeName]!
-    const typeClass = outputTypes[outputTypeName]
-    const typeTarget = typeClass.prototype
+    const outputTypeName = outputTypeEnhanceMapKey as keyof typeof outputTypesEnhanceMap;
+    const typeConfig = outputTypesEnhanceMap[outputTypeName]!;
+    const typeClass = outputTypes[outputTypeName];
+    const typeTarget = typeClass.prototype;
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       outputsInfo[outputTypeName as keyof typeof outputsInfo],
-    )
+    );
   }
 }
 
@@ -1317,11 +1317,11 @@ const inputsInfo = {
   FlashcardReviewWhereUniqueInput: ["FlashcardReviewID"],
   FlashcardReviewOrderByWithAggregationInput: ["FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardID", "FK_FlashcardStackReviewID", "_count", "_max", "_min"],
   FlashcardReviewScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardID", "FK_FlashcardStackReviewID"],
-  TaskWhereInput: ["AND", "OR", "NOT", "TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_UserID", "FK_Flow", "FK_FlowID", "FK_CourseOnTerm", "FK_CourseOnTermID", "FK_Repetition", "FK_RepetitionID"],
-  TaskOrderByWithRelationInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_UserID", "FK_Flow", "FK_FlowID", "FK_CourseOnTerm", "FK_CourseOnTermID", "FK_Repetition", "FK_RepetitionID"],
+  TaskWhereInput: ["AND", "OR", "NOT", "TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_UserID", "FK_Flow", "FK_FlowID", "FK_CourseOnTerm", "FK_CourseOnTermID", "FK_Repetition", "FK_RepetitionID"],
+  TaskOrderByWithRelationInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_UserID", "FK_Flow", "FK_FlowID", "FK_CourseOnTerm", "FK_CourseOnTermID", "FK_Repetition", "FK_RepetitionID"],
   TaskWhereUniqueInput: ["TaskID"],
-  TaskOrderByWithAggregationInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID", "_count", "_avg", "_max", "_min", "_sum"],
-  TaskScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskOrderByWithAggregationInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID", "_count", "_avg", "_max", "_min", "_sum"],
+  TaskScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
   TaskLabelWhereInput: ["AND", "OR", "NOT", "TaskLabelID", "CreatedTime", "Label", "FK_Task", "FK_TaskID"],
   TaskLabelOrderByWithRelationInput: ["TaskLabelID", "CreatedTime", "Label", "FK_Task", "FK_TaskID"],
   TaskLabelWhereUniqueInput: ["TaskLabelID"],
@@ -1423,10 +1423,10 @@ const inputsInfo = {
   FlashcardReviewUpdateInput: ["FlashcardReviewID", "CreatedTime", "Status", "FK_Flashcard", "FK_FlashcardStackReview"],
   FlashcardReviewCreateManyInput: ["FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardID", "FK_FlashcardStackReviewID"],
   FlashcardReviewUpdateManyMutationInput: ["FlashcardReviewID", "CreatedTime", "Status"],
-  TaskCreateInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
-  TaskUpdateInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
-  TaskCreateManyInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
-  TaskUpdateManyMutationInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type"],
+  TaskCreateInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskUpdateInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskCreateManyInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskUpdateManyMutationInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type"],
   TaskLabelCreateInput: ["CreatedTime", "Label", "FK_Task"],
   TaskLabelUpdateInput: ["CreatedTime", "Label", "FK_Task"],
   TaskLabelCreateManyInput: ["TaskLabelID", "CreatedTime", "Label", "FK_TaskID"],
@@ -1624,10 +1624,10 @@ const inputsInfo = {
   EnumTaskTypeNullableFilter: ["equals", "in", "notIn", "not"],
   TaskLabelListRelationFilter: ["every", "some", "none"],
   TaskLabelOrderByRelationAggregateInput: ["_count"],
-  TaskCountOrderByAggregateInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskCountOrderByAggregateInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
   TaskAvgOrderByAggregateInput: ["FK_UserID", "FK_CourseOnTermID"],
-  TaskMaxOrderByAggregateInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
-  TaskMinOrderByAggregateInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskMaxOrderByAggregateInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskMinOrderByAggregateInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
   TaskSumOrderByAggregateInput: ["FK_UserID", "FK_CourseOnTermID"],
   EnumTaskTypeNullableWithAggregatesFilter: ["equals", "in", "notIn", "not", "_count", "_min", "_max"],
   TaskRelationFilter: ["is", "isNot"],
@@ -1920,7 +1920,7 @@ const inputsInfo = {
   TermCreateWithoutFK_UserInput: ["CreatedTime", "TermType", "TermName", "FK_School", "FK_CourseOnTerm"],
   TermCreateOrConnectWithoutFK_UserInput: ["where", "create"],
   TermCreateManyFK_UserInputEnvelope: ["data", "skipDuplicates"],
-  TaskCreateWithoutFK_UserInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskCreateWithoutFK_UserInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
   TaskCreateOrConnectWithoutFK_UserInput: ["where", "create"],
   TaskCreateManyFK_UserInputEnvelope: ["data", "skipDuplicates"],
   SettingCreateWithoutFK_UserInput: ["HasSeenWelcomeMessage", "LastSeenWelcomeMessageAt"],
@@ -1964,7 +1964,7 @@ const inputsInfo = {
   TaskUpsertWithWhereUniqueWithoutFK_UserInput: ["where", "update", "create"],
   TaskUpdateWithWhereUniqueWithoutFK_UserInput: ["where", "data"],
   TaskUpdateManyWithWhereWithoutFK_UserInput: ["where", "data"],
-  TaskScalarWhereInput: ["AND", "OR", "NOT", "TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskScalarWhereInput: ["AND", "OR", "NOT", "TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
   SettingUpsertWithoutFK_UserInput: ["update", "create"],
   SettingUpdateWithoutFK_UserInput: ["HasSeenWelcomeMessage", "LastSeenWelcomeMessageAt"],
   FlowViewUpsertWithWhereUniqueWithoutFK_UserInput: ["where", "update", "create"],
@@ -2041,7 +2041,7 @@ const inputsInfo = {
   FlowCreateWithoutFK_CourseOnTermInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_FlashcardStacks", "FK_Tasks", "FK_FlowView", "FK_User", "FK_Repetition"],
   FlowCreateOrConnectWithoutFK_CourseOnTermInput: ["where", "create"],
   FlowCreateManyFK_CourseOnTermInputEnvelope: ["data", "skipDuplicates"],
-  TaskCreateWithoutFK_CourseOnTermInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_Repetition"],
+  TaskCreateWithoutFK_CourseOnTermInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_Repetition"],
   TaskCreateOrConnectWithoutFK_CourseOnTermInput: ["where", "create"],
   TaskCreateManyFK_CourseOnTermInputEnvelope: ["data", "skipDuplicates"],
   CourseOnTermAutomationCreateWithoutFK_CourseOnTermInput: ["FolderID", "DefaultType", "DefaultVisibility", "AutomationLog", "FK_Automation"],
@@ -2102,7 +2102,7 @@ const inputsInfo = {
   FlashcardStackCreateWithoutFK_FlowInput: ["FlashcardStackID", "CreatedTime", "DeletedTime", "FK_Flashcards", "FK_FlashcardStackReviews", "FK_Repetition", "Title", "Description"],
   FlashcardStackCreateOrConnectWithoutFK_FlowInput: ["where", "create"],
   FlashcardStackCreateManyFK_FlowInputEnvelope: ["data", "skipDuplicates"],
-  TaskCreateWithoutFK_FlowInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskCreateWithoutFK_FlowInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_CourseOnTerm", "FK_Repetition"],
   TaskCreateOrConnectWithoutFK_FlowInput: ["where", "create"],
   TaskCreateManyFK_FlowInputEnvelope: ["data", "skipDuplicates"],
   FlowViewCreateWithoutFK_FlowInput: ["CreatedTime", "FK_User"],
@@ -2210,15 +2210,15 @@ const inputsInfo = {
   CourseOnTermUpdateWithoutFK_TasksInput: ["CreatedTime", "Index", "Color", "Nickname", "IsNew", "FK_Course", "FK_Term", "FK_Flows", "CourseOnTermAutomation"],
   RepetitionUpsertWithoutFK_TasksInput: ["update", "create"],
   RepetitionUpdateWithoutFK_TasksInput: ["RepetitionID", "CreatedTime", "DeletedTime", "RepetitionType", "FK_Flow", "FK_FlashcardStack"],
-  TaskCreateWithoutFK_TaskLabelInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskCreateWithoutFK_TaskLabelInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
   TaskCreateOrConnectWithoutFK_TaskLabelInput: ["where", "create"],
   TaskUpsertWithoutFK_TaskLabelInput: ["update", "create"],
-  TaskUpdateWithoutFK_TaskLabelInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskUpdateWithoutFK_TaskLabelInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_User", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
   FlowCreateWithoutFK_RepetitionInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTerm", "FK_FlashcardStacks", "FK_Tasks", "FK_FlowView", "FK_User"],
   FlowCreateOrConnectWithoutFK_RepetitionInput: ["where", "create"],
   FlashcardStackCreateWithoutFK_RepetitionInput: ["FlashcardStackID", "CreatedTime", "DeletedTime", "FK_Flow", "FK_Flashcards", "FK_FlashcardStackReviews", "Title", "Description"],
   FlashcardStackCreateOrConnectWithoutFK_RepetitionInput: ["where", "create"],
-  TaskCreateWithoutFK_RepetitionInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm"],
+  TaskCreateWithoutFK_RepetitionInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm"],
   TaskCreateOrConnectWithoutFK_RepetitionInput: ["where", "create"],
   TaskCreateManyFK_RepetitionInputEnvelope: ["data", "skipDuplicates"],
   FlowUpsertWithoutFK_RepetitionInput: ["update", "create"],
@@ -2247,7 +2247,7 @@ const inputsInfo = {
   UserOnStudyGroupCreateManyFK_StudyGroupInput: ["UserOnStudyGroupID", "SendTime", "AcceptedTime", "RejectedTime", "RemovedTime", "CanceledTime", "FK_UserID"],
   UserOnStudyGroupUpdateWithoutFK_StudyGroupInput: ["SendTime", "AcceptedTime", "RejectedTime", "RemovedTime", "CanceledTime", "FK_User"],
   TermCreateManyFK_UserInput: ["TermID", "CreatedTime", "TermType", "TermName", "FK_SchoolID"],
-  TaskCreateManyFK_UserInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskCreateManyFK_UserInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_FlowID", "FK_CourseOnTermID", "FK_RepetitionID"],
   FlowViewCreateManyFK_UserInput: ["FlowViewID", "CreatedTime", "FK_FlowID"],
   FlowCreateManyFK_UserInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTermID"],
   AutomationCreateManyFK_UserInput: ["AutomationID", "RefreshToken"],
@@ -2259,7 +2259,7 @@ const inputsInfo = {
   BugReportCreateManyFK_UserInput: ["BugReportID", "CreatedTime", "DeletedTime", "FixedTime", "Title", "Body"],
   FeatureRequestCreateManyFK_UserInput: ["FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "Title", "Body"],
   TermUpdateWithoutFK_UserInput: ["CreatedTime", "TermType", "TermName", "FK_School", "FK_CourseOnTerm"],
-  TaskUpdateWithoutFK_UserInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskUpdateWithoutFK_UserInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_Flow", "FK_CourseOnTerm", "FK_Repetition"],
   FlowViewUpdateWithoutFK_UserInput: ["CreatedTime", "FK_Flow"],
   FlowUpdateWithoutFK_UserInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTerm", "FK_FlashcardStacks", "FK_Tasks", "FK_FlowView", "FK_Repetition"],
   AutomationUpdateWithoutFK_UserInput: ["RefreshToken", "CourseOnTermAutomations"],
@@ -2275,10 +2275,10 @@ const inputsInfo = {
   CourseOnTermCreateManyFK_CourseInput: ["CourseOnTermID", "CreatedTime", "Index", "Color", "Nickname", "IsNew", "FK_TermID"],
   CourseOnTermUpdateWithoutFK_CourseInput: ["CreatedTime", "Index", "Color", "Nickname", "IsNew", "FK_Term", "FK_Flows", "FK_Tasks", "CourseOnTermAutomation"],
   FlowCreateManyFK_CourseOnTermInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_UserID"],
-  TaskCreateManyFK_CourseOnTermInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_RepetitionID"],
+  TaskCreateManyFK_CourseOnTermInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_RepetitionID"],
   CourseOnTermAutomationCreateManyFK_CourseOnTermInput: ["CourseOnTermAutomationID", "FolderID", "DefaultType", "DefaultVisibility", "FK_AutomationID"],
   FlowUpdateWithoutFK_CourseOnTermInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_FlashcardStacks", "FK_Tasks", "FK_FlowView", "FK_User", "FK_Repetition"],
-  TaskUpdateWithoutFK_CourseOnTermInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_Repetition"],
+  TaskUpdateWithoutFK_CourseOnTermInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_Repetition"],
   CourseOnTermAutomationUpdateWithoutFK_CourseOnTermInput: ["FolderID", "DefaultType", "DefaultVisibility", "AutomationLog", "FK_Automation"],
   CourseCreateManyFK_SchoolInput: ["CourseID", "CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_ProfessorID"],
   UserCreateManyFK_SchoolInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess"],
@@ -2291,10 +2291,10 @@ const inputsInfo = {
   CourseCreateManyFK_ProfessorInput: ["CourseID", "CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_SchoolID"],
   CourseUpdateWithoutFK_ProfessorInput: ["CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_School", "CourseOnTerm"],
   FlashcardStackCreateManyFK_FlowInput: ["FlashcardStackID", "CreatedTime", "DeletedTime", "Title", "Description"],
-  TaskCreateManyFK_FlowInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_CourseOnTermID", "FK_RepetitionID"],
+  TaskCreateManyFK_FlowInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_CourseOnTermID", "FK_RepetitionID"],
   FlowViewCreateManyFK_FlowInput: ["FlowViewID", "CreatedTime", "FK_UserID"],
   FlashcardStackUpdateWithoutFK_FlowInput: ["FlashcardStackID", "CreatedTime", "DeletedTime", "FK_Flashcards", "FK_FlashcardStackReviews", "FK_Repetition", "Title", "Description"],
-  TaskUpdateWithoutFK_FlowInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_CourseOnTerm", "FK_Repetition"],
+  TaskUpdateWithoutFK_FlowInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_CourseOnTerm", "FK_Repetition"],
   FlowViewUpdateWithoutFK_FlowInput: ["CreatedTime", "FK_User"],
   FlashcardCreateManyFK_FlashcardStackInput: ["FlashcardID", "CreatedTime", "DeletedTime", "Position", "Front", "FrontImageUrl", "Back", "BackImageUrl"],
   FlashcardStackReviewCreateManyFK_FlashcardStackInput: ["FlashcardStackReviewID", "CreatedTime", "EndTime"],
@@ -2306,9 +2306,9 @@ const inputsInfo = {
   FlashcardReviewUpdateWithoutFK_FlashcardInput: ["FlashcardReviewID", "CreatedTime", "Status", "FK_FlashcardStackReview"],
   TaskLabelCreateManyFK_TaskInput: ["TaskLabelID", "CreatedTime", "Label"],
   TaskLabelUpdateWithoutFK_TaskInput: ["CreatedTime", "Label"],
-  TaskCreateManyFK_RepetitionInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID"],
-  TaskUpdateWithoutFK_RepetitionInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm"]
-}
+  TaskCreateManyFK_RepetitionInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID"],
+  TaskUpdateWithoutFK_RepetitionInput: ["TaskID", "CreatedTime", "DeletedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm"]
+};
 
 type InputTypesNames = keyof typeof inputTypes;
 
@@ -2334,16 +2334,16 @@ export function applyInputTypesEnhanceMap(
   inputTypesEnhanceMap: InputTypesEnhanceMap,
 ) {
   for (const inputTypeEnhanceMapKey of Object.keys(inputTypesEnhanceMap)) {
-    const inputTypeName = inputTypeEnhanceMapKey as keyof typeof inputTypesEnhanceMap
-    const typeConfig = inputTypesEnhanceMap[inputTypeName]!
-    const typeClass = inputTypes[inputTypeName]
-    const typeTarget = typeClass.prototype
+    const inputTypeName = inputTypeEnhanceMapKey as keyof typeof inputTypesEnhanceMap;
+    const typeConfig = inputTypesEnhanceMap[inputTypeName]!;
+    const typeClass = inputTypes[inputTypeName];
+    const typeTarget = typeClass.prototype;
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       inputsInfo[inputTypeName as keyof typeof inputsInfo],
-    )
+    );
   }
 }
 

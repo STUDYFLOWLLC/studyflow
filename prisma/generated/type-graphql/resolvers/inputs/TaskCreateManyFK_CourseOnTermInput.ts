@@ -18,6 +18,11 @@ export class TaskCreateManyFK_CourseOnTermInput {
   })
   CreatedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime?: Date | undefined;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })

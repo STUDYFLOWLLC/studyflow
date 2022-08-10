@@ -1,37 +1,44 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
+import MainSpinner from 'components/spinners/MainSpinner'
 import AddTask from 'components/Tasks/AddTask'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
-import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
+import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
-import { useState } from 'react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
+import { SpinnerSizes } from 'types/Loading'
 import bgToTextColor from 'utils/bgToTextColor'
 
 interface Props {
   course: CourseOnTerm
   user: User
-  coursesOnTerm: CourseOnTerm[]
-  coursesOnTermLoading: boolean
 }
 
-export default function CourseListDropdown({
-  course,
-  user,
-  coursesOnTerm,
-  coursesOnTermLoading,
-}: Props) {
+export default function CourseListDropdown({ course, user }: Props) {
+  const { theme } = useTheme()
+  const { userDetails } = useUserDetails(user.id)
+  const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
+    userDetails?.FK_Terms?.[0]?.TermID,
+  )
+  const { tasks, tasksLoading } = useTasks(
+    userDetails?.UserID,
+    course.CourseOnTermID,
+  )
+
+  const [mounted, setMounted] = useState(false)
+  const [showCompleted, setShowCompleted] = useState(false)
   const [showTasks, setShowTasks] = useState(false)
 
-  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   // Number of tasks in a course
-  const numTasksCourse = tasks.filter(
-    (task) =>
-      task.FK_CourseOnTermID === course.CourseOnTermID && !task.Completed,
-  ).length
+  const numTasksCourseActive = tasks.filter((task) => !task.Completed).length
+  const numTasksCourseCompleted = tasks.filter((task) => task.Completed).length
 
   return (
     <div>
@@ -40,13 +47,21 @@ export default function CourseListDropdown({
         <span className="flex items-center mb-2">
           {showTasks ? (
             <ChevronDownIcon
-              className="w-9 h-9 border border-transparent bg-transparent hover:bg-gray-200 hover:cursor-pointer rounded-md p-1.5 mr-1"
+              className={classNames(
+                { 'hover:bg-gray-200': theme === 'light' },
+                { 'hover:bg-slate-600': theme === 'dark' },
+                'w-9 h-9 border border-transparent bg-transparent hover:cursor-pointer rounded-md p-1.5 mr-1',
+              )}
               onClick={() => setShowTasks(false)}
               onKeyDown={() => setShowTasks(false)}
             />
           ) : (
             <ChevronRightIcon
-              className="w-9 h-9 border border-transparent bg-transparent hover:bg-gray-200 hover:cursor-pointer rounded-md p-1.5 mr-1"
+              className={classNames(
+                { 'hover:bg-gray-200': theme === 'light' },
+                { 'hover:bg-slate-600': theme === 'dark' },
+                'w-9 h-9 border border-transparent bg-transparent hover:cursor-pointer rounded-md p-1.5 mr-1',
+              )}
               onClick={() => setShowTasks(true)}
               onKeyDown={() => setShowTasks(true)}
             />
@@ -56,18 +71,34 @@ export default function CourseListDropdown({
           >
             {course.Nickname || course.FK_Course?.Code}
           </span>
+          {showTasks && (
+            <span
+              className={classNames(
+                { 'hover:bg-gray-200': theme === 'light' },
+                { 'hover:bg-slate-600': theme === 'dark' },
+                'cursor-pointer rounded-md px-1.5 py-0.5 mx-1 uppercase text-sm text-info',
+              )}
+              onClick={() => setShowCompleted(!showCompleted)}
+              onKeyDown={() => setShowCompleted(!showCompleted)}
+            >
+              {showCompleted ? 'Hide' : 'Show'} Completed
+            </span>
+          )}
+          <span className="ml-1 mt-1">
+            {tasksLoading && <MainSpinner size={SpinnerSizes.small} />}
+          </span>
         </span>
         <span className="text-xs text-gray-400 mt-3">
-          {numTasksCourse} {numTasksCourse === 1 ? 'Task' : 'Tasks'}
+          {numTasksCourseActive} Active, {numTasksCourseCompleted} Completed
         </span>
       </div>
 
       {/* Class Tasks */}
       {showTasks && (
         <BasicDisplayTasks
-          tasks={tasks.filter(
-            (task) => task.FK_CourseOnTermID === course.CourseOnTermID,
-          )}
+          tasks={tasks}
+          groupBy={course.CourseOnTermID}
+          showCompleted={showCompleted}
         />
       )}
 
@@ -79,6 +110,7 @@ export default function CourseListDropdown({
             coursesOnTerm={coursesOnTerm}
             coursesOnTermLoading={coursesOnTermLoading}
             courseOnTerm={course}
+            groupBy={course.CourseOnTermID}
           />
         </div>
       )}

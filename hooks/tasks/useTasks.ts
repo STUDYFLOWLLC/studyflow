@@ -30,7 +30,10 @@ interface Ret {
   mutateTasks: KeyedMutator<any>
 }
 
-export default function useTasks(userId: number | undefined): Ret {
+export default function useTasks(
+  userId: number | undefined,
+  groupBy?: 'Today' | 'All' | number,
+): Ret {
   const query = gql`
     query Tasks($where: TaskWhereInput) {
       tasks(where: $where) {
@@ -54,21 +57,74 @@ export default function useTasks(userId: number | undefined): Ret {
     }
   `
 
-  const variables = {
-    where: {
-      AND: [
-        {
-          FK_UserID: {
-            equals: userId,
+  let variables: any = {}
+
+  if (groupBy === 'All' || groupBy === undefined) {
+    variables = {
+      where: {
+        AND: [
+          {
+            FK_UserID: {
+              equals: userId,
+            },
           },
-        },
-        {
-          FK_RepetitionID: {
-            equals: null,
+          {
+            DeletedTime: {
+              equals: null,
+            },
           },
-        },
-      ],
-    },
+        ],
+      },
+    }
+  } else if (groupBy === 'Today') {
+    const start = new Date()
+    start.setUTCHours(0, 0, 0, 0)
+    const end = new Date()
+    end.setUTCHours(23, 59, 59, 999)
+    variables = {
+      where: {
+        AND: [
+          {
+            FK_UserID: {
+              equals: userId,
+            },
+          },
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+          {
+            DueDate: {
+              gt: start.toISOString(),
+              lt: end.toISOString(),
+            },
+          },
+        ],
+      },
+    }
+  } else {
+    variables = {
+      where: {
+        AND: [
+          {
+            FK_UserID: {
+              equals: userId,
+            },
+          },
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+          {
+            FK_CourseOnTermID: {
+              equals: groupBy,
+            },
+          },
+        ],
+      },
+    }
   }
 
   const { data, error, mutate } = useSWR([query, variables], {

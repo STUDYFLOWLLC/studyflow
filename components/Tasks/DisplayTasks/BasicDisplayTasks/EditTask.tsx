@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 
 interface Props {
+  groupBy: 'Today' | 'All' | number
   oldName: string
   oldDescription: string
   oldDueDate: string
@@ -30,6 +31,7 @@ interface Props {
 }
 
 export default function EditTask({
+  groupBy,
   oldName,
   oldDescription,
   oldDueDate,
@@ -43,7 +45,7 @@ export default function EditTask({
   // Retrieving tasks and courses from backend
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )

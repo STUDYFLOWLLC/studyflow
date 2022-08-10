@@ -3,6 +3,7 @@ import * as TypeGraphQL from "type-graphql";
 export enum TaskScalarFieldEnum {
   TaskID = "TaskID",
   CreatedTime = "CreatedTime",
+  DeletedTime = "DeletedTime",
   Title = "Title",
   Completed = "Completed",
   Description = "Description",

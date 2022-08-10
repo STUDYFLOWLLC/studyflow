@@ -10,6 +10,7 @@ import { useState } from 'react'
 
 interface Props {
   task: Task
+  groupBy: 'Today' | 'All' | number
   readOnly?: boolean
   cute?: boolean
   shouldNotUseUndo?: boolean
@@ -18,6 +19,7 @@ interface Props {
 
 export default function BasicTask({
   task,
+  groupBy,
   readOnly,
   cute,
   shouldNotUseUndo,
@@ -27,6 +29,7 @@ export default function BasicTask({
 
   return editing ? (
     <EditTask
+      groupBy={groupBy}
       oldName={task.Title}
       oldDescription={task.Description}
       oldDueDate={task.DueDate}
@@ -37,12 +40,16 @@ export default function BasicTask({
     />
   ) : (
     <div
-      className="border border-gray-300 rounded-lg shadow-md p-2 mb-2"
+      className={classNames(
+        { 'grayscale text-info': task.Completed },
+        'border border-gray-300 rounded-lg shadow-md p-2 mb-2',
+      )}
       key={task.TaskID}
     >
       <div className="flex">
         <Checkbox
           TaskID={task.TaskID}
+          groupBy={groupBy}
           isCompleted={task.Completed}
           cute={cute}
           repetitionId={repetitionId}
@@ -66,14 +73,16 @@ export default function BasicTask({
             </div>
             {!readOnly && (
               <span className="flex">
-                <span
-                  className="text-sm mr-1 text-gray-500 hover:text-black hover:cursor-pointer"
-                  onClick={() => setEditing(true)}
-                  onKeyDown={() => setEditing(true)}
-                >
-                  Edit
-                </span>
-                <DeleteTask task={task} />
+                {!task.Completed && (
+                  <span
+                    className="text-sm mr-1 text-gray-500 hover:text-black hover:cursor-pointer"
+                    onClick={() => setEditing(true)}
+                    onKeyDown={() => setEditing(true)}
+                  >
+                    Edit
+                  </span>
+                )}
+                <DeleteTask task={task} groupBy={groupBy} />
               </span>
             )}
           </div>

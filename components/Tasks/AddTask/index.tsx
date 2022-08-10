@@ -19,6 +19,7 @@ interface Props {
   coursesOnTerm: CourseOnTerm[]
   coursesOnTermLoading: boolean
   courseOnTerm?: CourseOnTerm
+  groupBy: 'Today' | 'All' | number
   general?: boolean
   dueDate?: Date
 }
@@ -28,12 +29,13 @@ export default function index({
   coursesOnTerm,
   coursesOnTermLoading,
   courseOnTerm,
+  groupBy,
   general,
   dueDate,
 }: Props) {
   const { theme } = useTheme()
   const { userDetails } = useUserDetails(user.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
 
   const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')

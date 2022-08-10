@@ -8,6 +8,7 @@ import useUserDetails from 'hooks/useUserDetails'
 
 interface Props {
   TaskID: string
+  groupBy?: 'Today' | 'All' | number
   isCompleted?: boolean
   cute?: boolean
   repetitionId?: string
@@ -15,13 +16,14 @@ interface Props {
 
 export default function Checkbox({
   TaskID,
+  groupBy,
   isCompleted,
   cute,
   repetitionId,
 }: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy)
   const { repetitionDetails, mutateRepetitionDetails } =
     useRepetitionDetails(repetitionId)
 
@@ -52,7 +54,7 @@ export default function Checkbox({
         }}
         className={classNames(
           {
-            'border-transparent bg-gray-700': isCompleted,
+            'border-transparent bg-gray-500': isCompleted,
           },
           {
             'border-2 hover:bg-base-200': !isCompleted,

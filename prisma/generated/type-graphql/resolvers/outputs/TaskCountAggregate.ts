@@ -20,6 +20,11 @@ export class TaskCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  DeletedTime!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   Title!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
