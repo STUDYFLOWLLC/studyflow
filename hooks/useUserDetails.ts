@@ -86,6 +86,8 @@ export default function useUserDetails(
     },
   )
 
+  console.log(error)
+
   if (data?.mutate) {
     return {
       userDetails: { ...data, mutate: false },
