@@ -1,5 +1,5 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import MainSpinner from 'components/spinners/MainSpinner'
+import LoadWithText from 'components/spinners/LoadWithText'
 import BugPlate from 'dinnerplate/BugPlate'
 import { MyValue } from 'dinnerplate/types/plateTypes'
 import useFeatureRequests, {
@@ -53,7 +53,10 @@ export default function RequestFeature() {
       {!showRequest ? (
         <div className="prose max-w-3xl mx-auto w-full py-2">
           {featureRequestsLoading ? (
-            <MainSpinner size={SpinnerSizes.medium} />
+            <LoadWithText
+              size={SpinnerSizes.medium}
+              text="Loading feature requests..."
+            />
           ) : (
             <div>
               <h1 className="mb-0 pb-0">Feature Requests</h1>

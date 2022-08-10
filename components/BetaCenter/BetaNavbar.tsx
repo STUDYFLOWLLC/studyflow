@@ -1,6 +1,7 @@
 import {
   ExclamationIcon,
   FolderAddIcon,
+  LibraryIcon,
   PhoneIcon,
   RssIcon,
 } from '@heroicons/react/outline'
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { SkeletonTheme } from 'react-loading-skeleton'
 
 export enum BetaDisplays {
+  TUTORIAL = 'Tutorials',
   REPORT_BUG = 'Report Bug',
   REQUEST_FEATURE = 'Request Feature',
   CONTACT_US = 'Contact Us',
@@ -18,6 +20,7 @@ export enum BetaDisplays {
 }
 
 const betaDisplays = [
+  { display: BetaDisplays.TUTORIAL, icon: LibraryIcon },
   { display: BetaDisplays.REPORT_BUG, icon: ExclamationIcon },
   { display: BetaDisplays.REQUEST_FEATURE, icon: FolderAddIcon },
   { display: BetaDisplays.CONTACT_US, icon: PhoneIcon },
@@ -38,8 +41,6 @@ export default function TasksNavbar({ betaView, setBetaView }: Props) {
 
   if (!mounted) return null
 
-  console.log(betaView)
-
   return (
     <SkeletonTheme
       baseColor={classNames(
@@ -51,8 +52,8 @@ export default function TasksNavbar({ betaView, setBetaView }: Props) {
         { '#5C7599': theme === 'dark' },
       )}
     >
-      <div className="absolute bottom-0">
-        <div className="flex ml-28">
+      <div className="absolute bottom-0 text-xs sm:text-sm md:text-md">
+        <div className="flex flex-wrap ml-28">
           <span className="ml-4">|</span>
           {betaDisplays.map((bd) => {
             console.log(bd.display === betaView)
