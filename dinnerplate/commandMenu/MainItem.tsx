@@ -24,7 +24,7 @@ export default function NewBlockMenuItem({ item, onSelect }: Props) {
       className={classNames(
         // { 'bg-gray-200': isSelected && theme === 'light' },
         // { 'bg-slate-600': isSelected && theme === 'dark' },
-        'flex items-center px-2 py-1 first-of-type:rounded-t-md last-of-type:rounded-b-md',
+        'relative flex items-center px-2 py-1 first-of-type:rounded-t-md last-of-type:rounded-b-md',
       )}
       role="button"
       tabIndex={0}

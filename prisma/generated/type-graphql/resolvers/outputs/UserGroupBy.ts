@@ -69,6 +69,16 @@ export class UserGroupBy {
   })
   ProfilePictureLink!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  HasRequestedAutomationAccess!: boolean;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  HasAutomationAccess!: boolean | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

@@ -7,6 +7,7 @@ import {
 } from '@heroicons/react/outline'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import Tippy from '@tippyjs/react'
 import Dashbar from 'components/Dashbar'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import makeAutomation from 'hooks/automation/makeAutomation'
@@ -16,6 +17,7 @@ import useAutomationDetails, {
 import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { changeUserHasRequestedAutomationAccess } from 'utils/user/userHandlers'
 
 const features = [
   {
@@ -46,7 +48,7 @@ const features = [
 
 export default function SetupAutomation() {
   const { user } = useUser()
-  const { userDetails } = useUserDetails(user?.id)
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
   const { automationDetails, mutateAutomationDetails } = useAutomationDetails(
     userDetails?.UserID,
   )
@@ -123,18 +125,54 @@ export default function SetupAutomation() {
           <ButtonSpinner show={loading} />
         </button> */}
       <div className="pb-12 pt-6 bg-base-100 lg:ml-56 mr-6 relative">
-        <button
-          disabled={loading}
-          type="button"
-          className="alex-button px-4 py-3 font-semibold rounded-md shadow-sm uppercase absolute top-2 md:top-4 right-0"
-          onClick={async () => {
-            setLoading(true)
-            login()
-          }}
-        >
-          Get Started
-          <ButtonSpinner show={loading} />
-        </button>
+        {userDetails &&
+          userDetails.HasRequestedAutomationAccess &&
+          !userDetails.HasAutomationAccess && (
+            <Tippy content="Automation access requested. Check again in 24 hours.">
+              <button
+                disabled
+                type="button"
+                className="alex-button bg-base-100 border-green-400 text-inherit px-4 py-3 font-semibold rounded-md shadow-sm uppercase absolute top-2 md:top-4 right-0"
+              >
+                Access Requested
+                <ButtonSpinner show={loading} />
+              </button>
+            </Tippy>
+          )}
+        {userDetails && !userDetails.HasRequestedAutomationAccess && (
+          <button
+            disabled={loading}
+            type="button"
+            className="alex-button px-4 py-3 font-semibold rounded-md shadow-sm uppercase absolute top-2 md:top-4 right-0"
+            onClick={async () => {
+              setLoading(true)
+              await changeUserHasRequestedAutomationAccess(
+                true,
+                userDetails,
+                mutateUserDetails,
+              )
+              setLoading(false)
+            }}
+          >
+            Request Access
+            <ButtonSpinner show={loading} />
+          </button>
+        )}
+        {userDetails && userDetails.HasAutomationAccess && (
+          <button
+            disabled={loading}
+            type="button"
+            className="alex-button px-4 py-3 font-semibold rounded-md shadow-sm uppercase absolute top-2 md:top-4 right-0"
+            onClick={async () => {
+              setLoading(true)
+              login()
+            }}
+          >
+            Access Granted! Get Started
+            <ButtonSpinner show={loading} />
+          </button>
+        )}
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:text-center">
             <h2 className="text-xl text-primary font-semibold tracking-wide uppercase">

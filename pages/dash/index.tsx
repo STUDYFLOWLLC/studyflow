@@ -7,7 +7,6 @@ import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import DashWelcome from 'components/Dashboard/DashWelcome'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
-import AssignmentsAndAssessments from 'components/Dashboard/Upcoming/AssignmentsAndAssessments'
 import FlowModal from 'components/Flow/FlowModal'
 import FlowTable from 'components/FlowTable'
 import DashSetup from 'components/Setup/DashSetup'
@@ -15,6 +14,7 @@ import Taskover from 'components/Taskover'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -88,6 +88,10 @@ export default function Dash({ user }: Props) {
         { '#5C7599': theme === 'dark' },
       )}
     >
+      <Head>
+        <title>Dash | Studyflow</title>
+        <meta property="og:title" content="Dash | Studyflow" key="title" />
+      </Head>
       <div className="min-h-full">
         <Dashbar
           showDashBar={showDashBar}
@@ -126,7 +130,7 @@ export default function Dash({ user }: Props) {
                 (!userDetails?.FK_Settings?.HasSeenWelcomeMessage ||
                   shouldShowWelcomeMessageBasedOnTime) && <DashWelcome />}
               {/* <Pinned /> */}
-              <AssignmentsAndAssessments setCurrentFlow={setCurrentFlow} />
+              {/* <AssignmentsAndAssessments setCurrentFlow={setCurrentFlow} /> */}
               <FlowListSmall />
               <FlowTable setCurrentFlow={setCurrentFlow} />
             </main>
@@ -153,7 +157,6 @@ export default function Dash({ user }: Props) {
         />
         <FlowModal
           isOpen={!!currentFlow || !!createFlowAs}
-          firstCourse={coursesOnTerm?.[0]}
           flowId={currentFlow}
           setCurrentFlow={setCurrentFlow}
           createAs={createFlowAs}

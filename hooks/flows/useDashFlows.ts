@@ -37,14 +37,18 @@ interface Ret {
 
 export default function useDashFlows(
   userId: number | undefined,
+  groupBy?: 'All' | number | 'Trash',
   isUpcoming?: boolean,
+  index = 0,
 ): Ret {
   const query = gql`
     query Flows(
       $where: FlowWhereInput
       $orderBy: [FlowOrderByWithRelationInput!]
+      $take: Int
+      $skip: Int
     ) {
-      flows(where: $where, orderBy: $orderBy) {
+      flows(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
         FlowID
         Title
         CreatedTime
@@ -70,44 +74,95 @@ export default function useDashFlows(
     }
   `
 
-  const variables = {
-    where: {
-      AND: [
-        {
-          DeletedTime: {
-            equals: null,
-          },
-        },
-        {
-          OR: [
-            {
-              FK_UserID: {
-                equals: userId,
-              },
+  let variables: any = {}
+
+  if (groupBy === 'All' || !groupBy) {
+    variables = {
+      where: {
+        AND: [
+          {
+            DeletedTime: {
+              equals: null,
             },
-            {
-              FK_CourseOnTerm: {
-                is: {
-                  FK_Term: {
-                    is: {
-                      FK_UserID: {
-                        equals: userId,
-                      },
+          },
+          {
+            FK_UserID: {
+              equals: null,
+            },
+          },
+          {
+            FK_CourseOnTerm: {
+              is: {
+                FK_Term: {
+                  is: {
+                    FK_UserID: {
+                      equals: userId,
                     },
                   },
                 },
               },
             },
-          ],
+          },
+        ],
+      },
+      orderBy: [
+        {
+          CreatedTime: 'asc',
         },
       ],
-    },
-    orderBy: [
-      {
-        CreatedTime: 'asc',
+    }
+  } else if (groupBy === 'Trash') {
+    variables = {
+      where: {
+        AND: [
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+          {
+            OR: [
+              {
+                FK_UserID: {
+                  equals: userId,
+                },
+              },
+            ],
+          },
+        ],
       },
-    ],
+      orderBy: [
+        {
+          CreatedTime: 'asc',
+        },
+      ],
+    }
+  } else {
+    variables = {
+      where: {
+        AND: [
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+          {
+            FK_CourseOnTermID: {
+              equals: groupBy,
+            },
+          },
+        ],
+      },
+      orderBy: [
+        {
+          CreatedTime: 'asc',
+        },
+      ],
+    }
   }
+
+  variables.take = 8
+  variables.skip = index * 8
 
   const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
 

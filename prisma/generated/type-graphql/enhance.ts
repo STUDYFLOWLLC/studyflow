@@ -1,12 +1,12 @@
-import { ClassType } from "type-graphql";
-import * as tslib from "tslib";
-import * as crudResolvers from "./resolvers/crud/resolvers-crud.index";
-import * as argsTypes from "./resolvers/crud/args.index";
-import * as actionResolvers from "./resolvers/crud/resolvers-actions.index";
-import * as relationResolvers from "./resolvers/relations/resolvers.index";
-import * as models from "./models";
-import * as outputTypes from "./resolvers/outputs";
-import * as inputTypes from "./resolvers/inputs";
+import * as tslib from "tslib"
+import { ClassType } from "type-graphql"
+import * as models from "./models"
+import * as argsTypes from "./resolvers/crud/args.index"
+import * as actionResolvers from "./resolvers/crud/resolvers-actions.index"
+import * as crudResolvers from "./resolvers/crud/resolvers-crud.index"
+import * as inputTypes from "./resolvers/inputs"
+import * as outputTypes from "./resolvers/outputs"
+import * as relationResolvers from "./resolvers/relations/resolvers.index"
 
 const crudResolversMap = {
   Setting: crudResolvers.SettingCrudResolver,
@@ -34,7 +34,7 @@ const crudResolversMap = {
   Blog: crudResolvers.BlogCrudResolver,
   BugReport: crudResolvers.BugReportCrudResolver,
   FeatureRequest: crudResolvers.FeatureRequestCrudResolver
-};
+}
 const actionResolversMap = {
   Setting: {
     setting: actionResolvers.FindUniqueSettingResolver,
@@ -386,7 +386,7 @@ const actionResolversMap = {
     aggregateFeatureRequest: actionResolvers.AggregateFeatureRequestResolver,
     groupByFeatureRequest: actionResolvers.GroupByFeatureRequestResolver
   }
-};
+}
 const crudResolversInfo = {
   Setting: ["setting", "findFirstSetting", "settings", "createSetting", "createManySetting", "deleteSetting", "updateSetting", "deleteManySetting", "updateManySetting", "upsertSetting", "aggregateSetting", "groupBySetting"],
   AutomationLog: ["automationLog", "findFirstAutomationLog", "automationLogs", "createAutomationLog", "createManyAutomationLog", "deleteAutomationLog", "updateAutomationLog", "deleteManyAutomationLog", "updateManyAutomationLog", "upsertAutomationLog", "aggregateAutomationLog", "groupByAutomationLog"],
@@ -413,7 +413,7 @@ const crudResolversInfo = {
   Blog: ["blog", "findFirstBlog", "blogs", "createBlog", "createManyBlog", "deleteBlog", "updateBlog", "deleteManyBlog", "updateManyBlog", "upsertBlog", "aggregateBlog", "groupByBlog"],
   BugReport: ["bugReport", "findFirstBugReport", "bugReports", "createBugReport", "createManyBugReport", "deleteBugReport", "updateBugReport", "deleteManyBugReport", "updateManyBugReport", "upsertBugReport", "aggregateBugReport", "groupByBugReport"],
   FeatureRequest: ["featureRequest", "findFirstFeatureRequest", "featureRequests", "createFeatureRequest", "createManyFeatureRequest", "deleteFeatureRequest", "updateFeatureRequest", "deleteManyFeatureRequest", "updateManyFeatureRequest", "upsertFeatureRequest", "aggregateFeatureRequest", "groupByFeatureRequest"]
-};
+}
 const argsInfo = {
   FindUniqueSettingArgs: ["where"],
   FindFirstSettingArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
@@ -715,7 +715,7 @@ const argsInfo = {
   UpsertFeatureRequestArgs: ["where", "create", "update"],
   AggregateFeatureRequestArgs: ["where", "orderBy", "cursor", "take", "skip"],
   GroupByFeatureRequestArgs: ["where", "orderBy", "by", "having", "take", "skip"]
-};
+}
 
 type ResolverModelNames = keyof typeof crudResolversMap;
 
@@ -735,33 +735,33 @@ export function applyResolversEnhanceMap(
   resolversEnhanceMap: ResolversEnhanceMap,
 ) {
   for (const resolversEnhanceMapKey of Object.keys(resolversEnhanceMap)) {
-    const modelName = resolversEnhanceMapKey as keyof typeof resolversEnhanceMap;
-    const crudTarget = crudResolversMap[modelName].prototype;
-    const resolverActionsConfig = resolversEnhanceMap[modelName]!;
-    const actionResolversConfig = actionResolversMap[modelName];
+    const modelName = resolversEnhanceMapKey as keyof typeof resolversEnhanceMap
+    const crudTarget = crudResolversMap[modelName].prototype
+    const resolverActionsConfig = resolversEnhanceMap[modelName]!
+    const actionResolversConfig = actionResolversMap[modelName]
     if (resolverActionsConfig._all) {
-      const allActionsDecorators = resolverActionsConfig._all;
-      const resolverActionNames = crudResolversInfo[modelName as keyof typeof crudResolversInfo];
+      const allActionsDecorators = resolverActionsConfig._all
+      const resolverActionNames = crudResolversInfo[modelName as keyof typeof crudResolversInfo]
       for (const resolverActionName of resolverActionNames) {
         const actionTarget = (actionResolversConfig[
           resolverActionName as keyof typeof actionResolversConfig
-        ] as Function).prototype;
-        tslib.__decorate(allActionsDecorators, crudTarget, resolverActionName, null);
-        tslib.__decorate(allActionsDecorators, actionTarget, resolverActionName, null);
+        ] as Function).prototype
+        tslib.__decorate(allActionsDecorators, crudTarget, resolverActionName, null)
+        tslib.__decorate(allActionsDecorators, actionTarget, resolverActionName, null)
       }
     }
     const resolverActionsToApply = Object.keys(resolverActionsConfig).filter(
       it => it !== "_all"
-    );
+    )
     for (const resolverActionName of resolverActionsToApply) {
       const decorators = resolverActionsConfig[
         resolverActionName as keyof typeof resolverActionsConfig
-      ] as MethodDecorator[];
+      ] as MethodDecorator[]
       const actionTarget = (actionResolversConfig[
         resolverActionName as keyof typeof actionResolversConfig
-      ] as Function).prototype;
-      tslib.__decorate(decorators, crudTarget, resolverActionName, null);
-      tslib.__decorate(decorators, actionTarget, resolverActionName, null);
+      ] as Function).prototype
+      tslib.__decorate(decorators, crudTarget, resolverActionName, null)
+      tslib.__decorate(decorators, actionTarget, resolverActionName, null)
     }
   }
 }
@@ -790,16 +790,16 @@ export function applyArgsTypesEnhanceMap(
   argsTypesEnhanceMap: ArgsTypesEnhanceMap,
 ) {
   for (const argsTypesEnhanceMapKey of Object.keys(argsTypesEnhanceMap)) {
-    const argsTypeName = argsTypesEnhanceMapKey as keyof typeof argsTypesEnhanceMap;
-    const typeConfig = argsTypesEnhanceMap[argsTypeName]!;
-    const typeClass = argsTypes[argsTypeName];
-    const typeTarget = typeClass.prototype;
+    const argsTypeName = argsTypesEnhanceMapKey as keyof typeof argsTypesEnhanceMap
+    const typeConfig = argsTypesEnhanceMap[argsTypeName]!
+    const typeClass = argsTypes[argsTypeName]
+    const typeTarget = typeClass.prototype
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       argsInfo[argsTypeName as keyof typeof argsInfo],
-    );
+    )
   }
 }
 
@@ -829,7 +829,7 @@ const relationResolversMap = {
   Blog: relationResolvers.BlogRelationsResolver,
   BugReport: relationResolvers.BugReportRelationsResolver,
   FeatureRequest: relationResolvers.FeatureRequestRelationsResolver
-};
+}
 const relationResolversInfo = {
   Setting: ["FK_User"],
   AutomationLog: ["FK_CourseOnTermAutomation"],
@@ -856,7 +856,7 @@ const relationResolversInfo = {
   Blog: ["FK_User"],
   BugReport: ["FK_User"],
   FeatureRequest: ["FK_User"]
-};
+}
 
 type RelationResolverModelNames = keyof typeof relationResolversMap;
 
@@ -875,24 +875,24 @@ export function applyRelationResolversEnhanceMap(
   relationResolversEnhanceMap: RelationResolversEnhanceMap,
 ) {
   for (const relationResolversEnhanceMapKey of Object.keys(relationResolversEnhanceMap)) {
-    const modelName = relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap;
-    const relationResolverTarget = relationResolversMap[modelName].prototype;
-    const relationResolverActionsConfig = relationResolversEnhanceMap[modelName]!;
+    const modelName = relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap
+    const relationResolverTarget = relationResolversMap[modelName].prototype
+    const relationResolverActionsConfig = relationResolversEnhanceMap[modelName]!
     if (relationResolverActionsConfig._all) {
-      const allActionsDecorators = relationResolverActionsConfig._all;
-      const relationResolverActionNames = relationResolversInfo[modelName as keyof typeof relationResolversInfo];
+      const allActionsDecorators = relationResolverActionsConfig._all
+      const relationResolverActionNames = relationResolversInfo[modelName as keyof typeof relationResolversInfo]
       for (const relationResolverActionName of relationResolverActionNames) {
-        tslib.__decorate(allActionsDecorators, relationResolverTarget, relationResolverActionName, null);
+        tslib.__decorate(allActionsDecorators, relationResolverTarget, relationResolverActionName, null)
       }
     }
     const relationResolverActionsToApply = Object.keys(relationResolverActionsConfig).filter(
       it => it !== "_all"
-    );
+    )
     for (const relationResolverActionName of relationResolverActionsToApply) {
       const decorators = relationResolverActionsConfig[
         relationResolverActionName as keyof typeof relationResolverActionsConfig
-      ] as MethodDecorator[];
-      tslib.__decorate(decorators, relationResolverTarget, relationResolverActionName, null);
+      ] as MethodDecorator[]
+      tslib.__decorate(decorators, relationResolverTarget, relationResolverActionName, null)
     }
   }
 }
@@ -916,21 +916,21 @@ function applyTypeClassEnhanceConfig<
   typeFieldNames: string[]
 ) {
   if (enhanceConfig.class) {
-    tslib.__decorate(enhanceConfig.class, typeClass);
+    tslib.__decorate(enhanceConfig.class, typeClass)
   }
   if (enhanceConfig.fields) {
     if (enhanceConfig.fields._all) {
-      const allFieldsDecorators = enhanceConfig.fields._all;
+      const allFieldsDecorators = enhanceConfig.fields._all
       for (const typeFieldName of typeFieldNames) {
-        tslib.__decorate(allFieldsDecorators, typePrototype, typeFieldName, void 0);
+        tslib.__decorate(allFieldsDecorators, typePrototype, typeFieldName, void 0)
       }
     }
     const configFieldsToApply = Object.keys(enhanceConfig.fields).filter(
       it => it !== "_all"
-    );
+    )
     for (const typeFieldName of configFieldsToApply) {
-      const fieldDecorators = enhanceConfig.fields[typeFieldName]!;
-      tslib.__decorate(fieldDecorators, typePrototype, typeFieldName, void 0);
+      const fieldDecorators = enhanceConfig.fields[typeFieldName]!
+      tslib.__decorate(fieldDecorators, typePrototype, typeFieldName, void 0)
     }
   }
 }
@@ -943,7 +943,7 @@ const modelsInfo = {
   Automation: ["AutomationID", "RefreshToken", "FK_UserID"],
   UserOnStudyGroup: ["UserOnStudyGroupID", "SendTime", "AcceptedTime", "RejectedTime", "RemovedTime", "CanceledTime", "FK_UserID", "FK_StudyGroupID"],
   StudyGroup: ["StudyGroupID", "Name", "FK_UserID"],
-  User: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
+  User: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
   Term: ["TermID", "CreatedTime", "TermType", "TermName", "FK_UserID", "FK_SchoolID"],
   Course: ["CourseID", "CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_SchoolID", "FK_ProfessorID"],
   CourseOnTerm: ["CourseOnTermID", "CreatedTime", "Index", "Color", "Nickname", "IsNew", "FK_CourseID", "FK_TermID"],
@@ -961,7 +961,7 @@ const modelsInfo = {
   Blog: ["BlogID", "CreatedTime", "DeletedTime", "FK_UserID", "Title", "Body"],
   BugReport: ["BugReportID", "CreatedTime", "DeletedTime", "FixedTime", "FK_UserID", "Title", "Body"],
   FeatureRequest: ["FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "FK_UserID", "Title", "Body"]
-};
+}
 
 type ModelNames = keyof typeof models;
 
@@ -985,16 +985,16 @@ export type ModelsEnhanceMap = {
 
 export function applyModelsEnhanceMap(modelsEnhanceMap: ModelsEnhanceMap) {
   for (const modelsEnhanceMapKey of Object.keys(modelsEnhanceMap)) {
-    const modelName = modelsEnhanceMapKey as keyof typeof modelsEnhanceMap;
-    const modelConfig = modelsEnhanceMap[modelName]!;
-    const modelClass = models[modelName];
-    const modelTarget = modelClass.prototype;
+    const modelName = modelsEnhanceMapKey as keyof typeof modelsEnhanceMap
+    const modelConfig = modelsEnhanceMap[modelName]!
+    const modelClass = models[modelName]
+    const modelTarget = modelClass.prototype
     applyTypeClassEnhanceConfig(
       modelConfig,
       modelClass,
       modelTarget,
       modelsInfo[modelName as keyof typeof modelsInfo],
-    );
+    )
   }
 }
 
@@ -1014,7 +1014,7 @@ const outputsInfo = {
   AggregateStudyGroup: ["_count", "_avg", "_sum", "_min", "_max"],
   StudyGroupGroupBy: ["StudyGroupID", "Name", "FK_UserID", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateUser: ["_count", "_avg", "_sum", "_min", "_max"],
-  UserGroupBy: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID", "_count", "_avg", "_sum", "_min", "_max"],
+  UserGroupBy: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateTerm: ["_count", "_avg", "_sum", "_min", "_max"],
   TermGroupBy: ["TermID", "CreatedTime", "TermType", "TermName", "FK_UserID", "FK_SchoolID", "_count", "_avg", "_sum", "_min", "_max"],
   AggregateCourse: ["_count", "_avg", "_sum", "_min", "_max"],
@@ -1089,11 +1089,11 @@ const outputsInfo = {
   StudyGroupMinAggregate: ["StudyGroupID", "Name", "FK_UserID"],
   StudyGroupMaxAggregate: ["StudyGroupID", "Name", "FK_UserID"],
   UserCount: ["FK_Terms", "FK_Task", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
-  UserCountAggregate: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID", "_all"],
+  UserCountAggregate: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID", "_all"],
   UserAvgAggregate: ["UserID", "FK_SchoolID"],
   UserSumAggregate: ["UserID", "FK_SchoolID"],
-  UserMinAggregate: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
-  UserMaxAggregate: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
+  UserMinAggregate: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
+  UserMaxAggregate: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
   TermCount: ["FK_CourseOnTerm"],
   TermCountAggregate: ["TermID", "CreatedTime", "TermType", "TermName", "FK_UserID", "FK_SchoolID", "_all"],
   TermAvgAggregate: ["TermID", "FK_UserID", "FK_SchoolID"],
@@ -1182,7 +1182,7 @@ const outputsInfo = {
   FeatureRequestSumAggregate: ["FK_UserID"],
   FeatureRequestMinAggregate: ["FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "FK_UserID", "Title", "Body"],
   FeatureRequestMaxAggregate: ["FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "FK_UserID", "Title", "Body"]
-};
+}
 
 type OutputTypesNames = keyof typeof outputTypes;
 
@@ -1208,16 +1208,16 @@ export function applyOutputTypesEnhanceMap(
   outputTypesEnhanceMap: OutputTypesEnhanceMap,
 ) {
   for (const outputTypeEnhanceMapKey of Object.keys(outputTypesEnhanceMap)) {
-    const outputTypeName = outputTypeEnhanceMapKey as keyof typeof outputTypesEnhanceMap;
-    const typeConfig = outputTypesEnhanceMap[outputTypeName]!;
-    const typeClass = outputTypes[outputTypeName];
-    const typeTarget = typeClass.prototype;
+    const outputTypeName = outputTypeEnhanceMapKey as keyof typeof outputTypesEnhanceMap
+    const typeConfig = outputTypesEnhanceMap[outputTypeName]!
+    const typeClass = outputTypes[outputTypeName]
+    const typeTarget = typeClass.prototype
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       outputsInfo[outputTypeName as keyof typeof outputsInfo],
-    );
+    )
   }
 }
 
@@ -1257,11 +1257,11 @@ const inputsInfo = {
   StudyGroupWhereUniqueInput: ["StudyGroupID"],
   StudyGroupOrderByWithAggregationInput: ["StudyGroupID", "Name", "FK_UserID", "_count", "_avg", "_max", "_min", "_sum"],
   StudyGroupScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "StudyGroupID", "Name", "FK_UserID"],
-  UserWhereInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_SchoolID", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
-  UserOrderByWithRelationInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_SchoolID", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserWhereInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_SchoolID", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserOrderByWithRelationInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_SchoolID", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserWhereUniqueInput: ["UserID", "Email", "Username"],
-  UserOrderByWithAggregationInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID", "_count", "_avg", "_max", "_min", "_sum"],
-  UserScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
+  UserOrderByWithAggregationInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID", "_count", "_avg", "_max", "_min", "_sum"],
+  UserScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
   TermWhereInput: ["AND", "OR", "NOT", "TermID", "CreatedTime", "TermType", "TermName", "FK_User", "FK_UserID", "FK_School", "FK_SchoolID", "FK_CourseOnTerm"],
   TermOrderByWithRelationInput: ["TermID", "CreatedTime", "TermType", "TermName", "FK_User", "FK_UserID", "FK_School", "FK_SchoolID", "FK_CourseOnTerm"],
   TermWhereUniqueInput: ["TermID"],
@@ -1375,10 +1375,10 @@ const inputsInfo = {
   StudyGroupUpdateInput: ["Name", "FK_User", "FK_UserOnStudyGroup"],
   StudyGroupCreateManyInput: ["StudyGroupID", "Name", "FK_UserID"],
   StudyGroupUpdateManyMutationInput: ["Name"],
-  UserCreateInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
-  UserUpdateInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
-  UserCreateManyInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
-  UserUpdateManyMutationInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink"],
+  UserCreateInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateManyInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
+  UserUpdateManyMutationInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess"],
   TermCreateInput: ["CreatedTime", "TermType", "TermName", "FK_User", "FK_School", "FK_CourseOnTerm"],
   TermUpdateInput: ["CreatedTime", "TermType", "TermName", "FK_User", "FK_School", "FK_CourseOnTerm"],
   TermCreateManyInput: ["TermID", "CreatedTime", "TermType", "TermName", "FK_UserID", "FK_SchoolID"],
@@ -1536,10 +1536,10 @@ const inputsInfo = {
   BlogOrderByRelationAggregateInput: ["_count"],
   BugReportOrderByRelationAggregateInput: ["_count"],
   FeatureRequestOrderByRelationAggregateInput: ["_count"],
-  UserCountOrderByAggregateInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
+  UserCountOrderByAggregateInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
   UserAvgOrderByAggregateInput: ["UserID", "FK_SchoolID"],
-  UserMaxOrderByAggregateInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
-  UserMinOrderByAggregateInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
+  UserMaxOrderByAggregateInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
+  UserMinOrderByAggregateInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
   UserSumOrderByAggregateInput: ["UserID", "FK_SchoolID"],
   EnumSetupStepWithAggregatesFilter: ["equals", "in", "notIn", "not", "_count", "_min", "_max"],
   EnumTermTypeFilter: ["equals", "in", "notIn", "not"],
@@ -1854,22 +1854,22 @@ const inputsInfo = {
   NestedEnumTaskTypeNullableWithAggregatesFilter: ["equals", "in", "notIn", "not", "_count", "_min", "_max"],
   NestedEnumRepetitionTypeFilter: ["equals", "in", "notIn", "not"],
   NestedEnumRepetitionTypeWithAggregatesFilter: ["equals", "in", "notIn", "not", "_count", "_min", "_max"],
-  UserCreateWithoutFK_SettingsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_SettingsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_SettingsInput: ["where", "create"],
   UserUpsertWithoutFK_SettingsInput: ["update", "create"],
-  UserUpdateWithoutFK_SettingsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_SettingsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   CourseOnTermAutomationCreateWithoutAutomationLogInput: ["FolderID", "DefaultType", "DefaultVisibility", "FK_Automation", "FK_CourseOnTerm"],
   CourseOnTermAutomationCreateOrConnectWithoutAutomationLogInput: ["where", "create"],
   CourseOnTermAutomationUpsertWithoutAutomationLogInput: ["update", "create"],
   CourseOnTermAutomationUpdateWithoutAutomationLogInput: ["FolderID", "DefaultType", "DefaultVisibility", "FK_Automation", "FK_CourseOnTerm"],
-  UserCreateWithoutFK_FriendshipsInitiatedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_FriendshipsInitiatedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_FriendshipsInitiatedInput: ["where", "create"],
-  UserCreateWithoutFK_FriendshipsAcceptedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_FriendshipsAcceptedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_FriendshipsAcceptedInput: ["where", "create"],
   UserUpsertWithoutFK_FriendshipsInitiatedInput: ["update", "create"],
-  UserUpdateWithoutFK_FriendshipsInitiatedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_FriendshipsInitiatedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserUpsertWithoutFK_FriendshipsAcceptedInput: ["update", "create"],
-  UserUpdateWithoutFK_FriendshipsAcceptedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_FriendshipsAcceptedInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   AutomationLogCreateWithoutFK_CourseOnTermAutomationInput: ["Time", "Success", "Message", "FileID"],
   AutomationLogCreateOrConnectWithoutFK_CourseOnTermAutomationInput: ["where", "create"],
   AutomationLogCreateManyFK_CourseOnTermAutomationInputEnvelope: ["data", "skipDuplicates"],
@@ -1888,29 +1888,29 @@ const inputsInfo = {
   CourseOnTermAutomationCreateWithoutFK_AutomationInput: ["FolderID", "DefaultType", "DefaultVisibility", "AutomationLog", "FK_CourseOnTerm"],
   CourseOnTermAutomationCreateOrConnectWithoutFK_AutomationInput: ["where", "create"],
   CourseOnTermAutomationCreateManyFK_AutomationInputEnvelope: ["data", "skipDuplicates"],
-  UserCreateWithoutFK_AutomationInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_AutomationInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_AutomationInput: ["where", "create"],
   CourseOnTermAutomationUpsertWithWhereUniqueWithoutFK_AutomationInput: ["where", "update", "create"],
   CourseOnTermAutomationUpdateWithWhereUniqueWithoutFK_AutomationInput: ["where", "data"],
   CourseOnTermAutomationUpdateManyWithWhereWithoutFK_AutomationInput: ["where", "data"],
   CourseOnTermAutomationScalarWhereInput: ["AND", "OR", "NOT", "CourseOnTermAutomationID", "FolderID", "DefaultType", "DefaultVisibility", "FK_AutomationID", "FK_CourseOnTermID"],
   UserUpsertWithoutFK_AutomationInput: ["update", "create"],
-  UserUpdateWithoutFK_AutomationInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
-  UserCreateWithoutFK_UserOnStudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_AutomationInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_UserOnStudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_UserOnStudyGroupsInput: ["where", "create"],
   StudyGroupCreateWithoutFK_UserOnStudyGroupInput: ["Name", "FK_User"],
   StudyGroupCreateOrConnectWithoutFK_UserOnStudyGroupInput: ["where", "create"],
   UserUpsertWithoutFK_UserOnStudyGroupsInput: ["update", "create"],
-  UserUpdateWithoutFK_UserOnStudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_UserOnStudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   StudyGroupUpsertWithoutFK_UserOnStudyGroupInput: ["update", "create"],
   StudyGroupUpdateWithoutFK_UserOnStudyGroupInput: ["Name", "FK_User"],
-  UserCreateWithoutFK_StudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_StudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_StudyGroupsInput: ["where", "create"],
   UserOnStudyGroupCreateWithoutFK_StudyGroupInput: ["SendTime", "AcceptedTime", "RejectedTime", "RemovedTime", "CanceledTime", "FK_User"],
   UserOnStudyGroupCreateOrConnectWithoutFK_StudyGroupInput: ["where", "create"],
   UserOnStudyGroupCreateManyFK_StudyGroupInputEnvelope: ["data", "skipDuplicates"],
   UserUpsertWithoutFK_StudyGroupsInput: ["update", "create"],
-  UserUpdateWithoutFK_StudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_StudyGroupsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserOnStudyGroupUpsertWithWhereUniqueWithoutFK_StudyGroupInput: ["where", "update", "create"],
   UserOnStudyGroupUpdateWithWhereUniqueWithoutFK_StudyGroupInput: ["where", "data"],
   UserOnStudyGroupUpdateManyWithWhereWithoutFK_StudyGroupInput: ["where", "data"],
@@ -2005,7 +2005,7 @@ const inputsInfo = {
   FeatureRequestUpdateWithWhereUniqueWithoutFK_UserInput: ["where", "data"],
   FeatureRequestUpdateManyWithWhereWithoutFK_UserInput: ["where", "data"],
   FeatureRequestScalarWhereInput: ["AND", "OR", "NOT", "FeatureRequestID", "CreatedTime", "DeletedTime", "ImplementedTime", "FK_UserID", "Title", "Body"],
-  UserCreateWithoutFK_TermsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_TermsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_TermsInput: ["where", "create"],
   SchoolCreateWithoutTermInput: ["Name", "HasClassSupport", "SearchIndex", "TermType", "FK_Course", "FK_User", "FK_Professor"],
   SchoolCreateOrConnectWithoutTermInput: ["where", "create"],
@@ -2013,7 +2013,7 @@ const inputsInfo = {
   CourseOnTermCreateOrConnectWithoutFK_TermInput: ["where", "create"],
   CourseOnTermCreateManyFK_TermInputEnvelope: ["data", "skipDuplicates"],
   UserUpsertWithoutFK_TermsInput: ["update", "create"],
-  UserUpdateWithoutFK_TermsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_TermsInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   SchoolUpsertWithoutTermInput: ["update", "create"],
   SchoolUpdateWithoutTermInput: ["Name", "HasClassSupport", "SearchIndex", "TermType", "FK_Course", "FK_User", "FK_Professor"],
   CourseOnTermUpsertWithWhereUniqueWithoutFK_TermInput: ["where", "update", "create"],
@@ -2063,7 +2063,7 @@ const inputsInfo = {
   CourseCreateWithoutFK_SchoolInput: ["CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_Professor", "CourseOnTerm"],
   CourseCreateOrConnectWithoutFK_SchoolInput: ["where", "create"],
   CourseCreateManyFK_SchoolInputEnvelope: ["data", "skipDuplicates"],
-  UserCreateWithoutFK_SchoolInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_SchoolInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_SchoolInput: ["where", "create"],
   UserCreateManyFK_SchoolInputEnvelope: ["data", "skipDuplicates"],
   ProfessorCreateWithoutFK_SchoolInput: ["FK_Courses", "Name", "Email"],
@@ -2079,7 +2079,7 @@ const inputsInfo = {
   UserUpsertWithWhereUniqueWithoutFK_SchoolInput: ["where", "update", "create"],
   UserUpdateWithWhereUniqueWithoutFK_SchoolInput: ["where", "data"],
   UserUpdateManyWithWhereWithoutFK_SchoolInput: ["where", "data"],
-  UserScalarWhereInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_SchoolID"],
+  UserScalarWhereInput: ["AND", "OR", "NOT", "UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_SchoolID"],
   ProfessorUpsertWithWhereUniqueWithoutFK_SchoolInput: ["where", "update", "create"],
   ProfessorUpdateWithWhereUniqueWithoutFK_SchoolInput: ["where", "data"],
   ProfessorUpdateManyWithWhereWithoutFK_SchoolInput: ["where", "data"],
@@ -2108,7 +2108,7 @@ const inputsInfo = {
   FlowViewCreateWithoutFK_FlowInput: ["CreatedTime", "FK_User"],
   FlowViewCreateOrConnectWithoutFK_FlowInput: ["where", "create"],
   FlowViewCreateManyFK_FlowInputEnvelope: ["data", "skipDuplicates"],
-  UserCreateWithoutFK_FlowInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_FlowInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_FlowInput: ["where", "create"],
   RepetitionCreateWithoutFK_FlowInput: ["RepetitionID", "CreatedTime", "DeletedTime", "RepetitionType", "FK_FlashcardStack", "FK_Tasks"],
   RepetitionCreateOrConnectWithoutFK_FlowInput: ["where", "create"],
@@ -2125,17 +2125,17 @@ const inputsInfo = {
   FlowViewUpdateWithWhereUniqueWithoutFK_FlowInput: ["where", "data"],
   FlowViewUpdateManyWithWhereWithoutFK_FlowInput: ["where", "data"],
   UserUpsertWithoutFK_FlowInput: ["update", "create"],
-  UserUpdateWithoutFK_FlowInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_FlowInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   RepetitionUpsertWithoutFK_FlowInput: ["update", "create"],
   RepetitionUpdateWithoutFK_FlowInput: ["RepetitionID", "CreatedTime", "DeletedTime", "RepetitionType", "FK_FlashcardStack", "FK_Tasks"],
   FlowCreateWithoutFK_FlowViewInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTerm", "FK_FlashcardStacks", "FK_Tasks", "FK_User", "FK_Repetition"],
   FlowCreateOrConnectWithoutFK_FlowViewInput: ["where", "create"],
-  UserCreateWithoutFK_FlowViewInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_FlowViewInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_FlowViewInput: ["where", "create"],
   FlowUpsertWithoutFK_FlowViewInput: ["update", "create"],
   FlowUpdateWithoutFK_FlowViewInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTerm", "FK_FlashcardStacks", "FK_Tasks", "FK_User", "FK_Repetition"],
   UserUpsertWithoutFK_FlowViewInput: ["update", "create"],
-  UserUpdateWithoutFK_FlowViewInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_FlowViewInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   FlowCreateWithoutFK_FlashcardStacksInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTerm", "FK_Tasks", "FK_FlowView", "FK_User", "FK_Repetition"],
   FlowCreateOrConnectWithoutFK_FlashcardStacksInput: ["where", "create"],
   FlashcardCreateWithoutFK_FlashcardStackInput: ["FlashcardID", "CreatedTime", "DeletedTime", "Position", "Front", "FrontImageUrl", "Back", "BackImageUrl", "FK_FlashcardReviews"],
@@ -2190,7 +2190,7 @@ const inputsInfo = {
   TaskLabelCreateWithoutFK_TaskInput: ["CreatedTime", "Label"],
   TaskLabelCreateOrConnectWithoutFK_TaskInput: ["where", "create"],
   TaskLabelCreateManyFK_TaskInputEnvelope: ["data", "skipDuplicates"],
-  UserCreateWithoutFK_TaskInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_TaskInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_TaskInput: ["where", "create"],
   FlowCreateWithoutFK_TasksInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTerm", "FK_FlashcardStacks", "FK_FlowView", "FK_User", "FK_Repetition"],
   FlowCreateOrConnectWithoutFK_TasksInput: ["where", "create"],
@@ -2203,7 +2203,7 @@ const inputsInfo = {
   TaskLabelUpdateManyWithWhereWithoutFK_TaskInput: ["where", "data"],
   TaskLabelScalarWhereInput: ["AND", "OR", "NOT", "TaskLabelID", "CreatedTime", "Label", "FK_TaskID"],
   UserUpsertWithoutFK_TaskInput: ["update", "create"],
-  UserUpdateWithoutFK_TaskInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_TaskInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   FlowUpsertWithoutFK_TasksInput: ["update", "create"],
   FlowUpdateWithoutFK_TasksInput: ["FlowID", "CreatedTime", "LastOpened", "UserEnteredDate", "Type", "Title", "Trashed", "Visibility", "WasAutomated", "Body", "DeletedTime", "FK_CourseOnTerm", "FK_FlashcardStacks", "FK_FlowView", "FK_User", "FK_Repetition"],
   CourseOnTermUpsertWithoutFK_TasksInput: ["update", "create"],
@@ -2228,18 +2228,18 @@ const inputsInfo = {
   TaskUpsertWithWhereUniqueWithoutFK_RepetitionInput: ["where", "update", "create"],
   TaskUpdateWithWhereUniqueWithoutFK_RepetitionInput: ["where", "data"],
   TaskUpdateManyWithWhereWithoutFK_RepetitionInput: ["where", "data"],
-  UserCreateWithoutFK_BlogInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_BlogInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_BugReport", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_BlogInput: ["where", "create"],
   UserUpsertWithoutFK_BlogInput: ["update", "create"],
-  UserUpdateWithoutFK_BlogInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_BugReport", "FK_FeatureRequest"],
-  UserCreateWithoutFK_BugReportInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_BlogInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_BugReport", "FK_FeatureRequest"],
+  UserCreateWithoutFK_BugReportInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_FeatureRequest"],
   UserCreateOrConnectWithoutFK_BugReportInput: ["where", "create"],
   UserUpsertWithoutFK_BugReportInput: ["update", "create"],
-  UserUpdateWithoutFK_BugReportInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_FeatureRequest"],
-  UserCreateWithoutFK_FeatureRequestInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport"],
+  UserUpdateWithoutFK_BugReportInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_FeatureRequest"],
+  UserCreateWithoutFK_FeatureRequestInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport"],
   UserCreateOrConnectWithoutFK_FeatureRequestInput: ["where", "create"],
   UserUpsertWithoutFK_FeatureRequestInput: ["update", "create"],
-  UserUpdateWithoutFK_FeatureRequestInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport"],
+  UserUpdateWithoutFK_FeatureRequestInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_School", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport"],
   AutomationLogCreateManyFK_CourseOnTermAutomationInput: ["AutomationLogID", "Time", "Success", "Message", "FileID"],
   AutomationLogUpdateWithoutFK_CourseOnTermAutomationInput: ["Time", "Success", "Message", "FileID"],
   CourseOnTermAutomationCreateManyFK_AutomationInput: ["CourseOnTermAutomationID", "FolderID", "DefaultType", "DefaultVisibility", "FK_CourseOnTermID"],
@@ -2281,11 +2281,11 @@ const inputsInfo = {
   TaskUpdateWithoutFK_CourseOnTermInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_Repetition"],
   CourseOnTermAutomationUpdateWithoutFK_CourseOnTermInput: ["FolderID", "DefaultType", "DefaultVisibility", "AutomationLog", "FK_Automation"],
   CourseCreateManyFK_SchoolInput: ["CourseID", "CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_ProfessorID"],
-  UserCreateManyFK_SchoolInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink"],
+  UserCreateManyFK_SchoolInput: ["UserID", "CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess"],
   ProfessorCreateManyFK_SchoolInput: ["ProfessorID", "Name", "Email"],
   TermCreateManyFK_SchoolInput: ["TermID", "CreatedTime", "TermType", "TermName", "FK_UserID"],
   CourseUpdateWithoutFK_SchoolInput: ["CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_Professor", "CourseOnTerm"],
-  UserUpdateWithoutFK_SchoolInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
+  UserUpdateWithoutFK_SchoolInput: ["CreatedTime", "SetupStep", "SupabaseID", "DefaultVisibility", "Email", "Bio", "About", "Name", "Username", "ProfilePictureLink", "HasRequestedAutomationAccess", "HasAutomationAccess", "FK_Terms", "FK_Task", "FK_Settings", "FK_FlowView", "FK_Flow", "FK_Automation", "FK_StudyGroups", "FK_UserOnStudyGroups", "FK_FriendshipsInitiated", "FK_FriendshipsAccepted", "FK_Blog", "FK_BugReport", "FK_FeatureRequest"],
   ProfessorUpdateWithoutFK_SchoolInput: ["FK_Courses", "Name", "Email"],
   TermUpdateWithoutFK_SchoolInput: ["CreatedTime", "TermType", "TermName", "FK_User", "FK_CourseOnTerm"],
   CourseCreateManyFK_ProfessorInput: ["CourseID", "CreatedTime", "IsOfficial", "Term", "Code", "Title", "FK_SchoolID"],
@@ -2308,7 +2308,7 @@ const inputsInfo = {
   TaskLabelUpdateWithoutFK_TaskInput: ["CreatedTime", "Label"],
   TaskCreateManyFK_RepetitionInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_UserID", "FK_FlowID", "FK_CourseOnTermID"],
   TaskUpdateWithoutFK_RepetitionInput: ["TaskID", "CreatedTime", "Title", "Completed", "Description", "DueDate", "Type", "FK_TaskLabel", "FK_User", "FK_Flow", "FK_CourseOnTerm"]
-};
+}
 
 type InputTypesNames = keyof typeof inputTypes;
 
@@ -2334,16 +2334,16 @@ export function applyInputTypesEnhanceMap(
   inputTypesEnhanceMap: InputTypesEnhanceMap,
 ) {
   for (const inputTypeEnhanceMapKey of Object.keys(inputTypesEnhanceMap)) {
-    const inputTypeName = inputTypeEnhanceMapKey as keyof typeof inputTypesEnhanceMap;
-    const typeConfig = inputTypesEnhanceMap[inputTypeName]!;
-    const typeClass = inputTypes[inputTypeName];
-    const typeTarget = typeClass.prototype;
+    const inputTypeName = inputTypeEnhanceMapKey as keyof typeof inputTypesEnhanceMap
+    const typeConfig = inputTypesEnhanceMap[inputTypeName]!
+    const typeClass = inputTypes[inputTypeName]
+    const typeTarget = typeClass.prototype
     applyTypeClassEnhanceConfig(
       typeConfig,
       typeClass,
       typeTarget,
       inputsInfo[inputTypeName as keyof typeof inputsInfo],
-    );
+    )
   }
 }
 

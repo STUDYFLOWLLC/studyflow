@@ -1,3 +1,4 @@
+import { Popover } from '@headlessui/react'
 import classNames from 'classnames'
 import { CreateButtonMenuItem } from 'components/Dashboard/CreateButton'
 import RainbowSynthesisIcon from 'components/Dashboard/CreateButton/RainbowSynthesisIcon'
@@ -18,7 +19,7 @@ export default function MainItem({ item }: Props) {
   if (!mounted) return null
 
   return (
-    <div
+    <Popover.Button
       key={item.name}
       className={classNames(
         { '': theme === 'light' },
@@ -30,9 +31,11 @@ export default function MainItem({ item }: Props) {
         {
           'hover:border-current': item.icon !== 'SynthesisIcon',
         },
+        { 'cursor-pointer': !item.comingSoon },
+        { 'pointer-events-none': item.comingSoon },
         item.bgColor,
         item.color,
-        'cursor-pointer border-2 border-transparent flex items-center rounded-md first-of-type:my-0 last-of-type:my-0 my-2 mx-1 px-2 py-1 transition duration-150 ease-in-out focus:outline-none',
+        'relative border-2 text-left border-transparent flex items-center rounded-md first-of-type:my-0 last-of-type:my-0 my-2 mx-1 px-2 py-1 transition duration-150 ease-in-out focus:outline-none',
       )}
       style={{
         backgroundColor: item.bgColor,
@@ -44,6 +47,11 @@ export default function MainItem({ item }: Props) {
         if (item.onClick) item.onClick()
       }}
     >
+      {item.comingSoon && (
+        <div className="bg-red-400 uppercase text-2xs p-0.5 rounded-md font-semibold text-white absolute top-0.5 right-0.5">
+          Coming Soon
+        </div>
+      )}
       <div
         className={classNames(
           item.color,
@@ -78,6 +86,6 @@ export default function MainItem({ item }: Props) {
         </p>
         <p className="text-xs text-info ">{item.description}</p>
       </div>
-    </div>
+    </Popover.Button>
   )
 }

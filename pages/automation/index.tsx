@@ -14,6 +14,7 @@ import Taskover from 'components/Taskover'
 import useAutomationDetails from 'hooks/automation/useAutomationDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { SkeletonTheme } from 'react-loading-skeleton'
@@ -53,55 +54,65 @@ export default function index({ user }: Props) {
   if (!automationDetails?.RefreshToken) return <SetupAutomation />
 
   return (
-    <SkeletonTheme
-      baseColor={classNames(
-        { '#ebebeb': theme === 'light' },
-        { '#303D50': theme === 'dark' },
-      )}
-      highlightColor={classNames(
-        { '#f5f5f5': theme === 'light' },
-        { '#5C7599': theme === 'dark' },
-      )}
-    >
-      <Toaster />
-      <div className="min-h-full">
-        <Dashbar
-          showDashBar={showDashBar}
-          setShowDashBar={setShowDashBar}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          cmdPaletteOpen={cmdPaletteOpen}
-          setCmdPaletteOpen={setCmdPaletteOpen}
+    <>
+      <Head>
+        <title>Automation | Studyflow</title>
+        <meta
+          property="og:title"
+          content="Automation | Studyflow"
+          key="title"
         />
-        <div
-          className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
-        >
-          <AutomationHeader
+      </Head>
+      <SkeletonTheme
+        baseColor={classNames(
+          { '#ebebeb': theme === 'light' },
+          { '#303D50': theme === 'dark' },
+        )}
+        highlightColor={classNames(
+          { '#f5f5f5': theme === 'light' },
+          { '#5C7599': theme === 'dark' },
+        )}
+      >
+        <Toaster />
+        <div className="min-h-full">
+          <Dashbar
             showDashBar={showDashBar}
             setShowDashBar={setShowDashBar}
-          />
-          <DashHeadSmall
             searchValue={searchValue}
             setSearchValue={setSearchValue}
-            setSidebarOpen={setSidebarOpen}
+            cmdPaletteOpen={cmdPaletteOpen}
+            setCmdPaletteOpen={setCmdPaletteOpen}
           />
-          <DashbarSmall
-            sidebarOpen={sidebarOpen}
-            setSidebarOpen={setSidebarOpen}
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
-          <Timer />
-          <AutomationCards />
-          <Taskover />
-          <CMDPalette
-            include={[ActionType.JUMPTO, ActionType.SCHOOL]}
-            open={cmdPaletteOpen}
-            setOpen={setCmdPaletteOpen}
-          />
+          <div
+            className={classNames({ 'lg:pl-56': showDashBar }, 'flex flex-col')}
+          >
+            <AutomationHeader
+              showDashBar={showDashBar}
+              setShowDashBar={setShowDashBar}
+            />
+            <DashHeadSmall
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+              setSidebarOpen={setSidebarOpen}
+            />
+            <DashbarSmall
+              sidebarOpen={sidebarOpen}
+              setSidebarOpen={setSidebarOpen}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+            />
+            <Timer />
+            <AutomationCards />
+            <Taskover />
+            <CMDPalette
+              include={[ActionType.JUMPTO, ActionType.SCHOOL]}
+              open={cmdPaletteOpen}
+              setOpen={setCmdPaletteOpen}
+            />
+          </div>
         </div>
-      </div>
-    </SkeletonTheme>
+      </SkeletonTheme>
+    </>
   )
 }
 

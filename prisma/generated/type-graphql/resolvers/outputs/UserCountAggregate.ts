@@ -65,6 +65,16 @@ export class UserCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  HasRequestedAutomationAccess!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  HasAutomationAccess!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_SchoolID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

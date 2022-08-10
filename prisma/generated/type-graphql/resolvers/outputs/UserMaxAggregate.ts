@@ -64,6 +64,16 @@ export class UserMaxAggregate {
   })
   ProfilePictureLink!: string | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  HasRequestedAutomationAccess!: boolean | null;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  HasAutomationAccess!: boolean | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

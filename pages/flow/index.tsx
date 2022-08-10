@@ -52,7 +52,7 @@ export default function Flow({ user }: Props) {
 
   if (!mounted) return null
 
-  return <div>dep</div>
+  return <div>Flow search coming soon!</div>
 }
 
 /*

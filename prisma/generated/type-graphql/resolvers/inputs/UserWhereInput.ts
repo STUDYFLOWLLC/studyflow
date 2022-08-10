@@ -4,6 +4,8 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AutomationListRelationFilter } from "../inputs/AutomationListRelationFilter";
 import { BlogListRelationFilter } from "../inputs/BlogListRelationFilter";
+import { BoolFilter } from "../inputs/BoolFilter";
+import { BoolNullableFilter } from "../inputs/BoolNullableFilter";
 import { BugReportListRelationFilter } from "../inputs/BugReportListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { EnumSetupStepFilter } from "../inputs/EnumSetupStepFilter";
@@ -96,6 +98,16 @@ export class UserWhereInput {
     nullable: true
   })
   ProfilePictureLink?: StringNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  HasRequestedAutomationAccess?: BoolFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BoolNullableFilter, {
+    nullable: true
+  })
+  HasAutomationAccess?: BoolNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => SchoolRelationFilter, {
     nullable: true

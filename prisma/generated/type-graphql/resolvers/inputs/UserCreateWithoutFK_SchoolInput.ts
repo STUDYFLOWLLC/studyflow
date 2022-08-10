@@ -72,6 +72,16 @@ export class UserCreateWithoutFK_SchoolInput {
   })
   ProfilePictureLink?: string | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  HasRequestedAutomationAccess?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  HasAutomationAccess?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => TermCreateNestedManyWithoutFK_UserInput, {
     nullable: true
   })
