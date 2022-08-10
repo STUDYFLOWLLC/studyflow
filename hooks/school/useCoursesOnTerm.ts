@@ -56,7 +56,7 @@ export default function useCoursesOnTerm(
     }
   `
 
-  const variables = {
+  const variables: any = {
     where: {
       TermID: {
         equals: termID,

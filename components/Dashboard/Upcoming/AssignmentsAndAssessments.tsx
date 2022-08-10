@@ -21,6 +21,7 @@ export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
   const { userDetails } = useUserDetails(user?.id)
   const { dashFlows, dashFlowsLoading } = useDashFlows(
     userDetails?.UserID,
+    undefined,
     true,
   )
 

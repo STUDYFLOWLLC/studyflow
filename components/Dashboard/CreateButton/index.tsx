@@ -21,6 +21,7 @@ export interface CreateButtonMenuItem {
   color: Color | 'text-primary' | 'rainbow'
   bgColor: string
   icon: ((props: SVGProps<SVGSVGElement>) => JSX.Element) | 'SynthesisIcon'
+  comingSoon?: boolean
   onClick?: () => void
 }
 
@@ -62,8 +63,9 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
       color: Color.INDIGO,
       bgColor: 'rgba( 99, 102, 233, 0.2)',
       icon: PencilIcon,
+      comingSoon: true,
       onClick: () => {
-        setCreateFlowAs(FlowType.NOTE)
+        // setCreateFlowAs(FlowType.NOTE)
       },
     },
     {
@@ -73,8 +75,9 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
       color: Color.YELLOW,
       bgColor: 'rgba( 225, 181, 62, 0.2)',
       icon: DocumentAddIcon,
+      comingSoon: true,
       onClick: () => {
-        setCreateFlowAs(FlowType.ASSIGNMENT)
+        // setCreateFlowAs(FlowType.ASSIGNMENT)
       },
     },
     {
@@ -83,8 +86,9 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
       color: Color.ROSE,
       bgColor: 'rgba( 234, 120, 135, 0.2)',
       icon: StarIcon,
+      comingSoon: true,
       onClick: () => {
-        setCreateFlowAs(FlowType.ASSESSMENT)
+        // setCreateFlowAs(FlowType.ASSESSMENT)
       },
     },
     {
@@ -94,8 +98,9 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
       color: 'rainbow',
       bgColor: '',
       icon: 'SynthesisIcon',
+      comingSoon: true,
       onClick: () => {
-        setCreateFlowAs(FlowType.SYNTHESIS)
+        // setCreateFlowAs(FlowType.SYNTHESIS)
       },
     },
   ]

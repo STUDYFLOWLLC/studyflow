@@ -22,7 +22,10 @@ export default function DeleteFlow({ course, setSelectedCourse }: Props) {
   const { coursesOnTerm, mutateCoursesOnTerm } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )
-  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
+  const { dashFlows, mutateDashFlows } = useDashFlows(
+    userDetails?.UserID,
+    'All',
+  )
 
   const [mounted, setMounted] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
