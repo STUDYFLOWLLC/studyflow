@@ -14,6 +14,7 @@ import Taskover from 'components/Taskover'
 import useAutomationDetails from 'hooks/automation/useAutomationDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { SkeletonTheme } from 'react-loading-skeleton'
@@ -63,6 +64,14 @@ export default function index({ user }: Props) {
         { '#5C7599': theme === 'dark' },
       )}
     >
+      <Head>
+        <title>Automation | Studyflow</title>
+        <meta
+          property="og:title"
+          content="Automation | Studyflow"
+          key="title"
+        />
+      </Head>
       <Toaster />
       <div className="min-h-full">
         <Dashbar

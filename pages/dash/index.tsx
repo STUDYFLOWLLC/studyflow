@@ -15,6 +15,7 @@ import Taskover from 'components/Taskover'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -88,6 +89,10 @@ export default function Dash({ user }: Props) {
         { '#5C7599': theme === 'dark' },
       )}
     >
+      <Head>
+        <title>Dash | Studyflow</title>
+        <meta property="og:title" content="Dash | Studyflow" key="title" />
+      </Head>
       <div className="min-h-full">
         <Dashbar
           showDashBar={showDashBar}

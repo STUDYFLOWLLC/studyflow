@@ -10,6 +10,7 @@ import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import { useTheme } from 'next-themes'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { SkeletonTheme } from 'react-loading-skeleton'
 
@@ -38,6 +39,10 @@ export default function beta() {
         { '#5C7599': theme === 'dark' },
       )}
     >
+      <Head>
+        <title>Beta | Studyflow</title>
+        <meta property="og:title" content="Beta | Studyflow" key="title" />
+      </Head>
       <div className="min-h-full">
         <Dashbar
           showDashBar={showDashBar}
