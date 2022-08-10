@@ -33,7 +33,10 @@ export default function index({
   const { theme, setTheme } = useTheme()
   const { user } = useUser()
   const { userDetails } = useUserDetails(user?.id)
-  const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
+  const { dashFlows, mutateDashFlows } = useDashFlows(
+    userDetails?.UserID,
+    'All',
+  )
   const { coursesOnTerm, mutateCoursesOnTerm } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0].TermID,
   )

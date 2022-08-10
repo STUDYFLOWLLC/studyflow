@@ -37,6 +37,7 @@ interface Ret {
 
 export default function useDashFlows(
   userId: number | undefined,
+  groupBy?: 'All' | number | 'Trash',
   isUpcoming?: boolean,
 ): Ret {
   const query = gql`
@@ -70,48 +71,94 @@ export default function useDashFlows(
     }
   `
 
-  const variables = {
-    where: {
-      AND: [
-        {
-          DeletedTime: {
-            equals: null,
-          },
-        },
-        {
-          OR: [
-            {
-              FK_UserID: {
-                equals: userId,
-              },
+  let variables: any = {}
+
+  if (groupBy === 'All' || !groupBy) {
+    variables = {
+      where: {
+        AND: [
+          {
+            DeletedTime: {
+              equals: null,
             },
-            {
-              FK_CourseOnTerm: {
-                is: {
-                  FK_Term: {
-                    is: {
-                      FK_UserID: {
-                        equals: userId,
-                      },
+          },
+          {
+            FK_UserID: {
+              equals: null,
+            },
+          },
+          {
+            FK_CourseOnTerm: {
+              is: {
+                FK_Term: {
+                  is: {
+                    FK_UserID: {
+                      equals: userId,
                     },
                   },
                 },
               },
             },
-          ],
+          },
+        ],
+      },
+      orderBy: [
+        {
+          CreatedTime: 'asc',
         },
       ],
-    },
-    orderBy: [
-      {
-        CreatedTime: 'asc',
+    }
+  } else if (groupBy === 'Trash') {
+    variables = {
+      where: {
+        AND: [
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+          {
+            OR: [
+              {
+                FK_UserID: {
+                  equals: userId,
+                },
+              },
+            ],
+          },
+        ],
       },
-    ],
+      orderBy: [
+        {
+          CreatedTime: 'asc',
+        },
+      ],
+    }
+  } else {
+    variables = {
+      where: {
+        AND: [
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+          {
+            FK_CourseOnTermID: {
+              equals: groupBy,
+            },
+          },
+        ],
+      },
+      orderBy: [
+        {
+          CreatedTime: 'asc',
+        },
+      ],
+    }
   }
 
   const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
-
-  console.log(data)
 
   if (data?.flows) {
     const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>

@@ -229,16 +229,7 @@ export async function trashFlow(
   // mutate locally
   mutateDashFlows(
     {
-      mutatedFlows: dashFlows.map((flow) => {
-        if (flow.FlowID === flowId) {
-          return {
-            ...flow,
-            Trashed: true,
-            FK_UserID: userDetails.UserID,
-          }
-        }
-        return flow
-      }),
+      mutatedFlows: dashFlows.filter((flow) => flow.FlowID !== flowId),
       mutate: true,
     },
     { revalidate: false },
