@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { FlowSortOptions } from 'utils/flows/sortFlows'
 import ActualFlowTable from './ActualFlowTable'
 import EmptyTable from './EmptyTable'
+import FlowPaginationButtons from './FlowPaginationButtons'
 
 interface Props {
   setCurrentFlow?: (flowId: string) => void
@@ -25,13 +26,18 @@ export default function FlowList({ setCurrentFlow }: Props) {
     FlowSortOptions.RECENTLY_VIEWED_DESCENDING,
   )
   const [groupBy, setGroupBy] = useState<'All' | number | 'Trash'>('All')
+  const [index, setIndex] = useState(0)
 
   const { dashFlows, dashFlowsLoading } = useDashFlows(
     userDetails?.UserID,
     groupBy,
+    false,
+    index,
   )
 
   useEffect(() => setMounted(true), [])
+
+  useEffect(() => setIndex(0), [groupBy])
 
   if (!mounted) return null
 
@@ -40,23 +46,32 @@ export default function FlowList({ setCurrentFlow }: Props) {
       <div
         className={classnames(
           { 'border-gray-200': theme === 'light' },
-          'align-middle inline-block min-w-full border-b',
+          'align-middle inline-block min-w-full',
         )}
       >
-        <table className="min-w-full relative">
-          <FlowTableHeader
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-            groupBy={groupBy}
-            setGroupBy={setGroupBy}
-          />
-          <ActualFlowTable
-            flows={dashFlows}
-            setCurrentFlow={setCurrentFlow}
-            loading={userDetailsLoading || dashFlowsLoading}
-            dashFlowsLoading={dashFlowsLoading}
-          />
-        </table>
+        <div>
+          <table className="min-w-full relative">
+            <FlowTableHeader
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              groupBy={groupBy}
+              setGroupBy={setGroupBy}
+            />
+            <ActualFlowTable
+              flows={dashFlows}
+              setCurrentFlow={setCurrentFlow}
+              loading={userDetailsLoading || dashFlowsLoading}
+              dashFlowsLoading={dashFlowsLoading}
+            />
+          </table>
+          {(dashFlows.length === 8 || index !== 0) && (
+            <FlowPaginationButtons
+              index={index}
+              setIndex={setIndex}
+              flowLength={dashFlows.length}
+            />
+          )}
+        </div>
         {!dashFlowsLoading && dashFlows.length === 0 && (
           <EmptyTable
             type={groupBy}

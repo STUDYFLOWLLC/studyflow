@@ -64,7 +64,6 @@ export default function index({
     mutateDashFlows(
       {
         mutatedFlows: [
-          ...dashFlows,
           {
             FlowID: id,
             Title: titleFromType(createAs),
@@ -82,7 +81,8 @@ export default function index({
               },
             },
           },
-        ],
+          ...dashFlows,
+        ].slice(0, 10),
         mutate: true,
       },
       {

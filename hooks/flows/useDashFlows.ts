@@ -39,13 +39,16 @@ export default function useDashFlows(
   userId: number | undefined,
   groupBy?: 'All' | number | 'Trash',
   isUpcoming?: boolean,
+  index = 0,
 ): Ret {
   const query = gql`
     query Flows(
       $where: FlowWhereInput
       $orderBy: [FlowOrderByWithRelationInput!]
+      $take: Int
+      $skip: Int
     ) {
-      flows(where: $where, orderBy: $orderBy) {
+      flows(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
         FlowID
         Title
         CreatedTime
@@ -157,6 +160,9 @@ export default function useDashFlows(
       ],
     }
   }
+
+  variables.take = 8
+  variables.skip = index * 8
 
   const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
 
