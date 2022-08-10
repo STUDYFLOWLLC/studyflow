@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <title>Studyflow</title>
+        <link rel="icon" href="/logo.svg" />
       </Head>
       <GoogleOAuthProvider
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}

@@ -1,6 +1,6 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import BugButtons from 'components/BetaCenter/ReportBug/BugButtons'
-import MainSpinner from 'components/spinners/MainSpinner'
+import LoadWithText from 'components/spinners/LoadWithText'
 import BugPlate from 'dinnerplate/BugPlate'
 import { MyValue } from 'dinnerplate/types/plateTypes'
 import useBugReports, { BugReport } from 'hooks/beta/useBugReports'
@@ -48,7 +48,10 @@ export default function ReportBug() {
       {!showReport ? (
         <div className="prose max-w-3xl mx-auto w-full py-2">
           {bugReportsLoading ? (
-            <MainSpinner size={SpinnerSizes.medium} />
+            <LoadWithText
+              size={SpinnerSizes.medium}
+              text="Loading bug reports..."
+            />
           ) : (
             <div>
               <h1 className="mb-0 pb-0">Bug Reports</h1>

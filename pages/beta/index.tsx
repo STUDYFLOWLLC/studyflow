@@ -4,6 +4,7 @@ import { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
 import ContactUs from 'components/BetaCenter/ContactUs'
 import ReportBug from 'components/BetaCenter/ReportBug/index'
 import RequestFeature from 'components/BetaCenter/RequestFeature'
+import Tutorials from 'components/BetaCenter/Tutorials'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
@@ -20,9 +21,7 @@ export default function beta() {
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [betaView, setBetaView] = useState<BetaDisplays>(
-    BetaDisplays.REPORT_BUG,
-  )
+  const [betaView, setBetaView] = useState<BetaDisplays>(BetaDisplays.TUTORIAL)
 
   useEffect(() => setMounted(true), [])
 
@@ -77,6 +76,9 @@ export default function beta() {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             setCreateFlowAs={() => {}}
           />
+          {betaView === BetaDisplays.TUTORIAL && (
+            <Tutorials setBetaView={setBetaView} />
+          )}
           {betaView === BetaDisplays.REPORT_BUG && <ReportBug />}
           {betaView === BetaDisplays.REQUEST_FEATURE && <RequestFeature />}
           {betaView === BetaDisplays.CONTACT_US && <ContactUs />}
