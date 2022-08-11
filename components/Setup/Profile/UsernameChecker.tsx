@@ -36,13 +36,13 @@ export default function UsernameChecker({
   if (!mounted) return null
 
   return (
-    <div className="w-full flex justify-center text-sm">
-      <div className="relative w-full max-w-xs sm:w-4/5 pr-3 sm:pr-0">
+    <div className="w-full text-sm">
+      <div className="relative w-96 mx-auto sm:w-4/5 pr-3 sm:pr-0">
         <div
           className={classNames(
             { 'border-gray-300 border-2 bg-gray-50': theme === 'light' },
             { 'bg-slate-700': theme === 'dark' },
-            'w-full flex flex-col item-center align-middle p-2 rounded m-2 mb-0',
+            'w-full flex flex-col item-center align-middle p-2 rounded mt-2',
           )}
         >
           <InformationCircleIcon className="w-5 h-5 text-secondary absolute top-4 left-4" />

@@ -38,11 +38,22 @@ export default function DashProfileSetup() {
       >
         <LockClosedIcon />
       </div>
-      <p className="text-center">
+      <p className="text-center mb-0">
         To unlock dashboard, flows, task managing, and social learning, please
-        complete our brief setup process. Here you will setup your profile,
-        enter the courses your are taking this semester, and find classmates
-        that are using Studyflow.
+        complete our brief setup process. You will setup your profile, enter the
+        courses your are taking this semester, and find classmates that are
+        using Studyflow.
+      </p>
+      <p className="mt-2">
+        If you need help at any point in setup, please follow our{' '}
+        <a
+          href="https://docs.studyflow.ai/docs/category/getting-started"
+          target="_blank"
+          rel="noreferrer"
+        >
+          setup walkthrough
+        </a>
+        .
       </p>
       <button
         type="button"

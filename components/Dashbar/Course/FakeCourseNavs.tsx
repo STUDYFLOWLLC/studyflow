@@ -11,6 +11,7 @@ const FC1 = {
   Index: 0,
   IsNew: false,
   FK_Course: {
+    CourseID: 0,
     Code: 'WLCM',
     Term: 'Next Term',
     Title: 'Welcome',
@@ -27,6 +28,7 @@ const FC2 = {
   Index: 0,
   IsNew: false,
   FK_Course: {
+    CourseID: 0,
     Code: 'SFLW',
     Term: 'Next Term',
     Title: 'To Studyflow',
@@ -43,6 +45,7 @@ const FC3 = {
   Index: 0,
   IsNew: false,
   FK_Course: {
+    CourseID: 0,
     Code: 'AWSM',
     Term: 'Next Term',
     Title: 'Ur Awesom',

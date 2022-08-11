@@ -9,9 +9,9 @@ import SmallCourseDisplay from 'components/Setup/Education/SmallCourseDisplay'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import useCoursesOnTerm, { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import useSchoolDetails from 'hooks/school/useSchoolDetails'
-import { mutateSetupStep } from 'hooks/setup/mutateUser'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { SetupSteps } from 'types/SetupSteps'
 import { changeUserSetupStep } from 'utils/user/userHandlers'
 import CourseBlurOver from './CourseBlurOver'
@@ -38,32 +38,11 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
 
   useEffect(() => setMounted(true), [])
 
-  const finishAddingCourses = async () => {
-    if (doneAddingCourses) return
-    setDoneAddingCourses(true)
-    mutateSetupStep(
-      userDetails?.Email || 'fucktheiremaildidntload',
-      SetupSteps.COMPLETE,
-    )
-    mutateUserDetails(
-      {
-        ...userDetails,
-        SetupStep: SetupSteps.COMPLETE,
-        mutate: true,
-      },
-      {
-        revalidate: false,
-      },
-    )
-
-    setDoneAddingCourses(false)
-  }
-
   if (!mounted) return null
 
   return (
     <div className="relative w-full h-full">
-      {!coursesOnTerm[coursesOnTerm.length - 1]?.IsNew && showAdd && (
+      {(!coursesOnTerm[coursesOnTerm.length - 1]?.IsNew || showAdd) && (
         <CourseBlurOver
           loading={loading}
           setLoading={setLoading}
@@ -75,7 +54,7 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
         className={classNames(
           {
             'blur-lg':
-              !coursesOnTerm[coursesOnTerm.length - 1]?.IsNew && showAdd,
+              !coursesOnTerm[coursesOnTerm.length - 1]?.IsNew || showAdd,
           },
           'w-full flex flex-col items-center not-prose',
         )}
@@ -95,8 +74,11 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
         />
         <button
           type="button"
+          disabled={loading}
           className="alex-button mt-2"
           onClick={() => {
+            if (!coursesOnTerm[coursesOnTerm.length - 1].Nickname)
+              return toast.error('Must enter course nickname!')
             setQuery('')
             setShowAdd(true)
           }}
@@ -121,14 +103,18 @@ export default function AddCourse({ setSelectedCourseOnTerm, inSetup }: Props) {
             </div>
             <button
               type="button"
+              disabled={loading}
               className="mt-4 alex-button"
               onClick={async () => {
+                if (!coursesOnTerm[coursesOnTerm.length - 1].Nickname)
+                  return toast.error('Must enter course nickname!')
                 setDoneAddingCourses(true)
-                await changeUserSetupStep(
-                  SetupSteps.COMPLETE,
-                  userDetails,
-                  mutateUserDetails,
-                )
+                if (userDetails?.SetupStep === SetupSteps.EDUCATION)
+                  await changeUserSetupStep(
+                    SetupSteps.COMMUNITY,
+                    userDetails,
+                    mutateUserDetails,
+                  )
                 setDoneAddingCourses(false)
               }}
             >

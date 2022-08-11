@@ -4,6 +4,7 @@ import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 
 export interface fkCourse {
+  CourseID: number
   Code: string
   Term: string
   Title: string
@@ -43,6 +44,7 @@ export default function useCoursesOnTerm(
           Index
           IsNew
           FK_Course {
+            CourseID
             Code
             Term
             Title

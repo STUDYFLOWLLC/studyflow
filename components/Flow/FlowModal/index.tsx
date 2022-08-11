@@ -38,7 +38,7 @@ export default function index({
     'All',
   )
   const { coursesOnTerm, mutateCoursesOnTerm } = useCoursesOnTerm(
-    userDetails?.FK_Terms?.[0].TermID,
+    userDetails?.FK_Terms?.[0]?.TermID,
   )
 
   const [mounted, setMounted] = useState(false)

@@ -180,7 +180,7 @@ export function changeCourseOnTermCourse(
         if (course.CourseOnTermID === courseOnTermId) {
           return {
             ...course,
-            IsNew: false,
+            IsNew: true,
             FK_Course: asFkCourse,
           }
         }

@@ -37,6 +37,7 @@ export default function CourseListView({ user }: Props) {
           CourseOnTermID: 0,
           Color: '',
           FK_Course: {
+            CourseID: 0,
             Code: 'General',
             Term: 'General',
             Title: 'General',

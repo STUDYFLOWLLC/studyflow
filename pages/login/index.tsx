@@ -64,6 +64,27 @@ export default function Login() {
                 <ProviderButtonGroup />
                 {/* <OrLine succeed={succeed} /> */}
               </div>
+              <p className="text-info text-center mt-8">
+                By continuing, you agree with our{' '}
+                <a
+                  href="https://docs.studyflow.ai/docs/getting-started/terms-of-service"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary"
+                >
+                  terms of service
+                </a>{' '}
+                and{' '}
+                <a
+                  href="https://docs.studyflow.ai/docs/getting-started/privacy-policy"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary"
+                >
+                  privacy policy
+                </a>
+                .
+              </p>
               {/* <EmailLogin succeed={succeed} setSucceed={setSucceed} /> */}
             </div>
           </div>
