@@ -12,6 +12,8 @@ export enum UserScalarFieldEnum {
   Name = "Name",
   Username = "Username",
   ProfilePictureLink = "ProfilePictureLink",
+  HasRequestedAutomationAccess = "HasRequestedAutomationAccess",
+  HasAutomationAccess = "HasAutomationAccess",
   FK_SchoolID = "FK_SchoolID"
 }
 TypeGraphQL.registerEnumType(UserScalarFieldEnum, {

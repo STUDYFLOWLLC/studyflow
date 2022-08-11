@@ -136,33 +136,35 @@ model StudyGroup {
 
 // holds user information. STANDARD: NULL IS A DELETED USER
 model User {
-  UserID                  Int                @id @default(autoincrement())
-  CreatedTime             DateTime           @default(now())
-  SetupStep               SetupStep          @default(PROFILE)
-  SupabaseID              String
-  DefaultVisibility       Visibility         @default(PUBLIC)
-  Email                   String             @unique
-  Bio                     String?
-  About                   String?
-  Name                    String?
-  Username                String?            @unique
-  ProfilePictureLink      String?
-  FK_School               School?            @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
-  FK_SchoolID             Int?
-  FK_Terms                Term[]
+  UserID                       Int                @id @default(autoincrement())
+  CreatedTime                  DateTime           @default(now())
+  SetupStep                    SetupStep          @default(PROFILE)
+  SupabaseID                   String
+  DefaultVisibility            Visibility         @default(PUBLIC)
+  Email                        String             @unique
+  Bio                          String?
+  About                        String?
+  Name                         String?
+  Username                     String?            @unique
+  ProfilePictureLink           String?
+  HasRequestedAutomationAccess Boolean            @default(false)
+  HasAutomationAccess          Boolean?           @default(false)
+  FK_School                    School?            @relation(fields: [FK_SchoolID], references: [SchoolID], onDelete: Cascade, onUpdate: Cascade)
+  FK_SchoolID                  Int?
+  FK_Terms                     Term[]
   //FK_FlowTags       FlowTag[]
-  FK_Task                 Task[]
-  FK_Settings             Setting?
-  FK_FlowView             FlowView[]
-  FK_Flow                 Flow[]
-  FK_Automation           Automation[]
-  FK_StudyGroups          StudyGroup[]
-  FK_UserOnStudyGroups    UserOnStudyGroup[]
-  FK_FriendshipsInitiated Friendship[]       @relation(name: "from")
-  FK_FriendshipsAccepted  Friendship[]       @relation(name: "to")
-  FK_Blog                 Blog[]
-  FK_BugReport            BugReport[]
-  FK_FeatureRequest       FeatureRequest[]
+  FK_Task                      Task[]
+  FK_Settings                  Setting?
+  FK_FlowView                  FlowView[]
+  FK_Flow                      Flow[]
+  FK_Automation                Automation[]
+  FK_StudyGroups               StudyGroup[]
+  FK_UserOnStudyGroups         UserOnStudyGroup[]
+  FK_FriendshipsInitiated      Friendship[]       @relation(name: "from")
+  FK_FriendshipsAccepted       Friendship[]       @relation(name: "to")
+  FK_Blog                      Blog[]
+  FK_BugReport                 BugReport[]
+  FK_FeatureRequest            FeatureRequest[]
 }
 
 model Term {

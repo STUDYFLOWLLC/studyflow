@@ -12,7 +12,7 @@ export default function GoogleButton() {
             redirectTo:
               process.env.NODE_ENV === 'development'
                 ? 'http://localhost:3000/dash'
-                : process.env.REDIRECT_URL,
+                : process.env.NEXT_PUBLIC_REDIRECT_URL,
           },
         )
       }
@@ -23,7 +23,7 @@ export default function GoogleButton() {
             redirectTo:
               process.env.NODE_ENV === 'development'
                 ? 'http://localhost:3000/dash'
-                : process.env.REDIRECT_URL,
+                : process.env.NEXT_PUBLIC_REDIRECT_URL,
           },
         )
       }
