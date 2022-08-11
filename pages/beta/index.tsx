@@ -11,10 +11,13 @@ import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import { useTheme } from 'next-themes'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SkeletonTheme } from 'react-loading-skeleton'
 
 export default function beta() {
+  const router = useRouter()
+  const query = router.asPath.split('#')[1]
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -22,7 +25,9 @@ export default function beta() {
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [betaView, setBetaView] = useState<BetaDisplays>(BetaDisplays.TUTORIAL)
+  const [betaView, setBetaView] = useState<BetaDisplays>(
+    query === 'report' ? BetaDisplays.REPORT_BUG : BetaDisplays.TUTORIAL,
+  )
 
   useEffect(() => setMounted(true), [])
 
