@@ -70,8 +70,8 @@ export default function CMDPalette({ include, open, setOpen }: Props) {
               include={[
                 ActionType.JUMPTO,
                 ActionType.STUDENT,
-                ActionType.SCHOOL,
-                ActionType.FLOW,
+                // ActionType.SCHOOL,
+                // ActionType.FLOW,
               ]}
               query={query}
               setQuery={setQuery}
