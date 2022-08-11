@@ -12,6 +12,7 @@ import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import toast from 'react-hot-toast'
 import { TaskType } from 'types/Task'
 import dateParser from 'utils/dateParser'
+import decodeHTML from 'utils/flows/decodeHTML'
 import isAlphaNumericOrSymbol from 'utils/flows/isAlphaNumericOrSymbol'
 import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import taskParser from 'utils/taskParser'
@@ -52,7 +53,7 @@ export default class TaskNameInput extends Component<Props, State> {
     this.closeTypeMenu = this.closeTypeMenu.bind(this)
     this.state = {
       contentEditable: createRef(),
-      html: '',
+      html: props.taskName,
       courseMenuOpen: false,
       typeMenuOpen: false,
       menuPosition: {
@@ -136,15 +137,17 @@ export default class TaskNameInput extends Component<Props, State> {
     if (textDate) {
       setTaskDueDateExact(textDate)
       setTaskName(
-        stripper.substring(0, parseResult.index) +
-          stripper.substring(parseResult.index + parseResult.text.length + 1),
+        decodeHTML(
+          stripper.substring(0, parseResult.index) +
+            stripper.substring(parseResult.index + parseResult.text.length + 1),
+        ),
       )
       this.setState({
         html: taskParser(stripper, parseResult),
       })
     } else {
       if (defaultDate) setTaskDueDateExact(defaultDate)
-      setTaskName(e.target.value)
+      setTaskName(decodeHTML(e.target.value))
       this.setState({
         html: e.target.value,
       })

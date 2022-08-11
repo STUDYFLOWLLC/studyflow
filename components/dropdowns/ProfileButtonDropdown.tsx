@@ -1,10 +1,14 @@
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import ProfileButtonMenuItem from 'components/buttons/ProfileButtonMenuItem'
+import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function ProfileButtonDropdown() {
   const { theme, setTheme } = useTheme()
+  const { user } = useUser()
+  const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
   const router = useRouter()
 
   const [mounted, setMounted] = useState(false)
@@ -16,7 +20,7 @@ export default function ProfileButtonDropdown() {
   const dropdownItems = [
     {
       name: 'View Profile',
-      handler: () => console.log('view profile'),
+      handler: () => router.push(`/student/${userDetails?.Username}`),
     },
     {
       name: 'Settings',
@@ -27,17 +31,12 @@ export default function ProfileButtonDropdown() {
       handler: () => setTheme(theme === 'light' ? 'dark' : 'light'),
     },
     {
-      name: 'Get Desktop App',
-      hasDivider: true,
-      handler: () => console.log('desktop app'),
-    },
-    {
       name: 'Support',
-      handler: () => console.log('support'),
+      hasDivider: true,
+      handler: () => router.push('/beta#contact'),
     },
     {
       name: 'Logout',
-      hasDivider: true,
       handler: () => router.push('/api/auth/logout'),
     },
   ]

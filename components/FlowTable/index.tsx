@@ -6,7 +6,7 @@ import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import { FlowSortOptions } from 'utils/flows/sortFlows'
+import { FlowSortOptions, masterFlowSorter } from 'utils/flows/sortFlows'
 import ActualFlowTable from './ActualFlowTable'
 import EmptyTable from './EmptyTable'
 import FlowPaginationButtons from './FlowPaginationButtons'
@@ -58,7 +58,7 @@ export default function FlowList({ setCurrentFlow }: Props) {
               setGroupBy={setGroupBy}
             />
             <ActualFlowTable
-              flows={dashFlows}
+              flows={masterFlowSorter(dashFlows, sortBy)}
               setCurrentFlow={setCurrentFlow}
               loading={userDetailsLoading || dashFlowsLoading}
               dashFlowsLoading={dashFlowsLoading}

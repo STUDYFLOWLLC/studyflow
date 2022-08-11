@@ -39,6 +39,11 @@ export class TaskScalarWhereWithAggregatesInput {
   })
   CreatedTime?: DateTimeWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })

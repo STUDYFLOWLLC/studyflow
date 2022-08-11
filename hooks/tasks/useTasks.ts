@@ -21,6 +21,14 @@ export interface Task {
     }
   }
   Type: TaskType
+  FK_Flow?: {
+    Title: string
+  }
+  FK_Repetition?: {
+    FK_Flow?: {
+      Title: string
+    }
+  }
 }
 
 interface Ret {
@@ -30,10 +38,14 @@ interface Ret {
   mutateTasks: KeyedMutator<any>
 }
 
-export default function useTasks(userId: number | undefined): Ret {
+export default function useTasks(
+  userId: number | undefined,
+  groupBy?: 'Today' | 'All' | number,
+  index?: number,
+): Ret {
   const query = gql`
-    query Tasks($where: TaskWhereInput) {
-      tasks(where: $where) {
+    query Tasks($where: TaskWhereInput, $take: Int, $skip: Int) {
+      tasks(where: $where, take: $take, skip: $skip) {
         CreatedTime
         Title
         TaskID
@@ -50,25 +62,171 @@ export default function useTasks(userId: number | undefined): Ret {
           }
         }
         Type
+        FK_Flow {
+          Title
+        }
+        FK_Repetition {
+          FK_Flow {
+            Title
+          }
+        }
       }
     }
   `
 
-  const variables = {
-    where: {
-      AND: [
-        {
-          FK_UserID: {
-            equals: userId,
+  let variables: any = {}
+
+  if (groupBy === 'All' || groupBy === undefined) {
+    variables = {
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                FK_UserID: {
+                  equals: userId,
+                },
+              },
+              {
+                FK_Repetition: {
+                  is: {
+                    FK_Flow: {
+                      is: {
+                        FK_CourseOnTerm: {
+                          is: {
+                            FK_Term: {
+                              is: {
+                                FK_UserID: {
+                                  equals: userId,
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           },
-        },
-        {
-          FK_RepetitionID: {
-            equals: null,
+
+          {
+            DeletedTime: {
+              equals: null,
+            },
           },
-        },
-      ],
-    },
+        ],
+      },
+    }
+  } else if (groupBy === 'Today') {
+    const start = new Date()
+    start.setUTCHours(0, 0, 0, 0)
+    const end = new Date()
+    end.setUTCHours(23, 59, 59, 999)
+    variables = {
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                FK_UserID: {
+                  equals: userId,
+                },
+              },
+              {
+                FK_Repetition: {
+                  is: {
+                    FK_Flow: {
+                      is: {
+                        FK_CourseOnTerm: {
+                          is: {
+                            FK_Term: {
+                              is: {
+                                FK_UserID: {
+                                  equals: userId,
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                FK_Flow: {
+                  is: {
+                    FK_CourseOnTerm: {
+                      is: {
+                        FK_Term: {
+                          is: {
+                            FK_UserID: {
+                              equals: userId,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+          {
+            DueDate: {
+              gt: start.toISOString(),
+              lt: end.toISOString(),
+            },
+          },
+        ],
+      },
+    }
+  } else {
+    variables = {
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                FK_Repetition: {
+                  is: {
+                    FK_Flow: {
+                      is: {
+                        FK_CourseOnTermID: {
+                          equals: groupBy,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                FK_CourseOnTermID: {
+                  equals: groupBy,
+                },
+              },
+            ],
+          },
+          {
+            DeletedTime: {
+              equals: null,
+            },
+          },
+        ],
+      },
+    }
+  }
+
+  if (index !== undefined) {
+    variables.take = 8
+    variables.skip = index * 8
   }
 
   const { data, error, mutate } = useSWR([query, variables], {

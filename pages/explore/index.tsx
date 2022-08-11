@@ -5,6 +5,7 @@ import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
 import InputDefaultVisibility from 'components/Settings/Sharing/InputDefaultVisibility'
 import InputPrivateGroup from 'components/Settings/Sharing/InputPrivateGroup'
+import BetaSocialDisplay from 'components/Social/Displays/BetaSocialDisplay'
 import FriendsDisplay from 'components/Social/Friends/FriendsDisplay'
 import StudentSearcher from 'components/Social/Friends/StudentSearcher'
 import Head from 'next/head'
@@ -26,7 +27,7 @@ export default function index({ user }: Props) {
         <title>Explore | Studyflow</title>
         <meta property="og:title" content="Explore | Studyflow" key="title" />
       </Head>
-      <div className="min-h-full prose max-w-none">
+      <div className="min-h-full max-w-none">
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
@@ -38,7 +39,7 @@ export default function index({ user }: Props) {
         <div
           className={classNames(
             { 'lg:pl-56': showDashBar },
-            'flex flex-col w-full',
+            'flex flex-col w-full prose max-w-none',
           )}
         >
           <DashHeadSmall
@@ -53,6 +54,7 @@ export default function index({ user }: Props) {
             setSearchValue={setSearchValue}
           />
           <StudentSearcher />
+          <BetaSocialDisplay />
           <FriendsDisplay />
           {/* <FriendsSearcher /> */}
           <div className="border w-4/5 mx-auto rounded-md p-2 my-6">

@@ -57,7 +57,7 @@ export default function InputPrivateGroup() {
   return (
     <Tippy
       disabled={hits.length > 0}
-      content="No friends yet! Visit social to add friends."
+      content="No friends yet! Use the search bar in explore to find friends."
       offset={TOOLTIP_OFFSET}
       delay={TOOLTIP_DELAY}
     >
