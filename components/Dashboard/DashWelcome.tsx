@@ -4,9 +4,11 @@ import createSetting from 'hooks/settings/createSetting'
 import mutateSetting from 'hooks/settings/mutateSetting'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function DashWelcome() {
+  const router = useRouter()
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails, mutateUserDetails } = useUserDetails(user?.id)
@@ -80,21 +82,36 @@ export default function DashWelcome() {
           <button
             type="button"
             className="bg-primary text-gray-700 mx-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            onClick={() => router.push('/beta#report')}
           >
             Report a Bug
           </button>
-          <button
-            type="button"
-            className="bg-primary text-gray-700 mx-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          <a
+            href="https://docs.studyflow.ai/docs/category/getting-started"
+            target="_blank"
+            rel="noreferrer"
+            className="no-underline"
           >
-            Tutorial
-          </button>
-          <button
-            type="button"
-            className="bg-primary text-gray-700 mx-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            <button
+              type="button"
+              className="bg-primary text-gray-700 mx-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              Tutorial
+            </button>
+          </a>
+          <a
+            href="https://docs.studyflow.ai/blog/why"
+            target="_blank"
+            rel="noreferrer"
+            className="no-underline"
           >
-            Why Studyflow
-          </button>
+            <button
+              type="button"
+              className="bg-primary text-gray-700 mx-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              Why Studyflow
+            </button>
+          </a>
         </div>
       </div>
     </div>
