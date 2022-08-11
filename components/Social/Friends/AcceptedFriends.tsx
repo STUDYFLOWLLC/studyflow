@@ -1,5 +1,6 @@
 import { CakeIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import classNames from 'classnames'
 import AcceptedFriend from 'components/Social/Displays/AcceptedFriend'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useFriends from 'hooks/social/useFriends'
@@ -13,7 +14,12 @@ export default function AcceptedFriends() {
 
   return (
     <div className="flex flex-col items-center max-h-32 overflow-y-auto">
-      <p className="px-2 uppercase text-xs font-semibold tracking-wider rounded-md">
+      <p
+        className={classNames(
+          { 'mb-0 pb-0': (friends?.accepted || []).length > 0 },
+          'px-2 uppercase text-xs font-semibold tracking-wider rounded-md',
+        )}
+      >
         Your friends
       </p>
       {friendsLoading && (

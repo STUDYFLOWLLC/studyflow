@@ -1,5 +1,6 @@
 import { HeartIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import classNames from 'classnames'
 import RequestedFriend from 'components/Social/Displays/RequestedFriend'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useFriends from 'hooks/social/useFriends'
@@ -13,7 +14,12 @@ export default function RequestedFriends() {
 
   return (
     <div className="flex flex-col items-center">
-      <p className="px-2 uppercase text-xs font-semibold tracking-wider rounded-md">
+      <p
+        className={classNames(
+          { 'mb-0 pb-0': (friends?.requested || []).length > 0 },
+          'px-2 uppercase text-xs font-semibold tracking-wider rounded-md',
+        )}
+      >
         Sent requests
       </p>
       {friendsLoading && (

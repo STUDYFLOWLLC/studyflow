@@ -1,5 +1,6 @@
 import { GlobeIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useFriends from 'hooks/social/useFriends'
 import useUserDetails from 'hooks/useUserDetails'
@@ -11,11 +12,14 @@ export default function RequestedFriends() {
   const { userDetails } = useUserDetails(user?.id)
   const { friends, friendsLoading } = useFriends(userDetails?.UserID)
 
-  console.log(friends)
-
   return (
     <div className="flex flex-col items-center">
-      <p className="px-2 uppercase text-xs font-semibold tracking-wider rounded-md">
+      <p
+        className={classNames(
+          { 'mb-0 pb-0': (friends?.incoming || []).length > 0 },
+          'px-2 uppercase text-xs font-semibold tracking-wider rounded-md',
+        )}
+      >
         Incoming requests
       </p>
       {friendsLoading && (
