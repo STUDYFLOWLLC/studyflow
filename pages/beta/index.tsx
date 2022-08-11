@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import withPageAuth from '@supabase/supabase-auth-helpers/nextjs/utils/withPageAuth'
 import classNames from 'classnames'
 import { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
@@ -26,7 +27,11 @@ export default function beta() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [betaView, setBetaView] = useState<BetaDisplays>(
-    query === 'report' ? BetaDisplays.REPORT_BUG : BetaDisplays.TUTORIAL,
+    query === 'report'
+      ? BetaDisplays.REPORT_BUG
+      : query === 'contact'
+      ? BetaDisplays.CONTACT_US
+      : BetaDisplays.TUTORIAL,
   )
 
   useEffect(() => setMounted(true), [])
