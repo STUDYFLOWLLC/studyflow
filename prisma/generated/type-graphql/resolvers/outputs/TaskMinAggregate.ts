@@ -18,6 +18,11 @@ export class TaskMinAggregate {
   })
   CreatedTime!: Date | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  DeletedTime!: Date | null;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })

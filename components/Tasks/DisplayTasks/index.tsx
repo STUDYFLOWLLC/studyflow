@@ -1,7 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import CalendarView from 'components/Tasks/DisplayTasks/CalendarView'
-import useUserDetails from 'hooks/useUserDetails'
 import CourseListView from './CourseListView'
 import TodayView from './TodayView'
 
@@ -11,8 +10,6 @@ interface Props {
 }
 
 export default function index({ user, taskView }: Props) {
-  const { userDetails, userDetailsLoading } = useUserDetails(user.id)
-
   return (
     <>
       {/* Today view */}
