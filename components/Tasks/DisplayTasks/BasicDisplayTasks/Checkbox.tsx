@@ -1,6 +1,7 @@
 import { CheckIcon } from '@heroicons/react/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
+import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { completeOrUncompleteTask } from 'hooks/tasks/handleTask'
 import useTasks from 'hooks/tasks/useTasks'
@@ -8,22 +9,29 @@ import useUserDetails from 'hooks/useUserDetails'
 
 interface Props {
   TaskID: string
+  groupBy?: 'Today' | 'All' | number
   isCompleted?: boolean
   cute?: boolean
   repetitionId?: string
+  flowId?: string
+  index?: number
 }
 
 export default function Checkbox({
   TaskID,
+  groupBy,
   isCompleted,
   cute,
   repetitionId,
+  flowId,
+  index,
 }: Props) {
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
   const { repetitionDetails, mutateRepetitionDetails } =
     useRepetitionDetails(repetitionId)
+  const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   return (
     <div>
@@ -34,9 +42,11 @@ export default function Checkbox({
             !isCompleted,
             tasks,
             mutateTasks,
-            !!repetitionId,
+            !!repetitionId || !!flowId,
             repetitionDetails,
             mutateRepetitionDetails,
+            flowDetails,
+            mutateFlowDetails,
           )
         }}
         onKeyDown={() => {
@@ -48,11 +58,13 @@ export default function Checkbox({
             !!repetitionId,
             repetitionDetails,
             mutateRepetitionDetails,
+            flowDetails,
+            mutateFlowDetails,
           )
         }}
         className={classNames(
           {
-            'border-transparent bg-gray-700': isCompleted,
+            'border-transparent bg-gray-500': isCompleted,
           },
           {
             'border-2 hover:bg-base-200': !isCompleted,

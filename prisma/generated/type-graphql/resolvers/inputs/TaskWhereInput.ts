@@ -44,6 +44,11 @@ export class TaskWhereInput {
   })
   CreatedTime?: DateTimeFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  DeletedTime?: DateTimeNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })

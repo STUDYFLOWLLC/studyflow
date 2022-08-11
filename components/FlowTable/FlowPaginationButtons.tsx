@@ -61,14 +61,14 @@ export default function FlowPaginationButtons({
         {index + 1}
       </button>
       <button
-        disabled={flowLength !== 8}
+        disabled={flowLength < 8}
         type="button"
         className={classNames(
           {
             'bg-gray-100 hover:bg-gray-200 border-gray-200': theme === 'light',
           },
           { 'bg-slate-700 hover:bg-slate-600 text-white': theme === 'dark' },
-          { invisible: flowLength !== 8 },
+          { invisible: flowLength < 8 },
           'flex items-center alex-button transition-all border mx-0 my-2',
         )}
         onClick={() => setIndex(index + 1)}

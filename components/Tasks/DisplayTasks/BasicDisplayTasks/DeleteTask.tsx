@@ -1,87 +1,50 @@
 /* eslint-disable no-promise-executor-return */
 import { TrashIcon } from '@heroicons/react/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import deleteTask from 'hooks/tasks/deleteTask'
+import useFlowDetails from 'hooks/flows/useFlowDetails'
+import { deleteOrUndeleteTask } from 'hooks/tasks/handleTask'
 import useTasks, { Task } from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
-import toast from 'react-hot-toast'
 
 interface Props {
   task: Task
+  groupBy?: 'Today' | 'All' | number
+  flowId?: string
+  index?: number
 }
 
-export default function DeleteTask({ task }: Props) {
+export default function DeleteTask({ task, groupBy, flowId, index }: Props) {
   const user = useUser()
   const { userDetails } = useUserDetails(user.user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID)
-
-  const deleteTaskLocal = async () => {
-    // Mutate locally
-    mutateTasks(
-      {
-        tasks: tasks.filter((taskFilter) => task.TaskID !== taskFilter.TaskID),
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
-
-  const undoDeleteLocal = () => {
-    mutateTasks(
-      {
-        mutate: true,
-        tasks,
-      },
-      {
-        revalidate: false,
-      },
-    )
-  }
-
-  const notify = () => {
-    let undo = false
-    toast.custom(
-      <div
-        className="border bg-secondary/80 text-white p-2 rounded-md rounded-mdn hover:cursor-pointer"
-        onClick={() => {
-          undoDeleteLocal()
-          undo = true
-          toast.remove()
-        }}
-        onKeyDown={() => {
-          undoDeleteLocal()
-          undo = true
-        }}
-      >
-        Undo
-      </div>,
-      {
-        position: 'bottom-right',
-      },
-    )
-    setTimeout(() => {
-      if (!undo) {
-        toast.remove()
-        deleteTask(task.TaskID)
-      }
-    }, 4000)
-  }
+  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
+  const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   return (
     <div>
       <TrashIcon
         onClick={() => {
-          toast.remove()
-          notify()
-          deleteTaskLocal()
+          deleteOrUndeleteTask(
+            task,
+            true,
+            tasks,
+            mutateTasks,
+            flowDetails,
+            mutateFlowDetails,
+            !!flowId,
+          )
         }}
         onKeyDown={() => {
-          toast.remove()
-          notify()
-          deleteTaskLocal()
+          deleteOrUndeleteTask(
+            task,
+            true,
+            tasks,
+            mutateTasks,
+            flowDetails,
+            mutateFlowDetails,
+            !!flowId,
+          )
         }}
-        className="w-5 h-5 text-gray-400 hover:text-black hover:cursor-pointer"
+        className="w-5 h-5 text-info hover:text-info/80 hover:cursor-pointer"
       />
     </div>
   )

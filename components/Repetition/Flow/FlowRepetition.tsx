@@ -6,7 +6,7 @@ import FlashcardStack from 'components/Repetition/Flashcards/FlashcardStack'
 import FlashcardReviewModal from 'components/Repetition/Flashcards/ReviewModal/FlashcardReviewModal'
 import LoadWithText from 'components/spinners/LoadWithText'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
-import { FlowTask } from 'hooks/flows/useFlowDetails'
+import useFlowDetails, { FlowTask } from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { Task } from 'hooks/tasks/useTasks'
@@ -23,6 +23,7 @@ interface Props {
 
 export default function FlowRepetition({ flowId, repetitionId }: Props) {
   const { theme } = useTheme()
+  const { flowDetails } = useFlowDetails(flowId)
   const { repetitionDetails, repetitionDetailsLoading } =
     useRepetitionDetails(repetitionId)
   const { flashcardStack, flashcardStackLoading } = useFlashcardStack(
@@ -107,6 +108,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
               FK_CourseOnTerm: repetitionDetails?.FK_Tasks,
             })) || []) as unknown as Task[]
           }
+          groupBy={flowDetails?.FK_CourseOnTerm.CourseOnTermID || 0}
           repetitionId={repetitionId}
           cute
           readOnly

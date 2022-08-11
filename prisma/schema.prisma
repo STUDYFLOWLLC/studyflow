@@ -335,6 +335,7 @@ model FlashcardReview {
 model Task {
   TaskID            String        @id @default(uuid())
   CreatedTime       DateTime      @default(now())
+  DeletedTime       DateTime?
   Title             String        @default("Untitled")
   Completed         Boolean       @default(false)
   Description       String?
