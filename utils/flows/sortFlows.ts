@@ -49,27 +49,8 @@ export function sortByLastOpened(
   return sortByUserEnteredDate(flowA, flowB, asc)
 }
 
-export function masterFlowSorterAndGrouper(
-  flows: DashFlow[],
-  sortBy?: FlowSortOptions,
-  groupBy?: number | 'All' | 'Trash',
-) {
-  let sortedAndGroupedFlows = structuredClone(flows)
-
-  switch (groupBy) {
-    case 'All':
-      sortedAndGroupedFlows = flows.filter((flow) => !flow.Trashed)
-      break
-    case 'Trash':
-      sortedAndGroupedFlows = flows.filter((flow) => flow.Trashed)
-      break
-    default:
-      sortedAndGroupedFlows = flows.filter(
-        (flow) =>
-          flow.FK_CourseOnTerm?.CourseOnTermID === groupBy && !flow.Trashed,
-      )
-      break
-  }
+export function masterFlowSorter(flows: DashFlow[], sortBy?: FlowSortOptions) {
+  const sortedAndGroupedFlows = structuredClone(flows)
 
   switch (sortBy) {
     case FlowSortOptions.RECENTLY_VIEWED_DESCENDING:
@@ -95,6 +76,8 @@ export function masterFlowSorterAndGrouper(
     default:
       break
   }
+
+  console.log(sortedAndGroupedFlows)
 
   return sortedAndGroupedFlows
 }

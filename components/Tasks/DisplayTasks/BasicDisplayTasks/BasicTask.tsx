@@ -7,26 +7,34 @@ import EditTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/EditTask'
 import TypeIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/TypeIcon'
 import { Task } from 'hooks/tasks/useTasks'
 import { useState } from 'react'
+import FlowIcon from './FlowIcon'
 
 interface Props {
   task: Task
+  groupBy: 'Today' | 'All' | number
   readOnly?: boolean
   cute?: boolean
   shouldNotUseUndo?: boolean
   repetitionId?: string
+  flowId?: string
+  index?: number
 }
 
 export default function BasicTask({
   task,
+  groupBy,
   readOnly,
   cute,
   shouldNotUseUndo,
   repetitionId,
+  flowId,
+  index,
 }: Props) {
   const [editing, setEditing] = useState(false)
 
   return editing ? (
     <EditTask
+      groupBy={groupBy}
       oldName={task.Title}
       oldDescription={task.Description}
       oldDueDate={task.DueDate}
@@ -34,18 +42,25 @@ export default function BasicTask({
       oldType={task.Type}
       taskId={task.TaskID}
       setEditing={setEditing}
+      index={index}
     />
   ) : (
     <div
-      className="border border-gray-300 rounded-lg shadow-md p-2 mb-2"
+      className={classNames(
+        { 'grayscale text-info': task.Completed },
+        'border border-gray-300 rounded-lg shadow-md p-2 mb-2',
+      )}
       key={task.TaskID}
     >
       <div className="flex">
         <Checkbox
           TaskID={task.TaskID}
+          groupBy={groupBy}
           isCompleted={task.Completed}
           cute={cute}
           repetitionId={repetitionId}
+          flowId={flowId}
+          index={index}
         />
         <div
           className={classNames(
@@ -66,14 +81,21 @@ export default function BasicTask({
             </div>
             {!readOnly && (
               <span className="flex">
-                <span
-                  className="text-sm mr-1 text-gray-500 hover:text-black hover:cursor-pointer"
-                  onClick={() => setEditing(true)}
-                  onKeyDown={() => setEditing(true)}
-                >
-                  Edit
-                </span>
-                <DeleteTask task={task} />
+                {!task.Completed && (
+                  <span
+                    className="text-sm mr-1 text-info hover:text-info/80 hover:cursor-pointer"
+                    onClick={() => setEditing(true)}
+                    onKeyDown={() => setEditing(true)}
+                  >
+                    Edit
+                  </span>
+                )}
+                <DeleteTask
+                  task={task}
+                  groupBy={groupBy}
+                  flowId={flowId}
+                  index={index}
+                />
               </span>
             )}
           </div>
@@ -82,10 +104,17 @@ export default function BasicTask({
             <span className="flex">
               <DateIcon date={task.DueDate} />
               {!cute && <TypeIcon taskType={task.Type} />}
+              <FlowIcon
+                title={
+                  task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title
+                }
+              />
             </span>
-            <span className="flex justify-end mr-1">
-              <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
-            </span>
+            {(groupBy === 'All' || groupBy === 'Today') && (
+              <span className="flex justify-end mr-1">
+                <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
+              </span>
+            )}
           </div>
         </div>
       </div>

@@ -18,8 +18,6 @@ export default function CMDEntry({ quickAction, isFirst }: Props) {
 
   if (!mounted) return null
 
-  console.log(isFirst)
-
   return (
     <>
       {isFirst && (

@@ -5,10 +5,7 @@ import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import {
-  FlowSortOptions,
-  masterFlowSorterAndGrouper,
-} from 'utils/flows/sortFlows'
+import { FlowSortOptions, masterFlowSorter } from 'utils/flows/sortFlows'
 import Pin from './Pin'
 
 interface Props {
@@ -33,13 +30,7 @@ export default function AssignmentsAndAssessments({ setCurrentFlow }: Props) {
 
   useEffect(
     () =>
-      setSorted(
-        masterFlowSorterAndGrouper(
-          dashFlows,
-          FlowSortOptions.BY_DATE_ASCENDING,
-          'All',
-        ),
-      ),
+      setSorted(masterFlowSorter(dashFlows, FlowSortOptions.BY_DATE_ASCENDING)),
     [dashFlowsLoading],
   )
 

@@ -65,9 +65,28 @@ export default function CreateRepetition({
             disabled={creating}
             type="button"
             className="w-48 h-14 mb-12 lg:mb-2 alex-button bg-rose-300 flex flex-col items-center"
+            onClick={async () => {
+              const repetitionId = uuid()
+              await createRepetition(
+                repetitionId,
+                RepetitionType.FOURTEN,
+                mutateRepetitionDetails,
+                flowDetails,
+                mutateFlowDetails,
+                setCreating,
+                setCreatingType,
+              )
+              setCurrentRepetition(null)
+            }}
           >
-            <p className="m-0 p-0">4/10</p>
-            <p className="m-0 p-0">4 repetitions in 10 days</p>
+            {creatingType === RepetitionType.FOURTEN ? (
+              <MainSpinner size={SpinnerSizes.medium} />
+            ) : (
+              <>
+                <p className="m-0 p-0">4/10</p>
+                <p className="m-0 p-0">4 repetitions in 10 days</p>
+              </>
+            )}
           </button>
         </Tippy>
         <Tippy
@@ -114,9 +133,28 @@ export default function CreateRepetition({
             disabled={creating}
             type="button"
             className="w-48 h-14 mb-12 lg:mb-2 alex-button bg-amber-300 flex flex-col items-center"
+            onClick={async () => {
+              const repetitionId = uuid()
+              await createRepetition(
+                repetitionId,
+                RepetitionType.SIXTHIRTY,
+                mutateRepetitionDetails,
+                flowDetails,
+                mutateFlowDetails,
+                setCreating,
+                setCreatingType,
+              )
+              setCurrentRepetition(null)
+            }}
           >
-            <p className="m-0 p-0">6/30</p>
-            <p className="m-0 p-0">6 repetitions in 30 days</p>
+            {creatingType === RepetitionType.SIXTHIRTY ? (
+              <MainSpinner size={SpinnerSizes.medium} />
+            ) : (
+              <>
+                <p className="m-0 p-0">6/30</p>
+                <p className="m-0 p-0">6 repetitions in 30 days</p>
+              </>
+            )}
           </button>
         </Tippy>
       </div>

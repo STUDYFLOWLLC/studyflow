@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import request, { gql } from 'graphql-request'
 import { FlowTask } from 'hooks/flows/useFlowDetails'
 import {
@@ -71,6 +72,57 @@ export default async function makeRepetition(
     FK_FlashcardReviews: [] as FlashcardReview[],
   }))
 
+  const fourTen = [
+    {
+      TaskID: uuid(),
+      Title: 'Fill out flashcards',
+      Completed: false,
+      Description: '',
+      DueDate: now,
+      Type: TaskType.WORK_ON,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(1/4) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 1 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(2/4) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 3 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(3/4) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 6 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(4/4) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 10 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+  ] as FlowTask[]
+
   const fourThirty = [
     {
       TaskID: uuid(),
@@ -122,6 +174,77 @@ export default async function makeRepetition(
     },
   ] as FlowTask[]
 
+  const sixThirty = [
+    {
+      TaskID: uuid(),
+      Title: 'Fill out flashcards',
+      Completed: false,
+      Description: '',
+      DueDate: now,
+      Type: TaskType.WORK_ON,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(1/6) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 1 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(2/6) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 3 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(3/6) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(4/6) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 15 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(5/6) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 22 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+    {
+      TaskID: uuid(),
+      Title: `(6/6) Review ${flowTitle}`,
+      Completed: false,
+      Description: '',
+      DueDate: new Date(
+        new Date().getTime() + 30 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      Type: TaskType.REVIEW,
+    },
+  ] as FlowTask[]
+
   const variables = {
     data: {
       RepetitionID: repetitionId,
@@ -149,7 +272,12 @@ export default async function makeRepetition(
       },
       FK_Tasks: {
         createMany: {
-          data: fourThirty,
+          data:
+            repetitionType === RepetitionType.FOURTHIRTY
+              ? fourThirty
+              : repetitionType === RepetitionType.FOURTEN
+              ? fourTen
+              : sixThirty,
         },
       },
     },
