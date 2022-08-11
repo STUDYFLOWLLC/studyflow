@@ -21,7 +21,9 @@ export default function InputName({ flex }: Props) {
   const [hasSetName, setHasSetName] = useState(false)
   const [editingName, setEditingName] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [inputValue, setInputValue] = useState(userDetails?.Name)
+  const [inputValue, setInputValue] = useState(
+    userDetails?.Name || user?.user_metadata?.name || '',
+  )
 
   const onChange = (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
     const real = e?.target?.value || fake || ''
@@ -42,8 +44,12 @@ export default function InputName({ flex }: Props) {
   }
 
   useEffect(() => {
-    if (!userDetails?.Name) return onChange(undefined, '')
-    onChange(undefined, userDetails?.Name)
+    setInputValue(userDetails?.Name || user?.user_metadata.name || '')
+  }, [!userDetailsLoading && userDetails])
+
+  useEffect(() => {
+    if (!user?.user_metadata.name) return
+    onChange(undefined, user?.user_metadata.name)
     setHasSetName(true)
   }, [!userDetailsLoading && !hasSetName && userDetails])
 

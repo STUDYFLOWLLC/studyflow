@@ -1,5 +1,5 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import AddCourse from 'components/Dashbar/Course/CourseModal/AddCourse'
 import SchoolInfo from 'components/Setup/Education/SchoolInfo'
 import TermCreate from 'components/Setup/Education/TermCreate'
@@ -50,7 +50,7 @@ export default function SchoolDisplay() {
   if (userDetails && userDetails.FK_Terms?.length === 0)
     return (
       <div
-        className={classnames(
+        className={classNames(
           { 'border-gray-300 border-2 bg-gray-50': theme === 'light' },
           { 'bg-slate-700': theme === 'dark' },
           'w-72 sm:w-96 flex flex-col justify-center items-center p-4 rounded mt-4 mb-0',
@@ -63,7 +63,7 @@ export default function SchoolDisplay() {
   if (termDetailsLoading) {
     return (
       <div
-        className={classnames(
+        className={classNames(
           { 'border-gray-300 border-2 bg-gray-50': theme === 'light' },
           { 'bg-slate-700': theme === 'dark' },
           'w-72 sm:w-96 flex flex-col justify-center items-center p-4 rounded mt-4 mb-0',
@@ -77,7 +77,7 @@ export default function SchoolDisplay() {
 
   return (
     <div
-      className={classnames(
+      className={classNames(
         { 'border-gray-300 border-2 bg-gray-50': theme === 'light' },
         { 'bg-slate-700': theme === 'dark' },
         'w-72 sm:w-96 flex flex-col justify-center items-center p-4 rounded mt-4 mb-0',

@@ -1,4 +1,7 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import DashCommunitySetup from 'components/Setup/DashSetup/DashCommunitySetup'
+import DashEducationSetup from 'components/Setup/DashSetup/DashEducationSetup'
+import DashProfileSetup from 'components/Setup/DashSetup/DashProfileSetup'
 import LoadWithText from 'components/spinners/LoadWithText'
 import useUserDetails from 'hooks/useUserDetails'
 import { useEffect } from 'react'
@@ -6,8 +9,6 @@ import { Toaster } from 'react-hot-toast'
 import { SpinnerSizes } from 'types/Loading'
 import { SetupSteps } from 'types/SetupSteps'
 import makeUser from 'utils/setup/setupHandlers'
-import DashEducationSetup from './DashEducationSetup'
-import DashProfileSetup from './DashProfileSetup'
 
 export default function index() {
   const { user } = useUser()
@@ -46,6 +47,7 @@ export default function index() {
       />
       {userDetails.SetupStep === SetupSteps.PROFILE && <DashProfileSetup />}
       {userDetails.SetupStep === SetupSteps.EDUCATION && <DashEducationSetup />}
+      {userDetails.SetupStep === SetupSteps.COMMUNITY && <DashCommunitySetup />}
     </div>
   )
 }

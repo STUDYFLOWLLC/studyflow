@@ -30,6 +30,7 @@ export default function CourseBlurOver({
     <div className="absolute w-full h-full flex flex-col items-center justify-center z-20">
       <button
         type="button"
+        disabled={loading}
         className="alex-button"
         onClick={async () => {
           setLoading(true)
@@ -50,6 +51,7 @@ export default function CourseBlurOver({
       {inSetup && coursesOnTerm.length > 0 && (
         <button
           type="button"
+          disabled={loading}
           className="alex-button mt-4"
           onClick={async () => {
             setLoading(true)
