@@ -20,9 +20,7 @@ export default function FriendButton({ PublicUser }: Props) {
   const { userDetails } = useUserDetails(user?.id)
   const { friends, mutateFriends } = useFriends(userDetails?.UserID)
 
-  console.log(friends)
-
-  // if (userDetails?.Username === PublicUser?.Username) return null
+  if (userDetails?.Username === PublicUser?.Username) return null
 
   if (!friends) return null
 
