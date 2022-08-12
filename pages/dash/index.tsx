@@ -9,6 +9,7 @@ import DashWelcome from 'components/Dashboard/DashWelcome'
 import FlowListSmall from 'components/Dashboard/FlowListSmall'
 import FlowModal from 'components/Flow/FlowModal'
 import FlowTable from 'components/FlowTable'
+import NotThereYet from 'components/Misc/NotThereYet'
 import DashSetup from 'components/Setup/DashSetup'
 import Taskover from 'components/Taskover'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
@@ -92,7 +93,8 @@ export default function Dash({ user }: Props) {
         <title>Dash | Studyflow</title>
         <meta property="og:title" content="Dash | Studyflow" key="title" />
       </Head>
-      <div className="min-h-full">
+      <NotThereYet />
+      <div className="min-h-full hidden lg:block">
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}

@@ -58,9 +58,7 @@ export default function InputName({
   }
 
   const onChange = async (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
-    const real = e?.target?.value || fake || ''
-
-    console.log(real)
+    const real = (e?.target?.value || fake || '').toLocaleLowerCase()
 
     setInputValue(real)
 
@@ -111,7 +109,7 @@ export default function InputName({
   }, [!userDetailsLoading && userDetails])
 
   useEffect(() => {
-    if (!userDetails?.Username) return
+    if (!userDetails?.Username || initialUpdate) return
     onChange(undefined, userDetails.Username)
     setInitialUpdate(true)
   }, [!userDetailsLoading && !initialUpdate && userDetails])

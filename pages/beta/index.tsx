@@ -10,6 +10,7 @@ import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import NotThereYet from 'components/Misc/NotThereYet'
 import { useTheme } from 'next-themes'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -53,7 +54,8 @@ export default function beta() {
         <title>Beta | Studyflow</title>
         <meta property="og:title" content="Beta | Studyflow" key="title" />
       </Head>
-      <div className="min-h-full">
+      <NotThereYet />
+      <div className="min-h-full hidden lg:block">
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
