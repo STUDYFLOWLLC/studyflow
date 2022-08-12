@@ -7,6 +7,7 @@ import HideButton from 'components/Dashbar/HideButton'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import NotThereYet from 'components/Misc/NotThereYet'
 import Taskover from 'components/Taskover'
 import DisplayTasks from 'components/Tasks/DisplayTasks'
 import Head from 'next/head'
@@ -43,7 +44,8 @@ export default function index({ user }: Props) {
         <title>Tasks | Studyflow</title>
         <meta property="og:title" content="Tasks | Studyflow" key="title" />
       </Head>
-      <div className="min-h-full">
+      <NotThereYet />
+      <div className="min-h-full hidden lg:block">
         {!showDashBar && (
           <HideButton direction="show" setShowDashBar={setShowDashBar} />
         )}

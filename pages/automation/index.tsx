@@ -9,6 +9,7 @@ import CMDPalette from 'components/CMDPalette'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import NotThereYet from 'components/Misc/NotThereYet'
 import MainSpinner from 'components/spinners/MainSpinner'
 import Taskover from 'components/Taskover'
 import useAutomationDetails from 'hooks/automation/useAutomationDetails'
@@ -73,8 +74,9 @@ export default function index({ user }: Props) {
           { '#5C7599': theme === 'dark' },
         )}
       >
+        <NotThereYet />
         <Toaster />
-        <div className="min-h-full">
+        <div className="min-h-full hidden lg:block">
           <Dashbar
             showDashBar={showDashBar}
             setShowDashBar={setShowDashBar}
