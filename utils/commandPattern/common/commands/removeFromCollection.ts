@@ -89,7 +89,6 @@ export class RemoveFromCollectionCommand<TElement> implements Command {
       if (!this.previousRef) return
       const next = getNextFromRef(this.previousRef)
       setCaretToEnd(next)
-      console.log([...collection])
     })
 
     this.originalState = undefined

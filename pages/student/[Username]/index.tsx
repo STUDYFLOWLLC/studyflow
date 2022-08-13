@@ -38,8 +38,6 @@ export default function index({ PublicUser, PublicFlows }: Props) {
 
   if (!PublicUser) return <span>no user found!</span>
 
-  console.log(PublicUser)
-
   return (
     <>
       <Head>

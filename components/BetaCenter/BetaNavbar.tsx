@@ -55,39 +55,36 @@ export default function TasksNavbar({ betaView, setBetaView }: Props) {
       <div className="absolute bottom-0 text-xs sm:text-sm md:text-md">
         <div className="flex flex-wrap ml-28">
           <span className="ml-4">|</span>
-          {betaDisplays.map((bd) => {
-            console.log(bd.display === betaView)
-            return (
-              <span
-                key={bd.display}
-                className={classNames(
-                  {
-                    'border-b-2 border-primary text-black font-medium':
-                      bd.display === betaView && theme === 'light',
-                  },
-                  {
-                    'hover:cursor-pointer hover:text-black text-gray-500 hover:border-b-2 hover:border-gray-300':
-                      bd.display !== betaView && theme === 'light',
-                  },
-                  {
-                    'border-b-2 border-primary font-medium text-gray-100':
-                      bd.display === betaView && theme === 'dark',
-                  },
-                  {
-                    'hover:cursor-pointer hover:text-default hover:border-b-2 hover:border-gray-300':
-                      bd.display !== betaView && theme === 'dark',
-                  },
-                  { 'border-transparent': bd.display !== betaView },
-                  'flex mx-3 pb-4 items-center border-b-2',
-                )}
-                onClick={() => setBetaView(bd.display)}
-                onKeyDown={() => setBetaView(bd.display)}
-              >
-                <bd.icon className="w-4 mr-1" />
-                <span>{bd.display}</span>
-              </span>
-            )
-          })}
+          {betaDisplays.map((bd) => (
+            <span
+              key={bd.display}
+              className={classNames(
+                {
+                  'border-b-2 border-primary text-black font-medium':
+                    bd.display === betaView && theme === 'light',
+                },
+                {
+                  'hover:cursor-pointer hover:text-black text-gray-500 hover:border-b-2 hover:border-gray-300':
+                    bd.display !== betaView && theme === 'light',
+                },
+                {
+                  'border-b-2 border-primary font-medium text-gray-100':
+                    bd.display === betaView && theme === 'dark',
+                },
+                {
+                  'hover:cursor-pointer hover:text-default hover:border-b-2 hover:border-gray-300':
+                    bd.display !== betaView && theme === 'dark',
+                },
+                { 'border-transparent': bd.display !== betaView },
+                'flex mx-3 pb-4 items-center border-b-2',
+              )}
+              onClick={() => setBetaView(bd.display)}
+              onKeyDown={() => setBetaView(bd.display)}
+            >
+              <bd.icon className="w-4 mr-1" />
+              <span>{bd.display}</span>
+            </span>
+          ))}
           <NotificationBell />
         </div>
       </div>

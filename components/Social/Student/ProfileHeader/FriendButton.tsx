@@ -112,8 +112,6 @@ export default function FriendButton({ PublicUser }: Props) {
     )
   }
 
-  console.log(userDetails)
-
   if (userDetails && PublicUser) {
     return (
       <button

@@ -61,7 +61,6 @@ export default function MainFlashcard({
               <RefreshIcon
                 className="ml-2 z-40 w-5 h-5 cursor-pointer"
                 onClick={() => {
-                  console.log('hi')
                   setReviewing(true)
                 }}
                 onKeyDown={() => {

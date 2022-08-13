@@ -10,6 +10,7 @@ import {
   changeTitle,
   changeType,
 } from 'utils/flows/propertyHandlers'
+import { removeHTMLTags } from 'utils/flows/richTextEditor'
 import FlowCourseChooser from './FlowCourseChooser'
 import FlowDateChooser from './FlowDateChooser'
 import FlowTitle from './FlowTitle'
@@ -33,7 +34,7 @@ export default function index({ flowId, saving }: Props) {
   const titleMutator = (newTitle: string) =>
     changeTitle(
       flowId,
-      newTitle,
+      removeHTMLTags(newTitle),
       flowDetails,
       mutateFlowDetails,
       dashFlows,

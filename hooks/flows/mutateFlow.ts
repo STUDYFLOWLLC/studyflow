@@ -340,6 +340,5 @@ export async function mutateEmptyFlowTrash(userId: number) {
   }
 
   const data = await request('/api/graphql', mutation, variables)
-  console.log(data)
   return data
 }
