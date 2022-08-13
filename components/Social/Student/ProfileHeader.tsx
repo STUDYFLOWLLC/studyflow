@@ -37,16 +37,23 @@ export default function ProfileHeader({ PublicUser, canEdit }: Props) {
             <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
               <FriendButton PublicUser={PublicUser} />
               {!canEdit && (
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 border border-info/20 shadow-sm text-sm font-medium rounded-md  bg-base-100 hover:bg-info/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                <Tippy
+                  content="Messaging coming soon"
+                  delay={TOOLTIP_DELAY}
+                  offset={TOOLTIP_OFFSET}
                 >
-                  <MailIcon
-                    className="-ml-1 mr-2 h-5 w-5 text-info"
-                    aria-hidden="true"
-                  />
-                  <span>Message</span>
-                </button>
+                  <button
+                    disabled
+                    type="button"
+                    className="inline-flex justify-center px-4 py-2 border border-info/20 shadow-sm text-sm font-medium rounded-md  bg-base-100 hover:bg-info/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                  >
+                    <MailIcon
+                      className="-ml-1 mr-2 h-5 w-5 text-info"
+                      aria-hidden="true"
+                    />
+                    <span>Message</span>
+                  </button>
+                </Tippy>
               )}
               {canEdit && (
                 <button
