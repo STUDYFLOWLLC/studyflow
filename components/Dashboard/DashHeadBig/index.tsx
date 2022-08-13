@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import BetaNavbar, { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
 import HideButton from 'components/Dashbar/HideButton'
 import CreateButton from 'components/Dashboard/CreateButton'
@@ -33,7 +34,7 @@ export default function index({
   return (
     <div className="relative">
       <div className="border-b border-gray-200 px-2 py-4 flex items-center justify-between sm:px-4">
-        <div className="min-w-0 flex items-center">
+        <div className="flex items-center">
           {!showDashBar && (
             <HideButton direction="show" setShowDashBar={setShowDashBar} />
           )}
@@ -46,7 +47,15 @@ export default function index({
             </div>
           )}
           {taskView && setTaskView && (
-            <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
+            <div
+              className={classNames(
+                { 'left-16': showDashBar },
+                { 'left-24': !showDashBar },
+                'absolute bottom-0',
+              )}
+            >
+              <TasksNavbar taskView={taskView} setTaskView={setTaskView} />
+            </div>
           )}
           {betaView && setBetaView && (
             <BetaNavbar betaView={betaView} setBetaView={setBetaView} />

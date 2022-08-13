@@ -3,7 +3,6 @@ import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CMDPalette from 'components/CMDPalette'
 import DashBar from 'components/Dashbar'
-import HideButton from 'components/Dashbar/HideButton'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadBig from 'components/Dashboard/DashHeadBig'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
@@ -46,9 +45,6 @@ export default function index({ user }: Props) {
       </Head>
       <NotThereYet />
       <div className="min-h-full hidden lg:block">
-        {!showDashBar && (
-          <HideButton direction="show" setShowDashBar={setShowDashBar} />
-        )}
         <DashBar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
@@ -72,21 +68,19 @@ export default function index({ user }: Props) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-          <main className="flex-1">
-            <DashHeadBig
-              pageDisplayed="TASKS"
-              showDashBar={showDashBar}
-              setShowDashBar={setShowDashBar}
-              setTaskView={setTaskView}
-              taskView={taskView}
-              // Charles I added these for the dashboard if you ever want to open a flow from a task
-              // then you will have to implement these and the flow modal. just talk to me about
-              // it if you ever want to and we can do it together.
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              setCreateFlowAs={() => {}}
-            />
-          </main>
+          <DashHeadBig
+            pageDisplayed="Tasks"
+            showDashBar={showDashBar}
+            setShowDashBar={setShowDashBar}
+            setTaskView={setTaskView}
+            taskView={taskView}
+            // Charles I added these for the dashboard if you ever want to open a flow from a task
+            // then you will have to implement these and the flow modal. just talk to me about
+            // it if you ever want to and we can do it together.
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            setCreateFlowAs={() => {}}
+          />
         </div>
         <Taskover />
         <CMDPalette

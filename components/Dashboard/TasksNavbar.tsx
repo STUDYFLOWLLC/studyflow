@@ -41,40 +41,38 @@ export default function TasksNavbar({ taskView, setTaskView }: Props) {
         { '#5C7599': theme === 'dark' },
       )}
     >
-      <div className="absolute bottom-0">
-        <div className="flex ml-14">
-          <span className="ml-4">|</span>
-          {tasksDisplays.map((taskDisplay) => (
-            <span
-              key={taskDisplay}
-              className={classNames(
-                {
-                  'border-b-2 border-primary text-black font-medium':
-                    taskDisplay === taskView && theme === 'light',
-                },
-                {
-                  'hover:cursor-pointer hover:text-black text-gray-500 hover:border-b-2 hover:border-gray-300':
-                    taskDisplay !== taskView && theme === 'light',
-                },
-                {
-                  'border-b-2 border-primary font-medium text-gray-100':
-                    taskDisplay === taskView && theme === 'dark',
-                },
-                {
-                  'hover:cursor-pointer hover:text-default hover:border-b-2 hover:border-gray-300':
-                    taskDisplay !== taskView && theme === 'dark',
-                },
-                'flex mx-3 pb-4 items-center border-b-2 border-transparent',
-              )}
-              onClick={() => setTaskView(taskDisplay)}
-              onKeyDown={() => setTaskView(taskDisplay)}
-            >
-              {tasksDisplaysIcons[tasksDisplays.indexOf(taskDisplay)]}
-              <span>{taskDisplay}</span>
-            </span>
-          ))}
-          <NotificationBell />
-        </div>
+      <div className="flex">
+        <span className="ml-4">|</span>
+        {tasksDisplays.map((taskDisplay) => (
+          <span
+            key={taskDisplay}
+            className={classNames(
+              {
+                'border-b-2 border-primary text-black font-medium':
+                  taskDisplay === taskView && theme === 'light',
+              },
+              {
+                'hover:cursor-pointer hover:text-black text-gray-500 hover:border-b-2 hover:border-gray-300':
+                  taskDisplay !== taskView && theme === 'light',
+              },
+              {
+                'border-b-2 border-primary font-medium text-gray-100':
+                  taskDisplay === taskView && theme === 'dark',
+              },
+              {
+                'hover:cursor-pointer hover:text-default hover:border-b-2 hover:border-gray-300':
+                  taskDisplay !== taskView && theme === 'dark',
+              },
+              'flex mx-3 pb-4 items-center border-b-2 border-transparent',
+            )}
+            onClick={() => setTaskView(taskDisplay)}
+            onKeyDown={() => setTaskView(taskDisplay)}
+          >
+            {tasksDisplaysIcons[tasksDisplays.indexOf(taskDisplay)]}
+            <span>{taskDisplay}</span>
+          </span>
+        ))}
+        <NotificationBell />
       </div>
     </SkeletonTheme>
   )
