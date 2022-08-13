@@ -220,7 +220,6 @@ class SelectMenu extends React.Component<Props, State> {
     const { items, selectedItem } = this.state
 
     const selectedCommand = items[selectedItem]
-    console.log(selectedCommand)
     if (selectedCommand.commandType === 'new') {
       // editor.insertBreak()
       customEditor.toggleBlock(editor, selectedCommand.format)

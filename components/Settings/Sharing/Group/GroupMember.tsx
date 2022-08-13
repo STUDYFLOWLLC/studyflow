@@ -25,9 +25,6 @@ export default function GroupMember({ userOnStudyGroup }: Props) {
   const { privateGroupDetails, mutatePrivateGroupDetails } =
     usePrivateGroupDetails(userDetails?.UserID)
 
-  console.log(userOnStudyGroup)
-  console.log(!userOnStudyGroup.AcceptedTime)
-
   return (
     <div className="border flex items-center rounded-lg text-xs py-1 px-1 m-2">
       <ProfilePicOrPlaceholder
