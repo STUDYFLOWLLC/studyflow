@@ -27,7 +27,7 @@ export default function FlowDateChooser({
   if (!mounted) return null
 
   return (
-    <Menu as="div" className="z-30 relative text-left">
+    <Menu as="div" className="relative text-left" style={{ zIndex: 10000 }}>
       {!loading ? (
         <Menu.Button
           className={classNames(
@@ -37,7 +37,7 @@ export default function FlowDateChooser({
             {
               'hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
             },
-            'flex align-middle justify-between items-center w-40 px-2 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
+            'focus:outline-none  flex align-middle justify-between items-center w-40 px-2 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
           )}
         >
           <div>

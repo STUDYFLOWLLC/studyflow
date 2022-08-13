@@ -1,5 +1,5 @@
 import { BetaDisplays } from 'components/BetaCenter/BetaNavbar'
-import TutorialTableOfContents from './TutorialTableOfContents'
+import PlaygroundPlate from 'dinnerplate/PlaygroundPlate'
 
 interface Props {
   setBetaView: (newView: BetaDisplays) => void
@@ -12,10 +12,18 @@ export default function index({ setBetaView }: Props) {
       <p className="my-1 p-0">
         Studyflow is an intuitive learning platform designed specifically for
         students. To help our students take as much advantage of Studyflow as
-        they can, we provide tutorials ranging from setup walkthroughs to more
-        complicated functionalities like dynamic task menus. We are always
-        looking for new ways to improve our student experience, so if you have
-        any suggestions, please make a{' '}
+        they can, we provide{' '}
+        <a
+          href="https://docs.studyflow.ai/docs/intro"
+          target="_blank"
+          rel="noreferrer"
+          className="text-primary no-underline"
+        >
+          tutorials ranging from setup walkthroughs to more complicated
+          functionalities like dynamic task menus
+        </a>
+        . We are always looking for new ways to improve our student experience,
+        so if you have any suggestions, please make a{' '}
         <span
           className="text-primary cursor-pointer"
           onClick={() => setBetaView(BetaDisplays.REQUEST_FEATURE)}
@@ -25,7 +33,17 @@ export default function index({ setBetaView }: Props) {
         </span>
         .
       </p>
-      <TutorialTableOfContents />
+      <a
+        href="https://docs.studyflow.ai/docs/intro"
+        target="_blank"
+        rel="noreferrer"
+        className="text-primary no-underline"
+      >
+        <p>See all of our tutorials here</p>
+      </a>
+      <h1>Flow playground</h1>
+      <PlaygroundPlate />
+      {/* <TutorialTableOfContents /> */}
     </div>
   )
 }

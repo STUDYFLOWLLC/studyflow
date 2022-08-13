@@ -105,24 +105,6 @@ export const autoformatValue: any = (
           create an H3 sub-heading.
         </hlic>
       </hli>
-      <hli>
-        <hlic>
-          Type <htext code>####</htext> followed by <htext code>space</htext> to
-          create an H4 sub-heading.
-        </hlic>
-      </hli>
-      <hli>
-        <hlic>
-          Type <htext code>#####</htext> followed by <htext code>space</htext>{' '}
-          to create an H5 sub-heading.
-        </hlic>
-      </hli>
-      <hli>
-        <hlic>
-          Type <htext code>######</htext> followed by <htext code>space</htext>{' '}
-          to create an H6 sub-heading.
-        </hlic>
-      </hli>
     </hul>
   </fragment>
 )
