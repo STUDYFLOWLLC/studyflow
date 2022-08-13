@@ -58,7 +58,15 @@ export default function index({
             </div>
           )}
           {betaView && setBetaView && (
-            <BetaNavbar betaView={betaView} setBetaView={setBetaView} />
+            <div
+              className={classNames(
+                { 'left-32': showDashBar },
+                { 'left-40': !showDashBar },
+                'absolute bottom-0',
+              )}
+            >
+              <BetaNavbar betaView={betaView} setBetaView={setBetaView} />
+            </div>
           )}
         </div>
         {!taskView && !betaView && (

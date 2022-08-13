@@ -52,8 +52,8 @@ export default function TasksNavbar({ betaView, setBetaView }: Props) {
         { '#5C7599': theme === 'dark' },
       )}
     >
-      <div className="absolute bottom-0 text-xs sm:text-sm md:text-md">
-        <div className="flex flex-wrap ml-28">
+      <div className="text-xs sm:text-sm md:text-md">
+        <div className="flex flex-wrap">
           <span className="ml-4">|</span>
           {betaDisplays.map((bd) => (
             <span
