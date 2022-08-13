@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast'
 import { SpinnerSizes } from 'types/Loading'
 import { SetupSteps } from 'types/SetupSteps'
 import makeUser from 'utils/setup/setupHandlers'
+import SetupHelp from './SetupHelp'
 
 export default function index() {
   const { user } = useUser()
@@ -45,6 +46,7 @@ export default function index() {
         position="top-center"
         reverseOrder={false}
       />
+      <SetupHelp />
       {userDetails.SetupStep === SetupSteps.PROFILE && <DashProfileSetup />}
       {userDetails.SetupStep === SetupSteps.EDUCATION && <DashEducationSetup />}
       {userDetails.SetupStep === SetupSteps.COMMUNITY && <DashCommunitySetup />}

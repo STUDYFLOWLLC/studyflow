@@ -11,7 +11,6 @@ import FlowModal from 'components/Flow/FlowModal'
 import FlowTable from 'components/FlowTable'
 import NotThereYet from 'components/Misc/NotThereYet'
 import DashSetup from 'components/Setup/DashSetup'
-import SetupHelp from 'components/Setup/DashSetup/SetupHelp'
 import Taskover from 'components/Taskover'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -122,7 +121,7 @@ export default function Dash({ user }: Props) {
           {(userDetails === undefined ||
             userDetails?.SetupStep === SetupSteps.COMPLETE) && (
             <main className="flex-1">
-              <SetupHelp />
+              {/* <SetupHelp /> */}
               <Toaster />
               <DashHeadBig
                 pageDisplayed="Term"
