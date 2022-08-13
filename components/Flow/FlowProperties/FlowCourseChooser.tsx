@@ -53,7 +53,7 @@ export default function CourseDropDown({
             {
               'hover:bg-slate-600 hover:border-slate-400': theme === 'dark',
             },
-            'flex align-middle w-40 justify-between items-center px-2 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
+            'focus:outline-none  flex align-middle w-40 justify-between items-center px-2 ml-2 hover:shadow-sm border border-transparent rounded-md cursor-pointer',
           )}
         >
           <div>

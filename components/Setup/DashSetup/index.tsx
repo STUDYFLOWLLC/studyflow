@@ -39,7 +39,7 @@ export default function index() {
   }
 
   return (
-    <div>
+    <div className="relative">
       <Toaster
         containerStyle={{ position: 'relative' }}
         position="top-center"

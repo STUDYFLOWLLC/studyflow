@@ -34,7 +34,7 @@ export default function DeleteFlow({ flowId }: Props) {
             'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
               theme === 'dark',
           },
-          'flex items-center font-light mr-1.5 text-xl px-1.5 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'focus:outline-none flex items-center font-light mr-1.5 text-xl px-1.5 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
       >
         <InformationCircleIcon className="h-6 w-6" />

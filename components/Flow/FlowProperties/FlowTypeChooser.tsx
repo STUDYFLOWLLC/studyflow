@@ -58,7 +58,7 @@ export default function FlowTypeChooser({ loading, type, mutator }: Props) {
             'text-gray-400 hover:bg-slate-600 hover:border-slate-400':
               theme === 'dark',
           },
-          'flex items-center font-light m-0 p-0 ml-3 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
+          'focus:outline-none flex items-center font-light m-0 p-0 ml-3 text-xl px-2 hover:shadow-sm  border border-transparent  rounded-md cursor-pointer',
         )}
         disabled={loading}
       >
