@@ -64,6 +64,11 @@ export class FlowCreateManyFK_CourseOnTermInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  ForeignLink?: string | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

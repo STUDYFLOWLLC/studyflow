@@ -91,6 +91,11 @@ export class FlowWhereInput {
   })
   DeletedTime?: DateTimeNullableFilter | undefined;
 
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
+    nullable: true
+  })
+  ForeignLink?: StringNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => CourseOnTermRelationFilter, {
     nullable: true
   })

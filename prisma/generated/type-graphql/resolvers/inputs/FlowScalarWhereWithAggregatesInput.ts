@@ -85,6 +85,11 @@ export class FlowScalarWhereWithAggregatesInput {
   })
   DeletedTime?: DateTimeNullableWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => StringNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  ForeignLink?: StringNullableWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true
   })

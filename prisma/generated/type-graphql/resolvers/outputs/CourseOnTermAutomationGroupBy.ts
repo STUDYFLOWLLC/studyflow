@@ -8,6 +8,7 @@ import { CourseOnTermAutomationMaxAggregate } from "../outputs/CourseOnTermAutom
 import { CourseOnTermAutomationMinAggregate } from "../outputs/CourseOnTermAutomationMinAggregate";
 import { CourseOnTermAutomationSumAggregate } from "../outputs/CourseOnTermAutomationSumAggregate";
 import { FlowType } from "../../enums/FlowType";
+import { RepetitionType } from "../../enums/RepetitionType";
 import { Visibility } from "../../enums/Visibility";
 
 @TypeGraphQL.ObjectType("CourseOnTermAutomationGroupBy", {
@@ -33,6 +34,11 @@ export class CourseOnTermAutomationGroupBy {
     nullable: false
   })
   DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: false
+  })
+  DefaultRepetitionType!: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY";
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

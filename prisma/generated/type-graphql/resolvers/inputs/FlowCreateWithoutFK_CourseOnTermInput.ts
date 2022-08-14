@@ -69,6 +69,11 @@ export class FlowCreateWithoutFK_CourseOnTermInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  ForeignLink?: string | undefined;
+
   @TypeGraphQL.Field(_type => FlashcardStackCreateNestedManyWithoutFK_FlowInput, {
     nullable: true
   })

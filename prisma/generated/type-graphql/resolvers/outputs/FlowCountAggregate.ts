@@ -65,6 +65,11 @@ export class FlowCountAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
+  ForeignLink!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
   FK_CourseOnTermID!: number;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {

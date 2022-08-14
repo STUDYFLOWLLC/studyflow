@@ -68,4 +68,9 @@ export class FlowUpdateManyMutationInput {
     nullable: true
   })
   DeletedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  ForeignLink?: NullableStringFieldUpdateOperationsInput | undefined;
 }

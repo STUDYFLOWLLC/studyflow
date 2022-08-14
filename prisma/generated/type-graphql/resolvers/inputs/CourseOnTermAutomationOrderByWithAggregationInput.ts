@@ -36,6 +36,11 @@ export class CourseOnTermAutomationOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  DefaultRepetitionType?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   FK_AutomationID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

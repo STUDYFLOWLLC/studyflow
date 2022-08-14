@@ -1,17 +1,20 @@
 import makeAutomationLog from 'hooks/automation/makeAutomationLog'
 import makeCourseOnTermAutomation from 'hooks/automation/makeCourseOnTermAutomation'
 import {
+  mutateCourseOnTermAutomationDefaultRepetitionType,
   mutateCourseOnTermAutomationDefaultType,
   mutateCourseOnTermDefaultVisibility,
 } from 'hooks/automation/mutateCourseOnTermAutomation'
 import { Automation } from 'hooks/automation/useAutomationDetails'
 import { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { RepetitionType } from 'types/Repetition'
 
 export default async function createCourseOnTermAutomation(
   folderId: string,
   defaultType: FlowType,
   defaultVisibility: FlowVisibility,
+  defaultRepetitionType: RepetitionType,
   automationDetails: Automation | undefined,
   mutateAutomationDetails: KeyedMutator<any>,
   courseOnTermId: number,
@@ -25,6 +28,7 @@ export default async function createCourseOnTermAutomation(
     folderId,
     defaultType,
     defaultVisibility,
+    defaultRepetitionType,
   )
   makeAutomationLog(
     data.createCourseOnTermAutomation.CourseOnTermAutomationID,
@@ -44,6 +48,7 @@ export default async function createCourseOnTermAutomation(
             FolderID: folderId,
             DefaultType: defaultType,
             DefaultVibility: defaultVisibility,
+            DefaultRepetitionType: defaultRepetitionType,
             AutomationLog: [
               {
                 AutomationLogID: 0,
@@ -130,6 +135,45 @@ export function changeCourseOnTermAutomationDefaultVisibility(
               return {
                 ...courseOnTermAutomation,
                 DefaultVisibility: newDefaultVisibility,
+              }
+            }
+            return courseOnTermAutomation
+          },
+        ),
+      },
+    },
+    {
+      revalidate: false,
+    },
+  )
+}
+
+export function changeCourseOnTermAutomationDefaultRepetitionType(
+  courseOnTermAutomationId: number,
+  newDefaultRepetitionType: RepetitionType,
+  automationDetails: Automation | undefined,
+  mutateAutomationDetails: KeyedMutator<any>,
+) {
+  // mutate in backend
+  mutateCourseOnTermAutomationDefaultRepetitionType(
+    courseOnTermAutomationId,
+    newDefaultRepetitionType,
+  )
+
+  // mutate locally
+  mutateAutomationDetails(
+    {
+      automation: {
+        ...automationDetails,
+        CourseOnTermAutomations: automationDetails?.CourseOnTermAutomations.map(
+          (courseOnTermAutomation) => {
+            if (
+              courseOnTermAutomationId ===
+              courseOnTermAutomation.CourseOnTermAutomationID
+            ) {
+              return {
+                ...courseOnTermAutomation,
+                DefaultRepetitionType: newDefaultRepetitionType,
               }
             }
             return courseOnTermAutomation

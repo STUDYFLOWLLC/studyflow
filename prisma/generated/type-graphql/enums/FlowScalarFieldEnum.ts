@@ -12,6 +12,7 @@ export enum FlowScalarFieldEnum {
   WasAutomated = "WasAutomated",
   Body = "Body",
   DeletedTime = "DeletedTime",
+  ForeignLink = "ForeignLink",
   FK_CourseOnTermID = "FK_CourseOnTermID",
   FK_UserID = "FK_UserID"
 }
