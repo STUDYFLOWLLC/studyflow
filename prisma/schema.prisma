@@ -98,6 +98,7 @@ model CourseOnTermAutomation {
   FolderID                 String          @default("No Folder Id")
   DefaultType              FlowType        @default(LECTURE)
   DefaultVisibility        Visibility
+  DefaultRepetitionType    RepetitionType  @default(FOURTHIRTY)
   AutomationLog            AutomationLog[]
   FK_Automation            Automation?     @relation(fields: [FK_AutomationID], references: [AutomationID], onDelete: Cascade, onUpdate: Cascade)
   FK_AutomationID          Int?

@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
+import { EnumRepetitionTypeFilter } from "../inputs/EnumRepetitionTypeFilter";
 import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
@@ -46,6 +47,11 @@ export class CourseOnTermAutomationScalarWhereInput {
     nullable: true
   })
   DefaultVisibility?: EnumVisibilityFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumRepetitionTypeFilter, {
+    nullable: true
+  })
+  DefaultRepetitionType?: EnumRepetitionTypeFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableFilter, {
     nullable: true

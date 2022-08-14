@@ -31,6 +31,11 @@ export class CourseOnTermAutomationOrderByWithRelationInput {
   })
   DefaultVisibility?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  DefaultRepetitionType?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => AutomationLogOrderByRelationAggregateInput, {
     nullable: true
   })

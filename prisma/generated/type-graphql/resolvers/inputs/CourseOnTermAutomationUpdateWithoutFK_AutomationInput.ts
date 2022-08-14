@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationLogUpdateManyWithoutFK_CourseOnTermAutomationInput } from "../inputs/AutomationLogUpdateManyWithoutFK_CourseOnTermAutomationInput";
 import { CourseOnTermUpdateOneWithoutCourseOnTermAutomationInput } from "../inputs/CourseOnTermUpdateOneWithoutCourseOnTermAutomationInput";
 import { EnumFlowTypeFieldUpdateOperationsInput } from "../inputs/EnumFlowTypeFieldUpdateOperationsInput";
+import { EnumRepetitionTypeFieldUpdateOperationsInput } from "../inputs/EnumRepetitionTypeFieldUpdateOperationsInput";
 import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -26,6 +27,11 @@ export class CourseOnTermAutomationUpdateWithoutFK_AutomationInput {
     nullable: true
   })
   DefaultVisibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => EnumRepetitionTypeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DefaultRepetitionType?: EnumRepetitionTypeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => AutomationLogUpdateManyWithoutFK_CourseOnTermAutomationInput, {
     nullable: true

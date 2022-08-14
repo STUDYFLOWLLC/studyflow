@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { FlowType } from "../../enums/FlowType";
+import { RepetitionType } from "../../enums/RepetitionType";
 import { Visibility } from "../../enums/Visibility";
 
 @TypeGraphQL.ObjectType("CourseOnTermAutomationMinAggregate", {
@@ -28,6 +29,11 @@ export class CourseOnTermAutomationMinAggregate {
     nullable: true
   })
   DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC" | null;
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: true
+  })
+  DefaultRepetitionType!: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY" | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
