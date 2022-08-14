@@ -243,6 +243,7 @@ model Flow {
   WasAutomated       Boolean          @default(false)
   Body               String?
   DeletedTime        DateTime?
+  ForeignLink        String?
   FK_CourseOnTerm    CourseOnTerm?    @relation(fields: [FK_CourseOnTermID], references: [CourseOnTermID], onDelete: SetNull, onUpdate: Cascade)
   FK_CourseOnTermID  Int?
   FK_FlashcardStacks FlashcardStack[]

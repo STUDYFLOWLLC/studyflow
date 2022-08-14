@@ -64,6 +64,11 @@ export class FlowMaxAggregate {
   })
   DeletedTime!: Date | null;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  ForeignLink!: string | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })

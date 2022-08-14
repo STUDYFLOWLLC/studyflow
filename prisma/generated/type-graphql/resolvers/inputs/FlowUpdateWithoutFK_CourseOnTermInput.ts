@@ -74,6 +74,11 @@ export class FlowUpdateWithoutFK_CourseOnTermInput {
   })
   DeletedTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => NullableStringFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  ForeignLink?: NullableStringFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => FlashcardStackUpdateManyWithoutFK_FlowInput, {
     nullable: true
   })
