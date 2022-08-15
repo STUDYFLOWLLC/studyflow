@@ -14,15 +14,10 @@ export default function useCourseStudents(courseId: number | undefined): Ret {
     query Course(
       $where: CourseWhereUniqueInput!
       $courseOnTermWhere2: CourseOnTermWhereInput
-      $take: Int
       $orderBy: [CourseOnTermOrderByWithRelationInput!]
     ) {
       course(where: $where) {
-        CourseOnTerm(
-          where: $courseOnTermWhere2
-          take: $take
-          orderBy: $orderBy
-        ) {
+        CourseOnTerm(where: $courseOnTermWhere2, orderBy: $orderBy) {
           FK_Term {
             FK_User {
               UserID
@@ -43,7 +38,6 @@ export default function useCourseStudents(courseId: number | undefined): Ret {
     where: {
       CourseID: courseId,
     },
-    take: 1,
     orderBy: [
       {
         CreatedTime: 'desc',
@@ -53,11 +47,13 @@ export default function useCourseStudents(courseId: number | undefined): Ret {
 
   const { data, error } = useSWR(courseId ? [query, variables] : null)
 
+  console.log(data)
+
   if (data?.course) {
     return {
-      courseStudents: data.course.CourseOnTerm.map(
-        (term: any) => term.FK_Term.FK_User,
-      ) as PublicUser[],
+      courseStudents: data.course.CourseOnTerm.filter(
+        (t: any) => t.FK_Term?.FK_User !== undefined,
+      ).map((term: any) => term.FK_Term.FK_User) as PublicUser[],
       courseStudentsLoading: false,
       courseStudentsError: null,
     }

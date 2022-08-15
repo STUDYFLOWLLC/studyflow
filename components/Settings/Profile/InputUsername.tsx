@@ -105,10 +105,6 @@ export default function InputName({
   }
 
   useEffect(() => {
-    setInputValue(userDetails?.Username)
-  }, [!userDetailsLoading && userDetails])
-
-  useEffect(() => {
     if (!userDetails?.Username || initialUpdate) return
     onChange(undefined, userDetails.Username)
     setInitialUpdate(true)

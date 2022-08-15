@@ -1,6 +1,6 @@
 export default function SetupHelp() {
   return (
-    <div className="prose absolute bottom-4 right-4 bg-info/10 p-4 rounded-md border w-64">
+    <div className="prose absolute bottom-20 right-4 bg-info/10 p-4 rounded-md border w-64">
       <h3>Need help?</h3>
       <p className="p-0 m-1">
         You can find a{' '}

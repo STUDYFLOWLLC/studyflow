@@ -40,7 +40,7 @@ export default function index() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative max-h-screen h-screen">
       <Toaster
         containerStyle={{ position: 'relative' }}
         position="top-center"
