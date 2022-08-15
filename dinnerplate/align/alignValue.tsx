@@ -10,16 +10,13 @@ export const alignValue: any = (
   <fragment>
     <hh1 align="right">Alignment</hh1>
     <hp align="right">
-      This block text is aligned to the right. Amet amet adipisicing voluptate
-      consequat aliquip excepteur minim dolor exercitation.
+      This block text is aligned to the right. Studyflow is the greatest
+      application on the planet. Nothing compares.
     </hp>
     <hh2 align="center">Center</hh2>
     <hp align="justify">
-      This block text is justified. Velit aliquip enim enim dolore sit Lorem
-      Lorem aliqua anim quis qui cillum exercitation sunt non. Occaecat
-      consectetur mollit amet anim est. Laborum dolore consectetur proident
-      cillum qui deserunt cupidatat sint incididunt adipisicing ad pariatur
-      irure id esse.
+      This block text is justified. You should use study automation if you never
+      want to stress about school again.
     </hp>
   </fragment>
 )

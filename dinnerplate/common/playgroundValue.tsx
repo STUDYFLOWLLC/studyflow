@@ -14,7 +14,6 @@ import { linkValue } from 'dinnerplate/link/linkValue'
 import { listValue } from 'dinnerplate/list/listValue'
 import { basicMarksValue } from 'dinnerplate/marks/basicMarksValue'
 import { mediaValue } from 'dinnerplate/media/mediaValue'
-import { mentionValue } from 'dinnerplate/mention/mentionValue'
 import { createNodesWithId } from 'dinnerplate/nodes/createNodesWithId'
 import { tableValue } from 'dinnerplate/table/tableValue'
 
@@ -32,7 +31,7 @@ export const playgroundValue: any = createNodesWithId([
   ...listValue,
   ...tableValue,
   ...linkValue,
-  ...mentionValue,
+  // ...mentionValue,
   ...mediaValue,
   // ...excalidrawValue,
   ...autoformatValue,
