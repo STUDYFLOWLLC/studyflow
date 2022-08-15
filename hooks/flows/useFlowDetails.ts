@@ -33,6 +33,7 @@ export interface FlowDetail {
   Body: string
   Visibility: FlowVisibility
   Trashed: boolean
+  ForeignLink?: string
   FK_CourseOnTerm: SmallCourse
   FK_Tasks: FlowTask[]
   FK_FlashcardStacks: {
@@ -77,6 +78,7 @@ export default function useFlowDetails(flowId: string | undefined): Ret {
         Body
         Visibility
         Trashed
+        ForeignLink
         FK_CourseOnTerm {
           CourseOnTermID
           Nickname

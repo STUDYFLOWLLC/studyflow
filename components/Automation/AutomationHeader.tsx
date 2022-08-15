@@ -1,6 +1,5 @@
 import HideButton from 'components/Dashbar/HideButton'
-import { Dispatch, SetStateAction, useState } from 'react'
-import AutomationTutorial from './AutomationTutorial'
+import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
   showDashBar: boolean
@@ -11,8 +10,6 @@ export default function AutomationHeader({
   showDashBar,
   setShowDashBar,
 }: Props) {
-  const [tutorialOpen, setTutorialOpen] = useState(false)
-
   return (
     <div className="relative">
       <div className="border-b border-gray-200 px-2 py-4 flex items-center justify-between sm:px-4">
@@ -22,14 +19,15 @@ export default function AutomationHeader({
           )}
           <h1 className="ml-2 text-lg font-medium">Automation</h1>
         </div>
-        <button
-          type="button"
-          className="alex-button-outline"
-          onClick={() => setTutorialOpen(true)}
+        <a
+          href="https://docs.studyflow.ai/docs/category/automation-advanced"
+          target="_blank"
+          rel="noreferrer"
         >
-          Tutorial
-        </button>
-        <AutomationTutorial isOpen={tutorialOpen} setIsOpen={setTutorialOpen} />
+          <button type="button" className="alex-button-outline">
+            Tutorial
+          </button>
+        </a>
       </div>
     </div>
   )
