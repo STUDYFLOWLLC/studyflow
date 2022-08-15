@@ -18,7 +18,15 @@ export default function AutomationCard({
         <h3 className="p-0 m-0">
           {courseOnTerm.Nickname || courseOnTerm.FK_Course?.Code}
         </h3>
-        <p className="p-0 m-0 cursor-pointer">Help</p>
+        <a
+          href="https://docs.studyflow.ai/docs/category/automation-advanced"
+          target="_blank"
+          rel="noreferrer"
+          className="text-info no-underline"
+        >
+          {' '}
+          <p className="p-0 m-0 cursor-pointer">Help</p>
+        </a>
       </div>
       {courseOnTermAutomation === undefined ? (
         <CreateAutomationOnCourseOnTerm courseOnTerm={courseOnTerm} />

@@ -67,7 +67,7 @@ export default function Login() {
               <p className="text-info text-center mt-8">
                 By continuing, you agree with our{' '}
                 <a
-                  href="https://docs.studyflow.ai/docs/getting-started/terms-of-service"
+                  href="https://studyflow.ai/terms"
                   target="_blank"
                   rel="noreferrer"
                   className="text-primary"
@@ -76,7 +76,7 @@ export default function Login() {
                 </a>{' '}
                 and{' '}
                 <a
-                  href="https://docs.studyflow.ai/docs/getting-started/privacy-policy"
+                  href="https://studyflow.ai/privacy"
                   target="_blank"
                   rel="noreferrer"
                   className="text-primary"
