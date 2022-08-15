@@ -12,13 +12,13 @@ export const forcedLayoutValue: any = (
     <hp>
       This example shows how to enforce your layout with domain-specific
       constraints. This document will always have a title block at the top and a
-      trailing paragraph. Try deleting them and see what happens!
+      trailing paragraph.
     </hp>
     <hp>
-      Slate editors can edit complex, nested data structures. And for the most
-      part this is great. But in certain cases inconsistencies in the data
-      structure can be introduced—most often when allowing a user to paste
-      arbitrary richtext content.
+      Studyflow can edit complex, nested data structures. And for the most part
+      this is great. But in certain cases inconsistencies in the data structure
+      can be introduced—most often when allowing a user to paste arbitrary
+      richtext content.
     </hp>
   </fragment>
 )
