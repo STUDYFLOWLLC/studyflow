@@ -94,7 +94,7 @@ export default function index() {
               <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                 <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
                   <span className="block text-slate-700">
-                    Fall in love with learning again.
+                    Study less, learn more.
                   </span>
                 </h1>
                 <p className="mt-6 max-w-lg mx-auto text-slate-600 text-center text-2xl sm:max-w-3xl">
