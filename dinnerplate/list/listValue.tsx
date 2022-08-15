@@ -44,8 +44,9 @@ export const listValue: any = (
       </hli>
     </hol>
     <hp>
-      With Slate you can build complex block types that have their own embedded
-      content and behaviors, like rendering checkboxes inside check list items!
+      With Studyflow you can build complex block types that have their own
+      embedded content and behaviors, like rendering checkboxes inside check
+      list items!
     </hp>
     <htodoli checked>Slide to the left.</htodoli>
     <htodoli checked>Slide to the right.</htodoli>
