@@ -35,5 +35,5 @@ export class CourseOnTermCourseOnTermAutomationArgs {
   @TypeGraphQL.Field(_type => [CourseOnTermAutomationScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"CourseOnTermAutomationID" | "FolderID" | "DefaultType" | "DefaultVisibility" | "FK_AutomationID" | "FK_CourseOnTermID"> | undefined;
+  distinct?: Array<"CourseOnTermAutomationID" | "FolderID" | "DefaultType" | "DefaultVisibility" | "DefaultRepetitionType" | "FK_AutomationID" | "FK_CourseOnTermID"> | undefined;
 }

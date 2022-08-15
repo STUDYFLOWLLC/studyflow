@@ -69,6 +69,11 @@ export class FlowCreateWithoutFK_RepetitionInput {
   })
   DeletedTime?: Date | undefined;
 
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  ForeignLink?: string | undefined;
+
   @TypeGraphQL.Field(_type => CourseOnTermCreateNestedOneWithoutFK_FlowsInput, {
     nullable: true
   })

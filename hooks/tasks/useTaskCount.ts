@@ -72,10 +72,12 @@ export function useCompletedTaskCount(
       },
     }
   } else if (groupBy === 'Today') {
+    // this is the start of today in UTC (they are four hours ahead of EST)
     const start = new Date()
-    start.setUTCHours(0, 0, 0, 0)
+    start.setUTCHours(4, 0, 0, 0)
     const end = new Date()
-    end.setUTCHours(23, 59, 59, 999)
+    end.setDate(end.getDate() + 1)
+    end.setUTCHours(3, 59, 59, 999)
     variables = {
       where: {
         AND: [
@@ -138,7 +140,6 @@ export function useCompletedTaskCount(
           },
           {
             DueDate: {
-              gt: start.toISOString(),
               lt: end.toISOString(),
             },
           },

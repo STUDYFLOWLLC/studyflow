@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { EnumFlowTypeWithAggregatesFilter } from "../inputs/EnumFlowTypeWithAggregatesFilter";
+import { EnumRepetitionTypeWithAggregatesFilter } from "../inputs/EnumRepetitionTypeWithAggregatesFilter";
 import { EnumVisibilityWithAggregatesFilter } from "../inputs/EnumVisibilityWithAggregatesFilter";
 import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
@@ -46,6 +47,11 @@ export class CourseOnTermAutomationScalarWhereWithAggregatesInput {
     nullable: true
   })
   DefaultVisibility?: EnumVisibilityWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumRepetitionTypeWithAggregatesFilter, {
+    nullable: true
+  })
+  DefaultRepetitionType?: EnumRepetitionTypeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntNullableWithAggregatesFilter, {
     nullable: true

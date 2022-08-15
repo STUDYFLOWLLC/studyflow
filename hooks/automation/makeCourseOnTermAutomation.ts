@@ -1,5 +1,6 @@
 import { gql, request } from 'graphql-request'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { RepetitionType } from 'types/Repetition'
 
 export default async function makeCourseOnTermAutomation(
   automationId: number,
@@ -7,6 +8,7 @@ export default async function makeCourseOnTermAutomation(
   folderId: string,
   defaultType: FlowType,
   defaultVisibility: FlowVisibility,
+  defaultRepetitionType: RepetitionType,
 ) {
   const mutation = gql`
     mutation Mutation($data: CourseOnTermAutomationCreateInput!) {
@@ -31,6 +33,7 @@ export default async function makeCourseOnTermAutomation(
       FolderID: folderId,
       DefaultType: defaultType,
       DefaultVisibility: defaultVisibility,
+      DefaultRepetitionType: defaultRepetitionType,
     },
   }
 

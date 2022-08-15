@@ -23,6 +23,7 @@ export default function InputCourseNickname({ courseOnTerm }: Props) {
   )
   const { dashFlows, mutateDashFlows } = useDashFlows(userDetails?.UserID)
 
+  const [originalSave, setOriginalSave] = useState(false)
   const [editingNickname, setEditingNickname] = useState(false)
   const [saving, setSaving] = useState(false)
   const [inputValue, setInputValue] = useState(
@@ -31,15 +32,35 @@ export default function InputCourseNickname({ courseOnTerm }: Props) {
       : courseOnTerm?.FK_Course?.Code,
   )
 
-  useEffect(
-    () =>
-      setInputValue(
+  useEffect(() => {
+    setInputValue(
+      courseOnTerm?.Nickname !== null
+        ? courseOnTerm?.Nickname
+        : courseOnTerm?.FK_Course?.Code,
+    )
+    if (!originalSave) {
+      changeCourseNickname(
+        courseOnTerm?.CourseOnTermID,
         courseOnTerm?.Nickname !== null
-          ? courseOnTerm?.Nickname
-          : courseOnTerm?.FK_Course?.Code,
-      ),
-    [courseOnTerm],
-  )
+          ? courseOnTerm?.Nickname || 'Nickname'
+          : courseOnTerm?.FK_Course?.Code || 'Nickname',
+        coursesOnTerm,
+        mutateCoursesOnTerm,
+        dashFlows,
+        mutateDashFlows,
+        setSaving,
+      )
+      setOriginalSave(true)
+    }
+  }, [courseOnTerm && !originalSave])
+
+  useEffect(() => {
+    setInputValue(
+      courseOnTerm?.Nickname !== null
+        ? courseOnTerm?.Nickname
+        : courseOnTerm?.FK_Course?.Code,
+    )
+  }, [courseOnTerm])
 
   return (
     <Tippy

@@ -2,6 +2,7 @@
 
 import request, { gql } from 'graphql-request'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { RepetitionType } from 'types/Repetition'
 
 export async function mutateCourseOnTermAutomationDefaultType(
   courseOnTermAutomationId: number,
@@ -52,6 +53,36 @@ export async function mutateCourseOnTermDefaultVisibility(
     data: {
       DefaultVisibility: {
         set: newDefaultVisibility,
+      },
+    },
+    where: {
+      CourseOnTermAutomationID: courseOnTermAutomationId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+  return data
+}
+
+export async function mutateCourseOnTermAutomationDefaultRepetitionType(
+  courseOnTermAutomationId: number,
+  newDefaultRepetitionType: RepetitionType,
+) {
+  const mutation = gql`
+    mutation UpdateCourseOnTermAutomation(
+      $data: CourseOnTermAutomationUpdateInput!
+      $where: CourseOnTermAutomationWhereUniqueInput!
+    ) {
+      updateCourseOnTermAutomation(data: $data, where: $where) {
+        CourseOnTermAutomationID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      DefaultRepetitionType: {
+        set: newDefaultRepetitionType,
       },
     },
     where: {

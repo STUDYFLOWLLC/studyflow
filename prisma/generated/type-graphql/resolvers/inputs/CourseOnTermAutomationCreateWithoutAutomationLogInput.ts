@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { AutomationCreateNestedOneWithoutCourseOnTermAutomationsInput } from "../inputs/AutomationCreateNestedOneWithoutCourseOnTermAutomationsInput";
 import { CourseOnTermCreateNestedOneWithoutCourseOnTermAutomationInput } from "../inputs/CourseOnTermCreateNestedOneWithoutCourseOnTermAutomationInput";
 import { FlowType } from "../../enums/FlowType";
+import { RepetitionType } from "../../enums/RepetitionType";
 import { Visibility } from "../../enums/Visibility";
 
 @TypeGraphQL.InputType("CourseOnTermAutomationCreateWithoutAutomationLogInput", {
@@ -25,6 +26,11 @@ export class CourseOnTermAutomationCreateWithoutAutomationLogInput {
     nullable: false
   })
   DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: true
+  })
+  DefaultRepetitionType?: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY" | undefined;
 
   @TypeGraphQL.Field(_type => AutomationCreateNestedOneWithoutCourseOnTermAutomationsInput, {
     nullable: true

@@ -6,6 +6,7 @@ import { Automation } from "../models/Automation";
 import { AutomationLog } from "../models/AutomationLog";
 import { CourseOnTerm } from "../models/CourseOnTerm";
 import { FlowType } from "../enums/FlowType";
+import { RepetitionType } from "../enums/RepetitionType";
 import { Visibility } from "../enums/Visibility";
 import { CourseOnTermAutomationCount } from "../resolvers/outputs/CourseOnTermAutomationCount";
 
@@ -32,6 +33,11 @@ export class CourseOnTermAutomation {
     nullable: false
   })
   DefaultVisibility!: "HIDDEN" | "PRIVATE" | "PUBLIC";
+
+  @TypeGraphQL.Field(_type => RepetitionType, {
+    nullable: false
+  })
+  DefaultRepetitionType!: "FOURTEN" | "FOURTHIRTY" | "SIXTHIRTY";
 
   AutomationLog?: AutomationLog[];
 

@@ -21,7 +21,7 @@ export default function FlowTitle({ title, mutator, loading }: Props) {
       tagName="h1"
       className={classNames(
         { 'text-info': !title },
-        'font-medium m-0 p-0 outline-0',
+        'font-medium m-0 p-0 outline-0 min-w-sm focus:outline-none',
       )}
       onChange={(e: ContentEditableEvent) => mutator(e.target.value)}
       html={title}

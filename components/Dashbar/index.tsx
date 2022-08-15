@@ -8,6 +8,7 @@ import LogoHeader from 'components/Dashbar/LogoHeader'
 import MainNavs from 'components/Dashbar/MainNavs'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { SkeletonTheme } from 'react-loading-skeleton'
@@ -33,6 +34,8 @@ export default function index({
   noClosePrompt,
   setCmdPaletteOpen,
 }: Props) {
+  const router = useRouter()
+
   const { theme, setTheme } = useTheme()
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
@@ -53,6 +56,16 @@ export default function index({
   )
 
   useEffect(() => setMounted(true), [])
+
+  useEffect(() => {
+    if (
+      userDetails !== undefined &&
+      userDetails?.SetupStep !== SetupSteps.COMPLETE &&
+      router.pathname !== '/dash'
+    ) {
+      router.push('/dash')
+    }
+  })
 
   if (!mounted) return null
 

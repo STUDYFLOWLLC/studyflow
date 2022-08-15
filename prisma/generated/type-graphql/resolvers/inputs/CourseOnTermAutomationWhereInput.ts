@@ -6,6 +6,7 @@ import { AutomationLogListRelationFilter } from "../inputs/AutomationLogListRela
 import { AutomationRelationFilter } from "../inputs/AutomationRelationFilter";
 import { CourseOnTermRelationFilter } from "../inputs/CourseOnTermRelationFilter";
 import { EnumFlowTypeFilter } from "../inputs/EnumFlowTypeFilter";
+import { EnumRepetitionTypeFilter } from "../inputs/EnumRepetitionTypeFilter";
 import { EnumVisibilityFilter } from "../inputs/EnumVisibilityFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { IntNullableFilter } from "../inputs/IntNullableFilter";
@@ -49,6 +50,11 @@ export class CourseOnTermAutomationWhereInput {
     nullable: true
   })
   DefaultVisibility?: EnumVisibilityFilter | undefined;
+
+  @TypeGraphQL.Field(_type => EnumRepetitionTypeFilter, {
+    nullable: true
+  })
+  DefaultRepetitionType?: EnumRepetitionTypeFilter | undefined;
 
   @TypeGraphQL.Field(_type => AutomationLogListRelationFilter, {
     nullable: true

@@ -3,6 +3,7 @@
 import { gql } from 'graphql-request'
 import useSWR, { KeyedMutator } from 'swr'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { RepetitionType } from 'types/Repetition'
 
 export interface AutomationLog {
   AutomationLogID: number
@@ -17,6 +18,7 @@ export interface CourseOnTermAutomation {
   FolderID: string
   DefaultType: FlowType
   DefaultVisibility?: FlowVisibility
+  DefaultRepetitionType: RepetitionType
   AutomationLog: AutomationLog[]
   FK_AutomationID: number
   FK_CourseOnTermID: number
@@ -46,6 +48,7 @@ export default function useAutomationDetails(userId: number | undefined): Ret {
           FolderID
           DefaultType
           DefaultVisibility
+          DefaultRepetitionType
           FK_AutomationID
           FK_CourseOnTermID
           AutomationLog {
@@ -68,6 +71,8 @@ export default function useAutomationDetails(userId: number | undefined): Ret {
   }
 
   const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
+
+  console.log(data)
 
   if (data?.automation) {
     return {

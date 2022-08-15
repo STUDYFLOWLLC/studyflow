@@ -12,6 +12,5 @@ export default function taskParser(text: string, dateResult: ParsedResult) {
   html.push('</span>')
   html.push(text.substring(endIndex))
 
-  console.log(html.join(''))
   return html.join('')
 }

@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { EnumFlowTypeFieldUpdateOperationsInput } from "../inputs/EnumFlowTypeFieldUpdateOperationsInput";
+import { EnumRepetitionTypeFieldUpdateOperationsInput } from "../inputs/EnumRepetitionTypeFieldUpdateOperationsInput";
 import { EnumVisibilityFieldUpdateOperationsInput } from "../inputs/EnumVisibilityFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 
@@ -24,4 +25,9 @@ export class CourseOnTermAutomationUpdateManyMutationInput {
     nullable: true
   })
   DefaultVisibility?: EnumVisibilityFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => EnumRepetitionTypeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  DefaultRepetitionType?: EnumRepetitionTypeFieldUpdateOperationsInput | undefined;
 }

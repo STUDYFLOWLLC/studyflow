@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import Dashbar from 'components/Dashbar'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import NotThereYet from 'components/Misc/NotThereYet'
 import SettingsProfile from 'components/Settings/Profile'
 import SettingsNavBig from 'components/Settings/SettingsNavBig'
 import SettingsNavSmall from 'components/Settings/SettingsNavSmall'
@@ -67,7 +68,8 @@ export default function Settings({ user }: Props) {
         <body class="h-full">
         ```
       */}
-      <div className="min-h-full">
+      <NotThereYet />
+      <div className="min-h-full hidden lg:block">
         <Toaster />
         <Dashbar
           showDashBar={showDashBar}

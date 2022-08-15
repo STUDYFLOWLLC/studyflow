@@ -33,8 +33,6 @@ export default function FlashcardReviewModal({
 
   if (!editing) return null
 
-  console.log(reviewing)
-
   return (
     <Transition show={!!editing || reviewing} as={Fragment}>
       <Dialog

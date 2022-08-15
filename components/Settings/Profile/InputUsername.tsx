@@ -46,18 +46,19 @@ export default function InputName({
     if (inputValue.length < 3 || inputValue.length > 15) {
       setCheckingUnique(false)
       setUniqueCheck(false)
-    } else {
-      const unique = await checkUniqueUsername(
-        inputValue || '',
-        userDetails?.UserID || 0,
-      )
-      setCheckingUnique(false)
-      setUniqueCheck(unique)
+      return false
     }
+    const unique = await checkUniqueUsername(
+      inputValue || '',
+      userDetails?.UserID || 0,
+    )
+    setCheckingUnique(false)
+    setUniqueCheck(unique)
+    return unique
   }
 
-  const onChange = (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
-    const real = e?.target?.value || fake || ''
+  const onChange = async (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
+    const real = (e?.target?.value || fake || '').toLocaleLowerCase()
 
     setInputValue(real)
 
@@ -82,14 +83,17 @@ export default function InputName({
       setPassesPeriodUnderscoresInside(false)
     }
 
-    checkUniqueness(real)
+    const unique = await checkUniqueness(real)
 
     const shouldSaveToBackend =
-      passesLength &&
-      passesLowercaseNumbers &&
-      passesPeriodUnderscoresInside &&
-      !checkingUnique &&
-      uniqueCheck
+      real.length >= 3 &&
+      real.length <= 15 &&
+      /^[a-z0-9._]+$/.test(real) &&
+      real.charAt(0) !== '.' &&
+      real.charAt(0) !== '_' &&
+      real.charAt(real.length - 1) !== '.' &&
+      real.charAt(real.length - 1) !== '_' &&
+      unique
 
     changeUserUsername(
       real,
@@ -101,11 +105,7 @@ export default function InputName({
   }
 
   useEffect(() => {
-    setInputValue(userDetails?.Username)
-  }, [!userDetailsLoading && userDetails])
-
-  useEffect(() => {
-    if (!userDetails?.Username) return onChange(undefined, '')
+    if (!userDetails?.Username || initialUpdate) return
     onChange(undefined, userDetails.Username)
     setInitialUpdate(true)
   }, [!userDetailsLoading && !initialUpdate && userDetails])
@@ -113,7 +113,7 @@ export default function InputName({
   return (
     <div
       className={classNames(
-        { 'flex flex-col': flex },
+        { 'flex flex-col item-center': flex },
         { relative: !flex },
         'py-2 sm:py-3',
       )}
@@ -126,7 +126,7 @@ export default function InputName({
       >
         Username
       </dt>
-      <div className="w-96 mx-auto relative mb-2">
+      <div className="w-96 mx-auto relative mb-2 flex flex-col items-center">
         <input
           className="bg-transparent text-center first-line:outline-none focus:outline-none focus:border-0 focus:ring-0 border-0  h-full w-full rounded-md text-lg"
           value={inputValue}

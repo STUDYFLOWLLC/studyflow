@@ -77,7 +77,5 @@ export function masterFlowSorter(flows: DashFlow[], sortBy?: FlowSortOptions) {
       break
   }
 
-  console.log(sortedAndGroupedFlows)
-
   return sortedAndGroupedFlows
 }

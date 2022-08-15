@@ -2,6 +2,7 @@ import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import AddTask from 'components/Tasks/AddTask'
+import { isToday } from 'date-fns'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import {
   useCompletedTaskCount,
@@ -78,7 +79,15 @@ export default function TodayView({ user }: Props) {
 
       <div>
         <BasicDisplayTasks
-          tasks={tasks}
+          tasks={tasks.filter((t) => isToday(new Date(t.DueDate)))}
+          showCompleted={showCompleted}
+          groupBy={groupBy}
+          index={index}
+          setIndex={setIndex}
+        />
+        {!tasksLoading && <h3 className="text-lg">Overdue</h3>}
+        <BasicDisplayTasks
+          tasks={tasks.filter((t) => !isToday(new Date(t.DueDate)))}
           showCompleted={showCompleted}
           groupBy={groupBy}
           index={index}

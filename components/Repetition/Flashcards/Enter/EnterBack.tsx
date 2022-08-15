@@ -55,8 +55,6 @@ class EnterBack extends React.Component<Props, State> {
     const { flashcard, flashcardStack, mutateFlashcardStack } = this.props
     const { html, focused, uploading } = this.state
 
-    console.log(flashcard)
-
     return (
       <div className="my-2">
         <Dropzone

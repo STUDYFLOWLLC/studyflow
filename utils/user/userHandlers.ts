@@ -16,6 +16,7 @@ import { KeyedMutator } from 'swr'
 import { FlowVisibility } from 'types/Flow'
 import { SetupSteps } from 'types/SetupSteps'
 import { supabase } from 'utils/supabase'
+import { v4 as uuid } from 'uuid'
 
 export async function changeUserName(
   newName: string,
@@ -124,9 +125,11 @@ export async function changeUserPFP(
 
   setSaving(true)
 
+  const id = uuid()
+
   const { data, error } = await supabase.storage
     .from('pfp')
-    .upload(`${userDetails.SupabaseID}/${file.name}`, file)
+    .upload(`${userDetails.SupabaseID}/${id}`, file)
 
   if (data) {
     // mutate in backend

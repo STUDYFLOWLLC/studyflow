@@ -4,11 +4,14 @@ import useAutomationDetails, {
 } from 'hooks/automation/useAutomationDetails'
 import useUserDetails from 'hooks/useUserDetails'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { RepetitionType } from 'types/Repetition'
 import {
+  changeCourseOnTermAutomationDefaultRepetitionType,
   changeCourseOnTermAutomationDefaultType,
   changeCourseOnTermAutomationDefaultVisibility,
 } from 'utils/automation/automationHandlers'
 import LogLine from './LogLine'
+import RepetitionTypeChooser from './RepetitionTypeChooser'
 import TypeChooser from './TypeChooser'
 import VisibilityChooser from './VisibilityChooser'
 
@@ -52,6 +55,18 @@ export default function AutomationCardBody({ courseOnTermAutomation }: Props) {
           courseOnTermAutomation?.DefaultVisibility ||
           userDetails?.DefaultVisibility
         }
+        loading={false}
+      />
+      <RepetitionTypeChooser
+        mutator={(newRepetitionType: RepetitionType) =>
+          changeCourseOnTermAutomationDefaultRepetitionType(
+            courseOnTermAutomation.CourseOnTermAutomationID,
+            newRepetitionType,
+            automationDetails,
+            mutateAutomationDetails,
+          )
+        }
+        repetitionType={courseOnTermAutomation?.DefaultRepetitionType}
         loading={false}
       />
       <div className="w-full prose max-h-48 overflow-auto">

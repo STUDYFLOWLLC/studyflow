@@ -16,8 +16,6 @@ export default function DisplayFlow({ flow }: Props) {
 
   useEffect(() => setValue(JSON.parse(flow.Body) as MyValue), [flow])
 
-  console.log(value)
-
   if (flow.Visibility === FlowVisibility.PUBLIC) {
     return (
       <>

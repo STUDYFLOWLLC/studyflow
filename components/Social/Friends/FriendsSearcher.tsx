@@ -82,7 +82,7 @@ export default function FriendsSearcher() {
           //   mutatePrivateGroupDetails,
           //   setLoading,
           // )
-          console.log('test')
+          console.log('')
         }
       >
         <UserInput query={query} setQuery={setQuery} />

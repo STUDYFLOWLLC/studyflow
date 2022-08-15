@@ -1,8 +1,10 @@
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import Dashbar from 'components/Dashbar'
+import HideButton from 'components/Dashbar/HideButton'
 import DashbarSmall from 'components/DashbarSmall'
 import DashHeadSmall from 'components/Dashboard/DashHeadSmall'
+import NotThereYet from 'components/Misc/NotThereYet'
 import InputDefaultVisibility from 'components/Settings/Sharing/InputDefaultVisibility'
 import InputPrivateGroup from 'components/Settings/Sharing/InputPrivateGroup'
 import BetaSocialDisplay from 'components/Social/Displays/BetaSocialDisplay'
@@ -27,7 +29,8 @@ export default function index({ user }: Props) {
         <title>Explore | Studyflow</title>
         <meta property="og:title" content="Explore | Studyflow" key="title" />
       </Head>
-      <div className="min-h-full max-w-none">
+      <NotThereYet />
+      <div className="min-h-full max-w-none hidden lg:block">
         <Dashbar
           showDashBar={showDashBar}
           setShowDashBar={setShowDashBar}
@@ -42,6 +45,11 @@ export default function index({ user }: Props) {
             'flex flex-col w-full prose max-w-none',
           )}
         >
+          {!showDashBar && (
+            <div className="absolute top-2 left-2">
+              <HideButton direction="show" setShowDashBar={setShowDashBar} />
+            </div>
+          )}
           <DashHeadSmall
             searchValue={searchValue}
             setSearchValue={setSearchValue}

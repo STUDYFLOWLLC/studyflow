@@ -21,7 +21,9 @@ export default function InputName({ flex }: Props) {
   const [hasSetName, setHasSetName] = useState(false)
   const [editingName, setEditingName] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [inputValue, setInputValue] = useState(userDetails?.Name)
+  const [inputValue, setInputValue] = useState(
+    userDetails?.Name || user?.user_metadata?.name || '',
+  )
 
   const onChange = (e?: ChangeEvent<HTMLInputElement>, fake?: string) => {
     const real = e?.target?.value || fake || ''
@@ -29,6 +31,7 @@ export default function InputName({ flex }: Props) {
     setInputValue(real)
     let shouldSaveToBackend = true
     if (!userDetailsLoading && real.length < 3) {
+      toast.dismiss()
       toast.error('Name must be at least 3 characters long. Changes not saved.')
       shouldSaveToBackend = false
     }
@@ -42,8 +45,8 @@ export default function InputName({ flex }: Props) {
   }
 
   useEffect(() => {
-    if (!userDetails?.Name) return onChange(undefined, '')
-    onChange(undefined, userDetails?.Name)
+    if (!user?.user_metadata.name) return
+    onChange(undefined, user?.user_metadata.name)
     setHasSetName(true)
   }, [!userDetailsLoading && !hasSetName && userDetails])
 

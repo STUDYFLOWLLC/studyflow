@@ -6,7 +6,9 @@ import { useState } from 'react'
 import useDrivePicker from 'react-google-drive-picker'
 import toast from 'react-hot-toast'
 import { FlowType, FlowVisibility } from 'types/Flow'
+import { RepetitionType } from 'types/Repetition'
 import createCourseOnTermAutomation from 'utils/automation/automationHandlers'
+import RepetitionTypeChooser from './RepetitionTypeChooser'
 import TypeChooser from './TypeChooser'
 import VisibilityChooser from './VisibilityChooser'
 
@@ -29,6 +31,8 @@ export default function CreateAutomationOnCourseOnTerm({
   const [defaultVisibility, setDefaultVisibility] = useState<FlowVisibility>(
     FlowVisibility.PUBLIC,
   )
+  const [defaultRepetitionType, setDefaultRepetitionType] =
+    useState<RepetitionType>(RepetitionType.FOURTHIRTY)
 
   const handleOpenPicker = () => {
     openPicker({
@@ -45,6 +49,7 @@ export default function CreateAutomationOnCourseOnTerm({
             data.docs[0].id,
             defaultType,
             defaultVisibility,
+            defaultRepetitionType,
             automationDetails,
             mutateAutomationDetails,
             courseOnTerm.CourseOnTermID,
@@ -67,6 +72,13 @@ export default function CreateAutomationOnCourseOnTerm({
           setDefaultVisibility(newVisibility)
         }
         visibility={defaultVisibility}
+        loading={false}
+      />
+      <RepetitionTypeChooser
+        mutator={(newRepetitionType: RepetitionType) =>
+          setDefaultRepetitionType(newRepetitionType)
+        }
+        repetitionType={defaultRepetitionType}
         loading={false}
       />
       <button

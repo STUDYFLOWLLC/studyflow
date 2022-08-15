@@ -34,7 +34,7 @@ export default function FriendButton({ PublicUser }: Props) {
     return (
       <button
         type="button"
-        className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+        className="inline-flex justify-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md bg-base-100 border-info hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
         onClick={() =>
           removeFriendship(
             friends.accepted.find(
@@ -67,7 +67,7 @@ export default function FriendButton({ PublicUser }: Props) {
     return (
       <button
         type="button"
-        className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+        className="inline-flex justify-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-gray-700 bg-base-100 border-info hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
         onClick={() =>
           cancelFriendship(friendRequested, friends, mutateFriends)
         }
@@ -116,7 +116,7 @@ export default function FriendButton({ PublicUser }: Props) {
     return (
       <button
         type="button"
-        className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+        className="inline-flex justify-center px-4 py-2 border  shadow-sm text-sm font-medium rounded-md bg-base-100 border-info hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
         onClick={() =>
           sendFriendship(userDetails, PublicUser, friends, mutateFriends)
         }
