@@ -26,7 +26,7 @@ export default function SettingsNavBig({ tabs }: Props) {
           {
             'bg-gray-50 text-gray-500': theme === 'light',
           },
-          'flex bottom-0 text-left text-xs font-medium uppercase tracking-wider h-full',
+          'flex bottom-0 text-left text-xs font-medium uppercase tracking-wider h-full max-w-sm overflow-x-auto pr-2 border-r-2',
         )}
       >
         {tabs.map((tab) => (
