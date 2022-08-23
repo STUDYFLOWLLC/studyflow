@@ -11,12 +11,24 @@ interface Props {
   groupBy?: 'Today' | 'All' | number
   flowId?: string
   index?: number
+  showCompleted?: boolean
 }
 
-export default function DeleteTask({ task, groupBy, flowId, index }: Props) {
+export default function DeleteTask({
+  task,
+  groupBy,
+  flowId,
+  index,
+  showCompleted,
+}: Props) {
   const user = useUser()
   const { userDetails } = useUserDetails(user.user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
+  const { tasks, mutateTasks } = useTasks(
+    userDetails?.UserID,
+    groupBy,
+    index,
+    showCompleted,
+  )
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   return (

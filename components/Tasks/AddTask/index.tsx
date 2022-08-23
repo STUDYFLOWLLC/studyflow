@@ -24,6 +24,7 @@ interface Props {
   dueDate?: Date
   index?: number
   setIndex?: (index: number) => void
+  showCompleted?: boolean
 }
 
 export default function index({
@@ -36,10 +37,16 @@ export default function index({
   dueDate,
   index,
   setIndex,
+  showCompleted,
 }: Props) {
   const { theme } = useTheme()
   const { userDetails } = useUserDetails(user.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
+  const { tasks, mutateTasks } = useTasks(
+    userDetails?.UserID,
+    groupBy,
+    index,
+    showCompleted,
+  )
 
   const [mounted, setMounted] = useState(false)
   const [taskName, setTaskName] = useState('')

@@ -56,6 +56,7 @@ export default function BasicDisplayTasks({
                 repetitionId={repetitionId}
                 flowId={flowId}
                 index={index}
+                showCompleted={showCompleted}
               />
             ),
         )}

@@ -18,6 +18,7 @@ interface Props {
   repetitionId?: string
   flowId?: string
   index?: number
+  showCompleted?: boolean
 }
 
 export default function BasicTask({
@@ -29,6 +30,7 @@ export default function BasicTask({
   repetitionId,
   flowId,
   index,
+  showCompleted,
 }: Props) {
   const [editing, setEditing] = useState(false)
 
@@ -61,6 +63,7 @@ export default function BasicTask({
           repetitionId={repetitionId}
           flowId={flowId}
           index={index}
+          showCompleted={showCompleted}
         />
         <div
           className={classNames(
@@ -95,6 +98,7 @@ export default function BasicTask({
                   groupBy={groupBy}
                   flowId={flowId}
                   index={index}
+                  showCompleted={showCompleted}
                 />
               </span>
             )}
