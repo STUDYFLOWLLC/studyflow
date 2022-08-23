@@ -27,10 +27,12 @@ export default function TodayView({ user }: Props) {
 
   const [index, setIndex] = useState(0)
   const [groupBy, setGroupBy] = useState<'Today' | 'All' | number>('Today')
+  const [showCompleted, setShowCompleted] = useState(true)
   const { tasks, tasksLoading, mutateTasks } = useTasks(
     userDetails?.UserID,
     'Today',
     index,
+    showCompleted,
   )
   const { completedTaskCount, completedTaskCountLoading } =
     useCompletedTaskCount(userDetails?.UserID, 'Today')
@@ -38,7 +40,6 @@ export default function TodayView({ user }: Props) {
     useUncompletedTaskCount(userDetails?.UserID, 'Today')
 
   const [mounted, setMounted] = useState(false)
-  const [showCompleted, setShowCompleted] = useState(true)
 
   const today = new Date().toDateString().slice(0, 10)
 
@@ -94,6 +95,7 @@ export default function TodayView({ user }: Props) {
           groupBy="Today"
           index={index}
           setIndex={setIndex}
+          showCompleted={showCompleted}
         />
       </div>
     </div>

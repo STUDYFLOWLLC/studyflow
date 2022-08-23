@@ -42,10 +42,16 @@ export default function useTasks(
   userId: number | undefined,
   groupBy?: 'Today' | 'All' | number,
   index?: number,
+  completed = false,
 ): Ret {
   const query = gql`
-    query Tasks($where: TaskWhereInput, $take: Int, $skip: Int) {
-      tasks(where: $where, take: $take, skip: $skip) {
+    query Tasks(
+      $where: TaskWhereInput
+      $take: Int
+      $skip: Int
+      $orderBy: [TaskOrderByWithRelationInput!]
+    ) {
+      tasks(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
         CreatedTime
         Title
         TaskID
@@ -110,7 +116,6 @@ export default function useTasks(
               },
             ],
           },
-
           {
             DeletedTime: {
               equals: null,
@@ -181,13 +186,49 @@ export default function useTasks(
               equals: null,
             },
           },
-          {
-            DueDate: {
-              lt: end.toISOString(),
-            },
-          },
         ],
       },
+    }
+    if (completed) {
+      variables.where.AND.push({
+        OR: [
+          {
+            AND: [
+              {
+                Completed: {
+                  equals: false,
+                },
+              },
+              {
+                DueDate: {
+                  lt: end.toISOString(),
+                },
+              },
+            ],
+          },
+          {
+            AND: [
+              {
+                DueDate: {
+                  gt: start.toISOString(),
+                  lt: end.toISOString(),
+                },
+              },
+              {
+                Completed: {
+                  equals: true,
+                },
+              },
+            ],
+          },
+        ],
+      })
+    } else {
+      variables.where.AND.push({
+        DueDate: {
+          lt: end.toISOString(),
+        },
+      })
     }
   } else {
     variables = {
@@ -225,9 +266,23 @@ export default function useTasks(
     }
   }
 
+  variables.orderBy = [
+    {
+      Completed: 'asc',
+    },
+  ]
+
   if (index !== undefined) {
     variables.take = 8
     variables.skip = index * 8
+  }
+
+  if (!completed) {
+    variables.where.AND.push({
+      Completed: {
+        equals: false,
+      },
+    })
   }
 
   const { data, error, mutate } = useSWR([query, variables])
