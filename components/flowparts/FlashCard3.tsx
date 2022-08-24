@@ -8,6 +8,7 @@ import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { Flashcard, FlashcardReview, FlashcardStatus } from 'types/Repetition'
 import delay from 'utils/delay'
+import decodeHTML from 'utils/flows/decodeHTML'
 
 interface Props {
   card: Flashcard
@@ -81,11 +82,23 @@ export default function Flashcard3({
           />
         </div>
       )}
-      <div className={classNames({ 'text-2xs': cute }, 'card front')}>
-        {card.Front}
+      <div
+        className={classNames(
+          { 'text-2xs': cute },
+          { 'p-4': !cute },
+          'card front text-center',
+        )}
+      >
+        {decodeHTML(card.Front)}
       </div>
-      <div className={classNames({ 'text-2xs': cute }, 'card back')}>
-        {showBack && card.Back}
+      <div
+        className={classNames(
+          { 'text-2xs text-clip': cute },
+          { 'p-4': !cute },
+          'card back text-center',
+        )}
+      >
+        {showBack && decodeHTML(card.Back)}
       </div>
     </div>
   )
