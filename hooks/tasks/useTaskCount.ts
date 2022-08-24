@@ -140,6 +140,7 @@ export function useCompletedTaskCount(
           },
           {
             DueDate: {
+              gt: start.toISOString(),
               lt: end.toISOString(),
             },
           },
@@ -340,7 +341,6 @@ export function useUncompletedTaskCount(
           },
           {
             DueDate: {
-              gt: start.toISOString(),
               lt: end.toISOString(),
             },
           },
