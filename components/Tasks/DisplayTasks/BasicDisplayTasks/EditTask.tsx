@@ -12,19 +12,21 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { TaskType } from 'types/Task'
 
+interface MiniCourseOnTerm {
+  CourseOnTermID: number
+  Color: string | undefined
+  Nickname: string
+  FK_Course: {
+    Code: string | undefined
+  }
+}
+
 interface Props {
   groupBy: 'Today' | 'All' | number
   oldName: string
   oldDescription: string
   oldDueDate: string
-  oldCourse: {
-    CourseOnTermID: number
-    Color: string | undefined
-    Nickname: string
-    FK_Course: {
-      Code: string | undefined
-    }
-  }
+  oldCourse: MiniCourseOnTerm
   oldType: TaskType | undefined
   taskId: string
   setEditing: (editing: boolean) => void
@@ -55,7 +57,6 @@ export default function EditTask({
     index,
     showCompleted,
   )
-  console.log(showCompleted)
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )
@@ -67,7 +68,7 @@ export default function EditTask({
   const [taskDueDateExact, setTaskDueDateExact] = useState<Date | undefined>(
     new Date(oldDueDate) || undefined,
   )
-  const [taskCourse, setTaskCourse] = useState(oldCourse?.CourseOnTermID || 0)
+  const [taskCourse, setTaskCourse] = useState(oldCourse)
   const [courseDropDownTitle, setCourseDropDownTitle] = useState(
     oldCourse?.Nickname || oldCourse?.FK_Course?.Code || 'General',
   )
@@ -86,17 +87,8 @@ export default function EditTask({
       Description: taskDescription,
       DueDate: taskDueDateExact?.toISOString(),
       Type: taskType,
-      FK_CourseOnTermID: taskCourse,
-      FK_CourseOnTerm: {
-        CourseOnTermID: taskCourse,
-        Color: coursesOnTerm.find(
-          (course) => course.CourseOnTermID === taskCourse,
-        )?.Color,
-        Nickname: courseDropDownTitle,
-        FK_Course: {
-          Code: courseDropDownTitle,
-        },
-      },
+      FK_CourseOnTermID: taskCourse.CourseOnTermID,
+      FK_CourseOnTerm: taskCourse,
     }
 
     setEditing(false)
@@ -114,7 +106,7 @@ export default function EditTask({
   }
 
   return (
-    <div className="flex flex-col border-gray-400 border rounded-md">
+    <div className="flex flex-col border-gray-400 border rounded-md mb-2">
       <div className="pt-1 px-1 flex flex-col">
         <TaskNameInput
           theme={theme || ''}
@@ -144,23 +136,30 @@ export default function EditTask({
             items={coursesOnTerm.map((course) => ({
               color: course.Color,
               name: course.Nickname || course.FK_Course?.Code || '',
-              handler: () => {
-                setTaskCourse(course.CourseOnTermID)
-                setCourseDropDownTitle(
-                  course.Nickname || course.FK_Course?.Code || '',
-                )
+              CourseOnTermID: course.CourseOnTermID,
+              Nickname: course.Nickname || course.FK_Course?.Code || '',
+              Color: course.Color,
+              handler: (newCourse: MiniCourseOnTerm) => {
+                setTaskCourse(newCourse)
               },
             }))}
             title={
-              oldCourse?.Nickname || oldCourse?.FK_Course?.Code || 'General'
+              taskCourse?.Nickname || taskCourse.FK_Course?.Code || 'General'
             }
             hasGeneral
             loading={coursesOnTermLoading}
             generalHandler={() => {
-              setTaskCourse(0)
+              setTaskCourse({
+                CourseOnTermID: 0,
+                Color: '',
+                Nickname: 'General',
+                FK_Course: {
+                  Code: '',
+                },
+              })
               setCourseDropDownTitle('General')
             }}
-            color={oldCourse?.Color}
+            color={taskCourse.Color}
           />
           <TypeDropdown taskType={taskType} setTaskType={setTaskType} />
         </span>
@@ -213,7 +212,7 @@ export default function EditTask({
                   taskDescription,
                   taskDueDateExact?.toISOString(),
                   user?.email || user?.user_metadata.email,
-                  taskCourse,
+                  taskCourse.CourseOnTermID,
                   taskType,
                 )
               }
@@ -227,13 +226,13 @@ export default function EditTask({
                   taskDescription,
                   taskDueDateExact?.toISOString(),
                   user?.email || user?.user_metadata.email,
-                  taskCourse,
+                  taskCourse.CourseOnTermID,
                   taskType,
                 )
               }
             }}
           >
-            <div>Edit</div>
+            <div>Done</div>
           </button>
         </span>
       </div>
