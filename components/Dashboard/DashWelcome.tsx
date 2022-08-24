@@ -100,7 +100,7 @@ export default function DashWelcome() {
             </button>
           </a>
           <a
-            href="https://docs.studyflow.ai/blog/why"
+            href="https://docs.studyflow.ai/blog"
             target="_blank"
             rel="noreferrer"
             className="no-underline"
