@@ -139,7 +139,7 @@ export default function CourseDropDown({
                         'px-1 flex items-center cursor-pointer first-of-type:rounded-t-md',
                       )}
                       onClick={() => {
-                        if (item.handler) item.handler()
+                        if (item.handler) item.handler(item)
                         setBackgroundColor(item.color)
                         setIcon(
                           <FolderIcon
@@ -149,7 +149,7 @@ export default function CourseDropDown({
                         )
                       }}
                       onKeyDown={() => {
-                        if (item.handler) item.handler()
+                        if (item.handler) item.handler(item)
                         setBackgroundColor(item.color)
                         setIcon(
                           <FolderIcon

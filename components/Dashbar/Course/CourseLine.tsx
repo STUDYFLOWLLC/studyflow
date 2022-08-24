@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import Skeleton from 'react-loading-skeleton'
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function CourseLine({ index, course, current, loading }: Props) {
+  const router = useRouter()
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -45,6 +47,8 @@ export default function CourseLine({ index, course, current, loading }: Props) {
             { 'bg-slate-600': current && theme === 'dark' },
             'group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
           )}
+          onClick={() => router.push(`/dash#${course.CourseOnTermID}`)}
+          onKeyDown={() => router.push(`/dash#${course.CourseOnTermID}`)}
         >
           <div
             className="flex self-center items-center"

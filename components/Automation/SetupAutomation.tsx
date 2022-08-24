@@ -186,8 +186,8 @@ export default function SetupAutomation() {
               </span>
             </div>
             <p className="mt-4 max-w-2xl text-xl text-info lg:mx-auto pt-4 pb-6">
-              Never have to think about what and when to study again with our
-              science-proven study automator. Here's how it works:
+              Never have to think about what and when to study again. Here's how
+              it works:
             </p>
           </div>
 

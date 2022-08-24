@@ -5,6 +5,7 @@ import useDashFlows from 'hooks/flows/useDashFlows'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FlowSortOptions, masterFlowSorter } from 'utils/flows/sortFlows'
 import ActualFlowTable from './ActualFlowTable'
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export default function FlowList({ setCurrentFlow }: Props) {
+  const router = useRouter()
+  const query = router.asPath.split('#')[1]
   const { theme } = useTheme()
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
@@ -25,7 +28,9 @@ export default function FlowList({ setCurrentFlow }: Props) {
   const [sortBy, setSortBy] = useState<FlowSortOptions>(
     FlowSortOptions.RECENTLY_VIEWED_DESCENDING,
   )
-  const [groupBy, setGroupBy] = useState<'All' | number | 'Trash'>('All')
+  const [groupBy, setGroupBy] = useState<'All' | number | 'Trash'>(
+    Number(query) || 'All',
+  )
   const [index, setIndex] = useState(0)
 
   const { dashFlows, dashFlowsLoading } = useDashFlows(
@@ -38,6 +43,8 @@ export default function FlowList({ setCurrentFlow }: Props) {
   useEffect(() => setMounted(true), [])
 
   useEffect(() => setIndex(0), [groupBy])
+
+  useEffect(() => setGroupBy(Number(query) || 'All'), [query])
 
   if (!mounted) return null
 
