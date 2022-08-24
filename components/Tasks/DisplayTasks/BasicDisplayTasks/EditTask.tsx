@@ -29,6 +29,7 @@ interface Props {
   taskId: string
   setEditing: (editing: boolean) => void
   index?: number
+  showCompleted?: boolean
 }
 
 export default function EditTask({
@@ -41,13 +42,20 @@ export default function EditTask({
   taskId,
   setEditing,
   index,
+  showCompleted,
 }: Props) {
   const { theme } = useTheme()
 
   // Retrieving tasks and courses from backend
   const { user } = useUser()
   const { userDetails, userDetailsLoading } = useUserDetails(user?.id)
-  const { tasks, mutateTasks } = useTasks(userDetails?.UserID, groupBy, index)
+  const { tasks, mutateTasks } = useTasks(
+    userDetails?.UserID,
+    groupBy,
+    index,
+    showCompleted,
+  )
+  console.log(showCompleted)
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(
     userDetails?.FK_Terms?.[0]?.TermID,
   )

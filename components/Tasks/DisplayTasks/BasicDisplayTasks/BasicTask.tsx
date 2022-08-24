@@ -45,6 +45,7 @@ export default function BasicTask({
       taskId={task.TaskID}
       setEditing={setEditing}
       index={index}
+      showCompleted={showCompleted}
     />
   ) : (
     <div
