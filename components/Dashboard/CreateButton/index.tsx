@@ -63,9 +63,8 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
       color: Color.INDIGO,
       bgColor: 'rgba( 99, 102, 233, 0.2)',
       icon: PencilIcon,
-      comingSoon: true,
       onClick: () => {
-        // setCreateFlowAs(FlowType.NOTE)
+        setCreateFlowAs(FlowType.NOTE)
       },
     },
     {
@@ -75,9 +74,8 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
       color: Color.YELLOW,
       bgColor: 'rgba( 225, 181, 62, 0.2)',
       icon: DocumentAddIcon,
-      comingSoon: true,
       onClick: () => {
-        // setCreateFlowAs(FlowType.ASSIGNMENT)
+        setCreateFlowAs(FlowType.ASSIGNMENT)
       },
     },
     {
@@ -86,9 +84,8 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
       color: Color.ROSE,
       bgColor: 'rgba( 234, 120, 135, 0.2)',
       icon: StarIcon,
-      comingSoon: true,
       onClick: () => {
-        // setCreateFlowAs(FlowType.ASSESSMENT)
+        setCreateFlowAs(FlowType.ASSESSMENT)
       },
     },
     {
