@@ -7,13 +7,13 @@ export default function titleFromType(type: FlowType): string {
     case FlowType.DISCUSSION:
       return 'D## - Discussion Title'
     case FlowType.NOTE:
-      return 'N## - Note Title'
+      return 'Textbook Readings #.# - #.#'
     case FlowType.ASSIGNMENT:
-      return 'Assignment Title'
+      return 'A# - Assignment Title'
     case FlowType.ASSESSMENT:
-      return 'Assessment Title'
+      return 'Prelim #'
     case FlowType.SYNTHESIS:
-      return 'Synthesis #'
+      return 'Prelim # Synthesis'
     default:
       return 'Untitled'
   }
