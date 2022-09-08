@@ -234,7 +234,7 @@ export async function trashFlow(
         mutate: true,
       },
     ],
-    { revalidate: true },
+    { revalidate: false },
   )
 
   closeFlowModal()
