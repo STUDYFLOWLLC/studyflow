@@ -2,11 +2,11 @@ import {
   BeakerIcon,
   CalendarIcon,
   CheckCircleIcon,
-  ClipboardCopyIcon,
-  ClipboardListIcon,
+  ClipboardDocumentCheckIcon,
+  ClipboardDocumentIcon,
   CogIcon,
   UserGroupIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import { NextRouter } from 'next/router'
 import { SVGProps } from 'react'
 
@@ -29,7 +29,7 @@ export interface QuickAction {
 export const jumpTo: QuickAction[] = [
   {
     name: 'Dash',
-    CmdIcon: ClipboardListIcon,
+    CmdIcon: ClipboardDocumentIcon,
     shortcut: '',
     actionType: ActionType.JUMPTO,
     action: (router: NextRouter) => router.push('/dash'),
@@ -74,7 +74,7 @@ export const jumpTo: QuickAction[] = [
 export const schools: QuickAction[] = [
   {
     name: 'Cornell University',
-    CmdIcon: ClipboardCopyIcon,
+    CmdIcon: ClipboardDocumentCheckIcon,
     shortcut: '',
     actionType: ActionType.SCHOOL,
     action: (router: NextRouter) => router.push('/school/cornell'),

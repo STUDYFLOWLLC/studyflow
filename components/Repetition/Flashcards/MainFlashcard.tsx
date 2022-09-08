@@ -1,4 +1,4 @@
-import { PencilAltIcon, RefreshIcon } from '@heroicons/react/outline'
+import { ArrowPathIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import useFlashcardStack from 'hooks/repetition/useFlashcardStack'
@@ -46,7 +46,7 @@ export default function MainFlashcard({
           <div className="absolute flex items-center top-4 right-3 transition-all">
             {saving && <MainSpinner size={SpinnerSizes.small} />}
             {reviewing ? (
-              <PencilAltIcon
+              <PencilSquareIcon
                 className="ml-2 z-40 w-5 h-5 cursor-pointer"
                 onClick={() => {
                   setReviewing(false)
@@ -58,7 +58,7 @@ export default function MainFlashcard({
                 }}
               />
             ) : (
-              <RefreshIcon
+              <ArrowPathIcon
                 className="ml-2 z-40 w-5 h-5 cursor-pointer"
                 onClick={() => {
                   setReviewing(true)

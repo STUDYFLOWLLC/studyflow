@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { EyeIcon } from '@heroicons/react/outline'
+import { EyeIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 
 interface PseudoProps {

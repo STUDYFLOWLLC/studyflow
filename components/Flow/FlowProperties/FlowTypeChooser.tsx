@@ -1,13 +1,13 @@
 import { Menu, Transition } from '@headlessui/react'
 import {
   ChartBarIcon,
-  ChatAlt2Icon,
+  ChatBubbleBottomCenterIcon,
   ChevronDownIcon,
   LightBulbIcon,
-  PencilAltIcon,
   PencilIcon,
-  ViewGridAddIcon,
-} from '@heroicons/react/outline'
+  PencilSquareIcon,
+  SquaresPlusIcon,
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
@@ -23,10 +23,10 @@ interface Props {
 
 const items = [
   { name: FlowType.LECTURE, icon: LightBulbIcon },
-  { name: FlowType.DISCUSSION, icon: ChatAlt2Icon },
+  { name: FlowType.DISCUSSION, icon: ChatBubbleBottomCenterIcon },
   { name: FlowType.NOTE, icon: PencilIcon },
-  { name: FlowType.ASSIGNMENT, icon: PencilAltIcon },
-  { name: FlowType.SYNTHESIS, icon: ViewGridAddIcon },
+  { name: FlowType.ASSIGNMENT, icon: PencilSquareIcon },
+  { name: FlowType.SYNTHESIS, icon: SquaresPlusIcon },
   { name: FlowType.ASSESSMENT, icon: ChartBarIcon },
 ]
 

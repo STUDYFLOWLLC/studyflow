@@ -1,4 +1,8 @@
-import { BadgeCheckIcon, MailIcon, PencilIcon } from '@heroicons/react/outline'
+import {
+  CheckBadgeIcon,
+  EnvelopeIcon,
+  PencilIcon,
+} from '@heroicons/react/24/outline'
 import Tippy from '@tippyjs/react'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
 import { PublicUser } from 'types/Social'
@@ -47,7 +51,7 @@ export default function ProfileHeader({ PublicUser, canEdit }: Props) {
                     type="button"
                     className="inline-flex justify-center px-4 py-2 border border-info/20 shadow-sm text-sm font-medium rounded-md  bg-base-100 hover:bg-info/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                   >
-                    <MailIcon
+                    <EnvelopeIcon
                       className="-ml-1 mr-2 h-5 w-5 text-info"
                       aria-hidden="true"
                     />
@@ -87,7 +91,7 @@ export default function ProfileHeader({ PublicUser, canEdit }: Props) {
                 delay={TOOLTIP_DELAY}
               >
                 <div className="pl-2">
-                  <BadgeCheckIcon className="w-6 h-6" />
+                  <CheckBadgeIcon className="w-6 h-6" />
                 </div>
               </Tippy>
             )}

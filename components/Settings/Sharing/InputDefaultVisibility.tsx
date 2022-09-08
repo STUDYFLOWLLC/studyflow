@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { BanIcon, LockClosedIcon } from '@heroicons/react/outline'
+import { LockClosedIcon, NoSymbolIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import RainbowPublicIcon from 'components/Flow/RainbowPublicIcon'
@@ -24,7 +24,7 @@ const items = [
   },
   {
     name: FlowVisibility.HIDDEN,
-    icon: BanIcon,
+    icon: NoSymbolIcon,
     description:
       'Lone wolf. By default, your flows will not be shared with anyone else.',
   },
@@ -79,7 +79,7 @@ export default function InputDefaultVisibility() {
               {userDetails?.DefaultVisibility === FlowVisibility.HIDDEN && (
                 <div className="text-sm flex flex-col items-center">
                   <span className="font-medium">{items[2].name}</span>
-                  <BanIcon className="w-5 h-5" />
+                  <NoSymbolIcon className="w-5 h-5" />
                   <span className="text-xs">{items[2].description}</span>
                 </div>
               )}

@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { InboxIcon } from '@heroicons/react/outline'
+import { InboxIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { Item } from 'components/dropdowns/DateDropdown'
 import { matchSorter } from 'match-sorter'

@@ -1,8 +1,8 @@
 import {
-  ArrowsExpandIcon,
-  EyeOffIcon,
+  ArrowsPointingOutIcon,
+  EyeSlashIcon,
   MinusCircleIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import BasicDisplayTasks from 'components/Tasks/DisplayTasks/BasicDisplayTasks'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
@@ -69,7 +69,7 @@ export default function index({ flowId, flowTitle }: Props) {
         {!tasksHidden && (
           <div className="flex h-full justify-center flex-col absolute top-0 right-[-2rem]">
             {!tasksExpanded ? (
-              <ArrowsExpandIcon
+              <ArrowsPointingOutIcon
                 className="w-5 h-5 cursor-pointer"
                 onClick={() => setTasksExpanded(true)}
               />
@@ -79,7 +79,7 @@ export default function index({ flowId, flowTitle }: Props) {
                 onClick={() => setTasksExpanded(false)}
               />
             )}
-            <EyeOffIcon
+            <EyeSlashIcon
               className="w-5 h-5 cursor-pointer"
               onClick={() => setTasksHidden(true)}
             />

@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { InformationCircleIcon } from '@heroicons/react/outline'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 export default function BetaSocialDisplay() {
   return (

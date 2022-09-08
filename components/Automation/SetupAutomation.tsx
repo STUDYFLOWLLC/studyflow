@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import {
-  AnnotationIcon,
-  LightningBoltIcon,
+  ChatBubbleBottomCenterIcon,
+  LightBulbIcon,
   LinkIcon,
   ScaleIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
@@ -36,13 +36,13 @@ const features = [
     name: '3. Let Studyflow do the rest',
     description:
       'Studyflow will automatically create a flow, flashcard stack, and a science-based review schedule for you.',
-    icon: LightningBoltIcon,
+    icon: LightBulbIcon,
   },
   {
     name: '4. Learn with no friction',
     description:
       'Review your flashcard stacks when Studyflow notifies you, and never have a problem remembering content again.',
-    icon: AnnotationIcon,
+    icon: ChatBubbleBottomCenterIcon,
   },
 ]
 

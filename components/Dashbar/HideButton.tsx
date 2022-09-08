@@ -1,7 +1,7 @@
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'

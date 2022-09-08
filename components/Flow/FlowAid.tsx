@@ -1,4 +1,4 @@
-import { HandIcon, PlusIcon } from '@heroicons/react/outline'
+import { HandRaisedIcon, PlusIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 
 interface Props {
@@ -15,7 +15,7 @@ export default function FlowAid({ opacity }: Props) {
     >
       <span className="w-8 h-5 flex text-gray-500">
         <PlusIcon className="w-4 h-5 cursor-pointer" />
-        <HandIcon className="w-4 h-5 cursor-move" />
+        <HandRaisedIcon className="w-4 h-5 cursor-move" />
       </span>
     </div>
   )

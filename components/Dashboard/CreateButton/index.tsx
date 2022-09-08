@@ -1,11 +1,11 @@
 import { Popover, Transition } from '@headlessui/react'
 import {
-  ChatAlt2Icon,
-  DocumentAddIcon,
+  ChatBubbleBottomCenterIcon,
+  DocumentPlusIcon,
   LightBulbIcon,
   PencilIcon,
   StarIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import PlusButton from 'components/buttons/PlusButton'
 import MainItem from 'components/Dashboard/CreateButton/MainItem'
@@ -52,7 +52,7 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
         'Organize questions, quotes, and tips from your classmates and TAs.',
       color: Color.GREEN,
       bgColor: 'rgba( 118, 219, 137, 0.2)',
-      icon: ChatAlt2Icon,
+      icon: ChatBubbleBottomCenterIcon,
       onClick: () => {
         setCreateFlowAs(FlowType.DISCUSSION)
       },
@@ -73,7 +73,7 @@ export default function FlowDropdown({ setCreateFlowAs, disabled }: Props) {
         'Manage an assigment with inline tasks, notes, and flow sharing.',
       color: Color.YELLOW,
       bgColor: 'rgba( 225, 181, 62, 0.2)',
-      icon: DocumentAddIcon,
+      icon: DocumentPlusIcon,
       onClick: () => {
         setCreateFlowAs(FlowType.ASSIGNMENT)
       },

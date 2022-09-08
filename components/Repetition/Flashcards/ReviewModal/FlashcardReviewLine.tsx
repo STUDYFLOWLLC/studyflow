@@ -2,7 +2,7 @@ import {
   CheckCircleIcon,
   QuestionMarkCircleIcon,
   XCircleIcon,
-} from '@heroicons/react/solid'
+} from '@heroicons/react/24/solid'
 import { format } from 'date-fns'
 import { FlashcardReview, FlashcardStatus } from 'types/Repetition'
 

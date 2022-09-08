@@ -1,5 +1,5 @@
 import { Popover } from '@headlessui/react'
-import { PlusIcon } from '@heroicons/react/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'

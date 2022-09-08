@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { TrashIcon } from '@heroicons/react/outline'
+import { TrashIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import useDashFlows from 'hooks/flows/useDashFlows'

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { GlobeIcon, PhotographIcon } from '@heroicons/react/outline'
+import { GlobeAltIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import { PlateEditor, TComboboxItem, Value } from '@udecode/plate'
 import { SVGProps } from 'react'
 import { bgColor, Color } from 'types/Colors'
@@ -125,7 +125,7 @@ export const COMMAND_MENU_ITEMS: TCommandMenuItem[] = [
         abbreviation: '',
         textSize: 'text-2xl',
         bgColor: bgColor.LIME,
-        icon: PhotographIcon,
+        icon: PhotoIcon,
       },
       onSelect: (item, editor) => {
         if (!editor) return
@@ -151,7 +151,7 @@ export const COMMAND_MENU_ITEMS: TCommandMenuItem[] = [
         abbreviation: '',
         textSize: 'text-2xl',
         bgColor: bgColor.YELLOW,
-        icon: GlobeIcon,
+        icon: GlobeAltIcon,
       },
       onSelect: (item, editor) => {
         if (!editor) return

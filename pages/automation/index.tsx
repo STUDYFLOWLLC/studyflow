@@ -1,4 +1,4 @@
-import { BeakerIcon } from '@heroicons/react/outline'
+import { BeakerIcon } from '@heroicons/react/24/outline'
 import { User, withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import AutomationCards from 'components/Automation/AutomationCards'

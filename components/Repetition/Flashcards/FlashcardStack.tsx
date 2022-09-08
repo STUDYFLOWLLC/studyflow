@@ -3,11 +3,11 @@
 // @ts-nocheck
 
 import {
+  ArrowPathIcon,
   CheckCircleIcon,
   MinusCircleIcon,
-  RefreshIcon,
   XCircleIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import { animated, to as interpolate, useSprings } from '@react-spring/web'
 import classNames from 'classnames'
 import FlashCard3 from 'components/flowparts/FlashCard3'
@@ -347,7 +347,7 @@ export default function Deck({
               onClick={() => setShouldFlip(gone.size + 1)}
               onKeyDown={() => setShouldFlip(gone.size + 1)}
             >
-              <RefreshIcon className="w-7 h-7 text-info mr-1" />
+              <ArrowPathIcon className="w-7 h-7 text-info mr-1" />
               <div className="text-xl font-semibold text-info">Flip</div>
             </div>
           </div>

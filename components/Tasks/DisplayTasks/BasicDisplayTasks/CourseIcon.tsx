@@ -1,4 +1,4 @@
-import { FolderIcon, InboxIcon } from '@heroicons/react/outline'
+import { FolderIcon, InboxIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import bgToTextColor from 'utils/bgToTextColor'
 

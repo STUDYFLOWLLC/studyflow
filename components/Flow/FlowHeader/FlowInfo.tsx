@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Menu, Transition } from '@headlessui/react'
-import { InformationCircleIcon } from '@heroicons/react/outline'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import { useTheme } from 'next-themes'

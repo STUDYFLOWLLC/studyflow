@@ -1,4 +1,4 @@
-import { DocumentAddIcon, StarIcon } from '@heroicons/react/outline'
+import { DocumentPlusIcon, StarIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import PinMenu from 'components/Dashboard/Upcoming/PinMenu'
 import { DashFlow } from 'hooks/flows/useDashFlows'
@@ -44,7 +44,7 @@ export default function Pin({ flow, setCurrentFlow }: Props) {
       >
         {flow.Type === FlowType.ASSESSMENT && <StarIcon className="w-7 h-7" />}
         {flow.Type === FlowType.ASSIGNMENT && (
-          <DocumentAddIcon className="w-7 h-7" />
+          <DocumentPlusIcon className="w-7 h-7" />
         )}
       </div>
       <div

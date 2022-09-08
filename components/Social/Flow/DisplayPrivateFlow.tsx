@@ -1,4 +1,4 @@
-import { LockClosedIcon } from '@heroicons/react/outline'
+import { LockClosedIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
 import MainSpinner from 'components/spinners/MainSpinner'

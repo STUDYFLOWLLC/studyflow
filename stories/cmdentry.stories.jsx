@@ -1,5 +1,5 @@
 import { Combobox } from '@headlessui/react'
-import { DocumentAddIcon } from '@heroicons/react/outline'
+import { DocumentAddIcon } from '@heroicons/react/24/outline'
 import CMDEntry from 'components/CMDPalette/CMDEntry'
 
 export default {

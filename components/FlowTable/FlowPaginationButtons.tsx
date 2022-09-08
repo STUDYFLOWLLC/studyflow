@@ -1,7 +1,7 @@
 import {
-  ArrowCircleLeftIcon,
-  ArrowCircleRightIcon,
-} from '@heroicons/react/outline'
+  ArrowLeftCircleIcon,
+  ArrowRightCircleIcon,
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
@@ -44,7 +44,7 @@ export default function FlowPaginationButtons({
           )}
           onClick={() => setIndex(index - 1)}
         >
-          <ArrowCircleLeftIcon className="w-4 h-4" />
+          <ArrowLeftCircleIcon className="w-4 h-4" />
           <span className="mr-2">Prev</span>{' '}
         </button>
       )}
@@ -74,7 +74,7 @@ export default function FlowPaginationButtons({
         onClick={() => setIndex(index + 1)}
       >
         <span className="mr-2">Next</span>{' '}
-        <ArrowCircleRightIcon className="w-4 h-4" />
+        <ArrowRightCircleIcon className="w-4 h-4" />
       </button>
     </div>
   )

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Transition } from '@headlessui/react'
-import { XIcon } from '@heroicons/react/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import { FlowDetail } from 'hooks/flows/useFlowDetails'
 import { CourseOnTerm } from 'hooks/school/useCoursesOnTerm'
 import { Task } from 'hooks/tasks/useTasks'
@@ -238,7 +238,7 @@ export async function completeOrUncompleteTask(
                       }}
                     >
                       <span className="sr-only">Close</span>
-                      <XIcon className="h-5 w-5" aria-hidden="true" />
+                      <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                     </button>
                   </div>
                 </div>
@@ -370,7 +370,7 @@ export async function deleteOrUndeleteTask(
                       }}
                     >
                       <span className="sr-only">Close</span>
-                      <XIcon className="h-5 w-5" aria-hidden="true" />
+                      <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                     </button>
                   </div>
                 </div>

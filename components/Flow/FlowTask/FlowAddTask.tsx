@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { PlusIcon } from '@heroicons/react/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import CourseDropdown from 'components/dropdowns/CourseDropdown'

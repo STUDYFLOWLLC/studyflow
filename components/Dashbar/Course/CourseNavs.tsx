@@ -1,4 +1,4 @@
-import { PencilAltIcon } from '@heroicons/react/outline'
+import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import CourseLine from 'components/Dashbar/Course/CourseLine'
@@ -106,7 +106,7 @@ export default function CourseNavs() {
           <div>
             <p className="px-2 text-xs font-semibold tracking-wider">Courses</p>
           </div>
-          <PencilAltIcon
+          <PencilSquareIcon
             className="cursor-pointer w-4 mb-0.5"
             onClick={() => {
               if (!coursesOnTermLoading) setCourseModalOpen(true)

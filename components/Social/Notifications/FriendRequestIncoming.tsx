@@ -1,5 +1,5 @@
 import { Menu } from '@headlessui/react'
-import { CheckIcon, XIcon } from '@heroicons/react/outline'
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import useFriends from 'hooks/social/useFriends'
@@ -33,7 +33,7 @@ export default function FriendRequestIncoming({ friendship }: Props) {
         >
           <BasicStudentDisplay publicUser={friendship.FK_UserFrom} />
           <div className="flex">
-            <XIcon
+            <XMarkIcon
               className={classNames(
                 { 'hover:bg-gray-100': theme === 'light' },
                 { 'hover:bg-slate-600': theme === 'dark' },

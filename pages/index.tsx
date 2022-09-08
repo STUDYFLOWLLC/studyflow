@@ -4,9 +4,9 @@ import { Popover } from '@headlessui/react'
 import {
   BeakerIcon,
   CheckCircleIcon,
-  PencilAltIcon,
+  PencilSquareIcon,
   UserGroupIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import logo from 'images/logo.svg'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -24,7 +24,7 @@ const solutions = [
     description:
       "It's time to drop Google Docs. Embed flashcards, a review schedule, lecture audio, and videos right into your flows with our revolutionary text editor.",
     href: '#',
-    icon: PencilAltIcon,
+    icon: PencilSquareIcon,
   },
   {
     name: 'Student-first task management',

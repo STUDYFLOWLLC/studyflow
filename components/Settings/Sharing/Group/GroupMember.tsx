@@ -1,4 +1,4 @@
-import { XIcon } from '@heroicons/react/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
@@ -57,7 +57,7 @@ export default function GroupMember({ userOnStudyGroup }: Props) {
             offset={TOOLTIP_OFFSET}
             delay={TOOLTIP_DELAY}
           >
-            <XIcon
+            <XMarkIcon
               className={classNames(
                 { 'hover:bg-gray-100': theme === 'light' },
                 { 'hover:bg-slate-600': theme === 'dark' },
@@ -86,7 +86,7 @@ export default function GroupMember({ userOnStudyGroup }: Props) {
           offset={TOOLTIP_OFFSET}
           delay={TOOLTIP_DELAY}
         >
-          <XIcon
+          <XMarkIcon
             className={classNames(
               { 'hover:bg-gray-100': theme === 'light' },
               { 'hover:bg-slate-600': theme === 'dark' },

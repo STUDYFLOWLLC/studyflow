@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 
 import {
-  MenuAlt2Icon,
-  MenuAlt3Icon,
-  MenuAlt4Icon,
-  MenuIcon,
-} from '@heroicons/react/outline'
+  Bars3BottomLeftIcon,
+  Bars3BottomRightIcon,
+  Bars3CenterLeftIcon,
+  Bars3Icon,
+} from '@heroicons/react/24/outline'
 import { TippyProps } from '@tippyjs/react'
 import { AlignToolbarButton } from '@udecode/plate'
 
@@ -27,22 +27,22 @@ export const AlignToolbarButtons = () => {
     <>
       <AlignToolbarButton
         value="left"
-        icon={<MenuAlt2Icon />}
+        icon={<Bars3BottomLeftIcon />}
         tooltip={leftTT}
       />
       <AlignToolbarButton
         value="center"
-        icon={<MenuIcon />}
+        icon={<Bars3Icon />}
         tooltip={centerTT}
       />
       <AlignToolbarButton
         value="right"
-        icon={<MenuAlt3Icon />}
+        icon={<Bars3BottomRightIcon />}
         tooltip={rightTT}
       />
       <AlignToolbarButton
         value="justify"
-        icon={<MenuAlt4Icon />}
+        icon={<Bars3CenterLeftIcon />}
         tooltip={justifyTT}
       />
     </>

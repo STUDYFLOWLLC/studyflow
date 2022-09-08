@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { EyeOffIcon } from '@heroicons/react/outline'
+import { EyeSlashIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import FlashcardStack from 'components/Repetition/Flashcards/FlashcardStack'
 import FlashcardReviewModal from 'components/Repetition/Flashcards/ReviewModal/FlashcardReviewModal'
@@ -80,7 +80,7 @@ export default function FlowRepetition({ flowId, repetitionId }: Props) {
       <div className="w-1/2 pl-2">
         <div className="flex h-16 justify-center absolute top-0 right-0">
           <DeleteRepetition flowId={flowId} repetitionId={repetitionId} />
-          <EyeOffIcon
+          <EyeSlashIcon
             className="mt-0.5 w-5 h-5 cursor-pointer"
             onClick={() => setRepetitionHidden(true)}
             onKeyDown={() => setRepetitionHidden(true)}

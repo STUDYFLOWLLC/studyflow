@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'

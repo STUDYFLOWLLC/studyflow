@@ -1,10 +1,10 @@
 import {
   BeakerIcon,
   CheckCircleIcon,
-  ClipboardListIcon,
-  SupportIcon,
+  ClipboardDocumentIcon,
+  LifebuoyIcon,
   UserGroupIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
@@ -24,7 +24,7 @@ export default function MainNavs() {
     {
       name: 'Dash',
       href: '#',
-      icon: ClipboardListIcon,
+      icon: ClipboardDocumentIcon,
       keyboard: 'D',
       current: router.pathname === '/dash',
       handler: () => router.push('/dash'),
@@ -57,7 +57,7 @@ export default function MainNavs() {
     {
       name: 'Beta Center',
       href: '#',
-      icon: SupportIcon,
+      icon: LifebuoyIcon,
       keyboard: 'S',
       current: router.pathname === '/beta',
       handler: () => router.push('/beta'),

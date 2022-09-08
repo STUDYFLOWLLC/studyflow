@@ -22,11 +22,13 @@ export interface Task {
   }
   Type: TaskType
   FK_Flow?: {
+    FlowID: string
     Title: string
   }
   FK_Repetition?: {
     FK_Flow?: {
       Title: string
+      FlowID: string
     }
   }
 }
@@ -69,10 +71,12 @@ export default function useTasks(
         }
         Type
         FK_Flow {
+          FlowID
           Title
         }
         FK_Repetition {
           FK_Flow {
+            FlowID
             Title
           }
         }

@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.6.5",
-    "@heroicons/react": "^1.0.6",
+    "@heroicons/react": "^2.0.10",
     "@prisma/client": "~3.11.0",
     "@react-oauth/google": "^0.2.6",
     "@react-spring/web": "^9.4.5",
@@ -54,6 +54,7 @@
     "graphql-fields": "^2.0.3",
     "graphql-request": "^4.2.0",
     "graphql-scalars": "^1.17.0",
+    "heroicons": "^2.0.10",
     "immutable": "^4.1.0",
     "is-hotkey": "^0.2.0",
     "match-sorter": "^6.3.1",

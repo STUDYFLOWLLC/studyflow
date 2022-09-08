@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { BanIcon, LockClosedIcon } from '@heroicons/react/outline'
+import { LockClosedIcon, NoSymbolIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ interface Props {
 const items = [
   { name: FlowVisibility.PUBLIC, icon: RainbowPublicIcon },
   { name: FlowVisibility.PRIVATE, icon: LockClosedIcon },
-  { name: FlowVisibility.HIDDEN, icon: BanIcon },
+  { name: FlowVisibility.HIDDEN, icon: NoSymbolIcon },
 ]
 
 export default function FlowVisibilityChooser({
@@ -53,7 +53,7 @@ export default function FlowVisibilityChooser({
             <LockClosedIcon className="w-6 h-6" />
           )}
           {visibility === FlowVisibility.HIDDEN && (
-            <BanIcon className="w-6 h-6" />
+            <NoSymbolIcon className="w-6 h-6" />
           )}
         </div>
       </Menu.Button>
