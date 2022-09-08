@@ -2,7 +2,6 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import FlowTableHeader from 'components/FlowTable/FlowTableHeader'
-import ButtonSpinner from 'components/spinners/ButtonSpinner'
 import useDashFlows from 'hooks/flows/useDashFlows'
 import useCoursesOnTerm from 'hooks/school/useCoursesOnTerm'
 import useUserDetails from 'hooks/useUserDetails'
@@ -12,6 +11,7 @@ import { useEffect, useState } from 'react'
 import { FlowSortOptions, masterFlowSorter } from 'utils/flows/sortFlows'
 import ActualFlowTable from './ActualFlowTable'
 import EmptyTable from './EmptyTable'
+import LoadMore from './LoadMore'
 
 interface Props {
   setCurrentFlow?: (flowId: string) => void
@@ -68,18 +68,12 @@ export default function FlowList({ setCurrentFlow }: Props) {
               dashFlowsLoading={dashFlowsLoading}
             />
           </table>
-          {!dashFlowsLoading && (
-            <button
-              type="button"
-              className="text-sm rounded-md hover:bg-info/30 w-32 py-0.5 px-1 mx-4 my-2 flex items-center"
-              onClick={() => setSize(size + 1)}
-              onKeyDown={() => setSize(size + 1)}
-              disabled={isValidating}
-            >
-              Load more...
-              <ButtonSpinner show={isValidating} />
-            </button>
-          )}
+          <LoadMore
+            show={!dashFlowsLoading}
+            isValidating={isValidating}
+            size={size}
+            setSize={setSize}
+          />
           {/* {(dashFlows.length === 8 || index !== 0) && (
             <FlowPaginationButtons
               index={size}
