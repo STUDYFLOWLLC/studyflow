@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import ButtonSpinner from 'components/spinners/ButtonSpinner'
+import { endOfToday } from 'date-fns'
 import createFlashcardStackReview from 'hooks/repetition/reviewHandlers'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { useState } from 'react'
@@ -23,7 +24,7 @@ export default function ReviewBody({ repetitionId }: Props) {
   const reviewDue =
     nextReviewTask &&
     nextReviewTask.DueDate &&
-    new Date().getTime() - new Date(nextReviewTask.DueDate).getTime() > 0
+    endOfToday().getTime() > new Date(nextReviewTask.DueDate).getTime()
 
   return (
     <div className="border-t mt-4 pt-4 w-full px-4">

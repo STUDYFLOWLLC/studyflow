@@ -185,12 +185,8 @@ export default function useDashFlows(
     previousPageData: { flows: DashFlow[] },
   ) => {
     const variablesLocal = structuredClone(variables)
-    console.log('Page index: ', pageIndex)
-    console.log('Previous Data', previousPageData)
     variablesLocal.take = 8
     variablesLocal.skip = pageIndex * 8
-    console.log(variablesLocal.skip)
-    console.log(variablesLocal)
     if (previousPageData && previousPageData.flows.length < 8) return null // reached the end
     return userId ? [query, variablesLocal] : null
   }

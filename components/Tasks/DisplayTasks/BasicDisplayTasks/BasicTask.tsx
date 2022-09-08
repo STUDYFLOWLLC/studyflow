@@ -35,9 +35,6 @@ export default function BasicTask({
 }: Props) {
   const [editing, setEditing] = useState(false)
 
-  console.log(flowId)
-  console.log(task.FK_Flow)
-
   return editing ? (
     <EditTask
       groupBy={groupBy}
