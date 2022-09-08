@@ -32,7 +32,7 @@ export default function NextReview({ repetitionId }: Props) {
     useRepetitionDetails(repetitionId)
 
   if (repetitionDetailsLoading) {
-    return <Skeleton width={75} height={20} />
+    return <Skeleton width={75} height={18} />
   }
 
   if (!repetitionDetails) {

@@ -14,7 +14,7 @@ export default function LoadMore({ show, isValidating, size, setSize }: Props) {
   return (
     <button
       type="button"
-      className="text-sm rounded-md hover:bg-info/30 w-32 py-0.5 px-1 mx-4 my-2 flex items-center"
+      className="text-sm rounded-md text-semibold hover:bg-info/30 w-32 py-0.5 px-1 ml-7 my-2 flex items-center"
       onClick={() => setSize(size + 1)}
       onKeyDown={() => setSize(size + 1)}
       disabled={isValidating}

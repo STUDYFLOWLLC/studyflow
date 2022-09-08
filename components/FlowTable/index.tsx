@@ -69,7 +69,7 @@ export default function FlowList({ setCurrentFlow }: Props) {
             />
           </table>
           <LoadMore
-            show={!dashFlowsLoading}
+            show={!dashFlowsLoading && dashFlows.length > 6}
             isValidating={isValidating}
             size={size}
             setSize={setSize}
