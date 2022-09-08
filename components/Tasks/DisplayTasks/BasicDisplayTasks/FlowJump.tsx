@@ -10,7 +10,7 @@ export default function FlowJump({ id }: Props) {
 
   return (
     <div
-      className="flex items-center text-xs cursor-pointer text-primary border border-primary hover:border-transparent hover:bg-primary hover:text-white py-0.5 px-1 rounded-md transition-all"
+      className="flex items-center text-xs cursor-pointer text-primary border border-primary hover:border-transparent hover:bg-primary hover:text-white py-px px-1 rounded-md transition-all"
       onClick={() => router.push(`/dash#${id}`)}
       onKeyDown={() => router.push(`/dash#${id}`)}
     >

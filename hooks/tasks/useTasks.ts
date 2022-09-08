@@ -43,7 +43,6 @@ interface Ret {
 export default function useTasks(
   userId: number | undefined,
   groupBy?: 'Today' | 'All' | number,
-  index?: number,
   completed = false,
 ): Ret {
   const query = gql`
@@ -276,10 +275,10 @@ export default function useTasks(
     },
   ]
 
-  if (index !== undefined) {
-    variables.take = 8
-    variables.skip = index * 8
-  }
+  // if (index !== undefined) {
+  //   variables.take = 8
+  //   variables.skip = index * 8
+  // }
 
   if (!completed) {
     variables.where.AND.push({

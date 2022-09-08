@@ -10,7 +10,6 @@ interface Props {
   task: Task
   groupBy?: 'Today' | 'All' | number
   flowId?: string
-  index?: number
   showCompleted?: boolean
 }
 
@@ -18,7 +17,6 @@ export default function DeleteTask({
   task,
   groupBy,
   flowId,
-  index,
   showCompleted,
 }: Props) {
   const user = useUser()
@@ -26,9 +24,9 @@ export default function DeleteTask({
   const { tasks, mutateTasks } = useTasks(
     userDetails?.UserID,
     groupBy,
-    index,
     showCompleted,
   )
+  console.log(groupBy)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   return (
@@ -56,7 +54,7 @@ export default function DeleteTask({
             !!flowId,
           )
         }}
-        className="w-5 h-5 text-info hover:text-info/80 hover:cursor-pointer"
+        className="w-4 h-4 text-info hover:text-info/80 hover:cursor-pointer"
       />
     </div>
   )

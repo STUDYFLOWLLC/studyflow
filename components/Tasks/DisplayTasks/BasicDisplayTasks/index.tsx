@@ -1,4 +1,3 @@
-import FlowPaginationButtons from 'components/FlowTable/FlowPaginationButtons'
 import BasicTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/BasicTask'
 import { Task } from 'hooks/tasks/useTasks'
 import { Toaster } from 'react-hot-toast'
@@ -29,6 +28,7 @@ export default function BasicDisplayTasks({
   repetitionId,
   flowId,
 }: Props) {
+  console.log(tasks)
   return (
     <div className="w-full">
       <Toaster />
@@ -51,16 +51,19 @@ export default function BasicDisplayTasks({
                 groupBy={groupBy}
                 key={task.TaskID}
                 cute={cute}
-                readOnly={readOnly}
+                readOnly={
+                  readOnly ||
+                  (task.FK_Repetition !== null &&
+                    task.FK_Repetition !== undefined)
+                }
                 shouldNotUseUndo={shouldNotUseUndo}
                 repetitionId={repetitionId}
                 flowId={flowId}
-                index={index}
                 showCompleted={showCompleted}
               />
             ),
         )}
-      {index !== undefined && setIndex && (
+      {/* {index !== undefined && setIndex && (
         <div>
           {(index > 0 || tasks.length >= 8) && (
             <FlowPaginationButtons
@@ -70,7 +73,7 @@ export default function BasicDisplayTasks({
             />
           )}
         </div>
-      )}
+      )} */}
     </div>
   )
 }

@@ -34,10 +34,10 @@ const taskTypeToString = (taskType: TaskType | undefined) => {
 
 export default function TypeIcon({ taskType }: Props) {
   return (
-    <div className="text-sm">
+    <div className="text-xs">
       {taskType && (
         <div className={classNames(textColor(taskType), 'flex items-center')}>
-          <TagIcon className="w-4 h-4 mr-0.5" />
+          <TagIcon className="w-3.5 h-3.5 mr-1" />
           <div>{taskTypeToString(taskType)}</div>
         </div>
       )}

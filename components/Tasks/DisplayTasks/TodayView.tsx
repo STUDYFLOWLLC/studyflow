@@ -31,9 +31,9 @@ export default function TodayView({ user }: Props) {
   const { tasks, tasksLoading, mutateTasks } = useTasks(
     userDetails?.UserID,
     'Today',
-    index,
     showCompleted,
   )
+  console.log(tasks)
   const { completedTaskCount, completedTaskCountLoading } =
     useCompletedTaskCount(userDetails?.UserID, 'Today')
   const { uncompletedTaskCount, uncompletedTaskCountLoading } =
@@ -77,15 +77,11 @@ export default function TodayView({ user }: Props) {
         )}
       </div>
 
-      <div>
-        <BasicDisplayTasks
-          tasks={tasks}
-          showCompleted={showCompleted}
-          groupBy={groupBy}
-          index={index}
-          setIndex={setIndex}
-        />
-      </div>
+      <BasicDisplayTasks
+        tasks={tasks}
+        showCompleted={showCompleted}
+        groupBy={groupBy}
+      />
       <div className="mt-1 pb-18">
         <AddTask
           user={user}
@@ -93,8 +89,6 @@ export default function TodayView({ user }: Props) {
           coursesOnTermLoading={coursesOnTermLoading}
           dueDate={new Date()}
           groupBy="Today"
-          index={index}
-          setIndex={setIndex}
           showCompleted={showCompleted}
         />
       </div>

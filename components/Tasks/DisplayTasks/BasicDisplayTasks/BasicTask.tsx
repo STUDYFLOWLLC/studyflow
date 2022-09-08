@@ -18,7 +18,6 @@ interface Props {
   shouldNotUseUndo?: boolean
   repetitionId?: string
   flowId?: string
-  index?: number
   showCompleted?: boolean
 }
 
@@ -30,7 +29,6 @@ export default function BasicTask({
   shouldNotUseUndo,
   repetitionId,
   flowId,
-  index,
   showCompleted,
 }: Props) {
   const [editing, setEditing] = useState(false)
@@ -45,14 +43,13 @@ export default function BasicTask({
       oldType={task.Type}
       taskId={task.TaskID}
       setEditing={setEditing}
-      index={index}
       showCompleted={showCompleted}
     />
   ) : (
     <div
       className={classNames(
         { 'grayscale text-info': task.Completed },
-        'border border-gray-300 rounded-lg shadow-md p-2 mb-2',
+        'border border-gray-300 rounded-md shadow-md py-1.5 px-2 mb-2',
       )}
       key={task.TaskID}
     >
@@ -64,7 +61,6 @@ export default function BasicTask({
           cute={cute}
           repetitionId={repetitionId}
           flowId={flowId}
-          index={index}
           showCompleted={showCompleted}
         />
         <div
@@ -77,7 +73,7 @@ export default function BasicTask({
           <div className="flex justify-between">
             <div
               className={classNames(
-                { 'text-lg': !cute },
+                { 'text-md': !cute },
                 { 'text-sm': cute },
                 'font-medium',
               )}
@@ -86,26 +82,27 @@ export default function BasicTask({
             </div>
             {!readOnly && (
               <span className="flex">
-                {!task.Completed && (
+                {/* {!task.Completed && (
                   <span
-                    className="text-sm mr-1 text-info hover:text-info/80 hover:cursor-pointer"
+                    className="text-xs mr-1 text-info hover:text-info/80 hover:cursor-pointer"
                     onClick={() => setEditing(true)}
                     onKeyDown={() => setEditing(true)}
                   >
                     Edit
                   </span>
-                )}
+                )} */}
                 <DeleteTask
                   task={task}
                   groupBy={groupBy}
                   flowId={flowId}
-                  index={index}
                   showCompleted={showCompleted}
                 />
               </span>
             )}
           </div>
-          <div className="text-sm mb-1">{task.Description}</div>
+          {task.Description && (
+            <div className="text-sm mb-0.5">{task.Description}</div>
+          )}
           <div className="flex justify-between items-center">
             <span className="flex">
               <DateIcon date={task.DueDate} />
@@ -117,11 +114,13 @@ export default function BasicTask({
                 flowId={task.FK_Flow?.FlowID}
               />
             </span>
-            {(groupBy === 'All' || groupBy === 'Today') && !cute && (
-              <span className="flex justify-end mr-1">
-                <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
-              </span>
-            )}
+            {(groupBy === 'All' || groupBy === 'Today') &&
+              !cute &&
+              !(task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title) && (
+                <span className="flex justify-end mr-1">
+                  <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
+                </span>
+              )}
             {!flowId &&
               !cute &&
               (task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title) && (

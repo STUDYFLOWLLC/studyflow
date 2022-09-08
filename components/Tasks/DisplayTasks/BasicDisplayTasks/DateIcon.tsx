@@ -22,8 +22,8 @@ export default function DateIcon({ date }: Props) {
             'flex items-center',
           )}
         >
-          <CalendarIcon className="w-4 h-4 mr-1" />
-          <div>{abbreviateDate(dateObj)}</div>
+          <CalendarIcon className="w-3.5 h-3.5 mr-1" />
+          <p className="m-0 p-0 text-xs leading-4">{abbreviateDate(dateObj)}</p>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import { CheckIcon } from '@heroicons/react/24/solid'
+import { CheckIcon } from '@heroicons/react/20/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
@@ -6,6 +6,7 @@ import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import { completeOrUncompleteTask } from 'hooks/tasks/handleTask'
 import useTasks from 'hooks/tasks/useTasks'
 import useUserDetails from 'hooks/useUserDetails'
+import { useState } from 'react'
 
 interface Props {
   TaskID: string
@@ -14,7 +15,6 @@ interface Props {
   cute?: boolean
   repetitionId?: string
   flowId?: string
-  index?: number
   showCompleted?: boolean
 }
 
@@ -25,7 +25,6 @@ export default function Checkbox({
   cute,
   repetitionId,
   flowId,
-  index,
   showCompleted,
 }: Props) {
   const { user } = useUser()
@@ -33,15 +32,16 @@ export default function Checkbox({
   const { tasks, mutateTasks } = useTasks(
     userDetails?.UserID,
     groupBy,
-    index,
     showCompleted,
   )
   const { repetitionDetails, mutateRepetitionDetails } =
     useRepetitionDetails(repetitionId)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
+  const [showCheckbox, setShowCheckbox] = useState(false)
+
   return (
-    <div>
+    <div className="mr-2">
       <div
         onClick={() => {
           completeOrUncompleteTask(
@@ -69,31 +69,36 @@ export default function Checkbox({
             mutateFlowDetails,
           )
         }}
+        onMouseEnter={() => setShowCheckbox(true)}
+        onMouseLeave={() => setShowCheckbox(false)}
         className={classNames(
           {
             'border-transparent bg-gray-500': isCompleted,
           },
           {
-            'border-2 hover:bg-base-200': !isCompleted,
+            'border-2': !isCompleted,
           },
           { 'w-4 h-4': cute },
-          { 'w-6 h-6': !cute },
-          'cursor-pointer mr-3 mt-0.5  border rounded-full border-info transition-all duration-200 ease-in-out',
+          { 'w-5 h-5': !cute },
+          'cursor-pointer mt-0.5  border rounded-full border-info transition-all duration-200 ease-in-out',
         )}
       >
-        <CheckIcon
-          className={classNames(
-            {
-              'opacity-100': isCompleted,
-            },
-            {
-              'text-info opacity-0 hover:opacity-100': !isCompleted,
-            },
-            { 'w-3 h-3 ml-px mt-px': cute },
-            { 'w-5 h-5 mt-0.5 ml-px': !cute },
-            'transition-all duration-200 ease-in-out text-white',
-          )}
-        />
+        {(showCheckbox || isCompleted) && (
+          <CheckIcon
+            className={classNames(
+              {
+                'opacity-100 text-white': isCompleted,
+              },
+              {
+                'text-info opacity-0 hover:opacity-100 text-info/60 mr-px':
+                  !isCompleted,
+              },
+              { 'w-3 h-3 ml-px mt-px': cute },
+              { 'w-3.5 h-3.5 mt-0.5 ml-0.5': !cute },
+              'transition-all duration-200',
+            )}
+          />
+        )}
       </div>
     </div>
   )
