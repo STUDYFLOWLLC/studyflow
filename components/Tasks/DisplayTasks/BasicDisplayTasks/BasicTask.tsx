@@ -35,9 +35,6 @@ export default function BasicTask({
 }: Props) {
   const [editing, setEditing] = useState(false)
 
-  console.log(flowId)
-  console.log(task.FK_Flow)
-
   return editing ? (
     <EditTask
       groupBy={groupBy}
@@ -109,7 +106,7 @@ export default function BasicTask({
             )}
           </div>
           <div className="text-sm mb-1">{task.Description}</div>
-          <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-center">
             <span className="flex">
               <DateIcon date={task.DueDate} />
               {!cute && <TypeIcon taskType={task.Type} />}
@@ -120,12 +117,13 @@ export default function BasicTask({
                 flowId={task.FK_Flow?.FlowID}
               />
             </span>
-            {(groupBy === 'All' || groupBy === 'Today') && (
+            {(groupBy === 'All' || groupBy === 'Today') && !cute && (
               <span className="flex justify-end mr-1">
                 <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
               </span>
             )}
             {!flowId &&
+              !cute &&
               (task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title) && (
                 <FlowJump
                   id={

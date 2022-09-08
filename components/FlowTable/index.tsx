@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classnames from 'classnames'
 import FlowTableHeader from 'components/FlowTable/FlowTableHeader'
@@ -10,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { FlowSortOptions, masterFlowSorter } from 'utils/flows/sortFlows'
 import ActualFlowTable from './ActualFlowTable'
 import EmptyTable from './EmptyTable'
-import FlowPaginationButtons from './FlowPaginationButtons'
+import LoadMore from './LoadMore'
 
 interface Props {
   setCurrentFlow?: (flowId: string) => void
@@ -33,12 +34,8 @@ export default function FlowList({ setCurrentFlow }: Props) {
   )
   const [index, setIndex] = useState(0)
 
-  const { dashFlows, dashFlowsLoading } = useDashFlows(
-    userDetails?.UserID,
-    groupBy,
-    false,
-    index,
-  )
+  const { dashFlows, dashFlowsLoading, size, setSize, isValidating } =
+    useDashFlows(userDetails?.UserID, groupBy, false)
 
   useEffect(() => setMounted(true), [])
 
@@ -71,13 +68,19 @@ export default function FlowList({ setCurrentFlow }: Props) {
               dashFlowsLoading={dashFlowsLoading}
             />
           </table>
-          {(dashFlows.length === 8 || index !== 0) && (
+          <LoadMore
+            show={!dashFlowsLoading && dashFlows.length > 6}
+            isValidating={isValidating}
+            size={size}
+            setSize={setSize}
+          />
+          {/* {(dashFlows.length === 8 || index !== 0) && (
             <FlowPaginationButtons
-              index={index}
-              setIndex={setIndex}
+              index={size}
+              setIndex={setSize}
               flowLength={dashFlows.length}
             />
-          )}
+          )} */}
         </div>
         {!dashFlowsLoading && dashFlows.length === 0 && (
           <EmptyTable

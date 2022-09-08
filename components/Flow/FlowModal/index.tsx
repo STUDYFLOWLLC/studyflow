@@ -62,29 +62,32 @@ export default function index({
 
     // add flow locally
     mutateDashFlows(
-      {
-        mutatedFlows: [
-          {
-            FlowID: id,
-            Title: titleFromType(createAs),
-            Body: bodyFromType(createAs),
-            Type: createAs || FlowType.LECTURE,
-            CreatedTime: new Date().toISOString(),
-            LastOpened: new Date().toISOString(),
-            UserEnteredDate: new Date().toISOString(),
-            Visibility: FlowVisibility.PRIVATE,
-            FK_CourseOnTerm: {
-              Nickname: course?.Nickname,
-              Color: course?.Color,
-              FK_Course: {
-                Code: course?.FK_Course?.Code,
+      [
+        {
+          flows: [
+            {
+              FlowID: id,
+              Title: titleFromType(createAs),
+              Body: bodyFromType(createAs),
+              Type: createAs || FlowType.LECTURE,
+              CreatedTime: new Date().toISOString(),
+              LastOpened: new Date().toISOString(),
+              UserEnteredDate: new Date().toISOString(),
+              Visibility: FlowVisibility.PRIVATE,
+              FK_CourseOnTerm: {
+                Nickname: course?.Nickname,
+                Color: course?.Color,
+                FK_Course: {
+                  Code: course?.FK_Course?.Code,
+                },
               },
+              mutate: true,
             },
-          },
-          ...dashFlows,
-        ].slice(0, 10),
-        mutate: true,
-      },
+
+            ...dashFlows,
+          ],
+        },
+      ],
       {
         revalidate: false,
       },

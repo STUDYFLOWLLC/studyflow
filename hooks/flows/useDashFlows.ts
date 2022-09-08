@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { gql } from 'graphql-request'
-import useSWR, { KeyedMutator } from 'swr'
+import { KeyedMutator } from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import { FlowType, FlowVisibility } from 'types/Flow'
 import { sortByLastOpened } from 'utils/flows/sortFlows'
 
@@ -33,6 +34,11 @@ interface Ret {
   dashFlowsLoading: boolean
   dashFlowsError: any
   mutateDashFlows: KeyedMutator<any>
+  size: number
+  setSize: (
+    size: number | ((_size: number) => number),
+  ) => Promise<any[] | undefined>
+  isValidating: boolean
 }
 
 export default function useDashFlows(
@@ -103,11 +109,16 @@ export default function useDashFlows(
               },
             },
           },
+          {
+            Trashed: {
+              equals: false,
+            },
+          },
         ],
       },
       orderBy: [
         {
-          CreatedTime: 'asc',
+          CreatedTime: 'desc',
         },
       ],
     }
@@ -133,7 +144,7 @@ export default function useDashFlows(
       },
       orderBy: [
         {
-          CreatedTime: 'asc',
+          CreatedTime: 'desc',
         },
       ],
     }
@@ -151,23 +162,41 @@ export default function useDashFlows(
               equals: groupBy,
             },
           },
+          {
+            Trashed: {
+              equals: false,
+            },
+          },
         ],
       },
       orderBy: [
         {
-          CreatedTime: 'asc',
+          CreatedTime: 'desc',
         },
       ],
     }
   }
 
-  variables.take = 8
-  variables.skip = index * 8
+  // A function to get the SWR key of each page,
+  // its return value will be accepted by `fetcher`.
+  // If `null` is returned, the request of that page won't start.
+  const getKey = (
+    pageIndex: number,
+    previousPageData: { flows: DashFlow[] },
+  ) => {
+    const variablesLocal = structuredClone(variables)
+    variablesLocal.take = 8
+    variablesLocal.skip = pageIndex * 8
+    if (previousPageData && previousPageData.flows.length < 8) return null // reached the end
+    return userId ? [query, variablesLocal] : null
+  }
 
-  const { data, error, mutate } = useSWR(userId ? [query, variables] : null)
+  const { data, error, mutate, size, setSize, isValidating } =
+    useSWRInfinite(getKey)
 
-  if (data?.flows) {
-    const flows = data?.flows.sort((flowA: DashFlow, flowB: DashFlow) =>
+  if (data?.[0]?.flows) {
+    const joinedFlows = data.reduce((acc, cur) => acc.concat(cur.flows), [])
+    const flows = joinedFlows.sort((flowA: DashFlow, flowB: DashFlow) =>
       sortByLastOpened(flowA, flowB),
     )
 
@@ -182,12 +211,16 @@ export default function useDashFlows(
       dashFlowsLoading: false,
       dashFlowsError: null,
       mutateDashFlows: mutate,
+      size,
+      setSize,
+      isValidating,
     }
   }
 
-  if (data?.mutate) {
-    const flows = data?.mutatedFlows.sort((flowA: DashFlow, flowB: DashFlow) =>
-      sortByLastOpened(flowA, flowB),
+  if (data?.[0]?.mutate) {
+    const joinedFlows = data.reduce((acc, cur) => acc.concat(cur.flows), [])
+    const flows = joinedFlows.mutatedFlows.sort(
+      (flowA: DashFlow, flowB: DashFlow) => sortByLastOpened(flowA, flowB),
     )
 
     return {
@@ -201,6 +234,9 @@ export default function useDashFlows(
       dashFlowsLoading: false,
       dashFlowsError: null,
       mutateDashFlows: mutate,
+      size,
+      setSize,
+      isValidating,
     }
   }
 
@@ -209,5 +245,8 @@ export default function useDashFlows(
     dashFlowsLoading: !data && !error,
     dashFlowsError: error,
     mutateDashFlows: mutate,
+    size,
+    setSize,
+    isValidating,
   }
 }

@@ -228,11 +228,13 @@ export async function trashFlow(
 
   // mutate locally
   mutateDashFlows(
-    {
-      mutatedFlows: dashFlows.filter((flow) => flow.FlowID !== flowId),
-      mutate: true,
-    },
-    { revalidate: false },
+    [
+      {
+        flows: dashFlows.filter((flow) => flow.FlowID !== flowId),
+        mutate: true,
+      },
+    ],
+    { revalidate: true },
   )
 
   closeFlowModal()

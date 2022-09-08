@@ -1,6 +1,7 @@
 import { ClockIcon } from '@heroicons/react/24/outline'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
+import { endOfToday } from 'date-fns'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import Skeleton from 'react-loading-skeleton'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
@@ -31,7 +32,7 @@ export default function NextReview({ repetitionId }: Props) {
     useRepetitionDetails(repetitionId)
 
   if (repetitionDetailsLoading) {
-    return <Skeleton width={75} height={20} />
+    return <Skeleton width={75} height={18} />
   }
 
   if (!repetitionDetails) {
@@ -54,7 +55,7 @@ export default function NextReview({ repetitionId }: Props) {
   const reviewDue =
     nextReviewTask &&
     nextReviewTask.DueDate &&
-    new Date().getTime() - new Date(nextReviewTask.DueDate).getTime() > 0
+    endOfToday().getTime() > new Date(nextReviewTask.DueDate).getTime()
 
   return (
     <Tippy
