@@ -1,16 +1,16 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Menu, Transition } from '@headlessui/react'
 import {
-  ArchiveIcon,
-  ArrowCircleRightIcon,
+  ArchiveBoxIcon,
+  ArrowRightCircleIcon,
   CheckIcon,
   ChevronDownIcon,
-  CollectionIcon,
-  DuplicateIcon,
+  CircleStackIcon,
+  DocumentDuplicateIcon,
   HeartIcon,
   TrashIcon,
-  UserAddIcon,
-} from '@heroicons/react/solid'
+  UserPlusIcon,
+} from '@heroicons/react/24/solid'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { Fragment } from 'react'
@@ -53,7 +53,7 @@ export default function TasksDropdown({ viewing, setViewing }: Props) {
                     onClick={() => setViewing('Today')}
                     onKeyDown={() => setViewing('Today')}
                   >
-                    <CollectionIcon
+                    <CircleStackIcon
                       className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
@@ -69,7 +69,7 @@ export default function TasksDropdown({ viewing, setViewing }: Props) {
                           'group flex items-center px-4 py-2 text-sm hover:cursor-pointer',
                         )}
                       >
-                        <CollectionIcon
+                        <CircleStackIcon
                           className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                           aria-hidden="true"
                         />
@@ -89,7 +89,7 @@ export default function TasksDropdown({ viewing, setViewing }: Props) {
                     'group flex items-center px-4 py-2 text-sm',
                   )}
                 >
-                  <DuplicateIcon
+                  <DocumentDuplicateIcon
                     className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true"
                   />
@@ -108,7 +108,7 @@ export default function TasksDropdown({ viewing, setViewing }: Props) {
                     'group flex items-center px-4 py-2 text-sm',
                   )}
                 >
-                  <ArchiveIcon
+                  <ArchiveBoxIcon
                     className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true"
                   />
@@ -125,7 +125,7 @@ export default function TasksDropdown({ viewing, setViewing }: Props) {
                     'group flex items-center px-4 py-2 text-sm',
                   )}
                 >
-                  <ArrowCircleRightIcon
+                  <ArrowRightCircleIcon
                     className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true"
                   />
@@ -144,7 +144,7 @@ export default function TasksDropdown({ viewing, setViewing }: Props) {
                     'group flex items-center px-4 py-2 text-sm',
                   )}
                 >
-                  <UserAddIcon
+                  <UserPlusIcon
                     className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true"
                   />

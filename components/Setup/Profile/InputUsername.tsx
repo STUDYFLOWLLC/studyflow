@@ -5,8 +5,8 @@ import {
   CheckIcon,
   InformationCircleIcon,
   LockClosedIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Dispatch, useEffect, useState } from 'react'
@@ -72,7 +72,7 @@ export default function InputUsername({ username, setUsername }: Props) {
               {username.length >= 3 && username.length <= 15 ? (
                 <CheckIcon className="mr-4 w-4 h-4 text-green-400" />
               ) : (
-                <XIcon className="mr-4 w-4 h-4 text-red-400" />
+                <XMarkIcon className="mr-4 w-4 h-4 text-red-400" />
               )}
               <p className="w-18">3-15 Characters</p>
             </div>
@@ -80,7 +80,7 @@ export default function InputUsername({ username, setUsername }: Props) {
               {/^[a-z0-9._]+$/.test(username) ? (
                 <CheckIcon className="mr-4 w-4 h-4 text-green-400" />
               ) : (
-                <XIcon className="mr-4 w-4 h-4 text-red-400" />
+                <XMarkIcon className="mr-4 w-4 h-4 text-red-400" />
               )}
               <p className="w-18">Lowercase letters, numbers</p>
             </div>
@@ -91,7 +91,7 @@ export default function InputUsername({ username, setUsername }: Props) {
               username.charAt(username.length - 1) !== '_' ? (
                 <CheckIcon className="mr-4 w-4 h-4 text-green-400" />
               ) : (
-                <XIcon className="mr-4 w-4 h-4 text-red-400" />
+                <XMarkIcon className="mr-4 w-4 h-4 text-red-400" />
               )}
               <p className="w-18">Periods, underscores inside</p>
             </div>

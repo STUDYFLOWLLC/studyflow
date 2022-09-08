@@ -1,10 +1,10 @@
 import {
-  ExclamationIcon,
-  FolderAddIcon,
-  LibraryIcon,
+  BuildingLibraryIcon,
+  ExclamationTriangleIcon,
+  FolderPlusIcon,
   PhoneIcon,
   RssIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import NotificationBell from 'components/Social/Notifications/NotificationBell'
 import { useTheme } from 'next-themes'
@@ -21,9 +21,9 @@ export enum BetaDisplays {
 }
 
 const betaDisplays = [
-  { display: BetaDisplays.TUTORIAL, icon: LibraryIcon },
-  { display: BetaDisplays.REPORT_BUG, icon: ExclamationIcon },
-  { display: BetaDisplays.REQUEST_FEATURE, icon: FolderAddIcon },
+  { display: BetaDisplays.TUTORIAL, icon: BuildingLibraryIcon },
+  { display: BetaDisplays.REPORT_BUG, icon: ExclamationTriangleIcon },
+  { display: BetaDisplays.REQUEST_FEATURE, icon: FolderPlusIcon },
   { display: BetaDisplays.CONTACT_US, icon: PhoneIcon },
 ]
 

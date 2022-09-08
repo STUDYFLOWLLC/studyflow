@@ -2,11 +2,11 @@
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
 import {
-  BanIcon,
   CalendarIcon,
-  CollectionIcon,
   InboxIcon,
-} from '@heroicons/react/outline'
+  NoSymbolIcon,
+  RectangleGroupIcon,
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import DropdownCalendar from 'components/dropdowns/DateDropdown/DropdownCalendar'
 import { isBefore, isToday, isTomorrow, startOfToday } from 'date-fns'
@@ -27,9 +27,9 @@ interface activeProps {
 
 const itemList = ['Today', 'Tomorrow', 'No Date']
 const itemIcons = [
-  <CollectionIcon key="collection" className="w-4 mr-1" />,
+  <RectangleGroupIcon key="collection" className="w-4 mr-1" />,
   <InboxIcon key="inbox" className="w-4 mr-1" />,
-  <BanIcon key="ban" className="w-4 mr-1" />,
+  <NoSymbolIcon key="ban" className="w-4 mr-1" />,
 ]
 
 interface Props {

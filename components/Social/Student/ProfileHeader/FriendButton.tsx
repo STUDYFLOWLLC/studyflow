@@ -1,4 +1,4 @@
-import { CheckIcon, UserAddIcon, XIcon } from '@heroicons/react/outline'
+import { CheckIcon, UserPlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import useFriends from 'hooks/social/useFriends'
 import useUserDetails from 'hooks/useUserDetails'
@@ -54,7 +54,10 @@ export default function FriendButton({ PublicUser }: Props) {
           )
         }
       >
-        <XIcon className="-ml-1 mr-2 h-5 w-5 text-red-400" aria-hidden="true" />
+        <XMarkIcon
+          className="-ml-1 mr-2 h-5 w-5 text-red-400"
+          aria-hidden="true"
+        />
         <span>Remove Friend </span>
       </button>
     )
@@ -75,7 +78,10 @@ export default function FriendButton({ PublicUser }: Props) {
           cancelFriendship(friendRequested, friends, mutateFriends)
         }
       >
-        <XIcon className="-ml-1 mr-2 h-5 w-5 text-red-400" aria-hidden="true" />
+        <XMarkIcon
+          className="-ml-1 mr-2 h-5 w-5 text-red-400"
+          aria-hidden="true"
+        />
         <span>Cancel Request</span>
       </button>
     )
@@ -90,7 +96,7 @@ export default function FriendButton({ PublicUser }: Props) {
     return (
       <div className="flex items-center w-18 px-3 py-2 border rounded-md">
         <p className="p-0 m-0 mr-2 text-sm">Accept friend request? </p>
-        <XIcon
+        <XMarkIcon
           className="w-6 h-6 mr-1 text-red-400 p-0.5 rounded-md cursor-pointer hover:bg-info/10"
           onClick={() =>
             rejectFriendship(friendIncoming, friends, mutateFriends)
@@ -124,7 +130,7 @@ export default function FriendButton({ PublicUser }: Props) {
           sendFriendship(userDetails, PublicUser, friends, mutateFriends)
         }
       >
-        <UserAddIcon
+        <UserPlusIcon
           className="-ml-1 mr-2 h-5 w-5 text-gray-400"
           aria-hidden="true"
         />

@@ -1,4 +1,4 @@
-import { BadgeCheckIcon } from '@heroicons/react/outline'
+import { CheckBadgeIcon } from '@heroicons/react/24/outline'
 import useCourseCount from 'hooks/school/useCourseCount'
 import useFlowCount from 'hooks/school/useFlowCount'
 import useProfessorCount from 'hooks/school/useProfessorCount'
@@ -31,7 +31,7 @@ export default function SchoolInfo({ selectedSchool }: Props) {
             className="tooltip tooltip-right pl-2"
             data-tip={`Studyflow officially supports ${selectedSchool.Name} and actively updates their class roster.`}
           >
-            <BadgeCheckIcon className="w-6 h-6" />
+            <CheckBadgeIcon className="w-6 h-6" />
           </div>
         </h3>
 

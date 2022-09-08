@@ -1,4 +1,4 @@
-import { GlobeIcon } from '@heroicons/react/outline'
+import { GlobeAltIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
@@ -32,7 +32,7 @@ export default function RequestedFriends() {
       ))}
       {friends?.incoming.length === 0 && (
         <div className="flex flex-col items-center">
-          <GlobeIcon className="w-6 h-6" />
+          <GlobeAltIcon className="w-6 h-6" />
           <p className="text-center text-xs mx-0 p-0 mt-2">
             No incoming requests
           </p>

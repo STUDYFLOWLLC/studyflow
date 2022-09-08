@@ -1,4 +1,4 @@
-import { ClockIcon } from '@heroicons/react/outline'
+import { ClockIcon } from '@heroicons/react/24/outline'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'

@@ -2,11 +2,11 @@
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
 import {
+  ArrowPathIcon,
   BriefcaseIcon,
   ExclamationCircleIcon,
-  RefreshIcon,
   TagIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
@@ -15,7 +15,7 @@ import { TaskType } from 'types/Task'
 const items = [
   { type: TaskType.WORK_ON, display: 'Work', icon: BriefcaseIcon },
   { type: TaskType.DUE, display: 'Due', icon: ExclamationCircleIcon },
-  { type: TaskType.REVIEW, display: 'Review', icon: RefreshIcon },
+  { type: TaskType.REVIEW, display: 'Review', icon: ArrowPathIcon },
 ]
 
 interface activeProps {

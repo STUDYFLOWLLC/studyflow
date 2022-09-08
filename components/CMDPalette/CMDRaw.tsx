@@ -1,5 +1,5 @@
 import { Combobox } from '@headlessui/react'
-import { EmojiSadIcon } from '@heroicons/react/outline'
+import { FaceFrownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { groupBy } from 'lodash'
@@ -145,7 +145,7 @@ export default function CMDRaw({
         </Combobox.Options>
       ) : (
         <div className="py-14 px-6 text-center sm:px-14">
-          <EmojiSadIcon
+          <FaceFrownIcon
             className="mx-auto h-6 w-6 text-gray-400"
             aria-hidden="true"
           />

@@ -1,4 +1,4 @@
-import { ArrowsExpandIcon } from '@heroicons/react/outline'
+import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 import { animated, useSpring } from '@react-spring/web'
 import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction } from 'react'
@@ -68,7 +68,7 @@ export default function OpenFancy({
               </a>
             </animated.div>
             <animated.div style={{ ...openIconAnimationProps }}>
-              <ArrowsExpandIcon className="text-gray-400 absolute top-3 right-3.5 w-4 mt-0.5 ml-1" />
+              <ArrowsPointingOutIcon className="text-gray-400 absolute top-3 right-3.5 w-4 mt-0.5 ml-1" />
             </animated.div>
           </>
         ) : (

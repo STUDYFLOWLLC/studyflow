@@ -2,7 +2,7 @@ import {
   AcademicCapIcon,
   UserGroupIcon,
   UserIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import useUserDetails from 'hooks/useUserDetails'

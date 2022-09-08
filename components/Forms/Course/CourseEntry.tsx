@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react/self-closing-comp */
 
 import { Combobox } from '@headlessui/react'
-import { BadgeCheckIcon, CheckIcon } from '@heroicons/react/outline'
+import { CheckBadgeIcon, CheckIcon } from '@heroicons/react/24/outline'
 import classnames from 'classnames'
 import { CourseHit } from 'components/Forms/Course/CourseSearch'
 import { useTheme } from 'next-themes'
@@ -51,7 +51,7 @@ export default function CourseEntry({ course }: Props) {
                 {shorten(course.Title, 21)}
               </span>
               {course.IsOfficial && (
-                <BadgeCheckIcon className="h-5 w-5" aria-hidden="true" />
+                <CheckBadgeIcon className="h-5 w-5" aria-hidden="true" />
               )}
             </div>
             <div className="flex justify-between">

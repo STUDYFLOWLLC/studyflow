@@ -3,8 +3,8 @@ import {
   CheckIcon,
   InformationCircleIcon,
   LockClosedIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { useTheme } from 'next-themes'
@@ -50,7 +50,7 @@ export default function UsernameChecker({
             {passesLength ? (
               <CheckIcon className="mr-4 w-4 h-4 text-green-400" />
             ) : (
-              <XIcon className="mr-4 w-4 h-4 text-red-400" />
+              <XMarkIcon className="mr-4 w-4 h-4 text-red-400" />
             )}
             <p className="w-18">3-15 Characters</p>
           </div>
@@ -58,7 +58,7 @@ export default function UsernameChecker({
             {passesLowercaseNumbers ? (
               <CheckIcon className="mr-4 w-4 h-4 text-green-400" />
             ) : (
-              <XIcon className="mr-4 w-4 h-4 text-red-400" />
+              <XMarkIcon className="mr-4 w-4 h-4 text-red-400" />
             )}
             <p className="w-18">Lowercase letters, numbers</p>
           </div>
@@ -66,7 +66,7 @@ export default function UsernameChecker({
             {passesPeriodsUnderscoresInside ? (
               <CheckIcon className="mr-4 w-4 h-4 text-green-400" />
             ) : (
-              <XIcon className="mr-4 w-4 h-4 text-red-400" />
+              <XMarkIcon className="mr-4 w-4 h-4 text-red-400" />
             )}
             <p className="w-18">Periods, underscores inside</p>
           </div>
@@ -79,7 +79,7 @@ export default function UsernameChecker({
                   {uniqueCheck ? (
                     <CheckIcon className="w-4 h-4 text-green-400" />
                   ) : (
-                    <XIcon className="w-4 h-4 text-red-400" />
+                    <XMarkIcon className="w-4 h-4 text-red-400" />
                   )}
                 </span>
               )}

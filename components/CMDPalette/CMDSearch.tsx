@@ -1,5 +1,5 @@
 import { Combobox } from '@headlessui/react'
-import { SearchIcon } from '@heroicons/react/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
 interface Props {
   placeholder: string
@@ -16,7 +16,7 @@ export default function CMDSearch({
 }: Props) {
   return (
     <div className="flex">
-      <SearchIcon
+      <MagnifyingGlassIcon
         className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
         aria-hidden="true"
       />

@@ -1,4 +1,4 @@
-import { BanIcon } from '@heroicons/react/outline'
+import { NoSymbolIcon } from '@heroicons/react/24/outline'
 import DisplayFlowBody from 'components/Social/Flow/DisplayFlowBody'
 import DisplayFlowHeader from 'components/Social/Flow/DisplayFlowHeader'
 import { MyValue } from 'dinnerplate/types/plateTypes'
@@ -34,7 +34,7 @@ export default function DisplayFlow({ flow }: Props) {
       <div>
         <DisplayFlowHeader flow={flow} />
         <div className="w-72 mx-auto flex flex-col items-center">
-          <BanIcon className="w-12 h-12" />
+          <NoSymbolIcon className="w-12 h-12" />
           <p>This flow is hidden. Sorry!</p>
         </div>
       </div>

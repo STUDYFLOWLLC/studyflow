@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, FolderIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon, FolderIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'

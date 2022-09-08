@@ -1,9 +1,9 @@
 /* eslint-disable no-case-declarations */
 import {
+  ArrowPathIcon,
   BriefcaseIcon,
   ExclamationCircleIcon,
-  RefreshIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { matchSorter } from 'match-sorter'
 import React, { Dispatch, SetStateAction, SVGProps } from 'react'
@@ -44,12 +44,12 @@ class DynamicCourseMenu extends React.Component<Props, State> {
       baseItems: [
         { type: TaskType.WORK_ON, display: 'Work', icon: BriefcaseIcon },
         { type: TaskType.DUE, display: 'Due', icon: ExclamationCircleIcon },
-        { type: TaskType.REVIEW, display: 'Review', icon: RefreshIcon },
+        { type: TaskType.REVIEW, display: 'Review', icon: ArrowPathIcon },
       ],
       filteredItems: [
         { type: TaskType.WORK_ON, display: 'Work', icon: BriefcaseIcon },
         { type: TaskType.DUE, display: 'Due', icon: ExclamationCircleIcon },
-        { type: TaskType.REVIEW, display: 'Review', icon: RefreshIcon },
+        { type: TaskType.REVIEW, display: 'Review', icon: ArrowPathIcon },
       ],
     }
   }

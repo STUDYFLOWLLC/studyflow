@@ -1,4 +1,4 @@
-import { CheckIcon } from '@heroicons/react/outline'
+import { CheckIcon } from '@heroicons/react/24/outline'
 import Tippy from '@tippyjs/react'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { SpinnerSizes } from 'types/Loading'

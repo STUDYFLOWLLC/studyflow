@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { GlobeIcon, PhotographIcon } from '@heroicons/react/outline'
+import { GlobeAltIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import { Check } from '@styled-icons/material/Check'
 import { FontDownload } from '@styled-icons/material/FontDownload'
 import { FormatColorText } from '@styled-icons/material/FormatColorText'
@@ -55,8 +55,8 @@ export const ToolbarButtons = () => {
       {/* <LineHeightToolbarDropdown icon={<LineWeight />} /> */}
       <AlignToolbarButtons />
       <LinkToolbarButton icon={<Link />} tooltip={linkTT} />
-      <ImageToolbarButton icon={<PhotographIcon />} tooltip={imageTT} />
-      <MediaEmbedToolbarButton icon={<GlobeIcon />} tooltip={mediaTT} />
+      <ImageToolbarButton icon={<PhotoIcon />} tooltip={imageTT} />
+      <MediaEmbedToolbarButton icon={<GlobeAltIcon />} tooltip={mediaTT} />
       {/* <TableToolbarButtons /> */}
     </>
   )

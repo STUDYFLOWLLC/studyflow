@@ -1,4 +1,4 @@
-import { CheckIcon, XIcon } from '@heroicons/react/outline'
+import { CheckIcon, NoSymbolIcon } from '@heroicons/react/24/outline'
 import { format } from 'date-fns'
 import { AutomationLog } from 'hooks/automation/useAutomationDetails'
 
@@ -13,7 +13,7 @@ export default function LogLine({ log }: Props) {
         {log.Success ? (
           <CheckIcon className="mx-auto w-4 h-5 text-green-500" />
         ) : (
-          <XIcon className="mx-autow-4 h-5 text-red-500" />
+          <NoSymbolIcon className="mx-autow-4 h-5 text-red-500" />
         )}
       </div>
 

@@ -3,7 +3,7 @@ import {
   CheckCircleIcon,
   QuestionMarkCircleIcon,
   XCircleIcon,
-} from '@heroicons/react/solid'
+} from '@heroicons/react/24/solid'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { Flashcard, FlashcardReview, FlashcardStatus } from 'types/Repetition'

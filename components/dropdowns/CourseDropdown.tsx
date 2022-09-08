@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unused-prop-types */
 import { Menu, Transition } from '@headlessui/react'
-import { FolderIcon, InboxIcon } from '@heroicons/react/outline'
+import { FolderIcon, InboxIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import { useTheme } from 'next-themes'

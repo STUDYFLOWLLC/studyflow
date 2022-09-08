@@ -1,4 +1,4 @@
-import { ArrowsExpandIcon } from '@heroicons/react/outline'
+import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 import Tippy from '@tippyjs/react'
 import { TOOLTIP_DELAY, TOOLTIP_OFFSET } from 'types/Magic'
 
@@ -11,7 +11,7 @@ export default function OpenAsPage() {
       offset={TOOLTIP_OFFSET}
     >
       <div>
-        <ArrowsExpandIcon className="w-5 h-5 text-info hover:text-current cursor-pointer" />
+        <ArrowsPointingOutIcon className="w-5 h-5 text-info hover:text-current cursor-pointer" />
       </div>
     </Tippy>
   )

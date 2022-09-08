@@ -1,5 +1,5 @@
 /* eslint-disable no-promise-executor-return */
-import { ArrowLeftIcon, TrashIcon } from '@heroicons/react/outline'
+import { ArrowLeftIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import deleteTask from 'hooks/tasks/deleteTask'
 import useTasks, { Task } from 'hooks/tasks/useTasks'

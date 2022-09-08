@@ -1,4 +1,4 @@
-import { UserIcon } from '@heroicons/react/outline'
+import { UserIcon } from '@heroicons/react/24/outline'
 import algoliasearch from 'algoliasearch/lite'
 import { UserHit } from 'components/Social/Friends/StudentSearcher'
 import { NextRouter } from 'next/router'

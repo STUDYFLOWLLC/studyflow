@@ -1,4 +1,4 @@
-import { PlusIcon } from '@heroicons/react/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import CourseDropdown from 'components/dropdowns/CourseDropdown'

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { SearchIcon } from '@heroicons/react/solid'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
@@ -31,7 +31,7 @@ export default function DashSearchSmall({
           className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
           aria-hidden="true"
         >
-          <SearchIcon
+          <MagnifyingGlassIcon
             className="mr-3 h-4 w-4 text-gray-400"
             aria-hidden="true"
           />

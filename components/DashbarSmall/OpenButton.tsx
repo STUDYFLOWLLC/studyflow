@@ -1,4 +1,5 @@
-import { MenuAlt1Icon } from '@heroicons/react/outline'
+import { Bars3CenterLeftIcon } from '@heroicons/react/24/outline'
+
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
@@ -27,7 +28,7 @@ export default function OpenButton({ setSidebarOpen }: Props) {
       onClick={() => setSidebarOpen(true)}
     >
       <span className="sr-only">Open sidebar</span>
-      <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
+      <Bars3CenterLeftIcon className="h-6 w-6" aria-hidden="true" />
     </button>
   )
 }

@@ -2,7 +2,7 @@ import {
   AcademicCapIcon,
   UserGroupIcon,
   UserIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 
 interface Props {

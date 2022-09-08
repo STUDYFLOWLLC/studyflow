@@ -32,6 +32,7 @@ interface Props {
 export default function Dash({ user }: Props) {
   const { theme } = useTheme()
   const router = useRouter()
+  const query = router.asPath.split('#')[1]
 
   /* eslint-disable */
   const { userDetails, userDetailsLoading, userDetailsError } = useUserDetails(
@@ -47,7 +48,9 @@ export default function Dash({ user }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [createFlowAs, setCreateFlowAs] = useState<FlowType | null>(null)
-  const [currentFlow, setCurrentFlow] = useState<string>('')
+  const [currentFlow, setCurrentFlow] = useState<string>(
+    query && query.length === 36 ? query : '',
+  )
 
   useHotkeys(
     'cmd+i, ctrl+i',

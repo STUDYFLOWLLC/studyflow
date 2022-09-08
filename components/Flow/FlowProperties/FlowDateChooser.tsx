@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { CalendarIcon, ChevronDownIcon } from '@heroicons/react/outline'
+import { CalendarIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'

@@ -1,4 +1,4 @@
-import { CheckIcon } from '@heroicons/react/solid'
+import { CheckIcon } from '@heroicons/react/24/solid'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import useFlowDetails from 'hooks/flows/useFlowDetails'

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react/self-closing-comp */
 
 import { Combobox } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/outline'
+import { CheckIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'

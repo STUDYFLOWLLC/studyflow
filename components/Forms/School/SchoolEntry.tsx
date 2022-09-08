@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react/self-closing-comp */
 
 import { Combobox } from '@headlessui/react'
-import { BadgeCheckIcon, CheckIcon } from '@heroicons/react/outline'
+import { CheckBadgeIcon, CheckIcon } from '@heroicons/react/24/outline'
 import classnames from 'classnames'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
@@ -48,7 +48,7 @@ export default function SchoolEntry({ school }: Props) {
               {school.Name}
             </span>
             {school.HasClassSupport && (
-              <BadgeCheckIcon className="h-5 w-5" aria-hidden="true" />
+              <CheckBadgeIcon className="h-5 w-5" aria-hidden="true" />
             )}
           </div>
 

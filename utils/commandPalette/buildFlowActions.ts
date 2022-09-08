@@ -1,4 +1,4 @@
-import { FolderOpenIcon } from '@heroicons/react/outline'
+import { FolderOpenIcon } from '@heroicons/react/24/outline'
 import algoliasearch from 'algoliasearch/lite'
 import { NextRouter } from 'next/router'
 import { ActionType, FlowHit, QuickAction } from 'types/CMDPalette'

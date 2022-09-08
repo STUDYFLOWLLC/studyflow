@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { SelectorIcon } from '@heroicons/react/solid'
+import { ChevronUpDownIcon } from '@heroicons/react/24/solid'
 import classNames from 'classnames'
 import ProfileButtonDropdown from 'components/dropdowns/ProfileButtonDropdown'
 import { useTheme } from 'next-themes'
@@ -94,7 +94,7 @@ export default function BigProfileButton({
                 )}
               </span>
             </span>
-            <SelectorIcon
+            <ChevronUpDownIcon
               className="flex-shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
               aria-hidden="true"
             />

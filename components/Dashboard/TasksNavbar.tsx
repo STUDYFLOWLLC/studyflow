@@ -1,8 +1,8 @@
 import {
   CalendarIcon,
-  CollectionIcon,
   FolderIcon,
-} from '@heroicons/react/outline'
+  RectangleGroupIcon,
+} from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import NotificationBell from 'components/Social/Notifications/NotificationBell'
 import { useTheme } from 'next-themes'
@@ -11,7 +11,7 @@ import { SkeletonTheme } from 'react-loading-skeleton'
 
 const tasksDisplays = ['Today', 'Calendar', 'Courses']
 const tasksDisplaysIcons = [
-  <CollectionIcon key="collection" className="w-4 mr-1" />,
+  <RectangleGroupIcon key="collection" className="w-4 mr-1" />,
   <CalendarIcon key="calendar" className="w-4 mr-1" />,
   <FolderIcon key="folder" className="w-4 mr-1" />,
 ]

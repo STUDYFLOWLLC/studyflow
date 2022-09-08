@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { DotsVerticalIcon } from '@heroicons/react/outline'
+import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Fragment, useEffect, useState } from 'react'
@@ -39,7 +39,7 @@ export default function PinMenu() {
         )}
       >
         <span className="sr-only">Open options</span>
-        <DotsVerticalIcon className="w-5 h-5" aria-hidden="true" />
+        <EllipsisVerticalIcon className="w-5 h-5" aria-hidden="true" />
       </Menu.Button>
       <Transition
         as={Fragment}

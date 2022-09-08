@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { TrashIcon } from '@heroicons/react/outline'
+import { TrashIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import useFlowDetails from 'hooks/flows/useFlowDetails'
 import { useTheme } from 'next-themes'

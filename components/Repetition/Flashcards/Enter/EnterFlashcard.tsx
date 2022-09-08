@@ -1,9 +1,9 @@
 import {
-  ArrowSmDownIcon,
-  ArrowSmUpIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
   CheckIcon,
   TrashIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import EnterFront from 'components/Repetition/Flashcards/Enter/EnterFront'
 import MainSpinner from 'components/spinners/MainSpinner'
 import {
@@ -35,7 +35,7 @@ export default function EnterFlashcard({ flashcard, flashcardStackId }: Props) {
         <div className="flex items-center">
           <p className="m-0 mr-2 p-0 font-semibold">{index}</p>
           {index !== 1 && (
-            <ArrowSmUpIcon
+            <ArrowUpIcon
               className="cursor-pointer text-info w-5 h-5  m-0 p-0"
               onClick={() =>
                 swapFlashcards(index - 2, flashcardStack, mutateFlashcardStack)
@@ -46,7 +46,7 @@ export default function EnterFlashcard({ flashcard, flashcardStackId }: Props) {
             />
           )}
           {index !== flashcardStack?.FK_Flashcards.length && (
-            <ArrowSmDownIcon
+            <ArrowDownIcon
               className="cursor-pointer text-info w-5 h-5  m-0 p-0"
               onClick={() =>
                 swapFlashcards(index - 1, flashcardStack, mutateFlashcardStack)

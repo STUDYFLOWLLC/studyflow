@@ -4,10 +4,11 @@ import CourseIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/CourseIc
 import DateIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/DateIcon'
 import DeleteTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/DeleteTask'
 import EditTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/EditTask'
+import FlowIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/FlowIcon'
 import TypeIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/TypeIcon'
 import { Task } from 'hooks/tasks/useTasks'
 import { useState } from 'react'
-import FlowIcon from './FlowIcon'
+import FlowJump from './FlowJump'
 
 interface Props {
   task: Task
@@ -33,6 +34,9 @@ export default function BasicTask({
   showCompleted,
 }: Props) {
   const [editing, setEditing] = useState(false)
+
+  console.log(flowId)
+  console.log(task.FK_Flow)
 
   return editing ? (
     <EditTask
@@ -105,7 +109,7 @@ export default function BasicTask({
             )}
           </div>
           <div className="text-sm mb-1">{task.Description}</div>
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center w-full">
             <span className="flex">
               <DateIcon date={task.DueDate} />
               {!cute && <TypeIcon taskType={task.Type} />}
@@ -113,6 +117,7 @@ export default function BasicTask({
                 title={
                   task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title
                 }
+                flowId={task.FK_Flow?.FlowID}
               />
             </span>
             {(groupBy === 'All' || groupBy === 'Today') && (
@@ -120,6 +125,16 @@ export default function BasicTask({
                 <CourseIcon courseOnTerm={task.FK_CourseOnTerm} />
               </span>
             )}
+            {!flowId &&
+              (task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title) && (
+                <FlowJump
+                  id={
+                    task.FK_Flow?.FlowID ||
+                    task.FK_Repetition?.FK_Flow?.FlowID ||
+                    ''
+                  }
+                />
+              )}
           </div>
         </div>
       </div>

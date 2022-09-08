@@ -1,4 +1,4 @@
-import { PlusIcon } from '@heroicons/react/outline'
+import { PlusIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
 import useFlowDetails from 'hooks/flows/useFlowDetails'

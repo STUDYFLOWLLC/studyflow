@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, PencilAltIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import useUserDetails, { SmallTerm } from 'hooks/useUserDetails'
@@ -81,7 +81,7 @@ export default function TermSelectorMenu({
                     onKeyDown={() => setSelectedTerm(term)}
                   >
                     {term.TermName}
-                    <PencilAltIcon
+                    <PencilSquareIcon
                       className="w-4 h-4 text-info hover:text-current"
                       onClick={() => {
                         setSelectedTerm(term)

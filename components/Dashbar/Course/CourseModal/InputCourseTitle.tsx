@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { CheckIcon, LockClosedIcon } from '@heroicons/react/outline'
+import { CheckIcon, LockClosedIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'

@@ -1,9 +1,9 @@
 import { Menu, Transition } from '@headlessui/react'
 import {
-  BadgeCheckIcon,
   BellIcon,
+  CheckBadgeIcon,
   QuestionMarkCircleIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
@@ -119,7 +119,7 @@ export default function NotificationBell() {
             </>
           ) : (
             <div className="flex flex-col items-center p-2">
-              <BadgeCheckIcon className="w-8 h-8 text-green-500" />
+              <CheckBadgeIcon className="w-8 h-8 text-green-500" />
               Relax! No notifications.
             </div>
           )}
