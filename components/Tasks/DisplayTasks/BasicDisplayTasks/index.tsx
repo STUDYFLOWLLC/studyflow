@@ -10,6 +10,7 @@ interface Props {
   setIndex?: (index: number) => void
   readOnly?: boolean
   cute?: boolean
+  kanban?: boolean
   shouldNotUseUndo?: boolean
   showCompleted?: boolean
   repetitionId?: string
@@ -23,12 +24,12 @@ export default function BasicDisplayTasks({
   groupBy,
   readOnly,
   cute,
+  kanban,
   shouldNotUseUndo,
   showCompleted,
   repetitionId,
   flowId,
 }: Props) {
-  console.log(tasks)
   return (
     <div className="w-full">
       <Toaster />
@@ -51,6 +52,7 @@ export default function BasicDisplayTasks({
                 groupBy={groupBy}
                 key={task.TaskID}
                 cute={cute}
+                kanban={kanban}
                 readOnly={
                   readOnly ||
                   (task.FK_Repetition !== null &&

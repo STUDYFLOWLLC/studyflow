@@ -22,7 +22,7 @@ export default function FlowIcon({ title, flowId }: Props) {
       }}
     >
       <BookOpenIcon className="ml-2 h-3.5 w-3.5 mr-1" />
-      {title}
+      <p className="w-20 truncate p-0 m-0">{title}</p>
     </div>
   )
 }

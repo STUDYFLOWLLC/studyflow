@@ -26,7 +26,6 @@ export default function DeleteTask({
     groupBy,
     showCompleted,
   )
-  console.log(groupBy)
   const { flowDetails, mutateFlowDetails } = useFlowDetails(flowId)
 
   return (

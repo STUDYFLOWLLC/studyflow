@@ -14,6 +14,7 @@ interface Props {
   task: Task
   groupBy: 'Today' | 'All' | number
   readOnly?: boolean
+  kanban?: boolean
   cute?: boolean
   shouldNotUseUndo?: boolean
   repetitionId?: string
@@ -25,6 +26,7 @@ export default function BasicTask({
   task,
   groupBy,
   readOnly,
+  kanban,
   cute,
   shouldNotUseUndo,
   repetitionId,
@@ -49,11 +51,12 @@ export default function BasicTask({
     <div
       className={classNames(
         { 'grayscale text-info': task.Completed },
-        'border border-gray-300 rounded-md shadow-md py-1.5 px-2 mb-2',
+        { 'w-64': kanban },
+        'mx-auto border border-gray-300 rounded-md shadow-md py-1.5 px-2 mb-2 transition-all duration-200',
       )}
       key={task.TaskID}
     >
-      <div className="flex">
+      <div className="flex transition-all">
         <Checkbox
           TaskID={task.TaskID}
           groupBy={groupBy}
@@ -106,13 +109,15 @@ export default function BasicTask({
           <div className="flex justify-between items-center">
             <span className="flex">
               <DateIcon date={task.DueDate} />
-              {!cute && <TypeIcon taskType={task.Type} />}
-              <FlowIcon
-                title={
-                  task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title
-                }
-                flowId={task.FK_Flow?.FlowID}
-              />
+              {!cute && <TypeIcon taskType={task.Type} kanban={kanban} />}
+              {!kanban && (
+                <FlowIcon
+                  title={
+                    task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title
+                  }
+                  flowId={task.FK_Flow?.FlowID}
+                />
+              )}
             </span>
             {(groupBy === 'All' || groupBy === 'Today') &&
               !cute &&

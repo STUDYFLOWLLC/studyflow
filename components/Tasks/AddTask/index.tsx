@@ -96,8 +96,6 @@ export default function index({
     setShowAddTask(true)
   }
 
-  console.log(taskName)
-
   return (
     <div className="transition-all duration-200">
       {!showMain && (
