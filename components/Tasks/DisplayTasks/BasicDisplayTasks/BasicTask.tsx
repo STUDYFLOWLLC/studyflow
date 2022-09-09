@@ -122,7 +122,11 @@ export default function BasicTask({
           )}
           <div className="flex justify-between items-center">
             <div className="flex">
-              <DateIcon date={task.DueDate} changeDate={changeDate} />
+              <DateIcon
+                date={task.DueDate}
+                changeDate={changeDate}
+                disableChange={task.Completed}
+              />
               {!cute && <TypeIcon taskType={task.Type} kanban={kanban} />}
               {!kanban && (
                 <FlowIcon

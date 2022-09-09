@@ -1,12 +1,14 @@
+import classNames from 'classnames'
 import DateDropdown from 'components/dropdowns/DateDropdown'
 import { useEffect, useState } from 'react'
 
 interface Props {
   date: string
   changeDate: (newDate: Date | undefined) => void
+  disableChange?: boolean
 }
 
-export default function DateIcon({ date, changeDate }: Props) {
+export default function DateIcon({ date, changeDate, disableChange }: Props) {
   const [forcedDate, setForcedDate] = useState<Date | undefined>(new Date(date))
   const [sendChange, setSendChange] = useState(false)
   const dateObj = new Date(date)
@@ -18,7 +20,12 @@ export default function DateIcon({ date, changeDate }: Props) {
   }, [forcedDate])
 
   return (
-    <div className="text-sm mr-2">
+    <div
+      className={classNames(
+        { 'pointer-events-none': disableChange },
+        'text-sm mr-2',
+      )}
+    >
       {/* {date && (
         // <div
         //   className={classNames(
