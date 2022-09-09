@@ -35,11 +35,13 @@ const itemIcons = [
 interface Props {
   taskDueDateExact: Date | undefined
   setTaskDueDateExact: (taskDueDateExact: Date | undefined) => void
+  smallButton?: boolean
 }
 
 export default function CourseDropDown({
   taskDueDateExact,
   setTaskDueDateExact,
+  smallButton,
 }: Props) {
   const { theme } = useTheme()
 
@@ -62,35 +64,59 @@ export default function CourseDropDown({
     return theme === 'light' ? 'bg-stone-400' : 'bg-slate-700'
   }
 
+  const dateObj = new Date(taskDueDateExact || '')
+
   return (
-    <Menu as="div" className="z-40 relative inline-block text-left">
+    <Menu as="div" className="inline-block text-left">
       {({ open }) => (
         <>
-          <Menu.Button
-            className={classNames(
-              {
-                'text-white  ring-black border-transparent hover:opacity-80':
-                  theme === 'light' && taskDueDateExact,
-              },
-              {
-                'hover:bg-gray-50 hover:border-gray-300 border-slate-300':
-                  theme === 'light' && !taskDueDateExact,
-              },
-              {
-                'text-white border-transparent hover:brightness-125':
-                  theme === 'dark' && taskDueDateExact,
-              },
-              {
-                'border-slate-600 hover:bg-slate-600 hover:border-slate-400 text-gray-100':
-                  theme === 'dark' && !taskDueDateExact,
-              },
-              taskDueDateExact && bgColor(taskDueDateExact),
-              'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mr-2 text-sm font-medium border',
-            )}
-          >
-            <CalendarIcon className="w-4 mr-1" />
-            {taskDueDateExact ? abbreviateDate(taskDueDateExact) : 'Due date'}
-          </Menu.Button>
+          {!smallButton ? (
+            <Menu.Button
+              className={classNames(
+                {
+                  'text-white  ring-black border-transparent hover:opacity-80':
+                    theme === 'light' && taskDueDateExact,
+                },
+                {
+                  'hover:bg-gray-50 hover:border-gray-300 border-slate-300':
+                    theme === 'light' && !taskDueDateExact,
+                },
+                {
+                  'text-white border-transparent hover:brightness-125':
+                    theme === 'dark' && taskDueDateExact,
+                },
+                {
+                  'border-slate-600 hover:bg-slate-600 hover:border-slate-400 text-gray-100':
+                    theme === 'dark' && !taskDueDateExact,
+                },
+                taskDueDateExact && bgColor(taskDueDateExact),
+                'flex items-center cursor-pointer px-2 py-1 rounded-md shadow-sm mr-2 text-sm font-medium border',
+              )}
+            >
+              <CalendarIcon className="w-4 mr-1" />
+              {taskDueDateExact ? abbreviateDate(taskDueDateExact) : 'Due date'}
+            </Menu.Button>
+          ) : (
+            <Menu.Button
+              className={classNames(
+                { 'text-red-400': isBefore(dateObj, startOfToday()) },
+                { 'text-amber-400': isToday(dateObj) },
+                { 'text-blue-400': isTomorrow(dateObj) },
+                {
+                  'text-gray-400':
+                    !isToday(dateObj) &&
+                    !isTomorrow(dateObj) &&
+                    !isBefore(dateObj, startOfToday()),
+                },
+                'flex items-center',
+              )}
+            >
+              <CalendarIcon className="w-3.5 h-3.5 mr-1" />
+              <p className="m-0 p-0 text-xs leading-4">
+                {abbreviateDate(dateObj)}
+              </p>
+            </Menu.Button>
+          )}
 
           <Transition
             as={Fragment}
@@ -101,7 +127,10 @@ export default function CourseDropDown({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-left absolute w-auto h-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items
+              style={{ zIndex: 5000 }}
+              className="origin-top-left absolute w-auto h-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            >
               {itemList.map((item) => (
                 <Menu.Item key={item}>
                   {({ active }: activeProps) => (

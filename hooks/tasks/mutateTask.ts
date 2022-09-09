@@ -151,3 +151,28 @@ export function deleteManyTask(taskIds: string[]) {
 
   return request('/api/graphql', mutation, variables)
 }
+
+export async function mutateTaskDueDate(taskId: string, newDueDate: string) {
+  const mutation = gql`
+    mutation Mutation($data: TaskUpdateInput!, $where: TaskWhereUniqueInput!) {
+      updateTask(data: $data, where: $where) {
+        TaskID
+      }
+    }
+  `
+
+  const variables = {
+    data: {
+      DueDate: {
+        set: newDueDate,
+      },
+    },
+    where: {
+      TaskID: taskId,
+    },
+  }
+
+  const data = await request('/api/graphql', mutation, variables)
+
+  return data
+}

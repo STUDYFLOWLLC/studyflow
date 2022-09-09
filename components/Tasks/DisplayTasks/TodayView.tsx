@@ -1,4 +1,5 @@
 import { ListBulletIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
+import { CakeIcon, CheckBadgeIcon } from '@heroicons/react/24/solid'
 import { User } from '@supabase/supabase-auth-helpers/nextjs'
 import classNames from 'classnames'
 import MainSpinner from 'components/spinners/MainSpinner'
@@ -19,6 +20,11 @@ interface Props {
   user: User
 }
 
+interface TaskGroup {
+  groupTitle: string
+  tasks: Task[]
+}
+
 export default function TodayView({ user }: Props) {
   const { theme } = useTheme()
   const { userDetails, userDetailsLoading } = useUserDetails(user.id)
@@ -26,10 +32,8 @@ export default function TodayView({ user }: Props) {
     userDetails?.FK_Terms?.[0]?.TermID,
   )
 
-  const [index, setIndex] = useState(0)
   const [kanban, setKanban] = useState(true)
-  const [groupedTasks, setGroupedTasks] = useState<Task[][]>([])
-  const [groupTitles, setGroupTitles] = useState<string[]>([])
+  const [groupedTasks, setGroupedTasks] = useState<TaskGroup[]>([])
   const [groupBy, setGroupBy] = useState<'Today' | 'All' | number>('Today')
   const [showCompleted, setShowCompleted] = useState(true)
   const { tasks, tasksLoading, mutateTasks } = useTasks(
@@ -50,27 +54,17 @@ export default function TodayView({ user }: Props) {
 
   useEffect(() => {
     if (kanban) {
-      const titles: string[] = []
-      const groupedTasks = tasks.reduce<Task[][]>((acc, task) => {
-        const index = acc.findIndex((group) =>
-          group.some((t) => t.FK_CourseOnTermID === task.FK_CourseOnTermID),
-        )
-        if (index === -1) {
-          acc.push([task])
-          titles.push(
-            task.FK_CourseOnTerm?.Nickname ||
-              task.FK_CourseOnTerm?.FK_Course?.Code ||
-              'Review',
-          )
-        } else {
-          acc[index].push(task)
-        }
-        return acc
-      }, [])
-      setGroupedTasks(groupedTasks)
-      setGroupTitles(titles)
+      const tasksTemp = coursesOnTerm.map((c) => ({
+        groupTitle: c.Nickname,
+        tasks: tasks.filter((t) => t.FK_CourseOnTermID === c.CourseOnTermID),
+      }))
+      tasksTemp.unshift({
+        groupTitle: 'Review',
+        tasks: tasks.filter((t) => t.FK_CourseOnTerm === undefined),
+      })
+      setGroupedTasks(tasksTemp)
     }
-  }, [tasks])
+  }, [tasks, coursesOnTerm])
 
   if (!mounted) return null
 
@@ -134,29 +128,49 @@ export default function TodayView({ user }: Props) {
 
       {/* Kanban group by or normal today view */}
       {kanban ? (
-        <div className="flex flex-wrap justify-center overflow-auto">
+        <div
+          style={{ zIndex: 5000 }}
+          className="flex flex-wrap justify-center overflow-auto"
+        >
           {groupedTasks.map((group, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <div key={i} className="m-4 max-h-64 overflow-y-auto">
+            <div
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
+              className="w-72 mx-6 my-2 max-h-64 overflow-y-auto overflow-x-hidden"
+            >
               <span className="mt-4 text-md font-semibold mr-2">
-                {groupTitles[i]}
+                {group.groupTitle}
               </span>
               <BasicDisplayTasks
-                tasks={group}
+                tasks={group.tasks}
                 showCompleted={showCompleted}
                 groupBy={groupBy}
                 kanban={kanban}
               />
-              <div className="mt-1 pb-18">
-                <AddTask
-                  user={user}
-                  coursesOnTerm={coursesOnTerm}
-                  coursesOnTermLoading={coursesOnTermLoading}
-                  dueDate={new Date()}
-                  groupBy="Today"
-                  showCompleted={showCompleted}
-                />
-              </div>
+              {group.tasks.length === 0 && (
+                <div className="w-full flex flex-col items-center font-medium text-sm my-4">
+                  {group.groupTitle === 'Review'
+                    ? 'Review Complete!'
+                    : 'All caught up!'}
+                  {group.groupTitle === 'Review' ? (
+                    <CakeIcon className="text-rose-300 h-6 w-6" />
+                  ) : (
+                    <CheckBadgeIcon className="w-6 h-6 text-green-400" />
+                  )}
+                </div>
+              )}
+              {group.groupTitle !== 'Review' && (
+                <div className="mt-1 pb-18">
+                  <AddTask
+                    user={user}
+                    coursesOnTerm={coursesOnTerm}
+                    coursesOnTermLoading={coursesOnTermLoading}
+                    dueDate={new Date()}
+                    groupBy="Today"
+                    showCompleted={showCompleted}
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>
