@@ -22,8 +22,6 @@ interface Props {
   groupBy: 'Today' | 'All' | number
   general?: boolean
   dueDate?: Date
-  index?: number
-  setIndex?: (index: number) => void
   showCompleted?: boolean
 }
 
@@ -35,8 +33,6 @@ export default function index({
   groupBy,
   general,
   dueDate,
-  index,
-  setIndex,
   showCompleted,
 }: Props) {
   const { theme } = useTheme()
@@ -44,7 +40,6 @@ export default function index({
   const { tasks, mutateTasks } = useTasks(
     userDetails?.UserID,
     groupBy,
-    index,
     showCompleted,
   )
 
@@ -69,6 +64,20 @@ export default function index({
 
   useEffect(() => setMounted(true), [])
 
+  useEffect(() => {
+    setTaskName('')
+    setTaskDescription('')
+    setTaskDueDateExact(dueDate || undefined)
+    setCourseDropDownTitle(
+      general
+        ? 'General'
+        : courseOnTerm?.Nickname || courseOnTerm?.FK_Course?.Code || 'Course',
+    )
+    setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
+    setTaskType(undefined)
+    setForceColor('')
+  }, [showMain])
+
   if (!mounted) return null
 
   const addTaskWithLocal = async () => {
@@ -83,25 +92,12 @@ export default function index({
       mutateTasks,
       coursesOnTerm,
     )
-
-    // reset local state
     setShowMain(false)
-    setShowAddTask(false)
-    setTaskName('')
-    setTaskDescription('')
-    setTaskDueDateExact(dueDate || undefined)
-    setCourseDropDownTitle(
-      general
-        ? 'General'
-        : courseOnTerm?.Nickname || courseOnTerm?.FK_Course?.Code || 'Course',
-    )
-    setTaskCourse(courseOnTerm?.CourseOnTermID || 0)
-    setTaskType(undefined)
-    setForceColor('')
+    setShowAddTask(true)
   }
 
   return (
-    <div>
+    <div className="transition-all duration-200">
       {!showMain && (
         <div
           className={classNames(
@@ -123,7 +119,7 @@ export default function index({
                 'text-black border rounded-full border-transparent bg-white':
                   showAddTask && theme === 'dark',
               },
-              'w-5 h-5 mr-3 font-thin',
+              'w-5 h-5 mr-3 font-thin transition-all duration-200',
             )}
           >
             <PlusIcon />
@@ -146,7 +142,13 @@ export default function index({
               setTaskName={setTaskName}
               setTaskDueDateExact={setTaskDueDateExact}
               defaultDate={dueDate}
-              addTask={addTaskWithLocal}
+              addTask={() => {
+                if (taskName) {
+                  addTaskWithLocal()
+                } else {
+                  toast.error('Task name is required')
+                }
+              }}
               setTaskType={setTaskType}
               courseItems={coursesOnTerm
                 .map((course) => ({

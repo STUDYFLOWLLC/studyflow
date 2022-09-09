@@ -26,12 +26,20 @@ export default function addTask(
   coursesOnTerm: CourseOnTerm[],
   flowDetails?: FlowDetail | null,
   mutateFlowDetails?: KeyedMutator<any>,
+  newAdd?: boolean,
 ) {
   const taskId = uuid()
   const realDueDate = (taskDueDate || new Date()).toISOString()
   const taskCourse = coursesOnTerm.find(
     (cot) => cot.CourseOnTermID === taskCourseId,
-  )
+  ) || {
+    CourseOnTermID: 0,
+    Color: '',
+    Nickname: 'General',
+    FK_Course: {
+      Code: '',
+    },
+  }
 
   // manufacture new task
   const newTask = {
@@ -88,6 +96,8 @@ export default function addTask(
       },
     )
   }
+
+  toast.success(`Task added to ${taskCourse.Nickname}`)
 }
 
 export async function completeOrUncompleteTask(
@@ -105,7 +115,7 @@ export async function completeOrUncompleteTask(
   archiveTask(taskId, newCompletion)
 
   // mutate locally
-  await mutateTasks(
+  mutateTasks(
     {
       mutate: true,
       tasks: tasks.map((task) => {
@@ -118,7 +128,7 @@ export async function completeOrUncompleteTask(
         return task
       }),
     },
-    { revalidate: false },
+    { revalidate: false, populateCache: true },
   )
 
   if (repetitionDetails && mutateRepetitionDetails) {
@@ -140,6 +150,7 @@ export async function completeOrUncompleteTask(
       },
       {
         revalidate: false,
+        populateCache: true,
       },
     )
   }
@@ -264,15 +275,17 @@ export async function deleteOrUndeleteTask(
   // mutate in backend
   deleteTask(task.TaskID, !newDeletion)
 
+  console.log(tasks.length)
   const newTasks = newDeletion
     ? tasks.filter((t) => t.TaskID !== task.TaskID)
     : [...tasks, task]
 
+  console.log(newTasks.length)
   // mutate locally
   await mutateTasks(
     {
       mutate: true,
-      tasks: newTasks,
+      tasks: [...newTasks],
     },
     { revalidate: false },
   )

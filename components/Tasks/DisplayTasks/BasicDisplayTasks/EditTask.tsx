@@ -30,7 +30,6 @@ interface Props {
   oldType: TaskType | undefined
   taskId: string
   setEditing: (editing: boolean) => void
-  index?: number
   showCompleted?: boolean
 }
 
@@ -43,7 +42,6 @@ export default function EditTask({
   oldType,
   taskId,
   setEditing,
-  index,
   showCompleted,
 }: Props) {
   const { theme } = useTheme()
@@ -54,7 +52,6 @@ export default function EditTask({
   const { tasks, mutateTasks } = useTasks(
     userDetails?.UserID,
     groupBy,
-    index,
     showCompleted,
   )
   const { coursesOnTerm, coursesOnTermLoading } = useCoursesOnTerm(

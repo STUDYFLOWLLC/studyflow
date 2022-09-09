@@ -32,7 +32,6 @@ export default function CourseListDropdown({ course, user }: Props) {
   const { tasks, tasksLoading } = useTasks(
     userDetails?.UserID,
     course.CourseOnTermID,
-    index,
   )
   const { completedTaskCount, completedTaskCountLoading } =
     useCompletedTaskCount(userDetails?.UserID, course.CourseOnTermID)
@@ -122,8 +121,6 @@ export default function CourseListDropdown({ course, user }: Props) {
             coursesOnTermLoading={coursesOnTermLoading}
             courseOnTerm={course}
             groupBy={course.CourseOnTermID}
-            index={index}
-            setIndex={setIndex}
           />
         </div>
       )}

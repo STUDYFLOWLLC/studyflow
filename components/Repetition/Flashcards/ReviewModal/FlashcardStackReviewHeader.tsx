@@ -1,5 +1,5 @@
 import { useUser } from '@supabase/supabase-auth-helpers/react'
-import { format } from 'date-fns'
+import { endOfToday, format } from 'date-fns'
 import { finishReview } from 'hooks/repetition/reviewHandlers'
 import useRepetitionDetails from 'hooks/repetition/useRepetitionDetails'
 import useTasks from 'hooks/tasks/useTasks'
@@ -26,7 +26,7 @@ export default function FlashcardStackReviewHeader({
   const reviewDue =
     nextReviewTask &&
     nextReviewTask.DueDate &&
-    new Date().getTime() - new Date(nextReviewTask.DueDate).getTime() > 0
+    endOfToday().getTime() > new Date(nextReviewTask.DueDate).getTime()
 
   return (
     <p className="p-0 m-0 font-semibold flex items-center">

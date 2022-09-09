@@ -13,7 +13,7 @@ export default function FlowIcon({ title, flowId }: Props) {
 
   return (
     <div
-      className="text-sm flex items-center text-primary"
+      className="text-xs flex items-center text-primary"
       onClick={() => {
         if (flowId) router.push(`/dash#${flowId}`)
       }}
@@ -21,8 +21,8 @@ export default function FlowIcon({ title, flowId }: Props) {
         if (flowId) router.push(`/dash#${flowId}`)
       }}
     >
-      <BookOpenIcon className="ml-2 h-4 w-4 mr-1" />
-      {title}
+      <BookOpenIcon className="ml-2 h-3.5 w-3.5 mr-1" />
+      <p className="w-20 truncate p-0 m-0">{title}</p>
     </div>
   )
 }
