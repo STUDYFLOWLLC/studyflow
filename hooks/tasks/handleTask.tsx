@@ -12,7 +12,7 @@ import { Repetition } from 'types/Repetition'
 import { TaskType } from 'types/Task'
 import { v4 as uuid } from 'uuid'
 import makeTask from './makeTask'
-import { archiveTask, deleteTask } from './mutateTask'
+import { archiveTask, deleteTask, mutateTaskDueDate } from './mutateTask'
 
 export default function addTask(
   taskName: string,
@@ -275,12 +275,10 @@ export async function deleteOrUndeleteTask(
   // mutate in backend
   deleteTask(task.TaskID, !newDeletion)
 
-  console.log(tasks.length)
   const newTasks = newDeletion
     ? tasks.filter((t) => t.TaskID !== task.TaskID)
     : [...tasks, task]
 
-  console.log(newTasks.length)
   // mutate locally
   await mutateTasks(
     {
@@ -395,4 +393,59 @@ export async function deleteOrUndeleteTask(
         position: 'bottom-right',
       },
     )
+}
+
+export async function changeTaskDate(
+  task: Task,
+  newDate: Date | undefined,
+  tasks: Task[],
+  mutateTasks: KeyedMutator<any>,
+  flowDetails?: FlowDetail | null,
+  mutateFlowDetails?: KeyedMutator<any>,
+) {
+  const asString = newDate ? newDate.toISOString() : ''
+  // mutate in backend
+  mutateTaskDueDate(task.TaskID, asString)
+
+  // mutate locally
+  await mutateTasks(
+    {
+      mutate: true,
+      tasks: tasks.map((t) => {
+        if (t.TaskID === task.TaskID) {
+          return {
+            ...t,
+            DueDate: asString,
+          }
+        }
+        return t
+      }),
+    },
+    { revalidate: false },
+  )
+
+  if (flowDetails && mutateFlowDetails) {
+    mutateFlowDetails(
+      {
+        mutate: true,
+        mutatedFlow: {
+          ...flowDetails,
+          FK_Tasks: flowDetails?.FK_Tasks.map((t) => {
+            if (t.TaskID === task.TaskID) {
+              return {
+                ...t,
+                DueDate: asString,
+              }
+            }
+            return t
+          }),
+        },
+      },
+      {
+        revalidate: false,
+      },
+    )
+  }
+
+  toast.success('Task updated!')
 }

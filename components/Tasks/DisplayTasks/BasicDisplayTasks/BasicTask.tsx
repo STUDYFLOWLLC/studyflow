@@ -1,3 +1,4 @@
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import classNames from 'classnames'
 import Checkbox from 'components/Tasks/DisplayTasks/BasicDisplayTasks/Checkbox'
 import CourseIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/CourseIcon'
@@ -6,7 +7,9 @@ import DeleteTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/DeleteTa
 import EditTask from 'components/Tasks/DisplayTasks/BasicDisplayTasks/EditTask'
 import FlowIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/FlowIcon'
 import TypeIcon from 'components/Tasks/DisplayTasks/BasicDisplayTasks/TypeIcon'
-import { Task } from 'hooks/tasks/useTasks'
+import { changeTaskDate } from 'hooks/tasks/handleTask'
+import useTasks, { Task } from 'hooks/tasks/useTasks'
+import useUserDetails from 'hooks/useUserDetails'
 import { useState } from 'react'
 import FlowJump from './FlowJump'
 
@@ -33,7 +36,18 @@ export default function BasicTask({
   flowId,
   showCompleted,
 }: Props) {
+  const { user } = useUser()
+  const { userDetails } = useUserDetails(user?.id)
+  const { tasks, mutateTasks } = useTasks(
+    userDetails?.UserID,
+    groupBy,
+    showCompleted,
+  )
+
   const [editing, setEditing] = useState(false)
+
+  const changeDate = (newDate: Date | undefined) =>
+    changeTaskDate(task, newDate, tasks, mutateTasks)
 
   return editing ? (
     <EditTask
@@ -51,7 +65,7 @@ export default function BasicTask({
     <div
       className={classNames(
         { 'grayscale text-info': task.Completed },
-        { 'w-64': kanban },
+        { 'w-72': kanban },
         'mx-auto border border-gray-300 rounded-md shadow-md py-1.5 px-2 mb-2 transition-all duration-200',
       )}
       key={task.TaskID}
@@ -107,8 +121,12 @@ export default function BasicTask({
             <div className="text-sm mb-0.5">{task.Description}</div>
           )}
           <div className="flex justify-between items-center">
-            <span className="flex">
-              <DateIcon date={task.DueDate} />
+            <div className="flex">
+              <DateIcon
+                date={task.DueDate}
+                changeDate={changeDate}
+                disableChange={task.Completed}
+              />
               {!cute && <TypeIcon taskType={task.Type} kanban={kanban} />}
               {!kanban && (
                 <FlowIcon
@@ -118,7 +136,7 @@ export default function BasicTask({
                   flowId={task.FK_Flow?.FlowID}
                 />
               )}
-            </span>
+            </div>
             {(groupBy === 'All' || groupBy === 'Today') &&
               !cute &&
               !(task.FK_Flow?.Title || task.FK_Repetition?.FK_Flow?.Title) && (
