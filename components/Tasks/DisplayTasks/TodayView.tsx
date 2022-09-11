@@ -60,7 +60,7 @@ export default function TodayView({ user }: Props) {
       }))
       tasksTemp.unshift({
         groupTitle: 'Review',
-        tasks: tasks.filter((t) => t.FK_CourseOnTerm === undefined),
+        tasks: tasks.filter((t) => t.FK_CourseOnTerm?.FK_Course === undefined),
       })
       setGroupedTasks(tasksTemp)
     }
