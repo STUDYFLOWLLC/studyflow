@@ -83,10 +83,10 @@ export default function index({
       <Transition.Root show={showDashBar} as={Fragment}>
         <Transition.Child
           as={Fragment}
-          enter="transition ease-out duration-200 transform"
+          enter="transition ease-out duration-400 transform"
           enterFrom="-translate-x-full"
           enterTo="translate-x-0"
-          leave="transition ease-out duration-200 transform"
+          leave="transition ease-out duration-400 transform"
           leaveFrom="translate-x-0"
           leaveTo="-translate-x-full"
         >

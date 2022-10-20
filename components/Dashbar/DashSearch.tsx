@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
-
-import classnames from 'classnames'
+import classNames from 'classnames'
 import { useTheme } from 'next-themes'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
@@ -14,13 +13,18 @@ export default function DashSearch({ searchValue, setSearchValue }: Props) {
   const { theme } = useTheme()
 
   const [mounted, setMounted] = useState(false)
+  const [hovering, setHovering] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
 
   return (
-    <div className="px-3 mt-5">
+    <div
+      className="px-3 mt-5"
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+    >
       <label htmlFor="search" className="sr-only">
         Search
       </label>
@@ -30,7 +34,11 @@ export default function DashSearch({ searchValue, setSearchValue }: Props) {
           aria-hidden="true"
         >
           <MagnifyingGlassIcon
-            className="mr-3 h-4 w-4 text-gray-400"
+            className={classNames(
+              { 'text-primary': hovering },
+              { 'text-info': !hovering },
+              'transition-all mr-3 h-4 w-4',
+            )}
             aria-hidden="true"
           />
         </div>
@@ -39,10 +47,10 @@ export default function DashSearch({ searchValue, setSearchValue }: Props) {
           name="Search"
           id="search"
           disabled
-          className={classnames(
+          className={classNames(
             { 'border-gray-300': theme === 'light' },
             { 'bg-base-200': theme === 'dark' },
-            'h-10 cursor-pointer focus:ring-primary focus:border-primary w-full pl-9 sm:text-sm rounded-md',
+            'transition-all h-10 cursor-pointer focus:ring-primary focus:border-primary hover:border-primary w-full pl-9 sm:text-sm rounded-md',
           )}
           placeholder="Search for anything"
           onChange={(e) => setSearchValue(e.target.value)}

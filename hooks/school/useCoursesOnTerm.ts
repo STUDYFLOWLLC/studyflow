@@ -35,9 +35,12 @@ export default function useCoursesOnTerm(
   filterFunk?: (arg0: CourseOnTerm) => boolean,
 ): Ret {
   const query = gql`
-    query Query($where: TermWhereInput) {
+    query Query(
+      $where: TermWhereInput
+      $orderBy: [CourseOnTermOrderByWithRelationInput!]
+    ) {
       findFirstTerm(where: $where) {
-        FK_CourseOnTerm {
+        FK_CourseOnTerm(orderBy: $orderBy) {
           CourseOnTermID
           Color
           Nickname
@@ -64,6 +67,11 @@ export default function useCoursesOnTerm(
         equals: termID,
       },
     },
+    orderBy: [
+      {
+        Index: 'asc',
+      },
+    ],
   }
 
   const { data, error, mutate } = useSWR(termID ? [query, variables] : null)
