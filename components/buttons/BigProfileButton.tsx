@@ -41,7 +41,7 @@ export default function BigProfileButton({
               'focus:ring-offset-slate-700  hover:bg-slate-700':
                 theme === 'dark',
             },
-            'group w-full rounded-md pl-2 pr-1 py-2 text-sm text-left font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary',
+            'transition-all group w-full rounded-md pl-2 pr-1 py-2 text-sm text-left font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary',
           )}
         >
           <span className="flex w-full justify-between items-center">
@@ -103,10 +103,10 @@ export default function BigProfileButton({
       </div>
       <Transition
         as={Fragment}
-        enter="transition ease-out duration-100"
+        enter="transition ease-out duration-400"
         enterFrom="transform opacity-0 scale-95"
         enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
+        leave="transition ease-in duration-400"
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >

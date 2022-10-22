@@ -44,7 +44,7 @@ export default function BigProfileButtonMenuItem({
             { 'rounded-t-md pt-3 pb-2': roundedT },
             { 'rounded-b-md pb-3 pt-2': roundedB },
             { 'border-t': hasDivider },
-            'block px-4 py-2 text-sm cursor-pointer',
+            'transition-all block px-4 py-2 text-sm cursor-pointer',
           )}
           onClick={() => handler()}
           onKeyDown={() => handler()}

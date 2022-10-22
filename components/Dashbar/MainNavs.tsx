@@ -85,7 +85,7 @@ export default function MainNavs() {
             { 'hover:bg-slate-700': !item.current && theme === 'dark' },
             { 'bg-gray-200': item.current && theme === 'light' },
             { 'bg-slate-600': item.current && theme === 'dark' },
-            'group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
+            'transition-all group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md cursor-pointer',
           )}
           onClick={() => item.handler()}
           onKeyDown={() => item.handler()}
@@ -96,7 +96,7 @@ export default function MainNavs() {
               className={classNames(
                 { 'text-gray-500': item.current },
                 { 'text-gray-400 group-hover:text-gray-500': !item.current },
-                'mr-3 flex-shrink-0 h-4 w-4',
+                'transition-all mr-3 flex-shrink-0 h-4 w-4',
               )}
               aria-hidden="true"
             />

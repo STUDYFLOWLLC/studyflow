@@ -1,3 +1,4 @@
+import { Transition } from '@headlessui/react'
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
@@ -23,7 +24,48 @@ export default function HideButton({ direction, setShowDashBar }: Props) {
   if (direction === 'show') {
     return (
       <div className="hidden lg:block">
-        <ChevronDoubleRightIcon
+        <Transition
+          appear
+          show
+          enter="transition-opacity duration-75"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-150"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <ChevronDoubleRightIcon
+            className={classNames(
+              {
+                'text-gray-500 hover:text-gray-600 hover:bg-gray-200':
+                  theme === 'light',
+              },
+              {
+                'text-gray-400 hover:text-gray-300 hover:bg-slate-700':
+                  theme === 'dark',
+              },
+              'transition-all w-7 h-7 p-1 cursor-pointer rounded',
+            )}
+            onClick={() => setShowDashBar(true)}
+          />
+        </Transition>
+      </div>
+    )
+  }
+
+  return (
+    <div className="block">
+      <Transition
+        appear
+        show
+        enter="transition-opacity duration-400"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-400"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+      >
+        <ChevronDoubleLeftIcon
           className={classNames(
             {
               'text-gray-500 hover:text-gray-600 hover:bg-gray-200':
@@ -33,30 +75,11 @@ export default function HideButton({ direction, setShowDashBar }: Props) {
               'text-gray-400 hover:text-gray-300 hover:bg-slate-700':
                 theme === 'dark',
             },
-            'w-7 h-7 p-1 cursor-pointer rounded',
+            'transition-all w-7 h-7 p-1 mb-1 cursor-pointer rounded',
           )}
-          onClick={() => setShowDashBar(true)}
+          onClick={() => setShowDashBar(false)}
         />
-      </div>
-    )
-  }
-
-  return (
-    <div className="block">
-      <ChevronDoubleLeftIcon
-        className={classNames(
-          {
-            'text-gray-500 hover:text-gray-600 hover:bg-gray-200':
-              theme === 'light',
-          },
-          {
-            'text-gray-400 hover:text-gray-300 hover:bg-slate-700':
-              theme === 'dark',
-          },
-          'w-7 h-7 p-1 mb-1 cursor-pointer rounded',
-        )}
-        onClick={() => setShowDashBar(false)}
-      />
+      </Transition>
     </div>
   )
 }

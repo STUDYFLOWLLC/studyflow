@@ -28,6 +28,9 @@ module.exports = {
         '10xl': '11rem',
         '11xl': '16rem',
       },
+      transitionProperty: {
+        'transition-duration': '434ms',
+      },
     },
   },
   plugins: [

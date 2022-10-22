@@ -1,5 +1,6 @@
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@supabase/supabase-auth-helpers/react'
+import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 import CourseLine from 'components/Dashbar/Course/CourseLine'
 import { mutateCourseOnTermIndex } from 'hooks/school/mutateCourseOnTerm'
@@ -9,6 +10,7 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import Skeleton from 'react-loading-skeleton'
+import { TOOLTIP_OFFSET } from 'types/Magic'
 import { SetupSteps } from 'types/SetupSteps'
 import CourseModal from './CourseModal/CourseModal'
 import FakeCourseNavs from './FakeCourseNavs'
@@ -69,20 +71,40 @@ export default function CourseNavs() {
       },
     )
 
-    if (result.destination) {
-      const sourceCourse = coursesOnTerm[result.source.index]
-      const destinationCourse = coursesOnTerm[result.destination?.index || 0]
-      await mutateCourseOnTermIndex(
-        sourceCourse.CourseOnTermID,
-        destinationCourse.Index,
+    if (result.destination !== null && result.destination !== undefined) {
+      const sourceIndex = result.source.index
+      const destinationIndex = result.destination.index || 0
+
+      const originalCourses = structuredClone(coursesOnTerm) // just so our mutators don't mess up which course is which
+
+      if (sourceIndex > destinationIndex) {
+        for (let i = destinationIndex; i < sourceIndex; i += 1) {
+          console.log('moving', originalCourses[i].Nickname, 'down')
+          mutateCourseOnTermIndex(
+            originalCourses[i].CourseOnTermID,
+            originalCourses[i].Index + 1,
+          )
+        }
+      } else {
+        for (let i = sourceIndex + 1; i <= destinationIndex; i += 1) {
+          console.log('moving', originalCourses[i].Nickname, 'up')
+          mutateCourseOnTermIndex(
+            originalCourses[i].CourseOnTermID,
+            originalCourses[i].Index - 1,
+          )
+        }
+      }
+      console.log(
+        'moving',
+        originalCourses[sourceIndex].Nickname,
+        'to',
+        destinationIndex,
       )
-      await mutateCourseOnTermIndex(
-        destinationCourse.CourseOnTermID,
-        sourceCourse.Index,
+      mutateCourseOnTermIndex(
+        originalCourses[sourceIndex].CourseOnTermID,
+        destinationIndex,
       )
     }
-
-    // setTeams(newTeams)
   }
 
   useEffect(() => setMounted(true), [])
@@ -106,12 +128,19 @@ export default function CourseNavs() {
           <div>
             <p className="px-2 text-xs font-semibold tracking-wider">Courses</p>
           </div>
-          <PencilSquareIcon
-            className="cursor-pointer w-4 mb-0.5"
-            onClick={() => {
-              if (!coursesOnTermLoading) setCourseModalOpen(true)
-            }}
-          />
+          <Tippy
+            content="Edit your courses"
+            delay={[1000, 100]}
+            offset={TOOLTIP_OFFSET}
+            placement="right"
+          >
+            <PencilSquareIcon
+              className="cursor-pointer w-4 mb-0.5 hover:text-primary transition-all"
+              onClick={() => {
+                if (!coursesOnTermLoading) setCourseModalOpen(true)
+              }}
+            />
+          </Tippy>
         </div>
         {coursesOnTerm &&
           coursesOnTerm.length === 0 &&
