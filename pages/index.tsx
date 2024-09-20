@@ -301,7 +301,7 @@ export default function index() {
       <footer aria-labelledby="footer-heading" className="mt-16">
         <div className="bg-base-100 relative pb-2 pl-2">
           <p className="text-base text-info md:absolute md:left-8 md:bottom-4 md:mt-0 md:order-1">
-            &copy; 2022 Studyflow. All rights reserved.
+            &copy; 2024 Studyflow. All rights reserved.
           </p>
           <div className="text-base text-info md:absolute md:right-8 flex md:bottom-4 md:mt-0 md:order-1">
             <p

@@ -69,7 +69,7 @@ export default function Dash({ user }: Props) {
     // setupRedirectHandler(router, userDetailsLoading, userDetails?.SetupStep)
   }, [])
 
-  if (userDetailsError) return <p>error</p>
+  // if (userDetailsError) return <p>error</p>
 
   if (!mounted) return null
 

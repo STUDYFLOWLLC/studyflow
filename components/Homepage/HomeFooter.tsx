@@ -8,7 +8,7 @@ const HomeFooter = () => (
       />
     </svg>
     <div className="absolute bottom-0 w-full">
-      <p className="text-stone-100 text-center">© 2022 STUDYFLOW</p>
+      <p className="text-stone-100 text-center">© 2024 STUDYFLOW</p>
     </div>
   </div>
 )

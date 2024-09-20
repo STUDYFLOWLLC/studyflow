@@ -13,7 +13,7 @@ interface Props {
 }
 
 const flowy = {
-  CreatedTime: '2022-06-16T18:31:36.566Z',
+  CreatedTime: '2024-06-16T18:31:36.566Z',
   FlowID: 'f16634c0-31d2-4c84-819f-77944941f603',
   Type: 'LECTURE',
   Title: 'Flow title',
